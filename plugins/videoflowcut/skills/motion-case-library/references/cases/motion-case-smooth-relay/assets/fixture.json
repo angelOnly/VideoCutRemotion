@@ -1,0 +1,99 @@
+{
+  "caseId": "smooth-relay",
+  "title": "SIM、QCI 与时钟的顺滑接力",
+  "kind": "montage",
+  "selectedByUser": true,
+  "selectedOn": "2026-09-08",
+  "preview": "preview.mp4",
+  "originVideo": ".candidate/replica-more-20260908/replicas-smooth-v2.mp4",
+  "width": 720,
+  "height": 660,
+  "fps": 30,
+  "durationInFrames": 577,
+  "reviewFrames": [
+    90,
+    170,
+    330,
+    475
+  ],
+  "review": {
+    "visualSelection": "用户选定对应版本作为案例；不等于所有新内容的成片验收",
+    "audio": "未配旁白和音效；24秒容器含音轨不代表完成声音设计",
+    "evidence": "源码快照、原视频、关键帧与技术记录分开保存"
+  },
+  "sourceFiles": [
+    "sim.tsx",
+    "qci.tsx",
+    "clock.tsx"
+  ],
+  "imageSlots": {
+    "paper": "paper.jpg"
+  },
+  "inputs": [],
+  "parts": [
+    {
+      "mode": "sim",
+      "source": "sim.tsx",
+      "preview": "sim.mp4",
+      "width": 720,
+      "height": 660,
+      "fps": 30,
+      "durationInFrames": 180,
+      "startFrame": 0,
+      "props": {
+        "mode": "sim"
+      }
+    },
+    {
+      "mode": "qci",
+      "source": "qci.tsx",
+      "preview": "qci.mp4",
+      "width": 720,
+      "height": 660,
+      "fps": 30,
+      "durationInFrames": 250,
+      "startFrame": 156,
+      "props": {
+        "mode": "qci"
+      }
+    },
+    {
+      "mode": "clock",
+      "source": "clock.tsx",
+      "preview": "clock.mp4",
+      "width": 720,
+      "height": 660,
+      "fps": 30,
+      "durationInFrames": 195,
+      "startFrame": 382,
+      "props": {
+        "mode": "clock"
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "type": "smoothleft",
+      "durationFrames": 24,
+      "startFrame": 156
+    },
+    {
+      "type": "smoothleft",
+      "durationFrames": 24,
+      "startFrame": 382
+    }
+  ],
+  "rights": {
+    "status": "unknown",
+    "basis": "历史参考复刻。paper.jpg 为原片静帧，不是可复用的已授权证据"
+  },
+  "before": {
+    "preview": "before.mp4",
+    "partFrames": {
+      "sim": 249,
+      "qci": 450,
+      "clock": 315
+    },
+    "note": "旧合集33.8秒仅作停顿对照，不是推荐素材。"
+  }
+}

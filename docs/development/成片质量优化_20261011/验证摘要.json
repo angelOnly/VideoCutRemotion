@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-11",
+  "baseline": "9590e347d9a16c75217db77311093e24b14334d8",
+  "tests": {
+    "targeted": 53,
+    "regression": 67,
+    "capacity_final_rerun": 5,
+    "unique_total": 120
+  },
+  "typecheck": "passed",
+  "web_build": "passed",
+  "runtime_build": "passed",
+  "plugin_verify": "passed",
+  "skill_checks": 2035,
+  "diff_check": "passed (cr-at-eol)",
+  "candidate": {
+    "releaseId": "release-5f36be04a9ba82e7b4deffe377db88aaf8946e0d0da125f800a095276b22c66d",
+    "pluginVersion": "0.1.78",
+    "status": {
+      "status": "ready",
+      "runtimeId": "1331dec7-04e2-4b69-9a87-ec5b897ec588",
+      "releaseId": "release-5f36be04a9ba82e7b4deffe377db88aaf8946e0d0da125f800a095276b22c66d",
+      "workers": {
+        "media": true,
+        "render": true
+      }
+    },
+    "projectCount": 0,
+    "toolCount": 147,
+    "videoBindings": {
+      "maxSlots": null,
+      "clock": "work_root",
+      "playback": "normal_speed_muted",
+      "description": "不设作品视频选段总数上限；每槽固定源身份、哈希、源范围和作品帧范围。分块串行解码并复用缓存，真实资源不足明确失败，不删减选段或静默降质；解码块预算不等于浏览器总内存预算。"
+    },
+    "videoBindingsSchema": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 150
+          },
+          "sourceStartMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "sourceEndMs": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "startFrame": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "endFrame": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "decodeScale": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "assetId",
+          "sourceStartMs",
+          "sourceEndMs",
+          "startFrame",
+          "endFrame"
+        ],
+        "additionalProperties": false
+      },
+      "propertyNames": {
+        "pattern": "^[a-z][A-Za-z0-9_]{0,39}$"
+      },
+      "description": "命名视频选段，不设作品选段总数上限；声明源毫秒范围和作品帧范围，实际负载受资源校验约束。TimelineVideo读取作品根时钟，Sequence只改变布局；正常速度且静音，不接受offsetInFrames。"
+    },
+    "skillsRoot": "E:\\ai\\VideoCut\\plugins\\videoflowcut\\skills",
+    "limits": "只读候选能力与服务核对；未切换生产，未生成正式作品"
+  },
+  "candidate_stop": {
+    "stopped": true,
+    "graceful": true
+  },
+  "production_deployed": false,
+  "continuous_creative_audiovisual_review": false,
+  "author_trial_read_trace": "作者回传清单；未独立审计宿主全量读取日志"
+}

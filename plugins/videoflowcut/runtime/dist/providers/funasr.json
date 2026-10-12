@@ -1,0 +1,12 @@
+{
+  "name": "funasr",
+  "version": "1.4.6+videoflowcut.1",
+  "wheel": "funasr-1.4.6+videoflowcut.1-py3-none-any.whl",
+  "sha256": "78073b0dca8e8953bd7f07d2266d2081538d74f419010360b3160392eb363fa3",
+  "upstreamUrl": "https://files.pythonhosted.org/packages/b9/d6/049887b6608a77b0c7a24cffa60f777b2e27b0d5ffc2311d5288d5cc4d04/funasr-1.4.6-py3-none-any.whl",
+  "upstreamSha256": "f63f8fdb70738c242f3f5a95fdff1c34e366891eb0a2af0fa586dd4b182dfb4e",
+  "sources": {
+    "funasr/auto/auto_model.py": "6f46eb20776b4d204497dbf4f9633f0139ef02b9f2643c2059206ccf7848f48a",
+    "funasr/utils/timestamp_tools.py": "bd00ac3ace6b7a54c2e81e9ad4462eeb6c2d8eda449fd0dd7aa4aac5f45f98f1"
+  }
+}

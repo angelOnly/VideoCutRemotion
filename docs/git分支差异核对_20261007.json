@@ -1,0 +1,798 @@
+{
+  "共同起点": "177ebef",
+  "远程修复": "f8bc8d9",
+  "本地累计优化": "f89e13e",
+  "分类统计": {
+    "后续演进": 89,
+    "完全相同": 62,
+    "与旧main相同": 4,
+    "旧脚本未包含": 2
+  },
+  "核对记录": [
+    {
+      "文件": ".agents/skills/_shared/MATERIAL_TO_SCENE.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/_shared/MCP_EXECUTION_CONTRACT.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/_shared/SCENE_DESIGN_HANDOFF.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/_shared/SOURCE_REVIEW_METHOD.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/_shared/TOPIC_TO_FILM.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/cutaway-planning/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/depth-composition/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/effect-timing/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/evidence-visualization/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/known-errors/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-active-window-focus/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-active-window-focus/material-branch-record.json",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-active-window-focus/references/material-integration-prompt-v1.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-context-detail-observation/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-context-detail-observation/material-branch-record.json",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-context-detail-observation/references/material-integration-prompt-v1.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-library/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-library/references/material-integration-validation.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-library/references/r92-family-index.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-mixed-scene-relay/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-mixed-scene-relay/material-branch-record.json",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-mixed-scene-relay/references/material-integration-prompt-v1.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-object-type-relay/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-object-type-relay/material-branch-record.json",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-object-type-relay/references/material-integration-prompt-v1.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-occlusion-condition-reveal/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-occlusion-condition-reveal/material-branch-record.json",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-occlusion-condition-reveal/references/material-integration-prompt-v1.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-relation-unfold/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-relation-unfold/material-branch-record.json",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/motion-case-relation-unfold/references/material-integration-prompt-v1.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/narration-writing/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/production-coordinator/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/production-director/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/quality-verification/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/quality-verification/references/material-integration-review.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/remotion-production/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/remotion-production/references/material-math.mjs",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/remotion-production/references/material-math.test.mjs",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/remotion-production/references/material-space-and-time.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/remotion-production/references/motion-graphics-casebook.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/remotion-production/references/remotion-component-contract.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/remotion-production/references/scene-art-and-motion.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/scene-planning/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/visual-asset-sourcing/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/visual-explainer-director/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/visual-treatment-planning/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/vlog-director/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".agents/skills/voice-production/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": ".gitattributes",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "apps/job-worker/src/index.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "apps/render-worker/src/exporter.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "apps/render-worker/src/index.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "apps/render-worker/src/motion-job.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "apps/render-worker/src/motion-output-budget.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "apps/render-worker/src/motion-renderer.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "apps/render-worker/src/motion-video.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "apps/render-worker/src/render-thread.ts",
+      "原始差异分类": "与旧main相同",
+      "处理": "保留后续异步实现"
+    },
+    {
+      "文件": "apps/render-worker/src/threaded-renderer.ts",
+      "原始差异分类": "与旧main相同",
+      "处理": "保留后续异步实现"
+    },
+    {
+      "文件": "apps/server/src/app.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "apps/server/src/extract-source-audio.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "apps/server/src/mcp.ts",
+      "原始差异分类": "后续演进",
+      "处理": "补回遗漏实现或发行归一化"
+    },
+    {
+      "文件": "apps/server/src/motion-tools.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "apps/server/src/sound-tools.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "packages/asset-acquisition/src/index.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "packages/asset-acquisition/src/pexels.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "packages/asset-acquisition/src/youtube.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "packages/contracts/src/index.ts",
+      "原始差异分类": "后续演进",
+      "处理": "补回遗漏实现或发行归一化"
+    },
+    {
+      "文件": "packages/edit-application/src/dialogue-muted.ts",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "packages/edit-application/src/index.ts",
+      "原始差异分类": "后续演进",
+      "处理": "补回遗漏实现或发行归一化"
+    },
+    {
+      "文件": "packages/edit-application/src/persistence/schema.ts",
+      "原始差异分类": "与旧main相同",
+      "处理": "补回遗漏实现或发行归一化"
+    },
+    {
+      "文件": "packages/edit-application/src/persistence/sqlite-project-repository.ts",
+      "原始差异分类": "后续演进",
+      "处理": "补回遗漏实现或发行归一化"
+    },
+    {
+      "文件": "packages/edit-application/src/sound-design.ts",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "packages/motion-work/src/compiler.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "packages/motion-work/src/schema.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "packages/project-overview/src/index.ts",
+      "原始差异分类": "后续演进",
+      "处理": "补回遗漏实现或发行归一化"
+    },
+    {
+      "文件": "packages/speech-services/src/index.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/.codex-plugin/plugin.json",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/requirements-youtube.txt",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/runtime/dist/manifest.json",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/runtime/dist/mcp-tools.json",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/runtime/dist/mcp.cjs",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/runtime/dist/render-thread.cjs",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/runtime/dist/requirements-youtube.txt",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/runtime/dist/runtime.cjs",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/scripts/build-runtime.mjs",
+      "原始差异分类": "后续演进",
+      "处理": "补回遗漏实现或发行归一化"
+    },
+    {
+      "文件": "plugins/videoflowcut/scripts/runtime-launcher.mjs",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/_shared/MATERIAL_TO_SCENE.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/_shared/MCP_EXECUTION_CONTRACT.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/_shared/SCENE_DESIGN_HANDOFF.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/_shared/SOURCE_REVIEW_METHOD.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/_shared/TOPIC_TO_FILM.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/cutaway-planning/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/depth-composition/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/effect-timing/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/evidence-visualization/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/known-errors/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-active-window-focus/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-active-window-focus/material-branch-record.json",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-active-window-focus/references/material-integration-prompt-v1.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-context-detail-observation/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-context-detail-observation/material-branch-record.json",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-context-detail-observation/references/material-integration-prompt-v1.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-library/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-library/references/material-integration-validation.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-library/references/r92-family-index.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-mixed-scene-relay/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-mixed-scene-relay/material-branch-record.json",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-mixed-scene-relay/references/material-integration-prompt-v1.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-object-type-relay/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-object-type-relay/material-branch-record.json",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-object-type-relay/references/material-integration-prompt-v1.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-occlusion-condition-reveal/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-occlusion-condition-reveal/material-branch-record.json",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-occlusion-condition-reveal/references/material-integration-prompt-v1.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-relation-unfold/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-relation-unfold/material-branch-record.json",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/motion-case-relation-unfold/references/material-integration-prompt-v1.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/narration-writing/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/production-coordinator/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/production-director/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/quality-verification/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/quality-verification/references/material-integration-review.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/remotion-production/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/remotion-production/references/material-math.mjs",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/remotion-production/references/material-math.test.mjs",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/remotion-production/references/material-space-and-time.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/remotion-production/references/motion-graphics-casebook.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/remotion-production/references/remotion-component-contract.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/remotion-production/references/scene-art-and-motion.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/scene-planning/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/visual-asset-sourcing/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/visual-explainer-director/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/visual-treatment-planning/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/vlog-director/SKILL.md",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "plugins/videoflowcut/skills/voice-production/SKILL.md",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "scripts/audit-repair-tickets.py",
+      "原始差异分类": "旧脚本未包含",
+      "处理": "补回遗漏实现或发行归一化"
+    },
+    {
+      "文件": "scripts/check-topic-film-skills.mjs",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "scripts/dialogue-muted.e2e.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/asset-search-recovery.test.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/candidate-motion-concurrency.mjs",
+      "原始差异分类": "旧脚本未包含",
+      "处理": "旧合同不再适用，保留父提交中的历史"
+    },
+    {
+      "文件": "tests/core.test.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/dialogue-muted.test.ts",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/extract-source-audio.test.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/managed-motion-video.test.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/managed-motion.test.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/material-math.test.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/media-worker-concurrency.test.ts",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/motion-output-budget.test.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/pexels-provider.test.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/plugin-packaging.test.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/repair-coordination.test.ts",
+      "原始差异分类": "与旧main相同",
+      "处理": "补回遗漏实现或发行归一化"
+    },
+    {
+      "文件": "tests/runtime-downloader-config.test.ts",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/scene-trim.test.ts",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/sound-plan-contract.test.ts",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/speech-placement.test.ts",
+      "原始差异分类": "完全相同",
+      "处理": "保留0.1.69内容"
+    },
+    {
+      "文件": "tests/youtube-acquisition.test.ts",
+      "原始差异分类": "后续演进",
+      "处理": "保留0.1.69内容"
+    }
+  ]
+}

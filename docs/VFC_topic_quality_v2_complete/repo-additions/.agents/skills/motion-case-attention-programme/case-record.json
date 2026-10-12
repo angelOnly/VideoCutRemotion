@@ -1,0 +1,78 @@
+{
+  "recordVersion": 1,
+  "caseId": "attention-programme-video22-v3-r72",
+  "status": {
+    "userFeedback": "accepted_for_this_delivered_video",
+    "evidencePairing": "source_manifest_report_and_export_checked",
+    "machineContinuousReview": "not_newly_completed",
+    "newTopicTransfer": "not_tested",
+    "standaloneRerender": "not_available_from_this_package_alone"
+  },
+  "baseCommitUsedForIntegration": "5c29555f8728682d3b01a9775ee0af8503265661",
+  "inputArchive": {
+    "filename": "video22_attention_final_only.zip",
+    "sha256": "50fc9d73cfb5804571413ba695a731ab3113bafcb5cefa15c0c5e39f34375421"
+  },
+  "finalVideo": {
+    "path": "assets/preview.mp4",
+    "sha256": "2e739a14560cf193d91cf9a02527210a10092f6e74c63c11306b9ada7db1ca72",
+    "width": 768,
+    "height": 1344,
+    "fps": 30,
+    "frameCount": 788,
+    "containerDurationSeconds": 26.325,
+    "videoDurationSeconds": 26.266666666666666,
+    "exportRevision": 72
+  },
+  "finalSource": {
+    "path": "source/source.json",
+    "sha256": "45e9531c22df8fc3bb9f4607115621bd3a50f8f264e2257a1366ffeb7960de6d",
+    "workVersion": "d79f246c0825a9cb562171e5ed6335a371ad059820b54f43e26afcdba7886396",
+    "motionResourceHash": "fad622a01d2f1b64a7b2d9cab4b699e293be1ca0864442643ef1e35cbee68129",
+    "engineVersion": "managed-motion-13",
+    "runtimeReleaseId": null,
+    "note": "motionResourceHash为受管动画资源，不等于最终有字幕/声音的MP4hash"
+  },
+  "originalInput": {
+    "path": "references/original-input.md",
+    "sha256": "8b004163c39a5f14676c7d26301d65058b7e73ebbd3c48d4e840134ec8e18965",
+    "gitBlobSha": "6beac23ea1b54d45282477716ce0396b9ecb31b9",
+    "repositorySource": "docs/video22/02_attention_new_generation.md"
+  },
+  "submittedBrief": {
+    "path": "references/submitted-brief.md",
+    "extractedFrom": "source/source.json#/creativeBrief",
+    "exactFieldCopy": true
+  },
+  "adoptedDesign": {
+    "path": "references/adopted-design.md",
+    "kind": "reconstructed_from_saved_records",
+    "originalCompleteDirectorBriefIncluded": false
+  },
+  "userFeedback": {
+    "path": "references/user-feedback.md",
+    "quote": "这次视频效果可以了",
+    "scope": "本次交付总体认可，不等于所有方法无缺陷或主题冷启动通过"
+  },
+  "productionReport": {
+    "path": "source/production-run.json",
+    "reportedFinalRevision": 73,
+    "reportedDeliveryRevision": 72,
+    "historicalRecordUnmodified": true
+  },
+  "newTeachingDocuments": {
+    "hasOwnGeneratedVideo": false,
+    "paths": [
+      "references/design-decisions.md",
+      "references/transfer-guide.md"
+    ]
+  },
+  "missingDependencies": [
+    "两份原始大视频；精确路径与hash见source/materials.json",
+    "字体原件；只记录已绑定ID与hash",
+    "完整最终Script、21张Caption卡及164个token alignment",
+    "完整原Project快照、宿主对话及R49/v1/v2原视频源码"
+  ],
+  "provenance": "source/artifact-provenance.json",
+  "replayInstructions": "references/materials-and-replay.md"
+}

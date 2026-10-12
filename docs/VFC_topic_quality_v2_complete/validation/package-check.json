@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "scope": "本次文档整合与候选包一致性检查",
+  "checks": {
+    "first_edition_14_chapters_in_main_document": true,
+    "first_edition_2_evidence_appendices_in_main_document": true,
+    "first_edition_all_nonempty_lines_retained": true,
+    "second_edition_payloads_unchanged": true,
+    "new_skills_and_case_bytes_unchanged": true,
+    "standalone_matches_packaged_main_document": true,
+    "file_inventory_entries_verified": 92,
+    "fonts_distributed": 0,
+    "markdown_fences_balanced": true
+  },
+  "previous_checks": "prior-package-check.json 是上次包的检查记录，不能视为本次重新执行全部历史来源检查",
+  "not_run": [
+    "重新读取远程分支",
+    "用户仓库修改",
+    "插件部署",
+    "工程回归测试",
+    "新视频生成",
+    "历史成片重渲染",
+    "新增听审或连续观看"
+  ],
+  "errors": []
+}

@@ -1,0 +1,42 @@
+{
+  "caseId": "product-fan",
+  "title": "产品扇开与注意回收",
+  "kind": "standalone",
+  "selectedByUser": true,
+  "selectedOn": "2026-09-08",
+  "preview": "preview.mp4",
+  "originVideo": ".candidate/replica-five-20260908/product-v2/preview.mp4",
+  "width": 960,
+  "height": 540,
+  "fps": 30,
+  "durationInFrames": 300,
+  "reviewFrames": [
+    50,
+    120,
+    190,
+    255
+  ],
+  "review": {
+    "visualSelection": "用户选定对应版本作为案例；不等于所有新内容的成片验收",
+    "audio": "未配旁白和音效；24秒容器含音轨不代表完成声音设计",
+    "evidence": "源码快照、原视频、关键帧与技术记录分开保存"
+  },
+  "sourceFiles": [
+    "motion.tsx"
+  ],
+  "imageSlots": {},
+  "inputs": [],
+  "props": {
+    "mode": "product"
+  },
+  "rights": {
+    "basis": "用户提供参考片，授权未核实。仅本地比较候选，不进入正式项目。",
+    "status": "unknown"
+  },
+  "originalWorkName": "新增连续动效候选-product",
+  "before": {
+    "preview": "before.mp4",
+    "durationInFrames": 300,
+    "fps": 30
+  }
+}

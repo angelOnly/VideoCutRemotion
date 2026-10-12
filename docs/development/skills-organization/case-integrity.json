@@ -1,0 +1,915 @@
+[
+  {
+    "source": "motion-case-active-window-focus/case-record.json",
+    "target": "motion-case-library/references/cases/motion-case-active-window-focus/case-record.json",
+    "sha256": "0fc8beab6b265c8c7df8f8b1133b00c72307d5490a445a4a881f7475f205b745"
+  },
+  {
+    "source": "motion-case-attention-programme/case-record.json",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/case-record.json",
+    "sha256": "da025a1d52748e153dcedfa817056131e830b58bd10f670760a2e94500665383"
+  },
+  {
+    "source": "motion-case-context-detail-observation/case-record.json",
+    "target": "motion-case-library/references/cases/motion-case-context-detail-observation/case-record.json",
+    "sha256": "659b8d7963bcddefae60deb46e47b8b025179a9f58ac2cb579219142c0a19a3d"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/case-record.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/case-record.json",
+    "sha256": "372276c56d38bee75cc0ce2f5ae420683956220b6833a5e8965ffc2e4cf9d2e9"
+  },
+  {
+    "source": "motion-case-object-type-relay/case-record.json",
+    "target": "motion-case-library/references/cases/motion-case-object-type-relay/case-record.json",
+    "sha256": "c361d47a4e6132c8a17d11bcd77f3fc2f7e41ad075e2b85e0041d09231fe1415"
+  },
+  {
+    "source": "motion-case-occlusion-condition-reveal/case-record.json",
+    "target": "motion-case-library/references/cases/motion-case-occlusion-condition-reveal/case-record.json",
+    "sha256": "54685f1afec1a50465c63450d15cc4a09405d27bd402049570301c190666c9b5"
+  },
+  {
+    "source": "motion-case-relation-unfold/case-record.json",
+    "target": "motion-case-library/references/cases/motion-case-relation-unfold/case-record.json",
+    "sha256": "36999ca15c5bf424471d730e0172ffa9102fa7e703899bc8594c0cc3c664cd08"
+  },
+  {
+    "source": "motion-case-ticket-phone/assets/fixture.json",
+    "target": "motion-case-library/references/cases/motion-case-ticket-phone/assets/fixture.json",
+    "sha256": "e5b0289a00c3b3d9403b84c09f1bb65ae008ec2796820791975d79919460e48e"
+  },
+  {
+    "source": "motion-case-ticket-phone/assets/integrity.json",
+    "target": "motion-case-library/references/cases/motion-case-ticket-phone/assets/integrity.json",
+    "sha256": "98547009c3efae774e8acb35ddb7f2dc601e4edaab193fa4c3c9a26b6d8600f3"
+  },
+  {
+    "source": "motion-case-ticket-phone/assets/motion.tsx",
+    "target": "motion-case-library/references/cases/motion-case-ticket-phone/assets/motion.tsx",
+    "sha256": "9ed8cbbac453b9cc2950afe49bd241e7df9e25ba81dafede871e783b382c4dc4"
+  },
+  {
+    "source": "motion-case-ticket-phone/references/generation-prompt-v1.md",
+    "target": "motion-case-library/references/cases/motion-case-ticket-phone/references/generation-prompt-v1.md",
+    "sha256": "b60eb9fb94ed81a4fefc0df69aec50f177b04029e1a364bc56e02ea057e59235"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/before-clock.tsx",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/before-clock.tsx",
+    "sha256": "ed7f1ba39d862f32c758fc255fe14cf5bef724c188a11794a7c80f3a9b7190e2"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/before-qci.tsx",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/before-qci.tsx",
+    "sha256": "ed7f1ba39d862f32c758fc255fe14cf5bef724c188a11794a7c80f3a9b7190e2"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/before-sim.tsx",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/before-sim.tsx",
+    "sha256": "c4d445dcc59475b73179dd9ed4503d696d90e4d6cd73aa41963850c3f7506c21"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/clock.tsx",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/clock.tsx",
+    "sha256": "3847510279b25971575a73b59008c053bf1624ff2e9ed9d290f5b4a813664b25"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/fixture.json",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/fixture.json",
+    "sha256": "9b05ed1e14f66870e8d69a088d1fafda1297a138ced62e2be63c31b8aa7ae82f"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/integrity.json",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/integrity.json",
+    "sha256": "473551f84a32cbe2e5b54dc9ef1469e5488b02efe2c9fb7b4ca818c6ad4d1c14"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/qci.tsx",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/qci.tsx",
+    "sha256": "3847510279b25971575a73b59008c053bf1624ff2e9ed9d290f5b4a813664b25"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/sim.tsx",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/sim.tsx",
+    "sha256": "4d51d4f319cca670fe1e1d9aca0d0e28fa7bc19ac37af6b56ba6e44d88c1a175"
+  },
+  {
+    "source": "motion-case-smooth-relay/references/generation-prompt-v1.md",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/references/generation-prompt-v1.md",
+    "sha256": "53ef04f0f711dbf591a28045d3e7dedc64216313ec43cf26cd717e52a9aba75a"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/before-motion.tsx",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/before-motion.tsx",
+    "sha256": "f3a177938e482365a0109c9199320cf5331ba1a8c40c134240af3b60af1c00f4"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/fixture.json",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/fixture.json",
+    "sha256": "80daab4acdafaa140f741748a96aef83ea97ca58f70328c2222174682a75f44b"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/integrity.json",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/integrity.json",
+    "sha256": "3f2075f348980aec43fe11b37ae67eee4da732a8b0091c5924473e886cbb50aa"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/motion.tsx",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/motion.tsx",
+    "sha256": "87bac7c0afc8d819515d80f497a077530a5966e05b277f57ba29ea6e1228f0ad"
+  },
+  {
+    "source": "motion-case-sim-paper/references/generation-prompt-v1.md",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/references/generation-prompt-v1.md",
+    "sha256": "b801a861fb6b5ab61c762f0e7e4bf67a08602c77ba36e2790488e1d2c66bc01b"
+  },
+  {
+    "source": "motion-case-relation-unfold/agents/openai.yaml",
+    "target": "motion-case-library/references/cases/motion-case-relation-unfold/references/original-agent-config.yaml",
+    "sha256": "5e332d6fde3ed7f1760bda1b1844ac682663183defcc640bcf8f5b2ed8b6778f"
+  },
+  {
+    "source": "motion-case-relation-unfold/references/generation-prompt-v1.md",
+    "target": "motion-case-library/references/cases/motion-case-relation-unfold/references/generation-prompt-v1.md",
+    "sha256": "0ce850eea730a6c2312ef3d57b81587d448954fe480228db62b70ad0b505d5c6"
+  },
+  {
+    "source": "motion-case-product-fan/assets/before-motion.tsx",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/assets/before-motion.tsx",
+    "sha256": "f23a3cd67aab6dec76157da9c96ce70735d6b4981fc33fe32a6eb0eb05810710"
+  },
+  {
+    "source": "motion-case-product-fan/assets/fixture.json",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/assets/fixture.json",
+    "sha256": "0457e844dab37d116decf6d6e865078cae005d14d7458f3063c5192fbfa74b2f"
+  },
+  {
+    "source": "motion-case-product-fan/assets/integrity.json",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/assets/integrity.json",
+    "sha256": "f399cfea5d741b18ba7a01fe21faa5c7cb448b860e5a4f92018a50dd28f4bd1f"
+  },
+  {
+    "source": "motion-case-product-fan/assets/motion.tsx",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/assets/motion.tsx",
+    "sha256": "1bdc8c5bfb8944685b183146581b2878cdd17fbe4f5b88636cd3e9225d208288"
+  },
+  {
+    "source": "motion-case-product-fan/references/generation-prompt-v1.md",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/references/generation-prompt-v1.md",
+    "sha256": "99e04e545fd89c76b962da3e39513255ca6c1fb8216ccc35ae507baf249a16fe"
+  },
+  {
+    "source": "motion-case-occlusion-condition-reveal/agents/openai.yaml",
+    "target": "motion-case-library/references/cases/motion-case-occlusion-condition-reveal/references/original-agent-config.yaml",
+    "sha256": "0dc3a89c5a3056622dd088276219335f64bf39da63f8265a7703ff1add9ff2c1"
+  },
+  {
+    "source": "motion-case-occlusion-condition-reveal/references/generation-prompt-v1.md",
+    "target": "motion-case-library/references/cases/motion-case-occlusion-condition-reveal/references/generation-prompt-v1.md",
+    "sha256": "ab83d0cf3035ed2b0e6f739887fcc591d2ed6030ddde6814e6ee82a15c10e892"
+  },
+  {
+    "source": "motion-case-object-type-relay/agents/openai.yaml",
+    "target": "motion-case-library/references/cases/motion-case-object-type-relay/references/original-agent-config.yaml",
+    "sha256": "b680096889ef743b8680519d0c2103561fa8fef61ff6a0be9b5a36b782718ac7"
+  },
+  {
+    "source": "motion-case-object-type-relay/references/generation-prompt-v1.md",
+    "target": "motion-case-library/references/cases/motion-case-object-type-relay/references/generation-prompt-v1.md",
+    "sha256": "5d5ed285c4615391328e5b058c669154d3ebd88e76578ab8084d51c0f3c3bf98"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/agents/openai.yaml",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/references/original-agent-config.yaml",
+    "sha256": "2d0b89fc9939bb180724c8c2db0c74b9eb76786c74706b6ecb301407d6af04b3"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/attribution-original.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/attribution-original.json",
+    "sha256": "5ecfe63377bf8c3638f01a7c41e6dd79ff1e0469f758ddabdec048059548cd4e"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/original-request.txt",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/original-request.txt",
+    "sha256": "bcd9737d119d4b25d37fe1be3d53368ee4ff7c0b5a6abaaba1cd556d6a8740cc"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/references/generation-prompt-v1.md",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/references/generation-prompt-v1.md",
+    "sha256": "bf51a61a74595406faa143721483955afa839bc8720c2e86850743b3b8b486be"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_25894360-a15a-4f1e-9f32-1d7c87299c84/manifest.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_25894360-a15a-4f1e-9f32-1d7c87299c84/manifest.json",
+    "sha256": "37e42a8284283732544a7f8c6b0606d00e11f67dcb93ec2cd662b3ac662047b1"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_25894360-a15a-4f1e-9f32-1d7c87299c84/source.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_25894360-a15a-4f1e-9f32-1d7c87299c84/source.json",
+    "sha256": "45ce4a07bbcd8b3d2ddbec2017256851aa9a3e185469cbda6deb383f0b0bd211"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_25894360-a15a-4f1e-9f32-1d7c87299c84/source.tsx",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_25894360-a15a-4f1e-9f32-1d7c87299c84/source.tsx",
+    "sha256": "8bd2edacd34641289301a8530f0014c9bd622e1fb1a7224485b7ead515c083a6"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_502ed314-f65c-41c9-a2eb-ef2c37992952/manifest.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_502ed314-f65c-41c9-a2eb-ef2c37992952/manifest.json",
+    "sha256": "b9391f4c911c8700f0009ac7d43426123120fbe6b0964c4260c70a18c6a63486"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_502ed314-f65c-41c9-a2eb-ef2c37992952/source.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_502ed314-f65c-41c9-a2eb-ef2c37992952/source.json",
+    "sha256": "b21f66c0d6ab46fd21ad0fa310c421e0ed8fa4e86c47c0063129055de26dbe79"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_502ed314-f65c-41c9-a2eb-ef2c37992952/source.tsx",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_502ed314-f65c-41c9-a2eb-ef2c37992952/source.tsx",
+    "sha256": "204b7b9e4fa4b520fb10dd63396e48720bd76ab17f69807649dd497641f523ea"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_74a1aaeb-cf26-4484-ac2c-04a518ebc443/manifest.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_74a1aaeb-cf26-4484-ac2c-04a518ebc443/manifest.json",
+    "sha256": "e8be6318020f628974bbd35b6ed29c1ef7dbc948061b9b2f9173e1bebf6b47b0"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_74a1aaeb-cf26-4484-ac2c-04a518ebc443/source.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_74a1aaeb-cf26-4484-ac2c-04a518ebc443/source.json",
+    "sha256": "c8e1dc99d3807d1e8d3bf29009651f5e0569ec13f0fb607f3abeba2c3ece8c11"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_74a1aaeb-cf26-4484-ac2c-04a518ebc443/source.tsx",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_74a1aaeb-cf26-4484-ac2c-04a518ebc443/source.tsx",
+    "sha256": "31208aeb208d528cd9dcd3bc6fa0bf9fb96ecde41370bcf0aa197bb1291d9aa9"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_9a7886dd-6277-469a-8a7d-c7bcf85f1c24/manifest.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_9a7886dd-6277-469a-8a7d-c7bcf85f1c24/manifest.json",
+    "sha256": "51cda0b34caea14faab2bf0df3e4b166640a4a8aba670443a01ac1bb923d4faf"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_9a7886dd-6277-469a-8a7d-c7bcf85f1c24/source.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_9a7886dd-6277-469a-8a7d-c7bcf85f1c24/source.json",
+    "sha256": "a14a3eb5ec0694fecd48f1da6e118afc156d8ed24d18ede64708e6ad06e337c6"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_9a7886dd-6277-469a-8a7d-c7bcf85f1c24/source.tsx",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_9a7886dd-6277-469a-8a7d-c7bcf85f1c24/source.tsx",
+    "sha256": "db38b4486a92c329992c5740cace905d527bb121f4435ffe32bd332471f38b1d"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_c97c8799-603c-4415-b8d5-03c1121ceb89/manifest.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_c97c8799-603c-4415-b8d5-03c1121ceb89/manifest.json",
+    "sha256": "225197a6f15fa51a8c8f17fa8acc2f205895c0038afb29d0178646e825aa290e"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_c97c8799-603c-4415-b8d5-03c1121ceb89/source.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_c97c8799-603c-4415-b8d5-03c1121ceb89/source.json",
+    "sha256": "c8e61fd147737f738fcafab504ba57a0c0ba1e4f1bff6c44e4119ad62fcfca42"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_c97c8799-603c-4415-b8d5-03c1121ceb89/source.tsx",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_c97c8799-603c-4415-b8d5-03c1121ceb89/source.tsx",
+    "sha256": "204b7b9e4fa4b520fb10dd63396e48720bd76ab17f69807649dd497641f523ea"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_cbcaaf6f-8c3b-4f09-b4c8-d77838304452/manifest.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_cbcaaf6f-8c3b-4f09-b4c8-d77838304452/manifest.json",
+    "sha256": "364ff211d223066b7447f741e4733b9470eb3276771ce9f5e3eba08c1fb0238f"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_cbcaaf6f-8c3b-4f09-b4c8-d77838304452/source.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_cbcaaf6f-8c3b-4f09-b4c8-d77838304452/source.json",
+    "sha256": "76a13615151c504def828b0679636c6d2dc45ab03d10604fcb7b1cc7fee3559d"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_cbcaaf6f-8c3b-4f09-b4c8-d77838304452/source.tsx",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_cbcaaf6f-8c3b-4f09-b4c8-d77838304452/source.tsx",
+    "sha256": "204b7b9e4fa4b520fb10dd63396e48720bd76ab17f69807649dd497641f523ea"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_e43b2b2a-a05e-4cfb-8c05-a090c7661b81/manifest.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_e43b2b2a-a05e-4cfb-8c05-a090c7661b81/manifest.json",
+    "sha256": "74b4635dfd48302ec6cf861be076b8d7cb9e470a5e5c29a04e3dce256e4a798c"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_e43b2b2a-a05e-4cfb-8c05-a090c7661b81/source.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_e43b2b2a-a05e-4cfb-8c05-a090c7661b81/source.json",
+    "sha256": "6951228bc75bcbe100ec23087cb1534d8e86d72aff7f4ad1f7a83429d79f4195"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_e43b2b2a-a05e-4cfb-8c05-a090c7661b81/source.tsx",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_e43b2b2a-a05e-4cfb-8c05-a090c7661b81/source.tsx",
+    "sha256": "204b7b9e4fa4b520fb10dd63396e48720bd76ab17f69807649dd497641f523ea"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_fee74586-395d-46bd-a31b-581e8bcbd2f3/manifest.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_fee74586-395d-46bd-a31b-581e8bcbd2f3/manifest.json",
+    "sha256": "841d40fee15a6ce0eb0c453f66e97cb3cc077e20bb66490df2f97c2a4a70dd9f"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_fee74586-395d-46bd-a31b-581e8bcbd2f3/source.json",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_fee74586-395d-46bd-a31b-581e8bcbd2f3/source.json",
+    "sha256": "f21320116ce4c64077de2c247d76294cca3ef6a1cdaaa9f71512b7b01ec2566d"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/source-records/job_fee74586-395d-46bd-a31b-581e8bcbd2f3/source.tsx",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/source-records/job_fee74586-395d-46bd-a31b-581e8bcbd2f3/source.tsx",
+    "sha256": "8bd2edacd34641289301a8530f0014c9bd622e1fb1a7224485b7ead515c083a6"
+  },
+  {
+    "source": "motion-case-cover-flow/assets/fixture.json",
+    "target": "motion-case-library/references/cases/motion-case-cover-flow/assets/fixture.json",
+    "sha256": "b648f595d34020365dff4e65f348ef800da1c0c53e887cc0a69f0f23e47f14f4"
+  },
+  {
+    "source": "motion-case-cover-flow/assets/integrity.json",
+    "target": "motion-case-library/references/cases/motion-case-cover-flow/assets/integrity.json",
+    "sha256": "5ce1d6abdf1aa843daa5d11a413e9e34650c12482c6a42130188e33757b4d11d"
+  },
+  {
+    "source": "motion-case-cover-flow/assets/motion.tsx",
+    "target": "motion-case-library/references/cases/motion-case-cover-flow/assets/motion.tsx",
+    "sha256": "4c8df9a5b59af6158e10960616e34c3ad9ee47b39fcce2ed8bf5731b5f525000"
+  },
+  {
+    "source": "motion-case-cover-flow/references/generation-prompt-v1.md",
+    "target": "motion-case-library/references/cases/motion-case-cover-flow/references/generation-prompt-v1.md",
+    "sha256": "fecaa493d8cd88db7863edcb934e8477e55c9244eff85ca06ef10b14adc75094"
+  },
+  {
+    "source": "motion-case-context-detail-observation/agents/openai.yaml",
+    "target": "motion-case-library/references/cases/motion-case-context-detail-observation/references/original-agent-config.yaml",
+    "sha256": "60152a398a2e02e6453c088006802fcbaa8bfdf90020d1b03159dda992df2ab5"
+  },
+  {
+    "source": "motion-case-context-detail-observation/references/generation-prompt-v1.md",
+    "target": "motion-case-library/references/cases/motion-case-context-detail-observation/references/generation-prompt-v1.md",
+    "sha256": "07fd7d6a6421b32da7b070943acf3d2ca3011598c74bd4a408a58c6b4ef3eba4"
+  },
+  {
+    "source": "motion-case-comment-focus/assets/fixture.json",
+    "target": "motion-case-library/references/cases/motion-case-comment-focus/assets/fixture.json",
+    "sha256": "7a9b30a8bed433fdf393d02483e8c84ec5482179e3bc77b47a9a2b9878edf285"
+  },
+  {
+    "source": "motion-case-comment-focus/assets/integrity.json",
+    "target": "motion-case-library/references/cases/motion-case-comment-focus/assets/integrity.json",
+    "sha256": "bb3d9ec21d8acbe66b7e2aa6f843e3a36ce0b199918a34a8bb7fa129e12b5a3f"
+  },
+  {
+    "source": "motion-case-comment-focus/assets/motion.tsx",
+    "target": "motion-case-library/references/cases/motion-case-comment-focus/assets/motion.tsx",
+    "sha256": "f23a3cd67aab6dec76157da9c96ce70735d6b4981fc33fe32a6eb0eb05810710"
+  },
+  {
+    "source": "motion-case-comment-focus/references/generation-prompt-v1.md",
+    "target": "motion-case-library/references/cases/motion-case-comment-focus/references/generation-prompt-v1.md",
+    "sha256": "e41adb116fce904e142c5c42b412b966d4ce3f0f1383321942863d2c932c8d6b"
+  },
+  {
+    "source": "motion-case-attention-programme/agents/openai.yaml",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/references/original-agent-config.yaml",
+    "sha256": "3cd6979433bec8b9236820bf5e8effe34a3eafa1462abda1a68620a4844f78ba"
+  },
+  {
+    "source": "motion-case-attention-programme/references/original-input.md",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/references/original-input.md",
+    "sha256": "8b004163c39a5f14676c7d26301d65058b7e73ebbd3c48d4e840134ec8e18965"
+  },
+  {
+    "source": "motion-case-attention-programme/source/font-bindings.json",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/source/font-bindings.json",
+    "sha256": "3d60e76487791410a66a3ce47f845f39cc3ee077ad2748266dcbacbae6f575c6"
+  },
+  {
+    "source": "motion-case-attention-programme/source/keyframes.json",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/source/keyframes.json",
+    "sha256": "98ff51cf722721c76d17ffe3c2e1f4ec0572db9109e5b3d941ca464886c1517d"
+  },
+  {
+    "source": "motion-case-attention-programme/source/materials.json",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/source/materials.json",
+    "sha256": "09a44cb56dc25c06af57615fe6da1d96ef9d985ca75b627e9228f0f184019616"
+  },
+  {
+    "source": "motion-case-attention-programme/source/Motion.tsx",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/source/Motion.tsx",
+    "sha256": "fbd2d626e433d424a99cc7ffe9269d7702f572bbeef2d57869e1e6c83d7998ab"
+  },
+  {
+    "source": "motion-case-attention-programme/source/source.json",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/source/source.json",
+    "sha256": "45e9531c22df8fc3bb9f4607115621bd3a50f8f264e2257a1366ffeb7960de6d"
+  },
+  {
+    "source": "motion-case-active-window-focus/agents/openai.yaml",
+    "target": "motion-case-library/references/cases/motion-case-active-window-focus/references/original-agent-config.yaml",
+    "sha256": "3dd6d73bbfe8790f498ef51bc9a781ce12aaca560354bb05c5cc65a960249b0e"
+  },
+  {
+    "source": "motion-case-active-window-focus/references/generation-prompt-v1.md",
+    "target": "motion-case-library/references/cases/motion-case-active-window-focus/references/generation-prompt-v1.md",
+    "sha256": "83063aef56e770e4a103c0081522d52b358472b4131aa9b496dccc45e66ef574"
+  },
+  {
+    "source": "motion-case-ticket-phone/assets/preview-035.png",
+    "target": "motion-case-library/references/cases/motion-case-ticket-phone/assets/preview-035.png",
+    "sha256": "50714c45f859c67e49607ab4f683f23d80599a5e0ae3b07b95159e3467eed920"
+  },
+  {
+    "source": "motion-case-ticket-phone/assets/preview-099.png",
+    "target": "motion-case-library/references/cases/motion-case-ticket-phone/assets/preview-099.png",
+    "sha256": "ca4937ffbb1e8bed3551718dfde9f8152d48ccf7b2344d53f95a60c7d723656f"
+  },
+  {
+    "source": "motion-case-ticket-phone/assets/preview-146.png",
+    "target": "motion-case-library/references/cases/motion-case-ticket-phone/assets/preview-146.png",
+    "sha256": "335dde55d8d11247176a8bdeb0271b111fc75f06f1d39c14c70ff596995c6f22"
+  },
+  {
+    "source": "motion-case-ticket-phone/assets/preview-243.png",
+    "target": "motion-case-library/references/cases/motion-case-ticket-phone/assets/preview-243.png",
+    "sha256": "f4ce42320a771d308e7b1a5f91e4c62ddb6dc680ff8cbebf5b6c6f064ab243ce"
+  },
+  {
+    "source": "motion-case-ticket-phone/assets/preview.mp4",
+    "target": "motion-case-library/references/cases/motion-case-ticket-phone/assets/preview.mp4",
+    "sha256": "4c9f6ebaac388e2e75f0279092de971115156566b349bda0d77c73ad66bee3a2"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/before.mp4",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/before.mp4",
+    "sha256": "8e8f7d9ef91035c32b34fc26b96c596a12585a83a8dcf93c1a4411b6597e316b"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/clock.mp4",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/clock.mp4",
+    "sha256": "efb43f1eb0b0ca2e17ef20ee629e8827e1268e446ab4addc9c649b0c8bf49c61"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/paper.jpg",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/paper.jpg",
+    "sha256": "f677322e96e82367cf65e4b3ee1f0b580f96511c49a0b7f7ea1b6837ae175570"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/preview-090.png",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/preview-090.png",
+    "sha256": "2e2a768f8f59f5736f3ecc143aa78216496d77a999f33c05f83b33d6902436a3"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/preview-170.png",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/preview-170.png",
+    "sha256": "590a773a46bdbf590b120d08f81e24838ecea70a2fcd5abe8548e7bcc266450c"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/preview-330.png",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/preview-330.png",
+    "sha256": "7c4a5c594b110a677ade33db09a734fda3aed3de9e576a815dbcc68cfcc5cfeb"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/preview-475.png",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/preview-475.png",
+    "sha256": "16c3028f4d19cef5ac6d658b4c93e3ecc52141e0966476a00a3b25a790cec2fc"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/preview.mp4",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/preview.mp4",
+    "sha256": "37c254d339f44161c187fdd28cec018cdea88e1e2a4db9acdf13bf868b6103c5"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/qci.mp4",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/qci.mp4",
+    "sha256": "802f8bc67fc99d7a69072d9a3d3cfc34d5fbf7377c25c2fb5284818fe581d64a"
+  },
+  {
+    "source": "motion-case-smooth-relay/assets/sim.mp4",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/assets/sim.mp4",
+    "sha256": "c8f80a1fcfbc13c54737a0d0cba32f18c2c92754328954389f58f4a8513189be"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/phone.mp4",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/phone.mp4",
+    "sha256": "002192d0d483c5644fdf8d2ac9f71c834b50c070e37a2e06c511af608df6ff57"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/preview-090.png",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/preview-090.png",
+    "sha256": "2080c2fc3060c6b0f47b510c09cae82d3acd7d3c328933c1ff030ac31ccd4cdb"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/preview-255.png",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/preview-255.png",
+    "sha256": "f86f0783ace29d8df86cde886b11fe87d069733d26590cde93e69c7a58804400"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/preview-350.png",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/preview-350.png",
+    "sha256": "80a6a1f579122e4e172d02569887e1f135608100f27d15fc93e5836d632d8e03"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/preview-440.png",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/preview-440.png",
+    "sha256": "43c95b2b23fbed515fe4cac5d4f860d0e9cad844a26928f9037334043ed5ac2c"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/preview-480.png",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/preview-480.png",
+    "sha256": "8b834346161ffc7d75ceec22c0ec8493da6e80877dde59c62e80817e3ae11fe8"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/preview-535.png",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/preview-535.png",
+    "sha256": "f46279f90ea596ebc30256294b6e3bb7709b2889a86b38e0b76476167b6a7cf0"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/preview.mp4",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/preview.mp4",
+    "sha256": "c71a4a9282a5328705ff2101b6b75dfc5c4b9d0ae6580fe8823e2afa9cfc8641"
+  },
+  {
+    "source": "motion-case-sim-paper/assets/tower.mp4",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/assets/tower.mp4",
+    "sha256": "bbc72ecd34079d3a8a156fb08a038e928481ce49c912a4f9467d9ac81d61fa18"
+  },
+  {
+    "source": "motion-case-relation-unfold/assets/observed-1.jpg",
+    "target": "motion-case-library/references/cases/motion-case-relation-unfold/assets/observed-1.jpg",
+    "sha256": "76bbf157dcbe5fac969599b5b77dc717aef481e61139120da74d9ebb32c8151f"
+  },
+  {
+    "source": "motion-case-relation-unfold/assets/observed-2.jpg",
+    "target": "motion-case-library/references/cases/motion-case-relation-unfold/assets/observed-2.jpg",
+    "sha256": "21d761c80d5952ba9dc1e9129acc06baea9eb7ecc2b20923e9aea7976fc61c6b"
+  },
+  {
+    "source": "motion-case-relation-unfold/assets/observed-3.jpg",
+    "target": "motion-case-library/references/cases/motion-case-relation-unfold/assets/observed-3.jpg",
+    "sha256": "1348df6634fb1023a79156abdc3eb4470b9e9df5ba31f8129ce5ab216cbad62e"
+  },
+  {
+    "source": "motion-case-relation-unfold/assets/observed-preview.mp4",
+    "target": "motion-case-library/references/cases/motion-case-relation-unfold/assets/observed-preview.mp4",
+    "sha256": "60a0b43af80566a3ad9478a9fd7305a507790a5f1dd1263c86635357287a07af"
+  },
+  {
+    "source": "motion-case-product-fan/assets/before.mp4",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/assets/before.mp4",
+    "sha256": "65b1e6fae64c87d204ee02810a21e9762da02c1839a32fcf96332cc13c6d537f"
+  },
+  {
+    "source": "motion-case-product-fan/assets/preview-050.png",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/assets/preview-050.png",
+    "sha256": "31eac8af2e1db85eae8c264a777652663fc80ced4c62a95afe98a835dc609286"
+  },
+  {
+    "source": "motion-case-product-fan/assets/preview-120.png",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/assets/preview-120.png",
+    "sha256": "624d0cb84db89e3908e082436dfacaf32ae54fc0b6d1028932d448647c361d63"
+  },
+  {
+    "source": "motion-case-product-fan/assets/preview-190.png",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/assets/preview-190.png",
+    "sha256": "79d794b0519fe2fd1930a0df747eb9bf3c1b9c2b81e5883758e4278533e06861"
+  },
+  {
+    "source": "motion-case-product-fan/assets/preview-255.png",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/assets/preview-255.png",
+    "sha256": "98b0ced5f4c51bea76348df34490816bf7dc0aa3969b11db1f95e0183c5589b4"
+  },
+  {
+    "source": "motion-case-product-fan/assets/preview.mp4",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/assets/preview.mp4",
+    "sha256": "9367f6e1ec61d8a2666373840214649530b2d7a4db0b553382e24704be854f88"
+  },
+  {
+    "source": "motion-case-occlusion-condition-reveal/assets/observed-1.jpg",
+    "target": "motion-case-library/references/cases/motion-case-occlusion-condition-reveal/assets/observed-1.jpg",
+    "sha256": "a5422c3d83cc33e2ebbb58e7d89318a50c70494308f7e98131c2ebfd9f384d69"
+  },
+  {
+    "source": "motion-case-occlusion-condition-reveal/assets/observed-2.jpg",
+    "target": "motion-case-library/references/cases/motion-case-occlusion-condition-reveal/assets/observed-2.jpg",
+    "sha256": "70af5643d970b66176a13e8934e84a82689694ddb3f9c97cc96e5abaf81cce25"
+  },
+  {
+    "source": "motion-case-occlusion-condition-reveal/assets/observed-3.jpg",
+    "target": "motion-case-library/references/cases/motion-case-occlusion-condition-reveal/assets/observed-3.jpg",
+    "sha256": "0ba0b91368333b04eaab3e4055f82f8bd7320240d63fd3309d0b6e83203d6dd4"
+  },
+  {
+    "source": "motion-case-occlusion-condition-reveal/assets/observed-preview.mp4",
+    "target": "motion-case-library/references/cases/motion-case-occlusion-condition-reveal/assets/observed-preview.mp4",
+    "sha256": "190b5fb962c7a29c8637a408bea57c046a37fef63d5164448603488cedc2651d"
+  },
+  {
+    "source": "motion-case-object-type-relay/assets/observed-1.jpg",
+    "target": "motion-case-library/references/cases/motion-case-object-type-relay/assets/observed-1.jpg",
+    "sha256": "d774bf4178adea2fb6c66bcb7e75c4ec6d60385257524fffc641227b321321ba"
+  },
+  {
+    "source": "motion-case-object-type-relay/assets/observed-2.jpg",
+    "target": "motion-case-library/references/cases/motion-case-object-type-relay/assets/observed-2.jpg",
+    "sha256": "0afcd259cf2d24ae94b21adf4dd3a5a0e8ff4e2aca37c9b83013b068dea867ae"
+  },
+  {
+    "source": "motion-case-object-type-relay/assets/observed-3.jpg",
+    "target": "motion-case-library/references/cases/motion-case-object-type-relay/assets/observed-3.jpg",
+    "sha256": "9fe37ec34a3b6fb23f66cf16b683c241438ba95f798daeed92f0960f6b8cf232"
+  },
+  {
+    "source": "motion-case-object-type-relay/assets/observed-preview.mp4",
+    "target": "motion-case-library/references/cases/motion-case-object-type-relay/assets/observed-preview.mp4",
+    "sha256": "85fbcb5f6d47c4d8eb1c3081f9491d0e7ffe6921e80fb99f988c49bfb2ee9835"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/observed-1.jpg",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/observed-1.jpg",
+    "sha256": "e15d7dfdac057bf1538a38995bd8d2244805314c8c7fa2358459b68a72d1ff8f"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/observed-2.jpg",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/observed-2.jpg",
+    "sha256": "105823cbb1195c8e39e6e170116ca9269582540b5fdb73cc776f63ee6c88f3f9"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/observed-3.jpg",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/observed-3.jpg",
+    "sha256": "9fe37ec34a3b6fb23f66cf16b683c241438ba95f798daeed92f0960f6b8cf232"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/assets/observed-full.mp4",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/assets/observed-full.mp4",
+    "sha256": "a2a93ae4323f4ee14639b509ace735e3f281939445382dc96c908d737aeb6a50"
+  },
+  {
+    "source": "motion-case-cover-flow/assets/preview-060.png",
+    "target": "motion-case-library/references/cases/motion-case-cover-flow/assets/preview-060.png",
+    "sha256": "4ac983c4684e06a62e03dcfecf5a982d6fec9baf7670c60b7ba114f6f6b56315"
+  },
+  {
+    "source": "motion-case-cover-flow/assets/preview-150.png",
+    "target": "motion-case-library/references/cases/motion-case-cover-flow/assets/preview-150.png",
+    "sha256": "db12ca65fe32005bc2baa2bbebb6f31875261bac4fc45fdd4a92941917d0545a"
+  },
+  {
+    "source": "motion-case-cover-flow/assets/preview-210.png",
+    "target": "motion-case-library/references/cases/motion-case-cover-flow/assets/preview-210.png",
+    "sha256": "50a2022d683d3f1bd160d054087a87b6ecaee1d269b3f3a1e796d9d16b7c98b0"
+  },
+  {
+    "source": "motion-case-cover-flow/assets/preview-280.png",
+    "target": "motion-case-library/references/cases/motion-case-cover-flow/assets/preview-280.png",
+    "sha256": "4859d7e5306880361e5565e3ac16a5c3a9702b6897ba1ef9b1ab079eeafa7f50"
+  },
+  {
+    "source": "motion-case-cover-flow/assets/preview.mp4",
+    "target": "motion-case-library/references/cases/motion-case-cover-flow/assets/preview.mp4",
+    "sha256": "66878836b31e68946bd865ff3c6cf64995e1b9fa9cab664f086449b52f782399"
+  },
+  {
+    "source": "motion-case-context-detail-observation/assets/observed-1.jpg",
+    "target": "motion-case-library/references/cases/motion-case-context-detail-observation/assets/observed-1.jpg",
+    "sha256": "97a85ad0942e6572d32d3f25afed72e4e4e67c8e0262deefeea1003c537e0306"
+  },
+  {
+    "source": "motion-case-context-detail-observation/assets/observed-2.jpg",
+    "target": "motion-case-library/references/cases/motion-case-context-detail-observation/assets/observed-2.jpg",
+    "sha256": "3f673ffa8ed842f6a968684183edb644fac5114a48f00e59720e394bcf57edbf"
+  },
+  {
+    "source": "motion-case-context-detail-observation/assets/observed-3.jpg",
+    "target": "motion-case-library/references/cases/motion-case-context-detail-observation/assets/observed-3.jpg",
+    "sha256": "2984e509fec4e125d3feaff9c1313a40a91598f73ed8a7620b4f1e28394c8e22"
+  },
+  {
+    "source": "motion-case-context-detail-observation/assets/observed-preview.mp4",
+    "target": "motion-case-library/references/cases/motion-case-context-detail-observation/assets/observed-preview.mp4",
+    "sha256": "016f5c4141d9f3833b96ddcd3a525b38920812f083650f1d8f7e31b04f8b2d46"
+  },
+  {
+    "source": "motion-case-comment-focus/assets/preview-045.png",
+    "target": "motion-case-library/references/cases/motion-case-comment-focus/assets/preview-045.png",
+    "sha256": "812d9b9b9591710ec4bcbde07c6dd385c09801e4f24d5cdf52b4c8d5269a987b"
+  },
+  {
+    "source": "motion-case-comment-focus/assets/preview-130.png",
+    "target": "motion-case-library/references/cases/motion-case-comment-focus/assets/preview-130.png",
+    "sha256": "57483d246ce028dd519309f56b0596ddeaccca92e2b363d45b68cfba230df928"
+  },
+  {
+    "source": "motion-case-comment-focus/assets/preview-190.png",
+    "target": "motion-case-library/references/cases/motion-case-comment-focus/assets/preview-190.png",
+    "sha256": "574063b7810373ecf70a5f000724d5c1f407161fef1bc56bdcc898a03bd3ce0d"
+  },
+  {
+    "source": "motion-case-comment-focus/assets/preview-260.png",
+    "target": "motion-case-library/references/cases/motion-case-comment-focus/assets/preview-260.png",
+    "sha256": "010ebff193078690dc883906de58df4f8d7c497be6e70ea622d0be4acaf6dfdc"
+  },
+  {
+    "source": "motion-case-comment-focus/assets/preview.mp4",
+    "target": "motion-case-library/references/cases/motion-case-comment-focus/assets/preview.mp4",
+    "sha256": "503f611ff0d932b50759855b6ab2afc842cfadb32927ae4915e340243612b5de"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/preview.mp4",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/preview.mp4",
+    "sha256": "2e739a14560cf193d91cf9a02527210a10092f6e74c63c11306b9ada7db1ca72"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/audio/speech-2.wav",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/audio/speech-2.wav",
+    "sha256": "403f364986bb98a37fa565baaf4ca9d0879ecee05049897d9a3979e589962af7"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/contact-sheet.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/contact-sheet.jpg",
+    "sha256": "1c0ee38b444ac2626131ce4335ea9123add01a2b16458ec1d8b3eac62b12c52d"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0030.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0030.jpg",
+    "sha256": "68d26513d414f040f3866e1c8fb9aa1df02f95de43259360703e68cd5ef052cf"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0092.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0092.jpg",
+    "sha256": "928b77b3bac0c4fc94e8ec823b1222cae9f0c8c2f8d9cc757408bf59c50d9824"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0180.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0180.jpg",
+    "sha256": "e1b7f7fb9b0291add82ac0afe2d86e25e3ab02d21def0b080ff7fdcaf702b6af"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0253.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0253.jpg",
+    "sha256": "a7130b1f0280afa575f4046d074bf4eacaf5dd8039453b7d73be60561c4ea4b5"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0338.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0338.jpg",
+    "sha256": "ea2fc8b3600947a9338d6b3acd1672e3fa745bcfbc1e7c110ca934d2ac7784fb"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0345.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0345.jpg",
+    "sha256": "331d52f53978d83ff372e29d91fec841334a61b721bdf0064f8ef9408efdf728"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0356.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0356.jpg",
+    "sha256": "a35e3eb59cb58c9cab08a16b0a3aa7670490d775bd784662ee8298939d88a4db"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0380.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0380.jpg",
+    "sha256": "5302a36ed49eb5f1a262b9e0718f16fa6ca8c63de4c5dcfbc3faada1154bb548"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0520.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0520.jpg",
+    "sha256": "d415ea701e08922b3b35a56023ce8acf6f7b6e8f6894cff272203721e1d67920"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0550.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0550.jpg",
+    "sha256": "c19bf5698e3b67b21de8fe5568f58dbe44a87a0a640d3831c8174a34af1fd322"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0597.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0597.jpg",
+    "sha256": "716ed9dc29e74477aba34b1cfbe66f688e410c2843553d9481c41c8e4c0a0975"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0609.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0609.jpg",
+    "sha256": "3dc3ae429af54681d5ae3bf5934ca84204aaffc86c11dd6b089394d086b3883a"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0648.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0648.jpg",
+    "sha256": "3768972a1b3e7ef44f13e3e9d8370152dce9aa5ecccc336d7759e4b492b567e7"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/keyframes/f0734.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/keyframes/f0734.jpg",
+    "sha256": "9d6bb74e6bee3995e6aed1c93124ccb9ea561d9306e3464756d04ced1383e865"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/materials/art.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/materials/art.jpg",
+    "sha256": "475b215d7801a6873b2f66e1570c3ff41512226ce4ac0b9a31fd050873f0d6c1"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/materials/chair.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/materials/chair.jpg",
+    "sha256": "267904ef5df4dc045c980a3c88e8c3e861ba6ad88022f350b868da380f4647c5"
+  },
+  {
+    "source": "motion-case-attention-programme/assets/materials/identity.jpg",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/assets/materials/identity.jpg",
+    "sha256": "22b206f4843be084e449b98282ac8573b4a7df10fd3cb64460cca1f2c0594963"
+  },
+  {
+    "source": "motion-case-active-window-focus/assets/observed-1.jpg",
+    "target": "motion-case-library/references/cases/motion-case-active-window-focus/assets/observed-1.jpg",
+    "sha256": "e15d7dfdac057bf1538a38995bd8d2244805314c8c7fa2358459b68a72d1ff8f"
+  },
+  {
+    "source": "motion-case-active-window-focus/assets/observed-2.jpg",
+    "target": "motion-case-library/references/cases/motion-case-active-window-focus/assets/observed-2.jpg",
+    "sha256": "b58d25ea37acbd03f63f2861b71dd4248670cfb664ef2e4c8d6a498074a5af79"
+  },
+  {
+    "source": "motion-case-active-window-focus/assets/observed-3.jpg",
+    "target": "motion-case-library/references/cases/motion-case-active-window-focus/assets/observed-3.jpg",
+    "sha256": "5ecb64bc296a4f0e93ecf66edbf1d51f312642cbc0f3844507a82640a47a5aa3"
+  },
+  {
+    "source": "motion-case-active-window-focus/assets/observed-preview.mp4",
+    "target": "motion-case-library/references/cases/motion-case-active-window-focus/assets/observed-preview.mp4",
+    "sha256": "eda70c07f0eaefe4fac592b133fe6177fda37f82b41b4a3f7ad0308dba685e85"
+  },
+  {
+    "source": "motion-case-active-window-focus/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-active-window-focus/CASE.md",
+    "normalization": "case-body",
+    "sha256": "c49c571c3a7d4ef27bed48381faef79abf35356a3672a33d610ee61d71ecfa8f"
+  },
+  {
+    "source": "motion-case-attention-programme/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/CASE.md",
+    "normalization": "case-body",
+    "sha256": "b24e05009b688edcd62bfeb46005b17c9ff08f62aa5ddbf88be3b7d7cebfb7d4"
+  },
+  {
+    "source": "motion-case-comment-focus/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-comment-focus/CASE.md",
+    "normalization": "case-body",
+    "sha256": "0fbf81bd8ffc583577b4e9a1098ad819bd1a79342fd97d63a5dee6e9a87b9582"
+  },
+  {
+    "source": "motion-case-context-detail-observation/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-context-detail-observation/CASE.md",
+    "normalization": "case-body",
+    "sha256": "e9dfbc69034c1c3fd7d8a1126627867040de020bab39888e352cce451a21c2b1"
+  },
+  {
+    "source": "motion-case-cover-flow/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-cover-flow/CASE.md",
+    "normalization": "case-body",
+    "sha256": "279760d3f670c0f57dd40e44df544fd58be2c158efa63d43166b1b4950a6189d"
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/CASE.md",
+    "normalization": "case-body",
+    "sha256": "dff3f02aaf82e80840b0ca9cf83af705e37c3efab8f4c9ea60ef284d1f619ecd"
+  },
+  {
+    "source": "motion-case-object-type-relay/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-object-type-relay/CASE.md",
+    "normalization": "case-body",
+    "sha256": "120a86464deb2e255f876f5afb8956a28ee251f4303d2953bdc2939244ef6df8"
+  },
+  {
+    "source": "motion-case-occlusion-condition-reveal/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-occlusion-condition-reveal/CASE.md",
+    "normalization": "case-body",
+    "sha256": "56ef4efe9ddcffe4570dcb2471e984cd37a9ebdb2816d2fb41dc29e943e09018"
+  },
+  {
+    "source": "motion-case-product-fan/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/CASE.md",
+    "normalization": "case-body",
+    "sha256": "05a26c2c7b33cb460a3b52fbdffb5c605baee8743575388f7a84d58e062e9381"
+  },
+  {
+    "source": "motion-case-relation-unfold/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-relation-unfold/CASE.md",
+    "normalization": "case-body",
+    "sha256": "487b43a665c04843c0320e0148600adede29edf2a67d580fc8a595b8ec62080f"
+  },
+  {
+    "source": "motion-case-sim-paper/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/CASE.md",
+    "normalization": "case-body",
+    "sha256": "9f0d970e46ba1123b63958e435c118d4dddd1d88a124273976fd026459ca8131"
+  },
+  {
+    "source": "motion-case-smooth-relay/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/CASE.md",
+    "normalization": "case-body",
+    "sha256": "c4c539060dee7427a41d11c2153b1fe9492573aa35bee6b342236a12e8657d0e"
+  },
+  {
+    "source": "motion-case-ticket-phone/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-ticket-phone/CASE.md",
+    "normalization": "case-body",
+    "sha256": "3c4d402c98707ad27266c0ecb2fd426b504c3af6b8abd46ae4fb05acf27c3952"
+  }
+]

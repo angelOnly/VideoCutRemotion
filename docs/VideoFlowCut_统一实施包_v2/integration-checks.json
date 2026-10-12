@@ -1,0 +1,50 @@
+{
+  "kind": "delivery_text_consistency_only",
+  "checks": [
+    {
+      "check": "F01-F15 all present",
+      "passed": true
+    },
+    {
+      "check": "F16-F17 present",
+      "passed": true
+    },
+    {
+      "check": "F05 exact approved method retained",
+      "passed": true
+    },
+    {
+      "check": "F09 approved filled example complete",
+      "passed": true
+    },
+    {
+      "check": "F07 approved sections 1-5 complete",
+      "passed": true
+    },
+    {
+      "check": "F07 does not overwrite current long file",
+      "passed": true
+    },
+    {
+      "check": "22 replacement fragments",
+      "passed": true
+    },
+    {
+      "check": "All fragment hashes match",
+      "passed": true
+    },
+    {
+      "check": "All fragments embedded in markdown",
+      "passed": true
+    },
+    {
+      "check": "HTML retains exact copy text",
+      "passed": true
+    },
+    {
+      "check": "No fonts in bundle",
+      "passed": true
+    }
+  ],
+  "does_not_prove": "Git patch application, full main-tree integration, deployed tools, semantic accuracy or video quality"
+}

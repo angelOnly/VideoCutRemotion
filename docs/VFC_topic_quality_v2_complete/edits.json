@@ -1,0 +1,176 @@
+{
+  "baseCommit": "5c29555f8728682d3b01a9775ee0af8503265661",
+  "status": "candidate_not_applied",
+  "semantics": {
+    "replace_between_markers": "只替换两端标记之间的正文，保留标记",
+    "replace_section": "从start标题开始到end标题之前，包含start但不包含end",
+    "replace_exact": "old必须唯一匹配",
+    "insert_before": "start必须唯一匹配，在它之前插入payload"
+  },
+  "normalization": "定位时允许CRLF转LF；不得凭模糊匹配覆盖未读章节",
+  "onMismatch": "停止对应操作并核对当前文件；不得整文件覆盖、尾部重复追加或静默跳过",
+  "operations": [
+    {
+      "id": "P01a",
+      "target": ".agents/skills/_shared/TOPIC_TO_FILM.md",
+      "operation": "replace_section",
+      "payload": "skill-edits/P01a_replacement.md",
+      "label": "替换第1节全文，不含第2节",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "## 1. 导演先作出创作决定",
+      "end": "## 2. 文案与画面一起发展"
+    },
+    {
+      "id": "P01b",
+      "target": ".agents/skills/_shared/TOPIC_TO_FILM.md",
+      "operation": "replace_section",
+      "payload": "skill-edits/P01b_replacement.md",
+      "label": "替换第4节全文",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "## 4. 实际选材、材料发现与美术共同发展",
+      "end": "## 5. 同一作者落实美术、运动与时序"
+    },
+    {
+      "id": "P01c",
+      "target": ".agents/skills/_shared/TOPIC_TO_FILM.md",
+      "operation": "replace_section",
+      "payload": "skill-edits/P01c_replacement.md",
+      "label": "替换第5节全文",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "## 5. 同一作者落实美术、运动与时序",
+      "end": "## 6. 声音是完整生产的一部分"
+    },
+    {
+      "id": "P02",
+      "target": ".agents/skills/production-director/SKILL.md",
+      "operation": "replace_between_markers",
+      "payload": "skill-edits/P02_replacement.md",
+      "label": "替换已有主题块内部正文，保留两端标记和其他章节",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "<!-- topic-film-v2-production-director:begin -->",
+      "end": "<!-- topic-film-v2-production-director:end -->"
+    },
+    {
+      "id": "P03",
+      "target": ".agents/skills/production-coordinator/SKILL.md",
+      "operation": "replace_between_markers",
+      "payload": "skill-edits/P03_replacement.md",
+      "label": "替换已有主题块内部正文，保留两端标记和其他章节",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "<!-- topic-film-v2-production-coordinator:begin -->",
+      "end": "<!-- topic-film-v2-production-coordinator:end -->"
+    },
+    {
+      "id": "P04",
+      "target": ".agents/skills/narration-writing/SKILL.md",
+      "operation": "replace_between_markers",
+      "payload": "skill-edits/P04_replacement.md",
+      "label": "替换已有主题块内部正文，保留两端标记和其他章节",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "<!-- topic-film-v2-narration-writing:begin -->",
+      "end": "<!-- topic-film-v2-narration-writing:end -->"
+    },
+    {
+      "id": "P05",
+      "target": ".agents/skills/visual-asset-sourcing/SKILL.md",
+      "operation": "replace_between_markers",
+      "payload": "skill-edits/P05_replacement.md",
+      "label": "替换已有主题块内部正文，保留两端标记和其他章节",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "<!-- topic-film-v2-visual-asset-sourcing:begin -->",
+      "end": "<!-- topic-film-v2-visual-asset-sourcing:end -->"
+    },
+    {
+      "id": "P06",
+      "target": ".agents/skills/visual-treatment-planning/SKILL.md",
+      "operation": "replace_between_markers",
+      "payload": "skill-edits/P06_replacement.md",
+      "label": "替换已有主题块内部正文，保留两端标记和其他章节",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "<!-- topic-film-v2-visual-treatment-planning:begin -->",
+      "end": "<!-- topic-film-v2-visual-treatment-planning:end -->"
+    },
+    {
+      "id": "P07",
+      "target": ".agents/skills/_shared/SCENE_DESIGN_HANDOFF.md",
+      "operation": "replace_section",
+      "payload": "skill-edits/P07_replacement.md",
+      "label": "替换原第2节，保留角色、文字表及后续专业方法",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "## 2. 视觉作者回传的深化内容",
+      "end": "## 3. 可见文字直接使用这张表"
+    },
+    {
+      "id": "P08a",
+      "target": ".agents/skills/remotion-production/SKILL.md",
+      "operation": "replace_exact",
+      "payload": "skill-edits/P08a_replacement.md",
+      "label": "替换冲突旧段；其余实现与安全合同保持",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "old": "材料不齐可以先设计美术、状态和动作，向 `visual-asset-sourcing` 提出与分镜对应的主体、构图、动作、连续源长度和接点需求。取得实际候选后验证能否承担原定关系，再确定用于提交的完整指令。缺事实返回核实，缺画面主动补材或原创，不能写成已经取得。"
+    },
+    {
+      "id": "P08b",
+      "target": ".agents/skills/remotion-production/SKILL.md",
+      "operation": "replace_exact",
+      "payload": "skill-edits/P08b_replacement.md",
+      "label": "替换固定案例文件名假设，并接到完整新Skill",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "old": "按当前观看任务读取 [案例学习与选型](../motion-case-library/SKILL.md)，选择主要案例。\n进入该例 SKILL.md 后，必须完整读取其 references/generation-prompt-v1.md，\n不能用案例名称、几条摘要或旧源码代替全文。"
+    },
+    {
+      "id": "P09",
+      "target": ".agents/skills/effect-timing/SKILL.md",
+      "operation": "replace_between_markers",
+      "payload": "skill-edits/P09_replacement.md",
+      "label": "替换已有主题块内部正文，保留两端标记和其他章节",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "<!-- topic-film-v2-effect-timing:begin -->",
+      "end": "<!-- topic-film-v2-effect-timing:end -->"
+    },
+    {
+      "id": "P10",
+      "target": ".agents/skills/captions/SKILL.md",
+      "operation": "replace_between_markers",
+      "payload": "skill-edits/P10_replacement.md",
+      "label": "替换已有主题块内部正文，保留两端标记和其他章节",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "<!-- topic-film-v2-captions:begin -->",
+      "end": "<!-- topic-film-v2-captions:end -->"
+    },
+    {
+      "id": "P11",
+      "target": ".agents/skills/quality-verification/SKILL.md",
+      "operation": "replace_between_markers",
+      "payload": "skill-edits/P11_replacement.md",
+      "label": "替换已有主题块内部正文，保留两端标记和其他章节",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "<!-- topic-film-v2-quality-verification:begin -->",
+      "end": "<!-- topic-film-v2-quality-verification:end -->"
+    },
+    {
+      "id": "P12a",
+      "target": ".agents/skills/motion-case-library/SKILL.md",
+      "operation": "insert_before",
+      "payload": "skill-edits/P12a_replacement.md",
+      "label": "在历史案例表之前插入新增入口，不替换历史库",
+      "wholeFileReplacement": false,
+      "preserve": "保留frontmatter、未选中章节、权限、字体用户选择合同及现有MCP细则；不以片段覆盖整文件",
+      "start": "## 案例 Skill 与历史选定效果"
+    }
+  ]
+}

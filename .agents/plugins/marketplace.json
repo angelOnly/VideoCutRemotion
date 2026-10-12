@@ -1,0 +1,20 @@
+{
+  "name": "videoflowcut",
+  "interface": {
+    "displayName": "Videoflowcut"
+  },
+  "plugins": [
+    {
+      "name": "videoflowcut",
+      "source": {
+        "source": "local",
+        "path": "./plugins/videoflowcut"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

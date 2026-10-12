@@ -1,0 +1,79 @@
+{
+  "id": "job_b76f19e6-554e-4f1c-902c-772095a507b3",
+  "projectId": "project_262f7c01-047c-4690-932f-448eddb5db90",
+  "kind": "motion_reference_analysis",
+  "status": "succeeded",
+  "payload": {
+    "id": "014-m01",
+    "source_sha256": "d992c114a212faf13eff2e57c2e9ff18c0f614069cc56480757a701dcea3a9d2",
+    "range": {
+      "startMs": 0,
+      "endMs": 3000
+    },
+    "modelConfig": {
+      "videoWorkflowId": "ee8e9c17-bd16-566f-ad2d-a7ec239bf4b8",
+      "audioWorkflowId": "863d530d-8066-52b2-a59d-de4301f41013",
+      "imageWorkflowId": "d8bc75ad-5737-5d68-b9fd-44739c4700df",
+      "embeddingWorkflowId": "15904667-24ab-5e91-bc56-19ee2ad9eb4f",
+      "modelRevision": "073dbbc8c5bc0af2d789e1ce12e7c17a6be746e1",
+      "embeddingRevision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3",
+      "apiBaseUrl": "http://127.0.0.1:8188/comfyui-bridge/v1"
+    }
+  },
+  "result": {
+    "externalRuns": {
+      "motion-video:09ba33cc56538d94104fefef390ae785ca8b65c88753c7324ed2bc86d09c49cc": {
+        "status": "succeeded",
+        "workflowId": "ee8e9c17-bd16-566f-ad2d-a7ec239bf4b8",
+        "schemaVersion": "71aed2e1d214ad667441bafaefa31cc223eb01f915e3c829585732bc0207620d",
+        "runId": "267aed5e-3f0c-47be-8305-72253a50410b",
+        "requestIdentity": "09ba33cc56538d94104fefef390ae785ca8b65c88753c7324ed2bc86d09c49cc",
+        "attemptJobId": "job_b76f19e6-554e-4f1c-902c-772095a507b3",
+        "text": "该视频内容在初始阶段呈现了以下运动与视觉变化：\n\n1. **背景与主对象**：\n   - 视频开始时，画面整体处于较暗的棕色调中。\n   - 随后，背景逐渐变亮，隐约可见双手正在操作某种织物或纺织品，动作模糊但可辨识为手工编织或整理纺织材料的过程。\n\n2. **附属层与文字**：\n   - 在画面中央偏上位置，出现了文字“ANUPRERNA”。\n   - 接着，下方出现较大字体的文字：“Handwoven artisanal textiles,”。\n   - 最后，补充了一句较小字体的描述：“straight from India's looms.”。\n   - 所有文字均以白色或浅色呈现，与深色背景形成对比，随背景亮度变化而逐渐清晰。\n\n3. **观察位置与视觉焦点**：\n   - 视觉焦点始终集中在画面中央的文字及其背后的模糊手工操作区域。\n   - 无明显的镜头移动（如平移、缩放或旋转），属于静态或缓慢渐变的视觉呈现。\n\n4. **运动与变化总结**：\n   - 背景亮度从暗到亮缓慢过渡，带动文字由模糊到清晰。\n   - 主要物体（双手与纺织品）保持在画面中下部，动作持续但细节模糊，未发生显著位移。\n   - 文字逐行出现，顺序为品牌名 → 主标题 → 补充说明，构成信息递进。\n   - 无快速切换或复杂动态，整体节奏平缓，重点由背景氛围的建立逐步过渡到文字信息的传达。\n\n综上，视频通过背景亮度变化和文字逐层浮现的方式，引导观众注意力从模糊的手工场景转向明确的品牌与产品信息，实现了从氛围营造到核心内容传达的平稳过渡。",
+        "textOutputs": [
+          {
+            "outputSlotId": "result",
+            "text": "该视频内容在初始阶段呈现了以下运动与视觉变化：\n\n1. **背景与主对象**：\n   - 视频开始时，画面整体处于较暗的棕色调中。\n   - 随后，背景逐渐变亮，隐约可见双手正在操作某种织物或纺织品，动作模糊但可辨识为手工编织或整理纺织材料的过程。\n\n2. **附属层与文字**：\n   - 在画面中央偏上位置，出现了文字“ANUPRERNA”。\n   - 接着，下方出现较大字体的文字：“Handwoven artisanal textiles,”。\n   - 最后，补充了一句较小字体的描述：“straight from India's looms.”。\n   - 所有文字均以白色或浅色呈现，与深色背景形成对比，随背景亮度变化而逐渐清晰。\n\n3. **观察位置与视觉焦点**：\n   - 视觉焦点始终集中在画面中央的文字及其背后的模糊手工操作区域。\n   - 无明显的镜头移动（如平移、缩放或旋转），属于静态或缓慢渐变的视觉呈现。\n\n4. **运动与变化总结**：\n   - 背景亮度从暗到亮缓慢过渡，带动文字由模糊到清晰。\n   - 主要物体（双手与纺织品）保持在画面中下部，动作持续但细节模糊，未发生显著位移。\n   - 文字逐行出现，顺序为品牌名 → 主标题 → 补充说明，构成信息递进。\n   - 无快速切换或复杂动态，整体节奏平缓，重点由背景氛围的建立逐步过渡到文字信息的传达。\n\n综上，视频通过背景亮度变化和文字逐层浮现的方式，引导观众注意力从模糊的手工场景转向明确的品牌与产品信息，实现了从氛围营造到核心内容传达的平稳过渡。"
+          }
+        ]
+      }
+    },
+    "id": "014-m01",
+    "source_sha256": "d992c114a212faf13eff2e57c2e9ff18c0f614069cc56480757a701dcea3a9d2",
+    "source_hash": "415d9df551acaf67fbc33a14d98d77154e55be86ae26ff949a1fe49716c6603b",
+    "range": {
+      "startMs": 0,
+      "endMs": 3000
+    },
+    "description": "该视频内容在初始阶段呈现了以下运动与视觉变化：\n\n1. **背景与主对象**：\n   - 视频开始时，画面整体处于较暗的棕色调中。\n   - 随后，背景逐渐变亮，隐约可见双手正在操作某种织物或纺织品，动作模糊但可辨识为手工编织或整理纺织材料的过程。\n\n2. **附属层与文字**：\n   - 在画面中央偏上位置，出现了文字“ANUPRERNA”。\n   - 接着，下方出现较大字体的文字：“Handwoven artisanal textiles,”。\n   - 最后，补充了一句较小字体的描述：“straight from India's looms.”。\n   - 所有文字均以白色或浅色呈现，与深色背景形成对比，随背景亮度变化而逐渐清晰。\n\n3. **观察位置与视觉焦点**：\n   - 视觉焦点始终集中在画面中央的文字及其背后的模糊手工操作区域。\n   - 无明显的镜头移动（如平移、缩放或旋转），属于静态或缓慢渐变的视觉呈现。\n\n4. **运动与变化总结**：\n   - 背景亮度从暗到亮缓慢过渡，带动文字由模糊到清晰。\n   - 主要物体（双手与纺织品）保持在画面中下部，动作持续但细节模糊，未发生显著位移。\n   - 文字逐行出现，顺序为品牌名 → 主标题 → 补充说明，构成信息递进。\n   - 无快速切换或复杂动态，整体节奏平缓，重点由背景氛围的建立逐步过渡到文字信息的传达。\n\n综上，视频通过背景亮度变化和文字逐层浮现的方式，引导观众注意力从模糊的手工场景转向明确的品牌与产品信息，实现了从氛围营造到核心内容传达的平稳过渡。",
+    "model": "073dbbc8c5bc0af2d789e1ce12e7c17a6be746e1",
+    "schema": "71aed2e1d214ad667441bafaefa31cc223eb01f915e3c829585732bc0207620d",
+    "run_id": "267aed5e-3f0c-47be-8305-72253a50410b",
+    "input": {
+      "path": "E:\\ai\\VideoCut\\.repair-validation\\continuous-semantic\\projects\\project_262f7c01-047c-4690-932f-448eddb5db90\\cache\\motion-reference\\09ba33cc56538d94104fefef390ae785ca8b65c88753c7324ed2bc86d09c49cc\\input.mp4",
+      "mapping": {
+        "parentSourceId": "library:014-m01",
+        "parentHash": "415d9df551acaf67fbc33a14d98d77154e55be86ae26ff949a1fe49716c6603b",
+        "offsetMs": 0,
+        "rate": 1,
+        "coordinateSpace": "display_after_rotation",
+        "preprocessing": "source-pts-window-v2"
+      },
+      "streams": [
+        {
+          "avg_frame_rate": "30/1",
+          "nb_read_frames": "90"
+        }
+      ]
+    },
+    "sampling": {
+      "model_frame_density": "unknown",
+      "limitation": "派生片段帧数不等于模型实际抽样；未返回模型采样证据，快速交叠与精确速度保持未知。"
+    },
+    "cache_hit": false
+  },
+  "idempotencyKey": "3f038ddb-900c-40ff-b9b5-1e6d983f7796",
+  "attempt": 1,
+  "createdAt": "2026-10-10T14:03:57.263Z",
+  "updatedAt": "2026-10-10T14:04:59.013Z"
+}

@@ -1,0 +1,446 @@
+{
+  "schemaRole": "case_documentation_not_runtime_api",
+  "entries": [
+    {
+      "file": "assets/preview.mp4",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/项目文件/exports/revision-72/delivery-export_artifact_d3df428b-cb9e-4cf9-b23d-a6644f5830e4.mp4",
+      "detail": null,
+      "sha256": "2e739a14560cf193d91cf9a02527210a10092f6e74c63c11306b9ada7db1ca72",
+      "bytes": 3242617
+    },
+    {
+      "file": "source/source.json",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/项目文件/assets/derived/motion/job_583ad089-c51f-46be-9cae-f5602860c55f/d79f246c0825a9cb562171e5ed6335a371ad059820b54f43e26afcdba7886396/source.json",
+      "detail": null,
+      "sha256": "45e9531c22df8fc3bb9f4607115621bd3a50f8f264e2257a1366ffeb7960de6d",
+      "bytes": 21594
+    },
+    {
+      "file": "source/manifest.json",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/项目文件/assets/derived/motion/job_583ad089-c51f-46be-9cae-f5602860c55f/d79f246c0825a9cb562171e5ed6335a371ad059820b54f43e26afcdba7886396/manifest.json",
+      "detail": null,
+      "sha256": "8cbecd3bcf00624b6f961fae86adada4038ef2ce84f55a3ed570a1527cd48140",
+      "bytes": 62514
+    },
+    {
+      "file": "source/production-run.json",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/项目文件/reports/production-run-production_run_d934dcad-ef12-4cf2-bef9-1b1c296cf0f0.json",
+      "detail": null,
+      "sha256": "b70117aec7b607627839ad1dd2873e7f49a5f546d42f309dd98b785c8ac2cb86",
+      "bytes": 17051
+    },
+    {
+      "file": "references/original-input.md",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/方案文档/02_attention_new_generation.md",
+      "detail": null,
+      "sha256": "8b004163c39a5f14676c7d26301d65058b7e73ebbd3c48d4e840134ec8e18965",
+      "bytes": 37213
+    },
+    {
+      "file": "source/original-package-note.txt",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/打包说明.txt",
+      "detail": null,
+      "sha256": "4ce6c59f3bf2d7c608739ff4d2e60b34ff706179c0ed9e7700f4c40776a33ca8",
+      "bytes": 796
+    },
+    {
+      "file": "source/original-file-list.csv",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/文件清单.csv",
+      "detail": null,
+      "sha256": "57e0870a6b4411fdc9661aab73db6d56fd906dfb786b8b196a11ea644c2371f3",
+      "bytes": 4305
+    },
+    {
+      "file": "source/export-source-manifest.json",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/项目文件/manifests/sources/export_artifact_d3df428b-cb9e-4cf9-b23d-a6644f5830e4.json",
+      "detail": null,
+      "sha256": "847a08746c871183706c1e3153a5d4d8a1d8d65687a8499c788bb78fb36b7805",
+      "bytes": 519
+    },
+    {
+      "file": "source/Motion.tsx",
+      "kind": "extracted_exact_field",
+      "origin": "source/source.json#/source",
+      "detail": null,
+      "sha256": "fbd2d626e433d424a99cc7ffe9269d7702f572bbeef2d57869e1e6c83d7998ab",
+      "bytes": 12796
+    },
+    {
+      "file": "source/Motion.numbered.txt",
+      "kind": "derived_line_numbering",
+      "origin": "source/Motion.tsx",
+      "detail": "行号仅阅读用，不作为TSX提交",
+      "sha256": "234e2038305de454e9a79c20a18409e2a995310112100de5aee169a568255caa",
+      "bytes": 13527
+    },
+    {
+      "file": "references/submitted-brief.md",
+      "kind": "extracted_exact_field",
+      "origin": "source/source.json#/creativeBrief",
+      "detail": null,
+      "sha256": "eac3a31cebd197371712991e7ff9cc8cfa7125ced5bd548692928d0997ed6b7d",
+      "bytes": 4297
+    },
+    {
+      "file": "source/props.json",
+      "kind": "extracted_json_field",
+      "origin": "source/source.json#/props",
+      "detail": null,
+      "sha256": "c2e5b4ce9e8e8ae3f1792852b0e12875181c6c36c916e054aa286cd4f0db9b3d",
+      "bytes": 2383
+    },
+    {
+      "file": "source/font-bindings.json",
+      "kind": "extracted_json_fields",
+      "origin": "source/source.json#/fontBindings + source/manifest.json#/boundFonts",
+      "detail": null,
+      "sha256": "3d60e76487791410a66a3ce47f845f39cc3ee077ad2748266dcbacbae6f575c6",
+      "bytes": 1077
+    },
+    {
+      "file": "source/timing.json",
+      "kind": "derived_fields",
+      "origin": "source/source.json#/props",
+      "detail": "seconds=frame/fps；不补造字幕卡或词级对齐",
+      "sha256": "8a82f8824aec320fe368cd190f0fc286f48991edda0715e76a24b3db504a12f4",
+      "bytes": 2419
+    },
+    {
+      "file": "assets/materials/chair.jpg",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/项目文件/assets/source/267904ef5df4dc045c98.jpg",
+      "detail": null,
+      "sha256": "267904ef5df4dc045c980a3c88e8c3e861ba6ad88022f350b868da380f4647c5",
+      "bytes": 628193
+    },
+    {
+      "file": "assets/materials/art.jpg",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/项目文件/assets/derived/source-material/job_d698a458-3256-4527-bfd7-0f48c65733cd/original.jpg",
+      "detail": null,
+      "sha256": "475b215d7801a6873b2f66e1570c3ff41512226ce4ac0b9a31fd050873f0d6c1",
+      "bytes": 594311
+    },
+    {
+      "file": "source/material-manifests/art.json",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/项目文件/assets/derived/source-material/job_d698a458-3256-4527-bfd7-0f48c65733cd/manifest.json",
+      "detail": null,
+      "sha256": "b0df8ff3ad9c8db49ab1f57a984d3626331ff11dd64a6008ad23446b93e26577",
+      "bytes": 276
+    },
+    {
+      "file": "assets/materials/identity.jpg",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/项目文件/assets/derived/source-material/job_40cbd7c9-5d5f-4081-8221-80fa87f776b3/original.jpg",
+      "detail": null,
+      "sha256": "22b206f4843be084e449b98282ac8573b4a7df10fd3cb64460cca1f2c0594963",
+      "bytes": 11979
+    },
+    {
+      "file": "source/material-manifests/identity.json",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/项目文件/assets/derived/source-material/job_40cbd7c9-5d5f-4081-8221-80fa87f776b3/manifest.json",
+      "detail": null,
+      "sha256": "c6deb9ea585bf53ca8e6f60c7baa3aced921574c1001dbb18666d1bb822d9df4",
+      "bytes": 305
+    },
+    {
+      "file": "source/materials.json",
+      "kind": "derived_from_bindings_and_package",
+      "origin": "source/manifest.json + source/original-package-note.txt",
+      "detail": null,
+      "sha256": "8cd36a18ba8252baf6c0e56aee6598e8c19eadf8decbf2a9e1f7fdb9bce8ceed",
+      "bytes": 4435
+    },
+    {
+      "file": "assets/audio/speech-2.wav",
+      "kind": "copied_verbatim",
+      "origin": "video22_attention_final_only/项目文件/assets/speech/speech-2.wav",
+      "detail": null,
+      "sha256": "403f364986bb98a37fa565baaf4ca9d0879ecee05049897d9a3979e589962af7",
+      "bytes": 1261518
+    },
+    {
+      "file": "source/media-probe.json",
+      "kind": "measured_this_turn",
+      "origin": "assets/preview.mp4",
+      "detail": "ffprobe；不是新渲染或听审",
+      "sha256": "bd0886d773cc642044cc6442bdd9f22532049516a90378536297077f554e78b8",
+      "bytes": 521
+    },
+    {
+      "file": "assets/keyframes/f0030.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 30,
+        "seconds": 1.0,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "68d26513d414f040f3866e1c8fb9aa1df02f95de43259360703e68cd5ef052cf",
+      "bytes": 41280
+    },
+    {
+      "file": "assets/keyframes/f0092.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 92,
+        "seconds": 3.066666666666667,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "928b77b3bac0c4fc94e8ec823b1222cae9f0c8c2f8d9cc757408bf59c50d9824",
+      "bytes": 37665
+    },
+    {
+      "file": "assets/keyframes/f0180.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 180,
+        "seconds": 6.0,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "e1b7f7fb9b0291add82ac0afe2d86e25e3ab02d21def0b080ff7fdcaf702b6af",
+      "bytes": 36088
+    },
+    {
+      "file": "assets/keyframes/f0253.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 253,
+        "seconds": 8.433333333333334,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "a7130b1f0280afa575f4046d074bf4eacaf5dd8039453b7d73be60561c4ea4b5",
+      "bytes": 43458
+    },
+    {
+      "file": "assets/keyframes/f0338.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 338,
+        "seconds": 11.266666666666667,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "ea2fc8b3600947a9338d6b3acd1672e3fa745bcfbc1e7c110ca934d2ac7784fb",
+      "bytes": 46151
+    },
+    {
+      "file": "assets/keyframes/f0345.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 345,
+        "seconds": 11.5,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "331d52f53978d83ff372e29d91fec841334a61b721bdf0064f8ef9408efdf728",
+      "bytes": 54685
+    },
+    {
+      "file": "assets/keyframes/f0356.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 356,
+        "seconds": 11.866666666666667,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "a35e3eb59cb58c9cab08a16b0a3aa7670490d775bd784662ee8298939d88a4db",
+      "bytes": 56851
+    },
+    {
+      "file": "assets/keyframes/f0380.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 380,
+        "seconds": 12.666666666666666,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "5302a36ed49eb5f1a262b9e0718f16fa6ca8c63de4c5dcfbc3faada1154bb548",
+      "bytes": 53716
+    },
+    {
+      "file": "assets/keyframes/f0520.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 520,
+        "seconds": 17.333333333333332,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "d415ea701e08922b3b35a56023ce8acf6f7b6e8f6894cff272203721e1d67920",
+      "bytes": 42886
+    },
+    {
+      "file": "assets/keyframes/f0550.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 550,
+        "seconds": 18.333333333333332,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "c19bf5698e3b67b21de8fe5568f58dbe44a87a0a640d3831c8174a34af1fd322",
+      "bytes": 54077
+    },
+    {
+      "file": "assets/keyframes/f0597.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 597,
+        "seconds": 19.9,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "716ed9dc29e74477aba34b1cfbe66f688e410c2843553d9481c41c8e4c0a0975",
+      "bytes": 60125
+    },
+    {
+      "file": "assets/keyframes/f0609.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 609,
+        "seconds": 20.3,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "3dc3ae429af54681d5ae3bf5934ca84204aaffc86c11dd6b089394d086b3883a",
+      "bytes": 62580
+    },
+    {
+      "file": "assets/keyframes/f0648.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 648,
+        "seconds": 21.6,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "3768972a1b3e7ef44f13e3e9d8370152dce9aa5ecccc336d7759e4b492b567e7",
+      "bytes": 66224
+    },
+    {
+      "file": "assets/keyframes/f0734.jpg",
+      "kind": "extracted_video_frame",
+      "origin": "assets/preview.mp4",
+      "detail": {
+        "frame": 734,
+        "seconds": 24.466666666666665,
+        "method": "ffmpeg select by decoded frame index; JPEG review copy"
+      },
+      "sha256": "9d6bb74e6bee3995e6aed1c93124ccb9ea561d9306e3464756d04ced1383e865",
+      "bytes": 68940
+    },
+    {
+      "file": "source/keyframes.json",
+      "kind": "derived_extraction_index",
+      "origin": "assets/preview.mp4",
+      "detail": null,
+      "sha256": "98ff51cf722721c76d17ffe3c2e1f4ec0572db9109e5b3d941ca464886c1517d",
+      "bytes": 1718
+    },
+    {
+      "file": "assets/keyframes/contact-sheet.jpg",
+      "kind": "derived_contact_sheet",
+      "origin": "source/keyframes.json",
+      "detail": "14张真实截帧，缩放并列；仅用于查看构图，不证明动态",
+      "sha256": "1c0ee38b444ac2626131ce4335ea9123add01a2b16458ec1d8b3eac62b12c52d",
+      "bytes": 164487
+    },
+    {
+      "file": "SKILL.md",
+      "kind": "authored_this_turn",
+      "origin": "本轮基于原输入、最终v3固定源码、生产报告、用户后续反馈整理",
+      "detail": "教学/资料整理，不是历史原件或新的生成验证",
+      "sha256": "bdc5d877f7be18d5dccfc16148f251579fab79f7f03f993fa65ff9d9e6d21d25",
+      "bytes": 7810
+    },
+    {
+      "file": "agents/openai.yaml",
+      "kind": "authored_this_turn",
+      "origin": "本轮基于原输入、最终v3固定源码、生产报告、用户后续反馈整理",
+      "detail": "教学/资料整理，不是历史原件或新的生成验证",
+      "sha256": "3b67e0030bbdebec2452bd34dd1f0086bf682d705fc5b05dadb0754a7ab8b556",
+      "bytes": 193
+    },
+    {
+      "file": "references/adopted-design.md",
+      "kind": "authored_this_turn",
+      "origin": "本轮基于原输入、最终v3固定源码、生产报告、用户后续反馈整理",
+      "detail": "教学/资料整理，不是历史原件或新的生成验证",
+      "sha256": "dc4459aa19489a95a8b4ac3ceb8b7d60f336f0bf1a4af7f976c1a7908aacc824",
+      "bytes": 5022
+    },
+    {
+      "file": "references/design-decisions.md",
+      "kind": "authored_this_turn",
+      "origin": "本轮基于原输入、最终v3固定源码、生产报告、用户后续反馈整理",
+      "detail": "教学/资料整理，不是历史原件或新的生成验证",
+      "sha256": "f950ed11558815e6c3a88585d96a4f33328e5e5908af95a82bb1242cbaff0f6c",
+      "bytes": 3606
+    },
+    {
+      "file": "references/materials-and-replay.md",
+      "kind": "authored_this_turn",
+      "origin": "本轮基于原输入、最终v3固定源码、生产报告、用户后续反馈整理",
+      "detail": "教学/资料整理，不是历史原件或新的生成验证",
+      "sha256": "6008bffe4a0035899d317927236c05f65b2192e313cb830bcf7610751ff22a5d",
+      "bytes": 3976
+    },
+    {
+      "file": "references/revisions-and-limits.md",
+      "kind": "authored_this_turn",
+      "origin": "本轮基于原输入、最终v3固定源码、生产报告、用户后续反馈整理",
+      "detail": "教学/资料整理，不是历史原件或新的生成验证",
+      "sha256": "67ca7cfd56f24eea4376fe1470efe90721dc85ce0d9576f652dbc4dbe0c71359",
+      "bytes": 2525
+    },
+    {
+      "file": "references/transfer-guide.md",
+      "kind": "authored_this_turn",
+      "origin": "本轮基于原输入、最终v3固定源码、生产报告、用户后续反馈整理",
+      "detail": "教学/资料整理，不是历史原件或新的生成验证",
+      "sha256": "118ac91bf1baec32227bc0d15c0029727dc3d1b4b934616cade4724fd64e6071",
+      "bytes": 3065
+    },
+    {
+      "file": "references/user-feedback.md",
+      "kind": "authored_this_turn",
+      "origin": "本轮基于原输入、最终v3固定源码、生产报告、用户后续反馈整理",
+      "detail": "教学/资料整理，不是历史原件或新的生成验证",
+      "sha256": "9c9480ad9f32d25ff28746ed7cd97242c7e32b95f5801e0fc3a6dfea787ab516",
+      "bytes": 597
+    },
+    {
+      "file": "case-record.json",
+      "kind": "derived_record_plus_current_feedback",
+      "origin": "source/source.json + manifest.json + production-run.json + 用户本轮前一条反馈",
+      "detail": "案例资料记录，不是生产API Schema",
+      "sha256": "518936bfc5d5da75c4f0db60af5c7418ffb4df197b018639c540aad76abef715",
+      "bytes": 3005
+    },
+    {
+      "file": "references/file-provenance.md",
+      "kind": "authored_source_ledger",
+      "origin": "本轮逐文件归档结果",
+      "detail": "来源说明",
+      "sha256": "910b399741b19e442473ea5d2ca70c39dd1eff5e6d9ac0c2474ed34e77fcd086",
+      "bytes": 3864
+    }
+  ],
+  "selfHashExcluded": true
+}

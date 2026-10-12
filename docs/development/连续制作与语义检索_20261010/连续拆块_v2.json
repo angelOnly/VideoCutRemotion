@@ -1,0 +1,11 @@
+{
+  "sourceHash": "415d9df551acaf67fbc33a14d98d77154e55be86ae26ff949a1fe49716c6603b",
+  "frames": 288,
+  "splitFrame": 132,
+  "equal": true,
+  "fonts": {
+    "title": "noto-sans-sc-bold",
+    "body": "noto-sans-sc-regular"
+  },
+  "review": "逐帧一致性通过；作者观感检查另记，不由哈希判断审美"
+}

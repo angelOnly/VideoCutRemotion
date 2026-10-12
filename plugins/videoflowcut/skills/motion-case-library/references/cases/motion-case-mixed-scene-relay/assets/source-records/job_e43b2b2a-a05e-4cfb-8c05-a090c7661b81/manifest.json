@@ -1,0 +1,909 @@
+{
+  "version": "d8f32c8e6a92ca0463da8eecd08bec194dd374a6ceeb797763415baa8d1eb321",
+  "hashEngineVersion": "managed-motion-11",
+  "previewHash": "b2aa751778482c79bdb051a1970b5e31c1081df66fe36574cedb18c030f99ae8",
+  "frameHashes": [
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "83ce51ad5b5aff7b79d8cc1a4447da4d48321f46a6263cb3a1eb5a1c3dcddc06",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "d8f0da6d2aa259a077d3e6bbf01e4475963f544bfb83a07b950b8db2adf81750",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45",
+    "2f420264374099d86b78482220b750d6d12be4080f2301d18698369563a75d45"
+  ],
+  "engineVersion": "managed-motion-11",
+  "sandbox": "chromium-os-sandbox+csp-opaque-origin+deny-network",
+  "boundImages": [],
+  "boundVideos": [],
+  "videoDecodes": {},
+  "visibility": {
+    "method": "png_alpha_bbox_v1",
+    "alphaThreshold": 1,
+    "frames": [
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 210,
+        "y": 1174,
+        "width": 348,
+        "height": 104
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 192,
+        "y": 1174,
+        "width": 384,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      },
+      {
+        "x": 156,
+        "y": 1174,
+        "width": 456,
+        "height": 60
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "caption-0",
+      "meaning": "静音人工试排字幕",
+      "startFrame": 0,
+      "endFrame": 58
+    },
+    {
+      "id": "caption-1",
+      "meaning": "静音人工试排字幕",
+      "startFrame": 58,
+      "endFrame": 88
+    },
+    {
+      "id": "caption-2",
+      "meaning": "静音人工试排字幕",
+      "startFrame": 88,
+      "endFrame": 123
+    }
+  ],
+  "determinism": {
+    "status": "exact",
+    "maxAllowedChannelDelta": 2,
+    "sampledFrames": [
+      0,
+      61,
+      122
+    ],
+    "differences": []
+  }
+}

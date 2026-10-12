@@ -1,0 +1,9 @@
+{
+  "inputZip": "video22_attention_final_only.zip",
+  "inputZipSha256": "50fc9d73cfb5804571413ba695a731ab3113bafcb5cefa15c0c5e39f34375421",
+  "previewSha256": "2e739a14560cf193d91cf9a02527210a10092f6e74c63c11306b9ada7db1ca72",
+  "sourceSha256": "45e9531c22df8fc3bb9f4607115621bd3a50f8f264e2257a1366ffeb7960de6d",
+  "sourceGitBlob": "",
+  "caseDir": "/mnt/data/VFC_topic_quality_v2/repo-additions/.agents/skills/motion-case-attention-programme",
+  "files": 38
+}

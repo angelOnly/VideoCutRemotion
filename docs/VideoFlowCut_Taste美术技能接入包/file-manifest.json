@@ -1,0 +1,50 @@
+{
+  "description": "包内文件清单（不含本清单）；按实际字节计算 SHA-256。",
+  "files": [
+    {
+      "path": "00_先读我.md",
+      "bytes": 1369,
+      "sha256": "1587df05e2265daf94d01afd08dc782d8fda1b0199598a4e39ca38f21f37a675"
+    },
+    {
+      "path": "01_分析与接入说明.md",
+      "bytes": 45185,
+      "sha256": "4655c0b160386e9d55a59717bcac7304ed2238e9740651216776eb34fce085ba"
+    },
+    {
+      "path": "02_完整阅读.html",
+      "bytes": 160310,
+      "sha256": "f52c3c51573f7fa2ea4deef308212d44329f7516788e2dfb83f7cd18ec1a3a7b"
+    },
+    {
+      "path": "03_发给Codex.md",
+      "bytes": 2303,
+      "sha256": "0432790604be69cd853de88e1b72b45f1be00518ba42b9f1378223e6bbf8c014"
+    },
+    {
+      "path": "integration-map.json",
+      "bytes": 1557,
+      "sha256": "6157a2f986093e9429b2bbf00b96d8d220b3c5c32898b12a89aea7d66e6b09db"
+    },
+    {
+      "path": "payload/.agents/skills/visual-treatment-planning/references/art-direction.md",
+      "bytes": 15249,
+      "sha256": "fcc1d2dfadf1d4ef269e57a569da7a1a16ab3b98549b6dee5f7352182f124809"
+    },
+    {
+      "path": "payload/.agents/skills/visual-treatment-planning/SKILL.md",
+      "bytes": 3614,
+      "sha256": "8483d0a0a55da36e1ff91c8812cec327bdd621eb42d5258152a9198363f9456e"
+    },
+    {
+      "path": "tests/check_package.py",
+      "bytes": 5730,
+      "sha256": "e17bd215b2bc9c3a6115ad2983551e5041c36ba576a34291d916f5cf3fee217f"
+    },
+    {
+      "path": "核对记录.md",
+      "bytes": 2031,
+      "sha256": "7ae8fe85eb210a818f4edc42f4f379a3facdd8207d8c3af8277b99d75d8bd20e"
+    }
+  ]
+}

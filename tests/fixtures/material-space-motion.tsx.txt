@@ -1,0 +1,108 @@
+// 工程回归夹具：验证源坐标、视域与时钟，不作为创作范例。
+import React from 'react';
+import {AbsoluteFill, useCurrentFrame, useVideoConfig} from 'remotion';
+import {TimelineVideo} from '@videoflowcut/motion';
+
+type Box = {x: number; y: number; width: number; height: number};
+type Mark = {
+  id: string; text: string;
+  x: number; y: number; labelX: number; labelY: number;
+  startSec: number; endSec: number;
+};
+type Props = {
+  sourceWidth: number; sourceHeight: number;
+  viewBefore: Box; viewAfter: Box;
+  cameraStartSec: number; cameraEndSec: number;
+  scopeBefore: Box; scopeAfter: Box;
+  scopeStartSec: number; scopeExpandedSec: number; scopeEndSec: number;
+  marks: Mark[];
+  background: string; ink: string; accent: string; labelFill: string;
+};
+
+const mix = (a: number, b: number, p: number) => a + (b - a) * p;
+function progress(t: number, a: number, b: number) {
+  if (!(b > a)) throw new Error('Invalid time range');
+  const u = Math.max(0, Math.min(1, (t - a) / (b - a)));
+  return u * u * (3 - 2 * u);
+}
+function blendBox(a: Box, b: Box, p: number): Box {
+  return {
+    x: mix(a.x, b.x, p), y: mix(a.y, b.y, p),
+    width: mix(a.width, b.width, p), height: mix(a.height, b.height, p),
+  };
+}
+function visible(t: number, start: number, end: number) {
+  if (!(end > start)) throw new Error('Invalid visible range');
+  const fade = Math.min(0.2, (end - start) / 3);
+  return progress(t, start, start + fade) *
+    (1 - progress(t, end - fade, end));
+}
+
+// 使用与画面相同的参数计算事件。事件表仍不代替真实观看。
+export function resolveMotionEvents(
+  p: Props, c: {fps: number; durationInFrames: number}
+) {
+  const frame = (s: number) => Math.round(s * c.fps);
+  return [
+    {id: 'view-expands', meaning: '观察范围开始扩大',
+      startFrame: frame(p.cameraStartSec), endFrame: frame(p.cameraEndSec)},
+    {id: 'whole-set-visible', meaning: '范围线到达整套物品的观察范围',
+      startFrame: frame(p.scopeExpandedSec)},
+    {id: 'graphics-yield', meaning: '图形让位给后续真实收纳',
+      startFrame: frame(p.scopeEndSec)},
+  ];
+}
+
+export default function Motion(p: Props) {
+  const frame = useCurrentFrame();
+  const {fps, width, height} = useVideoConfig();
+  const t = frame / fps;
+  const view = blendBox(p.viewBefore, p.viewAfter,
+    progress(t, p.cameraStartSec, p.cameraEndSec));
+  if (!(p.sourceWidth > 0 && p.sourceHeight > 0 &&
+        view.width > 0 && view.height > 0)) throw new Error('Invalid geometry');
+  const k = Math.min(width / view.width, height / view.height);
+  const tx = (width - view.width * k) / 2 - view.x * k;
+  const ty = (height - view.height * k) / 2 - view.y * k;
+  const scope = blendBox(p.scopeBefore, p.scopeAfter,
+    progress(t, p.scopeStartSec, p.scopeExpandedSec));
+  const scopeOpacity = visible(t, p.scopeStartSec, p.scopeEndSec);
+
+  return <AbsoluteFill style={{background: p.background, overflow: 'hidden'}}>
+    <div style={{
+      position: 'absolute', left: 0, top: 0,
+      width: p.sourceWidth, height: p.sourceHeight,
+      transformOrigin: '0 0',
+      transform: `translate(${tx}px, ${ty}px) scale(${k})`,
+    }}>
+      <div style={{position: 'absolute', inset: 0}}>
+        <TimelineVideo slot="footage" fit="contain" />
+      </div>
+      <svg width={p.sourceWidth} height={p.sourceHeight}
+        viewBox={`0 0 ${p.sourceWidth} ${p.sourceHeight}`}
+        style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
+        <rect x={scope.x} y={scope.y}
+          width={scope.width} height={scope.height}
+          rx={12 / k} fill="none" stroke={p.accent}
+          strokeWidth={2 / k} opacity={scopeOpacity} />
+        {p.marks.map((mark) => {
+          const alpha = visible(t, mark.startSec, mark.endSec);
+          // 标签尺寸在最终画布上保持；归属位置仍来自同一源坐标。
+          const labelWidth = (mark.text.length * 30 + 28) / k;
+          const labelHeight = 48 / k;
+          return <g key={mark.id} opacity={alpha}>
+            <path d={`M${mark.x} ${mark.y} L${mark.labelX} ${mark.labelY}`}
+              stroke={p.ink} strokeWidth={2 / k} fill="none" />
+            <circle cx={mark.x} cy={mark.y} r={4 / k} fill={p.accent} />
+            <rect x={mark.labelX} y={mark.labelY - labelHeight / 2}
+              width={labelWidth} height={labelHeight}
+              rx={6 / k} fill={p.labelFill} />
+            <text x={mark.labelX + 14 / k} y={mark.labelY + 10 / k}
+              fontFamily="Microsoft YaHei, sans-serif" fontSize={30 / k}
+              fontWeight={600} fill={p.ink}>{mark.text}</text>
+          </g>;
+        })}
+      </svg>
+    </div>
+  </AbsoluteFill>;
+}

@@ -1,0 +1,54 @@
+{
+  "基线": "a368f7bbdbb66cb5abab143d8cc81f17c4e31efa",
+  "发行标识": "release-08da50f5a0df9e272611b3c3fcd615d46bbd04cacd4d2397c87d35bf4b34eb62",
+  "不同测试通过数": 117,
+  "测试批次": [
+    {
+      "日志": "material-validation.log",
+      "通过数": 34,
+      "汇总": [
+        "ℹ tests 34",
+        "ℹ suites 0",
+        "ℹ pass 34",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 2574.0984"
+      ]
+    },
+    {
+      "日志": "material-expanded-tests.log",
+      "通过数": 33,
+      "汇总": [
+        "ℹ tests 33",
+        "ℹ suites 0",
+        "ℹ pass 33",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 3520.861"
+      ]
+    },
+    {
+      "日志": "material-final-tests.log",
+      "通过数": 52,
+      "汇总": [
+        "ℹ tests 52",
+        "ℹ suites 0",
+        "ℹ pass 52",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 10106.2596"
+      ]
+    }
+  ],
+  "静态检查": 1994,
+  "生产部署": false,
+  "完整候选Runtime健康验证": false,
+  "真实共创样片验收": false,
+  "隔离界面验证": "保存一维、建项继承、读回、清空成功；旧项目 R1 与原偏好保持"
+}

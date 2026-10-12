@@ -1,0 +1,145 @@
+{
+  "relativePath": "manifests\\attribution\\export_artifact_f39064f3-bd0f-47b3-bc64-f7874aa5d0fb.json",
+  "generatedAt": "2026-09-23T01:43:04.792Z",
+  "entries": [
+    {
+      "assetId": "asset_0192da49-cd51-4696-86e7-2d07be616dd3",
+      "name": "MGZW_A_Captions_Trial_v1",
+      "sourceHash": "652251d2a3db8e9b681737981bd20b867c311e837ab2ca0e6fdf681ba6279b97",
+      "source": "generated",
+      "provider": "managed_remotion",
+      "license": "用户提供原稿，独立原创字幕排版；静音人工试排，不声明语音对齐。",
+      "rightsStatus": "cleared",
+      "usageRights": {
+        "purposes": [
+          "draft",
+          "delivery"
+        ],
+        "basis": "用户提供原稿，独立原创字幕排版；静音人工试排，不声明语音对齐。",
+        "confirmedAt": "2026-09-23T01:20:16.892Z"
+      }
+    },
+    {
+      "assetId": "asset_41c5de03-5fbe-43a8-a60b-d0d697a1b46e",
+      "name": "MGZW_C_SignalRelation_v2",
+      "sourceHash": "c967c8db05fbd7b8cace14290f36847b4f751beeb15e4d00891043d8fe78d3ed",
+      "source": "generated",
+      "provider": "managed_remotion",
+      "license": "Wikideas1 / Wikimedia Commons CC0 全塔情境视频，原创结构示意及基于已核实ETSI的概念关系排印。",
+      "attributionText": "Own work",
+      "rightsStatus": "cleared",
+      "usageRights": {
+        "purposes": [
+          "draft",
+          "delivery"
+        ],
+        "basis": "全塔CC0；原创图形和准确技术概念解释可用于本片交付，不嵌入标准整页。；Wikimedia Commons File:Cell tower video.webm；作者 Wikideas1；CC0 1.0；候选技术与许可筛选通过。仅作场面C的独立真实天线观察，静音使用，不暗示与A/B为同一网络或地点。",
+        "confirmedAt": "2026-09-23T01:33:35.034Z"
+      }
+    },
+    {
+      "assetId": "asset_5b6aa0b6-2968-40ca-89e8-6395439b9904",
+      "name": "MGZW_A_ActiveWindows_v1",
+      "sourceHash": "f9c069283bf8eff509ff8ec53aa17e02e57ef06fc89bf36e2e25be1222540daf",
+      "source": "generated",
+      "provider": "managed_remotion",
+      "license": "原创手机/排印及CC0街景编辑并置；非测速或真实设备读数。",
+      "attributionText": "Taurus Media Technik / Wikimedia Commons；CC0 1.0",
+      "rightsStatus": "cleared",
+      "usageRights": {
+        "purposes": [
+          "draft",
+          "delivery"
+        ],
+        "basis": "Taurus Media Technik / Wikimedia Commons CC0 1.0；本次原创图形可用于交付。；CC0 1.0；经实际连续审阅，用于场面A独立城市人群观察。Motion中左右侧窗使用同一源时钟、不同裁切，不表示用户数、同一地点、同一时刻或网络实测；静音使用。",
+        "confirmedAt": "2026-09-23T01:26:51.830Z"
+      }
+    },
+    {
+      "assetId": "asset_61c916bb-186b-45df-b89d-a9adbe255bc5",
+      "name": "MGZW_B_Captions_Trial_v1",
+      "sourceHash": "b2aa751778482c79bdb051a1970b5e31c1081df66fe36574cedb18c030f99ae8",
+      "source": "generated",
+      "provider": "managed_remotion",
+      "license": "用户提供原稿，独立原创字幕排版；静音人工试排，不声明语音对齐。",
+      "rightsStatus": "cleared",
+      "usageRights": {
+        "purposes": [
+          "draft",
+          "delivery"
+        ],
+        "basis": "用户提供原稿，独立原创字幕排版；静音人工试排，不声明语音对齐。",
+        "confirmedAt": "2026-09-23T01:21:36.486Z"
+      }
+    },
+    {
+      "assetId": "asset_69cc10f9-1025-4079-9d6f-75fd11a1c63a",
+      "name": "MGZW_B_RevealConditions_v1",
+      "sourceHash": "df98206788bbb04eea0f6a9100dad4a642666ca9660944d989a7d1835429613b",
+      "source": "generated",
+      "provider": "managed_remotion",
+      "license": "原创手机/排印及CC0街景编辑并置；非测速或真实设备读数。",
+      "attributionText": "Taurus Media Technik / Wikimedia Commons；CC0 1.0",
+      "rightsStatus": "cleared",
+      "usageRights": {
+        "purposes": [
+          "draft",
+          "delivery"
+        ],
+        "basis": "Taurus Media Technik / Wikimedia Commons CC0 1.0；本次原创图形可用于交付。；CC0 1.0；经实际连续审阅，用于场面A独立城市人群观察。Motion中左右侧窗使用同一源时钟、不同裁切，不表示用户数、同一地点、同一时刻或网络实测；静音使用。",
+        "confirmedAt": "2026-09-23T01:28:03.988Z"
+      }
+    },
+    {
+      "assetId": "asset_93feb9f7-a1f5-477a-af73-49199e907069",
+      "name": "MGZW_C_Captions_Trial_v1",
+      "sourceHash": "7d23d846802612124a4a97cbe75d00b708a6baea19311f490d2ff70041e28980",
+      "source": "generated",
+      "provider": "managed_remotion",
+      "license": "用户提供原稿，独立原创字幕排版；静音人工试排，不声明语音对齐。",
+      "rightsStatus": "cleared",
+      "usageRights": {
+        "purposes": [
+          "draft",
+          "delivery"
+        ],
+        "basis": "用户提供原稿，独立原创字幕排版；静音人工试排，不声明语音对齐。",
+        "confirmedAt": "2026-09-23T01:22:38.207Z"
+      }
+    },
+    {
+      "assetId": "asset_ed2eb2f2-3a4a-4992-9cd6-2d645d34b53a",
+      "name": "MGZW_D_Captions_Trial_v1",
+      "sourceHash": "6726349e6f647d630bfae4e678855c2e8e492361a6b98fbeaa146ce77d553c74",
+      "source": "generated",
+      "provider": "managed_remotion",
+      "license": "用户提供原稿，独立原创字幕排版；静音人工试排，不声明语音对齐。",
+      "rightsStatus": "cleared",
+      "usageRights": {
+        "purposes": [
+          "draft",
+          "delivery"
+        ],
+        "basis": "用户提供原稿，独立原创字幕排版；静音人工试排，不声明语音对齐。",
+        "confirmedAt": "2026-09-23T01:23:38.574Z"
+      }
+    },
+    {
+      "assetId": "asset_ef67ce3c-d82d-4236-bda6-d6d794b106b1",
+      "name": "D_SIM_Conclusion_Tray_v2",
+      "sourceHash": "d96d8d9d0759d3196da320d09328b7bea1f2c7ba07834f033038bb42aa05c7b5",
+      "source": "generated",
+      "provider": "managed_remotion",
+      "license": "本作品仅由本次提交的 React、Remotion、CSS 与 SVG 原创绘制；不含外部图片、视频、音频、品牌资源或网络请求。",
+      "rightsStatus": "cleared",
+      "usageRights": {
+        "purposes": [
+          "draft",
+          "delivery"
+        ],
+        "basis": "原创图形与排印可用于本项目草稿及交付渲染；不嵌入字体二进制文件。",
+        "confirmedAt": "2026-09-22T17:10:29.593Z"
+      }
+    }
+  ]
+}

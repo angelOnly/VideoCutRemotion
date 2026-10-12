@@ -1,0 +1,13 @@
+[
+  {"name":"制作统筹","duty":"接收需求，掌握项目事实，安排负责人，提交制作任务并交付文件。","result":"当前版本、任务安排、实际预览和导出文件","skills":[["production-coordinator","制作协调与任务安排"],["project-basics","项目定位与版本基础"],["web-editor-operator","工作台查看与预览取证"],["asset-import","本地素材入库"],["export","成片导出与交付"],["known-errors","故障诊断与恢复"]]},
+  {"name":"总导演","duty":"决定整片讲什么、怎样展开、用哪种主要制作方式；接回材料与粗剪，处理跨段取舍。","result":"完整观看主线、分镜、专项任务和修订方向","skills":[["production-director","整片主线与导演工作"],["presenter-motion-director","人物口播制作路线"],["visual-explainer-director","视觉解释片制作路线"],["vlog-director","实拍记录制作路线"],["scene-planning","分镜与场面规划"]]},
+  {"name":"文案与剪辑作者","duty":"与导演共同发展内容，写完整解说和声画稿；依据真实素材改稿，处理原话取舍与语义连续。","result":"完整文稿、语义选段和修改依据","skills":[["narration-writing","解说文案与声画稿"],["semantic-continuity","语义剪辑与内容重组"],["transcription","语音转写与文字核对"]]},
+  {"name":"画面素材作者","duty":"研究来源，寻找并观看候选材料，把实际发现和可用范围交回导演、文案及视觉作者。","result":"材料发现、候选比较、源范围和采用建议","skills":[["visual-asset-sourcing","画面搜索、观察与取材"]]},
+  {"name":"视觉美术作者","duty":"决定主体、字体、构图与空间层次，选择主画面和辅助镜头，安排证据与数据怎样被看懂。","result":"关键画面、美术选择、构图及材料用法","skills":[["visual-treatment-planning","视觉处理与美术设计"],["depth-composition","空间层次与遮挡"],["cutaway-planning","辅助镜头与主画面交接"],["evidence-visualization","证据、页面与数据呈现"]]},
+  {"name":"动效编排作者","duty":"设计对象如何进入、变化、让位和接管，说明关键中途、阅读窗口及声画落点。","result":"完整演出稿、动作关系和时间用途","skills":[["motion-brief-writing","完整演出稿与动作设计"],["effect-timing","动效时机与声音落点"]]},
+  {"name":"动效实现作者","duty":"把采用的美术与演出落实为受管动画，处理素材绑定、坐标、源时钟和局部修订。","result":"完整作品源码、绑定与放置参数","skills":[["remotion-production","动画实现、提交与修订"]]},
+  {"name":"声音作者","duty":"早期参与旁白表演与声音构思，制作配音、选择音乐音效，再在实际声画中调整连续性与混音。","result":"配音、声音选材、音轨安排和听感修订","skills":[["voice-production","旁白与配音制作"],["sound-asset-sourcing","音乐与音效取材"],["audio-finishing","声音编排、混音与收尾"]]},
+  {"name":"人物表演作者","duty":"需要人物或数字人时，处理表演、目光、手势、口型、遮罩以及人物声音的归属。","result":"人物表演方案与连续性修订","skills":[["avatar-performance","人物表演与数字人制作"]]},
+  {"name":"字幕作者","duty":"根据最终可播放声音与实际画面安排准确文字、语义分卡、版式及阅读时机。","result":"字幕卡片、时间与版式方案","skills":[["captions","字幕制作与屏幕文字"]]},
+  {"name":"审片作者","duty":"查看实际版本的声画，定位表达、画面、动作与声音问题，交回原作者修订并说明未审范围。","result":"具体观察、问题范围、返修建议与待审项","skills":[["quality-verification","专业审片与质量核验"]]}
+]

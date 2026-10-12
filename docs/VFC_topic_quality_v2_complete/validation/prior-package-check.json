@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "checks": {
+    "new_complete_skills": 2,
+    "partial_operations": 15,
+    "existing_target_files": 12,
+    "case_files_with_provenance": 48,
+    "final_video_frame_extractions": 14,
+    "local_markdown_links_checked": 38,
+    "existing_repo_links_needed": [
+      ".agents/skills/motion-case-library/SKILL.md",
+      ".agents/skills/remotion-production/SKILL.md"
+    ],
+    "fonts_distributed": 0,
+    "copied_originals_hash_checked": true,
+    "exact_field_extraction_checked": true,
+    "analysis_chapters_preserved": true,
+    "previous_plan_bytes_preserved": true,
+    "markdown_fences_checked": true
+  },
+  "not_run": [
+    "用户仓库增量应用",
+    "项目TypeScript/回归/插件构建",
+    "当前宿主Skill自动或显式加载验证",
+    "新主题视频生成",
+    "独立重渲染历史完整工程",
+    "新增完整连续听审"
+  ],
+  "errors": []
+}

@@ -1,0 +1,26 @@
+{
+  "name": "videoflowcut",
+  "version": "0.1.81",
+  "description": "在本机 VideoFlowCut 仓库中启动可编辑视频工作台、MCP 与专业工作流。",
+  "author": {
+    "name": "VideoFlowCut"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "VideoFlowCut",
+    "shortDescription": "用 Codex 完成可编辑的视频剪辑工作流。",
+    "longDescription": "提供 VideoFlowCut 专业 Skills、video-editor MCP 启动器，以及复用本仓库 API、任务、渲染与 Web 工作台的本机运行时。",
+    "developerName": "VideoFlowCut",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "打开 VideoFlowCut 工作台并创建一个视频项目",
+      "审阅这段素材后提出可执行剪辑方案",
+      "检查当前项目的预览和交付风险"
+    ]
+  },
+  "mcpServers": "./.mcp.json"
+}

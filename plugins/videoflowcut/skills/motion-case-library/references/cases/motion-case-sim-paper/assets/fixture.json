@@ -1,0 +1,63 @@
+{
+  "caseId": "sim-paper",
+  "title": "SIM → 页面聚焦 → 撕纸 → 实拍接管",
+  "kind": "composed",
+  "selectedByUser": true,
+  "selectedOn": "2026-09-08",
+  "preview": "preview.mp4",
+  "originVideo": ".candidate/motion-design-test/continuous-motion-preview.mp4",
+  "width": 768,
+  "height": 1344,
+  "fps": 24,
+  "durationInFrames": 576,
+  "reviewFrames": [
+    90,
+    255,
+    350,
+    440,
+    480,
+    535
+  ],
+  "review": {
+    "visualSelection": "用户选定对应版本作为案例；不等于所有新内容的成片验收",
+    "audio": "未配旁白和音效；24秒容器含音轨不代表完成声音设计",
+    "evidence": "源码快照、原视频、关键帧与技术记录分开保存"
+  },
+  "sourceFiles": [
+    "motion.tsx"
+  ],
+  "imageSlots": {},
+  "inputs": [
+    {
+      "file": "tower.mp4",
+      "provider": "Pexels",
+      "providerId": "31283204",
+      "timelineStartFrame": 384,
+      "timelineEndFrame": 480,
+      "sourceStartFrame": 0,
+      "sourceEndFrame": 96,
+      "fit": "cover",
+      "audio": "mute",
+      "rights": "历史记录为unknown，非重新核实授权"
+    },
+    {
+      "file": "phone.mp4",
+      "provider": "Pexels",
+      "providerId": "15689201",
+      "timelineStartFrame": 480,
+      "timelineEndFrame": 576,
+      "sourceStartFrame": 0,
+      "sourceEndFrame": 96,
+      "fit": "cover",
+      "audio": "mute",
+      "rights": "历史记录为unknown，非重新核实授权"
+    }
+  ],
+  "props": {},
+  "rights": {
+    "basis": "原创文字、CSS/SVG 几何与系统字体，只借鉴一般表现机制，不复制参考中的品牌、实拍、页面或音乐。本作品不含外部图片。",
+    "status": "cleared"
+  },
+  "originalWorkName": "空间 SIM → 页面聚焦 → 撕纸 → 实拍接管 · 独立机制试验 v2",
+  "compositionNote": "原合成所用 Cutaway 配置来自保存的 assembled.json（R13），最终预览记录为 R16/v2；本包保留当时素材与源码用于案例学习，不宣称该摘要是完整 R16 ProjectSnapshot。外层按原约定合成，源码后段透明。"
+}

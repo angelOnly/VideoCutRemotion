@@ -1,0 +1,13 @@
+{
+  "algorithm": "sha256",
+  "selectedVideoSha256": "66878836b31e68946bd865ff3c6cf64995e1b9fa9cab664f086449b52f782399",
+  "files": {
+    "fixture.json": "b648f595d34020365dff4e65f348ef800da1c0c53e887cc0a69f0f23e47f14f4",
+    "motion.tsx": "4c8df9a5b59af6158e10960616e34c3ad9ee47b39fcce2ed8bf5731b5f525000",
+    "preview-060.png": "4ac983c4684e06a62e03dcfecf5a982d6fec9baf7670c60b7ba114f6f6b56315",
+    "preview-150.png": "db12ca65fe32005bc2baa2bbebb6f31875261bac4fc45fdd4a92941917d0545a",
+    "preview-210.png": "50a2022d683d3f1bd160d054087a87b6ecaee1d269b3f3a1e796d9d16b7c98b0",
+    "preview-280.png": "4859d7e5306880361e5565e3ac16a5c3a9702b6897ba1ef9b1ab079eeafa7f50",
+    "preview.mp4": "66878836b31e68946bd865ff3c6cf64995e1b9fa9cab664f086449b52f782399"
+  }
+}

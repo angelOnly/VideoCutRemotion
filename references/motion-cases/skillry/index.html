@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>动效参考库 · 按场景找灵感</title><link rel="stylesheet" href="catalogue.css"></head>
+<body><main>
+<header><div class="eyebrow">VIDEOCUT / MOTION STUDIES</div><h1>先找场景，再看动效</h1><p>120 条视频与逐例拆解。把适合你当前内容的表达方法，带回项目。</p>
+<nav><a href="mechanisms.html">运动机制库</a><a href="detail.html">如何使用</a></nav></header>
+<section class="toolbar" aria-label="检索条件"><label class="search-label" for="query">你想表现什么？</label><input type="search" id="query" placeholder="如：手机 照片 / 新闻 对照 / 071" autocomplete="off"><p class="hint">用空格组合关键词；下方“原片实见素材”按实际画面筛选，“适用视频类型”是迁移建议。</p><div id="filters" class="filters"></div><div class="row"><label><input type="checkbox" id="selected-only"> 只看我的收藏</label><button id="reset">清空检索</button><button id="copy-selection">复制收藏编号</button><span id="selected-count"></span></div></section>
+<div class="row result-bar"><p id="count" role="status">正在加载案例…</p><div><button id="prev">上一页</button><span id="page"></span><button id="next">下一页</button></div></div>
+<div id="results" class="grid"></div><p id="error" role="alert"></p>
+<footer>观察依据为整片源帧概览与关键过程密集采样。原速与声音未专业核验；研究后写的复现输入尚未制作验证。原片形态与用途建议分别标注。</footer>
+</main><script type="module" src="catalogue-ui.mjs"></script></body></html>

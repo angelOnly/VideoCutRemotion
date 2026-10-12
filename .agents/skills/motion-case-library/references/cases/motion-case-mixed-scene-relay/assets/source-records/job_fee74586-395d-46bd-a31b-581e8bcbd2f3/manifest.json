@@ -1,0 +1,771 @@
+{
+  "version": "6c84d243d2aef374272e27f8c1c905802f8a47c1a2678bbbab7115ff006579eb",
+  "hashEngineVersion": "managed-motion-11",
+  "previewHash": "f9c069283bf8eff509ff8ec53aa17e02e57ef06fc89bf36e2e25be1222540daf",
+  "frameHashes": [
+    "14391b4fd15c91cd6022cd8385096e7ea77a9ffcfbeb6df2f3727c8385b346eb",
+    "49ee6785effbf491c18223a43a9cf5b613fb1247ee71df8ab83f4cd03eb682ef",
+    "411e476ce7e4b85e164636bec8737a4a8b2d536179d2f45251e05238000e1643",
+    "348353964dbe85c34f72a6c97434995befef3f6fd317b0ae18ecb1b198a00d9c",
+    "4a76fdd3988757ac3f05c96bdbd26b864a4fe9af71ee61034244cd3458dbc059",
+    "31fbc6dd01bcee2a6ff6367f22962c8cc5f7b2bb61dc50c13a407c4302356b28",
+    "cf69b72135cd9db33548f8bdaca1f338618c22064951e01a14eef82ee77a26ca",
+    "112dfc22328b0e0a7f55a884ae1b6d9d22af96ade49fc886d3b8672e0e7d9db9",
+    "0677d955b64a849a0d621b1e236983fd8e33625f11a7cf6b344cd0b4f535137a",
+    "4253489e4c9fedd19d5921cdbca116956a964590edc82ce75e6486434b7701d0",
+    "f3fd58a846cba3b634053889ac60607c4008fce718b96e5e1c96814e4142cf22",
+    "07d89f7a947c60ea2f9c6911a97234c86a5c95243e7aace319b6a8eb1e40cdb7",
+    "339215ea0aac4767c640ac2313fc17b599bd970bfe3570f94a862c68aa35b7c6",
+    "6efeba7e8ef3a5a90d1166129bd92796148fa48e9433ab67ddd61ff6d3903c37",
+    "d7f49f777d74e209a0ace8c97e79d5d3b9ee54aed40bdf230cf1d4a8e2e889e9",
+    "c1be193b5419a39e4f08c334c9142b550e725e684da61bb03c8acdcbe936de5d",
+    "a75d9ea5cb3716c99c1c148ff4adce1ae7cd6e18695fd575f339e9549b8692bb",
+    "b27597397a0015501c370e0b2acb46e33fb96c51ce88f014aa7a881e965ea0ae",
+    "1a37abc09fdbdedf6797f776c98eaafef069ca3c3f82d508472d7aa901138f55",
+    "a5473e3cb7a6dfc4e118f004dcbde191315b6b1f5aea08abccc3c44cbda427e0",
+    "9848322c30f93fdc94a37f1600f2a0f56499495d0b8f8959f611f4f410e0de1d",
+    "2e6c650635bca227efbf19b75c087d3e4a6b72f4cb3b345baa6552236d20ab93",
+    "810c00f5903bf226b9c767d587a98449d51cb4bb65a9d26fb03d7341b7e9ce7c",
+    "15ca98350dced8234f0db7565412a736619469b3199ddb216fcaa05228d1cc8a",
+    "ed5db950f94d4161b784a8139b39845cdec585fc9027397a06830b30ae6d7dd7",
+    "91ea2e4dd71e497874bbe7a03d09b73c75fcbaabee295efe73aed23260896ba6",
+    "87ada4615c01f0438fc4695f11b94191b635c6a4cdd1216f95e5537abe45c054",
+    "e9e6fb08a9a124ab087e12bc356b122078a3a36ffffde6adad659af57b7d0c95",
+    "7704d0933ae5288f05c03ddd11d62fec5aad22db07bf25ff4521d4df4df4ee58",
+    "616fba0fcddedde4b1f01685663d0f194c6483a0da79f9f730c03f7428622698",
+    "05b4d31e1608cdcd7670aaf00a683144c8cbea2dbdbc9ec0f865175020557a71",
+    "f64b1a58eb4b60a465938ed22f9044c4381a5b02551abd9d42bf157f3ad4e473",
+    "1736fb5369047c2dc820eb5d5abd44f9d1fa568e558e120c6f349c9864c20cf5",
+    "8f037f3dac9ff98531550b61f6d1dbddb84501cada0813a9c40c54fdfbaee88b",
+    "daf9084761a34ff90ef455ec6f976568cdd1fba51d1e83f711cca51e8f7a6ae7",
+    "e522c613b6f544ef5856b1fefe93a9016f9cdf43bcf41bd20b83ef80a137e99f",
+    "d464192cb1fd3189b03e16f87f7d0b86e14430aebec0c595555bb3b0dae7d9c7",
+    "6b31adfd47aff144de922ab8d7b2490bd8dc8fa00daa98aeb2ff67df078f9f68",
+    "e32dd22d32ca3d5755fa92baef16fd79ced73b8b73f6b0e1d4ca0cad3f7ca91f",
+    "7c21aecfdff75c343e1533aecd0f48c2131dac272377d907bb8a39598d55b47b",
+    "fa73823f8505608b77e82c21a5cb5a5c7aa0453ef291f857c57fe18617e2440c",
+    "35163339dd423b07f99b396100600a4428a1ddb3b921b7dbea7552f3340c7496",
+    "32bb9af2f9b483946a88d4dd910698325c4a57c602e0ea15db197cdf09add856",
+    "da099320fc90e09ec2772f65bf65839a38378fee715be4b84f8752598bb97a0c",
+    "6eb8aa4b798f4757efd9ebb80d32625e392b2eff91ec9245c6a63c4dc7831392",
+    "c74a10afc8186df0b9c7a45ee143993f5c385e5f5bd53d16937b401793edb717",
+    "77b11c6489c28e6b63c58e4c11b2db62509c7aeacfb9b4d8a4630846777e4f84",
+    "decf2bfdaa457a03dcf5185e01dc866bcd570bc1a608941650a14814e178a30f",
+    "1f1347c1e017ac23b1db19f735c4cd0a2405e29a1b92dd36111c84f866c39fce",
+    "44857ae96c8d4d93981ec7688ec70531f207462cc52c4560337ba509236b8715",
+    "1d94e1adc124aa6bd425f80e5d6b177fb5dc30b612299c1028c7eaa7741cb046",
+    "6ae1cdc2c54e37c4a65d70f4ca76b2bf35ab45b6eba4ded40beabcb596650e1f",
+    "934113d60dad177d61ddad36cff23ef34acf2e259750610d85944d35706414b8",
+    "6466a786fbcd5855e97db3d111ec03c284ed115403d1482c258d5d704f071517",
+    "37d802a91f0171dafaf56ec7c330cd39cadabfc528602eb583b4e76dcb2ba1a4",
+    "446d0c716abd2ae9ce24d95b8f16d5e99a3ccd1fe0221b5137fd14824b37504b",
+    "c5884ab82e02c90ba0d022afd9c4203877e63d8802856f2ef7e1fdf67ac3c9f8",
+    "5bda0dc0d9bacff682b02da99a03a12c4c784104bb2b12c41f0e68614b925096",
+    "a29f1439a1d98de570fd88e22e48dcc05f5b56e20f07fff6c70f834ffba40b8c",
+    "0a649bbeb05258d4d36dd945d0bac7b3f0bcf136b4de9b7529369b4b2463f3b4",
+    "10fa20ab440cdb590d5b724d7bcd9ccd1689c9818f1bfecc6b59fba4369e303f",
+    "7a9eb380b659e2054201b9b2815a7173d4d13423d305a3312799d9047f8c34c7",
+    "5fb354ac6366778e36c03246250ebef9a4fcd64c45b12194207d0d4ea28bb2fd",
+    "8751e020f856f5e08248cd4f71db8b35946e73ae897ddda0e5e3345894586698",
+    "1962e4ebe7bd24e8fbeecfc03254f9f1cadba3189f478efa23f111850429fa0a",
+    "d59eeeebda755a7fc37edae1fa0f8cfc6c8d0fc7ef0222fe2350cc66390e3e0f",
+    "6113edc16ca84eb5cde7a146e32ddd52fb9536621503e65d859cc0b4d9fc09d4",
+    "3fec588afdd2611851a1f29e77072ada3ee19444aebd167027057de897b96b39",
+    "a8b0f656b42b99396a34500fe39cff7f6f987507cb2fb51f626ec83770098ea7",
+    "8fe59e6507b0ab838e954957aee9178688961e78de5d2c7563477c093497babf",
+    "7e0c956990139d8395676f970de6b6bb94cb64e68facfd445d583731b9e4c15f",
+    "91f628e8ec7a1a84d53b7fa26d8b7d9d04fd3b824172869a250040f38f8fca1a",
+    "e7a8ceb2fb3d19867e32e58ef9077adeca978fd78cf5d70a1d349b9c83190466",
+    "3d02d79599bd16fb6c53e5f82f5abb6d19d2a928e7a7c5867638b0c1fb38b123",
+    "b227171a9bc6e7a8f271e3ef807aeda0134566d1b0f5a9db508ab76aad948188",
+    "405df01c4663032eef7a8d43ec26d50f648b97b04b2f94afe936e29a18806d63",
+    "93cbece67237d08b7a80eabd4826637cb47cef70fb12dc5bbb56aec89edb199a",
+    "b05fcb4986886748ca3af725f2e70eb6a8933c4c1b7dd06bf5b2fc4fb914f2b4",
+    "3725008c936e474184f57fa0943e525434599d3d4ba75a9088835f104dc9a00c",
+    "c253ddb928dd38cbe2538df5cf3d74e8f72cc07764aa94c86dee74b4fbb12dbc",
+    "8af83401797fedaa94c3a7a2ff99bd2dc3be306bf03a3c73c41fada725ce10de",
+    "ab6e84636aa82c40c63d3616d1e8d9f285ee69bf3da400da2eabef28ef8d58d7",
+    "5eacbbf5354b73ba726fb10a752eabe2ac61056b9088a1704df6b2cbdae41ce9",
+    "99775ca221b562c0e6410b301293f4f5ae14cdf6d045b81a780bc7d306265ec6",
+    "7e61f84e8d16c21d6189a974ae324cb6f5855952384aab8acae7ef4a8b3c870e",
+    "1fab883ffbb88330fd880a9d46f6202dffecbfd3b4183dcce6462f5dd2f71f2f",
+    "2f9ef367cbafc2c8d20d004959b045665b7807ce71a0394fefaf4908ad3120fc",
+    "c2dde26c8a8c72feeb9d4a955c7e2edfb83259c072ead1247186409c9c366f2d",
+    "5864823f45ab869706b37c111244f4941a499ff5b3b538883a7e643df096e0af",
+    "db579970f10732adb3bff8fb381bfa4e44d22109e7ed03950d3c6a35fce36dc2",
+    "fe0cdb7ff384a94ce8447eadb13d07c9aa5c0572a85e1ddbfadad2388d5e6ef2",
+    "0008db2a0d998b32e87497c0777125481ef397da8d86085acb119fccdf1a2333",
+    "bd6b5ace8ae088c3e9401d1453852a141137ec6ff65257ea4ad1d2aa08bffcad",
+    "54c8be5fbb954b084be4a8119121a5af4d35d6dd22a80a02e28e3400e4c819c3",
+    "e68bbeb8ba771acb79540d4087ef12959377da40f38b44a40845e89d62bf67ef",
+    "9ff945de2ab9b4057927446743bc343408d12ceaf07aac5f3bd68b48a3d11308",
+    "c618dcebc396553c923af93faa97882de8bcb672c963729ff2fd3909f4c24d60",
+    "de171c1791c49b90078eb00a16dab0c4c37d8d11328e25f295387d394751f469"
+  ],
+  "engineVersion": "managed-motion-11",
+  "sandbox": "chromium-os-sandbox+csp-opaque-origin+deny-network",
+  "boundImages": [],
+  "boundVideos": [
+    {
+      "slot": "street",
+      "assetId": "asset_dc62e799-eb10-40ee-9941-bd299862ecfa",
+      "managedPath": "assets\\source\\1790090537023-bfadaa62cc.webm",
+      "hash": "bfadaa62cccb42db875d50bb842aa0964fbf72040432e4097c1df59e043e0c26",
+      "rightsStatus": "cleared",
+      "attribution": "Taurus Media Technik / Wikimedia Commons；CC0 1.0",
+      "usageRights": {
+        "purposes": [
+          "draft",
+          "delivery"
+        ],
+        "basis": "CC0 1.0；经实际连续审阅，用于场面A独立城市人群观察。Motion中左右侧窗使用同一源时钟、不同裁切，不表示用户数、同一地点、同一时刻或网络实测；静音使用。",
+        "confirmedAt": "2026-09-22T15:22:17.014Z"
+      },
+      "sourceStartMs": 2500,
+      "sourceEndMs": 11750,
+      "decodeScale": 0.5
+    }
+  ],
+  "videoDecodes": {
+    "street": {
+      "width": 960,
+      "height": 540,
+      "frameCount": 222,
+      "geometry": {
+        "streamIndex": 0,
+        "encodedWidth": 1920,
+        "encodedHeight": 1080,
+        "sar": 1,
+        "rotation": 0,
+        "displayWidth": 1920,
+        "displayHeight": 1080,
+        "durationMs": 15125
+      },
+      "decodeScale": 0.5
+    }
+  },
+  "visibility": {
+    "method": "png_alpha_bbox_v1",
+    "alphaThreshold": 1,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "a.split",
+      "meaning": "活动影像展开并引入示意终端",
+      "startFrame": 13,
+      "endFrame": 31
+    },
+    {
+      "id": "a.depth",
+      "meaning": "侧窗上下错位与近远建立",
+      "startFrame": 31,
+      "endFrame": 55
+    },
+    {
+      "id": "a.focus",
+      "meaning": "同一终端从集合接管",
+      "startFrame": 55,
+      "endFrame": 98
+    }
+  ],
+  "determinism": {
+    "status": "exact",
+    "maxAllowedChannelDelta": 2,
+    "sampledFrames": [
+      0,
+      49,
+      97
+    ],
+    "differences": []
+  }
+}

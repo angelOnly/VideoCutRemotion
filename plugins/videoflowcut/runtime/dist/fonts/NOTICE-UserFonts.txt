@@ -1,0 +1,268 @@
+用户提供字体原件记录
+
+2026-10-07 用户确认字体已获授权，并要求接入E:/字体内全部实际字体文件。
+来源为用户本地原件；未重新认定为OFL或其它开放许可。字体字节、内部名称、字重和字形保持原样。
+下列元数据原文仅为来源记录，不能代替用户授权范围。
+
+Aa剑豪体 / AaJianHao.ttf
+来源原件：E:\字体\Aa剑豪体———[淘宝店-小猪猪资源库].ttf
+SHA-256：8b90b8ab796e000caac38a92eb65aa079a93618030421a8305769e0b4e3ceba3
+版权：Copyright(c) 2022 HanMeiHutong (XiaMen) Technology Co.Ltd. ,All rights reserved.
+字族：AaJianHaoTi | Aa剑豪体
+样式：Regular | 常规
+全名：AaJianHaoTi | Aa剑豪体
+PostScript名称：AaJianHaoTi
+原许可文本：Copyright(c) 2022 HanMeiHutong (XiaMen) Technology Co.Ltd..
+
+Aa厚底黑 / AaHouDiHei.ttf
+来源原件：E:\字体\Aa厚底黑———[淘宝店-小猪猪资源库].ttf
+SHA-256：6c42bffb6f773537050c5c2e1dd55f6839c7621f6327833cddf5b054f9c718ad
+版权：Copyright(c) 2022 HanMeiHutong (XiaMen) Technology Co.Ltd. ,All rights reserved.
+字族：AaHouDiHei | Aa厚底黑
+样式：Regular | 常规
+全名：AaHouDiHei | Aa厚底黑
+PostScript名称：AaHouDiHei
+原许可文本：Copyright(c) 2022 HanMeiHutong (XiaMen) Technology Co.Ltd..
+
+Leefont蒙黑体 / LeeFontMengHei.ttf
+来源原件：E:\字体\Leefont蒙黑体———[淘宝店-小猪猪资源库].ttf
+SHA-256：655e659f296f90aa814f968a735688b11f8c1709a2bbadd102f80f81bae3a51d
+版权：陈家乐
+字族：LeeFont蒙黑体 | leefontmenghei
+样式：Regular
+全名：LeeFont蒙黑体 Regular
+PostScript名称：LEEFONTMENGHEI
+
+Muyao-Softbrush / MuyaoSoftbrush.ttf
+来源原件：E:\字体\Muyao-Softbrush———[淘宝店-小猪猪资源库].ttf
+SHA-256：2344dc2802aca9e176775ff7bbd793aecf4ab4a049947e61238664488fb7956d
+字族：Muyao-Softbrush
+样式：Regular
+全名：Muyao-Softbrush
+PostScript名称：Muyao-Softbrush
+
+PF频凡胡涂体 / PFPinFanHuTu.ttf
+来源原件：E:\字体\PF频凡胡涂体———[淘宝店-小猪猪资源库].ttf
+SHA-256：e7308921a7ee4c01fd0f20e9aafb00b22f0530261dbdf2f70072ae45e5513e90
+版权：Copyright 2022 CPBYES (C) 2015 Do-Font
+字族：PFanHuTuTi | PF频凡胡涂体
+样式：Regular
+全名：PFanHuTuTi | PF频凡胡涂体
+PostScript名称：PFanHuTuTi
+
+WD-XL_滑油字_JP_N / WDXL-HuaYou-JP-N.otf
+来源原件：E:\字体\WD-XL_滑油字_JP_N———[淘宝店-小猪猪资源库].otf
+SHA-256：4a97350d9cf507c9eb57d8ad4e4d31543e236aa9e083f3c0d49811447b6b4aa4
+版权：[WD-XL Lubrifont] Copyright 2020-2022 © NightFurySL2001 - Expansion for Chinese (Traditional) and symbols, Skr-ZERO - Expansion for Japanese and symbols, modified under SIL Open Font License.
+[ZCOOL QingKe HuangYou] Copyright 2018-2022 © The ZCOOL QingKe HuangYou Project Authors (https://www.github.com/googlefonts/zcool-qingke-huangyou) - Source of original font.
+
+WD-XL Lubrifont is licensed under the SIL Open Font License, Version 1.1. The license is available with a FAQ at: http://scripts.sil.org/OFL | 【WD-XL 滑油字】版权 2020-2022 © 夜煞之乐2001 ——中文（繁体）扩展及符号设计，ZERO子 ——日文扩展及符号设计，在 SIL 开源字型授权下修改字体。
+【站酷庆科黄油体】版权 2018-2022 © 站酷庆科黄油体计划作者 (https://www.github.com/googlefonts/zcool-qingke-huangyou)——原字体来源。
+
+WD-XL 滑油字以 SIL 开源字型授权（SIL OFL）1.1 版授权。该授权全文及常见问题解答（FAQ）可在 http://scripts.sil.org/OFL 查阅。 | 【WD-XL 滑油字】版權 2020-2022 © 夜煞之樂2001 ——中文（繁／正體）擴展及符號設計，ZERO子 ——日文擴展及符號設計，在 SIL 開源字型授權下修改字型。
+【站酷慶科黃油體】版權 2018-2022 © 站酷慶科黃油體計劃作者 (https://www.github.com/googlefonts/zcool-qingke-huangyou)——原字體來源。
+
+WD-XL 滑油字以 SIL 開源字型授權（SIL OFL）1.1 版授權。該授權全文及常見問題解答（FAQ）可在 http://scripts.sil.org/OFL 查閲。 | 【WD-XL 滑油字（かつゆじ）】版権 2020-2022 © NightFurySL2001——漢字（中国語繁体字）の拡張および記号のデザイン、ZERO子——日本語の拡張および記号のデザイン。SILオープンソースフォントライセンス1.1の下でフォントを変更します。
+【ZCOOL QingKe HuangYou】版権 2018-2022 © フォントプロジェクト「ZCOOL QingKe HuangYou」の作成者 (https://www.github.com/googlefonts/zcool-qingke-huangyou)——元フォントのソース。
+
+「WD-XL 滑油字（かつゆじ）」は、SILオープンフォントライセンス1.1にて公開しています。このライセンス全文およびFAQは、http://scripts.sil.org/OFLでご覧ください。
+字族：WD-XL Lubrifont JP N | WD-XL 滑油字 JP N
+样式：Regular
+全名：WD-XL Lubrifont JP N | WD-XL 滑油字 JP N
+PostScript名称：WD-XLLubrifontJPN-Regular
+原许可文本：This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL | このフォントファイルは、SILオープンフォントライセンス1.1にて公開しています。このライセンス全文およびFAQは、http://scripts.sil.org/OFLでご覧ください。 | 本字型軟體以 SIL 開源字型授權（SIL OFL）1.1 版授權。本授權全文及常見問題解答（FAQ）可在 http://scripts.sil.org/OFL 查閲。 | 本字型软件以 SIL 开源字型授权（SIL OFL）1.1 版授权。本授权全文及常见问题解答（FAQ）可在 http://scripts.sil.org/OFL 查阅。
+原许可链接：http://scripts.sil.org/OFL
+
+WD-XL_滑油字_JP_S / WDXL-HuaYou-JP-S.otf
+来源原件：E:\字体\WD-XL_滑油字_JP_S———[淘宝店-小猪猪资源库].otf
+SHA-256：f4b557f2a5d5dd800791526de7c9cebcef3b6ac39ec2bf303f90b875f9f180da
+版权：[WD-XL Lubrifont] Copyright 2020-2022 © NightFurySL2001 - Expansion for Chinese (Traditional) and symbols, Skr-ZERO - Expansion for Japanese and symbols, modified under SIL Open Font License.
+[ZCOOL QingKe HuangYou] Copyright 2018-2022 © The ZCOOL QingKe HuangYou Project Authors (https://www.github.com/googlefonts/zcool-qingke-huangyou) - Source of original font.
+
+WD-XL Lubrifont is licensed under the SIL Open Font License, Version 1.1. The license is available with a FAQ at: http://scripts.sil.org/OFL | 【WD-XL 滑油字】版权 2020-2022 © 夜煞之乐2001 ——中文（繁体）扩展及符号设计，ZERO子 ——日文扩展及符号设计，在 SIL 开源字型授权下修改字体。
+【站酷庆科黄油体】版权 2018-2022 © 站酷庆科黄油体计划作者 (https://www.github.com/googlefonts/zcool-qingke-huangyou)——原字体来源。
+
+WD-XL 滑油字以 SIL 开源字型授权（SIL OFL）1.1 版授权。该授权全文及常见问题解答（FAQ）可在 http://scripts.sil.org/OFL 查阅。 | 【WD-XL 滑油字】版權 2020-2022 © 夜煞之樂2001 ——中文（繁／正體）擴展及符號設計，ZERO子 ——日文擴展及符號設計，在 SIL 開源字型授權下修改字型。
+【站酷慶科黃油體】版權 2018-2022 © 站酷慶科黃油體計劃作者 (https://www.github.com/googlefonts/zcool-qingke-huangyou)——原字體來源。
+
+WD-XL 滑油字以 SIL 開源字型授權（SIL OFL）1.1 版授權。該授權全文及常見問題解答（FAQ）可在 http://scripts.sil.org/OFL 查閲。 | 【WD-XL 滑油字（かつゆじ）】版権 2020-2022 © NightFurySL2001——漢字（中国語繁体字）の拡張および記号のデザイン、ZERO子——日本語の拡張および記号のデザイン。SILオープンソースフォントライセンス1.1の下でフォントを変更します。
+【ZCOOL QingKe HuangYou】版権 2018-2022 © フォントプロジェクト「ZCOOL QingKe HuangYou」の作成者 (https://www.github.com/googlefonts/zcool-qingke-huangyou)——元フォントのソース。
+
+「WD-XL 滑油字（かつゆじ）」は、SILオープンフォントライセンス1.1にて公開しています。このライセンス全文およびFAQは、http://scripts.sil.org/OFLでご覧ください。
+字族：WD-XL Lubrifont JP S | WD-XL 滑油字 JP S
+样式：Regular
+全名：WD-XL Lubrifont JP S | WD-XL 滑油字 JP S
+PostScript名称：WD-XLLubrifontJPS-Regular
+原许可文本：This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL | このフォントファイルは、SILオープンフォントライセンス1.1にて公開しています。このライセンス全文およびFAQは、http://scripts.sil.org/OFLでご覧ください。 | 本字型軟體以 SIL 開源字型授權（SIL OFL）1.1 版授權。本授權全文及常見問題解答（FAQ）可在 http://scripts.sil.org/OFL 查閲。 | 本字型软件以 SIL 开源字型授权（SIL OFL）1.1 版授权。本授权全文及常见问题解答（FAQ）可在 http://scripts.sil.org/OFL 查阅。
+原许可链接：http://scripts.sil.org/OFL
+
+WD-XL_滑油字_SC / WDXL-HuaYou-SC.otf
+来源原件：E:\字体\WD-XL_滑油字_SC———[淘宝店-小猪猪资源库].otf
+SHA-256：45095369dda9a99fe7c705d57c37c0b251706db09be823e0d758664030a57d7f
+版权：[WD-XL Lubrifont] Copyright 2020-2022 © NightFurySL2001 - Expansion for Chinese (Traditional) and symbols, Skr-ZERO - Expansion for Japanese and symbols, modified under SIL Open Font License.
+[ZCOOL QingKe HuangYou] Copyright 2018-2022 © The ZCOOL QingKe HuangYou Project Authors (https://www.github.com/googlefonts/zcool-qingke-huangyou) - Source of original font.
+
+WD-XL Lubrifont is licensed under the SIL Open Font License, Version 1.1. The license is available with a FAQ at: http://scripts.sil.org/OFL | 【WD-XL 滑油字】版权 2020-2022 © 夜煞之乐2001 ——中文（繁体）扩展及符号设计，ZERO子 ——日文扩展及符号设计，在 SIL 开源字型授权下修改字体。
+【站酷庆科黄油体】版权 2018-2022 © 站酷庆科黄油体计划作者 (https://www.github.com/googlefonts/zcool-qingke-huangyou)——原字体来源。
+
+WD-XL 滑油字以 SIL 开源字型授权（SIL OFL）1.1 版授权。该授权全文及常见问题解答（FAQ）可在 http://scripts.sil.org/OFL 查阅。 | 【WD-XL 滑油字】版權 2020-2022 © 夜煞之樂2001 ——中文（繁／正體）擴展及符號設計，ZERO子 ——日文擴展及符號設計，在 SIL 開源字型授權下修改字型。
+【站酷慶科黃油體】版權 2018-2022 © 站酷慶科黃油體計劃作者 (https://www.github.com/googlefonts/zcool-qingke-huangyou)——原字體來源。
+
+WD-XL 滑油字以 SIL 開源字型授權（SIL OFL）1.1 版授權。該授權全文及常見問題解答（FAQ）可在 http://scripts.sil.org/OFL 查閲。 | 【WD-XL 滑油字（かつゆじ）】版権 2020-2022 © NightFurySL2001——漢字（中国語繁体字）の拡張および記号のデザイン、ZERO子——日本語の拡張および記号のデザイン。SILオープンソースフォントライセンス1.1の下でフォントを変更します。
+【ZCOOL QingKe HuangYou】版権 2018-2022 © フォントプロジェクト「ZCOOL QingKe HuangYou」の作成者 (https://www.github.com/googlefonts/zcool-qingke-huangyou)——元フォントのソース。
+
+「WD-XL 滑油字（かつゆじ）」は、SILオープンフォントライセンス1.1にて公開しています。このライセンス全文およびFAQは、http://scripts.sil.org/OFLでご覧ください。
+字族：WD-XL Lubrifont SC | WD-XL 滑油字 SC
+样式：Regular
+全名：WD-XL Lubrifont SC | WD-XL 滑油字 SC
+PostScript名称：WD-XLLubrifontSC-Regular
+原许可文本：This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL | このフォントファイルは、SILオープンフォントライセンス1.1にて公開しています。このライセンス全文およびFAQは、http://scripts.sil.org/OFLでご覧ください。 | 本字型軟體以 SIL 開源字型授權（SIL OFL）1.1 版授權。本授權全文及常見問題解答（FAQ）可在 http://scripts.sil.org/OFL 查閲。 | 本字型软件以 SIL 开源字型授权（SIL OFL）1.1 版授权。本授权全文及常见问题解答（FAQ）可在 http://scripts.sil.org/OFL 查阅。
+原许可链接：http://scripts.sil.org/OFL
+
+WD-XL_滑油字_TC / WDXL-HuaYou-TC.otf
+来源原件：E:\字体\WD-XL_滑油字_TC———[淘宝店-小猪猪资源库].otf
+SHA-256：d5171fa122a7d59f4d3eb498da19c82f8dfb9cf783a8617ebf25cc01d8b54eab
+版权：[WD-XL Lubrifont] Copyright 2020-2022 © NightFurySL2001 - Expansion for Chinese (Traditional) and symbols, Skr-ZERO - Expansion for Japanese and symbols, modified under SIL Open Font License.
+[ZCOOL QingKe HuangYou] Copyright 2018-2022 © The ZCOOL QingKe HuangYou Project Authors (https://www.github.com/googlefonts/zcool-qingke-huangyou) - Source of original font.
+
+WD-XL Lubrifont is licensed under the SIL Open Font License, Version 1.1. The license is available with a FAQ at: http://scripts.sil.org/OFL | 【WD-XL 滑油字】版权 2020-2022 © 夜煞之乐2001 ——中文（繁体）扩展及符号设计，ZERO子 ——日文扩展及符号设计，在 SIL 开源字型授权下修改字体。
+【站酷庆科黄油体】版权 2018-2022 © 站酷庆科黄油体计划作者 (https://www.github.com/googlefonts/zcool-qingke-huangyou)——原字体来源。
+
+WD-XL 滑油字以 SIL 开源字型授权（SIL OFL）1.1 版授权。该授权全文及常见问题解答（FAQ）可在 http://scripts.sil.org/OFL 查阅。 | 【WD-XL 滑油字】版權 2020-2022 © 夜煞之樂2001 ——中文（繁／正體）擴展及符號設計，ZERO子 ——日文擴展及符號設計，在 SIL 開源字型授權下修改字型。
+【站酷慶科黃油體】版權 2018-2022 © 站酷慶科黃油體計劃作者 (https://www.github.com/googlefonts/zcool-qingke-huangyou)——原字體來源。
+
+WD-XL 滑油字以 SIL 開源字型授權（SIL OFL）1.1 版授權。該授權全文及常見問題解答（FAQ）可在 http://scripts.sil.org/OFL 查閲。 | 【WD-XL 滑油字（かつゆじ）】版権 2020-2022 © NightFurySL2001——漢字（中国語繁体字）の拡張および記号のデザイン、ZERO子——日本語の拡張および記号のデザイン。SILオープンソースフォントライセンス1.1の下でフォントを変更します。
+【ZCOOL QingKe HuangYou】版権 2018-2022 © フォントプロジェクト「ZCOOL QingKe HuangYou」の作成者 (https://www.github.com/googlefonts/zcool-qingke-huangyou)——元フォントのソース。
+
+「WD-XL 滑油字（かつゆじ）」は、SILオープンフォントライセンス1.1にて公開しています。このライセンス全文およびFAQは、http://scripts.sil.org/OFLでご覧ください。
+字族：WD-XL Lubrifont TC | WD-XL 滑油字 TC
+样式：Regular
+全名：WD-XL Lubrifont TC | WD-XL 滑油字 TC
+PostScript名称：WD-XLLubrifontTC-Regular
+原许可文本：This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL | このフォントファイルは、SILオープンフォントライセンス1.1にて公開しています。このライセンス全文およびFAQは、http://scripts.sil.org/OFLでご覧ください。 | 本字型軟體以 SIL 開源字型授權（SIL OFL）1.1 版授權。本授權全文及常見問題解答（FAQ）可在 http://scripts.sil.org/OFL 查閲。 | 本字型软件以 SIL 开源字型授权（SIL OFL）1.1 版授权。本授权全文及常见问题解答（FAQ）可在 http://scripts.sil.org/OFL 查阅。
+原许可链接：http://scripts.sil.org/OFL
+
+三极力量体简-粗 / SanJiLiLiang-Bold.ttf
+来源原件：E:\字体\三极力量体简-粗———[淘宝店-小猪猪资源库].ttf
+SHA-256：09cb11784d6a614116133dc4cad52f6a745fcd765ee610f22a7491c4d4fd77e2
+字族：SJsanjililiangtijian-cu | 三极力量体简-粗
+样式：Regular
+全名：SJsanjililiangtijian-cu Regular
+PostScript名称：SJsanjililiangtijian-cu-Regular
+
+三极泼墨体 / SanJiPoMo.ttf
+来源原件：E:\字体\三极泼墨体———[淘宝店-小猪猪资源库].ttf
+SHA-256：e8ad4300c070cda1b8cf11aaeb2a2b89d688f1b149084d67e756d169995b43e9
+字族：三极泼墨体
+样式：Regular
+全名：三极泼墨体
+PostScript名称：Undefined
+
+云峰飞云体 / YunFengFeiYun.ttf
+来源原件：E:\字体\云峰飞云体———[淘宝店-小猪猪资源库].ttf
+SHA-256：26118f4c0af4ebe5aa71ee2d68284983031f0798693ba3829285685e641a1a5f
+字族：云峰飞云体
+样式：Regular
+全名：云峰飞云体
+PostScript名称：YUN FEN FEI YUN TI
+
+仓耳与墨W01 / CangErYuMo-W01.ttf
+来源原件：E:\字体\仓耳与墨W01———[淘宝店-小猪猪资源库].ttf
+SHA-256：1c8a05d5de7097651b61415cee280d3f2ce09ec9b7a17300ab61220ef08dbd89
+版权：Copyright ?Beijing Tsanger Character Technology Co., Ltd.. All rights reserved. | Copyright © Beijing Tsanger Character Technology Co., Ltd.. All rights reserved.
+字族：TsangerYuMo W01
+样式：Regular
+全名：TsangerYuMo W01
+PostScript名称：TsangerYuMo-W01
+原许可文本：_________________________________________ | 无论您以何种方式使用该字体，您必须事先获得北京仓耳文字技术有限公司的正式书面许可。
+
+仓耳与墨W02 / CangErYuMo-W02.ttf
+来源原件：E:\字体\仓耳与墨W02———[淘宝店-小猪猪资源库].ttf
+SHA-256：ccfb5e2de5a86689c401c3d70b724ce686c6b14fc2e0436841973cea54b546a2
+版权：Copyright ?Beijing Tsanger Character Technology Co., Ltd.. All rights reserved. | Copyright © Beijing Tsanger Character Technology Co., Ltd.. All rights reserved.
+字族：TsangerYuMo W02
+样式：Regular
+全名：TsangerYuMo W02
+PostScript名称：TsangerYuMo-W02
+原许可文本：_________________________________________ | 无论您以何种方式使用该字体，您必须事先获得北京仓耳文字技术有限公司的正式书面许可。
+
+仓耳与墨W03 / CangErYuMo-W03.ttf
+来源原件：E:\字体\仓耳与墨W03———[淘宝店-小猪猪资源库].ttf
+SHA-256：32819ebacbfac1f75f860239fd148419c93a333fd3da97e220bea2577c2bd744
+版权：Copyright ?Beijing Tsanger Character Technology Co., Ltd.. All rights reserved. | Copyright © Beijing Tsanger Character Technology Co., Ltd.. All rights reserved.
+字族：TsangerYuMo W03
+样式：Regular
+全名：TsangerYuMo W03
+PostScript名称：TsangerYuMo-W03
+原许可文本：_________________________________________ | 无论您以何种方式使用该字体，您必须事先获得北京仓耳文字技术有限公司的正式书面许可。
+
+仓耳与墨W04 / CangErYuMo-W04.ttf
+来源原件：E:\字体\仓耳与墨W04———[淘宝店-小猪猪资源库].ttf
+SHA-256：8ba4fc19c0316c5bcdcdf9c75984f9b3aa0bae6275c73eb655fb78034f1d8164
+版权：Copyright ?Beijing Tsanger Character Technology Co., Ltd.. All rights reserved. | Copyright © Beijing Tsanger Character Technology Co., Ltd.. All rights reserved.
+字族：TsangerYuMo W04
+样式：Regular
+全名：TsangerYuMo W04
+PostScript名称：TsangerYuMo-W04
+原许可文本：_________________________________________ | 无论您以何种方式使用该字体，您必须事先获得北京仓耳文字技术有限公司的正式书面许可。
+
+仓耳舒圆体W01 / CangErShuYuan-W01.ttf
+来源原件：E:\字体\仓耳舒圆体W01———[淘宝店-小猪猪资源库].ttf
+SHA-256：b3df1ac6ac60337c68172ae399d3bd7faa965ec768eb8c6b2cf43bda929cd27a
+版权：Copyright © Beijing Tsanger Character Technology Co., Ltd.. All rights reserved. | ©北京仓耳文字技术有限公司。保留所有权利。
+字族： W01 | TsangerShuYuanT W01 | 仓耳舒圆体 W01
+样式：Regular
+全名： W01 | 仓耳舒圆体 W01
+PostScript名称：TsangerShuYuanT-W01
+原许可文本： | Before using this font, you must be authorized by Beijing Tsanger Character Technology Co., Ltd. | 无论您以何种方式使用该字体，您必须事先获得北京仓耳文字技术有限公司的正式书面许可。
+
+仓耳舒圆体W02 / CangErShuYuan-W02.ttf
+来源原件：E:\字体\仓耳舒圆体W02———[淘宝店-小猪猪资源库].ttf
+SHA-256：ca6d0f4ff8c4b1c6f8c723edcd1c38d83361a80310432d9ac5e4cfc12a7a1b7c
+版权：Copyright © Beijing Tsanger Character Technology Co., Ltd.. All rights reserved. | ©北京仓耳文字技术有限公司。保留所有权利。
+字族： W02 | TsangerShuYuanT W02 | 仓耳舒圆体 W02
+样式：Regular
+全名： W02 | 仓耳舒圆体 W02
+PostScript名称：TsangerShuYuanT-W02
+原许可文本： | Before using this font, you must be authorized by Beijing Tsanger Character Technology Co., Ltd. | 无论您以何种方式使用该字体，您必须事先获得北京仓耳文字技术有限公司的正式书面许可。
+
+仓耳舒圆体W03 / CangErShuYuan-W03.ttf
+来源原件：E:\字体\仓耳舒圆体W03———[淘宝店-小猪猪资源库].ttf
+SHA-256：f14661097e363eee4dbbf9007ef695a8ca1e2489cc2c4b4c0bda2f6dfa09e0d8
+版权：Copyright © Beijing Tsanger Character Technology Co., Ltd.. All rights reserved. | ©北京仓耳文字技术有限公司。保留所有权利。
+字族： W03 | TsangerShuYuanT W03 | 仓耳舒圆体 W03
+样式：Regular
+全名： W03 | 仓耳舒圆体 W03
+PostScript名称：TsangerShuYuanT-W03
+原许可文本： | Before using this font, you must be authorized by Beijing Tsanger Character Technology Co., Ltd. | 无论您以何种方式使用该字体，您必须事先获得北京仓耳文字技术有限公司的正式书面许可。
+
+仓耳舒圆体W04 / CangErShuYuan-W04.ttf
+来源原件：E:\字体\仓耳舒圆体W04———[淘宝店-小猪猪资源库].ttf
+SHA-256：127ac00c22fe844dd8eeb12dfd7437007a4c69b0e43a106f62eebcc676e8c419
+版权：Copyright © Beijing Tsanger Character Technology Co., Ltd.. All rights reserved. | ©北京仓耳文字技术有限公司。保留所有权利。
+字族： W04 | TsangerShuYuanT W04 | 仓耳舒圆体 W04
+样式：Regular
+全名： W04 | 仓耳舒圆体 W04
+PostScript名称：TsangerShuYuanT-W04
+原许可文本： | Before using this font, you must be authorized by Beijing Tsanger Character Technology Co., Ltd. | 无论您以何种方式使用该字体，您必须事先获得北京仓耳文字技术有限公司的正式书面许可。
+
+仓耳舒圆体W05 / CangErShuYuan-W05.ttf
+来源原件：E:\字体\仓耳舒圆体W05———[淘宝店-小猪猪资源库].ttf
+SHA-256：ba341c81b5d6d58edd73a0d8bcb616c0c3d149f299d47d03c6a6f53b58443fe9
+版权：Copyright © Beijing Tsanger Character Technology Co., Ltd.. All rights reserved. | ©北京仓耳文字技术有限公司。保留所有权利。
+字族： W05 | TsangerShuYuanT W05 | 仓耳舒圆体 W05
+样式：Regular
+全名： W05 | 仓耳舒圆体 W05
+PostScript名称：TsangerShuYuanT-W05
+原许可文本： | Before using this font, you must be authorized by Beijing Tsanger Character Technology Co., Ltd. | 无论您以何种方式使用该字体，您必须事先获得北京仓耳文字技术有限公司的正式书面许可。
+
+仓耳非白W01 / CangErFeiBai-W01.ttf
+来源原件：E:\字体\仓耳非白W01———[淘宝店-小猪猪资源库].ttf
+SHA-256：2e7d003f8a65b7a8408a44b22d791636aed36a5d3cf0a6d4e094f27566c88de7
+版权：Copyright © Beijing Tsanger Character Technology Co., Ltd.. All rights reserved.
+字族：TsangerFeiBai | TsangerFeiBai W01
+样式：Regular | W01
+全名：???? W01
+PostScript名称：TsangerFeiBai-W01
+原许可文本：_________________________________________ | 无论您以何种方式使用该字体，您必须事先获得北京仓耳文字技术有限公司的正式书面许可。
+

@@ -1,0 +1,3206 @@
+[
+  {
+    "source": "motion-case-active-window-focus/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-active-window-focus/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "6daca6de98c70d8f30be62af08734aa47ecd487c3c81e84797d20f5cf46fdfda",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-attention-programme/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "645123bb4f9920a70c8394c6c55286847d54e6496af1cde8ef6ab5c60af49255",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-comment-focus/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-comment-focus/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "4ed4a686a07a31851256cbd2b7b72f9d2133bb302f9db7a670b59a96c46dcc1f",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-context-detail-observation/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-context-detail-observation/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "7df458af5bd9e608050d8f7e47e42b66aab82ae19cacee90caee851a2da7d658",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-cover-flow/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-cover-flow/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "7fc2b9b96018265c32f18b49caa79697c2494284d6925cd347147f67a17341a2",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "1e538ba6b970b5959221b8ad4bd491e4a069e5e7648d19d2ceb4d5639241f905",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-object-type-relay/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-object-type-relay/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "a3cae57af44d3c8c885c1956e83e0e0720b8fc484a85f8b3c884648e46a03904",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-occlusion-condition-reveal/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-occlusion-condition-reveal/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "4187638ac9a9a57bf148f7f8f4c219000235661266a5d4c62f4c705103e6c6f1",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-product-fan/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "7771e0c1f87cd4ed497cdd343d9aaf286ed7d03dddb6d8c37a8a9aed3f50b359",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-relation-unfold/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-relation-unfold/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "7da33e569ce37872f312ed113202ae7e26cf1c14ed6c4162626fee3f79c533f7",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-sim-paper/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-sim-paper/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "ee8c391d1a2743839233664d5cca8435854fc12b74f880364e1cde7682eed172",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-smooth-relay/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-smooth-relay/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "3c78cce26708f90b0b2ed783d8cb319f6c75af6565a47ee6f13752ba33e98b25",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-ticket-phone/SKILL.md",
+    "target": "motion-case-library/references/cases/motion-case-ticket-phone/CASE.md",
+    "action": "完整迁移",
+    "textSha256": "6be7707c5131175dded2334f89fa48a126a4ca0f027b79e287015425ad254738",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-relation-unfold/references/implementation-notes.md",
+    "target": "motion-case-library/references/cases/motion-case-relation-unfold/references/implementation-notes.md",
+    "action": "完整迁移",
+    "textSha256": "dbaa3ac4299177f1404f3ea8deae3afad47f3c6d41d43dcc7264956225b5c7f3",
+    "heading": "# 保持参照与关系拆层：实现定位与复用边界",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-occlusion-condition-reveal/references/implementation-notes.md",
+    "target": "motion-case-library/references/cases/motion-case-occlusion-condition-reveal/references/implementation-notes.md",
+    "action": "完整迁移",
+    "textSha256": "0e38e83de22e4c7487910a439b9c68ef93039e69991a118b2e95c295f176f811",
+    "heading": "# 前景让位、遮挡揭字与挂边依据：实现定位与复用边界",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-object-type-relay/references/implementation-notes.md",
+    "target": "motion-case-library/references/cases/motion-case-object-type-relay/references/implementation-notes.md",
+    "action": "完整迁移",
+    "textSha256": "c556baf964436bd21572c9ebf3e08717766f954edd73363d8644bf7f42f9770e",
+    "heading": "# 物体微距、部件离开与大字接管：实现定位与复用边界",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-mixed-scene-relay/references/implementation-notes.md",
+    "target": "motion-case-library/references/cases/motion-case-mixed-scene-relay/references/implementation-notes.md",
+    "action": "完整迁移",
+    "textSha256": "dcac2b677f010eb44e16f7638a6572b23cdbbd42897d599aefd687f5ee8ab668",
+    "heading": "# 混合场面的整片接力：实现定位与复用边界",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-context-detail-observation/references/implementation-notes.md",
+    "target": "motion-case-library/references/cases/motion-case-context-detail-observation/references/implementation-notes.md",
+    "action": "完整迁移",
+    "textSha256": "5eb3efd5017017d76c9403bec24f3ab72d8bd9aa4c7f7f4bfd3512d5a6e25e13",
+    "heading": "# 整体定位与局部观察：实现定位与复用边界",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-attention-programme/references/transfer-guide.md",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/references/transfer-guide.md",
+    "action": "完整迁移",
+    "textSha256": "02a477c08bbf6ed9535e2fe3a1ad70c6fb7e7999d028a3f1130ba2784aff5e4c",
+    "heading": "# 导演怎样参考本例并提出准确取材需求",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-active-window-focus/references/implementation-notes.md",
+    "target": "motion-case-library/references/cases/motion-case-active-window-focus/references/implementation-notes.md",
+    "action": "完整迁移",
+    "textSha256": "d7738d9ac877d4233063f8168690a0577cfc9b0ec58723d8db35d54ed9732afc",
+    "heading": "# 活动视窗展开与主体聚焦：实现定位与复用边界",
+    "targetExists": true
+  },
+  {
+    "source": "asset-import/SKILL.md",
+    "target": "asset-import/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "83b19e854e15ad32faeb5544c4837f41496c5a6c10371fa2b011add0c870e492",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "audio-finishing/SKILL.md",
+    "target": "audio-finishing/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "41fa7d8b4f40ca22b9c9e3c32cce1b1e4928630ca8a018c0286834d598f26ed9",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "avatar-performance/SKILL.md",
+    "target": "avatar-performance/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "aa654d38d4848b41b051601398d72882a6d434934da2f97c4f8514c9c6099846",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "captions/SKILL.md",
+    "target": "captions/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "0cbbf2b695072a81ae21bb7e2560a520a560a37aa70e1c2270ec4d9bf97375df",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "cutaway-planning/SKILL.md",
+    "target": "cutaway-planning/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "332b911174d7c8b0a4a90c9f6f0fe3d6ff4b92f57c1221c310f127a3e338d37a",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "depth-composition/SKILL.md",
+    "target": "depth-composition/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "b68deb1513b688f6e9e6aaafd3332322f5b9b33781a9a86ac6f41343dcecbca6",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "effect-timing/SKILL.md",
+    "target": "effect-timing/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "b679997ff4a06a3973209f50cf4ea3d1e153cfbac92164f30bc369d8d9110e44",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "evidence-visualization/SKILL.md",
+    "target": "evidence-visualization/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "d366c0ef3bf58dc2f2880c28637d0f7e514617527019a91843c743e5702dbcf0",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "export/SKILL.md",
+    "target": "export/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "0113d124db01dd5a8ee90dcb64b9c004a2269e9f9e1a74873f262931fb15d8fb",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "known-errors/SKILL.md",
+    "target": "known-errors/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "7a914d165ed16765a1c674437561a2e382cc83f658baa7241d1630dedb873a01",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/SKILL.md",
+    "target": "motion-brief-writing/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "fdb9de62dfc7e4bf853eb200f9957d48442e32f0abbf767ed053ca1dd465fc3c",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-library/SKILL.md",
+    "target": "motion-case-library/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "3adb387d7940eb0bd2b0ed552a46b93bbd33b1046afdbd21d68f584575c1332f",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "narration-writing/SKILL.md",
+    "target": "narration-writing/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "80b9ef92fcb1f0d579f7f42d2ccb0538067013943e541e41eabf9db2279f8420",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "57164c023d6841e11037217cbda3881384c056cf61f8808a38a3c486913c3555",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "production-coordinator/SKILL.md",
+    "target": "production-coordinator/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "3c4e3e02c5324d4f6e665b74984b82ca6eaa4f6f1c07354a61ff10481bc6a6cf",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "c4254f215fff18122e369c8c92bb65558fe0ec73f0303bcbc2f51f5194a00516",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "320ade2d34833d06b00b35749275adcc2ab701764b93b5741468b1103b0ccb5a",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "0660de47d5f01889e6ae1902af851141cc4cf724a1ae0d735356e6bd6a8236f8",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "1a10dbb3a1a7028b32b1a9923b40865e253b5010e4f071aa58de3082894aae24",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "scene-planning/SKILL.md",
+    "target": "scene-planning/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "f821f2cfd7c40299df8bc08ba98e232892bef5d2c71acf048290b427b00f8e7e",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "c0ed89d674b91b435d0a1479af06be3f7fbfa9f7667574407990056816c6626b",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "sound-asset-sourcing/SKILL.md",
+    "target": "sound-asset-sourcing/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "16b78a37bf1f15fdb5ecee80e606a628ba43fe82cf862c3c064ed964d6856b2d",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "transcription/SKILL.md",
+    "target": "transcription/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "89398aa941847d1e3f5eda31c499a34ed6bfef3fd3d3d72feb0a28a1da7da6e0",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "dade03b103571462cb3ae0f094c24511fd204f3004e8cccbb9181efb05312b45",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "51041b2f866cd1839f13a5271c915d6124ffa106224b4c61a8a1fb33fa019020",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "d07534f8b1ad9a2490eb87c951e365f5a00456c8a80f90f1aca6b08ab4cb24d8",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "558577c6b326648c1e8fe9889509097986a53ede906f3454dd52797b27a2e144",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "voice-production/SKILL.md",
+    "target": "voice-production/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "752ab624a297f03d93a1b3ab95738ed1da2107862b9711305b088e0932b922fd",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "web-editor-operator/SKILL.md",
+    "target": "web-editor-operator/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "8a5c425a466a5334e7920de405ee96d5dc8b1125cedccb262c195f73f14c3c2a",
+    "heading": "---",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/EDITORIAL_FOUNDATIONS.md",
+    "target": "_shared/EDITORIAL_FOUNDATIONS.md",
+    "action": "完整迁移",
+    "textSha256": "f71efb46e9aaa0b0f8625e323eba440b45a51174b0faa06f1b9b6d735b51989c",
+    "heading": "# 导演、剪辑、节奏与注意力共同方法",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "target": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "action": "完整迁移",
+    "textSha256": "ada4a08d69be534b1ee6f3fd9064186906ccb69ccd4edee8dfa5e706d20b9a08",
+    "heading": "# Project、Revision、Skill 交接与执行安全",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/SCENE_DESIGN_HANDOFF.md",
+    "target": "_shared/SCENE_DESIGN_HANDOFF.md",
+    "action": "完整迁移",
+    "textSha256": "a1e4cbfd15168dc56f9004d89457d4eb4636ddc71e465239841e315345ac22c6",
+    "heading": "# 场面执行正文：导演到视觉作者的同一份交接",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/SOURCE_MAP.md",
+    "target": "_shared/SOURCE_MAP.md",
+    "action": "完整迁移",
+    "textSha256": "545b68af85487326827c44a258cc008a2aa1e594fbcb957dd0bfe09574929d5b",
+    "heading": "# 知识与合同来源",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/TOPIC_TO_FILM.md",
+    "target": "_shared/TOPIC_TO_FILM.md",
+    "action": "完整迁移",
+    "textSha256": "9f19a4ff1b2c95b57da8719efc519dbf24f5213e6d90fc0c75f1ad0b7d468800",
+    "heading": "# 从主题到完整成片",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/material-space-and-time.md",
+    "target": "remotion-production/references/material-space-and-time.md",
+    "action": "完整迁移",
+    "textSha256": "54ab793150f0d7b95b19caa6c13953a36ef2163c7e00128d4f972d85c25dd33a",
+    "heading": "# 素材空间与时间：从结合说明落到可核对的实现",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/remotion-component-contract.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "88a6640f4f7ca8a61cd38be63715a6be23e21b8dc00192867e91c0664a60156b",
+    "heading": "# VideoFlowCut Remotion 组件与 Registry 合同",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/references/material-integration-review.md",
+    "target": "quality-verification/references/material-integration-review.md",
+    "action": "完整迁移",
+    "textSha256": "a45d9734add183bc2261d9c2beee61b4b590d5050f695f630f60edb157f91e9b",
+    "heading": "# 材料与动画：上下文审阅正文",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/references/mode-specific-rubrics.md",
+    "target": "quality-verification/references/mode-specific-rubrics.md",
+    "action": "完整迁移",
+    "textSha256": "7afa4cde16e1e6d32413b958d8752e67d9c80b0e6b3e89d5ea898505fe403ca2",
+    "heading": "# Presenter、Explainer、Vlog 模式专项审片 Rubric",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "bec1bb313321907e3094eb96a72ea5d5f05f592be3319e865ce5493a05a59b1c",
+    "heading": "# 人物短视频剪辑语法",
+    "targetExists": true
+  },
+  {
+    "source": "narration-writing/references/writing-methods.md",
+    "target": "narration-writing/references/writing-methods.md",
+    "action": "完整迁移",
+    "textSha256": "0fd2d7cb9eb860addeb21619f3d81e41380bea3bdafcc8227558c394dc6badde",
+    "heading": "# 从完整观看草稿到逐次改写",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-library/references/observed-mechanisms.md",
+    "target": "motion-case-library/references/observed-mechanisms.md",
+    "action": "完整迁移",
+    "textSha256": "3617b8b0f3047001b9a3cdda9e917e32e1630d6836efca1f24c7e78797752acd",
+    "heading": "# 从真实原片观察到可迁移机制",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-library/references/r92-family-index.md",
+    "target": "motion-case-library/references/r92-family-index.md",
+    "action": "完整迁移",
+    "textSha256": "30d4fad41f41f7613540bd8d3c90f5d5c42086ba282b804c7245912d9fcd81a2",
+    "heading": "# r92混合场面案例组",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-library/references/skillry-retrieval.md",
+    "target": "motion-case-library/references/skillry-retrieval.md",
+    "action": "完整迁移",
+    "textSha256": "adafe7c6683fd11d0fc0c6e2ac269cc5e79ad967b8f6e7b5d4ac59f40ec2e8ea",
+    "heading": "# 按自然语言创作问题检索并使用案例",
+    "targetExists": true
+  },
+  {
+    "source": "motion-case-library/references/timing-continuity.md",
+    "target": "motion-case-library/references/timing-continuity.md",
+    "action": "完整迁移",
+    "textSha256": "1d1e54839f29b1acf98cea497003447596f16fa0d917f548469a1cdbe707172c",
+    "heading": "# 从停顿到顺滑：本批案例的真实修订经验",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/agents/openai.yaml",
+    "target": "motion-brief-writing/agents/openai.yaml",
+    "action": "完整迁移",
+    "textSha256": "9fda93419af06ddd272ccabf8ec94ce5cc3a5f9f1ab45a95be798d2cc3bdc084",
+    "heading": "interface:",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/references/capsule-opening-prompt.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "删除未认可业务范文；独有的触地、衰减、持续、随机重建、曲面附着和景深方法拆回专业参考",
+    "textSha256": "916db2fd1b9042d3b5ca38d34606a003e82765b97df3838f856036deae678ef0",
+    "heading": "请制作并完整渲染一段 Remotion 动画，首版按下方约 27 秒的秒级节奏设计实现，再根据完整预览调整各段起止和总长度。",
+    "targetExists": true,
+    "additionalTargets": [
+      "visual-treatment-planning/references/art-direction.md",
+      "remotion-production/references/remotion-component-contract.md"
+    ]
+  },
+  {
+    "source": "motion-brief-writing/references/execution-brief-template.md",
+    "target": "motion-brief-writing/references/execution-brief-template.md",
+    "action": "完整迁移",
+    "textSha256": "1d18242929c1841b44847fea9fbc3226a132fc2704919b39f4f987f57bfa7e2b",
+    "heading": "# 当前作品完整演出稿结构",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/scene-art-and-motion.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "08b3581cfb1fb33564bf64d26a19a7cbaddbd21567bbce9754867358336c7399",
+    "heading": "## 1. 先选择当前需要的观看动作",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/scene-art-and-motion.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "49d03cdc54698f8a324072c314f2ede669e4efa060ca5a8916a0e631632dce62",
+    "heading": "#### 从行为需要设计部件",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/scene-art-and-motion.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "063e8c2b6c2f5d983ba7b62715d549dc2d553412dc12cd168f336ae48146248c",
+    "heading": "## 从实际使用形成共同视觉选择",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/scene-art-and-motion.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "3caf11f6592115921791a3e483fcb67b1dc75820d62bc60ccbd339dc4510df64",
+    "heading": "#### 先安排何时认清，再选择速度表现",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/scene-art-and-motion.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "去业务设定，保留返修判断",
+    "textSha256": "3735a4e3f1e3c3617acad332439405723aecc6e0a430b317808b9b3aef5e6d1b",
+    "heading": "#### 看见问题后改哪一层",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/scene-art-and-motion.md",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/references/art-and-motion-teaching.md",
+    "action": "完整迁移",
+    "textSha256": "bbfea56543cf75dac4ec51cf35251c7ad128741be99343691b042232e4d00a33",
+    "heading": "### 造型：用原案例把“搜索框”改成“门牌”的过程讲清",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/scene-art-and-motion.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "保留通用美术推导，案例造型归案例",
+    "textSha256": "1e94a1c2cd085df6968f0e68e615b3db3016cbca6b9fd8612790b036279b2aa3",
+    "heading": "## 美术怎样做好看：从判断到实际样张",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/scene-art-and-motion.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "992925dde6c3357fdfafa80b1f7951cb147e4040a8f4c8769b777b22459b0fd5",
+    "heading": "## 动效中途怎样设计：从两个端点，走到完整演出",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/scene-art-and-motion.md",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/references/art-and-motion-teaching.md",
+    "action": "完整迁移",
+    "textSha256": "700ddc616616098bc7400af566a4358fbebff71d41f234089fe082b2d81a08ed",
+    "heading": "### 例子一：“不能冷场”怎样侧转，而不是两组文字平移",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/scene-art-and-motion.md",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/references/art-and-motion-teaching.md",
+    "action": "完整迁移",
+    "textSha256": "a8b4b0775eebdc63d3d4904e15bb561a7de1543ce63dcdeabaa41f79b2490f51",
+    "heading": "## 数学教学：帧驱动的状态计算",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/scene-art-and-motion.md",
+    "target": "remotion-production/references/material-space-and-time.md",
+    "action": "完整迁移",
+    "textSha256": "1e9993d11fe715a0855ea7129dddf80990de19471f4d7636151b40683780e70d",
+    "heading": "## 6. 源码实施与交接",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/references/scene-art-and-motion.md",
+    "target": "remotion-production/references/material-space-and-time.md",
+    "action": "完整迁移",
+    "textSha256": "d92266387a44bf6210133a11470ca14e85eb2afab7fa975478af128472c57e9c",
+    "heading": "### 连续路径公式怎样理解",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/references/decision-walkthrough.md",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/references/decision-walkthrough.md",
+    "action": "完整迁移",
+    "textSha256": "e8fe5bf2abe2d50498ffc40f56f0902e75b6e36d371c24dba9945d616fcc8607",
+    "heading": "# 用已认可作品看清“方法—具体设计—实现”的区别",
+    "targetExists": true
+  },
+  {
+    "source": "effect-timing/references/pacing-by-completion.md",
+    "target": "effect-timing/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "77c4a2c3e66c528ecb337bcd7a92a2794cefc137f44c7e2cb3480afe7b6633dd",
+    "heading": "## 1. 主题创作的正常时间来源",
+    "targetExists": true
+  },
+  {
+    "source": "effect-timing/references/pacing-by-completion.md",
+    "target": "effect-timing/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "4e70c26ece1a8124676fa8186f5930467b8d2bfce2a7560de57fcc76dbf4b2a5",
+    "heading": "## 句群、字幕、场面与实际声音",
+    "targetExists": true
+  },
+  {
+    "source": "effect-timing/references/pacing-by-completion.md",
+    "target": "motion-case-library/references/cases/motion-case-attention-programme/references/art-and-motion-teaching.md",
+    "action": "合并相同直播接管教学；原例时间表、七项判断和公式完整保留",
+    "heading": "## 从语义反推接点",
+    "targetExists": true
+  },
+  {
+    "source": "production-coordinator/SKILL.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "fb33519a41dd6d117859956787ae40fa2b077276245bf8e46ec33351a9267494",
+    "heading": "## 主任务控制字体候选与用户选择",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。",
+    "additionalTargets": [
+      "remotion-production/references/submission-and-recovery.md"
+    ]
+  },
+  {
+    "source": "production-coordinator/SKILL.md",
+    "target": "production-coordinator/references/task-routing.md",
+    "action": "完整迁移",
+    "textSha256": "df6aeb75d343e4702c016a865603afda7192d84da628d028dbba377c13a6760e",
+    "heading": "## 围绕当前完整声画稿调度，参考不构成额外生产门槛",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并角色与续接的重复说明，保留创意分派、材料改稿闭环、名额接替和事实交接；专项观察细节改为引用归属资料。"
+  },
+  {
+    "source": "production-coordinator/SKILL.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "651d6b09dab98678f9c23973c41800e699fb55369f41fbfe812e55922ee3b061",
+    "heading": "## 让取材请求继续成为实际材料",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "production-coordinator/SKILL.md",
+    "target": "production-coordinator/references/task-routing.md",
+    "action": "完整迁移",
+    "textSha256": "184e59fd67dbe0749c61b5d481d5504309281b3e41b2ffaf99a5528faca82947",
+    "heading": "## 主任务的职责",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并角色与续接的重复说明，保留创意分派、材料改稿闭环、名额接替和事实交接；专项观察细节改为引用归属资料。"
+  },
+  {
+    "source": "production-coordinator/SKILL.md",
+    "target": "production-coordinator/references/task-routing.md",
+    "action": "完整迁移",
+    "textSha256": "5b735ad02cfd2d68cfd51847e6859bdb0d114355813f1588e1c6797d0205a3e1",
+    "heading": "## 创意范围与负责人",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并角色与续接的重复说明，保留创意分派、材料改稿闭环、名额接替和事实交接；专项观察细节改为引用归属资料。"
+  },
+  {
+    "source": "production-coordinator/SKILL.md",
+    "target": "production-coordinator/references/task-routing.md",
+    "action": "完整迁移",
+    "textSha256": "23b50209899d4b6b7446c0acd5ba8bdf799593af788fb9c8e1f4d9a93a184d02",
+    "heading": "## 真实分派与续接",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并角色与续接的重复说明，保留创意分派、材料改稿闭环、名额接替和事实交接；专项观察细节改为引用归属资料。"
+  },
+  {
+    "source": "production-coordinator/SKILL.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "814ecfff35a7c703ae7b411220edd62dd149e1a154d72467c8e3fec287cfb710",
+    "heading": "## 项目写入与预览回传",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "production-coordinator/SKILL.md",
+    "target": "production-coordinator/references/task-routing.md",
+    "action": "完整迁移",
+    "textSha256": "8a511fab264a858f1692f02d783d6085f36d25091f0536936036eceed5393f63",
+    "heading": "## 技术核验与审计",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并角色与续接的重复说明，保留创意分派、材料改稿闭环、名额接替和事实交接；专项观察细节改为引用归属资料。"
+  },
+  {
+    "source": "production-coordinator/SKILL.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "99ad558cfc777808fe907d1838682111e05d3a56f0aa46ea6feb8667bda40223",
+    "heading": "## 失败处理",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "production-coordinator/SKILL.md",
+    "target": "production-coordinator/references/task-routing.md",
+    "action": "完整迁移",
+    "textSha256": "d78693bd73f739214910b2926c2bc230d2027c3e90087c6dc719c2e84a990514",
+    "heading": "## 交接合同",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并角色与续接的重复说明，保留创意分派、材料改稿闭环、名额接替和事实交接；专项观察细节改为引用归属资料。"
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "db2a24260414a1d0079ff1a40c4365cbce2ed46c8b677b46a58681a5872aa384",
+    "heading": "## 字体方向与选择负责人",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "04a464f6c34674596fced8b05526c0f9301fe96101b96599d380b2a1ca10dcb4",
+    "heading": "## 用本片表达作采用判断，参考帮助产生和校准选择",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "action": "合并重复交接合同，入口保留按需链接",
+    "heading": "执行角色与代理交接",
+    "target": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "219402c28529957a1a8cae39a8d6a7a1b8f1a216ed9830bfb36979b7a9c64a4c",
+    "heading": "## 为什么需要总导演",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "7e4377e56138d160d1e6dec2e290bae5d367efab9992b5bc57c02a3aadcaacfa",
+    "heading": "## 先把用户目标转成生产合同",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/asset-briefing.md",
+    "action": "完整迁移",
+    "textSha256": "1db14755e533ab95f41e1da6fe52aeec0a6aedd3ddde9f0b3d473a01d72c8e08",
+    "heading": "## 从讲述与画面构思提出准确取材需求",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/rough-cut-review.md",
+    "action": "完整迁移",
+    "textSha256": "78da01286b6eae5abf2e7a0bc66c0c665e39b72048c90dd8d8987cd6045a175d",
+    "heading": "## 接回完整深化稿，重新协调前后声画",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "f61a873d83654a3e401e9f906cacbdd5328856b7c82a51317bbe436a136bbb58",
+    "heading": "## 判断主时间轴由什么驱动",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/rough-cut-review.md",
+    "action": "完整迁移",
+    "textSha256": "d1b22234214ff5dfc26ba6a2e421ee32129dcad261643de1f77baf6638e62dc7",
+    "heading": "## 三个生产 Gate",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "8b63249def17ffe04243994e809c74a0536f46f28ab666a16ad209b946903851",
+    "heading": "## 如何调用主要工作流",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "4de2a3537060aa2853a81e2f486a8c920ac224652dcf12e8f6091fc800eeb319",
+    "heading": "## 局部任务不经过完整路由",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/rough-cut-review.md",
+    "action": "完整迁移",
+    "textSha256": "cbd3d7aa68db8dd2df9930a50119f2db743faf02c78ea5da95cf203bea4d6f6d",
+    "heading": "## 质量问题如何退回",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "82d25237853ae39c57266b84b95249e52f205f5e782fe5ec090605e9b3f805c7",
+    "heading": "## 路由决策矩阵",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "52aeed13469b7f5cba1d0010c43d39dbcbcd4a79d0da96750b03ecff1a9b89a0",
+    "heading": "## 用户对齐发生在哪里",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "a7eca6489f1a96af24076e2f608085dba6d9f45703448be8c09df2e3c378ef21",
+    "heading": "## 主工作流的阶段交接",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "33d03a4f0141fb3f62f9dd6caf3c1a6a0ed53c8d3bb92db9cbe3ec65ac489a31",
+    "heading": "## 混合视频的控制权",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/rough-cut-review.md",
+    "action": "完整迁移",
+    "textSha256": "d9c00ca7eb94b5ffb06679695e6a1d7497a50a44cb8f1a3aba6cdfad7c857889",
+    "heading": "## 反馈与修订",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "b4f06639f7ea346a26c6b8bf2f978b335d8800b77dfbbfbf821b627173d0646a",
+    "heading": "## 生产审计",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/rough-cut-review.md",
+    "action": "完整迁移",
+    "textSha256": "b5f088c5d37f78de96addf1173c1f16013eaa425f2e4cc8611245aae7ba0f7fe",
+    "heading": "## 退出条件",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "action": "合并案例检索路由，取消固定案例和全库前置",
+    "heading": "可选案例库",
+    "target": "motion-case-library/SKILL.md",
+    "targetExists": true
+  },
+  {
+    "source": "production-director/SKILL.md",
+    "target": "production-director/references/asset-briefing.md",
+    "action": "完整迁移",
+    "textSha256": "b914d5ed2cfe50c34304ca59ef3cfda75c085bf69a155943cd7a4d2112ceecdd",
+    "heading": "## 素材证据进入导演选择的门槛",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "action": "合并案例检索路由，取消固定案例和全库前置",
+    "heading": "本次共同参考的使用边界",
+    "target": "motion-case-library/SKILL.md",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "action": "合并重复交接合同，入口保留按需链接",
+    "heading": "执行角色与代理交接",
+    "target": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "23551aa7f6dfc79685e0b76ea3135194c74e212e40114b9e6f583e10a61780ad",
+    "heading": "## 这份 Skill 为什么是主工作流",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "e5c0bdeb741da9587746ad0a0c86e065572fb546c9a2ac6e6dcb870fc4816fc0",
+    "heading": "## 适用范围和边界",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "a997853b9bd6bc93830ddd2dac5770152de73aaa872e4cb90369d07dd95a3825",
+    "heading": "## 开始前先判断任务分支",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "50b2af4162e6ef99d03cba782096952d1a2409ff68bfb3a80d44724eb0fb55ef",
+    "heading": "## 影响剪辑的关键变量",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "b8a8a0017ceb3ba89ee260793fdfe368d4ccc7ef53efc681d8a5bcd79375db40",
+    "heading": "## 短视频完整制作的专业默认",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "082d4529cd2e662e4aae60a5b7f67204e16b1d8623a0880f51a78feeb6a39a13",
+    "heading": "## 总体生产顺序",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "7582b83fe46d110089197981181e272c76ff73a843d2751b039f9243e549f300",
+    "heading": "## Gate A：主线成立",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "1fe08a79e09aa2e6b5bb0e4bcf3c00a6860c60f3b174cfa2117fbbd99dedf0eb",
+    "heading": "## 人物为什么通常是视觉锚点",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "9740a49a41e87b5f53249dddb55ab381c6d8c775fb9e3acc96b1dcd70dc00cd4",
+    "heading": "## Gate B：视觉和声音包装成立",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "f3aefe8b6ee0b2cba364f2ef41fcd9cdbc22aeb92ae14a93e65cfd08a9d9fcd9",
+    "heading": "## 不同 Presenter 类型的具体策略",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "6d3086aa7a5fb55ad2344d732ad5329713459bed5336785e7552e1901d851530",
+    "heading": "## 详细工具工作流与读回点",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "6fa6d1b8fddf14c338364231d43dcc3935006c060244ce6aba14c6f63e2bca6e",
+    "heading": "## Effect 选择的具体问题",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "67c7838efce07ff1801d630c35ad551493d87aec238e2a329eb1ab77951ad680",
+    "heading": "## 人物画面变化与跳切",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "994ea22513ebd5498ff048b6b25ea1452744c392bc09524b0e0cd004e7196865",
+    "heading": "## 自主风格设计与可选参考",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "de8d2ad482743c6159dba897b410de33b1d989812999c8762991c57e3b2fefeb",
+    "heading": "## 主线变化后的返工范围",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "48e2269206569255ccda778df8070745c51c239a159406bf6eb5405726b9102c",
+    "heading": "## 从空项目到交付的示范路线",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "ab40643cb0a9c64bc649586c992881f1939abe52a11146ae5feb33ad30fda49c",
+    "heading": "## 用户可见的完成报告",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "b9704cd41e574a706668bfc6296ea8765e723baeb964b403c3cf95df5e40ff95",
+    "heading": "## 局部 Preview 和五轮审片",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "a593f98be20b7df4edbdea8eaa029ecab6b93c4a43adc8b9246a5574b3337b6c",
+    "heading": "## Gate C：交付",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "3a27d5eba0b186dcf6863d1b3a76ff98a7227d9f2f3f44d296f913f47d142159",
+    "heading": "## 专项交接总表",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/presenter-editing-grammar.md",
+    "action": "完整迁移",
+    "textSha256": "be5a17188b98d20ea1cf868f8ab7eee28f7638fe5741f9db1ce16fd7ad84d0cc",
+    "heading": "## 常见失败",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "target": "presenter-motion-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "9f8ecf6fe51c43476e98a5b262c00c004de4e565225c095609c9e2b71bb6013e",
+    "heading": "## 完成标准",
+    "targetExists": true
+  },
+  {
+    "source": "presenter-motion-director/SKILL.md",
+    "action": "合并案例检索路由，取消固定案例和全库前置",
+    "heading": "可选完整案例",
+    "target": "motion-case-library/SKILL.md",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "09ea4ea9760462bef268944892fddd43881a7ee74b4f8af896d9ccfe3801a9cc",
+    "heading": "## 从主题与实际材料形成解释场面",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "action": "合并重复交接合同，入口保留按需链接",
+    "heading": "执行角色与代理交接",
+    "target": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "92713ad5b1b62fc471f49e353c8e1f7cd134eb19816ab6c83a0e792a116ea8c2",
+    "heading": "## 解释片的核心不是“旁白配动画”",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "38288d72eac0cfc8ac6caaf4d3ab0de8e753021d62bec9e063233a866e45626e",
+    "heading": "## 适用范围",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "31ebefaf639c5c7450c82632fa7d56b9d0fe365b6d335016742c91af6cb1f57f",
+    "heading": "## Gate A：NarrativeMap 和主声音",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "baa3770ef16c5df45e7b3c3b4bcbf11d2258bfd33fc76cc95b73d32c59886941",
+    "heading": "## Scene Grammar：选择视觉机制",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "092a4363f56951e7875040e107e1606063e1f69b4e0ca0006d3de7823d674f7f",
+    "heading": "## 大 Scene 内部渐进",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "166166062bf59acd53e758e1ff801123cf6cc54836cd30bcf0d16185dda7769e",
+    "heading": "## 解释、证据和现实素材的分工",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "241a6a83bc7b84d6d08fe479142cd11a95c99aa7d3885dcde666d92345cc5952",
+    "heading": "## 从 Script 到 NarrativeMap 的实际方法",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "5cf8d8ddb84206d1b5d0e15e446211eb19cafac05ca5c9764bdadcaec92d0932",
+    "heading": "## Scene 计划表",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "1ec9d034c013383896b16db43877598192ef898d7a75075ef34781fe9ddce4ba",
+    "heading": "## 工具与当前落地",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "a98bd76ec2716951308820b27da2e6428f8ed7425dabbf34ffa5dbd5d0673888",
+    "heading": "## 多 Scene 的整片结构",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "a138f921b834b5a8ce7f3c3064885a64577ad95a4b7eca4a429c49663f165be7",
+    "heading": "## 复杂信息的减法",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "d2aab8a20b92988f0305cb52313c0a254ea42438113559bb89898218cd95e710",
+    "heading": "## 自主设计与可选参考",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "73222069ef0947ba52d634b744cac03297ab8540a9370396bc630d3a41eec9d1",
+    "heading": "## Gate B：具体生产",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "e1c528e14ea075c440459ac765cf1afbeb8068de7b18f9832d8f3567611e785a",
+    "heading": "## 字幕和声音",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "5d183e10bcfad2cbb64d261faf7e542678d529656b0e7fd2e9d025a8fcef2a50",
+    "heading": "## Gate C：质量和交付",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "97876eccaff6776642b27b973cbb27ca709bc48ba17e94eb7951aceea68177ef",
+    "heading": "## 常见失败",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "459f42c9b5cb0491238a7521e87aa5663b244df03ae831ea5399d2dbf87c4cf6",
+    "heading": "## 交接合同",
+    "targetExists": true
+  },
+  {
+    "source": "visual-explainer-director/SKILL.md",
+    "target": "visual-explainer-director/references/explanation-design.md",
+    "action": "完整迁移",
+    "textSha256": "f112d23e0a8326cab5d8d0401d16360ae3c8c2f70a17ceda67ff73fe8b6d12b8",
+    "heading": "## 真实素材进入 NarrativeMap 与 ExplainerScene 前的审阅",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "action": "合并案例检索路由，取消固定案例和全库前置",
+    "heading": "本次共同参考的使用边界",
+    "target": "motion-case-library/SKILL.md",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "b9b09db17c41d5166fdce80e192eaa6acdf4c80cdbe06be62716c72b95dcde19",
+    "heading": "## 主题型日常片：由实际空间与行为决定表现",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "action": "合并重复交接合同，入口保留按需链接",
+    "heading": "执行角色与代理交接",
+    "target": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "e9481b025b9b94f0e6b093243f7347a1397bbd47baec938cb8e3bf20db6c120b",
+    "heading": "## 根据需求构思观看主线，以真实事件决定采用",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "3b7c491ee9310189b2aead61c9bdfc1d126c49cd99ab5b25bc216b374c178554",
+    "heading": "## 适用范围",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "16ce6afb974a89b7174b1ee1de498ae21abd5c62d4e45fec813af606423fd618",
+    "heading": "## Gate A：先理解素材",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "32c317a8e25e6c8fc1227e04431d85b3a00d34ac9e893a959abd7824e2666a4d",
+    "heading": "## 连续性",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "0fd8759fbe86e0c35a87c34247ccb2feb0d7487eb48afed0f6e5e28f91a8dd77",
+    "heading": "## 长镜头、Montage 和节奏",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "dbaafdb77229973c84841f5cf0fc32d2e8ac2dcaca1e36d2f1637466c195bfb3",
+    "heading": "## 自然声和听觉视点",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "ee36ccc878f522384992810cc844f4d683a6e274a94d455c08be49cb71e648a7",
+    "heading": "## 补镜和外部素材",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "02bf68bcb3124bb6ab1edb7d2e06d19ee49793987d884ed8b93ffb8cf832826d",
+    "heading": "## 字幕和 Remotion",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "15362d813361d9ffe93126979cbd207d3e2d18b2b61430ae10304b075c78fca6",
+    "heading": "## 当前能力边界",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "1dd94f25d349a440bda169ad61fcf3805f06c9932aef7600d86f06e7c3e616f7",
+    "heading": "## 详细素材审阅流程",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "b144f4e4eadef4125dfe6c42787faa5c0f2fbc43f75070ad55960b383b06524d",
+    "heading": "## 当前项目对象如何承载 Vlog 计划",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "90e1b0c5d0831c61231d44d6d599a0c3a15d4c956ee15604f730bf8c4886a15c",
+    "heading": "## 实拍内容的重排伦理",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "8e7f1d84b27ec35cb0e2f56498ccdc7e79437f866055833d6d9e9b2493fb6a5c",
+    "heading": "## 与主要专项的交接",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "543bb2a1d68a0b33cb2181a519b655aaf52bd6f9b95ab218a63ad806d0c74fe7",
+    "heading": "## Vlog 的完整观看检查",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "2abe61f582bdb1847c26a9bd6bb504dde930363c5acaa39d543a86f50020b262",
+    "heading": "## Gate B：构建与审查",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "79e8318ad189ea005bef77f9b33959173116fbce0d99ce4077bedca03bdf5459",
+    "heading": "## Gate C：交付",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "8af335fe9d2ef3ec2450fb692d50d9724793aba0d3693179d1ddce611d57c168",
+    "heading": "## 三个典型案例",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/timeline-operations.md",
+    "action": "完整迁移",
+    "textSha256": "59bacdd142beb48e88da9e7e85d0c731e1e52e12ba1b92a95bff30ce81398480",
+    "heading": "## 交接合同",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "action": "合并案例检索路由，取消固定案例和全库前置",
+    "heading": "可选案例库",
+    "target": "motion-case-library/SKILL.md",
+    "targetExists": true
+  },
+  {
+    "source": "vlog-director/SKILL.md",
+    "target": "vlog-director/references/event-and-shot-method.md",
+    "action": "完整迁移",
+    "textSha256": "d9e20f014da4471d0d29feb65b0fb99dc001859a3035110606748fb869c18104",
+    "heading": "## 从技术 Shot Boundary 到导演 Event",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "action": "合并重复交接合同，入口保留按需链接",
+    "heading": "执行角色与代理交接",
+    "target": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "95d059f5d64527ef0984a80b7ed1dfadd911723d42728a84a943ac9dc93c0256",
+    "heading": "## 这不是“按标点删废话”",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "9b56c20d54a12073beca80ba276aef8732824b8174a8da6889c210ca0be22049",
+    "heading": "## 先判断这次属于哪种任务",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "6e8c8efb6a41b53bdba9fa12bfc7f88e4762d770741682d521378b9d4f72970d",
+    "heading": "## 建立完整内容地图",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "321abcdf55eb6dd7d61fc515b196ba0fd354a20a724daf22324787a30afe92a0",
+    "heading": "## 完整思想怎样判断",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "2dc51c91ac78fb9552e9239a05f85ee8c11c0498a852117933b443a92c543810",
+    "heading": "## 重录、错误重启与有意重复",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "127cfb9ad6c7906f76b89811265f2fa62213163a587acb65152153782dbe11b1",
+    "heading": "## 口癖、连接词和停顿",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "4bccfc3f25c6ee8d72115f93e4da6dec09b5733c7a4e2997ac6fac81050398d4",
+    "heading": "## Hook 和短版怎样不误导",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "792449e17d74366271ebfd04a418f044032b307cdde7fc8d1ea53e646f879b6b",
+    "heading": "## 特殊场景与边界",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "8e8e857ef7ed25f89c148030101d17edaa6a690a2bb804842122c6662895ba59",
+    "heading": "## 删除的反事实测试",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "d055e24a9c36eb045ad804bc7be20c2f1cd2e298ac5393ecc83806c4e13b014c",
+    "heading": "## 重排的关系测试",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "2df813fd8d67ba42fd8d0ffe4ff1e6e202ea539479fb2d3694308153365fd156",
+    "heading": "## 与字幕和视觉的边界",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/script-operations.md",
+    "action": "完整迁移",
+    "textSha256": "f0a183219e89e0db5db2da15b6ce55eb8d301159c7ec5c35f552b89bd4a53410",
+    "heading": "## 写入当前项目",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "c1881be38aabd865654b3fb75f9fc7ee330a168bc70e99f9e34428e95dc8f8fe",
+    "heading": "## 只听声音的验证",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "action": "删除未认可业务范例；语义与注意力判断保留在本专业方法",
+    "heading": "完整案例：反思型口播",
+    "target": null,
+    "targetExists": null
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "action": "删除未认可业务范例；语义与注意力判断保留在本专业方法",
+    "heading": "反例：关键词 Highlight",
+    "target": null,
+    "targetExists": null
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "449f6125a733fc3dd17e89073a2751cba14cf2f58afc50fee5e26f93142fc8da",
+    "heading": "## 交接合同",
+    "targetExists": true
+  },
+  {
+    "source": "semantic-continuity/SKILL.md",
+    "target": "semantic-continuity/references/editing-decisions.md",
+    "action": "完整迁移",
+    "textSha256": "49fadf4958b6a2090b82071a93bc8996feacbf7db734916ff86ff17b1889f0aa",
+    "heading": "## 文字之外的源素材证据",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "46c7c0c7be18d66b81f2738134ff32ba7f2274adb3ca273ecdcd35b94063325a",
+    "heading": "## 先形成本片视觉选择，再用参考深化",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "action": "合并重复交接合同，入口保留按需链接",
+    "heading": "执行角色与代理交接",
+    "target": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "600f27bd9a8dfcd511fee6f136334f2ad490bb83331560ba96ba98217d89cc0f",
+    "heading": "## 视觉规划不是给每句话找一个画面",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "8172abda9835f6a51f2b0b3c3ed4c0324aad92395248d86af3c8e1d2098fb25c",
+    "heading": "## 让取材、造型和完整演出形成同一个场面",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "34c59451ab2f79003f530d1069a7c8ba5d0d35d1c693d190cfa089a9db70ecd9",
+    "heading": "## 先判断每个 Beat 的任务",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "fced4670a1f16124ff461a8813b4b72df7d4605300bbbb56eb6eebda0c1bbca4",
+    "heading": "## 对不确定的高影响表达比较方案",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "8fae0be7bb527345ea969e2a6ea8f273205fefd49f0d02d83144bbbe08f76ac6",
+    "heading": "## 相邻 Beat 的联合表达",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "8c8f1333406909fb8586a59a3a60a1daa894bb511b0ab8f4b778f637e28b653a",
+    "heading": "## 关键词联想为何危险",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "841c112ee1d899b5c689fbf6bba5988682711c2c73929ba0359c174cb8f6a3a5",
+    "heading": "## AttentionCurve",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "c97e279cf2b56227d9d8307bdb2296ba88eb1b6da1357e643055fff3e18874a6",
+    "heading": "## 视觉机制",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "53fc5def0300fe79e4e4cd0f110c0632172682c64b64d87ca099427e0940d901",
+    "heading": "## 视觉决策的层级",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "0ba7db159f60ac344e891a5230653a863afa12219cf9d92ec3ec2e2997f72da0",
+    "heading": "## 安静区的设计",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "59a439781633d0aa89b64324fbfc43ee24e0bec9e7528cd647dbe51cb5ca0308",
+    "heading": "## 密度和重复",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "b60dd25a4a30fa21ee7ca35a5f9753f7c5c8b6c77fe1c95a80dea70d59ed1f30",
+    "heading": "## 素材与生成策略",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "826a3d762b5afe223e9af42e443f9ae00ed4884f13d18c82531312fe1b8c5c24",
+    "heading": "## 多画幅 Treatment",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "771d9892e1a709a41873d3b0996f8dbdd90be75a5414ee5d225c5cf981eae4e4",
+    "heading": "## 参考视频对齐记录",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "fbce1535ef700a66d6c8ca564f962135c3da5fe5f5bace6ad171ec1ca96e5374",
+    "heading": "## 输出 Visual Treatment",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "690e32757f88fee3e0beff29ee967cce4f574f9ddaad000b080796a0c994b148",
+    "heading": "## 何时调用下游",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "action": "删除未认可业务范例；语义与注意力判断保留在本专业方法",
+    "heading": "完整案例：同一个数字的三种处理",
+    "target": null,
+    "targetExists": null
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "77b4e7d4b49569f123365e554bacc0e98c4f1adaa51cfb7b1132e0ce5d0c025b",
+    "heading": "## 交接合同",
+    "targetExists": true
+  },
+  {
+    "source": "visual-treatment-planning/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "187b1cbe4f3776769cfb4cb8e82eeed65c90c5ed4e1f8cb8c4daa04216b17ab9",
+    "heading": "## 从源素材证据建立 Visual Treatment",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "72a7f0c4d75a15ce1dae5ef0a6bbc7ec100fca4a5a1ad0263d862482928461ea",
+    "heading": "## 1. 使用时机与责任",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "ab7891e94e8e3bf2873d07cbb9b5578d4d498746de894eeaad7d8fa39817c5c6",
+    "heading": "## 2. 先确认足以设计的实际输入",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "284e35d3e517dc82054806d1fafe745b2562d247d0a641cd4233da6f45f2fdf4",
+    "heading": "## 3. 将内容写成一段可跟随的观看过程",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "434d51a8cd72e637619e0d690f5cf63b8f658816d5b1849fe2d79ae42970e5c5",
+    "heading": "## 4. 按本场问题语义检索，再回到当前演出",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "51dab664d0a0a15f46d0c28200a71a7af073da6748764ffa85280937d48936e9",
+    "heading": "## 5. 先形成一套本片美术，而非一排风格词",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "66bbaf05c48bef6e05ea38df9c9e001e8055150e7b71161eb58443416769ea3c",
+    "heading": "## 6. 把关键中途写成可执行决定",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "d5b10f73e192af90887c9729b65d7122581eb2209b2047c3d7ae91d47e4b071f",
+    "heading": "## 7. 用语言和源事件安排时间",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "df8f59d2c25b2b3726c79a807b5e8362b9ecad55ede3414e1ffc8ef8c6e5406a",
+    "heading": "## 8. 深化稿、导演采用与实现是同一个版本链",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "875291998d69e6626833976475a0121213509d61f03af92508f6e0fbc0156268",
+    "heading": "## 9. 在实际产物上检查，按根因返回",
+    "targetExists": true
+  },
+  {
+    "source": "motion-brief-writing/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "faaeabf46bc983c2843aa6d65eb77457d3a53fd5a7bd0e209a45a6501b6008c4",
+    "heading": "## 10. 返回产物",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/submission-and-recovery.md",
+    "action": "完整迁移",
+    "textSha256": "6dec66c493d24f91536b5649b46c47094f7c6cd3546beb790af71a7d270383f3",
+    "heading": "## 受管字体与真实接口",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "e806885bd281e0b5eddcaf510ce7da2f0461a2a8ebd5747c2ec54640840e718e",
+    "heading": "## 实现依据素材发生的动画，而非动画前后插图",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "action": "合并重复交接合同，入口保留按需链接",
+    "heading": "执行角色与代理交接",
+    "target": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "b41e0325d24b85881fd0a75bb3424d43ee3711da51a9f85d55dfa261076210bd",
+    "heading": "## 段内创作的完整流程",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "2aaea9a783e6525bf507de261fe463441264693d9acfc4f8ef8320890d3736e0",
+    "heading": "## 先区分项目创作与平台开发",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/submission-and-recovery.md",
+    "action": "完整迁移",
+    "textSha256": "b2d6fde637ef117efe5a68c762d57c9ab70d9ade67c950f1f4bb3cb72d88f821",
+    "heading": "## 受管作品生成和修改",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/submission-and-recovery.md",
+    "action": "完整迁移",
+    "textSha256": "b18de921176bf481c556852f9f6ebc0cda305a708f35a469fddd241e37a01929",
+    "heading": "## 可选的在线参考研究",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "a1e7b1ea0c8361be0c4fa26b5d3a4026a660f716d911ac1892395bac6e24cdcb",
+    "heading": "## 编码或选择组件前的输入",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "1010e680f0f82d73d970872c50614098b9e2dbd7f6f08c9ac554502e038bfb42",
+    "heading": "## Style 对齐和代表性样例 Gate",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "37ab7238ec670afb552e2369cafcd213db67013bafdc267ad40c5cefdbc5299f",
+    "heading": "## Design Map",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "ef2d3fa7e4a157467f6e763458f1d8520e50bd84bc2a47f3cabda10943bd59ec",
+    "heading": "## 主要构图与连续运动一起设计",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "e5ff30e108f5a250adacb54090c10e7c678ef3518d28de4923eec892670aa855",
+    "heading": "## 视觉机制而非文字容器",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "c4337c2a2704d27d80e46f74d408d0f0c790f1634de81632094e0d280e286352",
+    "heading": "## Registry、EffectCue 与真实素材",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "5560ddd525f3a8314376e88e6c2730c94af86ad0c2adbaeed4b0a41b6df9aeaf",
+    "heading": "## Props 设计",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "1cd30a872ace94857dd77c4fe2a772ca41eccf35501b58037db5fc2296c9b340",
+    "heading": "## 局部时间与 Remotion Sequence",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "e3efe119f345314c366a8174d6169de6e17ae298ced5cdd4ab9ae66f9506e257",
+    "heading": "## Natural Box 与 Timeline Canvas",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "a5f049028d7773b4dc096866f5fe00798b96be9e6aff8b36f3da241f1319b68d",
+    "heading": "## Motion Grammar",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "71006a33b94b996ab47377300f34ce4ade8717790231604a22ee88c27c1d8189",
+    "heading": "## 响应式与多画幅",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "ce1377d4f2bbbd7cb5c9565e6e4f654d16adbf8549d7653a0fb94d7d85ef7dfb",
+    "heading": "## 批量生产和一致性",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "1a5fe97cbcd7a31098e92d2a12f0a09813d66a0ce2100b14dffe8e8d01844f17",
+    "heading": "## 当前代码安全边界",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/submission-and-recovery.md",
+    "action": "完整迁移",
+    "textSha256": "1f2844ba0e5a53df7f6a021a1e064a008fb3bbb361a9d8972c6330985faadcc4",
+    "heading": "## 当前 EffectCue 写入合同",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "517548a9df90a05e73633d2f66b65d496f25aa77fd622dac6523d7044c07695a",
+    "heading": "## Scene 组件与 Effect 组件",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "2cab638d0c5ea878730c768f02a41723b1b0f8021c858dc6960cb283cb745084",
+    "heading": "## 媒体 Asset 处理",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "38eb6841f03e8d1a787ce544e6cb9451131a6f6665104c3aab07b44fa55c5424",
+    "heading": "## 性能和缓存",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/submission-and-recovery.md",
+    "action": "完整迁移",
+    "textSha256": "1f2256e138f1fc933c5b5dfc28bdfb3c6c050608d24be173a5c1df911b39af16",
+    "heading": "## 错误和恢复",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/submission-and-recovery.md",
+    "action": "完整迁移",
+    "textSha256": "71b8328997d6a7db83a303129af67fb57d1e7cdef507e75c32e01cf52bec320c",
+    "heading": "## 项目写入流程",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "0793b35e0b2e5b517c4c06e22a875ca6b8ffb4f46f8c85456761c39a7f9f68d0",
+    "heading": "## 验证",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "action": "移除入口中的重复案例摘要，保留完整认可案例",
+    "heading": "案例：ProductFan",
+    "target": "motion-case-library/references/cases/motion-case-product-fan/CASE.md",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "723bf37695901326d70a940ac0a06adb8ddff698383ed7860c16e2a77dfdbbea",
+    "heading": "## 反例：哲学口播套全部组件",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/submission-and-recovery.md",
+    "action": "完整迁移",
+    "textSha256": "65830339f69db64c4328e9b8771ef8be7f2bcacab89fee6faa2f4e4d6a0aa145",
+    "heading": "## 交接合同",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "remotion-production/references/remotion-component-contract.md",
+    "action": "完整迁移",
+    "textSha256": "94a86bcd33e482a7c0ceaa4c2d72ded47319b38d6de947e9e2e159a0420d78c1",
+    "heading": "## 完整代码与生产案例",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "motion-brief-writing/references/performance-design.md",
+    "action": "完整迁移",
+    "textSha256": "c891a71ff30c552e0e9b440b82f2bba098524f7d6648389980813297265a2ae1",
+    "heading": "## 真实素材绑定前的审阅与渲染验证",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "../../docs/development/motion-runtime.md",
+    "action": "完整迁移",
+    "textSha256": "fea7e90e06a48be273c52dec2720169e338448a7ce054439d52e24c3959535eb",
+    "heading": "## 平台维护分支",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "../../docs/development/motion-runtime.md",
+    "action": "完整迁移",
+    "textSha256": "c6285b0f5eea85b40ab5e54e7f24eb883a0d28951a0d3d6edcbe37269716e04e",
+    "heading": "## 新组件代码开发流程",
+    "targetExists": true
+  },
+  {
+    "source": "remotion-production/SKILL.md",
+    "target": "../../docs/development/motion-runtime.md",
+    "action": "完整迁移",
+    "textSha256": "0d311d77f79b340e5b7ddddd7b1448cd5530c7dbe8990325b77638c46a05ba91",
+    "heading": "## 修改已有组件还是新建组件",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "ed870ed6d72afebcc9722d909e1bf5e96f1d7edd1f90a21135181c7ae3e0fd34",
+    "heading": "## 素材同时决定内容与编辑机会",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/acquisition-operations.md",
+    "action": "完整迁移",
+    "textSha256": "75c9df54cab951b7fc399945e1ef64ff7c36c41c84c714b571a757f7f66b9372",
+    "heading": "## 来源研究与素材取得",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "action": "合并重复交接合同，入口保留按需链接",
+    "heading": "执行角色与代理交接",
+    "target": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "75e85a03b32cb1f7efdd9496c1b8762b2df10ead1bc9cf831daf06d893830ffe",
+    "heading": "## 从表达探索到分镜补齐",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "e95c7069c7b01bf9303a2ede1cc95bf529d41c17bc4cd7ae2fde613864c282af",
+    "heading": "## 按导演的具体画面请求寻找并取得材料",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/acquisition-operations.md",
+    "action": "完整迁移",
+    "textSha256": "35a61efcaf8cbe66d5d2af77ce1cc464a50489d7a59fe872e493af0c4905caa4",
+    "heading": "## 当前能力与计划能力",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/acquisition-operations.md",
+    "action": "完整迁移",
+    "textSha256": "c0f966f7ee9b25ae44f2f0858bfc10113aad4e60a53d7c5cdb08d46d45ffb58a",
+    "heading": "## 查询计划",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "0e98f899760bffba71afa0bc57400641f8b04fb0acf7a6873a4e0a67d5c2719a",
+    "heading": "## 候选发现、连续观看与比较",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/acquisition-operations.md",
+    "action": "完整迁移",
+    "textSha256": "ce9c3fe651bbd8f2bcb1ab298cd661a2f954cd5727e0cec9cfb827492859d4a5",
+    "heading": "## 来源",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/acquisition-operations.md",
+    "action": "完整迁移",
+    "textSha256": "219bff45508b46571adcd6f733535fafe8b0551b7abe5177b38beba53a937d01",
+    "heading": "## Acquire 与本地化",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/acquisition-operations.md",
+    "action": "完整迁移",
+    "textSha256": "e6491a1ec35efef74e950b809b2a0ccbe367845f5b92cf2ba9144d0b762ba193",
+    "heading": "## 根据实际缺口选择继续搜索、生成与原创",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "23c5071c85e88b0c55bff9c8b91182915063bded724930c74125fdb8ee680935",
+    "heading": "## 组合候选，而不只选择孤立镜头",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "1c3ef6fc9558ca3b3a48d1b36fcde18cb67d94916edbfba9c5636f3dee03d91b",
+    "heading": "## 交接合同",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "action": "合并案例检索路由，取消固定案例和全库前置",
+    "heading": "可选完整案例",
+    "target": "motion-case-library/SKILL.md",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "f14d04b5d463bd8efd15170c1ba581d4c420dc899e6195497c83c299cd117950",
+    "heading": "## 候选本地化后的真实内容复核",
+    "targetExists": true
+  },
+  {
+    "source": "visual-asset-sourcing/SKILL.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "30b37a2b4f06df276184487055f1709ab4a93be9c6ad29bc9c3dff514a8393c7",
+    "heading": "## 浏览器审阅跨回合交接",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "677cba956f8f01ebe338a54bae63cebe4cce63ea647cc9757ebd2d1e3b1801cf",
+    "heading": "## 按当前表达与实际材料审阅",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "action": "合并重复交接合同，入口保留按需链接",
+    "heading": "执行角色与代理交接",
+    "target": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/evidence-status.md",
+    "action": "完整迁移",
+    "textSha256": "55f96fda45fe0ba3316811a9963ee355bc595c198d4bf4861ce82c3dc0906cc0",
+    "heading": "## Quality 不是最后打分",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "a2b0911fe6c7e0b3701432714d371918d70900bb8a91eda7de8e4e61cbba22e3",
+    "heading": "## 用实际声画检验原设计与制作结果",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/evidence-status.md",
+    "action": "完整迁移",
+    "textSha256": "6276d077ede5359ef8679c03c78cc2edf69dd3a3c25facbf94bee5c63d2ce896",
+    "heading": "## 四级证据",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "f0a6adec846c8c2782bd307c112eb30afe84890b2bd1443a6a12347b5ade91d4",
+    "heading": "## 五轮审片",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "8d31a67a189527ba303a0e96a4b507d45e125fee6f62546226aca46659ff485f",
+    "heading": "## 严重级别与问题写法",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "2e29ead8d65424363d70e4d16ec9d82e18f2ebe758bee4af833e131bd754e9ad",
+    "heading": "## 根因而不是症状",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "8e4e166ffaded3a22132d75b00079da466e50d9778e9a4d46cc8c1b828b878d7",
+    "heading": "## A/B/不使用",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "c4a31366b07d7b8af4ec19974330c0a91ed8cfd5e0d2d7ad5c5def957203fba1",
+    "heading": "## 表现不足与未兑现计划",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/technical-delivery.md",
+    "action": "完整迁移",
+    "textSha256": "003605d3fd1a758c4af9de772969824a1efa15b290d151fe8365226cc7641b3c",
+    "heading": "## 确定性技术检查矩阵",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "65ec4bf98c5ad510d1c5c689164745cd1eb706d3ac89ee1643bb6bc07341d8be",
+    "heading": "## Presenter 质量的深入问题",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "39a895d217834050b4335374a1ac6c3d1e7b5a47e6aef62ff812297502de4d72",
+    "heading": "## Explainer 质量的深入问题",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "88c79ac75e45d7309da79e4829b80f6e5bea5afdf731b2e0008eb0c04d9a7dd0",
+    "heading": "## Vlog 质量的深入问题",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "63cdff822318af0d0e615e0d1c79e3dad19efc0046af91f3f9667007b03fe275",
+    "heading": "## 修复优先级",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/technical-delivery.md",
+    "action": "完整迁移",
+    "textSha256": "44c435e016c07d41aaa67dda12eb3e7b61ad499b2c09f2823b4e22c6b5b8337d",
+    "heading": "## Review 的版本约束",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/evidence-status.md",
+    "action": "完整迁移",
+    "textSha256": "f5e38732e670ba833ed7739e1a4f41e006967b2b9cc5c24c2ce04085678f9975",
+    "heading": "## 无法判断时",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "dfd1e34d777459df43af31d85dc5a3da9af7e075fc5dd2a27bbd567d6d0fdc2e",
+    "heading": "## 当前工具流程",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "e49775cbf7177b490d69670c001f7f10fc48809e1ad07a0c6511ad46a7fc2ae1",
+    "heading": "## 自动修订的边界",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/technical-delivery.md",
+    "action": "完整迁移",
+    "textSha256": "6e2bcccd5e82663fc017102db84f05811f2dfaa5fb3a089477586ded6166fd96",
+    "heading": "## 交接合同",
+    "targetExists": true
+  },
+  {
+    "source": "quality-verification/SKILL.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "b330b67d4444b04e100c5b9473847616e6c54cca46e66193ef002731dc3fe138",
+    "heading": "## 源素材选择质量审查",
+    "targetExists": true
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "6ccbbca3220fb6514224c8b38ce21e6446b987eb021ce4124dfb2a39c9d1c918",
+    "heading": "## 协调入口与创意边界",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "a8d5c47bc1b55cd7afac1294b7d515cccb8d630c1176cb652597d520d42ed1bf",
+    "heading": "## 这份 Skill 解决什么",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "887333415ff8101a7394e07854c8901cc39f0de4273f39a41db5622d8047e8d7",
+    "heading": "## 启动与项目定位",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "a3c11087ee24d4fa665380ec1faa2feb9b7211901b6206d1be67bde5358a0a89",
+    "heading": "## 对象模型：修改应落在哪里",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "c7aa697f9d4d8fec2a06ed4786c56e1d389a372c9e2fa8aed4fb642093ec9d6d",
+    "heading": "## 写入前的标准判断",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "cf96e3a129992b59cdcd305d4b20c422d3db42c42c8407e05cc63cae9f10f8f7",
+    "heading": "## 确定性写入与读回",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "308b0975bcb815676142a6786992a0bdfa1845d958ba08a0b6245198a2db9726",
+    "heading": "## 并发、冲突与结果未知",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "43d40139ca5d7532f99f2ee479339ec758c3ddbb6bcb242acf72765eb5683973",
+    "heading": "## MCP 与 Web 的边界",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "694606d06d03241c66f70dc877ed2bb47435378d2d09dd9cc7ff661cdde4f305",
+    "heading": "## 当前 MCP 表面怎样阅读",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "2c1b59a7973e96a8a18faeb6b9a9ad2028510855840137f9284ebf546ef10fdc",
+    "heading": "## 当前状态与架构目标的区别",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "b675d24a71be6f8b1d3d2232f0562ccd4d64277d139aa4f8e2f997b876ffa332",
+    "heading": "## 三个完整写入示例",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "8ff65f13b3baae61c664553a814be8118a7bb03a08f900269bb7de82a3c15358",
+    "heading": "## Project Graph 和 stale 思维",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "823ba3437f2ed771bd845d327bafd12fa7b9ee46c8fd5d2f27db0a1c1f58c2e7",
+    "heading": "## 交接合同",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "108121e9b83144a0b35e492bafe98fef6379b8d7e29b0dfc66639888a4de5dca",
+    "heading": "## 常见错误案例",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "ee3e8a6b0e620ac8c4bc1f99c459df5a80b93a0461f93eb5f88a04c8169b5832",
+    "heading": "## 最终检查",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "ec95a80e657bfb9deca1752799263b38bd8022d2d5434c87640df43817a0395f",
+    "heading": "## 共同资料",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "project-basics/SKILL.md",
+    "target": "project-basics/references/project-model.md",
+    "action": "完整迁移",
+    "textSha256": "b1488b9479cc5c3b2f87c0203f6de76d72d2f5642ad41d308a20e86c67e29356",
+    "heading": "## 源素材坐标与按需审阅合同",
+    "targetExists": true,
+    "refinementNote": "二轮精简：保留对象选择、依赖和改帧率的独有边界；合并启动、交接与失败处理的重复说明，移除工具及当前能力清单。"
+  },
+  {
+    "source": "voice-production/SKILL.md",
+    "target": "voice-production/references/synthesis-and-placement.md",
+    "action": "完整迁移",
+    "textSha256": "a05c4179a998c5d4c702bcbc752893d317751dc671e89fe93a95eb2577791e1b",
+    "heading": "## VoiceReference",
+    "targetExists": true
+  },
+  {
+    "source": "voice-production/SKILL.md",
+    "target": "voice-production/references/synthesis-and-placement.md",
+    "action": "完整迁移",
+    "textSha256": "55eb4a54b935a753b937f2aa6e38f548d82069331947013fc939fea365296f2d",
+    "heading": "## 当前调用链",
+    "targetExists": true
+  },
+  {
+    "source": "voice-production/SKILL.md",
+    "target": "voice-production/references/synthesis-and-placement.md",
+    "action": "完整迁移",
+    "textSha256": "1837ec5fecd4f65ca0dd269e55e6b41fc2a0b697317b8109e6b47c2416d9a44e",
+    "heading": "## 组装和停顿",
+    "targetExists": true
+  },
+  {
+    "source": "voice-production/SKILL.md",
+    "target": "voice-production/references/synthesis-and-placement.md",
+    "action": "完整迁移",
+    "textSha256": "f098222643fc1d1356a8b7e5d193b342862065822500b70aac15238c880e3386",
+    "heading": "## 音频所有权",
+    "targetExists": true
+  },
+  {
+    "source": "voice-production/SKILL.md",
+    "target": "voice-production/references/synthesis-and-placement.md",
+    "action": "完整迁移",
+    "textSha256": "6836d14a1698c69f11df5d44f46ff62ea42a5ce35f4a3b1deb7c3b7ada583955",
+    "heading": "## 参考声音的一致使用",
+    "targetExists": true
+  },
+  {
+    "source": "voice-production/SKILL.md",
+    "target": "voice-production/references/synthesis-and-placement.md",
+    "action": "完整迁移",
+    "textSha256": "affb0daba77d9b969bdbee957835f3ac4189bbf9e350e8711c883eece10fff75",
+    "heading": "## 局部重生决策",
+    "targetExists": true
+  },
+  {
+    "source": "voice-production/SKILL.md",
+    "target": "voice-production/references/synthesis-and-placement.md",
+    "action": "完整迁移",
+    "textSha256": "4351a4eba3b4e29f1a1a5c085aa8aa699df8acd00f7ea3590fe078352120fa0e",
+    "heading": "## Speech 与人物时长不一致",
+    "targetExists": true
+  },
+  {
+    "source": "voice-production/SKILL.md",
+    "target": "voice-production/references/synthesis-and-placement.md",
+    "action": "完整迁移",
+    "textSha256": "8ad5288e12d59d2544f76d96cd5f16cd2ccd66e9dfece1bd12370fc915334443",
+    "heading": "## 技术质量",
+    "targetExists": true
+  },
+  {
+    "source": "audio-finishing/SKILL.md",
+    "target": "audio-finishing/references/audio-operations.md",
+    "action": "完整迁移",
+    "textSha256": "025ee9651661cd4f974b2fd53eec9907ebad6ad9d36345d4046384e1af39a6df",
+    "heading": "## Ducking",
+    "targetExists": true
+  },
+  {
+    "source": "audio-finishing/SKILL.md",
+    "target": "audio-finishing/references/audio-operations.md",
+    "action": "完整迁移",
+    "textSha256": "6b9ba761c2e0843e217bb35738b77670963c1d99a89eb25a4fa84e800ef00f7c",
+    "heading": "## SFX 与 onset",
+    "targetExists": true
+  },
+  {
+    "source": "audio-finishing/SKILL.md",
+    "target": "audio-finishing/references/audio-operations.md",
+    "action": "完整迁移",
+    "textSha256": "a3aa3aa12b2c183f48a9c7d9c73ba02477f8991bd2f2bdc4dae1333ab84df1a7",
+    "heading": "## 响度与动态",
+    "targetExists": true
+  },
+  {
+    "source": "audio-finishing/SKILL.md",
+    "target": "audio-finishing/references/audio-operations.md",
+    "action": "完整迁移",
+    "textSha256": "95abc85863fabdd621a870348770532fb5bbfde41fc271a4d652a0313e1175fa",
+    "heading": "## 当前能力边界",
+    "targetExists": true
+  },
+  {
+    "source": "sound-asset-sourcing/SKILL.md",
+    "target": "sound-asset-sourcing/references/acquisition-and-analysis.md",
+    "action": "完整迁移",
+    "textSha256": "d5a22d2e68b9c93e02673ce05e31cbed1f18ba44b7a4a191567610a67075045c",
+    "heading": "## 在线来源和有限候选",
+    "targetExists": true
+  },
+  {
+    "source": "sound-asset-sourcing/SKILL.md",
+    "target": "sound-asset-sourcing/references/acquisition-and-analysis.md",
+    "action": "完整迁移",
+    "textSha256": "71e1e5bfccc736717e970a77d36be68e014cea7871b2bdf08df8d2efe5e1cfab",
+    "heading": "## 采用必须回到原文件",
+    "targetExists": true
+  },
+  {
+    "source": "avatar-performance/SKILL.md",
+    "target": "avatar-performance/references/actor-operations.md",
+    "action": "完整迁移",
+    "textSha256": "d5eb76a2f832a64df91a9064fb07f96f35c695577683e237f62af4c27157dc66",
+    "heading": "## 声音所有权和口型",
+    "targetExists": true
+  },
+  {
+    "source": "avatar-performance/SKILL.md",
+    "target": "avatar-performance/references/actor-operations.md",
+    "action": "完整迁移",
+    "textSha256": "a8fd639778438dad3bde097c142318bd2b9da53cc1ec095f1d5236f84fdae893",
+    "heading": "## Mask 与前后景",
+    "targetExists": true
+  },
+  {
+    "source": "avatar-performance/SKILL.md",
+    "target": "avatar-performance/references/actor-operations.md",
+    "action": "完整迁移",
+    "textSha256": "981b3538119fd38b2dc69ed7fcbeeadc6684d8b9cfced0e059852957d7236ee5",
+    "heading": "## Provider Capability 应怎样描述",
+    "targetExists": true
+  },
+  {
+    "source": "avatar-performance/SKILL.md",
+    "target": "avatar-performance/references/actor-operations.md",
+    "action": "完整迁移",
+    "textSha256": "50a8562d19fbb159a0f4f9b2e390c356306a43e6655677a5306fc74b15c42a31",
+    "heading": "## 人物生成的分段策略",
+    "targetExists": true
+  },
+  {
+    "source": "avatar-performance/SKILL.md",
+    "target": "avatar-performance/references/actor-operations.md",
+    "action": "完整迁移",
+    "textSha256": "47922c7d30f459d1df6d3abfb8f0c0b71ed2906241418f271b4218bb4dd5f7a1",
+    "heading": "## 当前执行",
+    "targetExists": true
+  },
+  {
+    "source": "avatar-performance/SKILL.md",
+    "target": "avatar-performance/references/actor-operations.md",
+    "action": "完整迁移",
+    "textSha256": "f288d19d5f3caf7a38ff830bb396120a8ac1a6525891a849a343fbe167f53358",
+    "heading": "## Avatar 输出作为候选人物素材审阅",
+    "targetExists": true
+  },
+  {
+    "source": "captions/SKILL.md",
+    "target": "captions/references/caption-operations.md",
+    "action": "完整迁移",
+    "textSha256": "83af06343d436a56d707e09fcf9f4ddc078010cbe75657540dff08dab5484bf0",
+    "heading": "## 文本事实来源",
+    "targetExists": true
+  },
+  {
+    "source": "captions/SKILL.md",
+    "target": "captions/references/caption-operations.md",
+    "action": "完整迁移",
+    "textSha256": "a3cb6b6e4aa07cdda7d739ba7c34c4866fb722e35376d5c489512620a10d49fe",
+    "heading": "## 修改范围",
+    "targetExists": true
+  },
+  {
+    "source": "captions/SKILL.md",
+    "target": "captions/references/caption-operations.md",
+    "action": "完整迁移",
+    "textSha256": "d298cbd59ad17dcb03f873bd5d7076e047ed793f72a85c0c8d0888734c1c5b1e",
+    "heading": "## 当前工具与能力",
+    "targetExists": true
+  },
+  {
+    "source": "captions/SKILL.md",
+    "target": "captions/references/caption-operations.md",
+    "action": "完整迁移",
+    "textSha256": "98fdc41155b4d596590d24ec0b381b259442950e59cda82d2f40abd0ba0fc12e",
+    "heading": "## 静态版式参数与拒绝分类",
+    "targetExists": true
+  },
+  {
+    "source": "scene-planning/SKILL.md",
+    "target": "scene-planning/references/scene-operations.md",
+    "action": "完整迁移",
+    "textSha256": "dfbceac023a06a2a0b51b800f830c8c3ee32dd148e4ab4bbe446a4db840652a4",
+    "heading": "## 把分镜映射为可执行范围",
+    "targetExists": true
+  },
+  {
+    "source": "scene-planning/SKILL.md",
+    "target": "scene-planning/references/scene-operations.md",
+    "action": "完整迁移",
+    "textSha256": "990facedee449ae56b2c3dd29b1ab66044a8053882029381ca6cab124362d56f",
+    "heading": "## 当前 Scene Type 的选择",
+    "targetExists": true
+  },
+  {
+    "source": "scene-planning/SKILL.md",
+    "target": "scene-planning/references/scene-operations.md",
+    "action": "完整迁移",
+    "textSha256": "c9c93c396325afab33bac8d49b3e8ec8f10e2450e4564f0da0fbb59fd8941349",
+    "heading": "## 创作范围与执行范围",
+    "targetExists": true
+  },
+  {
+    "source": "scene-planning/SKILL.md",
+    "target": "scene-planning/references/scene-operations.md",
+    "action": "完整迁移",
+    "textSha256": "5a3900b3ab941d838296dd579eebc334506e60451919b4c60ae1b0cd6afe2085",
+    "heading": "## 锁定与自动编译",
+    "targetExists": true
+  },
+  {
+    "source": "scene-planning/SKILL.md",
+    "target": "scene-planning/references/scene-operations.md",
+    "action": "完整迁移",
+    "textSha256": "e086d9a444bb16ab6e67bf8921c292f81b2a0659a8eeb9aa7d86b4b3aad445b5",
+    "heading": "## 当前项目写入",
+    "targetExists": true
+  },
+  {
+    "source": "evidence-visualization/SKILL.md",
+    "target": "evidence-visualization/references/source-and-capture.md",
+    "action": "完整迁移",
+    "textSha256": "303aa14655fc7932b7939d842e49a2ca921817ccef83ca8f6cdba2f94a104474",
+    "heading": "## 来源",
+    "targetExists": true
+  },
+  {
+    "source": "evidence-visualization/SKILL.md",
+    "target": "evidence-visualization/references/source-and-capture.md",
+    "action": "完整迁移",
+    "textSha256": "a4642287289d88413cc8107853d37f64a34d42b95e29d4222d648a92b08d3666",
+    "heading": "## PDF、网页与截图",
+    "targetExists": true
+  },
+  {
+    "source": "evidence-visualization/SKILL.md",
+    "target": "evidence-visualization/references/source-and-capture.md",
+    "action": "完整迁移",
+    "textSha256": "5db0730ce9f9c1053ee246b84e3bc30c90d5b7408321d3678c788ee44fd45ad8",
+    "heading": "## 当前能力",
+    "targetExists": true
+  },
+  {
+    "source": "effect-timing/SKILL.md",
+    "target": "effect-timing/references/event-and-audio-binding.md",
+    "action": "完整迁移",
+    "textSha256": "dabf614061ae10a1806771cff1d8fa0efab80326d95e20e1d69a1d98915a7430",
+    "heading": "## Event Anchor 与物理 Item 的区别",
+    "targetExists": true
+  },
+  {
+    "source": "effect-timing/SKILL.md",
+    "target": "effect-timing/references/event-and-audio-binding.md",
+    "action": "完整迁移",
+    "textSha256": "95bc20533f1085608b26d35f09cda16f8ccc21da14009b589e94d1e914b2e733",
+    "heading": "## 当前写入和验证",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MATERIAL_TO_SCENE.md",
+    "target": "production-director/references/asset-briefing.md",
+    "action": "完整迁移",
+    "textSha256": "aff527f84d8bf81b2a48c2894cc8be29284f39d377846f4b8392c38c8835482c",
+    "heading": "# 从实际素材到混合场面：执行方法 v3",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MATERIAL_TO_SCENE.md",
+    "target": "production-director/references/asset-briefing.md",
+    "action": "完整迁移",
+    "textSha256": "5b46b64a97aab1dd4dac6be92b5b7af722758d5fc81eef7e176d823005292edc",
+    "heading": "## 1. 何时进入本方法",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MATERIAL_TO_SCENE.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "79b8df717536a38bf46d57f8f6ed2f72ff99b1ad4b5a16d4993123a8bf63ceeb",
+    "heading": "## 2. 素材作者的实际观察顺序",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MATERIAL_TO_SCENE.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "34e29359c0162c8526f7fa05f4f0e7cccc0ad8d790667f9d1fee91b75a1f5071",
+    "heading": "## 3. 采用候选的完整返回正文",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MATERIAL_TO_SCENE.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "7c8321cf299f53422f00ddff51b45989dc8759a234d374d1f8178855a0200041",
+    "heading": "## 4. 事实边界与呈现设计分别决定",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MATERIAL_TO_SCENE.md",
+    "target": "production-director/references/asset-briefing.md",
+    "action": "完整迁移",
+    "textSha256": "96646dd495942ded15ef0615ea1be0664bab31c3c675447410dcf41f1959984b",
+    "heading": "## 5. 导演把材料变成具体场面",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MATERIAL_TO_SCENE.md",
+    "target": "visual-treatment-planning/references/art-direction.md",
+    "action": "完整迁移",
+    "textSha256": "3a4f8e68a363c12f4a72d0c22d13640f3b48cca90c010d87b0122ffdda26be31",
+    "heading": "## 6. 视觉作者的源上设计顺序",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MATERIAL_TO_SCENE.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "dc738ef8f648900196d422a6d120cb5df729e24ef4b74b3261dbc422248e1838",
+    "heading": "## 7. 未命中、遮挡和不清楚时怎样继续",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MATERIAL_TO_SCENE.md",
+    "target": "production-director/references/asset-briefing.md",
+    "action": "完整迁移",
+    "textSha256": "94cd346f206878603c2461159ea08c8cc51ce3ecb142793dd54b5b02cebf2181",
+    "heading": "## 8. 谁交给谁，以及少了什么回哪里",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MATERIAL_TO_SCENE.md",
+    "target": "production-director/references/asset-briefing.md",
+    "action": "完整迁移",
+    "textSha256": "3a00ed4ea756b1ec7e439cdd83cd3e7136d9d665c1670a2059e816abcab87bd4",
+    "heading": "## 材料与表达的共同修订",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MCP_EXECUTION_CONTRACT.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "424c8fe02ea5baee43369f2142ee278c8eb3c67f31fe082e0b92668f4a9a54ee",
+    "heading": "# MCP 实时输入与调用链合同",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/MCP_EXECUTION_CONTRACT.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "51133a4c7bde80b1e4b35705c3620974dafbc3a1240b050465abd83259a55bc4",
+    "heading": "## 共同输入规则",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/MCP_EXECUTION_CONTRACT.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "05318a69457cff94833673e888b3e9906c1bab4194ea7b8a56929f59d5f08db9",
+    "heading": "## 创意委派来源审计",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/MCP_EXECUTION_CONTRACT.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "73e73fd36ef3660761ed801b0ab425dfb00da6a338b2d6d4470ffdf8ce12f812",
+    "heading": "## 已实现的阶段一主链",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/MCP_EXECUTION_CONTRACT.md",
+    "target": "visual-asset-sourcing/references/acquisition-operations.md",
+    "action": "完整迁移",
+    "textSha256": "0409295a4a290b8716497554262efe0034e6fb417581de352b504d5823a7dcfa",
+    "heading": "## 工具状态必须明确区分",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MCP_EXECUTION_CONTRACT.md",
+    "target": "remotion-production/references/submission-and-recovery.md",
+    "action": "完整迁移",
+    "textSha256": "23805e09c5e552bf47effa35803b18e2d3793d6de3ca41486524f540b40fab42",
+    "heading": "## 受管 Remotion 作品",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MCP_EXECUTION_CONTRACT.md",
+    "target": "remotion-production/references/submission-and-recovery.md",
+    "action": "完整迁移",
+    "textSha256": "8496c01f0e15d064c55b1fdf84a6da05aa1668293fbd279cc436abbd02b69866",
+    "heading": "## 既有场景主视觉的局部启停",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/MCP_EXECUTION_CONTRACT.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "91b8aee9df88a8e7b601f2d2afc07639b6ef21720cc8d0237e9533efb693707b",
+    "heading": "## 平台修复协作命令",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/MCP_EXECUTION_CONTRACT.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "d77fb9a9607e24c5faf67d489cf0cf2133196346a7ba3406835cc45dd9e600da",
+    "heading": "## 失败与不确定结果",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/MCP_EXECUTION_CONTRACT.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "93063cae83e5be34d8a8015a0d47260acbf2e2a725e32b3c376d5eeafb7cfcdd",
+    "heading": "## 项目帧率设置",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/MCP_EXECUTION_CONTRACT.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "ceee88766d0e71efe02bfb772d6bf4b4735cd8bca69b0fadedf24320b72860b3",
+    "heading": "## 参数拒绝与原始错误证据",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/QUALITY_EVIDENCE_AND_DELIVERY.md",
+    "target": "quality-verification/references/evidence-status.md",
+    "action": "完整迁移",
+    "textSha256": "41c1998fc8fdfb40bdb1b7487992e5356899cebd16565ad0eec8975533b6baba",
+    "heading": "# 质量证据、四轮审片与交付",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/QUALITY_EVIDENCE_AND_DELIVERY.md",
+    "target": "quality-verification/references/evidence-status.md",
+    "action": "完整迁移",
+    "textSha256": "03f203da99c0dad352a537932fd3d9b39888ca1e8f19fa48bb136327c49978db",
+    "heading": "## 四级完成证据",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/QUALITY_EVIDENCE_AND_DELIVERY.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "938c644939340e070a921573603c10c29f9a97e422eed287e097095452ab3298",
+    "heading": "## 五轮审查",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/QUALITY_EVIDENCE_AND_DELIVERY.md",
+    "target": "quality-verification/references/evidence-status.md",
+    "action": "完整迁移",
+    "textSha256": "697e91fb39336be78eff97c5b717fdf4588dcc9e1f97a335ae225725f65c7cae",
+    "heading": "## 严重级别",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/QUALITY_EVIDENCE_AND_DELIVERY.md",
+    "target": "quality-verification/references/technical-delivery.md",
+    "action": "完整迁移",
+    "textSha256": "61d2569ea0c7eb94b8f8d38f6166290a8f9c994bc45226f966bf7ae25ed49723",
+    "heading": "## Draft 与 Delivery",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/QUALITY_EVIDENCE_AND_DELIVERY.md",
+    "target": "quality-verification/references/professional-review.md",
+    "action": "完整迁移",
+    "textSha256": "c2326878a7c3eeb2fda6d12a3351d130be947484fc52eb2ba30c2b0f592554a8",
+    "heading": "## 修复回路",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/QUALITY_EVIDENCE_AND_DELIVERY.md",
+    "target": "quality-verification/references/evidence-status.md",
+    "action": "完整迁移",
+    "textSha256": "9ffae5ec190b0dc47eeba33ae1451230343ca8fbf3d2e4bceffb34cc0f79d425",
+    "heading": "## 原创作品的证据范围",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/QUALITY_EVIDENCE_AND_DELIVERY.md",
+    "target": "quality-verification/references/evidence-status.md",
+    "action": "完整迁移",
+    "textSha256": "a4087e1e578791c7ee5b0bd9e17e46753957f4ec09c93069992ec063fed64382",
+    "heading": "## 技术、实现与表达分别记录",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/SOURCE_REVIEW_METHOD.md",
+    "target": "visual-asset-sourcing/references/source-review.md",
+    "action": "完整迁移",
+    "textSha256": "94b1f625aeb8e9a6e0afc93c467c1b266ff06d6b2cdd7de0d796ba8bb262e47f",
+    "heading": "# 源素材审阅方法",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/EVIDENCE_AND_READINESS.md",
+    "target": "quality-verification/references/evidence-status.md",
+    "action": "完整迁移",
+    "textSha256": "a660b1ba0d9d288d9fe8a1a42ee8aa7e17991786160a6dd96dd5279328035766",
+    "heading": "# 素材证据、来源与就绪状态",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "91202ef1dbcf4c565637788c69abdce9f4d1dbe5abc8cdba5c0b563029fc7512",
+    "heading": "## 读—判断—写—读回",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "49b08548d7d16bfb88958f9fb5f7ef1de7a3dd7930e0f947d82ab49550db3b1f",
+    "heading": "## 实时 MCP 输入合同",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "7bcd4916f8d0bf1a50f9aed2566325a192fe782a89e3fc27e2b252b567ff7694",
+    "heading": "## 剪辑阻断与平台修复交接",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "be10c00e1cbd262fdf53accba06d7a57373d13e61089969d5a44bb821438fcbf",
+    "heading": "## 对象选择",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "08bd2359af79efa08ce549186d5a6476ebc7a4f5e0815c650253299c9c70a9a6",
+    "heading": "## Revision 冲突和结果未知",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "target": "production-coordinator/references/project-writes.md",
+    "action": "完整迁移",
+    "textSha256": "4b8f6fc4746eb3c2e521575129c3c21cfc551288ba2d40b8ac559210075e70d2",
+    "heading": "## ProductionRun",
+    "targetExists": true,
+    "refinementNote": "二轮精简：合并提交、读回与未知结果规则；字体选择归动画提交参考，专项参数不再重复列举，候选修复部署归开发文档。"
+  },
+  {
+    "source": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "target": "_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    "action": "完整迁移",
+    "textSha256": "603d76e409c19176e848b2531f3a510610650772dba4974c59002ef37afec140",
+    "heading": "# Project、Revision、Skill 交接与执行安全",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/EDITORIAL_FOUNDATIONS.md",
+    "target": "effect-timing/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "d4f4ca03fb663618a12d7bf93e15f658bb876572b6587a0f94144c3bab4a789d",
+    "heading": "## 秒级初始节奏与预览修订",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/EDITORIAL_FOUNDATIONS.md",
+    "target": "effect-timing/SKILL.md",
+    "action": "完整迁移",
+    "textSha256": "f7f614c88acdf22a64db84119028351006de7136bc3217d476bc1f02c37054d8",
+    "heading": "## 初始节奏怎样变成可观看的声画粗剪",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/EDITORIAL_FOUNDATIONS.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "c082945ca60d7da34d5d2f41c177204f4aa44814572879ed5aca6701394f9565",
+    "heading": "## 从实际声画构思主线、段落与分镜",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/EDITORIAL_FOUNDATIONS.md",
+    "target": "production-director/references/story-and-shot-design.md",
+    "action": "完整迁移",
+    "textSha256": "cb821b2ce08bd837b0e7f8dd48b0aba08c0bbaac97f753c9ccccde9be355fbca",
+    "heading": "## 完整观看先于技术分段",
+    "targetExists": true
+  },
+  {
+    "source": "_shared/EDITORIAL_FOUNDATIONS.md",
+    "target": "_shared/EDITORIAL_FOUNDATIONS.md",
+    "action": "完整迁移",
+    "textSha256": "94499a7f4a9a9b36386bac183a7e4f911ceba78168ff26b05afbd8d0cab13a7d",
+    "heading": "# 导演、剪辑、节奏与注意力共同方法",
+    "targetExists": true
+  }
+]

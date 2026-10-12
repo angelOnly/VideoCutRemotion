@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VideoFlowCut · Skills 阅读</title>
+<style>
+:root{font-family:"Microsoft YaHei",system-ui,sans-serif;color:#222b35;background:#f7f8fa;color-scheme:light}
+*{box-sizing:border-box}body{margin:0;display:grid;grid-template-columns:330px minmax(0,1fr);height:100vh}aside{overflow:auto;border-right:1px solid #dce1e7;background:white;padding:22px 14px}header{padding:0 8px 18px}header strong{display:block;font-size:20px}small{display:block;color:#677587;line-height:1.7;margin-top:7px}input{width:100%;padding:10px;border:1px solid #d5dce6;border-radius:6px;margin-top:14px}nav details{margin-left:12px}nav>details{margin-left:0}nav summary{cursor:pointer;padding:7px 2px;font-size:13px;overflow-wrap:anywhere}nav button{display:block;width:100%;text-align:left;border:0;background:transparent;color:#455363;padding:7px 8px 7px 19px;border-radius:5px;cursor:pointer;overflow-wrap:anywhere;font:12px/1.5 inherit}nav button:hover,nav button.active{background:#eaf1ff;color:#1a55a6}main{overflow:auto;padding:25px 5vw 70px}.toolbar{display:flex;align-items:center;gap:20px;border-bottom:1px solid #dce1e7;padding-bottom:15px;margin-bottom:28px;color:#667588;font-size:12px;overflow-wrap:anywhere}.toolbar a{white-space:nowrap}article{max-width:1050px;margin:auto;font-size:16px;line-height:1.85}h1{font-size:28px;line-height:1.4}h2{font-size:22px;margin-top:2em;border-bottom:1px solid #e2e6ec;padding-bottom:8px}h3{font-size:18px;margin-top:1.8em}a{color:#205dac}p{margin:1em 0}pre{overflow:auto;background:#edf0f5;padding:16px;border-radius:7px;font-size:13px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}code{font-family:Consolas,monospace;background:#edf0f5;padding:2px 4px;border-radius:3px}pre code{padding:0}table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow:auto}th,td{border:1px solid #d9e0e8;padding:10px 12px;min-width:90px;vertical-align:top}th{background:#edf1f6;text-align:left}blockquote{border-left:3px solid #9bb1cc;padding-left:18px;color:#536276;margin-left:0}img,video{max-width:100%;height:auto}audio{width:100%}article details{font-size:13px;color:#677587}#empty{padding:50px 0;color:#667588}.resource{padding:40px;background:white;border:1px solid #dce1e7;border-radius:8px}@media(max-width:850px){body{grid-template-columns:240px minmax(0,1fr)}aside{padding:15px 8px}main{padding:20px}article{font-size:15px}}@media(max-width:600px){body{display:block;height:auto}aside{max-height:40vh;border-bottom:1px solid #dce1e7}main{overflow:visible}}
+</style>
+<style>
+header strong{font-size:21px}.guide-links{display:grid;gap:5px;margin-top:15px}.guide-links a{display:block;text-decoration:none;padding:9px 10px;border-radius:6px;background:#f0f5fc;font-size:14px}.guide-links a:hover{background:#e0ebfc}.modes{display:flex;gap:5px;margin-top:17px}.modes button{flex:1;padding:8px 4px;border:1px solid #dce1e7;border-radius:6px;background:white;color:#536276;cursor:pointer}.modes button[aria-pressed=true]{background:#254f79;color:white;border-color:#254f79}nav button{font:inherit;font-size:13px;line-height:1.6}nav>details>summary{font-size:14px;font-weight:600;padding:11px 4px}nav details details>summary{font-weight:400}nav .count{float:right;color:#7c8998;font-size:11px;font-weight:400}.reading-hint{padding:11px 14px;margin:0 0 24px;border-left:3px solid #7799bd;background:#edf3fa;color:#50647a;font-size:13px}.home h3{color:#264d73}.home h3+p{margin-top:8px}.home h3{padding-top:20px;border-top:1px solid #e2e6ec}.home ol{padding-left:26px}.home li{padding-left:6px;margin-bottom:23px}.home h2{scroll-margin-top:20px}.toolbar{justify-content:space-between}button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #437cb6;outline-offset:2px}#original[hidden]{display:none}#nothing{font-size:13px;color:#677587;padding:15px}
+</style>
+<aside><header><strong>视频制作 · 中文导读</strong><small>先认识角色，再顺着制作流程阅读。<br>完整原文与案例均可在下方展开。</small><div class="guide-links"><a href="#view=overview">从这里开始 · 阅读指南</a><a href="#view=roles">项目角色与职责</a><a href="#view=workflow">从主题到交付的完整链路</a></div><div class="modes" aria-label="目录方式"><button data-mode="roles" aria-pressed="true">按职责阅读</button><button data-mode="files" aria-pressed="false">实际文件目录</button></div><input id="search" type="search" placeholder="搜索中文名称、标题或原文件名" aria-label="筛选文件"></header><nav aria-label="中文阅读目录"></nav></aside>
+<style>
+.comparing{grid-template-columns:260px minmax(0,1fr)}.comparing main{padding:16px 20px;overflow:auto}.comparison{max-width:none;font-size:14px}.compare-controls{display:flex;gap:12px;flex-wrap:wrap;align-items:end}.compare-controls label{display:block;font-size:12px;color:#50647a;flex:1;min-width:210px}.compare-controls select{display:block;width:100%;margin-top:5px;padding:8px;border:1px solid #ccd5e0;border-radius:5px;background:white;min-width:0}.compare-controls .compare-check{flex:none;min-width:0;display:flex;gap:6px;align-items:center}.compare-check input{width:auto;margin:0}.compare-note{font-size:12px;color:#576b80;line-height:1.7}.compare-columns{display:grid;grid-template-columns:minmax(300px,1fr) minmax(300px,1fr);gap:14px;overflow:auto}.compare-pane{min-width:0;border:1px solid #d8dfe8;background:white;border-radius:7px;overflow:hidden}.compare-pane>header{padding:12px 18px;background:#edf2f8;font-weight:bold;font-size:15px;border-bottom:1px solid #d8dfe8}.compare-pane:first-child>header{background:#f3efe9}.compare-pane>header small{font-weight:normal;font-size:11px;overflow-wrap:anywhere;line-height:1.5}.compare-content{height:calc(100vh - 252px);min-height:360px;overflow:auto;padding:8px 20px 40px;line-height:1.85;overflow-wrap:anywhere}.compare-content h1{font-size:23px}.compare-content h2{font-size:19px}.compare-content h3{font-size:16px}.compare-content pre{font-size:12px}.compare-file-heading{background:#e9f2fc;padding:12px}.toolbar button{padding:7px 12px;background:white;border:1px solid #bacbdf;border-radius:5px;color:#205dac;cursor:pointer}.toolbar button[hidden]{display:none}@media(max-width:900px){.comparing{grid-template-columns:210px minmax(0,1fr)}.comparing main{padding:12px}.compare-content{padding:8px 13px 30px}}@media(max-width:600px){.comparing{display:block}.compare-columns{grid-template-columns:310px 310px}.compare-content{height:65vh}.compare-controls label{min-width:100%;max-width:100%}}
+</style>
+<main><div class="toolbar"><span id="path">.agents/skills/</span><button id="compare-current" hidden>与修改前对照</button><a id="original" target="_blank" rel="noopener">打开原文件</a></div><article><div id="empty">从左侧选择一个文件。</div></article></main>
+<script type="application/json" id="data">__SKILLS_DATA__</script>
+<script type="application/json" id="navigation">__NAVIGATION_DATA__</script>
+<script type="application/json" id="comparison-data">__COMPARISON_DATA__</script>
+<script>
+const files=JSON.parse(document.querySelector('#data').textContent), byPath=new Map(files.map(x=>[x.path,x]));
+const navigation=JSON.parse(document.querySelector('#navigation').textContent);
+const nav=document.querySelector('nav'), article=document.querySelector('article'), main=document.querySelector('main');
+let current='',mode='roles';
+const sourceRoot=new URL('../.agents/skills/',location.href);
+function sourceURL(path){return new URL(path.split('/').map(encodeURIComponent).join('/'),sourceRoot).href}
+function tree(filter=''){
+  const opened=new Set([...nav.querySelectorAll('details[open]')].map(d=>d.dataset.path));nav.replaceChildren();
+  const selected=files.filter(file=>!filter||`${file.path} ${file.title||''} ${file.label} ${navigation.names[file.path.split('/')[0]]||''} ${navigation.roles.find(r=>r.skills.some(([id])=>file.path.startsWith(id+'/')))?.name||''}`.toLowerCase().includes(filter.toLowerCase()));
+  function buildTree(list){const root={};for(const file of list){let branch=root;const segments=file.path.split('/');for(const [i,part] of segments.entries())branch=i===segments.length-1?(branch[part]=file):(branch[part]??={});}return root;}
+  function append(branch,parent,prefix=''){
+    // 工作入口排在详细参考之前，避免一展开先看到配置文件。
+    const entries=Object.entries(branch).sort(([a],[b])=>(a==='SKILL.md'||a==='CASE.md'?-1:b==='SKILL.md'||b==='CASE.md'?1:0));
+    for(const [name,value] of entries){
+      const path=prefix+name;
+      if(value.path){const button=document.createElement('button');button.textContent=name==='SKILL.md'?'开始阅读 · '+value.label:value.label;button.title=path;button.dataset.file=path;button.classList.toggle('active',path===current);button.onclick=()=>document.body.classList.contains('comparing')&&value.source!==undefined?compareFile(path):navigate(path);parent.append(button)}
+      else{const d=document.createElement('details'),summary=document.createElement('summary');d.dataset.path=path;d.open=!!filter||opened.has(path)||current.startsWith(path+'/');summary.textContent=navigation.names[name]||'其他资料';summary.title=path;d.append(summary);append(value,d,path+'/');parent.append(d)}
+    }
+  }
+  if(mode==='files')append(buildTree(selected),nav);
+  else{
+    const groups=[...navigation.roles.map((r,i)=>({name:`${String(i+1).padStart(2,'0')} ${r.name}`,keys:r.skills.map(([id])=>id)})),{name:'按需查阅 · 案例参考库',keys:['motion-case-library']},{name:'共同方法与交接约定',keys:['_shared']}];
+    for(const group of groups){const subset=selected.filter(f=>group.keys.includes(f.path.split('/')[0]));if(!subset.length)continue;
+      const d=document.createElement('details'),summary=document.createElement('summary');d.dataset.path='role:'+group.name;d.open=!!filter||opened.has(d.dataset.path)||subset.some(f=>f.path===current);summary.textContent=group.name;d.append(summary);
+      const branches=buildTree(subset);for(const key of group.keys)if(branches[key])append({[key]:branches[key]},d);nav.append(d);
+    }
+  }
+  if(!selected.length){const p=document.createElement('p');p.id='nothing';p.textContent='没有找到相关资料，试试职责或问题关键词。';nav.append(p)}
+}
+function navigate(path,anchor=''){location.hash=new URLSearchParams({file:path,...(anchor?{section:anchor}:{})}).toString()}
+function wireLinks(path){
+  for(const element of article.querySelectorAll('[href],[src]')){
+    const attr=element.hasAttribute('href')?'href':'src',raw=element.getAttribute(attr);
+    if(/^https?:/i.test(raw)){if(attr==='href'){element.target='_blank';element.rel='noopener'}continue}
+    if(/^[a-z][a-z\d+.-]*:/i.test(raw)){element.removeAttribute(attr);continue}
+    // 首页导读的对照入口是阅读器视图，不是技能目录内的文件锚点。
+    if(!path&&attr==='href'&&raw.startsWith('#view='))continue;
+    const u=new URL(raw,path?sourceURL(path):sourceRoot);element.setAttribute(attr,u.href);
+    if(attr==='href'&&u.href.startsWith(sourceRoot.href)){
+      const target=decodeURIComponent(u.pathname.slice(sourceRoot.pathname.length));
+      if(byPath.has(target))element.onclick=e=>{e.preventDefault();navigate(target,decodeURIComponent(u.hash.slice(1)))};
+    }
+  }
+}
+function show(){
+  const params=new URLSearchParams(location.hash.slice(1)),path=params.get('file'),file=byPath.get(path);
+  document.body.classList.toggle('comparing',params.get('view')==='compare');
+  document.querySelector('#compare-current').hidden=!file||file.source===undefined;
+  if(params.get('view')==='compare'){showComparison(params);return}
+  if(!file){
+    current='';article.className='home';article.innerHTML=navigation.guide;document.querySelector('#path').textContent='阅读指南 / 角色、职责与制作流程';document.querySelector('#original').hidden=true;wireLinks();tree(document.querySelector('#search').value);main.scrollTop=0;
+    const section={roles:'角色怎样划分',workflow:'一部片怎样做出来'}[params.get('view')];if(section)document.getElementById(section)?.scrollIntoView();return;
+  }
+  article.className='';document.querySelector('#original').hidden=false;
+  current=path;document.querySelector('#path').textContent='.agents/skills/'+path;document.querySelector('#original').href=sourceURL(path);
+  article.replaceChildren();
+  if(file.html){article.innerHTML=file.html;
+    wireLinks(path);
+  }else{
+    const wrapper=document.createElement('div');wrapper.className='resource';
+    const title=document.createElement('h1');title.textContent=file.label;wrapper.append(title);
+    const ext=path.split('.').at(-1).toLowerCase();let media;
+    if(['png','jpg','jpeg','webp','gif'].includes(ext)){media=document.createElement('img');media.alt=title.textContent}
+    if(['mp4','webm'].includes(ext)){media=document.createElement('video');media.controls=true;media.preload='metadata'}
+    if(['wav','mp3','m4a','ogg'].includes(ext)){media=document.createElement('audio');media.controls=true;media.preload='metadata'}
+    if(media){media.src=sourceURL(path);wrapper.append(media)}else{const a=document.createElement('a');a.href=sourceURL(path);a.textContent='打开资源文件';wrapper.append(a)}
+    article.append(wrapper);
+  }
+  tree(document.querySelector('#search').value);main.scrollTop=0;
+  const anchor=params.get('section');if(anchor)document.getElementById(anchor)?.scrollIntoView();
+}
+document.querySelector('#search').oninput=e=>tree(e.target.value);
+__COMPARISON_SCRIPT__
+document.querySelector('#compare-current').onclick=()=>compareFile(current);
+const compareLink=document.createElement('a');compareLink.href='#view=compare';compareLink.textContent='修改前后 · 双栏对照';document.querySelector('.guide-links').append(compareLink);
+for(const button of document.querySelectorAll('[data-mode]'))button.onclick=()=>{mode=button.dataset.mode;document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));tree(document.querySelector('#search').value)};
+addEventListener('hashchange',show);show();
+</script>
+</html>

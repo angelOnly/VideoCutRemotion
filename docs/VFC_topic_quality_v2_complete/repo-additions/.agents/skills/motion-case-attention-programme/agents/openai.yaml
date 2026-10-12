@@ -1,0 +1,5 @@
+interface:
+  display_name: "时代变化与节目安排"
+  short_description: "已认可完整声画样片：实拍、花字、语义交接与镜片"
+policy:
+  allow_implicit_invocation: false

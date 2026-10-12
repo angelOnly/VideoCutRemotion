@@ -1,0 +1,23 @@
+{
+  "algorithm": "sha256",
+  "selectedVideoSha256": "37c254d339f44161c187fdd28cec018cdea88e1e2a4db9acdf13bf868b6103c5",
+  "files": {
+    "before-clock.tsx": "ed7f1ba39d862f32c758fc255fe14cf5bef724c188a11794a7c80f3a9b7190e2",
+    "before-qci.tsx": "ed7f1ba39d862f32c758fc255fe14cf5bef724c188a11794a7c80f3a9b7190e2",
+    "before-sim.tsx": "c4d445dcc59475b73179dd9ed4503d696d90e4d6cd73aa41963850c3f7506c21",
+    "before.mp4": "8e8f7d9ef91035c32b34fc26b96c596a12585a83a8dcf93c1a4411b6597e316b",
+    "clock.mp4": "efb43f1eb0b0ca2e17ef20ee629e8827e1268e446ab4addc9c649b0c8bf49c61",
+    "clock.tsx": "3847510279b25971575a73b59008c053bf1624ff2e9ed9d290f5b4a813664b25",
+    "fixture.json": "9b05ed1e14f66870e8d69a088d1fafda1297a138ced62e2be63c31b8aa7ae82f",
+    "paper.jpg": "f677322e96e82367cf65e4b3ee1f0b580f96511c49a0b7f7ea1b6837ae175570",
+    "preview-090.png": "2e2a768f8f59f5736f3ecc143aa78216496d77a999f33c05f83b33d6902436a3",
+    "preview-170.png": "590a773a46bdbf590b120d08f81e24838ecea70a2fcd5abe8548e7bcc266450c",
+    "preview-330.png": "7c4a5c594b110a677ade33db09a734fda3aed3de9e576a815dbcc68cfcc5cfeb",
+    "preview-475.png": "16c3028f4d19cef5ac6d658b4c93e3ecc52141e0966476a00a3b25a790cec2fc",
+    "preview.mp4": "37c254d339f44161c187fdd28cec018cdea88e1e2a4db9acdf13bf868b6103c5",
+    "qci.mp4": "802f8bc67fc99d7a69072d9a3d3cfc34d5fbf7377c25c2fb5284818fe581d64a",
+    "qci.tsx": "3847510279b25971575a73b59008c053bf1624ff2e9ed9d290f5b4a813664b25",
+    "sim.mp4": "c8f80a1fcfbc13c54737a0d0cba32f18c2c92754328954389f58f4a8513189be",
+    "sim.tsx": "4d51d4f319cca670fe1e1d9aca0d0e28fa7bc19ac37af6b56ba6e44d88c1a175"
+  }
+}

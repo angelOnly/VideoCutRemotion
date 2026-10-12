@@ -1,0 +1,220 @@
+{
+  "name": "时代变化与直播节目安排｜本轮原创全片 v3",
+  "source": "import React from 'react';\nimport {AbsoluteFill,Img,useCurrentFrame} from 'remotion';\nimport {TimelineVideo} from '@videoflowcut/motion';\nconst lim=(v:number)=>Math.max(0,Math.min(1,v));\nconst phase=(f:number,a:number,b:number)=>lim((f-a)/(b-a));\nconst settle=(v:number)=>1-Math.pow(1-lim(v),3);\nconst blend=(a:number,b:number,v:number)=>a+(b-a)*v;\nconst rect=(x:number,y:number,w:number,h:number):any=>({position:'absolute',left:x,top:y,width:w,height:h});\nconst ff=(p:any,k:string):any=>({fontFamily:p.fonts[k].family,fontWeight:p.fonts[k].weight,fontStyle:p.fonts[k].style});\nconst grid={backgroundColor:'#111615',backgroundImage:'linear-gradient(rgba(170,195,180,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(170,195,180,.018) 1px,transparent 1px)',backgroundSize:'32px 32px'};\nfunction People({p,f}:{p:any,f:number}){\n const e=p.events,entry=settle(phase(f,e.douyu-5,e.stay)),release=settle(phase(f,e.phone,e.phone+23)),rear=settle(phase(f,e.chair-6,e.chair+15));\n return <div style={{...rect(0,0,480,436),opacity:entry*(1-release),transform:'translateY('+((1-entry)*30+release*42)+'px) scale('+(1-rear*.05)+')',transformOrigin:'240px 240px'}}>\n <svg style={rect(0,0,480,436)} viewBox=\"0 0 480 436\"><defs><linearGradient id=\"beamRerun\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stopColor=\"#8EC9A7\" stopOpacity=\".15\"/><stop offset=\"1\" stopColor=\"#8EC9A7\" stopOpacity=\".01\"/></linearGradient></defs><path d=\"M230 183L72 436H409L250 183Z\" fill=\"url(#beamRerun)\"/></svg>\n {[0,1,2,3].map(r=>[0,1,2,3,4,5,6].map(c=>{\n const h=45+r*7,x=35+c*65+(r%2)*16,y=279+r*35,en=settle(phase(f,e.douyu-4+r*4,e.douyu+14+r*4));\n return <svg key={r+'-'+c} style={{...rect(x-20,y+(1-en)*27,42,h),opacity:en*(1-rear*.22)}} viewBox=\"0 0 70 100\"><circle cx=\"35\" cy=\"19\" r=\"14\" fill={'rgba(198,220,204,'+(.20+r*.13)+')'}/><path d=\"M5 100V74Q5 44 35 44Q65 44 65 74V100\" fill={'rgba(184,210,193,'+(.18+r*.13)+')'}/></svg>;\n }))}\n {[104,240,376].map((x,i)=>{\n const change=i===1?settle(phase(f,e.leave,e.leave+9)):0,d=i===1?82+change*8:68;\n return <div key={i} style={{...rect(x-d/2,152-d/2,d,d),borderRadius:'50%',border:'1.5px solid #759D82',background:'#263A2E',overflow:'hidden',display:'flex',alignItems:'center',justifyContent:'center',color:'#E0E7DE',...ff(p,'body'),fontSize:14,lineHeight:1.3,textAlign:'center'}}>\n {i===1?(f<e.leave?<Img src={p.assets.identity} style={{width:d,height:d,objectFit:'contain'}}/>:<span style={{opacity:change}}>主播<br/>暂时离开</span>):<span>{i===0?'娱乐直播':'户外直播'}</span>}\n </div>;\n })}\n {f<e.leave&&<div style={{...rect(194,197,92,22),textAlign:'center',...ff(p,'body'),fontSize:16,color:'#D4E1D5'}}>大司马</div>}\n </div>;\n}\nfunction Opening({p,f}:{p:any,f:number}){\n const gone=settle(phase(f,p.events.douyu-2,p.events.douyu+12));\n if(gone===1)return null;\n return <div style={{...rect(0,0,480,436),opacity:1-gone}}>\n {[{text:'时代不同',y:96,size:88,start:0,w:380},{text:'平台的观众变了',y:185,size:61,start:4,w:448}].map((t,i)=>{\n const inP=settle(phase(f,t.start,t.start+13));\n return <div key={t.text} style={{...rect((480-t.w)/2,t.y-gone*50+(1-inP)*12,t.w,i===0?105:76),...ff(p,i===0?'display':'serif'),fontSize:t.size,lineHeight:(i===0?'105px':'76px'),textAlign:'center',letterSpacing:i===0?-2:0,color:'#EEEAE0',opacity:inP,transform:'scale('+blend(1.035,1,inP)+')',textShadow:'1px 2px 2px rgba(0,0,0,.2)'}}>{t.text}</div>;\n })}\n </div>;\n}\nfunction RealChair({p,f}:{p:any,f:number}){\n const start=p.events.chair-6,outStart=p.events.phone;\n if(f<start||f>=outStart+23)return null;\n const a=settle(phase(f,start,start+20)),b=settle(phase(f,outStart,outStart+23));\n // 摄影椅外轮廓与气杆两侧空隙同属原图坐标；灰色绗缝背布保留。\n const silhouette='M .36 .012 L .49 .007 L .55 .016 L .58 .034 L .604 .08 L .619 .14 L .65 .18 L .73 .215 L .758 .25 L .761 .29 L .729 .333 L .699 .365 L .690 .398 L .710 .482 L .845 .482 L .872 .494 L .873 .505 L .856 .520 L .838 .522 L .832 .679 L .75 .700 L .667 .708 L .652 .850 L .790 .886 L .809 .908 L .803 .959 L .770 .975 L .750 .962 L .739 .940 L .48 .867 L .452 .975 L .417 .993 L .382 .983 L .379 .956 L .414 .900 L .17 .930 L .181 .958 L .154 .973 L .135 .955 L .134 .904 L .350 .854 L .433 .850 L .432 .708 L .270 .697 L .206 .650 L .180 .539 L .145 .522 L .135 .504 L .136 .491 L .161 .482 L .240 .489 L .247 .377 L .210 .333 L .166 .283 L .166 .248 L .182 .218 L .255 .170 L .303 .108 Z M .267 .719 L .422 .719 L .425 .846 L .278 .874 L .252 .886 L .269 .866 Z M .569 .719 L .746 .713 L .726 .851 L .657 .841 L .575 .824 Z';\n return <div style={{...rect(0,0,480,436),opacity:a*(1-b),transform:'translateY('+((1-a)*80+b*90)+'px) scale('+(blend(.79,1,a)-b*.12)+')',transformOrigin:'240px 280px'}}>\n <svg width=\"0\" height=\"0\" style={{position:'absolute'}}><defs><clipPath id=\"chairPhotoContourV2\" clipPathUnits=\"objectBoundingBox\"><path d={silhouette} fillRule=\"evenodd\" clipRule=\"evenodd\"/></clipPath></defs></svg>\n <div style={{...rect(158,413,164,10),background:'rgba(0,0,0,.3)',borderRadius:'50%',filter:'blur(3px)'}}/>\n <Img src={p.assets.chair} style={{...rect(120,104,240,320),objectFit:'contain',clipPath:'url(#chairPhotoContourV2)'}}/>\n </div>;\n}\nfunction SourceWindow({slot,crop,w,h}:{slot:string,crop:number[],w:number,h:number}){\n const [x,y,cw,ch]=crop;\n const scale=Math.max(w/(1280*cw),h/(720*ch)),sw=1280*scale,sh=720*scale;\n return <div style={{...rect(0,0,w,h),overflow:'hidden'}}>\n <TimelineVideo slot={slot} fit=\"fill\" style={{position:'absolute',width:sw,height:sh,left:-x*sw+(w-cw*sw)/2,top:-y*sh+(h-ch*sh)/2}}/>\n </div>;\n}\nfunction LivePage({p,f,page,index}:{p:any,f:number,page:any,index:number}){\n const entering=index===0?1:settle(phase(f,page.a,page.a+11));\n const exit=page.turn<900?settle(phase(f,page.turn,page.turn+11)):0;\n const y=(1-entering)*430-exit*430;\n return <div style={{...rect(0,y,212,430),background:'#16221B'}}>\n <div style={rect(0,0,212,304)}><SourceWindow slot={page.slot} crop={page.game} w={212} h={304}/></div>\n <div style={rect(0,304,212,126)}><SourceWindow slot={page.slot} crop={page.face} w={212} h={126}/></div>\n </div>;\n}\nfunction Handset({p,f}:{p:any,f:number}){\n const e=p.events;\n if(f<e.phone||f>=e.phoneEnd)return null;\n const enter=settle(phase(f,e.phone,e.phone+22)),near=settle(phase(f,e.effect,e.effect+24)),leave=phase(f,e.pressure,e.phoneEnd);\n const exit=leave*leave;\n const w=blend(214,232,near),h=blend(426,462,near),cx=blend(248,240,near)+(1-enter)*130,cy=blend(220,205,near)+exit*535;\n return <div style={{...rect(cx-w/2,cy-h/2,w,h),boxSizing:'border-box',borderRadius:23,padding:5,background:'#929D97',boxShadow:'4px 6px 0 #36423C,0 7px 12px rgba(0,0,0,.30)',transform:'perspective(850px) rotateY('+(-31*(1-enter))+'deg) rotateZ('+(6*(1-enter))+'deg)'}}>\n <div style={{position:'relative',width:'100%',height:'100%',borderRadius:19,overflow:'hidden',background:'#18271D'}}>\n <div style={{...rect(0,0,212,430),transform:'scale('+((w-10)/212)+','+((h-10)/430)+')',transformOrigin:'0 0'}}>\n {p.pages.map((page:any,i:number)=>f>=page.a&&f<page.b?<LivePage key={page.slot} p={p} f={f} page={page} index={i}/>:null)}\n </div>\n <div style={{...rect((w-10)/2-20,5,40,5),background:'#142119',borderRadius:4}}/>\n </div></div>;\n}\nfunction LetterAct({p,f}:{p:any,f:number}){\n const start=p.events.effect,retire=p.events.pressure-3,end=retire+14;\n if(f<start||f>=end)return null;\n const letters=[{t:'不',x:99,d:0,r:-68,dx:-12,dy:3,len:14},{t:'能',x:193,d:3,r:64,dx:-5,dy:-4,len:14},{t:'冷',x:287,d:8,r:72,dx:5,dy:3,len:14},{t:'场',x:381,d:5,r:-70,dx:12,dy:2,len:13}];\n const out=settle(phase(f,retire,end));\n return <div style={{...rect(0,0,480,436),perspective:780}}>\n {letters.map((l,i)=>{\n const first=start+l.d,a=settle(phase(f,first,first+l.len)),side=i<2?-1:1;\n return <div key={l.t} style={{...rect(l.x-58,154,116,140),...ff(p,'display'),fontSize:120,lineHeight:'140px',textAlign:'center',color:'#EEEAE0',textShadow:'1px 3px 2px rgba(0,0,0,.28)',opacity:phase(f,first,first+3)*(1-out),transformOrigin:'50% 50%',transform:'translate('+(l.dx*(1-a)+side*out*20)+'px,'+(l.dy*(1-a))+'px) rotateY('+(l.r*(1-a)+side*out*28)+'deg)'}}>{l.t}</div>;\n })}\n </div>;\n}\nfunction Programme({p,f}:{p:any,f:number}){\n const e=p.events,plate=settle(phase(f,e.board,e.board+22)),photo=settle(phase(f,e.art,e.art+20)),line=phase(f,e.plan,e.plan+22);\n return <div style={rect(0,0,480,436)}>\n <div style={{...rect(48,126+(1-photo)*110,384,216),opacity:photo,borderRadius:4,overflow:'hidden',transform:'scale('+blend(.92,1,photo)+')',transformOrigin:'50% 0',boxShadow:'0 4px 7px rgba(0,0,0,.24)'}}>\n <Img src={p.assets.art} style={{...rect(-72,0,448,252.11),objectFit:'cover'}}/>\n </div>\n <div style={{...rect(40,40,400,96),borderRadius:16,background:'#65716A',borderTop:'1px solid #859087',boxShadow:'0 5px 8px rgba(0,0,0,.28)',opacity:plate,transform:'scaleX('+blend(.72,1,plate)+') scaleY('+blend(.90,1,plate)+')',transformOrigin:'48px 48px'}}>\n <div style={{...rect(108,21,272,54),borderRadius:7,background:'#263A2E',boxShadow:'inset 0 2px 3px rgba(0,0,0,.35)',display:'flex',alignItems:'center',justifyContent:'center',color:'#A6CDAE',...ff(p,'body'),fontSize:29,whiteSpace:'nowrap'}}>欢迎来到直播间</div>\n <svg style={rect(8,8,80,80)} viewBox=\"0 0 80 80\"><circle cx=\"40\" cy=\"40\" r=\"39\" fill=\"#D0D9D0\" stroke=\"#8FC79E\" strokeWidth=\"2\"/><circle cx=\"40\" cy=\"32\" r=\"15\" fill=\"#486454\"/><path d=\"M18 69Q18 48 40 48Q62 48 62 69\" fill=\"#486454\"/><path d=\"M18 35V29Q18 8 40 8Q62 8 62 29V35\" stroke=\"#253E2E\" strokeWidth=\"5\" fill=\"none\"/><rect x=\"14\" y=\"27\" width=\"9\" height=\"21\" rx=\"4\" fill=\"#253E2E\"/><rect x=\"57\" y=\"27\" width=\"9\" height=\"21\" rx=\"4\" fill=\"#253E2E\"/></svg>\n </div>\n <svg style={rect(0,0,480,436)} viewBox=\"0 0 480 436\">\n <defs><clipPath id=\"arrowGrowth\"><rect x=\"65\" y=\"125\" width={155*line} height=\"100\"/></clipPath></defs>\n <g clipPath=\"url(#arrowGrowth)\"><path d=\"M88 129Q74 159 82 178Q93 204 130 208L207 211\" fill=\"none\" stroke=\"#86BE9A\" strokeWidth=\"2\" strokeDasharray=\"3 6\"/><path d=\"M199 205L210 211L199 217\" fill=\"none\" stroke=\"#86BE9A\" strokeWidth=\"2\"/></g>\n </svg>\n {p.strips.map((s:any,i:number)=>{\n const start=e.plan+i*4,en=settle(phase(f,start,start+12));\n return <div key={s.text} style={{...rect(s.x-s.w/2,s.y-s.h/2,s.w,s.h),opacity:en,transform:'translateY('+((1-en)*(348-s.y))+'px)',background:'#E8E8E1',border:'1.2px solid #435046',borderBottom:'2px solid #435046',borderRadius:5,boxSizing:'border-box',boxShadow:'2px 3px 3px rgba(0,0,0,.24)',display:'flex',alignItems:'center',justifyContent:'center',...ff(p,'serif'),fontSize:s.size,color:'#202821',whiteSpace:'nowrap',letterSpacing:s.size===22?-.5:0}}>{s.text}</div>;\n })}\n </div>;\n}\n// 本轮语义点共用切线连接，源场景时刻不因镜片路径改变。\nfunction ReadingPoint(p:any,f:number){\n const nodes=p.lensNodes;\n if(f<=nodes[0].f)return [nodes[0].x,nodes[0].y];\n const last=nodes.length-1;\n if(f>=nodes[last].f)return [nodes[last].x,nodes[last].y];\n let k=0;while(k<last-1&&f>=nodes[k+1].f)k++;\n const duration=nodes[k+1].f-nodes[k].f,t=(f-nodes[k].f)/duration;\n const tangent=(i:number,key:string)=>{\n if(i===last)return 0;\n if(i===0)return (nodes[1][key]-nodes[0][key])/(nodes[1].f-nodes[0].f)*.7;\n return (nodes[i+1][key]-nodes[i-1][key])/(nodes[i+1].f-nodes[i-1].f);\n };\n return ['x','y'].map(key=>(2*t*t*t-3*t*t+1)*nodes[k][key]+(t*t*t-2*t*t+t)*duration*tangent(k,key)+(-2*t*t*t+3*t*t)*nodes[k+1][key]+(t*t*t-t*t)*duration*tangent(k+1,key));\n}\nfunction Observer({p,f}:{p:any,f:number}){\n const e=p.events;if(f<e.lens)return null;\n const a=settle(phase(f,e.lens,e.lensSettled)),point=ReadingPoint(p,f),x=blend(360,point[0],a),y=blend(85,point[1],a),d=blend(292,216,a),r=d/2,z=1.42;\n return <div style={{...rect(x-r,y-r,d,d),borderRadius:'50%',overflow:'hidden',opacity:phase(f,e.lens,e.lens+4),border:'1.8px solid #94CBA4',boxSizing:'border-box',boxShadow:'0 4px 7px rgba(0,0,0,.24)'}}>\n {/* 同时刻同状态，programme不包含Observer，因此没有递归镜片。 */}\n <div style={{...rect(r-z*x,r-z*y,480,436),...grid,transform:'scale('+z+')',transformOrigin:'0 0'}}><Programme p={p} f={f}/></div>\n </div>;\n}\nexport default function AttentionFilm(p:any){\n const f=useCurrentFrame();\n return <AbsoluteFill style={{background:'#111615',overflow:'hidden'}}>\n <div style={{...rect(3.2,0,544,960),transform:'scale(1.4)',transformOrigin:'0 0',background:'#111615'}}>\n <div style={{...rect(32,163,480,436),...grid,overflow:'hidden'}}>\n <People p={p} f={f}/><Opening p={p} f={f}/><RealChair p={p} f={f}/><Handset p={p} f={f}/><LetterAct p={p} f={f}/>\n {f>=p.events.board&&<Programme p={p} f={f}/>}<Observer p={p} f={f}/>\n </div>\n {/* 正式固定白带由作品承担，文字仅由原生Caption轨绘制。 */}\n <div style={{...rect(32,600,480,60),background:'#F5F4F0'}}/>\n </div></AbsoluteFill>;\n}",
+  "props": {
+    "events": {
+      "era": 6,
+      "douyu": 54,
+      "stay": 92,
+      "leave": 164,
+      "chair": 239,
+      "pass": 287,
+      "effect": 334,
+      "swipe": 364,
+      "nextVideo": 401,
+      "nextRoom": 430,
+      "pressure": 505,
+      "live": 564,
+      "plan": 585,
+      "prize": 626,
+      "act": 648,
+      "arranged": 676,
+      "show": 734,
+      "end": 753,
+      "phone": 284,
+      "phoneEnd": 528,
+      "board": 512,
+      "art": 517,
+      "lens": 587,
+      "lensSettled": 609
+    },
+    "pages": [
+      {
+        "slot": "pubgRoad",
+        "a": 284,
+        "b": 375,
+        "turn": 364,
+        "game": [
+          0.25,
+          0.27,
+          0.58,
+          0.6
+        ],
+        "face": [
+          0.714,
+          0.717,
+          0.286,
+          0.283
+        ]
+      },
+      {
+        "slot": "lolChase",
+        "a": 364,
+        "b": 412,
+        "turn": 401,
+        "game": [
+          0.38,
+          0.08,
+          0.46,
+          0.65
+        ],
+        "face": [
+          0.65,
+          0.806,
+          0.19,
+          0.194
+        ]
+      },
+      {
+        "slot": "pubgRoom",
+        "a": 401,
+        "b": 441,
+        "turn": 430,
+        "game": [
+          0.12,
+          0.1,
+          0.58,
+          0.6
+        ],
+        "face": [
+          0.714,
+          0.717,
+          0.286,
+          0.283
+        ]
+      },
+      {
+        "slot": "lolCamp",
+        "a": 430,
+        "b": 528,
+        "turn": 999,
+        "game": [
+          0.17,
+          0.08,
+          0.46,
+          0.65
+        ],
+        "face": [
+          0.65,
+          0.806,
+          0.19,
+          0.194
+        ]
+      }
+    ],
+    "strips": [
+      {
+        "text": "拉流亮灯牌",
+        "x": 308,
+        "y": 166,
+        "w": 174,
+        "h": 34,
+        "size": 25
+      },
+      {
+        "text": "PK主环节",
+        "x": 310,
+        "y": 208,
+        "w": 164,
+        "h": 34,
+        "size": 25
+      },
+      {
+        "text": "穿插小抽奖",
+        "x": 308,
+        "y": 250,
+        "w": 174,
+        "h": 34,
+        "size": 25
+      },
+      {
+        "text": "唠嗑留人",
+        "x": 307,
+        "y": 292,
+        "w": 164,
+        "h": 34,
+        "size": 25
+      },
+      {
+        "text": "终极PK、抽奖",
+        "x": 308,
+        "y": 334,
+        "w": 184,
+        "h": 36,
+        "size": 22
+      }
+    ],
+    "lensNodes": [
+      {
+        "f": 609,
+        "x": 306,
+        "y": 178
+      },
+      {
+        "f": 648,
+        "x": 309,
+        "y": 222
+      },
+      {
+        "f": 676,
+        "x": 310,
+        "y": 270
+      },
+      {
+        "f": 734,
+        "x": 305,
+        "y": 310
+      }
+    ]
+  },
+  "imageBindings": {
+    "chair": "asset_6d0c7e75-2f53-426d-86be-6f42178d0a14",
+    "art": "asset_e7b2cd1c-db90-4a57-ac41-be92ecd69d3c",
+    "identity": "asset_68381cc1-e7fc-469e-8f7b-eee0ee459247"
+  },
+  "width": 768,
+  "height": 1344,
+  "fps": 30,
+  "durationInFrames": 788,
+  "previousAssetId": "asset_6fa6f546-a6d3-4534-aba1-58ff32ca1c75",
+  "creativeBrief": "本轮attention-rerun-visual-20261007全新独立作品，输入Project project_6a9de441-d23e-4315-91f6-f4884640c959 R36，本轮文稿、导演采用深化正文与真实164 verified Provider token语义点，从零编写源码，不读取或修改旧项目源码/Props/字幕/Timeline。768×1344/30fps/788帧，WAV26280ms，不补足29或33秒。544×960工作空间1.4倍+水平3.2，舞台32/163/480/436、黑111615弱网格；正式白带由本件固定近白F5F4F0矩形32/600/480/60全片绘制，原生Caption仅近黑151917单行字、目标35px/700/中心384,883.4/有效宽621.6，无卡片背景，具体默认fontFamily由原生实际部署及合成核验，不谎称能指定Noto文件。作品字体由fontBindings真实烟波宋900主字/600次行纸条、NotoSansSC700普通字注入，不加载网络或系统字体。A时代两行排印0.43秒归正、第二晚0.13秒，54f斗鱼交接至92f等候，三入口104/240/376 y152，圆68/82/68，3—4错排人群后暗前亮与透明绿光锥持续。164f中央头像转主播暂时离开、圆到90；233—253f真实完整摄影椅取得前景，后组退小5%仍在，无假弹幕。椅来源Solomon203 Commons CC BY-SA4.0，保AORUS与细橙边；原件编码1920×1440但实际EXIF显示为直立竖图，按实际查看自然方向objectFit contain 240×320、轮廓clip-path，不称透明原件/AI抠图，首件核方向、背景残留及不丢扶手脚轮，署名与修改在附属来源说明保留。284f手机侧前接入、源立即正常播放，游戏上区304/430、人物下区126/430，同源同帧，LOL三人全窗保护。334f主字四独立竖轴侧转不/能/场/冷分别0/3/5/8帧错相，固定读序不能冷场与槽位，不两半平移不弹跳，356f前完整可读、手机到232×462中心240,205。364/401/430f三次11f整体上划：本轮PUBG0ms车行→LOL200000ms河道追逐→PUBG184000ms室内黄地背包→LOL464566.667ms野怪营地，全部正常源速，不循环不冻结；A91f/B48f/C40f/D98f含过渡均在本轮各8秒池，B/C稳定26/18f较短，需实际合成辨认，若不足回导演修声画，不声称已辨认通过。502f四字各退、505—528f手机下沉继续源播放；512f身份灰板头像展开、517f官方PUBG图进入，564f前新组完整。板40/40/400/96、耳机原创头像88/88/80，槽148/61/272/54欢迎来到直播间绿29工作字，不虚构真人号。官方PUBG keyart2550×1435头盔白衬衫/暖爆炸飞机，人物中左取景、右纸条，静态节目身份非直播证据。585f点线箭头与纸条逐4f间隔进入，同父文字纸边短影；587f镜片与入条交叠、609f到216径、1.42倍，首次可见帧正确同场取样q+z(x-p)，Programme同f同状态不含镜片。609/648/676/734f共享切线路径306,178→309,222→310,270→305,310，中间不断零，753—784f结句读清、788f结束，无额外总结退场等待。五纸准确基线拉流亮灯牌/PK主环节/穿插小抽奖/唠嗑留人/终极PK、抽奖是评论图解非取得某人内部表，最长字号22保持圆内读字余量。亲看本轮头像、keyart、椅实际原件和四源范围有效首帧；四range完整联系表但连续proxy unavailable、recovery inspect_available_evidence，连续及原声未知保留待审，源声全部静音并交正式音轨所有。首次输出需要fontSources/真实字幅、全椅轮廓、三换页主体/三人窗、压力接口、镜内字形完整及一致纹理、白带原生单行字、完整声音复看；技术生成不等同专业通过。v2依据R49实帧253的摄影椅浅亮右上背景与气杆两侧原背景，精修本轮真实轮廓并开下部两侧孔洞，保完整扶手脚轮、灰色绗缝背布与AORUS橙边；不把真实背布误当背景抠除。主体字宽略超初排上限和源主体裁切、短槽辨认保留审阅待核，不将静帧修正称连续通过。其余源范围/字体/语音事件/788f不变。v3据PUBG本轮2.0/2.5/2.967秒实际原帧及LOL200秒原帧与合成356/380帧调整游戏ROI：A向源中下移动使车顶在字上方更多露出；B游戏中心右移包双角色，纠正主紫角色贴/越右边；同源人物ROI/字尺寸/根源钟/四绑定/788帧/C/D保持。需v3真实356/380及过渡连续复核，不以参数推断通过。",
+  "videoBindings": {
+    "pubgRoad": {
+      "assetId": "asset_b59ead6b-0026-45ca-992e-528091275d6e",
+      "sourceStartMs": 0,
+      "sourceEndMs": 3033,
+      "startFrame": 284,
+      "endFrame": 375,
+      "decodeScale": 1
+    },
+    "lolChase": {
+      "assetId": "asset_34aa6573-9918-4014-97a1-6d4108c14180",
+      "sourceStartMs": 200000,
+      "sourceEndMs": 201600,
+      "startFrame": 364,
+      "endFrame": 412,
+      "decodeScale": 1
+    },
+    "pubgRoom": {
+      "assetId": "asset_b59ead6b-0026-45ca-992e-528091275d6e",
+      "sourceStartMs": 184000,
+      "sourceEndMs": 185333,
+      "startFrame": 401,
+      "endFrame": 441,
+      "decodeScale": 1
+    },
+    "lolCamp": {
+      "assetId": "asset_34aa6573-9918-4014-97a1-6d4108c14180",
+      "sourceStartMs": 464567,
+      "sourceEndMs": 467834,
+      "startFrame": 430,
+      "endFrame": 528,
+      "decodeScale": 1
+    }
+  },
+  "fontBindings": {
+    "display": "maoken-yanbo-song-black",
+    "serif": "maoken-yanbo-song-semibold",
+    "body": "noto-sans-sc-bold"
+  }
+}

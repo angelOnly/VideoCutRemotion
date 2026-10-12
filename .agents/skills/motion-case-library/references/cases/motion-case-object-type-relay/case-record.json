@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "scope": "case_reference_metadata_not_platform_schema",
+  "id": "motion-case-object-type-relay",
+  "title": "物体微距、部件离开与大字接管",
+  "observedSource": {
+    "originalFile": "满格之外-r92-轻量包.zip/preview.mp4",
+    "sha256": "a2a93ae4323f4ee14639b509ace735e3f281939445382dc96c908d737aeb6a50",
+    "rangeFrames": [
+      358,
+      467
+    ],
+    "rangeConvention": "half_open",
+    "fps": 24,
+    "sourceJobs": [
+      "job_74a1aaeb-cf26-4484-ac2c-04a518ebc443"
+    ],
+    "recordedEngine": "managed-motion-11"
+  },
+  "media": {
+    "path": "assets/observed-preview.mp4",
+    "sha256": "85fbcb5f6d47c4d8eb1c3081f9491d0e7ffe6921e80fb99f988c49bfb2ee9835",
+    "kind": "reencoded_extract_of_original",
+    "keyframeGlobalIndices": [
+      358,
+      412,
+      466
+    ]
+  },
+  "teachingPrompt": {
+    "path": "references/generation-prompt-v1.md",
+    "sha256": "5d5ed285c4615391328e5b058c669154d3ebd88e76578ab8084d51c0f3c3bf98",
+    "status": "written_not_rendered",
+    "isOriginalInputForObservedMedia": false
+  },
+  "validation": {
+    "userFeedbackScope": "用户认可r92整体动效方向，并指出终端示意屏幕文字与局部空等问题",
+    "historicalReviewMethod": "frames",
+    "continuousMotionVerified": false,
+    "audioDesignVerified": false,
+    "knownLimitations": "此片段本身约4.54秒，而非早期独立试作的5.83秒；两者不是同一个源。例中静音、画幅、SIM载体和结论语句只属历史样例，不能变为每条成片的尾段模板。"
+  },
+  "reproduction": {
+    "originalBindingsPreserved": true,
+    "originalSourceMediaIncluded": false,
+    "newProjectRequiresNewBindings": true
+  },
+  "rights": {
+    "purpose": "internal_project_case_study",
+    "sourceAttributionFile": "../motion-case-mixed-scene-relay/assets/attribution-original.json",
+    "redistribution": "not_newly_cleared_by_this_package"
+  }
+}

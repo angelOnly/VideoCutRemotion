@@ -1,0 +1,34 @@
+{
+  "purpose": "Ready-written video art-direction skill; integration only, no upstream download.",
+  "target_skill": "visual-treatment-planning",
+  "payload_root": "payload",
+  "source_baseline": {
+    "repository": "angelOnly/VideoFlowCut",
+    "commit": "72cb314dceae8a5c129f5c55ae222a963489f54f"
+  },
+  "replace_files": [
+    {
+      "path": ".agents/skills/visual-treatment-planning/SKILL.md",
+      "baseline_git_blob": "4fa0b98dffa08ff3d131f476b28ecfbe3922df3b"
+    },
+    {
+      "path": ".agents/skills/visual-treatment-planning/references/art-direction.md",
+      "baseline_git_blob": "82acadc9a5ba68c359f333f7dce59df0af5942eb"
+    }
+  ],
+  "include_files": [],
+  "keep_other_files": true,
+  "runtime_dependencies": [
+    ".agents/skills/_shared/PROJECT_REVISION_AND_HANDOFF.md",
+    ".agents/skills/effect-timing/SKILL.md",
+    ".agents/skills/motion-brief-writing/SKILL.md",
+    ".agents/skills/motion-case-library/SKILL.md",
+    ".agents/skills/production-director/references/asset-briefing.md",
+    ".agents/skills/remotion-production/references/material-space-and-time.md",
+    ".agents/skills/remotion-production/references/remotion-component-contract.md",
+    ".agents/skills/remotion-production/references/submission-and-recovery.md",
+    ".agents/skills/scene-planning/references/scene-operations.md"
+  ],
+  "integration_text_location": "01_分析与接入说明.md / 第四部分 / 第九章",
+  "validation": "Static package checks only; user-side integration and output verification still required."
+}

@@ -1,0 +1,315 @@
+{
+  "format": "vfc-unified-manual-edits-v2",
+  "repository": "angelOnly/VideoFlowCut",
+  "base_branch": "main",
+  "base_commit": "939ddd17882dfe3b08128bf4cd3d1dc3b14ec849",
+  "status": "complete_candidate_text_not_applied",
+  "scope": "F01-F17完整合并修改正文；不是已应用patch，也未在完整工作树验证全部锚点",
+  "notes": [
+    "region起始包含、结束保留；非整文件片段不得覆盖SKILL.md",
+    "基线或锚点不符时重新比对，不强行覆盖",
+    "F07只增加独立练习并改开头，保留main已有三例与数学教学",
+    "F09是重新合并后的完整模板，已填写示例完整保留"
+  ],
+  "files": [
+    {
+      "id": "F01",
+      "title": "共同构思：保留从内容关系产生表达的方法",
+      "path": ".agents/skills/_shared/EDITORIAL_FOUNDATIONS.md",
+      "reason": "保留原F01完整创作方法；当前main中本段以外的事实时间线、声画粗剪和新增“完整观看先于技术分段”均保留。",
+      "origin": "原F01＋本轮语义参考入口",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "## 从实际声画构思主线、段落与分镜",
+          "end": "## 信息账本用于核对声画中的依据",
+          "replacement": "replacements/F01_01.md",
+          "replacement_sha256": "c082945ca60d7da34d5d2f41c177204f4aa44814572879ed5aca6701394f9565"
+        }
+      ]
+    },
+    {
+      "id": "F02",
+      "title": "导演：首轮共创、采用与早期视觉参与",
+      "path": ".agents/skills/production-director/SKILL.md",
+      "reason": "合并原F02两处：活动块和后面的生产合同都修改；不是只接参考入口。",
+      "origin": "原F02.1/F02.2＋A04",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "<!-- topic-film-v2-production-director:begin -->",
+          "end": "<!-- topic-film-v2-production-director:end -->",
+          "replacement": "replacements/F02_01.md",
+          "replacement_sha256": "cfbde3067a6911c2666ae7a174a65ba3260fff5f4d5252a2539a9eb41223c8dd"
+        },
+        {
+          "mode": "replace_exact",
+          "old": "总导演从收到用户需求时持续负责整片，先明确受众、用途、主要视频类型、用户锁定项与初步表达方向。需要原创解说或授权优化草稿时，通过主任务分派 narration-writing，给出完整创作范围、已有材料、可靠事实和需要查清的问题；锁定项只来自用户明确要求，不自行锁死初稿、第一版配音或分镜顺序。文案专项具体发展讲述、写准确台词并提出逐段声画初稿；导演负责选择与采用，不要求在专项开始前亲自写好全部终稿。",
+          "replacement": "replacements/F02_02.md",
+          "replacement_sha256": "36bfcf4dd1616217feeaeabb815b60e4da3de84ece8e3c5f9fcd6b9ddcb879d8"
+        }
+      ]
+    },
+    {
+      "id": "F03",
+      "title": "主任务：完整分派与语义参考送达",
+      "path": ".agents/skills/production-coordinator/SKILL.md",
+      "reason": "保留当前main的独立审片、唯一写入与材料反馈安排；把角色方法和语义检索交给实际原作者。",
+      "origin": "原F03＋A05",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "<!-- topic-film-v2-production-coordinator:begin -->",
+          "end": "<!-- topic-film-v2-production-coordinator:end -->",
+          "replacement": "replacements/F03_01.md",
+          "replacement_sha256": "77dddf4735db39742f864a447552bf3c389d599b0ec715cd21e2eff0abfd80b5"
+        }
+      ]
+    },
+    {
+      "id": "F04",
+      "title": "文案入口：具体写法与自然语言检索",
+      "path": ".agents/skills/narration-writing/SKILL.md",
+      "reason": "方法正文在F05；此处实际指向它，并区分画内文字研究与已经听审的配音。",
+      "origin": "原F04＋A06",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "<!-- topic-film-v2-narration-writing:begin -->",
+          "end": "<!-- topic-film-v2-narration-writing:end -->",
+          "replacement": "replacements/F04_01.md",
+          "replacement_sha256": "e91e701a8bbd0c650dc543efcd677cdf0024cd4bad7224e1857fb11f482662d8"
+        }
+      ]
+    },
+    {
+      "id": "F05",
+      "title": "文案方法：完整保留认可的弱稿→新稿推导",
+      "path": ".agents/skills/narration-writing/references/writing-methods.md",
+      "reason": "替换当前文件后半部“按具体写作问题继续深化”下的原第1节。main前面的完整弱稿示范与后面的第2—10节全部保留。",
+      "origin": "原F05逐字保留",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "## 1. 把题目变成一项观众能跟随的任务",
+          "end": "## 2. 从材料中寻找可写的发现，再把发现组织成台词",
+          "replacement": "replacements/F05_01.md",
+          "replacement_sha256": "175badf312ed1271cd399b1af622a7d23b36c44855ae9d889057a3f62d1cda6e"
+        }
+      ]
+    },
+    {
+      "id": "F06",
+      "title": "视觉：造型支持行为，草稿阶段可以参与",
+      "path": ".agents/skills/visual-treatment-planning/SKILL.md",
+      "reason": "合并原F06两处；避免活动块允许共创，后面仍像在要求只等终版分镜。",
+      "origin": "原F06.1/F06.2＋A07",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "<!-- topic-film-v2-visual-treatment-planning:begin -->",
+          "end": "<!-- topic-film-v2-visual-treatment-planning:end -->",
+          "replacement": "replacements/F06_01.md",
+          "replacement_sha256": "5dec901ea75daa6a25b92ed65a29b9ea54cc31e435e5217d2a1cf95c1ad9cee5"
+        },
+        {
+          "mode": "replace_exact",
+          "old": "视觉专项先读导演完整分镜与前后画面，明确这一镜谁在做什么、观众怎样看见变化、哪些对象必须保持。导演尚未决定主要画面时返回具体缺项或表达候选，不能只根据旁白关键词发明一排图标。",
+          "replacement": "replacements/F06_02.md",
+          "replacement_sha256": "fcb631b90d9fae1c87a2cbf4e1da6d7dc268c98456cbb422e0536698b30fd069"
+        }
+      ]
+    },
+    {
+      "id": "F07",
+      "title": "美术与动画教学：旧认可方法与main长篇教学一起保留",
+      "path": ".agents/skills/remotion-production/references/scene-art-and-motion.md",
+      "reason": "取消旧整文件覆盖。第一处只调整开头依赖；第二处以完整独立练习纳入旧F07第1—5节。当前main已有全部造型、字位、手机、镜片、数学与实现合同不删除。",
+      "origin": "原F07第1—5节完整纳入＋A09；main第6—7节及长篇教学保留",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "先学习已采用共同参考的完整发展，再按本片实际材料深化。以下原例来自 [完整原指令](../../motion-case-attention-programme/references/original-input.md)，教学初排不冒充历史实测；尺寸、字体与时长不是默认值。",
+          "end": "## 1. 先选择当前需要的观看动作",
+          "replacement": "replacements/F07_01.md",
+          "replacement_sha256": "fa0600448c82a956f7d748f08a1b7bcfb8821c18a16960c3a55dbaa627903f54"
+        },
+        {
+          "mode": "insert_before",
+          "anchor": "## 美术怎样做好看：从判断到实际样张",
+          "replacement": "replacements/F07_02.md",
+          "replacement_sha256": "a31c33d460892d5613232ecdbb6907d2b16e0252e973b8c9e211181cc5323eed"
+        }
+      ]
+    },
+    {
+      "id": "F08",
+      "title": "演出方法：表达、语义参考、危险中途合在同一稿",
+      "path": ".agents/skills/motion-brief-writing/SKILL.md",
+      "reason": "第3—4节合并创作与检索；按main现标题改关键中途。其余实际输入、字体、声音、提交、版本、真实观察合同均保留。",
+      "origin": "原F08.1/F08.2＋A08＋语义检索",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "## 3. 将内容写成一段可跟随的观看过程",
+          "end": "## 5. 先形成一套本片美术，而非一排风格词",
+          "replacement": "replacements/F08_01.md",
+          "replacement_sha256": "586047f919bc06387688193b035976a01c23376b916549def4c41407768f29db"
+        },
+        {
+          "mode": "replace_region",
+          "start": "## 把关键中途写成可执行决定",
+          "end": "## 7. 用语言和源事件安排时间",
+          "replacement": "replacements/F08_02.md",
+          "replacement_sha256": "7e42c022bca4ca9be666033655ecc3f23f74efb4edbc60b1b6465ceba38a7967"
+        }
+      ]
+    },
+    {
+      "id": "F09",
+      "title": "演出稿模板：统一结构＋完整已填写示例",
+      "path": ".agents/skills/motion-brief-writing/references/execution-brief-template.md",
+      "reason": "这一版是读过main当前模板后的语义合并全文，不是直接拿旧文件覆盖：保留当前内容、准确文字材料、美术、中途、声音、实现返修和版本未知，并补回旧F09完整已填写示例与参考范围。",
+      "origin": "原F09全文含示例＋main七部分语义＋A10参考范围",
+      "operations": [
+        {
+          "mode": "replace_file",
+          "replacement": "replacements/F09_01.md",
+          "replacement_sha256": "1d18242929c1841b44847fea9fbc3226a132fc2704919b39f4f987f57bfa7e2b"
+        }
+      ]
+    },
+    {
+      "id": "F10",
+      "title": "时机：从阅读与行为反推启动",
+      "path": ".agents/skills/effect-timing/SKILL.md",
+      "reason": "保留原认可专业正文；活动块外的现有工具、源坐标、事实、声音、权限与发行合同不改。",
+      "origin": "原F10＋语义参考路由",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "<!-- topic-film-v2-effect-timing:begin -->",
+          "end": "<!-- topic-film-v2-effect-timing:end -->",
+          "replacement": "replacements/F10_01.md",
+          "replacement_sha256": "ea936357a3741181fdd7089cc5fda9d69178268e107689c84a24dc5a59edfa89"
+        }
+      ]
+    },
+    {
+      "id": "F11",
+      "title": "素材：将可表演条件交给作者",
+      "path": ".agents/skills/visual-asset-sourcing/SKILL.md",
+      "reason": "保留原认可专业正文；活动块外的现有工具、源坐标、事实、声音、权限与发行合同不改。",
+      "origin": "原F11＋语义参考路由",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "<!-- topic-film-v2-visual-asset-sourcing:begin -->",
+          "end": "<!-- topic-film-v2-visual-asset-sourcing:end -->",
+          "replacement": "replacements/F11_01.md",
+          "replacement_sha256": "c1124091f89a772666b5676894a1a34dc7af9c08023fdeb5642e810e8e08ab65"
+        }
+      ]
+    },
+    {
+      "id": "F12",
+      "title": "审片：把具体构思保护到实际作品",
+      "path": ".agents/skills/quality-verification/SKILL.md",
+      "reason": "保留原认可专业正文；活动块外的现有工具、源坐标、事实、声音、权限与发行合同不改。",
+      "origin": "原F12＋语义参考路由",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "<!-- topic-film-v2-quality-verification:begin -->",
+          "end": "<!-- topic-film-v2-quality-verification:end -->",
+          "replacement": "replacements/F12_01.md",
+          "replacement_sha256": "6b237680180222e7056964a7e9fa464e2d8731cec02a4f42abdaa025fdf8d2cc"
+        }
+      ]
+    },
+    {
+      "id": "F13",
+      "title": "主题主线：专业方法为基础，语义参考为可选增强",
+      "path": ".agents/skills/_shared/TOPIC_TO_FILM.md",
+      "reason": "按main现有范围替换；旧F13的早期共创、素材改稿和参考不延期均并入，原第8节正式对象与全文存储合同保留。",
+      "origin": "原F13两项＋A03",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "## 从共同参考与完整草稿开始",
+          "end": "## 8. 当前采用稿与正式对象",
+          "replacement": "replacements/F13_01.md",
+          "replacement_sha256": "163cef38c632f47c1576e6a231ece9dd440a0d44a8f2c99e07959c5f077fe149"
+        }
+      ]
+    },
+    {
+      "id": "F14",
+      "title": "解释片主工作流：阻止知识类目直接变组件",
+      "path": ".agents/skills/visual-explainer-director/SKILL.md",
+      "reason": "保留原认可专业正文；活动块外的现有工具、源坐标、事实、声音、权限与发行合同不改。",
+      "origin": "原F14＋语义参考路由",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "<!-- topic-film-v2-visual-explainer-director:begin -->",
+          "end": "<!-- topic-film-v2-visual-explainer-director:end -->",
+          "replacement": "replacements/F14_01.md",
+          "replacement_sha256": "74d478bfbf42e5a6c6fac0bad578b8dc9d9e13204cd927951d875d7f1cdb56b8"
+        }
+      ]
+    },
+    {
+      "id": "F15",
+      "title": "受管实现入口：确保新方法被实现作者实际使用",
+      "path": ".agents/skills/remotion-production/SKILL.md",
+      "reason": "保留原认可专业正文；活动块外的现有工具、源坐标、事实、声音、权限与发行合同不改。",
+      "origin": "原F15＋语义参考路由",
+      "operations": [
+        {
+          "mode": "replace_region",
+          "start": "<!-- topic-film-v2-remotion-production:begin -->",
+          "end": "<!-- topic-film-v2-remotion-production:end -->",
+          "replacement": "replacements/F15_01.md",
+          "replacement_sha256": "c1b6b547d1853ec0ec21566f6d8e37a3e0ef6bc91e976a916caff77b04905ee4"
+        }
+      ]
+    },
+    {
+      "id": "F16",
+      "title": "参考Skill：现有motion-case-library升级为语义检索",
+      "path": ".agents/skills/motion-case-library/SKILL.md",
+      "reason": "不新建平行Skill。仅改description与120条入口；下面历史案例、实际验证范围与导航均保留。",
+      "origin": "A01改写为模型语义检索",
+      "operations": [
+        {
+          "mode": "replace_description",
+          "skill_name": "motion-case-library",
+          "replacement": "replacements/F16_01.md",
+          "replacement_sha256": "ae14430703c077dee648342ad7babf77c48b8b8db44bb966a1b595142970e5b5"
+        },
+        {
+          "mode": "replace_region",
+          "start": "## 项目内 120 条 Skillry 参考库",
+          "end": "<!-- topic-film-v2-motion-case-library:begin -->",
+          "replacement": "replacements/F16_02.md",
+          "replacement_sha256": "a64dbcbd48b8530f7df82b27943dac5440a07fbe2a4f2196c7d6ebf0d1428368"
+        }
+      ]
+    },
+    {
+      "id": "F17",
+      "title": "语义检索方法：模型看卡片、选关系、核读源片",
+      "path": ".agents/skills/motion-case-library/references/skillry-retrieval.md",
+      "reason": "完整替换原关键词检索使用说明；保留现有数据源、历史身份、无匹配和权限边界。无需新长期代理或向量服务。",
+      "origin": "替代A02；新模型阅读式语义检索",
+      "operations": [
+        {
+          "mode": "replace_file",
+          "replacement": "replacements/F17_01.md",
+          "replacement_sha256": "5e255341e0510339ecad5a1717b2da2a3c34502c8554ee0c8dd8c8cbc524b4d3"
+        }
+      ]
+    }
+  ]
+}

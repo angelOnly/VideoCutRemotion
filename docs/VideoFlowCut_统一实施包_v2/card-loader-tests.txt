@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: pagination covers all source records exactly once
+ok 1 - pagination covers all source records exactly once
+  ---
+  duration_ms: 10.689091
+  type: 'test'
+  ...
+# Subtest: does not exclude records for lack of a topic keyword
+ok 2 - does not exclude records for lack of a topic keyword
+  ---
+  duration_ms: 3.42266
+  type: 'test'
+  ...
+# Subtest: exact ID lookup keeps requested order and source text
+ok 3 - exact ID lookup keeps requested order and source text
+  ---
+  duration_ms: 3.543022
+  type: 'test'
+  ...
+# Subtest: unknown and duplicate IDs fail
+ok 4 - unknown and duplicate IDs fail
+  ---
+  duration_ms: 4.055675
+  type: 'test'
+  ...
+# Subtest: end page and nonmultiple page lengths are explicit
+ok 5 - end page and nonmultiple page lengths are explicit
+  ---
+  duration_ms: 1.116263
+  type: 'test'
+  ...
+# Subtest: empty catalogue is supported
+ok 6 - empty catalogue is supported
+  ---
+  duration_ms: 0.49729
+  type: 'test'
+  ...
+# Subtest: invalid pagination rejects
+ok 7 - invalid pagination rejects
+  ---
+  duration_ms: 3.066844
+  type: 'test'
+  ...
+# Subtest: duplicate identifiers and count mismatch reject
+ok 8 - duplicate identifiers and count mismatch reject
+  ---
+  duration_ms: 1.615256
+  type: 'test'
+  ...
+# Subtest: malformed JSON and unsafe paths reject
+ok 9 - malformed JSON and unsafe paths reject
+  ---
+  duration_ms: 1.992284
+  type: 'test'
+  ...
+# Subtest: out of bounds source segments reject
+ok 10 - out of bounds source segments reject
+  ---
+  duration_ms: 1.020769
+  type: 'test'
+  ...
+# Subtest: catalogue bytes unchanged and hash reflects changes
+ok 11 - catalogue bytes unchanged and hash reflects changes
+  ---
+  duration_ms: 4.744378
+  type: 'test'
+  ...
+# Subtest: CLI returns JSON and rejects invented query/semantic flags
+ok 12 - CLI returns JSON and rejects invented query/semantic flags
+  ---
+  duration_ms: 142.38548
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 246.185917

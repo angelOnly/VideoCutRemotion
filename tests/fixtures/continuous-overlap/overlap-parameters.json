@@ -1,0 +1,109 @@
+{
+  "purpose": "开发验收样例；人为构造拥挤前版与保留交叠的返修版，不是历史成片真实故障",
+  "width": 960,
+  "height": 540,
+  "fps": 24,
+  "durationInFrames": 288,
+  "sourceRoot": "E:/ai/VideoCut",
+  "managedPath": "references/motion-cases/skillry/cases/amitsingha89-780553-original/video.mp4",
+  "sourceHashFromCatalogue": "415d9df551acaf67fbc33a14d98d77154e55be86ae26ff949a1fe49716c6603b",
+  "hashPolicy": "渲染前重新计算实际文件哈希并核对；目录登记不等于本轮文件验证",
+  "videoBinding": {
+    "slot": "footage",
+    "assetId": "development-library-014",
+    "sourceStartMs": 0,
+    "sourceEndMs": 12000,
+    "startFrame": 0,
+    "endFrame": 288
+  },
+  "props": {
+    "offset": 0
+  },
+  "audio": "静音；本轮不进行旁白、音乐或听感验收",
+  "beforeSource": "overlap-before.tsx",
+  "afterSource": "overlap-after.tsx",
+  "adoptedMechanisms": [
+    {
+      "id": "014-m01",
+      "use": "背景持续与稳定前景字组"
+    },
+    {
+      "id": "014-m03",
+      "use": "新旧短暂并置与侧向主读接管"
+    },
+    {
+      "id": "022-m04",
+      "use": "背景退让、前字稳定；不采用外围片轮换"
+    }
+  ],
+  "timeline": [
+    {
+      "start": 0,
+      "end": 36,
+      "action": "同源背景持续，旧字组逐渐建立"
+    },
+    {
+      "start": 36,
+      "end": 96,
+      "action": "旧字组保持阅读；背景继续"
+    },
+    {
+      "start": 96,
+      "end": 176,
+      "action": "新旧时间交叠：前版故意同区高对比争抢；后版旧组侧退缩小降权、新组侧入，接近落位才补次行"
+    },
+    {
+      "start": 176,
+      "end": 288,
+      "action": "新字组保持，背景继续播放"
+    }
+  ],
+  "splitTest": {
+    "splitFrame": 132,
+    "first": {
+      "offset": 0,
+      "durationInFrames": 132,
+      "sourceStartMs": 0,
+      "sourceEndMs": 5500
+    },
+    "second": {
+      "offset": 132,
+      "durationInFrames": 156,
+      "sourceStartMs": 5500,
+      "sourceEndMs": 12000
+    },
+    "required": "两个块渲染后逐帧哈希应等于整段；sourceEndMs/startMs、绑定 endFrame、作品 duration 同步调整"
+  },
+  "review": {
+    "compareRange": [
+      72,
+      200
+    ],
+    "continuousStatus": "尚未观察；主任务渲染后回传连续媒体",
+    "staticInspectionCanProve": "仅确认字位、遮挡、主次状态和源取景，不证明速度、阅读时长或连贯观感",
+    "keep": "同一源、同一 0—12 秒范围、同一准确文字、同一画幅、同一配色和同源时钟，新旧时间交叠仍存在",
+    "limits": "不是完整视频交付；不宣称原片当前范围具备特定实际行为；这里只用其作为连续播放的真实背景"
+  },
+  "fontBindings": {
+    "title": "noto-sans-sc-bold",
+    "body": "noto-sans-sc-regular"
+  },
+  "fontSelection": {
+    "source": "packages/motion-work/fonts/catalog.json",
+    "title": {
+      "id": "noto-sans-sc-bold",
+      "weight": 700,
+      "style": "normal"
+    },
+    "body": {
+      "id": "noto-sans-sc-regular",
+      "weight": 400,
+      "style": "normal"
+    },
+    "integration": "平台使用 motionFontProps 注入 props.fonts；源码读取 family/weight/style；调用方只传 fontBindings，不自行填写 props.fonts。",
+    "reason": "保持原无衬线排印方向，采用库内 Noto Sans SC 粗体主读与常规字幕。"
+  },
+  "afterVersion": "v2",
+  "previousAfterSource": "overlap-after-v1.tsx",
+  "localRevision": "仅加入两组跟随字位与原透明度的柔边暗衬，旧新交叠、源时钟、运动与全部文案保持。v1已渲染观察不转给v2。"
+}

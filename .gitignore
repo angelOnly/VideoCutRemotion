@@ -1,0 +1,28 @@
+node_modules/
+dist/
+.vite/
+
+# 插件 runtime/dist 是可安装的发行物，不是 Web 临时构建目录；必须随插件提交。
+!plugins/videoflowcut/runtime/
+!plugins/videoflowcut/runtime/dist/
+!plugins/videoflowcut/runtime/dist/**
+
+# 运行时数据库、日志、项目媒体与渲染产物均属于用户数据，不进入源码仓库。
+workspace/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.log
+*.log.part-*
+previews/
+exports/
+cache/
+
+# VideoFlowCut 插件在本机构建时写入仓库定位指针；它不能携带某台机器的绝对路径提交。
+plugins/videoflowcut/runtime/repo-root.json
+
+.candidate/
+
+# 正式参考库的视频、拆解和检索入口均提交；研究过程只在本地归档。
+.local-archives/
+references/motion-cases/skillry/**/__pycache__/

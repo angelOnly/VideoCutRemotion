@@ -1,0 +1,147 @@
+{
+  "scope": "文档合并、候选文件和包内一致性；非仓库或视频运行测试",
+  "inputs": {
+    "VideoFlowCut_topic_quality_plan.md": "d8dc1a0331e67e605e1439bfa0b8cd3a0474c8a85186e7cc2301c1b95e00d16c",
+    "VideoFlowCut_topic_quality_plan_v2.md": "f4666565c8b167264ef15ed18bbac68f872f64b17827903eea2fc550b47d22ff",
+    "VFC_topic_quality_v2.zip": "c4b75aea8d4b50bf9a48c9d2784265d9a7d5b6b91767d42af69e35ecf96b051a"
+  },
+  "output_document": "VideoFlowCut_topic_quality_plan_v2_complete.md",
+  "output_document_sha256": "de3ba090c4ebdb43c583383f1801fc4a2bf6dd753085e5894863f036f025987d",
+  "first_edition_chapters": [
+    {
+      "source_chapter": 1,
+      "source_heading": "## 1. 本轮实际核对了什么",
+      "original_body_sha256": "790e5fd4ffad61d238cd8115a906497b45ee2af3ab4c0f7abcb988917d94ef87",
+      "destination": "chapter-1",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 2,
+      "source_heading": "## 2. 这次成功，具体多了哪些真正有用的东西",
+      "original_body_sha256": "a1cc1d8fe7fe69cf7196b1ad13d3e0db6902ca879c161de4373c0af7558edabe",
+      "destination": "chapter-2",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 3,
+      "source_heading": "## 3. 最新项目已经有什么，不应重新开发什么",
+      "original_body_sha256": "01da45d92170e55a890c0dd4dead0f71c84dedef9159fc62a218c54d944a294b",
+      "destination": "chapter-3",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 4,
+      "source_heading": "## 4. 当前最明确的几个缺口",
+      "original_body_sha256": "8018f978fd8f4aee0adc646ccba98030b01e69a4a55ab85f4215e2d1532cab40",
+      "destination": "chapter-4",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 5,
+      "source_heading": "## 5. 应当变成怎样的一条链路",
+      "original_body_sha256": "20eacce03784a8edae4c10c30640c5322bddaa9e159c5dfdd2bcb6e3e9308fe3",
+      "destination": "chapter-5",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 6,
+      "source_heading": "## 6. 无参考时，内容和审美怎么具体产生",
+      "original_body_sha256": "2750c3b05945e2546faaaa9eeb084374897d898c440c234367ecc468f8fd194e",
+      "destination": "chapter-6",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 7,
+      "source_heading": "## 7. 一次具体转场需要写到什么程度",
+      "original_body_sha256": "d550b019f3a6a945894b601b6d17cf10d0ed371cf6bbdda04a1bdf25d2c968bc",
+      "destination": "chapter-7",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 8,
+      "source_heading": "## 8. 建议调整哪些 Skills，怎样避免继续叠规则",
+      "original_body_sha256": "f39163b02ed56e68d2a562e696f990178a9c4aba62fd66a8b723044193d52acb",
+      "destination": "chapter-8",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 9,
+      "source_heading": "## 9. 可直接合入的核心生产文案（候选正文）",
+      "original_body_sha256": "86b326c3bf5995555726a86a8c614b93d7d5e4a8656276df832b58da8461065f",
+      "destination": "chapter-9",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 10,
+      "source_heading": "## 10. 工程侧：只补阻止设计丢失的能力",
+      "original_body_sha256": "f7343b38b9b2c44734d1df99183caec37eb1b39bd5b88a76e15adc7c56098f15",
+      "destination": "chapter-10",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 11,
+      "source_heading": "## 11. 这条成功视频如何成为有用的案例",
+      "original_body_sha256": "6973cc786575c3e64f0f682b29a8aaf4ece3143fdab6b1208b0482eb542850d8",
+      "destination": "chapter-11",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 12,
+      "source_heading": "## 12. 如何证明没有参考也能稳定，而不再次自我感觉良好",
+      "original_body_sha256": "21034bfdf704fe256d43edf6c6d8989ed099b52d3a5b5f9a18bae6a7a4d3e93a",
+      "destination": "chapter-12",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 13,
+      "source_heading": "## 13. 最小实施顺序与本轮建议",
+      "original_body_sha256": "f621e8c4f0b57f87eabf83c43c198e88cc8daeaf500f18610da62dbef34a52bf",
+      "destination": "chapter-13",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": 14,
+      "source_heading": "## 14. 本轮结论",
+      "original_body_sha256": "aba943af392b3ccfe0a3ba26a3f4dafa2082b439d4ccc3045d6d5acb0a7090a7",
+      "destination": "chapter-14",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": "附录A：本次包内证据定位",
+      "destination": "附录A：本次包内证据定位",
+      "body_preserved_verbatim": true
+    },
+    {
+      "source_chapter": "附录B：远端源码引用",
+      "destination": "附录B：远端源码引用",
+      "body_preserved_verbatim": true
+    }
+  ],
+  "all_nonempty_v1_lines_preserved": true,
+  "missing_v1_lines": [],
+  "protected_files_unchanged": 84,
+  "exact_patch_payloads_in_plan": 15,
+  "full_new_skills_in_plan": 2,
+  "full_method_references_in_plan": 2,
+  "standalone_matches_package_document": true,
+  "markdown_fences_balanced": true,
+  "no_font_binaries_shared": true,
+  "normalizations": [
+    "补入明确版本标题、目标与目录，原分析正文保留",
+    "第8、9、11章将原分析与第二版细节在同章连续组织，新增子节重编号",
+    "原分析中的备选位置与“尚未创建”状态以显式说明衔接本版实施状态",
+    "将第二版跨章“前版第10章”改为本文件第10章",
+    "将案例衔接处P12/P08指向准确操作ID P12a/P08b",
+    "先列完整正文及实施入口，再列证据附录；旧版档案不承担阅读依赖",
+    "完整主文档、README、Codex入口和索引同步，原候选代码与案例不变"
+  ],
+  "not_run": [
+    "重新读取远程分支",
+    "用户仓库修改",
+    "插件部署",
+    "工程回归测试",
+    "新视频生成",
+    "历史成片重渲染",
+    "新增听审或连续观看"
+  ]
+}

@@ -1,0 +1,5 @@
+interface:
+  display_name: "完整声画演出稿"
+  short_description: "把实见材料、内容与美术深化为可实现的连续演出"
+policy:
+  allow_implicit_invocation: false

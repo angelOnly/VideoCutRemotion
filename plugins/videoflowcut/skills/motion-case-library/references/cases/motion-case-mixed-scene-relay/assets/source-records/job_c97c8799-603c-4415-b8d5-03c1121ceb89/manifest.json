@@ -1,0 +1,811 @@
+{
+  "version": "3c592d0f6509ba45ece8cae32c9678a833a4b8e18b0ccbfefb430fddf06f2748",
+  "hashEngineVersion": "managed-motion-11",
+  "previewHash": "6726349e6f647d630bfae4e678855c2e8e492361a6b98fbeaa146ce77d553c74",
+  "frameHashes": [
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "815bee4331a9dd5d739c42d9b1338d9c18bb7657c301fdee7f09214744db80c6",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "d2dbfe8cfd90c9f2d9acf567d938d95e82d357e934626971516c7ceb49c9bf66",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1",
+    "081d9c96b10e64c8f5fdaa554cc06d8ccd394dd9a0ebe7545e4da7605f79fce1"
+  ],
+  "engineVersion": "managed-motion-11",
+  "sandbox": "chromium-os-sandbox+csp-opaque-origin+deny-network",
+  "boundImages": [],
+  "boundVideos": [],
+  "videoDecodes": {},
+  "visibility": {
+    "method": "png_alpha_bbox_v1",
+    "alphaThreshold": 1,
+    "frames": [
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 138,
+        "y": 1174,
+        "width": 492,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 174,
+        "y": 1174,
+        "width": 420,
+        "height": 60
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      },
+      {
+        "x": 228,
+        "y": 1174,
+        "width": 312,
+        "height": 104
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "caption-0",
+      "meaning": "静音人工试排字幕",
+      "startFrame": 0,
+      "endFrame": 13
+    },
+    {
+      "id": "caption-1",
+      "meaning": "静音人工试排字幕",
+      "startFrame": 13,
+      "endFrame": 53
+    },
+    {
+      "id": "caption-2",
+      "meaning": "静音人工试排字幕",
+      "startFrame": 53,
+      "endFrame": 109
+    }
+  ],
+  "determinism": {
+    "status": "exact",
+    "maxAllowedChannelDelta": 2,
+    "sampledFrames": [
+      0,
+      54,
+      108
+    ],
+    "differences": []
+  }
+}

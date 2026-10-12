@@ -1,0 +1,86 @@
+[
+  {
+    "frame": 30,
+    "seconds": 1.0,
+    "file": "assets/keyframes/f0030.jpg",
+    "focus": "开场主读"
+  },
+  {
+    "frame": 92,
+    "seconds": 3.0667,
+    "file": "assets/keyframes/f0092.jpg",
+    "focus": "同场三入口与人群"
+  },
+  {
+    "frame": 180,
+    "seconds": 6.0,
+    "file": "assets/keyframes/f0180.jpg",
+    "focus": "中央暂离"
+  },
+  {
+    "frame": 253,
+    "seconds": 8.4333,
+    "file": "assets/keyframes/f0253.jpg",
+    "focus": "摄影椅"
+  },
+  {
+    "frame": 338,
+    "seconds": 11.2667,
+    "file": "assets/keyframes/f0338.jpg",
+    "focus": "花字开始"
+  },
+  {
+    "frame": 345,
+    "seconds": 11.5,
+    "file": "assets/keyframes/f0345.jpg",
+    "focus": "逐字中途"
+  },
+  {
+    "frame": 356,
+    "seconds": 11.8667,
+    "file": "assets/keyframes/f0356.jpg",
+    "focus": "完整词组"
+  },
+  {
+    "frame": 380,
+    "seconds": 12.6667,
+    "file": "assets/keyframes/f0380.jpg",
+    "focus": "真实内容上划"
+  },
+  {
+    "frame": 520,
+    "seconds": 17.3333,
+    "file": "assets/keyframes/f0520.jpg",
+    "focus": "手机与节目组交叠"
+  },
+  {
+    "frame": 550,
+    "seconds": 18.3333,
+    "file": "assets/keyframes/f0550.jpg",
+    "focus": "节目组接住"
+  },
+  {
+    "frame": 597,
+    "seconds": 19.9,
+    "file": "assets/keyframes/f0597.jpg",
+    "focus": "步骤与镜片共入"
+  },
+  {
+    "frame": 609,
+    "seconds": 20.3,
+    "file": "assets/keyframes/f0609.jpg",
+    "focus": "镜片阅读起点"
+  },
+  {
+    "frame": 648,
+    "seconds": 21.6,
+    "file": "assets/keyframes/f0648.jpg",
+    "focus": "中部阅读"
+  },
+  {
+    "frame": 734,
+    "seconds": 24.4667,
+    "file": "assets/keyframes/f0734.jpg",
+    "focus": "后段观察"
+  }
+]

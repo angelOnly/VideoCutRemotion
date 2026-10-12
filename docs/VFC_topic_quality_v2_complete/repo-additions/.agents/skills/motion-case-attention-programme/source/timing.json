@@ -1,0 +1,151 @@
+{
+  "fps": 30,
+  "durationInFrames": 788,
+  "coordinate": "作品局部帧，从0开始；不是新作品默认时码",
+  "events": [
+    {
+      "name": "era",
+      "frame": 6,
+      "seconds": 0.2
+    },
+    {
+      "name": "douyu",
+      "frame": 54,
+      "seconds": 1.8
+    },
+    {
+      "name": "stay",
+      "frame": 92,
+      "seconds": 3.066667
+    },
+    {
+      "name": "leave",
+      "frame": 164,
+      "seconds": 5.466667
+    },
+    {
+      "name": "chair",
+      "frame": 239,
+      "seconds": 7.966667
+    },
+    {
+      "name": "pass",
+      "frame": 287,
+      "seconds": 9.566667
+    },
+    {
+      "name": "effect",
+      "frame": 334,
+      "seconds": 11.133333
+    },
+    {
+      "name": "swipe",
+      "frame": 364,
+      "seconds": 12.133333
+    },
+    {
+      "name": "nextVideo",
+      "frame": 401,
+      "seconds": 13.366667
+    },
+    {
+      "name": "nextRoom",
+      "frame": 430,
+      "seconds": 14.333333
+    },
+    {
+      "name": "pressure",
+      "frame": 505,
+      "seconds": 16.833333
+    },
+    {
+      "name": "live",
+      "frame": 564,
+      "seconds": 18.8
+    },
+    {
+      "name": "plan",
+      "frame": 585,
+      "seconds": 19.5
+    },
+    {
+      "name": "prize",
+      "frame": 626,
+      "seconds": 20.866667
+    },
+    {
+      "name": "act",
+      "frame": 648,
+      "seconds": 21.6
+    },
+    {
+      "name": "arranged",
+      "frame": 676,
+      "seconds": 22.533333
+    },
+    {
+      "name": "show",
+      "frame": 734,
+      "seconds": 24.466667
+    },
+    {
+      "name": "end",
+      "frame": 753,
+      "seconds": 25.1
+    },
+    {
+      "name": "phone",
+      "frame": 284,
+      "seconds": 9.466667
+    },
+    {
+      "name": "phoneEnd",
+      "frame": 528,
+      "seconds": 17.6
+    },
+    {
+      "name": "board",
+      "frame": 512,
+      "seconds": 17.066667
+    },
+    {
+      "name": "art",
+      "frame": 517,
+      "seconds": 17.233333
+    },
+    {
+      "name": "lens",
+      "frame": 587,
+      "seconds": 19.566667
+    },
+    {
+      "name": "lensSettled",
+      "frame": 609,
+      "seconds": 20.3
+    }
+  ],
+  "lensNodes": [
+    {
+      "f": 609,
+      "x": 306,
+      "y": 178
+    },
+    {
+      "f": 648,
+      "x": 309,
+      "y": 222
+    },
+    {
+      "f": 676,
+      "x": 310,
+      "y": 270
+    },
+    {
+      "f": 734,
+      "x": 305,
+      "y": 310
+    }
+  ],
+  "captionProgramIncluded": false,
+  "wordAlignmentIncluded": false
+}

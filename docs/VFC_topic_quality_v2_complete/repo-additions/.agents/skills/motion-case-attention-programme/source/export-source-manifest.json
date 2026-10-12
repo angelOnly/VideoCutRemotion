@@ -1,0 +1,14 @@
+{
+  "relativePath": "manifests\\sources\\export_artifact_d3df428b-cb9e-4cf9-b23d-a6644f5830e4.json",
+  "generatedAt": "2026-10-07T14:44:26.071Z",
+  "entries": [
+    {
+      "assetId": "asset_1c0f3323-54fc-4250-9239-2a42f9396646",
+      "name": "时代变化与直播节目安排｜本轮原创全片 v3",
+      "sourceHash": "fad622a01d2f1b64a7b2d9cab4b699e293be1ca0864442643ef1e35cbee68129",
+      "source": "generated",
+      "provider": "managed_remotion",
+      "acquiredAt": "2026-10-07T14:41:29.034Z"
+    }
+  ]
+}

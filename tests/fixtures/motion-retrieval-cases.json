@@ -1,0 +1,274 @@
+[
+  {
+    "id": "dev-01",
+    "source": "开发派生需求（背景持续与主读）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/amitsingha89-780553-original/mechanisms/m01.md#运动指令；references/motion-cases/skillry/cases/viktoroddy-402509-original/mechanisms/m04.md#运动指令；references/motion-cases/skillry/cases/davidshulmanfl-842921-original/mechanisms/m01.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "背景这个片子继续走，说明文字一行行出来，但别把画面停住。",
+    "query": "背景视频持续播放，前景字组逐行建立并保持位置；后层适当退让支持主读，不因加字重播或停止。",
+    "acceptable": [
+      {
+        "id": "014-m01",
+        "reason": "原文明确后层继续、前方字组逐行建立且不重播。"
+      },
+      {
+        "id": "022-m04",
+        "reason": "集合继续运动并退弱，前景文字逐行取得主读。"
+      },
+      {
+        "id": "008-m01",
+        "reason": "中心活动始终延续，附加主字和短行先后建立。"
+      }
+    ]
+  },
+  {
+    "id": "dev-02",
+    "source": "开发派生需求（背景持续同义对照）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/amitsingha89-780553-original/mechanisms/m01.md#运动指令；references/motion-cases/skillry/cases/viktoroddy-402509-original/mechanisms/m04.md#运动指令；references/motion-cases/skillry/cases/davidshulmanfl-842921-original/mechanisms/m01.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "不要一加说明就把底下的动态冻住。让前面的文字接手注意力，后面继续。",
+    "query": "底下的动态保持连贯，说明逐行出现后稳定可读；前面成为第一重点，底下让出对比和注意，但仍在运动。",
+    "acceptable": [
+      {
+        "id": "014-m01",
+        "reason": "与第 1 条同义关系：后层不因加字停住。"
+      },
+      {
+        "id": "022-m04",
+        "reason": "后层运动继续而退弱，前字独立稳定。"
+      },
+      {
+        "id": "008-m01",
+        "reason": "追加层不停止中心活动。"
+      }
+    ]
+  },
+  {
+    "id": "dev-03",
+    "source": "开发派生需求（交叠接管）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/amitsingha89-780553-original/mechanisms/m03.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "不要两页之间闪一下空白。下一组进来时这一组就给它让位置。",
+    "query": "旧文字组仍可见时，新文字组从侧面推进；旧组沿边同步退让，新旧短暂并置，新组取得观看区域后再补齐内部文字。",
+    "acceptable": [
+      {
+        "id": "014-m03",
+        "reason": "原文直接要求新旧短暂并置与推进边界控制接替。"
+      }
+    ]
+  },
+  {
+    "id": "dev-04",
+    "source": "开发派生需求（先退再建对照）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/sab8a-475686-original/mechanisms/m06.md#运动指令；references/motion-cases/skillry/cases/drrickio-009558-original/mechanisms/m05.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "这两组字挤在一起会误读，先把这一组收完，再把同一位置留给下一组。",
+    "query": "当前前景气泡及内部字完成后先退出，再由后层新大字占据同一注意区域；活动主体继续留场，不让两组强字同时在该位置建立。",
+    "acceptable": [
+      {
+        "id": "001-m06",
+        "reason": "原文明示气泡退去后大字接续，并避免未退完同区建立同强字组。"
+      },
+      {
+        "id": "005-m05",
+        "reason": "原文整组退出后同一区域接独立框，满足先退后建的接管时序；气泡形态需适配。"
+      }
+    ]
+  },
+  {
+    "id": "dev-05",
+    "source": "开发派生需求（外框稳定）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/tomandrieu96707-875264-original/mechanisms/m10.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "圆窗已经合适了，不要再动它；只让里面的内容流过去。",
+    "query": "圆形外边界保持尺度与位置，内部块面和曲线横向迁移，小点跟随所属内部内容，不能让整个外框平移或旋转。",
+    "acceptable": [
+      {
+        "id": "002-m10",
+        "reason": "明确边界保持、内部横移，且禁止扩大为整幅旋转推进。"
+      }
+    ]
+  },
+  {
+    "id": "dev-06",
+    "source": "开发派生需求（外框移动对照）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/gautam-mer1-530003-original/mechanisms/m01.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "这次不是只动里面，整个竖窗从下面进来，站稳了再接标题。",
+    "query": "整个竖向外框连同内部活动内容从下方升入；外框成为稳定参照后，上方两行标题逐词补齐，内层活动继续。",
+    "acceptable": [
+      {
+        "id": "006-m01",
+        "reason": "外框本身升入，落位后标题累积；与第 5 条的外框保持不同。"
+      }
+    ]
+  },
+  {
+    "id": "dev-07",
+    "source": "开发派生需求（全局与局部并存）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/sab8a-475686-original/mechanisms/m07.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "我还想看全貌，同时在角落看清正在发生的细节，别把整幅直接放大。",
+    "query": "主活动层范围和位置保持，角落新增同源局部放大窗；两个视图持续同步活动，局部不从原层挖走，全局不消失。",
+    "acceptable": [
+      {
+        "id": "001-m07",
+        "reason": "原文为全局保留与角落局部并存，并明确不能写成整幅推近。"
+      }
+    ]
+  },
+  {
+    "id": "dev-08",
+    "source": "开发派生需求（局部转全幅对照）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/gautam-mer1-530003-original/mechanisms/m02.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "现在观众认出这个小窗了，顺势靠近里面，让它接满屏幕。",
+    "query": "向已建立竖框内部推近，外框边缘逐渐越出画面，内部活动内容延续并接管全幅；结束不再保留全貌小窗。",
+    "acceptable": [
+      {
+        "id": "006-m02",
+        "reason": "内容接续、边界越出并接管全幅；与第 7 条双层保留不同。"
+      }
+    ]
+  },
+  {
+    "id": "dev-09",
+    "source": "开发派生需求（集合中的同一项接管）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/twoclipping-496100-original/mechanisms/m02.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "先让大家看到它在这一组里，再靠近选中的那一个，不要跳成来路不明的新画面。",
+    "query": "已有片留在网格中，周围项补齐形成集合；选中一格后邻项让位，该格扩大接管全幅，内部图像继续并保留来自集合的身份。",
+    "acceptable": [
+      {
+        "id": "011-m02",
+        "reason": "原片先成为网格一项，选中项直接扩大，身份和内部活动延续。"
+      }
+    ]
+  },
+  {
+    "id": "dev-10",
+    "source": "开发派生需求（选择后接新展示）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/drrickio-009558-original/mechanisms/m05.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "从候选里突出我们要讲的方向，再收掉整组，换到一个独立展示窗，不声称它就是原图变来的。",
+    "query": "完整集合先突出少量项，其余退淡；整组退出后同一观看区接入独立框与旁字，身份不确定时明确为新框接入。",
+    "acceptable": [
+      {
+        "id": "005-m05",
+        "reason": "原文要求选择后独立展示，身份不确定不得伪称变形。"
+      }
+    ]
+  },
+  {
+    "id": "dev-11",
+    "source": "开发派生需求（遮挡时换底）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/tomandrieu96707-875264-original/mechanisms/m04.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "两套画面没有同一个物体能接上，就让一块宽的东西横着经过，遮全了再换后面。",
+    "query": "旧组保持，宽片沿单一横向穿过，前缘全遮挡后替换底层，后缘继续同向揭出新组；禁止未遮住的区域提前替换。",
+    "acceptable": [
+      {
+        "id": "002-m04",
+        "reason": "原文完整规定全遮挡替换与同向后缘揭示，并指出覆盖不足不能硬换。"
+      }
+    ]
+  },
+  {
+    "id": "dev-12",
+    "source": "开发派生需求（斜向遮挡同作用）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/thismacapital-375808-original/mechanisms/m04.md#运动指令；references/motion-cases/skillry/cases/tomandrieu96707-875264-original/mechanisms/m04.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "这个接点想要斜着扫过去，先带出新画面，等它看清了再接下方那行字。",
+    "query": "斜向宽带从边缘覆盖旧层，后缘揭出下一全幅；新层可辨认后下方字组上移接入，覆盖方向保持连续。",
+    "acceptable": [
+      {
+        "id": "015-m04",
+        "reason": "斜带遮蔽、后缘揭示及新层稳定后字组接入完整匹配。"
+      },
+      {
+        "id": "002-m04",
+        "reason": "同向全遮挡后揭示的核心关系可迁移为斜向；文字时序需本片补设计。"
+      }
+    ]
+  },
+  {
+    "id": "dev-13",
+    "source": "开发派生需求（先显内层再扩开）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/twoclipping-496100-original/mechanisms/m04.md#运动指令；references/motion-cases/skillry/cases/koldo2k-778767-original/mechanisms/m01.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "不要用一个实心圆把画面盖掉，我要先看到里面的新内容，再让它越来越大。",
+    "query": "原画面局部先打开圆形可见区域，内层新内容立即可见；开口持续扩大越过画边，新内容接管全幅，禁止实心圆遮盖代替显露。",
+    "acceptable": [
+      {
+        "id": "011-m04",
+        "reason": "原文明确先露出内层，不可仅实心圆遮盖。"
+      },
+      {
+        "id": "012-m01",
+        "reason": "先看见内层再靠近，开口边界外扩至内层接管，支持同一核心关系。"
+      }
+    ]
+  },
+  {
+    "id": "dev-14",
+    "source": "开发派生需求（连续穿越）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/koldo2k-778767-original/mechanisms/m01.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "想连续走进一层又一层，不要每到门口就停住，再突然出现下一层。",
+    "query": "观察持续对准中心开口推进，已可见内层逐渐清楚，边缘越出时内层接管并保留下一个可追踪中心；不在最后硬切出内层。",
+    "acceptable": [
+      {
+        "id": "012-m01",
+        "reason": "原文直接规定持续推进、先见内层和下一中心可追踪，允许重复。"
+      }
+    ]
+  },
+  {
+    "id": "dev-15",
+    "source": "开发派生需求（点组累积）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/tomandrieu96707-875264-original/mechanisms/m03.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "这些点得让人看出是一个个补齐的，前面出来的留住，不要整圈都转起来。",
+    "query": "承载面固定，小点沿空间路径逐项加入，每项放大回调后留在原位置；后项接续补到末端，完成后保持而不整组绕行。",
+    "acceptable": [
+      {
+        "id": "002-m03",
+        "reason": "逐点累积、回调可交叠、旧点保留，并明确禁止整组旋转。"
+      }
+    ]
+  },
+  {
+    "id": "dev-16",
+    "source": "开发派生需求（文字累积）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/twoclipping-000267-original/mechanisms/m01.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "这句话可以像逐渐说完整一样长出来，但已经出现的词不要每次重新跳一下。",
+    "query": "文字沿已有行逐词接续补入，先出现的词保持原位；上行基本完整后下行增加，末尾强调后整组保持，不重播首词入场。",
+    "acceptable": [
+      {
+        "id": "003-m01",
+        "reason": "原文逐词累积、上下行接续及保持完全匹配。"
+      }
+    ]
+  },
+  {
+    "id": "dev-17",
+    "source": "开发派生需求（线先建立文字后接）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/tomandrieu96707-875264-original/mechanisms/m02.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "先让这条横线把位置建立起来，再出现文字，字别跟着线头跑。",
+    "query": "外框与预定字位固定，横线从一端延长；接近完整时字组由淡到清楚，文字不随线头移动，之后线字共同保持。",
+    "acceptable": [
+      {
+        "id": "002-m02",
+        "reason": "明确线先长、文字后显且字位保持，背景和外框不参与长度变化。"
+      }
+    ]
+  },
+  {
+    "id": "dev-18",
+    "source": "开发派生需求（格子逐项填充）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/gautam-mer1-530003-original/mechanisms/m05.md#运动指令；references/motion-cases/skillry/cases/twoclipping-496100-original/mechanisms/m02.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "这个集合要有慢慢填满的感觉，先来的格子留着，里面的视频继续播。",
+    "query": "标题下首个竖片建立，随后按同排空位再下一排逐格补入；先到者保持位置不重排，集合补齐时内部活动继续。",
+    "acceptable": [
+      {
+        "id": "006-m05",
+        "reason": "原文逐格占位、先到保持及内部活动持续。"
+      },
+      {
+        "id": "011-m02",
+        "reason": "前半段围绕原片补齐网格并保留原片可承担局部建立；不采用其后续选中扩大。"
+      }
+    ]
+  },
+  {
+    "id": "dev-19",
+    "source": "开发派生需求（稳定中心外围收拢）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/l3d1c-752011-original/mechanisms/m07.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "中央的东西是参照别跟着转，外面那些小块越转越紧，最后只留下中间。",
+    "query": "中心卡方向和尺度保持，外围小块补成环后连续绕行并加快，同时缩小路径半径；外围最终退出，中心不缩小不旋转并继续留场。",
+    "acceptable": [
+      {
+        "id": "007-m07",
+        "reason": "原文中心稳定、外围加快收缩、最终中心留住。"
+      }
+    ]
+  },
+  {
+    "id": "dev-20",
+    "source": "开发派生需求（观察拉远多层协作）；docs/VideoFlowCut_连续制作与语义检索_通用方法与逐文件实施.md §10.10/§23；原文：references/motion-cases/skillry/cases/davidshulmanfl-842921-original/mechanisms/m02.md#运动指令。不是用户历史查询，不是已拍成片的观察。",
+    "intent": "想从眼前这一个东西慢慢看见周围空间，旁边的层各自经过，别整张背景一起拖。",
+    "query": "观察从近处拉远，中心活动继续，外围独立层以不同速度横向经过前后位置并逐步显露；不将外围烘成整张底图统一平移。",
+    "acceptable": [
+      {
+        "id": "008-m02",
+        "reason": "原文退到共同空间、中心继续、外围独立速度与禁止整图平移。"
+      }
+    ]
+  }
+]

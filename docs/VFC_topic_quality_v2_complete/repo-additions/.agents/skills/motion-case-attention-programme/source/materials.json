@@ -1,0 +1,103 @@
+{
+  "originalProjectReportedByPackage": "E:/ai/VideoCut/workspace/projects/project_6a9de441-d23e-4315-91f6-f4884640c959",
+  "localPathVerified": false,
+  "items": [
+    {
+      "slot": "chair",
+      "assetId": "asset_6d0c7e75-2f53-426d-86be-6f42178d0a14",
+      "managedPath": "assets\\source\\267904ef5df4dc045c98.jpg",
+      "hash": "267904ef5df4dc045c980a3c88e8c3e861ba6ad88022f350b868da380f4647c5",
+      "included": true,
+      "casePath": "assets/materials/chair.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aorus_gaming_chair_on_the_stage_20230205.jpg",
+      "sourceUrlEvidence": "original-package-note.txt",
+      "rightsStatus": "原包注明Solomon203 / CC BY-SA 4.0"
+    },
+    {
+      "slot": "art",
+      "assetId": "asset_e7b2cd1c-db90-4a57-ac41-be92ecd69d3c",
+      "managedPath": "assets/derived/source-material/job_d698a458-3256-4527-bfd7-0f48c65733cd/original.jpg",
+      "hash": "475b215d7801a6873b2f66e1570c3ff41512226ce4ac0b9a31fd050873f0d6c1",
+      "included": true,
+      "casePath": "assets/materials/art.jpg",
+      "sourceUrl": "https://wstatic-prod-boc.krafton.com/PUBG_OFFICIAL/20230328/8H8LqNty/Season15_Free_to_Play_Key_Art_B.jpg",
+      "sourceUrlEvidence": "source/material-manifests/art.json",
+      "rightsStatus": "来源地址可核；原包未附可独立再分发的完整许可结论"
+    },
+    {
+      "slot": "identity",
+      "assetId": "asset_68381cc1-e7fc-469e-8f7b-eee0ee459247",
+      "managedPath": "assets/derived/source-material/job_40cbd7c9-5d5f-4081-8221-80fa87f776b3/original.jpg",
+      "hash": "22b206f4843be084e449b98282ac8573b4a7df10fd3cb64460cca1f2c0594963",
+      "included": true,
+      "casePath": "assets/materials/identity.jpg",
+      "sourceUrl": "https://yt3.googleusercontent.com/sJECZLPvhh4Ie-2Ge3cZ7asjJ5A6h1qmeQWwOBUsr2Gr918Zn8tdnzJ8leCxiqNmaZLpTxXJ=s160-c-k-c0x00ffffff-no-rj",
+      "sourceUrlEvidence": "source/material-manifests/identity.json",
+      "rightsStatus": "来源地址可核；原包未附可独立再分发的完整许可结论"
+    },
+    {
+      "slot": "pubgRoad",
+      "assetId": "asset_b59ead6b-0026-45ca-992e-528091275d6e",
+      "managedPath": "assets\\source\\3065d81b310deb7f5baa.mp4",
+      "hash": "3065d81b310deb7f5baa01e52974b50bef9a72f9ceddca63f94e99e7e587289f",
+      "sourceStartMs": 0,
+      "sourceEndMs": 3033,
+      "startFrame": 284,
+      "endFrame": 375,
+      "decodeScale": 1,
+      "included": false,
+      "casePath": null,
+      "sourceUrl": null,
+      "sourceUrlEvidence": null,
+      "recovery": "到原项目Asset记录读取来源与原件；旧Asset ID不能直接迁移到新Project"
+    },
+    {
+      "slot": "lolChase",
+      "assetId": "asset_34aa6573-9918-4014-97a1-6d4108c14180",
+      "managedPath": "assets\\source\\847a7cb4c803743e99fb.mp4",
+      "hash": "847a7cb4c803743e99fb1bcc65bdc3f1d82d0c99fbf043ea37e7610434bf5196",
+      "sourceStartMs": 200000,
+      "sourceEndMs": 201600,
+      "startFrame": 364,
+      "endFrame": 412,
+      "decodeScale": 1,
+      "included": false,
+      "casePath": null,
+      "sourceUrl": null,
+      "sourceUrlEvidence": null,
+      "recovery": "到原项目Asset记录读取来源与原件；旧Asset ID不能直接迁移到新Project"
+    },
+    {
+      "slot": "pubgRoom",
+      "assetId": "asset_b59ead6b-0026-45ca-992e-528091275d6e",
+      "managedPath": "assets\\source\\3065d81b310deb7f5baa.mp4",
+      "hash": "3065d81b310deb7f5baa01e52974b50bef9a72f9ceddca63f94e99e7e587289f",
+      "sourceStartMs": 184000,
+      "sourceEndMs": 185333,
+      "startFrame": 401,
+      "endFrame": 441,
+      "decodeScale": 1,
+      "included": false,
+      "casePath": null,
+      "sourceUrl": null,
+      "sourceUrlEvidence": null,
+      "recovery": "到原项目Asset记录读取来源与原件；旧Asset ID不能直接迁移到新Project"
+    },
+    {
+      "slot": "lolCamp",
+      "assetId": "asset_34aa6573-9918-4014-97a1-6d4108c14180",
+      "managedPath": "assets\\source\\847a7cb4c803743e99fb.mp4",
+      "hash": "847a7cb4c803743e99fb1bcc65bdc3f1d82d0c99fbf043ea37e7610434bf5196",
+      "sourceStartMs": 464567,
+      "sourceEndMs": 467834,
+      "startFrame": 430,
+      "endFrame": 528,
+      "decodeScale": 1,
+      "included": false,
+      "casePath": null,
+      "sourceUrl": null,
+      "sourceUrlEvidence": null,
+      "recovery": "到原项目Asset记录读取来源与原件；旧Asset ID不能直接迁移到新Project"
+    }
+  ]
+}

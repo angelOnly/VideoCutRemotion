@@ -1,0 +1,34 @@
+{
+  "fontBindings": {
+    "display": "maoken-yanbo-song-black",
+    "serif": "maoken-yanbo-song-semibold",
+    "body": "noto-sans-sc-bold"
+  },
+  "boundFonts": [
+    {
+      "slot": "body",
+      "fontId": "noto-sans-sc-bold",
+      "hash": "c6cb5a93abaa9edc8ee7463b7ebb7f42d618d40e6ed2f7a5371c97b0b64767c0",
+      "family": "VFC_c6cb5a93abaa9edc8ee7463b7ebb7f42d618d40e6ed2f7a5371c97b0b64767c0",
+      "weight": 700,
+      "style": "normal"
+    },
+    {
+      "slot": "display",
+      "fontId": "maoken-yanbo-song-black",
+      "hash": "24abcd2219a0dd0e17acb0aae1f8bb6c7b1117cdfe9f886bdfb7170df4ee12f3",
+      "family": "VFC_24abcd2219a0dd0e17acb0aae1f8bb6c7b1117cdfe9f886bdfb7170df4ee12f3",
+      "weight": 900,
+      "style": "normal"
+    },
+    {
+      "slot": "serif",
+      "fontId": "maoken-yanbo-song-semibold",
+      "hash": "4892dc88fe81c7e2cdf8d3dab2563793af4754f3f1746e08eb1b7bdf2347f662",
+      "family": "VFC_4892dc88fe81c7e2cdf8d3dab2563793af4754f3f1746e08eb1b7bdf2347f662",
+      "weight": 600,
+      "style": "normal"
+    }
+  ],
+  "fontFilesIncluded": false
+}
