@@ -11,6 +11,7 @@ import type { ProductionConfig } from '../../../../packages/production-service/s
 import { DoubaoService } from '../../../../packages/speech-services/src/doubao.js';
 import { renderTemplate, renderToolSchema, templateFrame } from '../../../render-worker/src/template-renderer.js';
 import { json, writeJson } from '../../../../packages/production-service/src/files.js';
+import { normalizeWebAnalysis, normalizeWebRender } from '../../../../packages/production-service/src/web-contract.js';
 export async function createProductionServer(config:ProductionConfig,executor?:Executor){
   const repo=new ProductionRepository(join(config.dataRoot,'tasks.sqlite')),runner=new ProductionRunner(repo,config,executor),callbacks=new CallbackSender(repo,config.callbackBase,config.callbackSecret);
   const speech=new DoubaoService(repo,config.dataRoot,config.voicesPath??'',process.env.DOUBAO_API_KEY??'');
@@ -22,10 +23,12 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
       const runId=request.headers['x-run-id'],token=request.headers['x-run-token'];if(typeof runId!=='string'||typeof token!=='string')throw new ProductionError('RUN_AUTH_REQUIRED','需要执行身份',401);
       const run=repo.get(runId);if(run.token!==token||!['running','cancelling'].includes(run.state))throw new ProductionError('RUN_AUTH_INVALID','执行身份已失效',403);return;
     }
-    if(request.headers.authorization!==`Bearer ${config.apiToken}`)throw new ProductionError('UNAUTHORIZED','需要有效服务身份',401);
+    // 旧网页服务没有令牌配置；只对白名单直连地址开放两阶段提交，管理接口仍需令牌。
+    const webSubmit=request.method==='POST'&&['/narrate/ai_video_director/getAiVideoEditingAnalysisData','/narrate/ai_video_director/getAiVideoEditingData'].includes(request.url)&&config.webSubmitAddresses?.includes(request.ip.replace(/^::ffff:/,''));
+    if(!webSubmit&&request.headers.authorization!==`Bearer ${config.apiToken}`)throw new ProductionError('UNAUTHORIZED','需要有效服务身份',401);
   });
   app.get('/healthz',async()=>({status:'ready',releaseId:config.release.releaseId,pluginVersion:config.release.pluginVersion,skillsDigest:config.release.skillsDigest,configurationReady:Object.values(config.ready).every(Boolean),productionReady:Object.values(config.ready).every(Boolean)?null:false,readinessScope:'configuration_only',dependencies:config.ready,capabilities:{localModels:false,networkSearch:config.searchEnabled,lexicalMechanisms:true}}));
-  const accept=(stage:'analysis'|'render')=>async(request:any,reply:any)=>{if(runner.stopping)throw new ProductionError('STOPPING','服务正在停止受理',503);const run=repo.accept(config.accountId,stage,request.body);return reply.code(202).send({status:0,msg:'已持久化受理',data:{taskId:run.taskId,requestId:run.requestId,runId:run.runId,stage,state:run.state,planVersion:run.planVersion}});};
+  const accept=(stage:'analysis'|'render')=>async(request:any,reply:any)=>{if(runner.stopping)throw new ProductionError('STOPPING','服务正在停止受理',503);const input=stage==='analysis'?normalizeWebAnalysis(request.body):normalizeWebRender(request.body,repo.list(config.accountId,request.body?.taskId??''));const run=repo.accept(config.accountId,stage,input);return reply.code(202).send({status:0,msg:'已持久化受理',data:{taskId:run.taskId,requestId:run.requestId,runId:run.runId,stage,state:run.state,planVersion:run.planVersion}});};
   app.post('/narrate/ai_video_director/getAiVideoEditingAnalysisData',accept('analysis'));app.post('/narrate/ai_video_director/getAiVideoEditingData',accept('render'));
   app.get('/ai_video_director/tasks/:taskId',async(request:any)=>{const runs=repo.list(config.accountId,request.params.taskId);return {status:0,data:{latestSubmitted:runs.at(-1)?.runId,current:runs.find(r=>['running','unknown','recovering','cancelling'].includes(r.state))?.runId,latestSuccess:[...runs].reverse().find(r=>r.stage==='render'&&r.state==='succeeded')?.runId,runs:runs.map(r=>({...r,token:undefined,checkpoint:undefined,callback:repo.db.prepare('SELECT id,state,attempts,diagnostic FROM callback_outbox WHERE run_id=?').get(r.runId)}))}};});
   app.post('/ai_video_director/runs/:runId/cancel',async(request:any)=>{const run=repo.cancel(request.params.runId,config.accountId);return {status:0,data:{runId:run.runId,state:run.state}};});

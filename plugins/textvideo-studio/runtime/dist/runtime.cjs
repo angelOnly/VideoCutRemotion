@@ -109,6 +109,7 @@ function readProductionConfig() {
     port: Number(process.env.TEXTVIDEO_PORT ?? 3410),
     apiToken: required("TEXTVIDEO_API_TOKEN"),
     accountId: process.env.TEXTVIDEO_ACCOUNT_ID ?? "local",
+    webSubmitAddresses: (process.env.TEXTVIDEO_WEB_SUBMIT_ADDRESSES ?? "").split(",").map((s) => s.trim()).filter(Boolean),
     templateBase: required("CUSTOM_TEMPLATE_API_BASE_URL"),
     callbackBase: required("CALLBACK_BASE_URL"),
     callbackSecret: required("CALLBACK_SECRET"),
@@ -130,13 +131,55 @@ var import_fastify = __toESM(require("fastify"), 1);
 var import_cors = __toESM(require("@fastify/cors"), 1);
 var import_node_fs10 = require("node:fs");
 var import_node_path11 = require("node:path");
-var import_zod5 = require("zod");
+var import_zod6 = require("zod");
 
 // packages/production-service/src/repository.ts
 var import_node_sqlite = require("node:sqlite");
 var import_node_crypto2 = require("node:crypto");
 var import_node_fs2 = require("node:fs");
 var import_node_path2 = require("node:path");
+
+// packages/production-service/src/web-contract.ts
+var import_zod2 = require("zod");
+var webAnalysis = import_zod2.z.object({
+  taskId: import_zod2.z.string().min(1),
+  content: import_zod2.z.string().min(1),
+  otherRequirements: import_zod2.z.string().default(""),
+  plugin: import_zod2.z.object({ customTemplateId: import_zod2.z.string().min(1), templateId: import_zod2.z.string().default(""), digitalHumanId: import_zod2.z.string().default("") }).strict(),
+  otherMaterial: import_zod2.z.object({ picInfoList: import_zod2.z.array(import_zod2.z.unknown()).max(0), videoInfoList: import_zod2.z.array(import_zod2.z.unknown()).max(0) }).strict()
+}).strict();
+var webRender = import_zod2.z.object({
+  taskId: import_zod2.z.string().min(1),
+  templateId: import_zod2.z.string().default(""),
+  introUrl: import_zod2.z.string().default(""),
+  introIndex: import_zod2.z.number().int().nonnegative().default(0),
+  outroUrl: import_zod2.z.string().default(""),
+  outroIndex: import_zod2.z.number().int().nonnegative().default(0),
+  dataList: import_zod2.z.array(import_zod2.z.object({ id: import_zod2.z.string(), content: import_zod2.z.string() }).passthrough()).min(1)
+}).strict();
+function normalizeWebAnalysis(raw) {
+  const direct = analysisRequestSchema.safeParse(raw);
+  if (direct.success) return direct.data;
+  const web = webAnalysis.parse(raw);
+  if (web.plugin.digitalHumanId || web.plugin.templateId) throw new ProductionError("UNSUPPORTED_WEB_INPUT", "\u5B9A\u5236\u6A21\u677F\u4EFB\u52A1\u4E0D\u80FD\u540C\u65F6\u9009\u62E9\u5176\u4ED6\u6A21\u677F\u6216\u6570\u5B57\u4EBA");
+  return analysisRequestSchema.parse({ taskId: web.taskId, content: web.content, otherRequirements: web.otherRequirements, plugin: { customTemplateId: web.plugin.customTemplateId } });
+}
+function normalizeWebRender(raw, runs) {
+  const direct = renderRequestSchema.safeParse(raw);
+  if (direct.success) return direct.data;
+  const web = webRender.parse(raw);
+  const analysis = [...runs].reverse().find((r) => r.stage === "analysis");
+  if (!analysis || analysis.state !== "succeeded") throw new ProductionError("BASE_ANALYSIS_INVALID", "\u7F51\u9875\u4EFB\u52A1\u5FC5\u987B\u5148\u5B8C\u6210\u6700\u65B0 Analysis", 409);
+  const base = analysis.request;
+  if (web.templateId && web.templateId !== base.plugin.customTemplateId) throw new ProductionError("TEMPLATE_CONFLICT", "\u6E32\u67D3\u6A21\u677F\u4E0E\u5206\u6790\u51BB\u7ED3\u6A21\u677F\u4E0D\u4E00\u81F4", 409);
+  if (web.introUrl || web.outroUrl) throw new ProductionError("UNSUPPORTED_WEB_INPUT", "\u7247\u5934\u7247\u5C3E\u7531\u5B9A\u5236\u6A21\u677F\u63D0\u4F9B\uFF0C\u4E0D\u652F\u6301\u7F51\u9875\u989D\u5916\u66FF\u6362");
+  return renderRequestSchema.parse({ taskId: web.taskId, basePlanVersion: analysis.planVersion, otherRequirements: base.otherRequirements, dataList: web.dataList.map(({ id, content }) => ({ id, content })) });
+}
+function webCallbackFields(stage, result, templateId) {
+  return { msg: "", dataList: result?.dataList ?? [], dataInfo: { templateId, ...stage === "analysis" ? { durationMode: "estimated", previews: [] } : { sceneCount: result?.dataList?.filter((s) => s.extraData?.kind !== "wholeVideo").length ?? 0 } }, ...stage === "analysis" ? { plan: {} } : {} };
+}
+
+// packages/production-service/src/repository.ts
 var ProductionRepository = class {
   db;
   constructor(path) {
@@ -245,6 +288,7 @@ var ProductionRepository = class {
       }
       this.db.prepare("UPDATE runs SET state=?,result=?,error=?,result_version=?,token=NULL WHERE id=?").run(state, JSON.stringify(result), JSON.stringify(error), resultVersion, id);
       const eventId = (0, import_node_crypto2.randomUUID)();
+      const analysis = run.stage === "analysis" ? run : this.list(run.accountId, run.taskId).find((r) => r.stage === "analysis" && r.planVersion === run.request.basePlanVersion);
       const body = JSON.stringify({
         schemaVersion: 1,
         eventId,
@@ -254,6 +298,7 @@ var ProductionRepository = class {
         stage: run.stage,
         state,
         planVersion: run.planVersion,
+        ...webCallbackFields(run.stage, result, analysis?.request?.plugin?.customTemplateId ?? ""),
         ..."basePlanVersion" in run.request ? { basePlanVersion: run.request.basePlanVersion, baseRenderRunId: run.request.baseRenderRunId } : {},
         resultVersion,
         status: state === "succeeded" ? 0 : 1,
@@ -294,7 +339,7 @@ var import_node_fs4 = require("node:fs");
 var import_node_path4 = require("node:path");
 var import_promises = require("node:stream/promises");
 var yauzl = __toESM(require("yauzl"), 1);
-var import_zod2 = require("zod");
+var import_zod3 = require("zod");
 
 // packages/production-service/src/files.ts
 var import_node_fs3 = require("node:fs");
@@ -371,7 +416,7 @@ async function probe(path, decode = false, signal) {
 }
 
 // packages/production-service/src/template-package.ts
-var manifestSchema = import_zod2.z.object({ schemaVersion: import_zod2.z.literal(1), templateVersion: import_zod2.z.string().min(1), instructions: import_zod2.z.array(import_zod2.z.string()).min(1), entry: import_zod2.z.string().min(1), wholeComposition: import_zod2.z.string().min(1), timelineModule: import_zod2.z.string().min(1), publicAssetRoot: import_zod2.z.string().min(1), width: import_zod2.z.number().int().positive(), height: import_zod2.z.number().int().positive(), fps: import_zod2.z.number().positive(), voiceRefs: import_zod2.z.array(import_zod2.z.string()).default([]) }).passthrough();
+var manifestSchema = import_zod3.z.object({ schemaVersion: import_zod3.z.literal(1), templateVersion: import_zod3.z.string().min(1), instructions: import_zod3.z.array(import_zod3.z.string()).min(1), entry: import_zod3.z.string().min(1), wholeComposition: import_zod3.z.string().min(1), timelineModule: import_zod3.z.string().min(1), publicAssetRoot: import_zod3.z.string().min(1), width: import_zod3.z.number().int().positive(), height: import_zod3.z.number().int().positive(), fps: import_zod3.z.number().positive(), voiceRefs: import_zod3.z.array(import_zod3.z.string()).default([]) }).passthrough();
 async function extractZip(zipPath, destination, maxBytes = 1024 * 1024 * 1024) {
   await import_node_fs4.promises.mkdir(destination, { recursive: true });
   await new Promise((done, fail) => yauzl.open(zipPath, { lazyEntries: true, validateEntrySizes: true }, (err, zip) => {
@@ -814,8 +859,8 @@ var CallbackSender = class {
 var import_node_crypto4 = require("node:crypto");
 var import_node_fs8 = require("node:fs");
 var import_node_path9 = require("node:path");
-var import_zod3 = require("zod");
-var speechSchema = import_zod3.z.object({ runId: import_zod3.z.string().uuid(), speechRequestId: import_zod3.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/), segmentId: import_zod3.z.string().min(1), text: import_zod3.z.string().min(1).max(2e3), voiceRef: import_zod3.z.string().min(1), speed: import_zod3.z.number().int().min(-50).max(100).default(0), reuseJobId: import_zod3.z.string().uuid().optional(), reuseRunId: import_zod3.z.string().uuid().optional() }).strict();
+var import_zod4 = require("zod");
+var speechSchema = import_zod4.z.object({ runId: import_zod4.z.string().uuid(), speechRequestId: import_zod4.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/), segmentId: import_zod4.z.string().min(1), text: import_zod4.z.string().min(1).max(2e3), voiceRef: import_zod4.z.string().min(1), speed: import_zod4.z.number().int().min(-50).max(100).default(0), reuseJobId: import_zod4.z.string().uuid().optional(), reuseRunId: import_zod4.z.string().uuid().optional() }).strict();
 var DoubaoService = class {
   constructor(repo, root, voiceFile, apiKey, endpoint = "https://openspeech.bytedance.com/api/v3/tts/unidirectional") {
     this.repo = repo;
@@ -868,7 +913,7 @@ var DoubaoService = class {
     return record;
   }
   async read(id, runId, accountId) {
-    if (!import_zod3.z.string().uuid().safeParse(id).success) throw new ProductionError("SPEECH_ID_INVALID", "\u914D\u97F3 ID \u4E0D\u5408\u6CD5");
+    if (!import_zod4.z.string().uuid().safeParse(id).success) throw new ProductionError("SPEECH_ID_INVALID", "\u914D\u97F3 ID \u4E0D\u5408\u6CD5");
     const run = this.repo.get(runId, accountId);
     const record = await json(this.path(run, id));
     if (record.runId !== runId) throw new ProductionError("SPEECH_SCOPE_INVALID", "\u914D\u97F3\u4E0D\u5C5E\u4E8E\u6B64\u6267\u884C");
@@ -959,8 +1004,8 @@ var import_bundler = require("@remotion/bundler");
 var import_renderer = require("@remotion/renderer");
 var import_node_fs9 = require("node:fs");
 var import_node_path10 = require("node:path");
-var import_zod4 = require("zod");
-var renderToolSchema = import_zod4.z.object({ runId: import_zod4.z.string().uuid(), renderRequestId: import_zod4.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/), timelineRef: import_zod4.z.string(), ranges: import_zod4.z.array(import_zod4.z.object({ id: import_zod4.z.string(), fromFrame: import_zod4.z.number().int().nonnegative(), toFrame: import_zod4.z.number().int().positive() }).strict()).min(1), checks: import_zod4.z.array(import_zod4.z.string()), previewOnly: import_zod4.z.boolean().default(false) }).strict();
+var import_zod5 = require("zod");
+var renderToolSchema = import_zod5.z.object({ runId: import_zod5.z.string().uuid(), renderRequestId: import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/), timelineRef: import_zod5.z.string(), ranges: import_zod5.z.array(import_zod5.z.object({ id: import_zod5.z.string(), fromFrame: import_zod5.z.number().int().nonnegative(), toFrame: import_zod5.z.number().int().positive() }).strict()).min(1), checks: import_zod5.z.array(import_zod5.z.string()), previewOnly: import_zod5.z.boolean().default(false) }).strict();
 async function renderTemplate(run, root, input, options) {
   if (run.stage !== "render" || run.state !== "running") throw new ProductionError("RENDER_STAGE_FORBIDDEN", "\u4EC5\u8FD0\u884C\u4E2D\u7684 Render \u53EF\u6E32\u67D3", 409);
   const workingProject = (0, import_node_path10.join)(root, "project");
@@ -1020,7 +1065,7 @@ async function createProductionServer(config, executor) {
   const app = (0, import_fastify.default)({ bodyLimit: 2 * 1024 * 1024 });
   await app.register(import_cors.default, { origin: true, exposedHeaders: ["Content-Range", "Content-Length", "Accept-Ranges"] });
   app.setErrorHandler((error, request, reply) => {
-    reply.code(error instanceof import_zod5.z.ZodError ? 400 : error.statusCode ?? 500).send({ status: 1, msg: error.message, error: { code: error instanceof import_zod5.z.ZodError ? "INVALID_FIELDS" : error.code ?? "INTERNAL_ERROR", fields: error instanceof import_zod5.z.ZodError ? error.issues : void 0 } });
+    reply.code(error instanceof import_zod6.z.ZodError ? 400 : error.statusCode ?? 500).send({ status: 1, msg: error.message, error: { code: error instanceof import_zod6.z.ZodError ? "INVALID_FIELDS" : error.code ?? "INTERNAL_ERROR", fields: error instanceof import_zod6.z.ZodError ? error.issues : void 0 } });
   });
   app.addHook("preHandler", async (request, reply) => {
     if (request.method === "OPTIONS" || request.url === "/healthz" || request.url.startsWith("/media/")) return;
@@ -1031,12 +1076,14 @@ async function createProductionServer(config, executor) {
       if (run.token !== token || !["running", "cancelling"].includes(run.state)) throw new ProductionError("RUN_AUTH_INVALID", "\u6267\u884C\u8EAB\u4EFD\u5DF2\u5931\u6548", 403);
       return;
     }
-    if (request.headers.authorization !== `Bearer ${config.apiToken}`) throw new ProductionError("UNAUTHORIZED", "\u9700\u8981\u6709\u6548\u670D\u52A1\u8EAB\u4EFD", 401);
+    const webSubmit = request.method === "POST" && ["/narrate/ai_video_director/getAiVideoEditingAnalysisData", "/narrate/ai_video_director/getAiVideoEditingData"].includes(request.url) && config.webSubmitAddresses?.includes(request.ip.replace(/^::ffff:/, ""));
+    if (!webSubmit && request.headers.authorization !== `Bearer ${config.apiToken}`) throw new ProductionError("UNAUTHORIZED", "\u9700\u8981\u6709\u6548\u670D\u52A1\u8EAB\u4EFD", 401);
   });
   app.get("/healthz", async () => ({ status: "ready", releaseId: config.release.releaseId, pluginVersion: config.release.pluginVersion, skillsDigest: config.release.skillsDigest, configurationReady: Object.values(config.ready).every(Boolean), productionReady: Object.values(config.ready).every(Boolean) ? null : false, readinessScope: "configuration_only", dependencies: config.ready, capabilities: { localModels: false, networkSearch: config.searchEnabled, lexicalMechanisms: true } }));
   const accept = (stage) => async (request, reply) => {
     if (runner.stopping) throw new ProductionError("STOPPING", "\u670D\u52A1\u6B63\u5728\u505C\u6B62\u53D7\u7406", 503);
-    const run = repo.accept(config.accountId, stage, request.body);
+    const input = stage === "analysis" ? normalizeWebAnalysis(request.body) : normalizeWebRender(request.body, repo.list(config.accountId, request.body?.taskId ?? ""));
+    const run = repo.accept(config.accountId, stage, input);
     return reply.code(202).send({ status: 0, msg: "\u5DF2\u6301\u4E45\u5316\u53D7\u7406", data: { taskId: run.taskId, requestId: run.requestId, runId: run.runId, stage, state: run.state, planVersion: run.planVersion } });
   };
   app.post("/narrate/ai_video_director/getAiVideoEditingAnalysisData", accept("analysis"));
@@ -1052,7 +1099,7 @@ async function createProductionServer(config, executor) {
   app.post("/ai_video_director/callbacks/:eventId/retry", async (request) => ({ status: 0, data: callbacks.retry(request.params.eventId, config.accountId) }));
   app.route({ method: ["GET", "HEAD"], url: "/media/:task/:run/:file", handler: async (request, reply) => {
     const { task, run, file } = request.params;
-    if (!import_zod5.z.string().uuid().safeParse(task).success || !import_zod5.z.string().uuid().safeParse(run).success || !/^\d+\.mp4$/.test(file)) throw new ProductionError("MEDIA_NOT_FOUND", "\u5A92\u4F53\u4E0D\u5B58\u5728", 404);
+    if (!import_zod6.z.string().uuid().safeParse(task).success || !import_zod6.z.string().uuid().safeParse(run).success || !/^\d+\.mp4$/.test(file)) throw new ProductionError("MEDIA_NOT_FOUND", "\u5A92\u4F53\u4E0D\u5B58\u5728", 404);
     const record = repo.get(run);
     if (record.taskKey !== task || record.state !== "succeeded") throw new ProductionError("MEDIA_NOT_FOUND", "\u5A92\u4F53\u5C1A\u672A\u53D1\u5E03", 404);
     const path = (0, import_node_path11.join)(config.dataRoot, "tasks", task, "results", run, file), stat = await import_node_fs10.promises.stat(path);
@@ -1090,7 +1137,7 @@ async function createProductionServer(config, executor) {
     if (name === "read_speech_job") return speech.read(body.speechJobId, run.runId, run.accountId);
     if (name === "read_production_task") return { ...run, token: void 0 };
     if (name === "preview_template_frame") {
-      const parsed = import_zod5.z.object({ frame: import_zod5.z.number().int().nonnegative() }).strict().parse(body);
+      const parsed = import_zod6.z.object({ frame: import_zod6.z.number().int().nonnegative() }).strict().parse(body);
       if (run.stage !== "render") throw new ProductionError("RENDER_STAGE_FORBIDDEN", "Analysis \u4E0D\u5141\u8BB8\u6E32\u67D3");
       const path = (0, import_node_path11.join)(runner.runRoot(run), "previews", `frame-${parsed.frame}.png`);
       await templateFrame((0, import_node_path11.join)(runner.runRoot(run), "project"), parsed.frame, path, config.dependencyRoot, config.browser);
@@ -1123,7 +1170,7 @@ async function createProductionServer(config, executor) {
       return next;
     }
     if (name === "read_render_job") {
-      const id = import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).parse(body.renderRequestId), path = (0, import_node_path11.join)(runner.runRoot(run), "render-jobs", `${id}.json`), job = await json(path);
+      const id = import_zod6.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).parse(body.renderRequestId), path = (0, import_node_path11.join)(runner.runRoot(run), "render-jobs", `${id}.json`), job = await json(path);
       if (job.state === "running" && !renderJobs.has(path)) return { ...job, state: "unknown", error: "\u539F\u6E32\u67D3\u8FDB\u7A0B\u72B6\u6001\u9700\u8981\u6838\u67E5" };
       return job;
     }

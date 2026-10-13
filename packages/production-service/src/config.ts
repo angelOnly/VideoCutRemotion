@@ -8,6 +8,7 @@ export function readProductionConfig(){
   const release=JSON.parse(readFileSync(join(pluginRoot,'runtime/dist/manifest.json'),'utf8'));
   return { pluginRoot,dataRoot,release,host:process.env.TEXTVIDEO_HOST??'127.0.0.1',port:Number(process.env.TEXTVIDEO_PORT??3410),
     apiToken:required('TEXTVIDEO_API_TOKEN'),accountId:process.env.TEXTVIDEO_ACCOUNT_ID??'local',
+    webSubmitAddresses:(process.env.TEXTVIDEO_WEB_SUBMIT_ADDRESSES??'').split(',').map(s=>s.trim()).filter(Boolean),
     templateBase:required('CUSTOM_TEMPLATE_API_BASE_URL'),callbackBase:required('CALLBACK_BASE_URL'),callbackSecret:required('CALLBACK_SECRET'),
     mediaBase:required('MEDIA_PUBLIC_BASE_URL').replace(/\/$/,''),dependencyRoot:resolve(required('TEXTVIDEO_DEPENDENCY_ROOT')),
     codexExecutable:required('CODEX_EXECUTABLE'),codexHome:resolve(required('TEXTVIDEO_CODEX_HOME')),model:process.env.TEXTVIDEO_MODEL,

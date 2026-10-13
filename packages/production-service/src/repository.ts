@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
 import { mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { analysisRequestSchema, renderRequestSchema, canonical, sha256, ProductionError, terminal, type Run, type Stage, type State, type RenderRequest } from './contracts.js';
+import { webCallbackFields } from './web-contract.js';
 
 export class ProductionRepository {
   readonly db: DatabaseSync;
@@ -73,7 +74,9 @@ export class ProductionRepository {
       }
       this.db.prepare('UPDATE runs SET state=?,result=?,error=?,result_version=?,token=NULL WHERE id=?').run(state,JSON.stringify(result),JSON.stringify(error),resultVersion,id);
       const eventId = randomUUID();
+      const analysis=run.stage==='analysis'?run:this.list(run.accountId,run.taskId).find(r=>r.stage==='analysis'&&r.planVersion===(run.request as RenderRequest).basePlanVersion);
       const body = JSON.stringify({ schemaVersion: 1, eventId, taskId: run.taskId, requestId: run.requestId, runId: id, stage: run.stage, state, planVersion: run.planVersion,
+        ...webCallbackFields(run.stage,result,(analysis?.request as any)?.plugin?.customTemplateId??''),
         ...('basePlanVersion' in run.request ? { basePlanVersion:run.request.basePlanVersion, baseRenderRunId:run.request.baseRenderRunId } : {}), resultVersion, status:state==='succeeded'?0:1, data:result, error });
       this.db.prepare('INSERT INTO callback_outbox(id,run_id,body) VALUES(?,?,?)').run(eventId,id,body); return this.get(id);
     });
