@@ -3,6 +3,11 @@ name: production-coordinator
 description: 作为 VideoFlowCut 主任务的协调入口，真实分派导演、创意专项与审片子代理，排序项目写入并回传版本和预览；完整视频、局部创意和明确参数的机械修改均从这里确定执行边界。
 ---
 
+## 当前文本模板任务入口
+
+收到包含 taskId/runId/stage 的服务输入时，先读 [模板生产执行合同](../_shared/TEMPLATE_PRODUCTION.md)，以该合同执行本阶段。原有方法章节继续用于专业判断；旧 Project/Revision 写入、本地模型、向量与网络取材分支不适用于模板服务，不调用已移除工具。
+
+
 # 视频生产协调
 
 先用 [项目基础](../project-basics/SKILL.md) 定位当前 Project、Revision、目标对象与未结束 Job；尚无项目就如实交接，不编造标识。主任务负责沟通、事实、真实分派、确定性提交、技术核对与交付。

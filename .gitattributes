@@ -1,5 +1,7 @@
 # 发行文件带有内容哈希，Git 不得转换换行符，确保检出字节与已验证版本一致。
 plugins/videoflowcut/runtime/dist/** -text
+# 独立插件发行摘要覆盖源码脚本、Skills 和清单，检出时统一保留原始字节。
+plugins/textvideo-studio/** -text
 
 # 案例原件与实施输入包含字节哈希；检出时保留原始换行，避免来源验证失真。
 .agents/skills/motion-brief-writing/** -text

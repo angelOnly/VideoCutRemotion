@@ -1,0 +1,26 @@
+{
+  "name": "textvideo-studio",
+  "version": "0.1.4",
+  "description": "文本驱动模板视频生产：两阶段分析与制作、豆包配音、Remotion 和可追溯版本。",
+  "author": {
+    "name": "文稿视频工坊"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "文稿视频工坊",
+    "shortDescription": "用 Codex 按模板完成文本驱动的视频生产。",
+    "longDescription": "提供专业 Skills、词法机制库、豆包配音与模板渲染 MCP，配套独立 SQLite 两阶段常驻生产 Runtime。",
+    "developerName": "文稿视频工坊",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "读取当前任务和模板，形成文字分镜",
+      "根据完整确认稿制作模板视频",
+      "检查当前成片版本和交付范围"
+    ]
+  },
+  "mcpServers": "./.mcp.json"
+}

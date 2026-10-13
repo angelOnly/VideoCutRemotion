@@ -3,6 +3,11 @@ name: visual-explainer-director
 description: 作为旁白、机制、数据、证据和 UI 驱动视频的主要工作流，从 NarrativeMap、Scene Grammar、素材与证据一直负责到 Remotion、字幕、声音、质量和交付。
 ---
 
+## 当前文本模板任务入口
+
+收到包含 taskId/runId/stage 的服务输入时，先读 [模板生产执行合同](../_shared/TEMPLATE_PRODUCTION.md)，以该合同执行本阶段。原有方法章节继续用于专业判断；旧 Project/Revision 写入、本地模型、向量与网络取材分支不适用于模板服务，不调用已移除工具。
+
+
 # 内容关系与机制解释主导的视频制作
 
 接收本片观看问题、准确讲述、真实来源与材料、现有 Story 和用户锁定项。先决定观众目前知道什么、需要看见哪种变化，以及结尾得到什么理解，形成与文案共同发展的完整观看稿。

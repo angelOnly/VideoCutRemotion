@@ -6,6 +6,9 @@ dist/
 !plugins/videoflowcut/runtime/
 !plugins/videoflowcut/runtime/dist/
 !plugins/videoflowcut/runtime/dist/**
+!plugins/textvideo-studio/runtime/
+!plugins/textvideo-studio/runtime/dist/
+!plugins/textvideo-studio/runtime/dist/**
 
 # 运行时数据库、日志、项目媒体与渲染产物均属于用户数据，不进入源码仓库。
 workspace/
@@ -22,6 +25,7 @@ cache/
 plugins/videoflowcut/runtime/repo-root.json
 
 .candidate/
+.cache/
 
 # 正式参考库的视频、拆解和检索入口均提交；研究过程只在本地归档。
 .local-archives/

@@ -3,6 +3,11 @@ name: export
 description: 固定目标 Timeline/Sequence 与 Revision，区分 draft/delivery，检查质量和技术条件，异步导出并验证最终 Artifact；导出不修改创作状态，也不等同于用户批准。
 ---
 
+## 当前文本模板任务入口
+
+收到包含 taskId/runId/stage 的服务输入时，先读 [模板生产执行合同](../_shared/TEMPLATE_PRODUCTION.md)，以该合同执行本阶段。原有方法章节继续用于专业判断；旧 Project/Revision 写入、本地模型、向量与网络取材分支不适用于模板服务，不调用已移除工具。
+
+
 # Draft、Delivery 与最终文件
 
 ## 主任务执行与专业审片

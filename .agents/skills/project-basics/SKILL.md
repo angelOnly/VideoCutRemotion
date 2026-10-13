@@ -3,6 +3,11 @@ name: project-basics
 description: 在任何 VideoFlowCut 项目读写前建立完整运行合同：发现 MCP、定位 Project/Timeline/Revision、理解对象边界、处理并发与结果未知，并把结构、预览、最终文件和交付状态分开。
 ---
 
+## 当前文本模板任务入口
+
+收到包含 taskId/runId/stage 的服务输入时，先读 [模板生产执行合同](../_shared/TEMPLATE_PRODUCTION.md)，以该合同执行本阶段。原有方法章节继续用于专业判断；旧 Project/Revision 写入、本地模型、向量与网络取材分支不适用于模板服务，不调用已移除工具。
+
+
 # 项目定位与操作边界
 
 任何 VideoFlowCut 项目读写前，发现当前实际 MCP 工具及 Schema，读取已连接 Runtime 版本；用 `list_projects`、`target_project`、`read_project` 定位真实项目、Revision、Timeline、目标对象、素材与未结束 Job。不凭名字猜 ID，不因用户只改局部就新建整片。

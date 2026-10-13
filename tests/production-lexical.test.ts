@@ -1,0 +1,10 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { registerMotionLibraryTools } from '../apps/server/src/motion-library-tools.js';
+import { parseJsonStream } from '../packages/speech-services/src/doubao.js';
+test('T21：机制工具只有词法和阅读，无 Project、向量或模型调用',async()=>{const server=new McpServer({name:'test',version:'1'}),client=new Client({name:'test',version:'1'});registerMotionLibraryTools(server,resolve('references/motion-cases/skillry'));const [a,b]=InMemoryTransport.createLinkedPair();await server.connect(a);await client.connect(b);try{const tools=await client.listTools();assert.deepEqual(tools.tools.map(t=>t.name).sort(),['read_motion_mechanism','search_motion_mechanisms']);const result=await client.callTool({name:'search_motion_mechanisms',arguments:{query:'比较',limit:2}});assert.notEqual(result.isError,true);const parsed=JSON.parse((result.content as any)[0].text);assert.equal(parsed.diagnostics.semantic_used,false);assert.equal(parsed.query.query,'比较');}finally{await client.close();await server.close();}});
+test('豆包连续 JSON 与截断响应校验',()=>{assert.equal(parseJsonStream('{"code":0,"message":"中\\\"文"}{"code":20000000}').length,2);assert.throws(()=>parseJsonStream('{"code":0'));assert.throws(()=>parseJsonStream('garbage'));});

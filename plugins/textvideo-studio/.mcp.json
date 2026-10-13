@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "textvideo-studio": {
+      "command": "node",
+      "args": ["./scripts/production-mcp-launcher.mjs"],
+      "cwd": ".",
+      "startup_timeout_sec": 45,
+      "tool_timeout_sec": 180
+    }
+  }
+}

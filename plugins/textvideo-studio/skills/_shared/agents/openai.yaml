@@ -1,0 +1,5 @@
+interface:
+  display_name: "文稿视频工坊 共享参考资料"
+  short_description: "仅供 文稿视频工坊 Skills 按需引用"
+policy:
+  allow_implicit_invocation: false

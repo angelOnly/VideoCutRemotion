@@ -3,6 +3,11 @@ name: voice-production
 description: 将最终 SpeechSegment 交给 OmniVoice，默认使用服务端已有本地音色，也可显式指定 VoiceReference；下载并校验段级音频，使用真实时长组装 SpeechAsset 和 segment_exact，同时审查语速、重音、句尾与相邻段连续性。
 ---
 
+## 当前文本模板任务入口
+
+收到包含 taskId/runId/stage 的服务输入时，先读 [模板生产执行合同](../_shared/TEMPLATE_PRODUCTION.md)，以该合同执行本阶段。原有方法章节继续用于专业判断；旧 Project/Revision 写入、本地模型、向量与网络取材分支不适用于模板服务，不调用已移除工具。
+
+
 # OmniVoice 旁白生产、组装与听感
 
 ## 积极表演与当前声画共同校准

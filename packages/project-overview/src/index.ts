@@ -11,7 +11,6 @@ export const RUNTIME_CONFIG_DEFAULTS = {
   serverPort: 3100, // Server 与本地 Runtime 默认使用的 API 端口。
   webOrigin: "http://127.0.0.1:5173", // Vite 开发工作台的默认来源地址。
   logLevel: "info", // 未配置日志级别时的 Fastify 日志详细程度。
-  bridgeApiBaseUrl: "http://127.0.0.1:8188/comfyui-bridge/v1", // ComfyUI Bridge 的默认 HTTP API 根地址。
   maxAssetDownloadBytes: 512 * 1024 * 1024, // 普通素材下载的最大文件体积：512 MB。
   maxWikimediaDownloadBytes: 256 * 1024 * 1024, // Wikimedia Commons 素材下载的最大文件体积：256 MB。
   maxGeneratedVideoBytes: 512 * 1024 * 1024, // Bridge 生成视频下载的最大文件体积：512 MB。
@@ -45,20 +44,6 @@ export interface RuntimeConfig {
     serveWeb: boolean;
     /** Fastify 日志级别。 */
     logLevel: string;
-  };
-  /** 与 ComfyUI Bridge 通信的入口配置。 */
-  bridge: {
-    /** Bridge HTTP API 根地址。 */
-    apiBaseUrl: string;
-  };
-  /** 冻结到分析 Job 的外部 HTTP 配置；不管理模型进程。 */
-  semantic: {
-    videoWorkflowId: string;
-    audioWorkflowId: string;
-    imageWorkflowId: string;
-    embeddingWorkflowId: string;
-    modelRevision: string;
-    embeddingRevision: string;
   };
   /** 第三方素材 Provider 的可选凭据；总览只显示是否已配置。 */
   providers: {
@@ -141,17 +126,6 @@ export function readRuntimeConfig(options: ReadRuntimeConfigOptions = {}): Runti
       serveWeb: environment.SERVE_WEB === "true",
       logLevel: environment.LOG_LEVEL ?? RUNTIME_CONFIG_DEFAULTS.logLevel
     },
-    bridge: {
-      apiBaseUrl: environment.COMFYUI_BRIDGE_URL ?? RUNTIME_CONFIG_DEFAULTS.bridgeApiBaseUrl
-    },
-    semantic: {
-      videoWorkflowId: environment.VIDEOCUT_VIDEO_ANALYSIS_WORKFLOW_ID ?? "ee8e9c17-bd16-566f-ad2d-a7ec239bf4b8",
-      audioWorkflowId: environment.VIDEOCUT_AUDIO_ANALYSIS_WORKFLOW_ID ?? "863d530d-8066-52b2-a59d-de4301f41013",
-      imageWorkflowId: environment.VIDEOCUT_IMAGE_ANALYSIS_WORKFLOW_ID ?? "d8bc75ad-5737-5d68-b9fd-44739c4700df",
-      embeddingWorkflowId: environment.VIDEOCUT_EMBEDDING_WORKFLOW_ID ?? "15904667-24ab-5e91-bc56-19ee2ad9eb4f",
-      modelRevision: environment.VIDEOCUT_ANALYSIS_MODEL_REVISION ?? "073dbbc8c5bc0af2d789e1ce12e7c17a6be746e1",
-      embeddingRevision: environment.VIDEOCUT_EMBEDDING_MODEL_REVISION ?? "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
-    },
     providers: {
       youtubeDownloaderPath: environment.VIDEOCUT_YT_DLP_PATH?.trim() || undefined,
     },
@@ -214,7 +188,6 @@ export const CORE_PRODUCTION_FLOW = [
     name: "理解视频",
     responsibility: "转写、素材审阅、Vlog 事件分析或多机位同步，形成可追溯事实。",
     entryPoints: [
-      { name: "FunASRService", kind: "转写服务类" },
       { name: "EditingApplication", kind: "项目应用类" }
     ]
   },
@@ -232,8 +205,6 @@ export const CORE_PRODUCTION_FLOW = [
     responsibility: "编译时间线、语音、字幕、音频、效果、人物或生成素材。",
     entryPoints: [
       { name: "EditingApplication", kind: "项目应用类" },
-      { name: "OmniVoiceSegmentService", kind: "语音服务类" },
-      { name: "ComfyUIBridgeClient", kind: "Bridge 客户端类" },
       { name: "RevisionRenderer", kind: "渲染器类" }
     ]
   },
@@ -257,10 +228,6 @@ export const KEY_APPLICATION_ENTRIES = [
   { name: "createProductionFlow", kind: "函数", responsibility: "从既有 EditingApplication 创建五阶段流程门面", module: "@videocut/application" },
   { name: "ProjectRepository", kind: "持久化类", responsibility: "SQLite 项目、Revision、任务与导出记录的持久化", module: "@videocut/application" },
   { name: "AssetProviderRegistry", kind: "素材 Provider 类", responsibility: "素材搜索、候选审阅和受管下载 Provider 的目录", module: "@videocut/acquisition" },
-  { name: "ComfyUIBridgeClient", kind: "Bridge 客户端类", responsibility: "动态读取 ComfyUI Workflow Schema 并提交 Bridge 任务", module: "@videocut/bridge" },
-  { name: "FunASRService", kind: "转写服务类", responsibility: "转写与时间信息的服务边界", module: "@videocut/speech" },
-  { name: "SourceCaptionAlignmentService", kind: "原声字幕服务类", responsibility: "使用 Provider 段级时间证据，自动生成一段一屏的默认字幕 Program；内部 token 仅用于校验和异常重分屏", module: "@videocut/speech" },
-  { name: "OmniVoiceSegmentService", kind: "语音服务类", responsibility: "段级语音合成与真实音频时长校验", module: "@videocut/speech" },
   { name: "RevisionRenderer", kind: "渲染器类", responsibility: "Preview、Render Preflight 与导出渲染", module: "Render Worker" },
   { name: "evaluateQuality", kind: "函数", responsibility: "质量规则、审片结论与交付门禁", module: "@videocut/quality" },
   { name: "McpServer", kind: "SDK 类", responsibility: "为 Codex 注册工具的协议适配层", module: "@modelcontextprotocol/sdk/server/mcp.js" }
@@ -421,7 +388,6 @@ export const NODE_RUNTIME_CONFIGURATION_CATALOG = [
   { key: "SERVE_WEB", group: "HTTP", description: "Server 是否托管静态 Web 产物", defaultValue: "false" },
   { key: "LOG_LEVEL", group: "HTTP", description: "Fastify 日志级别", defaultValue: RUNTIME_CONFIG_DEFAULTS.logLevel },
   // Bridge：所有 ComfyUI Bridge HTTP 调用共用的地址。
-  { key: "COMFYUI_BRIDGE_URL", group: "Bridge", description: "ComfyUI Bridge HTTP API 根地址", defaultValue: RUNTIME_CONFIG_DEFAULTS.bridgeApiBaseUrl },
   { key: "VIDEOCUT_VIDEO_ANALYSIS_WORKFLOW_ID", group: "素材理解", description: "外部视频原声理解工作流" },
   { key: "VIDEOCUT_AUDIO_ANALYSIS_WORKFLOW_ID", group: "素材理解", description: "外部原生音频理解工作流" },
   { key: "VIDEOCUT_IMAGE_ANALYSIS_WORKFLOW_ID", group: "素材理解", description: "外部图片及页面理解工作流" },
@@ -572,8 +538,6 @@ export function getProjectOverview(options: ReadRuntimeConfigOptions = {}) {
     configuration: {
       workspaceRoot: config.workspace.root, // 当前项目实际写入磁盘的根目录。
       http: config.http, // Server、Web 工作台和日志配置。
-      bridge: config.bridge, // ComfyUI Bridge 的安全地址信息。
-      semantic: config.semantic,
       downloads: config.downloads, // 外部素材和生成文件的下载上限。
       motion: config.motion, // 动效缓存驻留限额与磁盘安全余量。
       localSoundEffects: { roots: config.localSoundEffects.roots }, // 仅受控根目录可用于本地音效浏览和导入。

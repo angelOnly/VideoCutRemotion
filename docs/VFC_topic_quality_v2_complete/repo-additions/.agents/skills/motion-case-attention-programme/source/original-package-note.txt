@@ -1,9 +1,0 @@
-仅收录最终成片R72采用的v3动效源码，已去除v1、v2历史源码。
-源码：项目文件/assets/derived/motion/job_583ad089-c51f-46be-9cae-f5602860c55f/d79f246c0825a9cb562171e5ed6335a371ad059820b54f43e26afcdba7886396/source.json
-该文件包含source代码、props及素材绑定；同目录manifest.json为对应清单。
-最终视频原样保留，未转码；方案文档仅02_attention_new_generation.md。
-受10MB限制，字体、大型原始视频、帧缓存未收录；不是可独立运行的完整工程。
-原项目：E:/ai/VideoCut/workspace/projects/project_6a9de441-d23e-4315-91f6-f4884640c959
-椅图：Solomon203，CC BY-SA 4.0。
-https://commons.wikimedia.org/wiki/File:Aorus_gaming_chair_on_the_stage_20230205.jpg
-https://creativecommons.org/licenses/by-sa/4.0/

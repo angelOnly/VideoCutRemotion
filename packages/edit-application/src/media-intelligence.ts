@@ -51,37 +51,7 @@ export class MediaIntelligenceApplication {
     return retry;
   }
 
-  async submitAnalysis(projectId: string, value: AnalysisInput) {
-    const input = analysisInputSchema.parse(value);
-    const state = this.app.readProject(projectId);
-    let sourceVersion: string;
-    if (input.assetId) {
-      const asset = assetById(state.snapshot, input.assetId);
-      if (asset.status !== "ready") throw new DomainError("先完成源文件技术分析", "MEDIA_SOURCE_NOT_READY");
-      if (asset.motion) throw new DomainError("请分析受管作品的真实预览或最终合成文件", "MEDIA_SOURCE_NOT_PLAYABLE");
-      if (["image", "document"].includes(asset.kind) && input.range) throw new DomainError("图片和文档使用区域/页码，不使用视频时间", "MEDIA_RANGE_KIND_MISMATCH");
-      if (!["image", "document"].includes(asset.kind) && input.region) throw new DomainError("视频/音频分析使用源时间范围", "MEDIA_RANGE_KIND_MISMATCH");
-      sourceVersion = asset.sourceHash ?? digest([asset.managedPath, asset.metadata]);
-    } else if (input.exportArtifactId || input.previewJobId) {
-      const rendered = await renderedAnalysisSource(this.app, projectId, input);
-      if (input.range) {
-        // 复核范围属于实际文件；编码后的音轨尾部可略长于画面帧范围，不能按帧数截断核听。
-        const media = await probeMedia(rendered.path);
-        if (!Number.isFinite(media.durationMs) || media.durationMs! <= 0 || input.range.endMs > media.durationMs! + 1) throw new DomainError("复核范围超出所选成片或预览", "MEDIA_REVIEW_RANGE_INVALID");
-      }
-      sourceVersion = rendered.hash;
-    } else {
-      const { candidate, request } = this.app.readAssetCandidate({ projectId, assetCandidateId: input.candidateId! });
-      if (!candidate.previewUrl) throw new DomainError("候选没有可取得的试听/预览文件", "MEDIA_PREVIEW_UNAVAILABLE");
-      sourceVersion = digest([candidate.previewUrl, assetRequestVersion(request)]);
-    }
-    const config = readRuntimeConfig();
-    const modelConfig = { ...config.semantic, apiBaseUrl: config.bridge.apiBaseUrl };
-    const key = digest({ ...input, idempotencyKey: undefined, sourceVersion, version: ANALYSIS_VERSION, modelConfig });
-    const job = this.app.repository.createJob({ projectId, kind: "media_understanding", payload: { input, sourceVersion, analysisKey: key, modelConfig }, idempotencyKey: input.idempotencyKey ?? `media_understanding:${key}` });
-    this.app.publish({ projectId, revision: state.revision.number, type: "job" });
-    return job;
-  }
+  async submitAnalysis(projectId: string, value: AnalysisInput): Promise<import("@videocut/contracts").JobRecord> { throw new DomainError("本地模型分析和向量任务已移除", "CAPABILITY_REMOVED"); }
 
   inspect(projectId: string, target: { assetId?: string; candidateId?: string; exportArtifactId?: string; previewJobId?: string; range?: SourceTimeRange; region?: SourceRegion }, offset = 0, limit = 40) {
     const snapshot = this.app.readProject(projectId).snapshot;
@@ -113,15 +83,7 @@ export class MediaIntelligenceApplication {
     };
   }
 
-  submitSearch(projectId: string, input: MediaSearchQuery) {
-    this.app.readProject(projectId);
-    const query = searchQuerySchema.parse(input);
-    const config = readRuntimeConfig();
-    const modelConfig = { ...config.semantic, apiBaseUrl: config.bridge.apiBaseUrl };
-    const job = this.app.repository.createJob({ projectId, kind: "media_search", payload: { query, modelConfig }, idempotencyKey: `media_search:${digest([query, this.store.observations(projectId).map((observation) => observation.id), modelConfig])}` });
-    this.app.publish({ projectId, revision: this.app.readProject(projectId).revision.number, type: "job" });
-    return job;
-  }
+  submitSearch(projectId: string, input: MediaSearchQuery): import("@videocut/contracts").JobRecord { throw new DomainError("本地模型分析和向量任务已移除", "CAPABILITY_REMOVED"); }
 
   search(projectId: string, input: MediaSearchQuery, queryVector?: number[], embeddingVersion = EMBEDDING_VERSION) {
     const query = searchQuerySchema.parse(input);

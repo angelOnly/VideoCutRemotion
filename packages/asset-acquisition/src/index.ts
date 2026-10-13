@@ -309,6 +309,10 @@ export class AssetProviderRegistry {
   }
 
   get(name: string): AssetProvider {
+    // 网络素材发现默认关闭；模板下载、Codex 和豆包不经过此开关。
+    if (process.env.VIDEOFLOWCUT_NETWORK_SEARCH !== "true" && name !== "mock") {
+      throw new AssetProviderError("网络素材搜索已关闭", "NETWORK_SEARCH_DISABLED");
+    }
     const provider = this.providers.get(name);
     if (!provider) {
       const known = this.catalog().find(entry => entry.id === name);

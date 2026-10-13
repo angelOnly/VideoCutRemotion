@@ -3,7 +3,11 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
@@ -13,17 +17,41 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@videocut/contracts": ["packages/contracts/src/index.ts"],
-      "@videocut/domain": ["packages/edit-domain/src/index.ts"],
-      "@videocut/application": ["packages/edit-application/src/index.ts"],
-      "@videocut/acquisition": ["packages/asset-acquisition/src/index.ts"],
-      "@videocut/bridge": ["packages/comfyui-bridge-client/src/index.ts"],
-      "@videocut/speech": ["packages/speech-services/src/index.ts"],
-      "@videocut/quality": ["packages/quality-system/src/index.ts"],
-      "@videocut/job-runtime": ["packages/job-runtime/src/index.ts"],
-      "@videocut/remotion": ["packages/remotion-runtime/src/index.tsx"],
-      "@videocut/project-overview": ["packages/project-overview/src/index.ts"]
+      "@videocut/contracts": [
+        "packages/contracts/src/index.ts"
+      ],
+      "@videocut/domain": [
+        "packages/edit-domain/src/index.ts"
+      ],
+      "@videocut/application": [
+        "packages/edit-application/src/index.ts"
+      ],
+      "@videocut/acquisition": [
+        "packages/asset-acquisition/src/index.ts"
+      ],
+      "@videocut/speech": [
+        "packages/speech-services/src/index.ts"
+      ],
+      "@videocut/quality": [
+        "packages/quality-system/src/index.ts"
+      ],
+      "@videocut/job-runtime": [
+        "packages/job-runtime/src/index.ts"
+      ],
+      "@videocut/remotion": [
+        "packages/remotion-runtime/src/index.tsx"
+      ],
+      "@videocut/project-overview": [
+        "packages/project-overview/src/index.ts"
+      ]
     }
   },
-  "include": ["apps/**/*.ts", "apps/**/*.tsx", "packages/**/*.ts", "packages/**/*.tsx", "scripts/**/*.ts", "tests/**/*.ts"]
+  "include": [
+    "apps/**/*.ts",
+    "apps/**/*.tsx",
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "scripts/**/*.ts",
+    "tests/**/*.ts"
+  ]
 }

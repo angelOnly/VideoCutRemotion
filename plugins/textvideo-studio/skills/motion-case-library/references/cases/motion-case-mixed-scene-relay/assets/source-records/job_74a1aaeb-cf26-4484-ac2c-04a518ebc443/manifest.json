@@ -1,0 +1,841 @@
+{
+  "version": "7a87e119709d5bf255c5ca80372d3a598d6402942f01ec54b3dda09fab6c2be4",
+  "hashEngineVersion": "managed-motion-11",
+  "previewHash": "d96d8d9d0759d3196da320d09328b7bea1f2c7ba07834f033038bb42aa05c7b5",
+  "frameHashes": [
+    "9f3dff1559fc2afd63db915443cd695818ca937ed6ce8a9bd2cedb65631b188f",
+    "a52d938294411c1d6f12e0188dc057d76808ce810e99e67cb5af80198d642df3",
+    "b0495426d32831608416b7ef1e08da653dd4638b01c3b657d8ff3def41a9816c",
+    "7bec08d0b3a852d7f4f9895a095f64003c0bbe0171efad1a2281c4a90d2d5510",
+    "e2801a329d0bced4b440d3c3172f60e68dc02392ccb956a3e12f594c89080406",
+    "aeca915e7e0595c740ed4e18a9905465756dc45821f8eef636d413dc751e00a0",
+    "dc0499ecdebec3d3bd3e16fb0be1ef5dab8a578e6fb955c7dd47a443eec60432",
+    "8f0666c0c71d5af9be67c90bddc22af6e4a0b9e2a5b2d6381b99ebafeb82cf58",
+    "a134767d6ae15898360f38d75e9aae5257c55bc98db500a68f5c9fd30a266126",
+    "b316c35b53a0bb429a0a05ee5ebbd52a25783c59a97e50d058618ea3e15de2dd",
+    "f1cb43a7119d4b435a1df2ba1d2b8b956d4f563c91a1756f10ec2232d7947df2",
+    "64f08d06256558dc85c9cc1aa3617efa192827b260e12372eede6dc9fdc2fdc7",
+    "e6ad563786452ea7bfe8809aa7994a67924e0bb86f73bdc9c2e83245ac62a624",
+    "2d420cfad924672543f48620f594c7f17da0574d55f843c32d725421d9838ca6",
+    "27344985f4fd17563e942031e11f48cc9fefd38fa1ea3c17ed4ec7bb7a9bcae5",
+    "c150b0c8455829f1e886dcdeb87f1f0ce0fb10ab1af630b7d148b32cc4195dcd",
+    "75832722e7d42aacc4b53919d870afae3af32bc3f503b75485f620c953132e34",
+    "b12b7e4994e2734ca7dcda47d1fa03a626d0dce20ee37ae71c027518d9c17f4c",
+    "72abea0294cc5a60c230cba97773bd831166301ee4d6fd899060a9e4bf8f19c7",
+    "e48fbac85e0028d0c383f4d19b67282fa86f548666ecc2bbf4fd3e2465cc0781",
+    "f0c7056e49f07e4ebabf0788d4e58f3281fe9b3d270b6733a36831451d999cbf",
+    "b4e73bd0410f0259586a04375cc5c1d8d77e5cf8bb36259bb06fabf9f4c08269",
+    "39eaa5558167e1b0548db4d987d9d984b608634674d7b39f65d338017e81d556",
+    "e25ecd5f018e9ae9c60a63e31a38caf8e8ce789e9e949bc13f608de25ee3f71a",
+    "b8148ba5b4903b701bdda4a4692717c5665cbc4140614bfae4ef037fabe4dbb1",
+    "6d3187dcb3d15762633da6d76d41e6996e6c408b836a7fde14e4a746a1cddd62",
+    "e15267b54bed1fc0d010ba80e219017bc882b5cfdf161af8dde6fe63806b060b",
+    "c5af8c6446e9d4f3253d10a8be5325cecbd760dbfd46787722cd56f21ca52e02",
+    "e2b2fc7fa82d4b619e3e07a93217233fe04c3a8a88d3a4f06e4e509adff19acf",
+    "a23402270ef028048f9f5237a18570a5f8e7a95f0b6790b35add7e7a7246a06d",
+    "099c5e07892c198dd28a6521306acae20075440b135e699548225080e4f940ba",
+    "76d3d153e9644bd207c5c35b60c50080aea3170fe37bec1d1fd304f8c202b330",
+    "3f6c9e96da5107074ce5e50a99bf99b2c1145a53088681784543e28eec94fade",
+    "e00026ec8684eb3cec43289d7f989b812604ee645f3c026ed67c44f60c27a853",
+    "c5ad7d5283b9112e21be70d67c4eee4f7120ce426c66039efdedd31469d7967f",
+    "46048f8e9baf887509339da633e64ec766587599522b45a1d63714529b67a24e",
+    "a824ff451fedc7a41d3b637051be98a18caafafd332e3193f252327e4df4b2a4",
+    "40a2d7cf372b0608ea8d9dd8b0b4334eda54bd5c2fc6003387244ec868806f9a",
+    "707768521fb77caeb511c8d1e5ff3084ca65b6144a2d4125d54d1a183d756481",
+    "4da6f3dbbd2bc8ecc6323dfe0c506f7680a472c97ff8770d5bdd44882c6e390a",
+    "d3e760cf669a969ba5ac95fd799789a3cd9c2730ed2ab34c476601fdec0e5e17",
+    "d9f4979fd9ef127111cf382fb508063c34291778be250110dfa2188c40f93d94",
+    "e5b1a19f868773ce9650be2e067ed999c67edc642122df1091e3f088e27e8b5a",
+    "24c5c30e2a6e32a7b695250f145d2e87d1cd0c80b5b4573d7ff33dc71b59d2cb",
+    "93790e3c7bfe5a43999a09bb48bcc9c73091ece0e7ce45f78d2e54db4b24b3b5",
+    "c6e2001208c89c491a8e45ef3b340a7f28e75d54119a4724cf486cca734a6a3e",
+    "ee18c9f4d59faae362e569ce4cb12486860f8ef393c0a4851365e2de1ded4ae9",
+    "d4574d17865dd7042100a2ea63fb19eefd4dee43c0ef88be6a4d3fffe9ee14d4",
+    "91609792ee73889a88b4971ea675aec30c2c4e8d8bfdac2e4457109a9398be5c",
+    "342437be59e7fe71efaf21037a64971dbec6fed381a2a9e0416f399ed6205c3c",
+    "fabc7995b02422153f972915eae04b8cd1c82f6df980606e5cc1d3d545c865ee",
+    "44458dabae0c3454703b18055dafaf2a8fd021e057ab2b5ad9e5ea6e1d3e76c9",
+    "6649375bd6cbfdfdae4e6988698a696c623c781c1d70ef54520b1dc87227f603",
+    "f16d4e4d836aa4372f4ef9d20b8e95e6decb6c6b5cd0fdc0d9181fd230b0c162",
+    "e8e923db01b4ae419703b7edc81bb6eec94ccaa7a69b616403bdf7e5eb530298",
+    "e2c1043c9bbc374b365d6845d224bf8576786b5733b5cc654d40334bc953352b",
+    "cf93fcb95f53b6937ea92976019c43b99430c01ba0b41a635373af42461d04c2",
+    "01c9f25fb9e5b10414847cb16425cf72fe304ff89effd47e506ea6dd01b13c41",
+    "eb459e65ec336690e4b3c22fc6c45db7289d62a7a24a24793348fc06f0c25042",
+    "ae17dbd9f3c5f78bbc1afcae36ffbc264b32b48baef4d2df8798bf90d13a8e0f",
+    "ac02c3e8d3f50d493b082c492697d6ad180d12255da37f845978fd5e6d21970b",
+    "ba67176e96b91625fa17773d5e8013fe568e803cce5e0ac41f974f83a134bb1a",
+    "426054e4733f83e8a710058ba6fae3ebc49fee64b882c5a3f4c2866e5afbc0f7",
+    "9959157fa55682fdcb9f6f3eb765eac759c311150228f64cb4ab486b067be0ae",
+    "c16176a92e78c16920274b00b64a4ac0674ae5c147f17385c2c0619e17029941",
+    "8ba3916a4ef72c9db953c85e0b0e6d4af315cf9688b7736f095c244d69a10d55",
+    "969fb0f3e17d70565454cf30cfad43b0673cb75edbb7afc1d114b30d4a101ee0",
+    "86fc41c023c628ef2cfc203fd7b0783c12d58bc6f0e8bea4207ae46651e08991",
+    "ea247ae644bc2ed113f1a6228372a0c914f78c72b0f7a5b0ace0fdd13684b3bc",
+    "db9f8a5f2dbf7c898bd7c254ab7ee67cd7d68b2ff534cce21eaa80ccd1aee3b4",
+    "ca449e983ea5bff25290b8163547b73003b93fb0c54b74ba97b5bb3844474219",
+    "e2ed477e65a930bb2c96842c9eaf2a7bc9f577f92360b950fc8aab00182a5876",
+    "c0ba9b8c631f8dcb53be10bb95ce378e0af2c09ccdc53eadc8e95cafb8378b4b",
+    "4eb4da895917a16fed29bf69b51661b17ca7dcded34ac57bef932009595affa9",
+    "8930cbddfd4674bd3f64572b4ec4fd22e311c6863ca75bd2d21e84b999de0b82",
+    "d310f407f116b734f602f8b581f426d9e55c9bf9915ca03289dcbc7157e402e6",
+    "a3001fde3caf37d346c4d8d911d4889091160ad6704653f661ea3e480074df03",
+    "259bb130b9b8142c0ccf80fa6224d324f0b5f1364be0b6ba90f64ddb54b7e228",
+    "9702173b5d9d39e61e517e543776fc513abee50339075df9d2a3c8d5c42f7bd9",
+    "f39a46e6562751e630e406f9c422909414538783b4bf79648bed9c002ee79e08",
+    "70d14e04a4c88813b69dc6a973934e4074ff18ea69bc62446da54e7629456b30",
+    "0ab118756e19022e079bcf6a19b0968819a2f0eedea06e626bfc8931349e0588",
+    "49592c9f7435c10ee0e527fe37a3c17e18eef19ae2c39bb653ab536cdee12956",
+    "04291ea46b85cd3adec1a9c6181415332a1b27f6181a29457951792b98e6f3ea",
+    "e511871231fba837e0a715d1ff54f9da7edc1356fd7ad562834b01b4d9f76475",
+    "180908fd74c824eef46b48fcb6fbb8d2a465142bf13168fd47b7009d30ecaea2",
+    "2b51afb18d7bf8ba54890a58d02d59227fc8fc1ed2287e50f763ac596ab8ba3b",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9",
+    "fd4fb4fe3acfcce9cc0c10e04a217f08141e671aa2beb135206538b8c18769e9"
+  ],
+  "engineVersion": "managed-motion-11",
+  "sandbox": "chromium-os-sandbox+csp-opaque-origin+deny-network",
+  "boundImages": [],
+  "boundVideos": [],
+  "videoDecodes": {},
+  "visibility": {
+    "method": "png_alpha_bbox_v1",
+    "alphaThreshold": 1,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1344
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "d.entry-aperture-open",
+      "meaning": "中心窄金色开口扩成触点微距",
+      "startFrame": 0,
+      "endFrame": 12
+    },
+    {
+      "id": "d.camera-pullback",
+      "meaning": "同一触点由微距拉远，显出嵌槽的小卡与托卡",
+      "startFrame": 0,
+      "endFrame": 18
+    },
+    {
+      "id": "d.card-normal-lift",
+      "meaning": "小卡只沿托卡法线抬起，接触阴影拉开",
+      "startFrame": 18,
+      "endFrame": 23
+    },
+    {
+      "id": "d.card-clears-slot",
+      "meaning": "小卡沿左上浅弧离槽，空槽成为可追踪关系",
+      "startFrame": 23,
+      "endFrame": 40
+    },
+    {
+      "id": "d.primary-conclusion-takeover",
+      "meaning": "信号强在小卡仍运动时接管前景",
+      "startFrame": 28,
+      "endFrame": 49
+    },
+    {
+      "id": "d.secondary-conclusion-settle",
+      "meaning": "不等号与质量好完成两行结论",
+      "startFrame": 43,
+      "endFrame": 61
+    },
+    {
+      "id": "d.shared-retreat",
+      "meaning": "物体与主读共同退远并收势",
+      "startFrame": 61,
+      "endFrame": 87
+    },
+    {
+      "id": "d.reading-hold",
+      "meaning": "结论、空槽与字幕稳定阅读",
+      "startFrame": 87,
+      "endFrame": 109
+    }
+  ],
+  "determinism": {
+    "status": "exact",
+    "maxAllowedChannelDelta": 2,
+    "sampledFrames": [
+      0,
+      54,
+      108
+    ],
+    "differences": []
+  }
+}

@@ -11,17 +11,6 @@ import { soundComparisonSchema, reviewSoundMix, soundDependencySignature } from 
 import { audioMixGainSchema, setAudioMixGain } from "../../../packages/edit-application/src/audio-mix-gain.js";
 import { setDialogueMuted } from "../../../packages/edit-application/src/dialogue-muted.js";
 
-const rankSchema = z.object({ assetRequestId: z.string().min(1), candidateIds: z.array(z.string().min(1)).min(1).max(30), analyzeTop: z.number().int().min(0).max(5).default(3) }).strict();
-function rank(app: EditingApplication, projectId: string, input: z.infer<typeof rankSchema>) {
-  const state = app.readProject(projectId), request = state.snapshot.assetRequests.find((entry) => entry.id === input.assetRequestId);
-  if (!request || request.mediaKind !== "audio" || request.status === "closed") throw new DomainError("需要有效声音需求", "ASSET_REQUEST_NOT_FOUND");
-  const config = readRuntimeConfig();
-  const modelConfig = { ...config.semantic, apiBaseUrl: config.bridge.apiBaseUrl };
-  const requestVersion = assetRequestVersion(request);
-  const job = app.repository.createJob({ projectId, kind: "sound_ranking", payload: { ...input, requestVersion, modelConfig }, idempotencyKey: `sound_ranking:${digest([input, requestVersion, modelConfig])}` });
-  app.publish({ projectId, revision: state.revision.number, type: "job" });
-  return job;
-}
 function compare(app: EditingApplication, projectId: string, value: z.infer<typeof soundComparisonSchema>) {
   const input = soundComparisonSchema.parse(value);
   const state = app.readProject(projectId);
@@ -51,7 +40,6 @@ export function registerSoundTools(server: McpServer, app: EditingApplication, p
     if (!args.base_revision_id) throw new DomainError("写计划需要当前 Revision", "REVISION_REQUIRED");
     return manageSoundPlan(app, id, args.base_revision_id, args.input);
   }));
-  server.registerTool("recommend_sound_candidates", { title: "比较有限声音候选", description: "对同一需求的至多30条在线元数据用 Qwen 排序，最多为前5条创建原音频分析 Job。排名不是听感成绩；完成子任务后用 read_media_observations/search_media_fragments 检查实际声音、范围和排除条件，再获取及复核原文件。", inputSchema: { project_id: z.string().optional(), input: rankSchema } }, async (args) => safely(() => rank(app, projectIdFrom(args.project_id), args.input)));
   server.registerTool("preview_sound_alternatives", { title: "同段声画比较", description: "固定 Revision、旁白、音乐和上下文范围，对已入库原文件生成A/B及不使用该音效的试听。使用正式 manage_audio 的计算和同一渲染器，不改变 Timeline。", inputSchema: { project_id: z.string().optional(), input: soundComparisonSchema } }, async (args) => safely(() => compare(app, projectIdFrom(args.project_id), args.input)));
   server.registerTool("review_sound_mix", { title: "记录实际混合复核", description: "根据已经实际听过或看听过的正式 Preview 记录结论，校验文件版本和覆盖。模型推测或候选试听不能自动使正式混合通过。", inputSchema: { project_id: z.string().optional(), input: mixReviewSchema } }, async (args) => safely(() => reviewSoundMix(app, projectIdFrom(args.project_id), args.input)));
 }
@@ -73,7 +61,6 @@ export function registerSoundRoutes(server: FastifyInstance, app: EditingApplica
     const candidates = await createDefaultAssetProviderRegistry().get(input.provider).search({ request: requirement, query: input.query });
     return app.recordAssetSearch({ projectId, baseRevision: state.revision.number, ...input, candidates, requestVersion: assetRequestVersion(requirement), requestSnapshot: requirement });
   });
-  server.post("/api/projects/:projectId/sound-rank", async (request, reply) => reply.code(202).send(rank(app, id(request.params), rankSchema.parse(request.body))));
   server.post("/api/projects/:projectId/sound-comparison", async (request, reply) => reply.code(202).send(compare(app, id(request.params), soundComparisonSchema.parse(request.body))));
   server.post("/api/projects/:projectId/sound-mix-review", async (request) => reviewSoundMix(app, id(request.params), mixReviewSchema.parse(request.body)));
   server.post("/api/projects/:projectId/sound-acquire", async (request, reply) => { const input = z.object({ baseRevision: z.number().int().positive(), assetCandidateId: z.string().min(1) }).strict().parse(request.body); return reply.code(202).send(app.acquireAssetCandidate({ projectId: id(request.params), ...input })); });

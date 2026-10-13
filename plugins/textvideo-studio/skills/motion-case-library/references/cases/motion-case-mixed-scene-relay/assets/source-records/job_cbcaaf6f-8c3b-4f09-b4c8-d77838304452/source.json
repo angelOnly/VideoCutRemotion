@@ -1,0 +1,25 @@
+{
+  "name": "MGZW_A_Captions_Trial_v1",
+  "source": "import {AbsoluteFill,useCurrentFrame} from 'remotion';\nexport const defaultProps={offset:0,length:98};\nconst cards=[{s:0,e:52,t:'附近同时上网的人多了，\\n基站可能更忙。'},{s:52,e:93,t:'即使信号仍然很强，'},{s:93,e:156,t:'实际数据速度也可能\\n受负载影响。'},{s:156,e:186,t:'人多不等于必然拥堵，'},{s:186,e:221,t:'但满格也不保证一路畅通。'},{s:221,e:260,t:'再贴近手机和基站这一段。'},{s:260,e:289,t:'除了强度，还要看质量。'},{s:289,e:324,t:'接收到的信号看起来很强，'},{s:324,e:371,t:'干扰却仍可能影响传输表现。'},{s:371,e:411,t:'信号强，不等于质量好；'},{s:411,e:467,t:'只盯着格数，\\n看不出全部情况。'}];\nexport const resolveMotionEvents=(p)=>cards.filter(c=>c.e>p.offset&&c.s<p.offset+p.length).map((c,i)=>({id:'caption-'+i,meaning:'静音人工试排字幕',startFrame:Math.max(0,c.s-p.offset),endFrame:Math.min(p.length,c.e-p.offset)}));\nexport default function Caption(p){const f=useCurrentFrame()+p.offset;const c=cards.find(c=>f>=c.s&&f<c.e);return <AbsoluteFill style={{pointerEvents:'none'}}>{c?<div style={{position:'absolute',left:44,top:1174,width:680,display:'flex',justifyContent:'center'}}><div style={{maxWidth:680,boxSizing:'border-box',padding:'8px 12px',backgroundColor:'rgba(8,17,13,0.84)',borderRadius:8,fontFamily:'Microsoft YaHei, Noto Sans SC, sans-serif',fontSize:36,fontWeight:400,lineHeight:'44px',color:'#F3F1E6',textAlign:'center',whiteSpace:'pre-line'}}>{c.t}</div></div>:null}</AbsoluteFill>;}",
+  "props": {
+    "offset": 0,
+    "length": 98
+  },
+  "imageBindings": {},
+  "width": 768,
+  "height": 1344,
+  "fps": 24,
+  "durationInFrames": 98,
+  "rights": {
+    "basis": "用户提供原稿，独立原创字幕排版；静音人工试排，不声明语音对齐。",
+    "status": "cleared",
+    "usageRights": {
+      "purposes": [
+        "draft",
+        "delivery"
+      ],
+      "basis": "用户提供原稿，独立原创字幕排版；静音人工试排，不声明语音对齐。"
+    }
+  },
+  "creativeBrief": "逐字保留用户固定文稿，11张稳定字幕卡；本作品覆盖全局0–98帧。字幕与画内强调分离；36px正常字重、最多两行、x44至724、y1174至1288；深墨84%底板仅承载字幕。静音人工试排，无逐词时间推断、无淡入淡出吞阅读帧。最终合成检查最长行与完整阅读。"
+}

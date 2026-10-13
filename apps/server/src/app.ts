@@ -20,7 +20,6 @@ import multipart from "@fastify/multipart";
 import staticPlugin from "@fastify/static";
 import Fastify, { type FastifyInstance } from "fastify";
 import { z } from "zod";
-import { ComfyUIBridgeClient } from "@videocut/bridge";
 import { createApplication, NotFoundError, RevisionConflictError } from "@videocut/application";
 import { DomainError } from "@videocut/domain";
 import { readRuntimeConfig } from "@videocut/project-overview";
@@ -266,7 +265,6 @@ export async function createServer(options: ServerOptions = {}): Promise<{ app: 
   const workspaceRoot = options.workspaceRoot ?? runtimeConfig.workspace.root;
   const webOrigin = options.webOrigin ?? runtimeConfig.http.webOrigin;
   const application = createApplication(workspaceRoot);
-  const bridge = new ComfyUIBridgeClient();
   const app = Fastify({ logger: { level: runtimeConfig.http.logLevel } });
   registerMediaIntelligenceRoutes(app, application);
 
@@ -290,15 +288,7 @@ export async function createServer(options: ServerOptions = {}): Promise<{ app: 
   registerSoundRoutes(app, application);
   registerSourceResearchRoutes(app, application);
 
-  app.get("/health", async () => {
-    let bridgeStatus: unknown;
-    try {
-      bridgeStatus = await bridge.health();
-    } catch (error) {
-      bridgeStatus = { status: "unavailable", reason: error instanceof Error ? error.message : String(error) };
-    }
-    return { status: "ready", bridge: bridgeStatus };
-  });
+  app.get("/health", async () => ({status:"ready", localModels:false}));
 
   app.get("/api/settings/creative-defaults", async () => application.readCreativeDefaults());
   app.put("/api/settings/creative-defaults", async request => application.saveCreativeDefaults(explicitCreativePreferencesSchema.parse(request.body)));

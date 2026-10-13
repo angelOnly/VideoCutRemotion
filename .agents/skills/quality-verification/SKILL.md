@@ -3,6 +3,11 @@ name: quality-verification
 description: 读取当前 Revision 的项目结构、真实 Preview、最终 Artifact 和视频类型规则，按需执行五轮专业观察、定位根因并回派修订；技术与用途按当前合同检查，AI 审阅不代替用户对具体文件定稿。
 ---
 
+## 当前文本模板任务入口
+
+收到包含 taskId/runId/stage 的服务输入时，先读 [模板生产执行合同](../_shared/TEMPLATE_PRODUCTION.md)，以该合同执行本阶段。原有方法章节继续用于专业判断；旧 Project/Revision 写入、本地模型、向量与网络取材分支不适用于模板服务，不调用已移除工具。
+
+
 # 审片与交付核验
 
 接收当前 Revision、真实对象、可访问 Preview/Artifact、目标范围和实际已看已听记录。结构、文件、专业观察和用户认可分别记录，工具成功或案例相似度不能证明作品好看。

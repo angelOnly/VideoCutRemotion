@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 3,
+  "pluginVersion": "0.1.4",
+  "releaseId": "release-d377d9dccfbd9cfe8645a09f73eee1ffbba05869123605a8a4520375551138e0",
+  "skillsDigest": "17feceedb95e67108ede188b1f354633c61543117202a7595e8cbde46927821f",
+  "runtimeEntry": "runtime.cjs",
+  "mcpEntry": "mcp.cjs",
+  "codexProtocolVersion": "0.144.4",
+  "nodeRuntime": ">=22.5.0",
+  "capabilities": {
+    "localModels": false,
+    "lexical": true,
+    "networkSearchDefault": false
+  },
+  "dependencies": "固定 Node 包、Chromium、FFmpeg/ffprobe、Codex CLI 和豆包凭据由部署清单准备"
+}

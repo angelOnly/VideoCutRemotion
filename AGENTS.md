@@ -55,24 +55,7 @@
 
 服务未启动、临时连接失败、普通无结果或输入错误，不直接等于平台 Bug。先检查状态和原始诊断，并按已有授权恢复。只有确认平台或服务自身问题且阻断当前操作时，使用 `report_editing_blocker`，同一根因续接同一 Repair Ticket；其他无依赖工作继续。
 
-修复任务定位根因、补测试、构建候选 Release 并验证。发行物保存在 `plugins/videoflowcut/runtime/dist/`，Repair Ticket 使用已有独立存储；不写进视频快照，也不手改已安装缓存。正式切换后检查 Runtime/MCP 的实际 `releaseId`、API 与 Worker 健康，由制作会话重新连接并读回项目状态，再沿 `acknowledge_repair_deployment` 确认切换。未验证构建不称为已部署。
-
-## 已授权的 ComfyUI 恢复
-
-相关服务未启动、停止或崩溃时，先检查进程、8188 端口、启动日志和 Bridge 健康状态。已有实例正在启动时等待，不重复启动或擅自杀进程。确认需要启动后，可由制作主任务使用下列已指定环境和参数；后台启动保留日志，不擅自安装或升级依赖。
-
-```powershell
-& 'C:\Users\13222\anaconda3\envs\comfy_5090_313\python.exe' `
-  'E:\ai\comfyui\ComfyUI-aki-v2\ComfyUI\main.py' `
-  --listen 0.0.0.0 `
-  --auto-launch `
-  --preview-method auto `
-  --use-sage-attention `
-  --cuda-malloc `
-  --disable-smart-memory
-```
-
-确认 `http://127.0.0.1:8188/comfyui-bridge/v1/health` 就绪后，通过正式工具读回当前项目、Revision 和原 Job。启动既有服务不表示旧 Job 成功，也不是新版部署；失败任务只按已发布恢复方式处理。启动仍失败时保存日志并定位，不把连接拒绝本身当成 Bug。
+修复任务定位根因、补测试、构建候选 Release 并验证。本项目独立插件为 `textvideo-studio`，发行物保存在 `plugins/textvideo-studio/runtime/dist/`，不得覆盖其他项目的 VideoFlowCut，Repair Ticket 使用已有独立存储；不写进视频快照，也不手改已安装缓存。正式切换后检查 Runtime/MCP 的实际 `releaseId`、API 与 Worker 健康，由制作会话重新连接并读回项目状态，再沿 `acknowledge_repair_deployment` 确认切换。未验证构建不称为已部署。
 
 ## 交付说明
 

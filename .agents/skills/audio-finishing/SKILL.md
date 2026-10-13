@@ -3,6 +3,11 @@ name: audio-finishing
 description: 在分镜阶段参与声音构思与候选试听，主声音稳定后处理对白连续、Room Tone、音乐 Spotting、BGM、Ducking、SFX onset、声音桥与最终复听；不让音乐掩盖内容问题。
 ---
 
+## 当前文本模板任务入口
+
+收到包含 taskId/runId/stage 的服务输入时，先读 [模板生产执行合同](../_shared/TEMPLATE_PRODUCTION.md)，以该合同执行本阶段。原有方法章节继续用于专业判断；旧 Project/Revision 写入、本地模型、向量与网络取材分支不适用于模板服务，不调用已移除工具。
+
+
 # 声音收尾、音乐、音效与听觉连续
 
 ## 当前声画的混音与收口

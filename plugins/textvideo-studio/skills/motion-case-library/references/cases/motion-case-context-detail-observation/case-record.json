@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "scope": "case_reference_metadata_not_platform_schema",
+  "id": "motion-case-context-detail-observation",
+  "title": "整体定位与局部观察",
+  "observedSource": {
+    "originalFile": "满格之外-r92-轻量包.zip/preview.mp4",
+    "sha256": "a2a93ae4323f4ee14639b509ace735e3f281939445382dc96c908d737aeb6a50",
+    "rangeFrames": [
+      221,
+      271
+    ],
+    "rangeConvention": "half_open",
+    "fps": 24,
+    "sourceJobs": [
+      "job_9a7886dd-6277-469a-8a7d-c7bcf85f1c24"
+    ],
+    "recordedEngine": "managed-motion-11"
+  },
+  "media": {
+    "path": "assets/observed-preview.mp4",
+    "sha256": "016f5c4141d9f3833b96ddcd3a525b38920812f083650f1d8f7e31b04f8b2d46",
+    "kind": "reencoded_extract_of_original",
+    "keyframeGlobalIndices": [
+      221,
+      246,
+      270
+    ]
+  },
+  "teachingPrompt": {
+    "path": "references/generation-prompt-v1.md",
+    "sha256": "07fd7d6a6421b32da7b070943acf3d2ca3011598c74bd4a408a58c6b4ef3eba4",
+    "status": "written_not_rendered",
+    "isOriginalInputForObservedMedia": false
+  },
+  "validation": {
+    "userFeedbackScope": "用户认可r92整体动效方向，并指出终端示意屏幕文字与局部空等问题",
+    "historicalReviewMethod": "frames",
+    "continuousMotionVerified": false,
+    "audioDesignVerified": false,
+    "knownLimitations": "本片不能用作“真实天线同源动态跟踪已验证”案例。真实视频局部圈分支需要当前实际素材重新验证；设备示意的观众身份说明仍要清楚。"
+  },
+  "reproduction": {
+    "originalBindingsPreserved": true,
+    "originalSourceMediaIncluded": false,
+    "newProjectRequiresNewBindings": true
+  },
+  "rights": {
+    "purpose": "internal_project_case_study",
+    "sourceAttributionFile": "../motion-case-mixed-scene-relay/assets/attribution-original.json",
+    "redistribution": "not_newly_cleared_by_this_package"
+  }
+}

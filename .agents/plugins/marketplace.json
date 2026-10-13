@@ -1,14 +1,14 @@
 {
-  "name": "videoflowcut",
+  "name": "textvideo-studio-production",
   "interface": {
-    "displayName": "Videoflowcut"
+    "displayName": "文稿视频工坊"
   },
   "plugins": [
     {
-      "name": "videoflowcut",
+      "name": "textvideo-studio",
       "source": {
         "source": "local",
-        "path": "./plugins/videoflowcut"
+        "path": "./plugins/textvideo-studio"
       },
       "policy": {
         "installation": "AVAILABLE",

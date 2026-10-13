@@ -3,6 +3,11 @@ name: scene-planning
 description: 把 NarrativeBeat、Visual Treatment、可用素材和主画面转换为有明确认知任务、边界、内部状态、进入、稳定与退出的 Scene；不把每句旁白拆成独立卡片。
 ---
 
+## 当前文本模板任务入口
+
+收到包含 taskId/runId/stage 的服务输入时，先读 [模板生产执行合同](../_shared/TEMPLATE_PRODUCTION.md)，以该合同执行本阶段。原有方法章节继续用于专业判断；旧 Project/Revision 写入、本地模型、向量与网络取材分支不适用于模板服务，不调用已移除工具。
+
+
 # Scene 规划、边界和内部状态
 
 ## 用实际观看连续性映射Scene与作品

@@ -1,0 +1,11 @@
+import { mkdir,cp,writeFile,stat } from 'node:fs/promises';
+import { resolve,join } from 'node:path';
+import { pluginRoot,verifyRelease,runtimeScripts } from '../plugins/textvideo-studio/scripts/production-release.mjs';
+const destination=resolve(process.argv[2]??'.candidate/textvideo-studio-marketplace');
+if(await stat(destination).catch(()=>null))throw new Error('发行暂存目录已存在，请使用新的明确目录');
+const release=verifyRelease(),target=join(destination,'plugins/textvideo-studio');await mkdir(join(target,'scripts'),{recursive:true});
+for(const path of ['.codex-plugin','.mcp.json','skills','runtime/dist'])await cp(join(pluginRoot,path),join(target,path),{recursive:true});
+for(const name of runtimeScripts)await cp(join(pluginRoot,'scripts',name),join(target,'scripts',name));
+await mkdir(join(destination,'.agents/plugins'),{recursive:true});
+await writeFile(join(destination,'.agents/plugins/marketplace.json'),JSON.stringify({name:'textvideo-studio-production',interface:{displayName:'文稿视频工坊 文本生产'},plugins:[{name:'textvideo-studio',source:{source:'local',path:'./plugins/textvideo-studio'},policy:{installation:'AVAILABLE',authentication:'ON_INSTALL'},category:'Productivity'}]},null,2));
+verifyRelease(target);console.log(JSON.stringify({marketplace:destination,plugin:target,releaseId:release.releaseId}));

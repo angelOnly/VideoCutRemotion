@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "scope": "case_reference_metadata_not_platform_schema",
+  "id": "motion-case-relation-unfold",
+  "title": "保持参照与关系拆层",
+  "observedSource": {
+    "originalFile": "满格之外-r92-轻量包.zip/preview.mp4",
+    "sha256": "a2a93ae4323f4ee14639b509ace735e3f281939445382dc96c908d737aeb6a50",
+    "rangeFrames": [
+      271,
+      358
+    ],
+    "rangeConvention": "half_open",
+    "fps": 24,
+    "sourceJobs": [
+      "job_9a7886dd-6277-469a-8a7d-c7bcf85f1c24"
+    ],
+    "recordedEngine": "managed-motion-11"
+  },
+  "media": {
+    "path": "assets/observed-preview.mp4",
+    "sha256": "60a0b43af80566a3ad9478a9fd7305a507790a5f1dd1263c86635357287a07af",
+    "kind": "reencoded_extract_of_original",
+    "keyframeGlobalIndices": [
+      271,
+      314,
+      357
+    ]
+  },
+  "teachingPrompt": {
+    "path": "references/generation-prompt-v1.md",
+    "sha256": "0ce850eea730a6c2312ef3d57b81587d448954fe480228db62b70ad0b505d5c6",
+    "status": "written_not_rendered",
+    "isOriginalInputForObservedMedia": false
+  },
+  "validation": {
+    "userFeedbackScope": "用户认可r92整体动效方向，并指出终端示意屏幕文字与局部空等问题",
+    "historicalReviewMethod": "frames",
+    "continuousMotionVerified": false,
+    "audioDesignVerified": false,
+    "knownLimitations": "样例是一个特定质量指标的概念化表达，不等于手机格数公式或所有网络质量。原片的密集文字与保持时间不自动适合新内容；来源与事实范围必须重新核实。"
+  },
+  "reproduction": {
+    "originalBindingsPreserved": true,
+    "originalSourceMediaIncluded": false,
+    "newProjectRequiresNewBindings": true
+  },
+  "rights": {
+    "purpose": "internal_project_case_study",
+    "sourceAttributionFile": "../motion-case-mixed-scene-relay/assets/attribution-original.json",
+    "redistribution": "not_newly_cleared_by_this_package"
+  }
+}

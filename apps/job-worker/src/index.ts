@@ -1,6 +1,5 @@
 import { runSourceMaterialAcquisition } from "./source-material-acquisition.js";
 import { assetAcquisitionOptionsSchema } from "../../../packages/asset-acquisition/src/options.js";
-import { runSoundRanking } from "./sound-ranking.js";
 import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
 import { mkdir, open, rename, rm } from "node:fs/promises";
@@ -11,22 +10,15 @@ import {
   assertProviderMediaAnalysis,
   createDefaultAssetProviderRegistry
 } from "@videocut/acquisition";
-import { ComfyUIBridgeClient, FUNASR_WORKFLOW_ID } from "@videocut/bridge";
 import { createApplication, type EditingApplication } from "@videocut/application";
 import { assetById, DomainError } from "@videocut/domain";
 import { runOneQueuedJob, type JobProcessor } from "@videocut/job-runtime";
 import { readRuntimeConfig } from "@videocut/project-overview";
-import { FunASRService, OmniVoiceSegmentService, SourceCaptionAlignmentService, assemblePlacedSpeech, probeMedia, runProcess } from "@videocut/speech";
+import {probeMedia, runProcess} from "@videocut/speech";
 import type { Asset, AssetCandidate, BridgeRunAudit, JobKind, JobRecord, ProjectSnapshot } from "@videocut/contracts";
-import { runAvatarGeneration } from "./avatar-generation.js";
 import { runDialogueProcessing } from "./dialogue-processing.js";
 import { runMulticamSync } from "./multicam-sync.js";
-import { runMusicGeneration } from "./music-generation.js";
-import { runSpeechAlignment } from "./speech-alignment.js";
-import { runVideoGeneration } from "./video-generation.js";
 import { runVlogAnalysis } from "./vlog-analysis.js";
-import { runMediaUnderstanding, runMediaSearch } from "./media-understanding.js";
-import { runMotionLibrarySearch, runMotionReferenceAnalysis } from "./motion-library.js";
 
 const workspaceRoot = readRuntimeConfig().workspace.root;
 let defaultApplication: EditingApplication | undefined;
@@ -36,7 +28,7 @@ const getDefaultApplication = () => (defaultApplication ??= createApplication(wo
  * 历史 source_caption_generation / source_caption_sentence_alignment 仍可从 SQLite 读取，
  * 但绝不能被 Worker claim 或重新执行；唯一正式入口是段级 source_caption_alignment。
  */
-export const MEDIA_JOB_KINDS: JobKind[] = ["media_analysis", "vlog_analysis", "multicam_sync", "asset_acquisition", "transcription", "source_caption_alignment", "voice_synthesis", "speech_assembly", "dialogue_processing", "speech_alignment", "music_generation", "video_generation", "avatar_generation"];
+export const MEDIA_JOB_KINDS: JobKind[] = ["media_analysis", "vlog_analysis", "multicam_sync", "asset_acquisition", "dialogue_processing"];
 MEDIA_JOB_KINDS.push("source_material_acquisition", "media_understanding", "media_search", "sound_ranking", "motion_library_search", "motion_reference_analysis");
 
 const resolveAssetPath = (snapshot: ProjectSnapshot, asset: Asset) => isAbsolute(asset.managedPath) ? asset.managedPath : join(snapshot.project.rootPath, asset.managedPath);
@@ -187,120 +179,19 @@ async function runAssetAcquisition(
   }
 }
 
-function isBridgeRunAudit(value: unknown): value is BridgeRunAudit {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
-  const record = value as Record<string, unknown>;
-  return typeof record.workflowId === "string"
-    && typeof record.runId === "string"
-    && typeof record.schemaVersion === "string"
-    && typeof record.schemaRetryCount === "number"
-    && typeof record.submittedAt === "string"
-    && Boolean(record.request)
-    && typeof record.request === "object";
-}
-
-function latestTranscriptionAudit(job: JobRecord): BridgeRunAudit | undefined {
-  const stored = job.result?.bridgeRuns;
-  if (stored === undefined) return undefined;
-  if (!Array.isArray(stored)) {
-    throw new DomainError("转写 Job 的 Bridge 审计格式损坏，不能安全判断是否已提交 Run", "TRANSCRIPTION_BRIDGE_AUDIT_INVALID");
+/** 仅保留通用媒体处理；模型任务不再注册或执行。 */
+export function createMediaJobProcessor(app: EditingApplication, _removedBridge?: unknown, providers: AssetProviderRegistry = createDefaultAssetProviderRegistry()): JobProcessor {
+ return async job => {
+  switch(job.kind){
+   case "source_material_acquisition": return runSourceMaterialAcquisition(app,job);
+   case "media_analysis": return runMediaAnalysis(app,job);
+   case "vlog_analysis": return runVlogAnalysis(app,job);
+   case "multicam_sync": return runMulticamSync(app,job);
+   case "asset_acquisition": return runAssetAcquisition(app,job,providers);
+   case "dialogue_processing": return runDialogueProcessing(app,job);
+   default: throw new DomainError("当前发行不再执行此任务类型", "CAPABILITY_REMOVED");
   }
-  if (stored.length === 0) return undefined;
-  const audit = [...stored].reverse().find((entry): entry is BridgeRunAudit => (
-    isBridgeRunAudit(entry) && entry.workflowId === FUNASR_WORKFLOW_ID
-  ));
-  if (!audit) {
-    throw new DomainError("转写 Job 已保留外部运行记录，但没有可识别的 FunASR 审计", "TRANSCRIPTION_BRIDGE_AUDIT_INVALID");
-  }
-  return audit;
-}
-
-/** 沿 retryOfJobId 追溯原任务；只要任一层已有 Run，就必须恢复它而不能重新提交。 */
-function resolveTranscriptionAudit(application: EditingApplication, job: JobRecord): BridgeRunAudit | undefined {
-  const ownAudit = latestTranscriptionAudit(job);
-  if (ownAudit) return ownAudit;
-  const visited = new Set<string>([job.id]);
-  let sourceId: unknown = job.payload.retryOfJobId;
-  while (sourceId !== undefined) {
-    if (typeof sourceId !== "string" || visited.has(sourceId)) {
-      throw new DomainError("转写重试来源无效或形成循环，不能安全恢复外部 Run", "TRANSCRIPTION_RETRY_SOURCE_INVALID");
-    }
-    visited.add(sourceId);
-    const source = application.trackJob(sourceId);
-    if (source.projectId !== job.projectId || source.kind !== "transcription" || source.payload.assetId !== job.payload.assetId) {
-      throw new DomainError("转写重试来源必须是同一项目、同一素材的转写 Job", "TRANSCRIPTION_RETRY_SOURCE_MISMATCH");
-    }
-    const audit = latestTranscriptionAudit(source);
-    if (audit) return audit;
-    sourceId = source.payload.retryOfJobId;
-  }
-  return undefined;
-}
-
-/**
- * 为注入的 Application 创建处理器。这样测试与独立 Worker 都不会误用进程级全局实例。
- */
-export function createMediaJobProcessor(
-  app: EditingApplication,
-  bridge = new ComfyUIBridgeClient(),
-  providers: AssetProviderRegistry = createDefaultAssetProviderRegistry()
-): JobProcessor {
-  const funAsr = new FunASRService(app, bridge);
-  const sourceCaptionAlignment = new SourceCaptionAlignmentService(app, bridge);
-  const omniVoice = new OmniVoiceSegmentService(app, bridge);
-  return async (job) => {
-    switch (job.kind) {
-      case "source_material_acquisition": return runSourceMaterialAcquisition(app, job);
-      case "media_analysis":
-        return runMediaAnalysis(app, job);
-      case "media_understanding":
-        return runMediaUnderstanding(app, job, bridge, providers);
-      case "sound_ranking": return runSoundRanking(app, job, bridge);
-      case "media_search":
-        return runMediaSearch(app, job, bridge);
-      case "motion_library_search": return runMotionLibrarySearch(app, job, bridge);
-      case "motion_reference_analysis": return runMotionReferenceAnalysis(app, job, bridge);
-      case "vlog_analysis":
-        return runVlogAnalysis(app, job);
-      case "multicam_sync":
-        return runMulticamSync(app, job);
-      case "asset_acquisition":
-        return runAssetAcquisition(app, job, providers);
-      case "transcription": {
-        const assetId = String(job.payload.assetId);
-        const audit = resolveTranscriptionAudit(app, job);
-        const report = (entry: BridgeRunAudit) => { app.recordBridgeRun(job.id, entry); };
-        return audit
-          ? funAsr.resumeTranscription(job.projectId, assetId, audit, report)
-          : funAsr.transcribe(job.projectId, assetId, report);
-      }
-      case "source_caption_alignment":
-        return sourceCaptionAlignment.align(job);
-      case "voice_synthesis":
-        return omniVoice.synthesize(
-          job.projectId,
-          typeof job.payload.voiceReferenceAssetId === "string" ? job.payload.voiceReferenceAssetId : undefined,
-          Array.isArray(job.payload.speechSegmentIds) ? job.payload.speechSegmentIds.map(String) : [],
-          Number(job.payload.scriptRevision),
-          typeof job.payload.voiceReferenceId === "string" ? job.payload.voiceReferenceId : undefined,
-          (audit) => { app.recordBridgeRun(job.id, audit); }
-        );
-      case "speech_assembly":
-        return assemblePlacedSpeech(app, job);
-      case "dialogue_processing":
-        return runDialogueProcessing(app, job);
-      case "speech_alignment":
-        return runSpeechAlignment(app, job, bridge);
-      case "music_generation":
-        return runMusicGeneration(app, job, bridge);
-      case "video_generation":
-        return runVideoGeneration(app, job, bridge);
-      case "avatar_generation":
-        return runAvatarGeneration(app, job, bridge);
-      default:
-        throw new DomainError(`任务类型 ${job.kind} 不属于媒体 Worker`, "JOB_NOT_IMPLEMENTED");
-    }
-  };
+ };
 }
 
 export async function runOneJob(
