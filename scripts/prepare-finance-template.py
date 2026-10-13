@@ -4,6 +4,10 @@ from pathlib import Path
 
 p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--output',required=True);a=p.parse_args()
 source=Path(a.source).resolve();output=Path(a.output).resolve()
+source_manifest=json.loads((source/'renderer/renderer-manifest.json').read_text(encoding='utf-8'))
+# 此整理器只接完整时间线模板，逐镜头 props 模板必须走各自的适配流程。
+if not source_manifest.get('wholeComposition') or not source_manifest.get('timelineModule'):
+    raise SystemExit('源模板不是完整时间线合同，缺少 wholeComposition 或 timelineModule；未创建发行包')
 if output.exists(): raise SystemExit('目标已存在，请明确使用新的包目录，避免覆盖冻结模板')
 output.mkdir(parents=True)
 shutil.copytree(source/'renderer',output/'renderer')
