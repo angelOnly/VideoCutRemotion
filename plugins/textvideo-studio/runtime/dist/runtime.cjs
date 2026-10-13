@@ -23,8 +23,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 
 // apps/runtime/src/index.ts
-var import_node_fs11 = require("node:fs");
-var import_node_path12 = require("node:path");
+var import_node_fs12 = require("node:fs");
+var import_node_path13 = require("node:path");
 
 // packages/production-service/src/config.ts
 var import_node_path = require("node:path");
@@ -99,6 +99,14 @@ function readProductionConfig() {
     if (!value) throw new ProductionError("CONFIG_REQUIRED", `\u7F3A\u5C11\u90E8\u7F72\u914D\u7F6E ${name}`, 503);
     return value;
   };
+  const positive = (name, fallback, max) => {
+    const value = Number(process.env[name] ?? fallback);
+    if (!Number.isInteger(value) || value < 1 || value > max) throw new ProductionError("CONFIG_INVALID", `${name} \u5FC5\u987B\u662F 1 \u5230 ${max} \u7684\u6574\u6570`, 503);
+    return value;
+  };
+  const maxActiveRuns = positive("TEXTVIDEO_MAX_ACTIVE_RUNS", 4, 4), renderConcurrency = positive("TEXTVIDEO_RENDER_CONCURRENCY", 5, 5);
+  const speechConcurrency = positive("TEXTVIDEO_SPEECH_CONCURRENCY", 20, 20), speechPerRunConcurrency = positive("TEXTVIDEO_SPEECH_PER_RUN_CONCURRENCY", 5, 5);
+  if (speechPerRunConcurrency > speechConcurrency) throw new ProductionError("CONFIG_INVALID", "\u5355\u4EFB\u52A1\u914D\u97F3\u5E76\u53D1\u4E0D\u80FD\u8D85\u8FC7\u5168\u5C40\u5E76\u53D1", 503);
   const pluginRoot = (0, import_node_path.resolve)(required("TEXTVIDEO_PLUGIN_ROOT")), dataRoot = (0, import_node_path.resolve)(required("TEXTVIDEO_DATA_ROOT"));
   const release = JSON.parse((0, import_node_fs.readFileSync)((0, import_node_path.join)(pluginRoot, "runtime/dist/manifest.json"), "utf8"));
   return {
@@ -121,7 +129,10 @@ function readProductionConfig() {
     browser: process.env.REMOTION_BROWSER_EXECUTABLE,
     voicesPath: process.env.DOUBAO_VOICES_FILE,
     searchEnabled: process.env.TEXTVIDEO_NETWORK_SEARCH === "true",
-    renderConcurrency: Number(process.env.TEXTVIDEO_RENDER_CONCURRENCY ?? 2),
+    maxActiveRuns,
+    renderConcurrency,
+    speechConcurrency,
+    speechPerRunConcurrency,
     ready: { codex: (0, import_node_fs.existsSync)(required("CODEX_EXECUTABLE")), tts: Boolean(process.env.DOUBAO_API_KEY && process.env.DOUBAO_VOICES_FILE), dependencies: (0, import_node_fs.existsSync)((0, import_node_path.join)(required("TEXTVIDEO_DEPENDENCY_ROOT"), "node_modules/remotion/package.json")) }
   };
 }
@@ -129,9 +140,9 @@ function readProductionConfig() {
 // apps/server/src/production/routes.ts
 var import_fastify = __toESM(require("fastify"), 1);
 var import_cors = __toESM(require("@fastify/cors"), 1);
-var import_node_fs10 = require("node:fs");
-var import_node_path11 = require("node:path");
-var import_zod6 = require("zod");
+var import_node_fs11 = require("node:fs");
+var import_node_path12 = require("node:path");
+var import_zod7 = require("zod");
 
 // packages/production-service/src/repository.ts
 var import_node_sqlite = require("node:sqlite");
@@ -382,36 +393,79 @@ async function treeDigest(root) {
 }
 function processFile(command, args, options = {}) {
   return new Promise((resolveDone, reject) => {
-    const child = (0, import_node_child_process.spawn)(command, args, { cwd: options.cwd, windowsHide: true, stdio: ["ignore", "pipe", "pipe"] });
-    let stdout = "", stderr = "";
-    let cancelled = false;
-    const abort = () => {
-      cancelled = true;
-      if (process.platform === "win32" && child.pid) (0, import_node_child_process.spawn)("taskkill", ["/PID", String(child.pid), "/T", "/F"], { windowsHide: true, stdio: "ignore" });
-      else child.kill("SIGTERM");
+    if (options.signal?.aborted) {
+      reject(new ProductionError("PROCESS_CANCELLED", "\u64CD\u4F5C\u5F00\u59CB\u524D\u5DF2\u53D6\u6D88"));
+      return;
+    }
+    const child = (0, import_node_child_process.spawn)(command, args, { cwd: options.cwd, windowsHide: true, detached: process.platform !== "win32", stdio: ["ignore", "pipe", "pipe"] });
+    let stdout = "", stderr = "", bytes = 0, reason = "", upgrade;
+    const kill = (force) => {
+      if (!child.pid) return;
+      if (process.platform === "win32") {
+        const killer = (0, import_node_child_process.spawn)("taskkill", ["/PID", String(child.pid), "/T", "/F"], { windowsHide: true, stdio: "ignore" });
+        killer.on("error", () => {
+        });
+      } else {
+        try {
+          process.kill(-child.pid, force ? "SIGKILL" : "SIGTERM");
+        } catch (error) {
+          if (error.code !== "ESRCH") child.kill(force ? "SIGKILL" : "SIGTERM");
+        }
+      }
+    };
+    const terminate = (code) => {
+      if (reason) return;
+      reason = code;
+      kill(false);
+      upgrade = setTimeout(() => kill(true), 3e3);
+    };
+    const abort = () => terminate("PROCESS_CANCELLED");
+    const timeout = setTimeout(() => terminate("PROCESS_TIMEOUT"), options.timeoutMs ?? 12e4);
+    const clean = () => {
+      clearTimeout(timeout);
+      if (upgrade) clearTimeout(upgrade);
+      options.signal?.removeEventListener("abort", abort);
     };
     options.signal?.addEventListener("abort", abort, { once: true });
     if (options.signal?.aborted) abort();
     child.stdout.on("data", (d) => {
-      stdout += d;
-      if (stdout.length > (options.maxBytes ?? 8e6)) abort();
+      bytes += d.length;
+      if (bytes > (options.maxBytes ?? 8e6)) {
+        terminate("PROCESS_OUTPUT_LIMIT");
+        return;
+      }
+      options.onOutput?.(d);
+      if (options.captureOutput !== false) stdout += d.toString("utf8");
     });
     child.stderr.on("data", (d) => {
       stderr = (stderr + d).slice(-16e3);
     });
-    child.once("error", reject);
+    child.once("error", (error) => {
+      clean();
+      reject(error);
+    });
     child.once("close", (code) => {
-      options.signal?.removeEventListener("abort", abort);
-      if (code === 0 && !cancelled) resolveDone(stdout);
-      else reject(new ProductionError(cancelled ? "PROCESS_CANCELLED" : "PROCESS_FAILED", `${command} \u9000\u51FA ${code}\uFF1A${stderr}`, 500));
+      if (reason) kill(true);
+      clean();
+      if (code === 0 && !reason) resolveDone(stdout);
+      else reject(new ProductionError(reason || "PROCESS_FAILED", `${command} \u9000\u51FA ${code}\uFF1A${stderr}`, 500));
     });
   });
 }
+async function decodedAudioSeconds(path, signal) {
+  let bytes = 0;
+  await processFile(process.env.FFMPEG_PATH ?? "ffmpeg", ["-v", "error", "-xerror", "-i", path, "-map", "0:a:0", "-ac", "1", "-ar", "48000", "-f", "s16le", "-"], { signal, timeoutMs: 12e4, maxBytes: 64 * 1024 * 1024, captureOutput: false, onOutput: (chunk) => {
+    bytes += chunk.length;
+  } });
+  const seconds = bytes / 2 / 48e3;
+  if (!Number.isFinite(seconds) || seconds <= 0) throw new ProductionError("MEDIA_INVALID", "\u97F3\u9891\u6CA1\u6709\u6709\u6548\u89E3\u7801\u91C7\u6837");
+  return seconds;
+}
 async function probe(path, decode = false, signal) {
-  const data = JSON.parse(await processFile(process.env.FFPROBE_PATH ?? "ffprobe", ["-v", "error", "-show_format", "-show_streams", "-of", "json", path], { signal }));
+  const data = JSON.parse(await processFile(process.env.FFPROBE_PATH ?? "ffprobe", ["-v", "error", "-show_format", "-show_streams", "-of", "json", path], { signal, timeoutMs: 3e4 }));
   const dur = Number(data.format?.duration);
   if (!Number.isFinite(dur) || dur <= 0) throw new ProductionError("MEDIA_INVALID", "\u5A92\u4F53\u6CA1\u6709\u6709\u6548\u65F6\u957F");
-  if (decode) await processFile(process.env.FFMPEG_PATH ?? "ffmpeg", ["-v", "error", "-xerror", "-i", path, "-f", "null", "-"], { signal });
+  if (decode) await processFile(process.env.FFMPEG_PATH ?? "ffmpeg", ["-v", "error", "-xerror", "-i", path, "-f", "null", "-"], { signal, timeoutMs: 6e5 });
   return { ...data, duration: dur };
 }
 
@@ -488,7 +542,8 @@ async function freezeTemplate(baseUrl, id, directory, signal) {
 // packages/production-service/src/delivery.ts
 var import_node_fs5 = require("node:fs");
 var import_node_path5 = require("node:path");
-async function publishDelivery(run, runRoot, taskRoot, mediaBase, raw) {
+async function publishDelivery(run, runRoot, taskRoot, mediaBase, raw, signal) {
+  if (signal?.aborted) throw new ProductionError("PROCESS_CANCELLED", "\u4EA4\u4ED8\u5DF2\u53D6\u6D88");
   const delivery = deliverySchema.parse(raw), request = run.request;
   if (delivery.runId !== run.runId || delivery.taskId !== run.taskId || delivery.inputDigest !== run.inputDigest || delivery.templateDigest !== run.checkpoint.template.digest) throw new ProductionError("DELIVERY_IDENTITY_INVALID", "\u4EA4\u4ED8\u8EAB\u4EFD\u6216\u8F93\u5165\u6458\u8981\u4E0D\u7B26");
   const expected = [{ id: "whole-video", content: request.dataList.map((s) => s.content).join("") }, ...request.dataList];
@@ -499,12 +554,13 @@ async function publishDelivery(run, runRoot, taskRoot, mediaBase, raw) {
   for (const f of delivery.files) {
     const p = await regular(runRoot, (0, import_node_path5.relative)(runRoot, f.file));
     if (sha256(await import_node_fs5.promises.readFile(p)) !== f.sha256) throw new ProductionError("FILE_DIGEST_MISMATCH", "\u89C6\u9891\u6458\u8981\u4E0D\u7B26");
-    const media = await probe(p, true);
+    const media = await probe(p, true, signal);
     const video = media.streams.find((s) => s.codec_type === "video");
     if (!video || !media.streams.some((s) => s.codec_type === "audio") || video.width !== f.width || video.height !== f.height || Math.abs(media.duration - f.dur) > 0.1 || Math.abs(f.dur - (f.toFrame - f.fromFrame) / f.fps) > 0.2) throw new ProductionError("MEDIA_CHECK_FAILED", "\u5A92\u4F53\u89C4\u683C\u6216\u65F6\u957F\u4E0D\u7B26");
   }
   if (!await import_node_fs5.promises.stat(snapshot).catch(() => null)) await import_node_fs5.promises.cp(project, snapshot, { recursive: true, filter: (p) => !p.split(/[\\/]/).includes("node_modules") });
   if (await treeDigest(snapshot) !== delivery.sourceDigest) throw new ProductionError("SNAPSHOT_INVALID", "\u5DE5\u7A0B\u5FEB\u7167\u6458\u8981\u4E0D\u7B26");
+  if (signal?.aborted) throw new ProductionError("PROCESS_CANCELLED", "\u4EA4\u4ED8\u5DF2\u53D6\u6D88");
   const final = (0, import_node_path5.join)(taskRoot, "results", run.runId), staging = (0, import_node_path5.join)(taskRoot, "results", `${run.runId}.staging`);
   const dataList = delivery.files.map((f, i) => ({ id: f.id, content: f.content, dur: f.dur, durationSource: "measured", url: `${mediaBase}/${run.taskKey}/${run.runId}/${i}.mp4`, extraData: { kind: i === 0 ? "wholeVideo" : "scene", sha256: f.sha256, fromFrame: f.fromFrame, toFrame: f.toFrame, width: f.width, height: f.height, fps: f.fps } }));
   const result = { dataList, templateDigest: delivery.templateDigest, sourceDigest: delivery.sourceDigest, checks: delivery.checks };
@@ -529,7 +585,7 @@ var import_node_path7 = require("node:path");
 
 // packages/production-service/src/task-instructions.ts
 var import_node_path6 = require("node:path");
-var INSTRUCTION_VERSION = "template-production/2";
+var INSTRUCTION_VERSION = "template-production/3";
 function taskInstruction(run, runRoot, pluginRoot) {
   const phase = run.stage === "analysis" ? "Analysis\uFF08\u6587\u5B57\u5206\u6790\uFF09" : "baseRenderRunId" in run.request && run.request.baseRenderRunId ? "Render\uFF08\u6307\u5B9A\u6210\u7247\u4FEE\u6539\uFF09" : "Render\uFF08\u9996\u6B21\u89C6\u9891\u5236\u4F5C\uFF09";
   return `\u4F60\u6B63\u5728\u6267\u884C\u89C6\u9891\u4EFB\u52A1\u7684 ${phase} \u9636\u6BB5\u3002
@@ -539,13 +595,28 @@ function taskInstruction(run, runRoot, pluginRoot) {
 \u5B8C\u6574\u8BFB\u53D6\u8F93\u5165\u3001\u751F\u4EA7\u5165\u53E3\u3001\u51BB\u7ED3\u6A21\u677F renderer/renderer-manifest.json \u548C instructions \u58F0\u660E\u7684\u5168\u90E8\u8BF4\u660E\uFF0C\u7EE7\u7EED\u8BFB\u53D6\u6240\u9700\u7EC4\u4EF6\u63A5\u53E3\u3002\u6A21\u677F\u662F\u5FC5\u987B\u9075\u5B88\u7684\u5236\u4F5C\u7EA6\u675F\uFF0C\u8FA8\u660E\u56FA\u5B9A\u5305\u88C5\u3001\u53EF\u521B\u4F5C\u533A\u3001\u89D2\u8272\u58F0\u97F3\u89C4\u5219\u548C\u6280\u672F\u5165\u53E3\u3002
 ${run.stage === "analysis" ? `\u672C\u9636\u6BB5\u53EA\u8F93\u51FA\u53EF\u7F16\u8F91\u6587\u5B57\u5206\u955C\uFF0C\u4FDD\u7559\u539F\u6587\u53CA\u987A\u5E8F\uFF1B\u672A\u6388\u6743\u4E0D\u5F97\u6539\u7A3F\u3001\u6DFB\u52A0\u53D1\u8A00\u6216\u7ED3\u675F\u8BED\u3002\u6BCF\u9879 id/content/dur\uFF0CdurationSource=estimated\u3002\u786E\u8BA4\u5206\u955C\u4E0E\u52A8\u753B\u7AE0\u8282\u4E0D\u540C\u3002\u5C06\u5B8C\u6574\u6A21\u677F\u9605\u8BFB\u4F9D\u636E\u548C\u540E\u7EED\u7EA6\u675F\u5199\u5165 context\uFF1Bcontext \u5FC5\u987B\u662F\u975E\u7A7A Markdown \u5B57\u7B26\u4E32\uFF0C\u4E0D\u662F\u5BF9\u8C61\u6216\u6570\u7EC4\u3002\u7981\u6B62\u914D\u97F3\u3001\u6E32\u67D3\u6216\u751F\u6210\u5A92\u4F53\u3002` : `\u5F53\u524D\u5B8C\u6574 dataList \u548C otherRequirements \u751F\u6548\uFF0C\u4E0D\u80FD\u4EE5\u5206\u6790\u65E7\u7A3F\u66FF\u6362\u3002\u6309\u6240\u9009\u6A21\u677F\u4FDD\u7559\u89C4\u5B9A\u7684\u5934\u50CF\u3001Logo\u3001\u7247\u5934\u7247\u5C3E\u3001\u80CC\u666F\u53CA\u4FDD\u62A4\u533A\u57DF\uFF0C\u4EC5\u5728\u5F00\u653E\u533A\u57DF\u521B\u4F5C\u672C\u671F\u7EAF Remotion \u52A8\u6548\u3002\u4F7F\u7528\u65E2\u6709\u5BFC\u6F14\u3001\u7F8E\u672F\u3001\u58F0\u97F3\u3001\u5B57\u5E55\u3001\u8FD0\u52A8\u548C\u8D28\u91CF Skills\uFF1B\u771F\u5B9E\u5206\u6D3E\u4E0E\u539F\u4F5C\u8005\u4FEE\u8BA2\u7531\u4F60\u8D1F\u8D23\u3002
 ${"baseRenderRunId" in run.request && run.request.baseRenderRunId ? "\u4EE5\u6307\u5B9A\u57FA\u7840\u6210\u7247\u5DE5\u7A0B\u526F\u672C\u4E3A\u8D77\u70B9\uFF0C\u8BFB\u53D6\u539F\u7247\u548C\u8BB0\u5F55\uFF0C\u6309 revisionInstructions \u5224\u65AD\u5F71\u54CD\u8303\u56F4\uFF0C\u672A\u6539\u53CA\u672A\u53D7\u5F71\u54CD\u5185\u5BB9\u4FDD\u6301\u3002\u57FA\u7840\u6587\u4EF6\u4E0D\u5B8C\u6574\u65F6\u660E\u786E\u62A5\u544A\uFF0C\u4E0D\u4ECE\u5934\u6362\u65B9\u6848\u3002" : "\u5728\u672C run \u7684 project \u5DE5\u7A0B\u526F\u672C\u4E2D\u5236\u4F5C\uFF0C\u4E0D\u6539\u5171\u4EAB\u6A21\u677F\u3002"}
-\u8C46\u5305\u4EC5\u901A\u8FC7\u672C\u63D2\u4EF6 synthesize_speech/read_speech_job \u5DE5\u5177\u8C03\u7528\uFF1B\u6309\u6A21\u677F\u58F0\u660E voiceRef \u9009\u97F3\u8272\u3002\u76F8\u540C speechRequestId \u4E0D\u540C\u8F93\u5165\u4F1A\u62D2\u7EDD\uFF1Bunknown \u53EA\u80FD\u6838\u67E5\u539F\u4EFB\u52A1\uFF0C\u4E0D\u80FD\u91CD\u65B0\u6536\u8D39\u8C03\u7528\u3002\u590D\u7528\u9700\u660E\u786E\u57FA\u7840\u97F3\u9891\u5E76\u901A\u8FC7\u4E00\u81F4\u6027\u6821\u9A8C\u3002
-\u6309\u5B9E\u6D4B\u53E5\u6BB5\u97F3\u9891\u5EFA\u7ACB\u5B57\u5E55\u53CA\u5B8C\u6574\u65F6\u95F4\u8F74\uFF0C\u4E0D\u4F30\u9020\u8BCD\u7EA7\u65F6\u95F4\u3002\u97F3\u9891\u590D\u5236\u5230\u672C\u5DE5\u7A0B public \u8D44\u6E90\u76EE\u5F55\u5E76\u4FDD\u7559\u6587\u672C\u3001\u97F3\u8272\u3001\u65F6\u5E8F\u4F9D\u636E\u3002\u753B\u9762\u5185\u5BB9\u53CA\u77ED\u6807\u7B7E\u4EE5\u786E\u8BA4\u7A3F\u4E3A\u51C6\u3002
-\u5148\u8C03\u7528 preview_template_frame \u68C0\u67E5\u5B9E\u9645\u753B\u9762\uFF0C\u518D\u8C03\u7528 render_template \u9884\u89C8\u771F\u5B9E\u8FD0\u52A8\u548C\u58F0\u97F3\uFF0C\u95EE\u9898\u4FEE\u8BA2\u540E\u5B8C\u6574\u5BFC\u51FA\u3002render_template \u9996\u6B21\u8FD4\u56DE\u4EFB\u52A1 ID\uFF0Cread_render_job \u8BFB\u53D6\u539F\u4EFB\u52A1\u3002\u5168\u90E8\u5206\u955C\u6309\u540C\u4E00\u5B8C\u6574 Composition \u7684\u5168\u5C40\u5E27\u533A\u95F4\u8F93\u51FA\uFF0C\u52FF\u91CD\u7F6E\u5168\u7247\u8FDB\u5EA6\u6216\u8DE8\u53E5\u56FE\u5F62\u3002\u4FDD\u5B58\u65F6\u95F4\u8F74 JSON\u3001\u5B8C\u6574\u5DE5\u7A0B\u4E0E\u68C0\u67E5\u8BB0\u5F55\u3002\u6700\u7EC8 delivery \u4F7F\u7528\u5DE5\u5177\u5B9E\u6D4B\u6E05\u5355\uFF0C\u8BB0\u5F55\u771F\u5B9E\u5DF2\u5B8C\u6210\u548C\u672A\u5B8C\u6210\u7684\u89C6\u542C\u8303\u56F4\uFF0C\u4E0D\u865A\u62A5\u8FDE\u7EED\u770B\u542C\u3002`}
+\u8C46\u5305\u4F18\u5148\u901A\u8FC7\u672C\u63D2\u4EF6 synthesize_speech_batch/read_speech_batch \u4E00\u6B21\u767B\u8BB0\u5B8C\u6574\u81EA\u7136\u53E5\u6BB5\u6E05\u5355\uFF0C\u6BCF\u6BB5\u4FDD\u7559\u552F\u4E00 segmentId\u3001speechRequestId \u548C\u786E\u8BA4\u5206\u955C sceneId\uFF1B\u5C40\u90E8\u5904\u7406\u53EF\u7528 synthesize_speech/read_speech_job\uFF0C\u4F46\u540C\u6837\u53D7\u670D\u52A1\u9650\u6D41\u3002\u6279\u6B21\u8FD4\u56DE\u539F\u987A\u5E8F\u7ED3\u679C\uFF0C\u4E0D\u6309\u5B8C\u6210\u5148\u540E\u5339\u914D\u97F3\u9891\uFF1B\u6309\u6A21\u677F\u58F0\u660E voiceRef \u9009\u97F3\u8272\u3002\u76F8\u540C speechRequestId \u4E0D\u540C\u8F93\u5165\u4F1A\u62D2\u7EDD\uFF1Bunknown \u53EA\u80FD\u6838\u67E5\u539F\u4EFB\u52A1\uFF0C\u4E0D\u80FD\u91CD\u65B0\u6536\u8D39\u8C03\u7528\u3002\u590D\u7528\u9700\u660E\u786E\u57FA\u7840\u97F3\u9891\u5E76\u901A\u8FC7\u4E00\u81F4\u6027\u6821\u9A8C\u3002
+\u97F3\u9891\u5DF2\u6536\u5230\u4F46\u672C\u5730\u6821\u9A8C\u5931\u8D25\u65F6\u53EA\u8C03\u7528 retry_speech_validation\uFF0C\u4E0D\u91CD\u65B0\u914D\u97F3\u3002\u6309\u5B9E\u6D4B\u53E5\u6BB5\u97F3\u9891\u5EFA\u7ACB\u5B57\u5E55\u53CA\u5B8C\u6574\u65F6\u95F4\u8F74\uFF0C\u4E0D\u4F30\u9020\u8BCD\u7EA7\u65F6\u95F4\u3002\u97F3\u9891\u590D\u5236\u5230\u672C\u5DE5\u7A0B public \u8D44\u6E90\u76EE\u5F55\u5E76\u4FDD\u7559\u6587\u672C\u3001\u97F3\u8272\u3001\u65F6\u5E8F\u4F9D\u636E\u3002\u753B\u9762\u5185\u5BB9\u53CA\u77ED\u6807\u7B7E\u4EE5\u786E\u8BA4\u7A3F\u4E3A\u51C6\u3002\u5F53\u524D\u8D22\u7ECF\u53E5\u6BB5\u6A21\u677F\u4F7F\u7528 verify_sentence_audio\uFF0C\u4F20\u5B9E\u9645 JSON \u65F6\u95F4\u8F74\u548C speechBatchRequestIds\uFF1B\u56FA\u5B9A\u6838\u5BF9\u7531\u670D\u52A1\u6267\u884C\uFF0C\u4E0D\u5728\u53D7\u9650\u4F5C\u8005\u73AF\u5883\u8FD0\u884C\u6A21\u677F\u811A\u672C\u3002
+\u5148\u8C03\u7528 preview_template_frame \u68C0\u67E5\u5B9E\u9645\u753B\u9762\uFF0C\u518D\u8C03\u7528 render_template \u9884\u89C8\u771F\u5B9E\u8FD0\u52A8\u548C\u58F0\u97F3\uFF0C\u95EE\u9898\u4FEE\u8BA2\u540E\u5B8C\u6574\u5BFC\u51FA\u3002\u540C\u4E00\u89C6\u9891\u540C\u65F6\u53EA\u6709\u4E00\u9879\u6E32\u67D3\u5DE5\u4F5C\uFF08\u542B\u9759\u5E27\uFF09\uFF1B\u9047 RENDER_BUSY \u8BFB\u53D6\u539F\u4EFB\u52A1\uFF0C\u4E0D\u6362\u7F16\u53F7\u5E76\u53D1\u542F\u52A8\u3002render_template \u9996\u6B21\u8FD4\u56DE\u4EFB\u52A1 ID\uFF0Cread_render_job \u8BFB\u53D6\u539F\u4EFB\u52A1\uFF1B\u53EA\u5BA1\u67E5 readyFiles \u4E2D\u5B8C\u6574\u68C0\u67E5\u901A\u8FC7\u7684\u6587\u4EF6\uFF0C\u4E0D\u731C\u6D4B\u6587\u4EF6\u8DEF\u5F84\u3002\u5168\u90E8\u6587\u4EF6\u6210\u529F\u540E\u624D\u80FD\u4EA4\u4ED8\u3002\u5168\u90E8\u5206\u955C\u6309\u540C\u4E00\u5B8C\u6574 Composition \u7684\u5168\u5C40\u5E27\u533A\u95F4\u8F93\u51FA\uFF0C\u52FF\u91CD\u7F6E\u5168\u7247\u8FDB\u5EA6\u6216\u8DE8\u53E5\u56FE\u5F62\u3002\u4FDD\u5B58\u65F6\u95F4\u8F74 JSON\u3001\u5B8C\u6574\u5DE5\u7A0B\u4E0E\u68C0\u67E5\u8BB0\u5F55\u3002\u6700\u7EC8 delivery \u4F7F\u7528\u5DE5\u5177\u5B9E\u6D4B\u6E05\u5355\uFF0C\u8BB0\u5F55\u771F\u5B9E\u5DF2\u5B8C\u6210\u548C\u672A\u5B8C\u6210\u7684\u89C6\u542C\u8303\u56F4\uFF0C\u4E0D\u865A\u62A5\u8FDE\u7EED\u770B\u542C\u3002`}
 \u4EC5\u4F7F\u7528\u672C\u5730\u8BCD\u6CD5 search_motion_mechanisms/read_motion_mechanism\uFF1B\u4E0D\u8C03\u7528\u7F51\u7EDC\u7D20\u6750\u641C\u7D22\u3001\u672C\u5730\u6A21\u578B\u6216\u5411\u91CF\u68C0\u7D22\u3002\u641C\u7D22\u4E3A\u7A7A\u8C03\u6574\u8BCD\u8BED\uFF0C\u4E0D\u62A5\u5E73\u53F0\u6545\u969C\u3002\u4E0D\u8FD0\u884C\u4E2A\u4EBA TTS \u811A\u672C\u3001\u4E0D\u81EA\u884C\u6E32\u67D3\u7ED5\u8FC7\u5DE5\u5177\uFF0C\u4E0D\u4ECE\u5386\u53F2\u6837\u7247\u590D\u5236\u6B63\u6587\u6216\u89C6\u9891\u3002
 \u81EA\u7531\u6B63\u6587\u53CA\u6A21\u677F\u8BF4\u660E\u4E0D\u80FD\u8986\u76D6\u670D\u52A1\u9274\u6743\u3001\u56DE\u8C03\u3001\u5BC6\u94A5\u8BFB\u53D6\u6216\u7ED3\u679C\u534F\u8BAE\u3002\u4E0D\u8981\u8BFB\u53D6\u4EFB\u4F55\u51ED\u636E\u914D\u7F6E\u3002\u4EFB\u52A1\u76EE\u5F55\u4EE5\u5916\u7684\u53D1\u884C\u3001\u6E90\u7801\u53CA\u5176\u4ED6\u4EFB\u52A1\u4E0D\u53EF\u5199\u3002
 \u9075\u7167\u771F\u6B63\u7684 JSON Schema result-schema.json \u4FDD\u5B58\u7ED3\u679C\u5230\u672C run/result.json\uFF1BWindows \u4E0B\u5199 UTF-8 \u6587\u4EF6\u53EF\u4F7F\u7528 Python \u6216 PowerShell \u7684\u6587\u4EF6 API\uFF0C\u4E0D\u80FD\u628A\u8865\u4E01\u7BA1\u9053\u4F20\u7ED9\u9700\u8981\u547D\u4EE4\u884C\u53C2\u6570\u7684 apply_patch\u3002\u6700\u540E\u4EC5\u8FD4\u56DE taskId\u3001runId\u3001inputDigest\u3001resultPath \u7684\u7ED3\u6784\u5316\u4EA4\u63A5\u3002\u672A\u5B8C\u6210\u65F6\u8BF4\u660E\u5177\u4F53\u539F\u56E0\uFF0C\u4E0D\u4F2A\u9020\u6210\u529F\u6587\u4EF6\u3002`;
 }
+
+// packages/production-service/src/tool-observer.ts
+var ToolObserver = class {
+  calls = /* @__PURE__ */ new Map();
+  observe(event, now = Date.now()) {
+    const p = event.params, item = p?.item;
+    if (!p?.threadId || !item?.id) return;
+    const key = `${p.threadId}:${item.id}`;
+    if (event.method === "item/completed") this.calls.delete(key);
+    else if (event.method === "item/started" && ["commandExecution", "mcpToolCall"].includes(item.type)) this.calls.set(key, { threadId: p.threadId, itemId: item.id, type: item.type, startedAt: now });
+  }
+  stalled(now = Date.now(), thresholdMs = 18e4) {
+    return [...this.calls.values()].filter((c) => now - c.startedAt >= thresholdMs).map((c) => ({ ...c, elapsedMs: now - c.startedAt }));
+  }
+};
 
 // packages/production-service/src/turn-events.ts
 function collectMainTurn(target, finish, fail) {
@@ -571,12 +642,19 @@ var AppServerClient = class {
   child;
   seq = 0;
   pending = /* @__PURE__ */ new Map();
+  closing;
+  closed;
   onEvent = () => {
   };
   onClose = () => {
   };
   constructor(command, args, env, cwd) {
-    this.child = (0, import_node_child_process2.spawn)(command, args, { env, cwd, windowsHide: true, stdio: "pipe" });
+    this.child = (0, import_node_child_process2.spawn)(command, args, { env, cwd, windowsHide: true, detached: process.platform !== "win32", stdio: "pipe" });
+    this.closed = new Promise((resolve4) => {
+      this.child.once("close", () => resolve4());
+      this.child.once("error", () => resolve4());
+    });
+    this.child.stdin.on("error", (e) => this.connectionClosed(e));
     (0, import_node_readline.createInterface)({ input: this.child.stdout }).on("line", (line) => {
       try {
         const msg = JSON.parse(line);
@@ -592,18 +670,19 @@ var AppServerClient = class {
         this.onClose(new Error(`App Server \u534F\u8BAE\u9519\u8BEF\uFF1A${e}`));
       }
     });
-    this.child.on("error", (e) => this.onClose(e));
-    this.child.on("exit", () => {
-      const e = new Error("App Server \u8FDE\u63A5\u7ED3\u675F");
-      for (const p of this.pending.values()) {
-        clearTimeout(p.timer);
-        p.reject(e);
-      }
-      this.pending.clear();
-      this.onClose(e);
-    });
+    this.child.on("error", (e) => this.connectionClosed(e));
+    this.child.on("exit", () => this.connectionClosed(new Error("App Server \u8FDE\u63A5\u7ED3\u675F")));
+  }
+  connectionClosed(error) {
+    for (const p of this.pending.values()) {
+      clearTimeout(p.timer);
+      p.reject(error);
+    }
+    this.pending.clear();
+    this.onClose(error);
   }
   call(method, params = {}, timeoutMs = 6e4) {
+    if (this.closing || this.child.stdin.destroyed) return Promise.reject(new Error("App Server \u8FDE\u63A5\u5DF2\u5173\u95ED"));
     const id = ++this.seq;
     return new Promise((resolve4, reject) => {
       const timer = setTimeout(() => {
@@ -622,7 +701,32 @@ var AppServerClient = class {
     this.notify("initialized");
   }
   close() {
-    this.child.stdin.end();
+    if (this.closing) return this.closing;
+    this.closing = (async () => {
+      this.child.stdin.end();
+      const kill = (force) => {
+        if (!this.child.pid) return;
+        if (process.platform === "win32") {
+          const p = (0, import_node_child_process2.spawn)("taskkill", ["/PID", String(this.child.pid), "/T", "/F"], { stdio: "ignore", windowsHide: true });
+          p.on("error", () => {
+          });
+        } else {
+          try {
+            process.kill(-this.child.pid, force ? "SIGKILL" : "SIGTERM");
+          } catch {
+          }
+        }
+      };
+      const soft = setTimeout(() => kill(false), 2e3), hard = setTimeout(() => kill(true), 5e3);
+      try {
+        await this.closed;
+      } finally {
+        clearTimeout(soft);
+        clearTimeout(hard);
+        kill(true);
+      }
+    })();
+    return this.closing;
   }
 };
 async function executeCodex(run, root, repo, config, signal) {
@@ -631,11 +735,12 @@ async function executeCodex(run, root, repo, config, signal) {
   delete env.CALLBACK_SECRET;
   delete env.TEXTVIDEO_API_TOKEN;
   delete env.DOUBAO_VOICES_FILE;
-  const client = new AppServerClient(config.codexExecutable, ["app-server", "-c", 'web_search="disabled"'], env, root);
   const log = (0, import_node_path7.join)(root, "logs", "codex-events.jsonl");
   await import_node_fs6.promises.mkdir((0, import_node_path7.join)(root, "logs"), { recursive: true });
+  const client = new AppServerClient(config.codexExecutable, ["app-server", "-c", 'web_search="disabled"'], env, root);
   client.child.stderr.on("data", (data) => {
-    void import_node_fs6.promises.appendFile((0, import_node_path7.join)(root, "logs", "codex-stderr.log"), data);
+    void import_node_fs6.promises.appendFile((0, import_node_path7.join)(root, "logs", "codex-stderr.log"), data).catch(() => {
+    });
   });
   let threadId = run.checkpoint.codex?.threadId, turnId = run.checkpoint.codex?.turnId;
   let finish, fail;
@@ -646,13 +751,24 @@ async function executeCodex(run, root, repo, config, signal) {
   completed.catch(() => {
   });
   const collect = collectMainTurn(() => ({ threadId, turnId }), finish, fail);
+  const observer = new ToolObserver();
+  const observeTimer = setInterval(() => {
+    try {
+      repo.checkpoint(run.runId, run.token, { stalledTools: observer.stalled() });
+    } catch {
+    }
+  }, 15e3);
   client.onEvent = (event) => {
-    void import_node_fs6.promises.appendFile(log, JSON.stringify(event) + "\n");
+    void import_node_fs6.promises.appendFile(log, JSON.stringify(event) + "\n").catch(() => {
+    });
+    observer.observe(event);
     collect(event);
   };
   client.onClose = (e) => fail(new ProductionError("CODEX_RESULT_UNKNOWN", e.message, 503));
   const abort = () => {
-    if (threadId && turnId) void client.call("turn/interrupt", { threadId, turnId }).catch(fail);
+    if (threadId && turnId) void client.call("turn/interrupt", { threadId, turnId }, 5e3).catch(() => {
+    });
+    void client.close().then(() => fail(new ProductionError("CODEX_RESULT_UNKNOWN", "\u4F1A\u8BDD\u5DF2\u505C\u6B62\uFF0C\u539F\u5DE5\u5177\u7ED3\u679C\u9700\u6838\u67E5", 503)));
   };
   signal.addEventListener("abort", abort, { once: true });
   try {
@@ -674,7 +790,7 @@ async function executeCodex(run, root, repo, config, signal) {
     const statuses = await client.call("mcpServerStatus/list", { threadId, detail: "toolsAndAuthOnly" });
     await writeJson((0, import_node_path7.join)(root, "plugin-discovery.json"), { skills, statuses });
     const statusText = JSON.stringify(statuses);
-    if (!statusText.includes("synthesize_speech") || !statusText.includes("render_template") || !JSON.stringify(skills).includes("production-coordinator")) throw new ProductionError("PLUGIN_NOT_LOADED", "\u540E\u53F0\u4F1A\u8BDD\u6CA1\u6709\u52A0\u8F7D\u5B8C\u6574\u672C\u7248\u63D2\u4EF6", 503);
+    if (!statusText.includes("synthesize_speech_batch") || !statusText.includes("verify_sentence_audio") || !statusText.includes("render_template") || !JSON.stringify(skills).includes("production-coordinator")) throw new ProductionError("PLUGIN_NOT_LOADED", "\u540E\u53F0\u4F1A\u8BDD\u6CA1\u6709\u52A0\u8F7D\u5B8C\u6574\u672C\u7248\u63D2\u4EF6", 503);
     const runtime = await client.call("mcpServer/tool/call", { threadId, server: "textvideo-studio", tool: "read_runtime_release", arguments: {} });
     if (!JSON.stringify(runtime).includes(config.release.releaseId)) throw new ProductionError("RELEASE_MISMATCH", "\u540E\u53F0 MCP \u4E0E Runtime \u4E0D\u540C\u7248", 503);
     const instruction = taskInstruction(run, root, config.pluginRoot);
@@ -688,10 +804,11 @@ async function executeCodex(run, root, repo, config, signal) {
     const result = await completed;
     return JSON.parse(result.text);
   } finally {
+    clearInterval(observeTimer);
     signal.removeEventListener("abort", abort);
     client.onClose = () => {
     };
-    client.close();
+    await client.close();
     completed.catch(() => {
     });
   }
@@ -709,8 +826,16 @@ var ProductionRunner = class {
   executor;
   active = /* @__PURE__ */ new Map();
   stopping = false;
+  executions = /* @__PURE__ */ new Map();
+  finishing = /* @__PURE__ */ new Set();
+  recovery = [];
+  onRunStopping = () => {
+  };
   settleTools = async () => {
   };
+  canStartWork(runId) {
+    return this.active.has(runId) && !this.stopping && !this.finishing.has(runId) && !this.active.get(runId)?.signal.aborted;
+  }
   runRoot(run) {
     return (0, import_node_path8.join)(this.config.dataRoot, "tasks", run.taskKey, "runs", run.runId);
   }
@@ -718,7 +843,7 @@ var ProductionRunner = class {
     const root = this.runRoot(run), taskRoot = (0, import_node_path8.join)(this.config.dataRoot, "tasks", run.taskKey);
     await import_node_fs7.promises.mkdir(root, { recursive: true });
     let template, analysis, base;
-    if (run.stage === "analysis") template = await freezeTemplate(this.config.templateBase, run.request.plugin.customTemplateId, (0, import_node_path8.join)(taskRoot, "analyses", run.runId));
+    if (run.stage === "analysis") template = await freezeTemplate(this.config.templateBase, run.request.plugin.customTemplateId, (0, import_node_path8.join)(taskRoot, "analyses", run.runId), AbortSignal.any([this.active.get(run.runId).signal, AbortSignal.timeout(12e4)]));
     else {
       analysis = this.repo.list(run.accountId, run.taskId).find((r) => r.planVersion === run.request.basePlanVersion);
       template = analysis.checkpoint.template;
@@ -745,21 +870,24 @@ var ProductionRunner = class {
     const heartbeat = setInterval(() => {
       try {
         const latest = this.repo.get(run.runId);
-        if (latest.state === "cancelling") controller.abort();
+        if (latest.state === "cancelling") this.stopRun(run.runId);
         else this.repo.checkpoint(run.runId, run.token, {});
       } catch {
       }
     }, 1e3);
     try {
+      if (run.state === "cancelling") throw new ProductionError("PROCESS_CANCELLED", "\u6062\u590D\u524D\u5DF2\u53D6\u6D88");
       if (!run.checkpoint.handoff) {
         run = await this.prepare(run);
+        if (controller.signal.aborted) throw new ProductionError("PROCESS_CANCELLED", "\u51C6\u5907\u9636\u6BB5\u5DF2\u53D6\u6D88");
         const handoff = await this.executor(run, root, this.repo, this.config, controller.signal);
         if (handoff.runId !== run.runId || handoff.taskId !== run.taskId || handoff.inputDigest !== run.inputDigest) throw new ProductionError("HANDOFF_IDENTITY_INVALID", "\u540E\u53F0\u4EA4\u63A5\u8EAB\u4EFD\u4E0D\u7B26");
         if (typeof handoff.resultPath !== "string" || !handoff.resultPath.trim()) throw new ProductionError("CODEX_NO_RESULT", "\u540E\u53F0\u672A\u4EA4\u4ED8\u7ED3\u679C\u6587\u4EF6\uFF1B\u8BE6\u89C1\u672C run \u7684 Codex \u4E8B\u4EF6\u548C\u5DE5\u5177\u8BCA\u65AD", 500);
         const path = await regular(root, (0, import_node_path8.relative)(root, handoff.resultPath));
         run = this.repo.checkpoint(run.runId, run.token, { handoff: { ...handoff, resultPath: path } });
       }
-      await this.settleTools();
+      this.finishing.add(run.runId);
+      await this.settleTools(run.runId);
       if (controller.signal.aborted) {
         this.repo.finish(run.runId, run.token, "cancelled");
         return;
@@ -773,36 +901,59 @@ var ProductionRunner = class {
         await import_node_fs7.promises.writeFile((0, import_node_path8.join)(root, "analysis-context.md"), parsed.context);
         this.repo.finish(run.runId, run.token, "succeeded", parsed);
       } else {
-        const published = await publishDelivery(run, root, (0, import_node_path8.join)(this.config.dataRoot, "tasks", run.taskKey), this.config.mediaBase, result);
+        const published = await publishDelivery(run, root, (0, import_node_path8.join)(this.config.dataRoot, "tasks", run.taskKey), this.config.mediaBase, result, controller.signal);
         this.repo.finish(run.runId, run.token, "succeeded", published);
       }
     } catch (e) {
       const error = { code: e instanceof ProductionError ? e.code : "EXECUTION_FAILED", message: e instanceof Error ? e.message : String(e) };
-      await this.settleTools();
-      if (controller.signal.aborted && error.code === "CODEX_TURN_FAILED") this.repo.finish(run.runId, run.token, "cancelled", null, error);
+      this.stopRun(run.runId);
+      await this.settleTools(run.runId);
+      if (this.repo.get(run.runId).state === "cancelling" && error.code !== "CODEX_RESULT_UNKNOWN") this.repo.finish(run.runId, run.token, "cancelled", null, error);
       else if (error.code === "CODEX_RESULT_UNKNOWN" || error.code === "PROCESS_CANCELLED") this.repo.mark(run.runId, run.token, "unknown", error);
       else if (!(e instanceof ProductionError) && this.repo.get(run.runId).checkpoint.handoff && run.stage === "render") this.repo.mark(run.runId, run.token, "recovering", error);
       else this.repo.finish(run.runId, run.token, "failed", null, error);
     } finally {
       clearInterval(heartbeat);
+      await this.settleTools(run.runId);
       this.active.delete(run.runId);
+      this.finishing.delete(run.runId);
     }
   }
+  // 启动与登记同步完成，调度不等待整条视频；名额直到所属工作收敛才释放。
   async tick() {
-    if (this.stopping || this.active.size) return;
-    const run = this.repo.claim();
-    if (run) await this.execute(run);
+    if (this.stopping) return;
+    while (this.active.size < (this.config.maxActiveRuns ?? 4)) {
+      const run = this.recovery.shift() ?? this.repo.claim();
+      if (!run) break;
+      if (this.active.has(run.runId)) continue;
+      const work = this.execute(run).catch((error) => {
+        this.repo.mark(run.runId, run.token, "unknown", { code: "CLEANUP_FAILED", message: String(error) });
+      }).finally(() => this.executions.delete(run.runId));
+      this.executions.set(run.runId, work);
+    }
+  }
+  async drain(runId) {
+    while (true) {
+      const works = [...this.executions].filter(([id]) => !runId || id === runId).map(([, p]) => p);
+      if (!works.length) return;
+      await Promise.all(works);
+    }
   }
   async recover() {
     for (const run of this.repo.unfinished()) {
-      if (run.checkpoint.handoff) await this.execute(run);
-      else if (run.checkpoint.codex?.threadId) await this.execute(run);
+      if (this.active.has(run.runId) || this.recovery.some((r) => r.runId === run.runId)) continue;
+      if (run.checkpoint.handoff || run.checkpoint.codex?.threadId) this.recovery.push(run);
       else this.repo.mark(run.runId, run.token, "unknown", { code: "INTERRUPTED_WITHOUT_CHECKPOINT", message: "\u539F\u6267\u884C\u4E2D\u65AD\uFF0C\u672A\u8BC1\u660E\u53EF\u5B89\u5168\u91CD\u65B0\u63D0\u4EA4\uFF1B\u8BF7\u6838\u67E5\u539F\u4EFB\u52A1" });
     }
+    await this.tick();
+  }
+  stopRun(runId) {
+    this.onRunStopping(runId);
+    this.active.get(runId)?.abort();
   }
   stop() {
     this.stopping = true;
-    for (const controller of this.active.values()) controller.abort();
+    for (const id of this.active.keys()) this.stopRun(id);
   }
 };
 
@@ -855,119 +1006,486 @@ var CallbackSender = class {
   }
 };
 
-// packages/speech-services/src/doubao.ts
-var import_node_crypto4 = require("node:crypto");
+// packages/production-service/src/run-work.ts
+var RunWork = class {
+  active = /* @__PURE__ */ new Map();
+  current(runId) {
+    return this.active.get(runId)?.id;
+  }
+  start(runId, id, work) {
+    const old = this.active.get(runId);
+    if (old) throw new ProductionError("RENDER_BUSY", `\u672C\u89C6\u9891\u6B63\u5728\u5904\u7406 ${old.id}\uFF0C\u8BF7\u5148\u8BFB\u53D6\u539F\u4EFB\u52A1`, 409);
+    const promise = Promise.resolve().then(work).finally(() => this.active.delete(runId));
+    this.active.set(runId, { id, promise });
+    void promise.catch(() => {
+    });
+    return promise;
+  }
+  async drain(runId) {
+    while (true) {
+      const entries = [...this.active].filter(([id]) => !runId || id === runId);
+      if (!entries.length) return;
+      await Promise.allSettled(entries.map(([, w]) => w.promise));
+    }
+  }
+};
+
+// packages/production-service/src/sentence-audio.ts
 var import_node_fs8 = require("node:fs");
 var import_node_path9 = require("node:path");
 var import_zod4 = require("zod");
-var speechSchema = import_zod4.z.object({ runId: import_zod4.z.string().uuid(), speechRequestId: import_zod4.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/), segmentId: import_zod4.z.string().min(1), text: import_zod4.z.string().min(1).max(2e3), voiceRef: import_zod4.z.string().min(1), speed: import_zod4.z.number().int().min(-50).max(100).default(0), reuseJobId: import_zod4.z.string().uuid().optional(), reuseRunId: import_zod4.z.string().uuid().optional() }).strict();
+var sentenceAuditSchema = import_zod4.z.object({ timelineRef: import_zod4.z.string().min(1), speechBatchRequestIds: import_zod4.z.array(import_zod4.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/)).min(1), renderRequestId: import_zod4.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).optional() }).strict();
+var normalized = (text2) => String(text2 ?? "").replace(/\s+/gu, "");
+function ensure(value, message) {
+  if (!value) throw new ProductionError("SENTENCE_AUDIO_INVALID", `\u53E5\u7EA7\u97F3\u9891\u5BA1\u8BA1\u5931\u8D25\uFF1A${message}`);
+}
+function integer(value, message) {
+  ensure(Number.isInteger(value) && value >= 0, message);
+  return value;
+}
+async function taskFile(root, source) {
+  ensure(typeof source === "string" && source.length > 0 && !(0, import_node_path9.isAbsolute)(source) && !source.startsWith("\\"), "\u97F3\u9891\u5FC5\u987B\u662F\u672C\u5DE5\u7A0B public \u5185\u76F8\u5BF9\u8DEF\u5F84");
+  const path = await regular(root, source);
+  ensure((await import_node_fs8.promises.stat(path)).size > 0, "\u97F3\u9891\u6587\u4EF6\u4E3A\u7A7A");
+  return path;
+}
+function splitNaturalSentences(text2) {
+  const closing = /* @__PURE__ */ new Set(["\u201D", "\u2019", "\u300D", "\u300F", "\uFF09", ")", "]", "\u3011"]);
+  const endings = /* @__PURE__ */ new Set(["\u3002", "\uFF01", "\uFF1F", "!", "?", "\uFF1B", ";"]);
+  const sentences = [];
+  let current = "";
+  const chars = Array.from(String(text2 || ""));
+  for (let index = 0; index < chars.length; index += 1) {
+    current += chars[index];
+    if (!endings.has(chars[index])) continue;
+    while (index + 1 < chars.length && closing.has(chars[index + 1])) {
+      current += chars[++index];
+    }
+    if (normalized(current)) sentences.push(current.trim());
+    current = "";
+  }
+  if (normalized(current)) sentences.push(current.trim());
+  return sentences;
+}
+async function auditSentenceAudio({ plan, tts, timeline, publicDirectory, signal }) {
+  ensure(Array.isArray(plan.scenes) && plan.scenes.length > 0, "\u786E\u8BA4\u65B9\u6848\u6CA1\u6709\u5206\u955C");
+  ensure(Array.isArray(tts), "TTS \u6E05\u5355\u5FC5\u987B\u4E3A\u6570\u7EC4");
+  ensure(Number.isFinite(timeline.fps) && timeline.fps > 0, "timeline.fps \u65E0\u6548");
+  ensure(Array.isArray(timeline.scenes), "timeline.scenes \u5FC5\u987B\u4E3A\u6570\u7EC4");
+  const timelineByScene = new Map(timeline.scenes.map((scene) => [scene.id, scene]));
+  ensure(timelineByScene.size === timeline.scenes.length, "timeline \u573A\u666F\u7F16\u53F7\u91CD\u590D");
+  const ttsIds = /* @__PURE__ */ new Set();
+  const report = { fps: timeline.fps, scenes: [], recommendations: [] };
+  for (const scene of plan.scenes) {
+    const expectedText = normalized(scene.text);
+    ensure(expectedText.length > 0, `${scene.id} \u6CA1\u6709\u53EF\u914D\u97F3\u53E5\u5B50`);
+    const requested = tts.filter((item) => item.sceneId === scene.id);
+    ensure(
+      requested.length > 0 && requested.map((item) => normalized(item.text)).join("") === expectedText,
+      `${scene.id} \u77ED\u53E5 TTS \u62FC\u63A5\u540E\u5FC5\u987B\u7B49\u4E8E\u786E\u8BA4\u539F\u7A3F`
+    );
+    const rendered = timelineByScene.get(scene.id);
+    ensure(rendered, `${scene.id} \u7F3A\u5C11 timeline \u573A\u666F`);
+    ensure(Array.isArray(rendered.utterances), `${scene.id} \u7F3A\u5C11 utterances`);
+    ensure(Array.isArray(rendered.captions), `${scene.id} \u7F3A\u5C11 captions`);
+    ensure(
+      rendered.utterances.length === requested.length,
+      `${scene.id} \u7684 utterances \u6570\u91CF\u4E0D\u7B49\u4E8E\u77ED\u53E5 TTS \u6570\u91CF`
+    );
+    const timing = rendered.captionTiming;
+    let aligned;
+    if (timing) {
+      const file = await taskFile(publicDirectory, timing.src);
+      ensure(sha256(await import_node_fs8.promises.readFile(file)) === timing.sha256, `${scene.id} \u5BF9\u9F50\u8BB0\u5F55\u6458\u8981\u4E0D\u7B26`);
+      aligned = await json(file);
+      ensure(["provider_timestamps", "forced_alignment", "reviewed_timestamps"].includes(aligned.method), "\u5206\u9875\u5FC5\u987B\u63D0\u4F9B\u53EF\u9760\u65F6\u95F4\u4F9D\u636E\uFF0C\u4E0D\u80FD\u6309\u5B57\u6570\u6BD4\u4F8B\u5207\u5206");
+    } else ensure(rendered.captions.length === requested.length, `${scene.id} \u591A\u9875\u5B57\u5E55\u987B\u63D0\u4F9B\u97F3\u9891\u7ED1\u5B9A\u7684\u5BF9\u9F50\u8BB0\u5F55`);
+    ensure(rendered.captions.map((c) => normalized(c.text)).join("") === expectedText, `${scene.id} \u5B57\u5E55\u4E22\u5B57\u6216\u987A\u5E8F\u4E0D\u7B26`);
+    let captionEnd = 0;
+    for (const c of rendered.captions) {
+      ensure(Number.isInteger(c.startFrame) && Number.isInteger(c.endFrameExclusive) && c.startFrame >= captionEnd && c.endFrameExclusive > c.startFrame && c.endFrameExclusive <= rendered.frames, `${scene.id} \u5B57\u5E55\u8D8A\u754C\u6216\u91CD\u53E0`);
+      captionEnd = c.endFrameExclusive;
+    }
+    const usedCaptions = /* @__PURE__ */ new Set();
+    let previousEnd = -1;
+    for (let index = 0; index < requested.length; index += 1) {
+      const item = requested[index];
+      const utterance = rendered.utterances[index];
+      ensure(typeof item.id === "string" && item.id && !ttsIds.has(item.id), `${scene.id} \u7684 TTS id \u91CD\u590D\u6216\u4E3A\u7A7A`);
+      ttsIds.add(item.id);
+      ensure(normalized(item.text).length > 0, `${scene.id} \u914D\u97F3\u6587\u672C\u4E3A\u7A7A`);
+      if (Array.from(String(item.text)).length > 28 || splitNaturalSentences(item.text).length > 1)
+        report.recommendations.push({ sceneId: scene.id, utteranceId: item.id, message: "\u5EFA\u8BAE\u77ED\u53E5\u5B57\u5E55\uFF1B\u590D\u7528\u97F3\u9891\uFF0C\u68C0\u67E5\u6362\u884C\u6216\u6309\u53EF\u9760\u5BF9\u9F50\u8BB0\u5F55\u5206\u9875" });
+      ensure(
+        utterance.id === item.id && normalized(utterance.text) === normalized(item.text),
+        `${scene.id} \u7B2C ${index + 1} \u6761 timeline utterance \u4E0E TTS \u6E05\u5355\u4E0D\u4E00\u81F4`
+      );
+      const start = integer(utterance.startFrame, `${scene.id} \u7B2C ${index + 1} \u6761\u97F3\u9891\u8D77\u5E27\u65E0\u6548`);
+      const end = integer(utterance.endFrameExclusive, `${scene.id} \u7B2C ${index + 1} \u6761\u97F3\u9891\u6B62\u5E27\u65E0\u6548`);
+      ensure(start < end && start >= previousEnd && end <= rendered.frames, `${scene.id} \u7684\u53E5\u7EA7\u97F3\u9891\u8FB9\u754C\u91CD\u53E0\u6216\u5012\u5E8F`);
+      previousEnd = end;
+      const pages = rendered.captions.filter((c) => c.utteranceId === item.id);
+      ensure(pages.length && pages.map((c) => normalized(c.text)).join("") === normalized(item.text), `${scene.id} \u914D\u97F3\u5BF9\u5E94\u5B57\u5E55\u4E0D\u5B8C\u6574`);
+      for (const c of pages) {
+        ensure(c.startFrame >= start && c.endFrameExclusive <= end, `${scene.id} \u5B57\u5E55\u8D85\u51FA\u97F3\u9891\u7A97\u53E3`);
+        usedCaptions.add(c);
+      }
+      if (aligned) {
+        const evidence = aligned.utterances?.[item.id];
+        const hash = sha256(await import_node_fs8.promises.readFile(await taskFile(publicDirectory, utterance.src)));
+        ensure(evidence?.audioSha256 === hash, `${scene.id} \u5BF9\u9F50\u8BB0\u5F55\u4E0D\u5C5E\u4E8E\u5F53\u524D\u97F3\u9891`);
+        ensure(JSON.stringify(evidence.captions) === JSON.stringify(pages.map(({ text: text2, startFrame, endFrameExclusive }) => ({ text: text2, startFrame, endFrameExclusive }))), `${scene.id} \u5206\u9875\u672A\u4F7F\u7528\u5BF9\u9F50\u8BB0\u5F55`);
+      } else ensure(pages.length === 1 && pages[0].startFrame === start && pages[0].endFrameExclusive === end, `${scene.id} \u5B57\u5E55\u6CA1\u6709\u4F7F\u7528\u8BE5\u53E5\u97F3\u9891\u8FB9\u754C`);
+      const seconds = await decodedAudioSeconds(await taskFile(publicDirectory, utterance.src), signal);
+      const frameSeconds = (end - start) / timeline.fps;
+      ensure(
+        seconds <= frameSeconds + 1e-6 && frameSeconds - seconds <= 1 / timeline.fps + 0.02,
+        `${scene.id} \u7B2C ${index + 1} \u6761\u97F3\u9891\u5B9E\u9645 ${seconds.toFixed(3)} \u79D2\uFF0C\u4E0E\u65F6\u95F4\u8F74 ${frameSeconds.toFixed(3)} \u79D2\u4E0D\u7B26`
+      );
+    }
+    ensure(rendered.captions.length === usedCaptions.size, `${scene.id} \u5B58\u5728\u672A\u7ED1\u5B9A TTS \u7684\u5B57\u5E55`);
+    report.scenes.push({ id: scene.id, sentenceCount: requested.length });
+  }
+  ensure(timelineByScene.size === plan.scenes.length, "timeline \u573A\u666F\u4E0E\u786E\u8BA4\u65B9\u6848\u6570\u91CF\u4E0D\u4E00\u81F4");
+  ensure(ttsIds.size === tts.length, "TTS \u6E05\u5355\u5B58\u5728\u672A\u7ED1\u5B9A\u5206\u955C\u7684\u6761\u76EE");
+  return report;
+}
+async function verifySentenceAudio(run, runRoot, raw, speech, signal) {
+  const input = sentenceAuditSchema.parse(raw);
+  if (run.stage !== "render" || run.state !== "running") throw new ProductionError("SPEECH_STAGE_FORBIDDEN", "\u53EA\u6709\u5F53\u524D\u5236\u4F5C\u4EFB\u52A1\u53EF\u68C0\u67E5\u97F3\u9891");
+  const project = input.renderRequestId ? (0, import_node_path9.join)(runRoot, "render-snapshots", input.renderRequestId, "project") : (0, import_node_path9.join)(runRoot, "project");
+  inside(await import_node_fs8.promises.realpath(runRoot), await import_node_fs8.promises.realpath(project));
+  const manifest = await validateTemplate(project), publicDirectory = (0, import_node_path9.join)(project, "renderer", manifest.publicAssetRoot);
+  inside(await import_node_fs8.promises.realpath(project), await import_node_fs8.promises.realpath(publicDirectory));
+  const timeline = await json(await regular(project, input.timelineRef));
+  const tts = [];
+  for (const id of input.speechBatchRequestIds) {
+    const batch = await speech.readBatch(id, run.runId, run.accountId);
+    ensure(batch.state === "succeeded", `\u914D\u97F3\u6279\u6B21 ${id} \u5C1A\u672A\u5168\u90E8\u6210\u529F`);
+    for (const job of batch.jobs) {
+      const item = { id: job.request.segmentId, sceneId: job.request.sceneId, text: job.request.text };
+      const scene = timeline.scenes?.find((s) => s.id === item.sceneId), utterance = scene?.utterances?.find((u) => u.id === item.id);
+      ensure(utterance, `\u7F3A\u5C11\u53E5\u6BB5 ${item.id}`);
+      const path2 = await taskFile(publicDirectory, utterance.src);
+      ensure(sha256(await import_node_fs8.promises.readFile(path2)) === job.sha256, `\u53E5\u6BB5 ${item.id} \u6CA1\u6709\u7ED1\u5B9A\u672C\u6279\u6B21\u7684\u771F\u5B9E\u97F3\u9891`);
+      tts.push(item);
+    }
+  }
+  const plan = { scenes: run.request.dataList.map((s) => ({ id: s.id, text: s.content })) };
+  const report = await auditSentenceAudio({ plan, tts, timeline, publicDirectory, signal });
+  const path = (0, import_node_path9.join)(runRoot, "checks", `sentence-audio-${input.renderRequestId ?? "working"}.json`);
+  await writeJson(path, { ...report, runId: run.runId, checkedAt: (/* @__PURE__ */ new Date()).toISOString(), timelineSha256: sha256(canonicalTimeline(timeline)), scope: "\u53E5\u6BB5\u3001\u5B57\u5E55\u3001PCM \u65F6\u957F\u53CA\u97F3\u9891\u5F52\u5C5E\uFF1B\u4E0D\u4EE3\u66FF\u542C\u5BA1" });
+  return { ...report, path };
+}
+function canonicalTimeline(value) {
+  return JSON.stringify(value);
+}
+
+// packages/speech-services/src/doubao.ts
+var import_node_crypto4 = require("node:crypto");
+var import_node_fs9 = require("node:fs");
+var import_node_path10 = require("node:path");
+var import_zod5 = require("zod");
+var requestKey = import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
+var speechSchema = import_zod5.z.object({ runId: import_zod5.z.string().uuid(), speechRequestId: requestKey, segmentId: import_zod5.z.string().min(1), sceneId: import_zod5.z.string().min(1).optional(), text: import_zod5.z.string().min(1).max(2e3), voiceRef: import_zod5.z.string().min(1), speed: import_zod5.z.number().int().min(-50).max(100).default(0), reuseJobId: import_zod5.z.string().uuid().optional(), reuseRunId: import_zod5.z.string().uuid().optional() }).strict();
+var speechBatchSchema = import_zod5.z.object({ runId: import_zod5.z.string().uuid(), speechBatchRequestId: requestKey, segments: import_zod5.z.array(speechSchema.omit({ runId: true }).extend({ sceneId: import_zod5.z.string().min(1) })).min(1).max(1e3) }).strict();
 var DoubaoService = class {
-  constructor(repo, root, voiceFile, apiKey, endpoint = "https://openspeech.bytedance.com/api/v3/tts/unidirectional") {
+  constructor(repo, root, voiceFile, apiKey, endpoint = "https://openspeech.bytedance.com/api/v3/tts/unidirectional", options = {}) {
     this.repo = repo;
     this.root = root;
     this.voiceFile = voiceFile;
     this.apiKey = apiKey;
     this.endpoint = endpoint;
+    this.options = options;
+    this.total = options.concurrency ?? 20;
+    this.perRun = options.perRunConcurrency ?? 5;
+    if (!Number.isInteger(this.total) || this.total < 1 || this.total > 20 || !Number.isInteger(this.perRun) || this.perRun < 1 || this.perRun > 5 || this.perRun > this.total) throw new ProductionError("CONFIG_INVALID", "\u914D\u97F3\u5E76\u53D1\u914D\u7F6E\u65E0\u6548");
   }
   repo;
   root;
   voiceFile;
   apiKey;
   endpoint;
+  options;
   pending = /* @__PURE__ */ new Map();
+  queues = /* @__PURE__ */ new Map();
+  order = [];
+  active = /* @__PURE__ */ new Map();
+  unknown = /* @__PURE__ */ new Map();
+  registration = Promise.resolve();
+  scheduled = false;
+  stopping = false;
+  stoppedRuns = /* @__PURE__ */ new Set();
+  total;
+  perRun;
   path(run, id) {
-    return (0, import_node_path9.join)(this.root, "tasks", run.taskKey, "runs", run.runId, "speech", `${id}.json`);
+    return (0, import_node_path10.join)(this.root, "tasks", run.taskKey, "runs", run.runId, "speech", `${id}.json`);
   }
-  async submit(raw, accountId) {
-    const input = speechSchema.parse(raw), run = this.repo.get(input.runId, accountId);
+  batchPath(run, id) {
+    return (0, import_node_path10.join)(this.root, "tasks", run.taskKey, "runs", run.runId, "speech-batches", `${requestKey.parse(id)}.json`);
+  }
+  serial(operation) {
+    const next = this.registration.then(operation);
+    this.registration = next.catch(() => {
+    });
+    return next;
+  }
+  runnable(run) {
+    if (this.stopping || this.stoppedRuns.has(run.runId) || run.stage !== "render" || run.state !== "running") throw new ProductionError("SPEECH_STAGE_FORBIDDEN", "\u4EC5\u8FD0\u884C\u4E2D\u7684 Render \u53EF\u751F\u6210\u914D\u97F3", 409);
+  }
+  async validate(input, accountId) {
+    const run = this.repo.get(input.runId, accountId);
+    this.runnable(run);
     if (input.reuseRunId && !input.reuseJobId) throw new ProductionError("REUSE_JOB_REQUIRED", "\u590D\u7528\u6267\u884C\u5F15\u7528\u5FC5\u987B\u540C\u65F6\u6307\u5B9A\u914D\u97F3\u4EFB\u52A1");
-    if (run.stage !== "render" || run.state !== "running") throw new ProductionError("SPEECH_STAGE_FORBIDDEN", "\u4EC5\u8FD0\u884C\u4E2D\u7684 Render \u53EF\u751F\u6210\u914D\u97F3", 409);
+    if (input.sceneId && !run.request.dataList.some((s) => s.id === input.sceneId)) throw new ProductionError("SPEECH_SCENE_INVALID", "\u53E5\u6BB5\u6240\u5C5E\u5206\u955C\u4E0D\u5728\u5F53\u524D\u786E\u8BA4\u7A3F\u4E2D");
     if (!run.checkpoint.template?.manifest.voiceRefs.includes(input.voiceRef)) throw new ProductionError("VOICE_NOT_DECLARED", "\u6A21\u677F\u672A\u58F0\u660E\u6B64\u97F3\u8272\u5F15\u7528");
     const voices = await json(this.voiceFile), voice = voices[input.voiceRef];
     if (!voice?.speaker) throw new ProductionError("VOICE_UNRESOLVED", "\u90E8\u7F72\u672A\u914D\u7F6E\u6A21\u677F\u97F3\u8272", 503);
     const fingerprint = sha256(canonical({ text: input.text, voice, speed: input.speed })), keyDigest = sha256(canonical(input));
     const old = run.checkpoint.speech?.[input.speechRequestId];
-    if (old) {
-      if (old.keyDigest !== keyDigest) throw new ProductionError("SPEECH_KEY_CONFLICT", "\u540C\u4E00\u914D\u97F3\u952E\u4E0D\u53EF\u66F4\u6539\u8F93\u5165", 409);
-      return this.read(old.id, run.runId, accountId);
-    }
-    const id = (0, import_node_crypto4.randomUUID)(), path = this.path(run, id), audio = (0, import_node_path9.join)((0, import_node_path9.join)(path, ".."), `${id}.mp3`);
-    const record = { id, runId: run.runId, request: input, fingerprint, providerRequestId: (0, import_node_crypto4.randomUUID)(), state: "queued", audioRef: audio };
-    if (input.reuseJobId) {
-      const baseId = input.reuseRunId ?? run.request.baseRenderRunId;
+    if (old && old.keyDigest !== keyDigest) throw new ProductionError("SPEECH_KEY_CONFLICT", "\u540C\u4E00\u914D\u97F3\u952E\u4E0D\u53EF\u66F4\u6539\u8F93\u5165", 409);
+    let previous, baseId;
+    if (input.reuseJobId && !old) {
+      baseId = input.reuseRunId ?? run.request.baseRenderRunId;
       if (!baseId) throw new ProductionError("REUSE_BASE_REQUIRED", "\u590D\u7528\u58F0\u97F3\u9700\u8981\u660E\u786E\u57FA\u7840\u6267\u884C\u6216\u6210\u7247");
       const base = this.repo.get(baseId, accountId);
       if (base.taskKey !== run.taskKey || base.stage !== "render") throw new ProductionError("SPEECH_REUSE_SCOPE_INVALID", "\u57FA\u7840\u58F0\u97F3\u5FC5\u987B\u6765\u81EA\u540C\u4EFB\u52A1\u7684 Render");
-      const previous = await this.read(input.reuseJobId, baseId, accountId);
-      if (previous.state !== "succeeded" || previous.fingerprint !== fingerprint || sha256(await import_node_fs8.promises.readFile(previous.audioRef)) !== previous.sha256) throw new ProductionError("SPEECH_REUSE_INVALID", "\u57FA\u7840\u58F0\u97F3\u6587\u5B57\u3001\u97F3\u8272\u3001\u53C2\u6570\u6216\u6587\u4EF6\u4E0D\u4E00\u81F4");
-      await import_node_fs8.promises.mkdir((0, import_node_path9.join)(path, ".."), { recursive: true });
-      await import_node_fs8.promises.copyFile(previous.audioRef, audio);
-      Object.assign(record, { state: "succeeded", sha256: previous.sha256, duration: previous.duration, reusedFrom: previous.id, reusedFromRunId: baseId });
+      previous = await this.read(input.reuseJobId, baseId, accountId);
+      if (previous.state !== "succeeded" || previous.fingerprint !== fingerprint || sha256(await import_node_fs9.promises.readFile(previous.audioRef)) !== previous.sha256) throw new ProductionError("SPEECH_REUSE_INVALID", "\u57FA\u7840\u58F0\u97F3\u6587\u5B57\u3001\u97F3\u8272\u3001\u53C2\u6570\u6216\u6587\u4EF6\u4E0D\u4E00\u81F4");
+    }
+    return { input, run, voice, fingerprint, keyDigest, previous, baseId };
+  }
+  async register(prepared) {
+    const { input, voice, fingerprint, keyDigest, previous, baseId } = prepared, run = this.repo.get(input.runId);
+    this.runnable(run);
+    const old = run.checkpoint.speech?.[input.speechRequestId];
+    if (old) return { record: await this.read(old.id, run.runId, run.accountId), voice, run, path: this.path(run, old.id) };
+    const id = (0, import_node_crypto4.randomUUID)(), path = this.path(run, id), audio = (0, import_node_path10.join)(path, "..", `${id}.mp3`);
+    const record = { id, runId: run.runId, request: input, fingerprint, providerRequestId: (0, import_node_crypto4.randomUUID)(), state: "queued", audioRef: audio };
+    if (previous) {
+      await import_node_fs9.promises.mkdir((0, import_node_path10.join)(path, ".."), { recursive: true });
+      await import_node_fs9.promises.copyFile(previous.audioRef, audio);
+      Object.assign(record, { state: "succeeded", sha256: previous.sha256, duration: previous.duration, durationSource: "measured", alignment: "segment_exact", reusedFrom: previous.id, reusedFromRunId: baseId });
     }
     await writeJson(path, record);
     this.repo.checkpoint(run.runId, run.token, { speech: { ...this.repo.get(run.runId).checkpoint.speech, [input.speechRequestId]: { id, keyDigest } } });
-    if (record.state === "queued") {
-      const promise = this.execute(record, path, voice, run).finally(() => this.pending.delete(id));
-      this.pending.set(id, promise);
-    }
-    return record;
+    return { record, voice, run, path };
+  }
+  async submit(raw, accountId) {
+    return this.serial(async () => {
+      const prepared = await this.validate(speechSchema.parse(raw), accountId), work = await this.register(prepared);
+      this.enqueue(work);
+      return work.record;
+    });
+  }
+  async submitBatch(raw, accountId) {
+    return this.serial(async () => {
+      const input = speechBatchSchema.parse(raw), run = this.repo.get(input.runId, accountId);
+      this.runnable(run);
+      if (new Set(input.segments.map((s) => s.segmentId)).size !== input.segments.length || new Set(input.segments.map((s) => s.speechRequestId)).size !== input.segments.length) throw new ProductionError("SPEECH_BATCH_DUPLICATE", "\u6279\u6B21\u4E2D\u53E5\u6BB5\u7F16\u53F7\u548C\u8BF7\u6C42\u7F16\u53F7\u4E0D\u80FD\u91CD\u590D");
+      const path = this.batchPath(run, input.speechBatchRequestId), digest = sha256(canonical(input));
+      const old = await json(path).catch((e) => {
+        if (e.code === "ENOENT") return null;
+        throw e;
+      });
+      if (old && old.inputDigest !== digest) throw new ProductionError("SPEECH_BATCH_CONFLICT", "\u540C\u4E00\u6279\u6B21\u7F16\u53F7\u4E0D\u53EF\u66F4\u6539\u8F93\u5165", 409);
+      const prepared = [];
+      for (const item of input.segments) prepared.push(await this.validate({ ...item, runId: run.runId }, accountId));
+      const batch = old ?? { id: input.speechBatchRequestId, runId: run.runId, inputDigest: digest, state: "registering", jobIds: [] };
+      if (!old) await writeJson(path, batch);
+      const works = [];
+      for (const item of prepared) works.push(await this.register(item));
+      this.runnable(this.repo.get(run.runId));
+      Object.assign(batch, { state: "registered", jobIds: works.map((w) => w.record.id) });
+      await writeJson(path, batch);
+      for (const work of works) this.enqueue(work);
+      return this.readBatch(batch.id, run.runId, accountId);
+    });
+  }
+  async readBatch(id, runId, accountId) {
+    const run = this.repo.get(runId, accountId), batch = await json(this.batchPath(run, id));
+    if (batch.runId !== runId) throw new ProductionError("SPEECH_SCOPE_INVALID", "\u6279\u6B21\u4E0D\u5C5E\u4E8E\u6B64\u6267\u884C");
+    const jobs = [];
+    for (const jobId of batch.jobIds) jobs.push(await this.read(jobId, runId, accountId));
+    const counts = {};
+    for (const job of jobs) counts[job.state] = (counts[job.state] ?? 0) + 1;
+    const state = batch.state === "registering" ? "registering" : jobs.every((j) => j.state === "succeeded") ? "succeeded" : jobs.some((j) => ["queued", "running", "validating"].includes(j.state)) ? "running" : counts.unknown ? "unknown" : counts.succeeded ? "partial" : counts.cancelled === jobs.length ? "cancelled" : "failed";
+    return { id, runId, state, total: jobs.length, counts, jobs, unknownReservations: this.unknown.size };
   }
   async read(id, runId, accountId) {
-    if (!import_zod4.z.string().uuid().safeParse(id).success) throw new ProductionError("SPEECH_ID_INVALID", "\u914D\u97F3 ID \u4E0D\u5408\u6CD5");
+    if (!import_zod5.z.string().uuid().safeParse(id).success) throw new ProductionError("SPEECH_ID_INVALID", "\u914D\u97F3 ID \u4E0D\u5408\u6CD5");
     const run = this.repo.get(runId, accountId);
     const record = await json(this.path(run, id));
     if (record.runId !== runId) throw new ProductionError("SPEECH_SCOPE_INVALID", "\u914D\u97F3\u4E0D\u5C5E\u4E8E\u6B64\u6267\u884C");
-    if (["running", "queued"].includes(record.state) && !this.pending.has(id)) {
-      record.state = "unknown";
-      record.diagnostic = "\u670D\u52A1\u91CD\u542F\u540E\u65E0\u6CD5\u786E\u8BA4\u4F9B\u5E94\u5546\u7ED3\u679C\uFF1B\u4E0D\u81EA\u52A8\u91CD\u65B0\u8BF7\u6C42";
+    if (["running", "validating"].includes(record.state) && !this.pending.has(id)) {
+      record.state = record.providerComplete ? "validation_failed" : "unknown";
+      record.diagnostic = "\u539F\u6267\u884C\u4E2D\u65AD\uFF0C\u4FDD\u7559\u5DF2\u6709\u97F3\u9891\u53CA\u8BF7\u6C42\u7F16\u53F7\uFF0C\u4E0D\u81EA\u52A8\u91CD\u65B0\u8BF7\u6C42";
       await writeJson(this.path(run, id), record);
     }
+    if (record.state === "unknown" && record.submittedAt && !record.providerComplete) this.unknown.set(id, runId);
     return record;
   }
-  async drain() {
-    await Promise.allSettled(this.pending.values());
+  async recover() {
+    const rows = this.repo.db.prepare("SELECT id FROM runs").all();
+    for (const row of rows) {
+      const run = this.repo.get(row.id);
+      for (const entry of Object.values(run.checkpoint.speech ?? {})) await this.read(entry.id, run.runId, run.accountId);
+    }
   }
-  async execute(record, path, voice, run) {
+  enqueue(item) {
+    if (this.pending.has(item.record.id) || item.record.state !== "queued" && !item.localOnly) return;
+    let done;
+    const promise = new Promise((resolve4) => {
+      done = resolve4;
+    }), work = { ...item, promise, done };
+    this.pending.set(work.record.id, work);
+    if (!this.queues.has(work.run.runId)) {
+      this.queues.set(work.run.runId, []);
+      this.order.push(work.run.runId);
+    }
+    this.queues.get(work.run.runId).push(work);
+    if (this.stopping || this.stoppedRuns.has(work.run.runId)) this.cancelQueued(work.run.runId);
+    else this.schedule();
+  }
+  schedule() {
+    if (this.scheduled) return;
+    this.scheduled = true;
+    setImmediate(() => {
+      this.scheduled = false;
+      this.pump();
+    });
+  }
+  pump() {
+    if (this.stopping) return;
+    while ([...this.active.values()].reduce((a, b) => a + b, 0) + this.unknown.size < this.total) {
+      let selected;
+      for (let i = 0, n = this.order.length; i < n; i++) {
+        const id2 = this.order.shift();
+        this.order.push(id2);
+        const reserved = [...this.unknown.values()].filter((r) => r === id2).length;
+        if ((this.active.get(id2) ?? 0) + reserved >= this.perRun) continue;
+        selected = this.queues.get(id2)?.shift();
+        if (!this.queues.get(id2)?.length) {
+          this.queues.delete(id2);
+          this.order = this.order.filter((runId) => runId !== id2);
+        }
+        if (selected) break;
+      }
+      if (!selected) return;
+      const work = selected, id = work.run.runId;
+      this.active.set(id, (this.active.get(id) ?? 0) + 1);
+      void this.execute(work).catch((error) => {
+        work.record.state = work.record.providerComplete ? "validation_failed" : work.record.submittedAt ? "unknown" : "failed";
+        work.record.diagnostic = String(error);
+      }).finally(() => {
+        if (work.record.state === "unknown" && work.record.submittedAt && !work.record.providerComplete) this.unknown.set(work.record.id, id);
+        const remaining = (this.active.get(id) ?? 1) - 1;
+        if (remaining) this.active.set(id, remaining);
+        else this.active.delete(id);
+        this.pending.delete(work.record.id);
+        work.done();
+        this.schedule();
+      });
+    }
+  }
+  async drain(runId) {
+    await this.registration;
+    while (true) {
+      const works = [...this.pending.values()].filter((w) => !runId || w.run.runId === runId);
+      if (!works.length) return;
+      await Promise.all(works.map((w) => w.promise));
+    }
+  }
+  cancelQueued(runId) {
+    this.stoppedRuns.add(runId);
+    const queue = this.queues.get(runId) ?? [];
+    this.queues.delete(runId);
+    this.order = this.order.filter((id) => id !== runId);
+    for (const work of queue) {
+      work.record.state = "cancelled";
+      void writeJson(work.path, work.record).catch((e) => {
+        work.record.diagnostic = String(e);
+      }).finally(() => {
+        this.pending.delete(work.record.id);
+        work.done();
+      });
+    }
+  }
+  stop() {
+    this.stopping = true;
+    for (const id of [...this.queues.keys()]) this.cancelQueued(id);
+  }
+  async retryValidation(id, runId, accountId) {
+    return this.serial(async () => {
+      const run = this.repo.get(runId, accountId);
+      this.runnable(run);
+      const record = await this.read(id, runId, accountId);
+      if (record.state !== "validation_failed" || !record.providerComplete) throw new ProductionError("SPEECH_VALIDATION_STATE", "\u53EA\u80FD\u6062\u590D\u5DF2\u53D6\u5F97\u97F3\u9891\u7684\u672C\u5730\u68C0\u67E5");
+      if (this.pending.has(id)) throw new ProductionError("SPEECH_VALIDATION_BUSY", "\u539F\u68C0\u67E5\u6B63\u5728\u6536\u5C3E\uFF0C\u8BF7\u67E5\u8BE2\u539F\u4EFB\u52A1\u540E\u518D\u6062\u590D", 409);
+      record.state = "validating";
+      await writeJson(this.path(run, id), record);
+      this.enqueue({ record, path: this.path(run, id), voice: null, run, localOnly: true });
+      return record;
+    });
+  }
+  async validateAudio(record) {
+    let path = record.receivedAudioRef ?? `${record.audioRef}.tmp.mp3`;
+    if (!await import_node_fs9.promises.stat(path).catch(() => null)) path = record.audioRef;
+    const bytes = await import_node_fs9.promises.readFile(path);
+    if (record.receivedSha256 && sha256(bytes) !== record.receivedSha256) throw new ProductionError("AUDIO_CHANGED", "\u5DF2\u6536\u5230\u97F3\u9891\u6458\u8981\u53D1\u751F\u53D8\u5316");
+    const signal = this.options.signalFor?.(record.runId), measured = await probe(path, false, signal);
+    if (!measured.streams.some((s) => s.codec_type === "audio")) throw new ProductionError("MEDIA_INVALID", "\u914D\u97F3\u6587\u4EF6\u6CA1\u6709\u97F3\u8F68");
+    const duration = await decodedAudioSeconds(path, signal);
+    if (path !== record.audioRef) await import_node_fs9.promises.rename(path, record.audioRef);
+    Object.assign(record, { state: "succeeded", sha256: sha256(bytes), duration, containerDuration: measured.duration, sampleRate: measured.streams.find((s) => s.codec_type === "audio")?.sample_rate, bytes: bytes.length, durationSource: "measured", alignment: "segment_exact" });
+  }
+  async execute(work) {
+    const { record, path, voice, run } = work;
     try {
-      if (this.repo.get(run.runId).state !== "running") {
+      if (this.stopping || this.stoppedRuns.has(run.runId) || this.repo.get(run.runId).state !== "running") {
         record.state = "cancelled";
         return;
       }
-      record.state = "running";
-      record.submittedAt = Date.now();
-      await writeJson(path, record);
-      const response = await fetch(this.endpoint, { method: "POST", headers: { "Content-Type": "application/json", "X-Api-Key": this.apiKey, "X-Api-Resource-Id": voice.resourceId ?? "seed-tts-2.0", "X-Api-Request-Id": record.providerRequestId }, body: JSON.stringify({ user: { uid: "textvideo-studio" }, req_params: { text: record.request.text, speaker: voice.speaker, audio_params: { format: "mp3", sample_rate: 24e3, speech_rate: record.request.speed } } }), signal: AbortSignal.timeout(12e4) });
-      record.httpStatus = response.status;
-      record.providerLogId = response.headers.get("x-tt-logid");
-      if (!response.ok) {
-        record.state = "failed";
-        record.diagnostic = `\u4F9B\u5E94\u5546 HTTP ${response.status}`;
-        return;
-      }
-      const raw = await response.text();
-      record.responseDigest = sha256(raw);
-      const events = parseJsonStream(raw);
-      const audio = [];
-      let complete = false;
-      for (const event of events) {
-        if (String(event.code) === "0") {
-          if (event.data) audio.push(Buffer.from(event.data, "base64"));
-        } else if (String(event.code) === "20000000") complete = true;
-        else {
-          record.state = "failed";
-          record.diagnostic = `\u4F9B\u5E94\u5546\u62D2\u7EDD ${event.code}\uFF1A${event.message}`;
+      if (!work.localOnly) {
+        record.state = "running";
+        record.submittedAt = Date.now();
+        await writeJson(path, record);
+        const response = await fetch(this.endpoint, { method: "POST", headers: { "Content-Type": "application/json", "X-Api-Key": this.apiKey, "X-Api-Resource-Id": voice.resourceId ?? "seed-tts-2.0", "X-Api-Request-Id": record.providerRequestId }, body: JSON.stringify({ user: { uid: "textvideo-studio" }, req_params: { text: record.request.text, speaker: voice.speaker, audio_params: { format: "mp3", sample_rate: 24e3, speech_rate: record.request.speed } } }), signal: AbortSignal.timeout(12e4) });
+        record.httpStatus = response.status;
+        record.providerLogId = response.headers.get("x-tt-logid");
+        if (!response.ok) {
+          record.state = response.status >= 500 ? "unknown" : "failed";
+          record.diagnostic = `\u4F9B\u5E94\u5546 HTTP ${response.status}`;
           return;
         }
+        const raw = await response.text();
+        record.responseDigest = sha256(raw);
+        const events = parseJsonStream(raw);
+        const audio = [];
+        let complete = false;
+        for (const event of events) {
+          if (String(event.code) === "0") {
+            if (event.data) audio.push(Buffer.from(event.data, "base64"));
+          } else if (String(event.code) === "20000000") complete = true;
+          else {
+            record.state = "failed";
+            record.diagnostic = `\u4F9B\u5E94\u5546\u62D2\u7EDD ${event.code}\uFF1A${event.message}`;
+            return;
+          }
+        }
+        if (!complete || !audio.length) throw new Error("\u4F9B\u5E94\u5546\u54CD\u5E94\u4E0D\u5B8C\u6574");
+        const bytes = Buffer.concat(audio);
+        record.providerComplete = true;
+        record.receivedAudioRef = `${record.audioRef}.tmp.mp3`;
+        record.receivedSha256 = sha256(bytes);
+        await import_node_fs9.promises.writeFile(record.receivedAudioRef, bytes);
+        record.state = "validating";
+        await writeJson(path, record);
       }
-      if (!complete || !audio.length) throw new Error("\u4F9B\u5E94\u5546\u54CD\u5E94\u4E0D\u5B8C\u6574");
-      const bytes = Buffer.concat(audio), tmp = `${record.audioRef}.tmp.mp3`;
-      await import_node_fs8.promises.writeFile(tmp, bytes);
-      const measured = await probe(tmp, true);
-      await import_node_fs8.promises.rename(tmp, record.audioRef);
-      Object.assign(record, { state: "succeeded", sha256: sha256(bytes), duration: measured.duration, sampleRate: measured.streams[0]?.sample_rate, bytes: bytes.length, durationSource: "measured", alignment: "segment_exact" });
+      await this.validateAudio(record);
     } catch (e) {
-      record.state = "unknown";
-      record.diagnostic = String(e).replaceAll(this.apiKey, "[\u5DF2\u9690\u85CF]");
+      record.state = record.providerComplete ? "validation_failed" : "unknown";
+      record.diagnostic = this.apiKey ? String(e).replaceAll(this.apiKey, "[\u5DF2\u9690\u85CF]") : String(e);
     } finally {
       await writeJson(path, record);
     }
@@ -1002,31 +1520,37 @@ function parseJsonStream(raw) {
 // apps/render-worker/src/template-renderer.ts
 var import_bundler = require("@remotion/bundler");
 var import_renderer = require("@remotion/renderer");
-var import_node_fs9 = require("node:fs");
-var import_node_path10 = require("node:path");
-var import_zod5 = require("zod");
-var renderToolSchema = import_zod5.z.object({ runId: import_zod5.z.string().uuid(), renderRequestId: import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/), timelineRef: import_zod5.z.string(), ranges: import_zod5.z.array(import_zod5.z.object({ id: import_zod5.z.string(), fromFrame: import_zod5.z.number().int().nonnegative(), toFrame: import_zod5.z.number().int().positive() }).strict()).min(1), checks: import_zod5.z.array(import_zod5.z.string()), previewOnly: import_zod5.z.boolean().default(false) }).strict();
+var import_node_fs10 = require("node:fs");
+var import_node_path11 = require("node:path");
+var import_zod6 = require("zod");
+var renderToolSchema = import_zod6.z.object({ runId: import_zod6.z.string().uuid(), renderRequestId: import_zod6.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/), timelineRef: import_zod6.z.string(), ranges: import_zod6.z.array(import_zod6.z.object({ id: import_zod6.z.string(), fromFrame: import_zod6.z.number().int().nonnegative(), toFrame: import_zod6.z.number().int().positive() }).strict()).min(1), checks: import_zod6.z.array(import_zod6.z.string()), previewOnly: import_zod6.z.boolean().default(false) }).strict();
+function checkCancelled(signal) {
+  if (signal?.aborted) throw new ProductionError("PROCESS_CANCELLED", "\u6E32\u67D3\u64CD\u4F5C\u5DF2\u53D6\u6D88");
+}
 async function renderTemplate(run, root, input, options) {
+  checkCancelled(options.signal);
   if (run.stage !== "render" || run.state !== "running") throw new ProductionError("RENDER_STAGE_FORBIDDEN", "\u4EC5\u8FD0\u884C\u4E2D\u7684 Render \u53EF\u6E32\u67D3", 409);
-  const workingProject = (0, import_node_path10.join)(root, "project");
-  const project = input.previewOnly ? workingProject : (0, import_node_path10.join)(root, "render-snapshots", input.renderRequestId, "project");
+  const workingProject = (0, import_node_path11.join)(root, "project");
+  const project = input.previewOnly ? workingProject : (0, import_node_path11.join)(root, "render-snapshots", input.renderRequestId, "project");
   if (!input.previewOnly) {
     await treeDigest(workingProject);
-    if (await import_node_fs9.promises.stat(project).catch(() => null)) throw new ProductionError("RENDER_SNAPSHOT_EXISTS", "\u6E32\u67D3\u5FEB\u7167\u5DF2\u5B58\u5728\uFF0C\u8BF7\u67E5\u8BE2\u539F\u4EFB\u52A1");
-    await import_node_fs9.promises.mkdir((0, import_node_path10.dirname)(project), { recursive: true });
-    await import_node_fs9.promises.cp(workingProject, project, { recursive: true, filter: (p) => !p.split(/[\\/]/).some((s) => ["node_modules", ".cache"].includes(s)) });
+    if (await import_node_fs10.promises.stat(project).catch(() => null)) throw new ProductionError("RENDER_SNAPSHOT_EXISTS", "\u6E32\u67D3\u5FEB\u7167\u5DF2\u5B58\u5728\uFF0C\u8BF7\u67E5\u8BE2\u539F\u4EFB\u52A1");
+    await import_node_fs10.promises.mkdir((0, import_node_path11.dirname)(project), { recursive: true });
+    await import_node_fs10.promises.cp(workingProject, project, { recursive: true, filter: (p) => !p.split(/[\\/]/).some((s) => ["node_modules", ".cache"].includes(s)) });
   }
-  const manifest = await validateTemplate(project), renderer = (0, import_node_path10.join)(project, "renderer");
+  const manifest = await validateTemplate(project), renderer = (0, import_node_path11.join)(project, "renderer");
   await regular(project, input.timelineRef);
   const entry = await regular(renderer, manifest.entry);
   const expected = run.request.dataList;
   if (!input.previewOnly && (input.ranges.length !== expected.length || input.ranges.some((r, i) => r.id !== expected[i].id))) throw new ProductionError("RANGES_INVALID", "\u5206\u955C\u8303\u56F4\u5FC5\u987B\u5BF9\u5E94\u5B8C\u6574\u786E\u8BA4\u5217\u8868");
-  const serveUrl = await (0, import_bundler.bundle)({ entryPoint: entry, publicDir: inside(renderer, manifest.publicAssetRoot), webpackOverride: (config) => ({ ...config, resolve: { ...config.resolve, modules: [(0, import_node_path10.join)(options.dependencyRoot, "node_modules"), "node_modules"] } }) });
+  const serveUrl = await (0, import_bundler.bundle)({ entryPoint: entry, publicDir: inside(renderer, manifest.publicAssetRoot), webpackOverride: (config) => ({ ...config, resolve: { ...config.resolve, modules: [(0, import_node_path11.join)(options.dependencyRoot, "node_modules"), "node_modules"] } }) });
+  checkCancelled(options.signal);
   const composition = await (0, import_renderer.selectComposition)({ serveUrl, id: manifest.wholeComposition, browserExecutable: options.browser });
+  checkCancelled(options.signal);
   if (composition.width !== manifest.width || composition.height !== manifest.height || composition.fps !== manifest.fps) throw new ProductionError("COMPOSITION_SPEC_MISMATCH", "Composition \u4E0E\u6E05\u5355\u89C4\u683C\u4E0D\u4E00\u81F4");
   for (const range of input.ranges) if (range.toFrame <= range.fromFrame || range.toFrame > composition.durationInFrames) throw new ProductionError("RANGE_INVALID", `\u5206\u955C ${range.id} \u5E27\u8303\u56F4\u8D8A\u754C`);
-  const output = (0, import_node_path10.join)(root, input.previewOnly ? "previews" : "output-staging", input.renderRequestId);
-  await import_node_fs9.promises.mkdir(output, { recursive: true });
+  const output = (0, import_node_path11.join)(root, input.previewOnly ? "previews" : "output-staging", input.renderRequestId);
+  await import_node_fs10.promises.mkdir(output, { recursive: true });
   const cancellation = (0, import_renderer.makeCancelSignal)(), abort = () => cancellation.cancel();
   options.signal?.addEventListener("abort", abort, { once: true });
   if (options.signal?.aborted) abort();
@@ -1034,38 +1558,54 @@ async function renderTemplate(run, root, input, options) {
     const ranges = input.previewOnly ? input.ranges : [{ id: "whole-video", fromFrame: 0, toFrame: composition.durationInFrames }, ...input.ranges];
     const files = [];
     for (const [i, r] of ranges.entries()) {
-      const path = (0, import_node_path10.join)(output, `${i}.mp4`);
+      checkCancelled(options.signal);
+      await options.onOutputStart?.(r.id);
+      const path = (0, import_node_path11.join)(output, `${i}.mp4`);
       await (0, import_renderer.renderMedia)({ serveUrl, composition, outputLocation: path, codec: "h264", audioCodec: "aac", frameRange: [r.fromFrame, r.toFrame - 1], browserExecutable: options.browser, concurrency: options.concurrency, cancelSignal: cancellation.cancelSignal, overwrite: true });
       const media = await probe(path, true, options.signal);
       if (!media.streams.some((s) => s.codec_type === "audio")) throw new ProductionError("AUDIO_MISSING", "\u6A21\u677F\u6210\u7247\u7F3A\u5C11\u97F3\u8F68");
       const content = r.id === "whole-video" ? expected.map((s) => s.content).join("") : expected.find((s) => s.id === r.id)?.content ?? "";
-      files.push({ ...r, file: path, content, sha256: sha256(await import_node_fs9.promises.readFile(path)), dur: media.duration, width: composition.width, height: composition.height, fps: composition.fps });
+      files.push({ ...r, file: path, content, sha256: sha256(await import_node_fs10.promises.readFile(path)), dur: media.duration, width: composition.width, height: composition.height, fps: composition.fps });
+      checkCancelled(options.signal);
+      await options.onFileReady?.(files[files.length - 1]);
     }
     const sourceDigest = await treeDigest(project), delivery = { taskId: run.taskId, runId: run.runId, inputDigest: run.inputDigest, templateDigest: run.checkpoint.template.digest, renderRequestId: input.renderRequestId, sourceDigest, timelineRef: input.timelineRef, checks: input.checks, files };
-    const deliveryPath = (0, import_node_path10.join)(output, "delivery.json");
+    const deliveryPath = (0, import_node_path11.join)(output, "delivery.json");
     await writeJson(deliveryPath, delivery);
     return { deliveryPath, delivery };
   } finally {
     options.signal?.removeEventListener("abort", abort);
   }
 }
-async function templateFrame(project, frame, output, dependencyRoot, browser) {
-  const manifest = await validateTemplate(project), renderer = (0, import_node_path10.join)(project, "renderer");
-  const serveUrl = await (0, import_bundler.bundle)({ entryPoint: inside(renderer, manifest.entry), publicDir: inside(renderer, manifest.publicAssetRoot), webpackOverride: (c) => ({ ...c, resolve: { ...c.resolve, modules: [(0, import_node_path10.join)(dependencyRoot, "node_modules"), "node_modules"] } }) });
+async function templateFrame(project, frame, output, dependencyRoot, browser, signal) {
+  checkCancelled(signal);
+  const manifest = await validateTemplate(project), renderer = (0, import_node_path11.join)(project, "renderer");
+  const serveUrl = await (0, import_bundler.bundle)({ entryPoint: inside(renderer, manifest.entry), publicDir: inside(renderer, manifest.publicAssetRoot), webpackOverride: (c) => ({ ...c, resolve: { ...c.resolve, modules: [(0, import_node_path11.join)(dependencyRoot, "node_modules"), "node_modules"] } }) });
+  checkCancelled(signal);
   const composition = await (0, import_renderer.selectComposition)({ serveUrl, id: manifest.wholeComposition, browserExecutable: browser });
-  await import_node_fs9.promises.mkdir((0, import_node_path10.dirname)(output), { recursive: true });
-  await (0, import_renderer.renderStill)({ serveUrl, composition, frame, output, browserExecutable: browser });
-  return output;
+  checkCancelled(signal);
+  await import_node_fs10.promises.mkdir((0, import_node_path11.dirname)(output), { recursive: true });
+  const cancellation = (0, import_renderer.makeCancelSignal)(), abort = () => cancellation.cancel();
+  signal?.addEventListener("abort", abort, { once: true });
+  if (signal?.aborted) abort();
+  try {
+    await (0, import_renderer.renderStill)({ serveUrl, composition, frame, output, browserExecutable: browser, cancelSignal: cancellation.cancelSignal });
+    checkCancelled(signal);
+    return output;
+  } finally {
+    signal?.removeEventListener("abort", abort);
+  }
 }
 
 // apps/server/src/production/routes.ts
-async function createProductionServer(config, executor) {
-  const repo = new ProductionRepository((0, import_node_path11.join)(config.dataRoot, "tasks.sqlite")), runner = new ProductionRunner(repo, config, executor), callbacks = new CallbackSender(repo, config.callbackBase, config.callbackSecret);
-  const speech = new DoubaoService(repo, config.dataRoot, config.voicesPath ?? "", process.env.DOUBAO_API_KEY ?? "");
+async function createProductionServer(config, executor, renderers = { renderTemplate, templateFrame }) {
+  const repo = new ProductionRepository((0, import_node_path12.join)(config.dataRoot, "tasks.sqlite")), runner = new ProductionRunner(repo, config, executor), callbacks = new CallbackSender(repo, config.callbackBase, config.callbackSecret);
+  const speech = new DoubaoService(repo, config.dataRoot, config.voicesPath ?? "", process.env.DOUBAO_API_KEY ?? "", void 0, { concurrency: config.speechConcurrency ?? 20, perRunConcurrency: config.speechPerRunConcurrency ?? 5, signalFor: (id) => runner.active.get(id)?.signal });
+  await speech.recover();
   const app = (0, import_fastify.default)({ bodyLimit: 2 * 1024 * 1024 });
   await app.register(import_cors.default, { origin: true, exposedHeaders: ["Content-Range", "Content-Length", "Accept-Ranges"] });
   app.setErrorHandler((error, request, reply) => {
-    reply.code(error instanceof import_zod6.z.ZodError ? 400 : error.statusCode ?? 500).send({ status: 1, msg: error.message, error: { code: error instanceof import_zod6.z.ZodError ? "INVALID_FIELDS" : error.code ?? "INTERNAL_ERROR", fields: error instanceof import_zod6.z.ZodError ? error.issues : void 0 } });
+    reply.code(error instanceof import_zod7.z.ZodError ? 400 : error.statusCode ?? 500).send({ status: 1, msg: error.message, error: { code: error instanceof import_zod7.z.ZodError ? "INVALID_FIELDS" : error.code ?? "INTERNAL_ERROR", fields: error instanceof import_zod7.z.ZodError ? error.issues : void 0 } });
   });
   app.addHook("preHandler", async (request, reply) => {
     if (request.method === "OPTIONS" || request.url === "/healthz" || request.url.startsWith("/media/")) return;
@@ -1079,7 +1619,7 @@ async function createProductionServer(config, executor) {
     const webSubmit = request.method === "POST" && ["/narrate/ai_video_director/getAiVideoEditingAnalysisData", "/narrate/ai_video_director/getAiVideoEditingData"].includes(request.url) && config.webSubmitAddresses?.includes(request.ip.replace(/^::ffff:/, ""));
     if (!webSubmit && request.headers.authorization !== `Bearer ${config.apiToken}`) throw new ProductionError("UNAUTHORIZED", "\u9700\u8981\u6709\u6548\u670D\u52A1\u8EAB\u4EFD", 401);
   });
-  app.get("/healthz", async () => ({ status: "ready", releaseId: config.release.releaseId, pluginVersion: config.release.pluginVersion, skillsDigest: config.release.skillsDigest, configurationReady: Object.values(config.ready).every(Boolean), productionReady: Object.values(config.ready).every(Boolean) ? null : false, readinessScope: "configuration_only", dependencies: config.ready, capabilities: { localModels: false, networkSearch: config.searchEnabled, lexicalMechanisms: true } }));
+  app.get("/healthz", async () => ({ status: "ready", releaseId: config.release.releaseId, pluginVersion: config.release.pluginVersion, skillsDigest: config.release.skillsDigest, configurationReady: Object.values(config.ready).every(Boolean), productionReady: Object.values(config.ready).every(Boolean) ? null : false, readinessScope: "configuration_only", dependencies: config.ready, capacity: { maxActiveRuns: config.maxActiveRuns ?? 4, renderConcurrency: config.renderConcurrency ?? 5, speechConcurrency: config.speechConcurrency ?? 20, speechPerRunConcurrency: config.speechPerRunConcurrency ?? 5, activeRuns: runner.active.size }, capabilities: { localModels: false, networkSearch: config.searchEnabled, lexicalMechanisms: true } }));
   const accept = (stage) => async (request, reply) => {
     if (runner.stopping) throw new ProductionError("STOPPING", "\u670D\u52A1\u6B63\u5728\u505C\u6B62\u53D7\u7406", 503);
     const input = stage === "analysis" ? normalizeWebAnalysis(request.body) : normalizeWebRender(request.body, repo.list(config.accountId, request.body?.taskId ?? ""));
@@ -1094,15 +1634,16 @@ async function createProductionServer(config, executor) {
   });
   app.post("/ai_video_director/runs/:runId/cancel", async (request) => {
     const run = repo.cancel(request.params.runId, config.accountId);
+    runner.stopRun(run.runId);
     return { status: 0, data: { runId: run.runId, state: run.state } };
   });
   app.post("/ai_video_director/callbacks/:eventId/retry", async (request) => ({ status: 0, data: callbacks.retry(request.params.eventId, config.accountId) }));
   app.route({ method: ["GET", "HEAD"], url: "/media/:task/:run/:file", handler: async (request, reply) => {
     const { task, run, file } = request.params;
-    if (!import_zod6.z.string().uuid().safeParse(task).success || !import_zod6.z.string().uuid().safeParse(run).success || !/^\d+\.mp4$/.test(file)) throw new ProductionError("MEDIA_NOT_FOUND", "\u5A92\u4F53\u4E0D\u5B58\u5728", 404);
+    if (!import_zod7.z.string().uuid().safeParse(task).success || !import_zod7.z.string().uuid().safeParse(run).success || !/^\d+\.mp4$/.test(file)) throw new ProductionError("MEDIA_NOT_FOUND", "\u5A92\u4F53\u4E0D\u5B58\u5728", 404);
     const record = repo.get(run);
     if (record.taskKey !== task || record.state !== "succeeded") throw new ProductionError("MEDIA_NOT_FOUND", "\u5A92\u4F53\u5C1A\u672A\u53D1\u5E03", 404);
-    const path = (0, import_node_path11.join)(config.dataRoot, "tasks", task, "results", run, file), stat = await import_node_fs10.promises.stat(path);
+    const path = (0, import_node_path12.join)(config.dataRoot, "tasks", task, "results", run, file), stat = await import_node_fs11.promises.stat(path);
     let start = 0, end = stat.size - 1;
     reply.header("Content-Type", "video/mp4").header("Accept-Ranges", "bytes");
     if (request.headers.range) {
@@ -1117,69 +1658,131 @@ async function createProductionServer(config, executor) {
       reply.code(206).header("Content-Range", `bytes ${start}-${end}/${stat.size}`);
     }
     reply.header("Content-Length", end - start + 1);
-    return request.method === "HEAD" ? reply.send() : reply.send((0, import_node_fs10.createReadStream)(path, { start, end }));
+    return request.method === "HEAD" ? reply.send() : reply.send((0, import_node_fs11.createReadStream)(path, { start, end }));
   } });
-  const renderJobs = /* @__PURE__ */ new Map();
+  const rendering = new RunWork();
   let toolQueue = Promise.resolve();
-  runner.settleTools = async () => {
-    await speech.drain();
-    await Promise.allSettled(renderJobs.values());
+  const serial = (work) => {
+    const next = toolQueue.then(work);
+    toolQueue = next.catch(() => {
+    });
+    return next;
+  };
+  runner.onRunStopping = (id) => speech.cancelQueued(id);
+  runner.settleTools = async (runId) => {
+    await toolQueue;
+    await speech.drain(runId);
+    await rendering.drain(runId);
+  };
+  const runnable = (id) => {
+    const run = repo.get(id);
+    if (!runner.canStartWork(id) || run.state !== "running") throw new ProductionError("RUN_STOPPING", "\u4EFB\u52A1\u5DF2\u505C\u6B62\u63A5\u53D7\u65B0\u751F\u6210", 409);
+    return run;
   };
   app.post("/internal/tools/:name", async (request) => {
     const name = request.params.name, run = repo.get(request.headers["x-run-id"]), body = request.body ?? {};
     if (body.runId && body.runId !== run.runId) throw new ProductionError("RUN_SCOPE_INVALID", "\u5DE5\u5177\u4E0D\u80FD\u8BBF\u95EE\u5176\u4ED6\u6267\u884C", 403);
     if (name === "synthesize_speech") {
-      const next = toolQueue.then(() => speech.submit({ ...body, runId: run.runId }, run.accountId));
-      toolQueue = next.catch(() => {
-      });
-      return next;
+      runnable(run.runId);
+      return speech.submit({ ...body, runId: run.runId }, run.accountId);
+    }
+    if (name === "synthesize_speech_batch") {
+      runnable(run.runId);
+      return speech.submitBatch({ ...body, runId: run.runId }, run.accountId);
     }
     if (name === "read_speech_job") return speech.read(body.speechJobId, run.runId, run.accountId);
-    if (name === "read_production_task") return { ...run, token: void 0 };
+    if (name === "read_speech_batch") return speech.readBatch(body.speechBatchRequestId, run.runId, run.accountId);
+    if (name === "retry_speech_validation") {
+      runnable(run.runId);
+      return speech.retryValidation(body.speechJobId, run.runId, run.accountId);
+    }
+    if (name === "read_production_task") return { ...run, token: void 0, activeRender: rendering.current(run.runId) };
+    if (name === "verify_sentence_audio") {
+      const current = runnable(run.runId);
+      return rendering.start(run.runId, "sentence-audio-check", () => verifySentenceAudio(current, runner.runRoot(current), body, speech, runner.active.get(run.runId)?.signal));
+    }
     if (name === "preview_template_frame") {
-      const parsed = import_zod6.z.object({ frame: import_zod6.z.number().int().nonnegative() }).strict().parse(body);
+      const parsed = import_zod7.z.object({ frame: import_zod7.z.number().int().nonnegative() }).strict().parse(body), current = runnable(run.runId);
+      if (current.stage !== "render") throw new ProductionError("RENDER_STAGE_FORBIDDEN", "Analysis \u4E0D\u5141\u8BB8\u6E32\u67D3");
+      const entry = await serial(async () => {
+        runnable(run.runId);
+        const path = (0, import_node_path12.join)(runner.runRoot(current), "previews", `frame-${parsed.frame}.png`);
+        const work = rendering.start(run.runId, `frame-${parsed.frame}`, async () => {
+          await renderers.templateFrame((0, import_node_path12.join)(runner.runRoot(current), "project"), parsed.frame, path, config.dependencyRoot, config.browser, runner.active.get(run.runId)?.signal);
+          return { path };
+        });
+        return { work };
+      });
+      return entry.work;
+    }
+    if (name === "render_template") return serial(async () => {
+      const input = renderToolSchema.parse({ ...body, runId: run.runId });
       if (run.stage !== "render") throw new ProductionError("RENDER_STAGE_FORBIDDEN", "Analysis \u4E0D\u5141\u8BB8\u6E32\u67D3");
-      const path = (0, import_node_path11.join)(runner.runRoot(run), "previews", `frame-${parsed.frame}.png`);
-      await templateFrame((0, import_node_path11.join)(runner.runRoot(run), "project"), parsed.frame, path, config.dependencyRoot, config.browser);
-      return { path };
-    }
-    if (name === "render_template") {
-      const next = toolQueue.then(async () => {
-        const input = renderToolSchema.parse({ ...body, runId: run.runId });
-        if (run.stage !== "render") throw new ProductionError("RENDER_STAGE_FORBIDDEN", "Analysis \u4E0D\u5141\u8BB8\u6E32\u67D3");
-        const root = runner.runRoot(run), path = (0, import_node_path11.join)(root, "render-jobs", `${input.renderRequestId}.json`), digest = sha256(canonical(input));
-        const old = await json(path).catch(() => null);
-        if (old) {
-          if (old.inputDigest !== digest) throw new ProductionError("RENDER_KEY_CONFLICT", "\u540C\u4E00\u6E32\u67D3\u952E\u8F93\u5165\u4E0D\u540C", 409);
-          return old;
+      const root = runner.runRoot(run), path = (0, import_node_path12.join)(root, "render-jobs", `${input.renderRequestId}.json`), digest = sha256(canonical(input));
+      const old = await json(path).catch((e) => {
+        if (e.code === "ENOENT") return null;
+        throw e;
+      });
+      if (old) {
+        if (old.inputDigest !== digest) throw new ProductionError("RENDER_KEY_CONFLICT", "\u540C\u4E00\u6E32\u67D3\u952E\u8F93\u5165\u4E0D\u540C", 409);
+        return old.state === "running" && rendering.current(run.runId) !== old.id ? { ...old, state: "unknown", error: "\u539F\u6E32\u67D3\u72B6\u6001\u9700\u8981\u6838\u67E5" } : old;
+      }
+      const current = runnable(run.runId);
+      if (rendering.current(run.runId)) throw new ProductionError("RENDER_BUSY", `\u672C\u89C6\u9891\u6B63\u5728\u5904\u7406 ${rendering.current(run.runId)}\uFF0C\u8BF7\u5148\u67E5\u8BE2\u539F\u4EFB\u52A1`, 409);
+      const job = { id: input.renderRequestId, runId: run.runId, state: "running", inputDigest: digest, readyFiles: [] };
+      let persisted, registrationFailed;
+      const registered = new Promise((resolve4, reject) => {
+        persisted = resolve4;
+        registrationFailed = reject;
+      });
+      const work = rendering.start(run.runId, input.renderRequestId, async () => {
+        try {
+          await writeJson(path, job);
+          persisted();
+        } catch (error) {
+          registrationFailed(error);
+          throw error;
         }
-        const job = { id: input.renderRequestId, state: "running", inputDigest: digest };
-        await writeJson(path, job);
-        const work = renderTemplate(run, root, input, { dependencyRoot: config.dependencyRoot, browser: config.browser, concurrency: config.renderConcurrency, signal: runner.active.get(run.runId)?.signal }).then(async (result) => {
+        try {
+          const result = await renderers.renderTemplate(current, root, input, {
+            dependencyRoot: config.dependencyRoot,
+            browser: config.browser,
+            concurrency: config.renderConcurrency ?? 5,
+            signal: runner.active.get(run.runId)?.signal,
+            onOutputStart: async (id) => {
+              job.currentOutput = id;
+              await writeJson(path, job);
+            },
+            onFileReady: async (file) => {
+              job.readyFiles.push(file);
+              await writeJson(path, job);
+            }
+          });
           Object.assign(job, { state: "succeeded", ...result });
-          await writeJson(path, job);
-        }).catch(async (e) => {
-          Object.assign(job, { state: "failed", error: String(e) });
-          await writeJson(path, job);
-        }).finally(() => renderJobs.delete(path));
-        renderJobs.set(path, work);
-        return job;
+        } catch (e) {
+          Object.assign(job, { state: runner.active.get(run.runId)?.signal.aborted ? "cancelled" : "failed", error: String(e) });
+        }
+        await writeJson(path, job);
       });
-      toolQueue = next.catch(() => {
+      void work.catch(() => {
       });
-      return next;
-    }
+      await registered;
+      return job;
+    });
     if (name === "read_render_job") {
-      const id = import_zod6.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).parse(body.renderRequestId), path = (0, import_node_path11.join)(runner.runRoot(run), "render-jobs", `${id}.json`), job = await json(path);
-      if (job.state === "running" && !renderJobs.has(path)) return { ...job, state: "unknown", error: "\u539F\u6E32\u67D3\u8FDB\u7A0B\u72B6\u6001\u9700\u8981\u6838\u67E5" };
+      const id = import_zod7.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).parse(body.renderRequestId), path = (0, import_node_path12.join)(runner.runRoot(run), "render-jobs", `${id}.json`);
+      await toolQueue;
+      const job = await json(path);
+      if (job.state === "running" && rendering.current(run.runId) !== id) return { ...job, state: "unknown", error: "\u539F\u6E32\u67D3\u8FDB\u7A0B\u72B6\u6001\u9700\u8981\u6838\u67E5" };
       return job;
     }
     throw new ProductionError("TOOL_NOT_FOUND", "\u5236\u4F5C\u5DE5\u5177\u4E0D\u5B58\u5728", 404);
   });
   return { app, repo, runner, callbacks, speech, async close() {
     runner.stop();
-    await speech.drain();
-    await Promise.allSettled(renderJobs.values());
+    speech.stop();
+    await runner.drain();
+    await runner.settleTools();
     await app.close();
     repo.close();
   } };
@@ -1188,9 +1791,9 @@ async function createProductionServer(config, executor) {
 // apps/runtime/src/index.ts
 async function main() {
   const config = readProductionConfig();
-  await import_node_fs11.promises.mkdir(config.dataRoot, { recursive: true });
-  const lock = (0, import_node_path12.join)(config.dataRoot, "runtime.lock");
-  const handle = await import_node_fs11.promises.open(lock, "wx");
+  await import_node_fs12.promises.mkdir(config.dataRoot, { recursive: true });
+  const lock = (0, import_node_path13.join)(config.dataRoot, "runtime.lock");
+  const handle = await import_node_fs12.promises.open(lock, "wx");
   await handle.writeFile(JSON.stringify({ pid: process.pid, startedAt: Date.now(), releaseId: config.release.releaseId }));
   let service, stop = false;
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -1222,7 +1825,7 @@ async function main() {
   } finally {
     if (service) await service.close();
     await handle.close();
-    await import_node_fs11.promises.unlink(lock).catch(() => {
+    await import_node_fs12.promises.unlink(lock).catch(() => {
     });
   }
 }

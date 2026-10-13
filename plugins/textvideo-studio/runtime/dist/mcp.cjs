@@ -558,7 +558,7 @@ function registerMotionLibraryTools(server, root = (0, import_node_path3.resolve
 }
 
 // apps/server/src/production/speech-tools.ts
-var import_zod6 = require("zod");
+var import_zod7 = require("zod");
 
 // packages/speech-services/src/doubao.ts
 var import_zod3 = require("zod");
@@ -609,11 +609,11 @@ var deliverySchema = import_zod2.z.object({
 }).strict();
 
 // packages/speech-services/src/doubao.ts
-var speechSchema = import_zod3.z.object({ runId: import_zod3.z.string().uuid(), speechRequestId: import_zod3.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/), segmentId: import_zod3.z.string().min(1), text: import_zod3.z.string().min(1).max(2e3), voiceRef: import_zod3.z.string().min(1), speed: import_zod3.z.number().int().min(-50).max(100).default(0), reuseJobId: import_zod3.z.string().uuid().optional(), reuseRunId: import_zod3.z.string().uuid().optional() }).strict();
+var requestKey = import_zod3.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
+var speechSchema = import_zod3.z.object({ runId: import_zod3.z.string().uuid(), speechRequestId: requestKey, segmentId: import_zod3.z.string().min(1), sceneId: import_zod3.z.string().min(1).optional(), text: import_zod3.z.string().min(1).max(2e3), voiceRef: import_zod3.z.string().min(1), speed: import_zod3.z.number().int().min(-50).max(100).default(0), reuseJobId: import_zod3.z.string().uuid().optional(), reuseRunId: import_zod3.z.string().uuid().optional() }).strict();
+var speechBatchSchema = import_zod3.z.object({ runId: import_zod3.z.string().uuid(), speechBatchRequestId: requestKey, segments: import_zod3.z.array(speechSchema.omit({ runId: true }).extend({ sceneId: import_zod3.z.string().min(1) })).min(1).max(1e3) }).strict();
 
-// apps/render-worker/src/template-renderer.ts
-var import_bundler = require("@remotion/bundler");
-var import_renderer = require("@remotion/renderer");
+// packages/production-service/src/sentence-audio.ts
 var import_zod5 = require("zod");
 
 // packages/production-service/src/template-package.ts
@@ -621,8 +621,14 @@ var yauzl = __toESM(require("yauzl"), 1);
 var import_zod4 = require("zod");
 var manifestSchema = import_zod4.z.object({ schemaVersion: import_zod4.z.literal(1), templateVersion: import_zod4.z.string().min(1), instructions: import_zod4.z.array(import_zod4.z.string()).min(1), entry: import_zod4.z.string().min(1), wholeComposition: import_zod4.z.string().min(1), timelineModule: import_zod4.z.string().min(1), publicAssetRoot: import_zod4.z.string().min(1), width: import_zod4.z.number().int().positive(), height: import_zod4.z.number().int().positive(), fps: import_zod4.z.number().positive(), voiceRefs: import_zod4.z.array(import_zod4.z.string()).default([]) }).passthrough();
 
+// packages/production-service/src/sentence-audio.ts
+var sentenceAuditSchema = import_zod5.z.object({ timelineRef: import_zod5.z.string().min(1), speechBatchRequestIds: import_zod5.z.array(import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/)).min(1), renderRequestId: import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).optional() }).strict();
+
 // apps/render-worker/src/template-renderer.ts
-var renderToolSchema = import_zod5.z.object({ runId: import_zod5.z.string().uuid(), renderRequestId: import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/), timelineRef: import_zod5.z.string(), ranges: import_zod5.z.array(import_zod5.z.object({ id: import_zod5.z.string(), fromFrame: import_zod5.z.number().int().nonnegative(), toFrame: import_zod5.z.number().int().positive() }).strict()).min(1), checks: import_zod5.z.array(import_zod5.z.string()), previewOnly: import_zod5.z.boolean().default(false) }).strict();
+var import_bundler = require("@remotion/bundler");
+var import_renderer = require("@remotion/renderer");
+var import_zod6 = require("zod");
+var renderToolSchema = import_zod6.z.object({ runId: import_zod6.z.string().uuid(), renderRequestId: import_zod6.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/), timelineRef: import_zod6.z.string(), ranges: import_zod6.z.array(import_zod6.z.object({ id: import_zod6.z.string(), fromFrame: import_zod6.z.number().int().nonnegative(), toFrame: import_zod6.z.number().int().positive() }).strict()).min(1), checks: import_zod6.z.array(import_zod6.z.string()), previewOnly: import_zod6.z.boolean().default(false) }).strict();
 
 // apps/server/src/production/speech-tools.ts
 function registerProductionTools(server, call) {
@@ -634,10 +640,14 @@ function registerProductionTools(server, call) {
     }
   });
   register("synthesize_speech", "\u5F53\u524D Render \u7684\u8C46\u5305\u4E91\u7AEF\u914D\u97F3\uFF1B\u5148\u6301\u4E45\u5316\u540E\u5F02\u6B65\u6267\u884C\u3002\u540C\u952E\u540C\u8F93\u5165\u8BFB\u539F\u4EFB\u52A1\uFF0Cunknown \u4E0D\u5F97\u91CD\u65B0\u6536\u8D39\u8BF7\u6C42\u3002", speechSchema.omit({ runId: true }).shape);
-  register("read_speech_job", "\u8BFB\u53D6\u672C run \u539F\u914D\u97F3\u4EFB\u52A1\u3001\u5B9E\u6D4B\u53E5\u6BB5\u65F6\u957F\u548C\u53D7\u7BA1\u97F3\u9891\u3002", { speechJobId: import_zod6.z.string().uuid() });
+  register("synthesize_speech_batch", "\u4E00\u6B21\u767B\u8BB0\u672C run \u7684\u6574\u6279\u53E5\u6BB5\uFF0C\u670D\u52A1\u6309\u89C6\u9891\u8F6E\u6D41\u6D3E\u53D1\uFF1B\u540C\u6279\u6B21\u540C\u8F93\u5165\u8FD4\u56DE\u539F\u4EFB\u52A1\uFF0C\u4E0D\u91CD\u590D\u6536\u8D39\u3002", speechBatchSchema.omit({ runId: true }).shape);
+  register("read_speech_batch", "\u8BFB\u53D6\u672C run \u914D\u97F3\u6279\u6B21\u53CA\u6309\u539F\u53E5\u6BB5\u7F16\u53F7\u6392\u5217\u7684\u7ED3\u679C\uFF1B\u672A\u77E5\u7ED3\u679C\u4E0D\u5F97\u91CD\u53D1\u3002", { speechBatchRequestId: import_zod7.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/) });
+  register("retry_speech_validation", "\u4EC5\u6062\u590D\u5DF2\u7ECF\u53D6\u5F97\u97F3\u9891\u7684\u672C\u5730\u68C0\u67E5\uFF0C\u4E0D\u8BF7\u6C42\u4F9B\u5E94\u5546\u91CD\u65B0\u751F\u6210\u3002", { speechJobId: import_zod7.z.string().uuid() });
+  register("verify_sentence_audio", "\u56FA\u5B9A\u6838\u5BF9\u5F53\u524D\u786E\u8BA4\u6B63\u6587\u3001\u6279\u6B21\u97F3\u9891\u3001\u5B57\u5E55\u548C PCM \u5B9E\u6D4B\u65F6\u957F\uFF1B\u4E0D\u6267\u884C\u6A21\u677F\u4EFB\u610F\u811A\u672C\uFF0C\u4E0D\u4EE3\u66FF\u542C\u5BA1\u3002", sentenceAuditSchema.shape);
+  register("read_speech_job", "\u8BFB\u53D6\u672C run \u539F\u914D\u97F3\u4EFB\u52A1\u3001\u5B9E\u6D4B\u53E5\u6BB5\u65F6\u957F\u548C\u53D7\u7BA1\u97F3\u9891\u3002", { speechJobId: import_zod7.z.string().uuid() });
   register("render_template", "\u6309\u6A21\u677F\u6574\u7247 Composition \u7684\u5168\u5C40\u5E27\u8303\u56F4\u6E32\u67D3\uFF1B\u8FD4\u56DE\u4EFB\u52A1 ID\uFF0C\u4F7F\u7528 read_render_job \u67E5\u8BE2\uFF0C\u4E0D\u91CD\u590D\u63D0\u4EA4\u3002", renderToolSchema.omit({ runId: true }).shape);
-  register("read_render_job", "\u67E5\u8BE2\u539F\u6A21\u677F\u6E32\u67D3\u4EFB\u52A1\u548C\u4EA4\u4ED8\u6587\u4EF6\u3002", { renderRequestId: import_zod6.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/) });
-  register("preview_template_frame", "\u6E32\u67D3\u672C run \u6A21\u677F\u5B9E\u9645\u5E27\uFF0C\u8FD4\u56DE\u56FE\u7247\u6587\u4EF6\uFF1B\u4E4B\u540E\u7528\u56FE\u50CF\u67E5\u770B\u5DE5\u5177\u89C2\u5BDF\u3002", { frame: import_zod6.z.number().int().nonnegative() });
+  register("read_render_job", "\u67E5\u8BE2\u539F\u6A21\u677F\u6E32\u67D3\u4EFB\u52A1\u3001\u5F53\u524D\u8F93\u51FA\u53CA readyFiles\u3002\u4EC5 readyFiles \u5185\u6587\u4EF6\u53EF\u63D0\u524D\u5BA1\u67E5\uFF0C\u6574\u5957\u6210\u529F\u540E\u624D\u53EF\u4EA4\u4ED8\u3002", { renderRequestId: import_zod7.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/) });
+  register("preview_template_frame", "\u6E32\u67D3\u672C run \u6A21\u677F\u5B9E\u9645\u5E27\uFF0C\u8FD4\u56DE\u56FE\u7247\u6587\u4EF6\uFF1B\u4E4B\u540E\u7528\u56FE\u50CF\u67E5\u770B\u5DE5\u5177\u89C2\u5BDF\u3002", { frame: import_zod7.z.number().int().nonnegative() });
   register("read_production_task", "\u8BFB\u53D6\u7ED1\u5B9A\u7684\u771F\u5B9E\u4EFB\u52A1\u3001\u8F93\u5165\u3001\u9636\u6BB5\u548C\u68C0\u67E5\u70B9\u3002", {});
 }
 

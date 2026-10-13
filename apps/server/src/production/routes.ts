@@ -8,13 +8,16 @@ import { ProductionRepository } from '../../../../packages/production-service/sr
 import { ProductionRunner, type Executor } from '../../../../packages/production-service/src/runner.js';
 import { CallbackSender } from '../../../../packages/production-service/src/callbacks.js';
 import type { ProductionConfig } from '../../../../packages/production-service/src/config.js';
+import { RunWork } from '../../../../packages/production-service/src/run-work.js';
+import { verifySentenceAudio } from '../../../../packages/production-service/src/sentence-audio.js';
 import { DoubaoService } from '../../../../packages/speech-services/src/doubao.js';
 import { renderTemplate, renderToolSchema, templateFrame } from '../../../render-worker/src/template-renderer.js';
 import { json, writeJson } from '../../../../packages/production-service/src/files.js';
 import { normalizeWebAnalysis, normalizeWebRender } from '../../../../packages/production-service/src/web-contract.js';
-export async function createProductionServer(config:ProductionConfig,executor?:Executor){
+export async function createProductionServer(config:ProductionConfig,executor?:Executor,renderers={renderTemplate,templateFrame}){
   const repo=new ProductionRepository(join(config.dataRoot,'tasks.sqlite')),runner=new ProductionRunner(repo,config,executor),callbacks=new CallbackSender(repo,config.callbackBase,config.callbackSecret);
-  const speech=new DoubaoService(repo,config.dataRoot,config.voicesPath??'',process.env.DOUBAO_API_KEY??'');
+  const speech=new DoubaoService(repo,config.dataRoot,config.voicesPath??'',process.env.DOUBAO_API_KEY??'',undefined,{concurrency:config.speechConcurrency??20,perRunConcurrency:config.speechPerRunConcurrency??5,signalFor:id=>runner.active.get(id)?.signal});
+  await speech.recover();
   const app=Fastify({bodyLimit:2*1024*1024});await app.register(cors,{origin:true,exposedHeaders:['Content-Range','Content-Length','Accept-Ranges']});
   app.setErrorHandler((error:any,request,reply)=>{reply.code(error instanceof z.ZodError?400:error.statusCode??500).send({status:1,msg:error.message,error:{code:error instanceof z.ZodError?'INVALID_FIELDS':error.code??'INTERNAL_ERROR',fields:error instanceof z.ZodError?error.issues:undefined}});});
   app.addHook('preHandler',async(request,reply)=>{
@@ -27,11 +30,11 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
     const webSubmit=request.method==='POST'&&['/narrate/ai_video_director/getAiVideoEditingAnalysisData','/narrate/ai_video_director/getAiVideoEditingData'].includes(request.url)&&config.webSubmitAddresses?.includes(request.ip.replace(/^::ffff:/,''));
     if(!webSubmit&&request.headers.authorization!==`Bearer ${config.apiToken}`)throw new ProductionError('UNAUTHORIZED','需要有效服务身份',401);
   });
-  app.get('/healthz',async()=>({status:'ready',releaseId:config.release.releaseId,pluginVersion:config.release.pluginVersion,skillsDigest:config.release.skillsDigest,configurationReady:Object.values(config.ready).every(Boolean),productionReady:Object.values(config.ready).every(Boolean)?null:false,readinessScope:'configuration_only',dependencies:config.ready,capabilities:{localModels:false,networkSearch:config.searchEnabled,lexicalMechanisms:true}}));
+  app.get('/healthz',async()=>({status:'ready',releaseId:config.release.releaseId,pluginVersion:config.release.pluginVersion,skillsDigest:config.release.skillsDigest,configurationReady:Object.values(config.ready).every(Boolean),productionReady:Object.values(config.ready).every(Boolean)?null:false,readinessScope:'configuration_only',dependencies:config.ready,capacity:{maxActiveRuns:config.maxActiveRuns??4,renderConcurrency:config.renderConcurrency??5,speechConcurrency:config.speechConcurrency??20,speechPerRunConcurrency:config.speechPerRunConcurrency??5,activeRuns:runner.active.size},capabilities:{localModels:false,networkSearch:config.searchEnabled,lexicalMechanisms:true}}));
   const accept=(stage:'analysis'|'render')=>async(request:any,reply:any)=>{if(runner.stopping)throw new ProductionError('STOPPING','服务正在停止受理',503);const input=stage==='analysis'?normalizeWebAnalysis(request.body):normalizeWebRender(request.body,repo.list(config.accountId,request.body?.taskId??''));const run=repo.accept(config.accountId,stage,input);return reply.code(202).send({status:0,msg:'已持久化受理',data:{taskId:run.taskId,requestId:run.requestId,runId:run.runId,stage,state:run.state,planVersion:run.planVersion}});};
   app.post('/narrate/ai_video_director/getAiVideoEditingAnalysisData',accept('analysis'));app.post('/narrate/ai_video_director/getAiVideoEditingData',accept('render'));
   app.get('/ai_video_director/tasks/:taskId',async(request:any)=>{const runs=repo.list(config.accountId,request.params.taskId);return {status:0,data:{latestSubmitted:runs.at(-1)?.runId,current:runs.find(r=>['running','unknown','recovering','cancelling'].includes(r.state))?.runId,latestSuccess:[...runs].reverse().find(r=>r.stage==='render'&&r.state==='succeeded')?.runId,runs:runs.map(r=>({...r,token:undefined,checkpoint:undefined,callback:repo.db.prepare('SELECT id,state,attempts,diagnostic FROM callback_outbox WHERE run_id=?').get(r.runId)}))}};});
-  app.post('/ai_video_director/runs/:runId/cancel',async(request:any)=>{const run=repo.cancel(request.params.runId,config.accountId);return {status:0,data:{runId:run.runId,state:run.state}};});
+  app.post('/ai_video_director/runs/:runId/cancel',async(request:any)=>{const run=repo.cancel(request.params.runId,config.accountId);runner.stopRun(run.runId);return {status:0,data:{runId:run.runId,state:run.state}};});
   app.post('/ai_video_director/callbacks/:eventId/retry',async(request:any)=>({status:0,data:callbacks.retry(request.params.eventId,config.accountId)}));
   app.route({method:['GET','HEAD'],url:'/media/:task/:run/:file',handler:async(request:any,reply)=>{
     const {task,run,file}=request.params;if(!z.string().uuid().safeParse(task).success||!z.string().uuid().safeParse(run).success||!/^\d+\.mp4$/.test(file))throw new ProductionError('MEDIA_NOT_FOUND','媒体不存在',404);
@@ -41,28 +44,62 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
       if(!m[1])start=Math.max(0,stat.size-Number(m[2]));else{start=Number(m[1]);if(m[2])end=Math.min(end,Number(m[2]));}if(start>end||start>=stat.size)return reply.code(416).header('Content-Range',`bytes */${stat.size}`).send();reply.code(206).header('Content-Range',`bytes ${start}-${end}/${stat.size}`);}
     reply.header('Content-Length',end-start+1);return request.method==='HEAD'?reply.send():reply.send(createReadStream(path,{start,end}));
   }});
-  const renderJobs=new Map<string,Promise<void>>();let toolQueue:Promise<any>=Promise.resolve();
-  runner.settleTools=async()=>{await speech.drain();await Promise.allSettled(renderJobs.values());};
+  const rendering=new RunWork();let toolQueue:Promise<any>=Promise.resolve();
+  const serial=<T>(work:()=>Promise<T>)=>{const next=toolQueue.then(work);toolQueue=next.catch(()=>{});return next;};
+  runner.onRunStopping=id=>speech.cancelQueued(id);
+  runner.settleTools=async(runId)=>{await toolQueue;await speech.drain(runId);await rendering.drain(runId);};
+  const runnable=(id:string)=>{const run=repo.get(id);if(!runner.canStartWork(id)||run.state!=='running')throw new ProductionError('RUN_STOPPING','任务已停止接受新生成',409);return run;};
   app.post('/internal/tools/:name',async(request:any)=>{
     const name=request.params.name,run=repo.get(request.headers['x-run-id']),body=request.body??{};if(body.runId&&body.runId!==run.runId)throw new ProductionError('RUN_SCOPE_INVALID','工具不能访问其他执行',403);
-    if(name==='synthesize_speech'){
-      // 请求登记串行，防止相同键在网络等待期间被重复提交。
-      const next=toolQueue.then(()=>speech.submit({...body,runId:run.runId},run.accountId));toolQueue=next.catch(()=>{});return next;
-    }
+    if(name==='synthesize_speech'){runnable(run.runId);return speech.submit({...body,runId:run.runId},run.accountId);}
+    if(name==='synthesize_speech_batch'){runnable(run.runId);return speech.submitBatch({...body,runId:run.runId},run.accountId);}
     if(name==='read_speech_job')return speech.read(body.speechJobId,run.runId,run.accountId);
-    if(name==='read_production_task')return {...run,token:undefined};
-    if(name==='preview_template_frame'){const parsed=z.object({frame:z.number().int().nonnegative()}).strict().parse(body);if(run.stage!=='render')throw new ProductionError('RENDER_STAGE_FORBIDDEN','Analysis 不允许渲染');const path=join(runner.runRoot(run),'previews',`frame-${parsed.frame}.png`);await templateFrame(join(runner.runRoot(run),'project'),parsed.frame,path,config.dependencyRoot,config.browser);return {path};}
-    if(name==='render_template'){
-      // 只串行登记，不等待渲染结束；同键并发请求只能创建一个任务。
-      const next=toolQueue.then(async()=>{
-      const input=renderToolSchema.parse({...body,runId:run.runId});if(run.stage!=='render')throw new ProductionError('RENDER_STAGE_FORBIDDEN','Analysis 不允许渲染');const root=runner.runRoot(run),path=join(root,'render-jobs',`${input.renderRequestId}.json`),digest=sha256(canonical(input));
-      const old=await json(path).catch(()=>null);if(old){if(old.inputDigest!==digest)throw new ProductionError('RENDER_KEY_CONFLICT','同一渲染键输入不同',409);return old;}
-      const job:any={id:input.renderRequestId,state:'running',inputDigest:digest};await writeJson(path,job);
-      const work=renderTemplate(run,root,input,{dependencyRoot:config.dependencyRoot,browser:config.browser,concurrency:config.renderConcurrency,signal:runner.active.get(run.runId)?.signal}).then(async result=>{Object.assign(job,{state:'succeeded',...result});await writeJson(path,job);}).catch(async e=>{Object.assign(job,{state:'failed',error:String(e)});await writeJson(path,job);}).finally(()=>renderJobs.delete(path));renderJobs.set(path,work);return job;
-      });toolQueue=next.catch(()=>{});return next;
+    if(name==='read_speech_batch')return speech.readBatch(body.speechBatchRequestId,run.runId,run.accountId);
+    if(name==='retry_speech_validation'){runnable(run.runId);return speech.retryValidation(body.speechJobId,run.runId,run.accountId);}
+    if(name==='read_production_task')return {...run,token:undefined,activeRender:rendering.current(run.runId)};
+    if(name==='verify_sentence_audio'){
+      const current=runnable(run.runId);
+      return rendering.start(run.runId,'sentence-audio-check',()=>verifySentenceAudio(current,runner.runRoot(current),body,speech,runner.active.get(run.runId)?.signal));
     }
-    if(name==='read_render_job'){const id=z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).parse(body.renderRequestId),path=join(runner.runRoot(run),'render-jobs',`${id}.json`),job=await json(path);if(job.state==='running'&&!renderJobs.has(path))return {...job,state:'unknown',error:'原渲染进程状态需要核查'};return job;}
+    if(name==='preview_template_frame'){
+      const parsed=z.object({frame:z.number().int().nonnegative()}).strict().parse(body),current=runnable(run.runId);
+      if(current.stage!=='render')throw new ProductionError('RENDER_STAGE_FORBIDDEN','Analysis 不允许渲染');
+      // 短登记锁只保护入口，不把静帧实际执行放进全局等待链。
+      const entry=await serial(async()=>{
+        runnable(run.runId);const path=join(runner.runRoot(current),'previews',`frame-${parsed.frame}.png`);
+        const work=rendering.start(run.runId,`frame-${parsed.frame}`,async()=>{await renderers.templateFrame(join(runner.runRoot(current),'project'),parsed.frame,path,config.dependencyRoot,config.browser,runner.active.get(run.runId)?.signal);return {path};});
+        return {work};
+      });return entry.work;
+    }
+    if(name==='render_template')return serial(async()=>{
+      const input=renderToolSchema.parse({...body,runId:run.runId});if(run.stage!=='render')throw new ProductionError('RENDER_STAGE_FORBIDDEN','Analysis 不允许渲染');
+      const root=runner.runRoot(run),path=join(root,'render-jobs',`${input.renderRequestId}.json`),digest=sha256(canonical(input));
+      const old=await json(path).catch((e:any)=>{if(e.code==='ENOENT')return null;throw e;});
+      if(old){if(old.inputDigest!==digest)throw new ProductionError('RENDER_KEY_CONFLICT','同一渲染键输入不同',409);return old.state==='running'&&rendering.current(run.runId)!==old.id?{...old,state:'unknown',error:'原渲染状态需要核查'}:old;}
+      const current=runnable(run.runId);
+      if(rendering.current(run.runId))throw new ProductionError('RENDER_BUSY',`本视频正在处理 ${rendering.current(run.runId)}，请先查询原任务`,409);
+      const job:any={id:input.renderRequestId,runId:run.runId,state:'running',inputDigest:digest,readyFiles:[]};
+      // 入口立即占位，登记和实际渲染都属于本 Run；同编号查询不会启动第二份。
+      let persisted!:()=>void,registrationFailed!:(error:unknown)=>void;
+      const registered=new Promise<void>((resolve,reject)=>{persisted=resolve;registrationFailed=reject;});
+      const work=rendering.start(run.runId,input.renderRequestId,async()=>{
+        try{await writeJson(path,job);persisted();}catch(error){registrationFailed(error);throw error;}
+        try{
+          const result=await renderers.renderTemplate(current,root,input,{dependencyRoot:config.dependencyRoot,browser:config.browser,concurrency:config.renderConcurrency??5,signal:runner.active.get(run.runId)?.signal,
+            onOutputStart:async id=>{job.currentOutput=id;await writeJson(path,job);},
+            onFileReady:async file=>{job.readyFiles.push(file);await writeJson(path,job);}});
+          Object.assign(job,{state:'succeeded',...result});
+        }catch(e){Object.assign(job,{state:runner.active.get(run.runId)?.signal.aborted?'cancelled':'failed',error:String(e)});}
+        await writeJson(path,job);
+      });void work.catch(()=>{});await registered;return job;
+    });
+    if(name==='read_render_job'){
+      const id=z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).parse(body.renderRequestId),path=join(runner.runRoot(run),'render-jobs',`${id}.json`);
+      await toolQueue;const job=await json(path);
+      if(job.state==='running'&&rendering.current(run.runId)!==id)return {...job,state:'unknown',error:'原渲染进程状态需要核查'};
+      return job;
+    }
     throw new ProductionError('TOOL_NOT_FOUND','制作工具不存在',404);
   });
-  return {app,repo,runner,callbacks,speech,async close(){runner.stop();await speech.drain();await Promise.allSettled(renderJobs.values());await app.close();repo.close();}};
+  return {app,repo,runner,callbacks,speech,async close(){runner.stop();speech.stop();await runner.drain();await runner.settleTools();await app.close();repo.close();}};
 }

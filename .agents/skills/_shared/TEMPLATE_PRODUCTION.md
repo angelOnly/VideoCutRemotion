@@ -10,11 +10,15 @@ Render 以本次完整 dataList/otherRequirements 为准，覆盖分析旧稿与
 
 ## 制作工具与文件
 
+- synthesize_speech_batch/read_speech_batch：整批自然句段优先一次登记。输入 speechBatchRequestId 与 segments；每段具有唯一 speechRequestId、segmentId、确认分镜 sceneId、text、voiceRef、speed。批次同键同输入返回原记录；不同输入冲突。服务按视频轮转、独立限制配音总并发 20 和单视频 5；不要按完成顺序匹配台词，也不要逐条搬运重复结果。
 - synthesize_speech：speechRequestId、segmentId、text、voiceRef、speed；voiceRef 必须由模板声明且部署可解析。工具异步返回 id/state，read_speech_job 使用 speechJobId 读取原任务。正文、音色、参数不变且基础音频摘要通过时，使用 reuseJobId；同任务其他 Render 已确定成功的音频可同时显式指定 reuseRunId，工具仍核对归属、正文、音色、参数及文件摘要。unknown 音频不得复用。不同输入不得复用同键。
+- retry_speech_validation：仅对 validation_failed 且音频已取得的原任务重做本地检查，不新增供应商请求。unknown 保留原任务，不承诺供应商可反查丢失结果。
+- verify_sentence_audio：当前财经句段模板的固定审计工具，输入 timelineRef、speechBatchRequestIds，可选 renderRequestId 指向正式快照；服务核对确认正文、真实批次音频、字幕和 PCM 时长。不要把模板任意脚本交服务执行，也不在受限作者环境临时调用 FFmpeg 做同一审计。
 - 配音成功后按工具 audioRef 把音频复制到本期工程 public 目录；记录确切文本、声音身份、实测时长和句段边界。字幕依真实句段分页，不伪造词级对齐。最终 spoken text 拼接必须对应确认正文，不添加结束语。
 - search_motion_mechanisms/read_motion_mechanism：仅本地词法。围绕本场内容关系检索并核读原文、分镜；无结果调整词语或筛选，无向量/网络回退。
+- 每个视频同时只执行一项渲染或固定媒体检查；静帧、连续预览及正式导出共用入口。RENDER_BUSY 表示本视频已有工作，查询并等待原任务，不换编号绕过。四个视频可并行，每项视频绘图最多 5 槽；额度由服务控制。
 - preview_template_frame：指定 frame，生成实际图片后用图像工具查看。静态画面合格不等于运动和声音合格。
-- render_template：renderRequestId、timelineRef（相对 project 的实际 JSON 时间轴文件）、ranges（完整确认分镜 ID 和全局半开帧区间）、checks（真实检查说明）、previewOnly。先预览必要范围；正式交付 previewOnly=false，工具自动增加整片。read_render_job 查询原 renderRequestId；不要因等待超时重复发起。新源码修订使用新的渲染键。
+- render_template：renderRequestId、timelineRef（相对 project 的实际 JSON 时间轴文件）、ranges（完整确认分镜 ID 和全局半开帧区间）、checks（真实检查说明）、previewOnly。先预览必要范围；正式交付 previewOnly=false，工具自动增加整片。read_render_job 查询原 renderRequestId；不要因等待超时重复发起。新源码修订使用新的渲染键。read_render_job 的 readyFiles 仅包含渲染及检查完成的文件，允许提前审片；不要自行探测仍在写入的路径。所有文件成功后才是完整交付。
 - 工具始终使用模板 wholeComposition；分镜不使用局部从零计时的 Composition。保留完整全片进度、跨句图形和片尾归属。整片时长可包含不属于任何分镜的片头片尾。
 
 最终将成功工具返回的 delivery.json 内容保存为本 run/result.json，保留准确 task/run/输入/模板/源码摘要及文件清单。工程、时间轴、配音、检查记录全部保存在 project 中，供下一版本重制。工具做技术校验，作者做美术及真实视听，Worker 做完整性、发布与通知，三者不能互相代替。

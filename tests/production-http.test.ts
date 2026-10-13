@@ -27,13 +27,13 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
   const aPath='/narrate/ai_video_director/getAiVideoEditingAnalysisData',rPath='/narrate/ai_video_director/getAiVideoEditingData',input={taskId:'t',content:'第一段。第二段。',otherRequirements:'',plugin:{customTemplateId:'3'}};
   try{
     const health=(await service.app.inject({url:'/healthz'})).json();assert.equal(health.configurationReady,true);assert.equal(health.productionReady,null);
-    const accepted=await post(aPath,input);assert.equal(accepted.statusCode,202);const a=accepted.json().data;await service.runner.tick();assert.equal(service.repo.get(a.runId).state,'succeeded',JSON.stringify(service.repo.get(a.runId).error));assert.equal(downloads,1);
+    const accepted=await post(aPath,input);assert.equal(accepted.statusCode,202);const a=accepted.json().data;await service.runner.tick();await service.runner.drain();assert.equal(service.repo.get(a.runId).state,'succeeded',JSON.stringify(service.repo.get(a.runId).error));assert.equal(downloads,1);
     const repeated=await Promise.all(Array.from({length:8},()=>post(aPath,input)));assert.ok(repeated.every(r=>r.json().data.runId===a.runId));assert.equal(calls,1);
     const originalTemplate=service.repo.get(a.runId).checkpoint.template.digest;
     const manifestPath=join(template,'renderer/renderer-manifest.json');await writeJson(manifestPath,{...await json(manifestPath),templateVersion:'2'});
     await processFile('python',['-c',"import pathlib,zipfile,sys; p=pathlib.Path(sys.argv[1]); z=zipfile.ZipFile(sys.argv[2],'w'); [z.write(f,f.relative_to(p).as_posix() + ('/' if f.is_dir() else '')) for f in p.rglob('*')]; z.close()",template,zip]);
     const request={taskId:'t',basePlanVersion:a.planVersion,otherRequirements:'新要求',dataList:[{id:'s2',content:'编辑后的第二段。'},{id:'s1',content:'第一段。'}]};
-    const r=(await post(rPath,request)).json().data;await service.runner.tick();const rendered=service.repo.get(r.runId);assert.equal(rendered.state,'succeeded',JSON.stringify(rendered.error));assert.equal(rendered.resultVersion,1);assert.equal(downloads,1);assert.equal(rendered.result.dataList.length,3);
+    const r=(await post(rPath,request)).json().data;await service.runner.tick();await service.runner.drain();const rendered=service.repo.get(r.runId);assert.equal(rendered.state,'succeeded',JSON.stringify(rendered.error));assert.equal(rendered.resultVersion,1);assert.equal(downloads,1);assert.equal(rendered.result.dataList.length,3);
     assert.equal(rendered.result.templateDigest,originalTemplate);
     const runRoot=service.runner.runRoot(rendered),raw=await json(join(runRoot,'result.json'));
     const publish=(value:unknown)=>publishDelivery(rendered,runRoot,join(config.dataRoot,'tasks',rendered.taskKey),config.mediaBase,value);
@@ -43,28 +43,28 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
     await assert.rejects(publish({...raw,files:raw.files.map((f:any,i:number)=>i===1?{...f,sha256:'错误文件摘要'}:f)}),/视频摘要不符/);
     const url=`/media/${rendered.taskKey}/${rendered.runId}/0.mp4`;
     assert.equal((await service.app.inject({url,method:'HEAD'})).statusCode,200);const partial=await service.app.inject({url,headers:{range:'bytes=0-99'}});assert.equal(partial.statusCode,206);assert.equal(partial.rawPayload.length,100);assert.equal((await service.app.inject({url,headers:{range:'bytes=999999999-'}})).statusCode,416);assert.notEqual((await service.app.inject({url:`/media/${rendered.taskKey}/${rendered.runId}/publication.json`})).statusCode,200);
-    const revision=(await post(rPath,{...request,baseRenderRunId:r.runId,revisionInstructions:'仅改图形'})).json().data;const oldDigest=rendered.result.sourceDigest;await service.runner.tick();assert.equal(service.repo.get(revision.runId).resultVersion,2);assert.equal(await treeDigest(join(service.runner.runRoot(rendered),'source-snapshot')),oldDigest);assert.equal(calls,3);
+    const revision=(await post(rPath,{...request,baseRenderRunId:r.runId,revisionInstructions:'仅改图形'})).json().data;const oldDigest=rendered.result.sourceDigest;await service.runner.tick();await service.runner.drain();assert.equal(service.repo.get(revision.runId).resultVersion,2);assert.equal(await treeDigest(join(service.runner.runRoot(rendered),'source-snapshot')),oldDigest);assert.equal(calls,3);
     // 发布失败只恢复既有交付，不再次执行创作或配音。
     const publishFailure=(await post(rPath,{...request,otherRequirements:'发布故障验收'})).json().data;
     const blockedStaging=join(config.dataRoot,'tasks',rendered.taskKey,'results',`${publishFailure.runId}.staging`);
     await fs.writeFile(blockedStaging,'用普通文件模拟发布目录不可写');
-    await service.runner.tick();assert.equal(service.repo.get(publishFailure.runId).state,'recovering');assert.equal(calls,4);
-    await fs.unlink(blockedStaging);await service.runner.recover();assert.equal(service.repo.get(publishFailure.runId).state,'succeeded');assert.equal(calls,4);
+    await service.runner.tick();await service.runner.drain();assert.equal(service.repo.get(publishFailure.runId).state,'recovering');assert.equal(calls,4);
+    await fs.unlink(blockedStaging);await service.runner.recover();await service.runner.drain();assert.equal(service.repo.get(publishFailure.runId).state,'succeeded');assert.equal(calls,4);
 
     // 模拟文件发布后、结果事务前中断，恢复时核对原目录而非重新制作。
     const crash=(await post(rPath,{...request,otherRequirements:'发布后登记故障验收'})).json().data;
     const finish=service.repo.finish.bind(service.repo);let crashOnce=true;
     service.repo.finish=(id,token,state,result,error)=>{if(id===crash.runId&&state==='succeeded'&&crashOnce){crashOnce=false;throw new Error('模拟发布后登记中断');}return finish(id,token,state,result,error);};
-    await service.runner.tick();assert.equal(service.repo.get(crash.runId).state,'recovering');assert.equal(calls,5);
+    await service.runner.tick();await service.runner.drain();assert.equal(service.repo.get(crash.runId).state,'recovering');assert.equal(calls,5);
     const publishedFile=join(config.dataRoot,'tasks',rendered.taskKey,'results',crash.runId,'0.mp4'),before=await fs.stat(publishedFile);
-    await service.runner.recover();assert.equal(service.repo.get(crash.runId).state,'succeeded');assert.equal(calls,5);assert.equal((await fs.stat(publishedFile)).mtimeMs,before.mtimeMs);
+    await service.runner.recover();await service.runner.drain();assert.equal(service.repo.get(crash.runId).state,'succeeded');assert.equal(calls,5);assert.equal((await fs.stat(publishedFile)).mtimeMs,before.mtimeMs);
     assert.equal(service.repo.get(r.runId).resultVersion,1);
     const tokenRun=service.repo.accept('a','analysis',{...input,content:'另一稿'}),claim=service.repo.claim()!;assert.equal(claim.runId,tokenRun.runId);
     const denied=await service.app.inject({method:'POST',url:'/internal/tools/render_template',headers:{'x-run-id':claim.runId,'x-run-token':claim.token!},payload:{renderRequestId:'test',timelineRef:'x',ranges:[{id:'s1',fromFrame:0,toFrame:1}],checks:[]}});assert.equal(denied.statusCode,400);assert.match(denied.body,/RENDER_STAGE_FORBIDDEN/);
     service.repo.finish(claim.runId,claim.token,'cancelled');
     await fs.rename(join(service.runner.runRoot(rendered),'source-snapshot'),join(service.runner.runRoot(rendered),'missing-snapshot'));
-    const broken=(await post(rPath,{...request,baseRenderRunId:r.runId,revisionInstructions:'另一修改'})).json().data;await service.runner.tick();assert.equal(service.repo.get(broken.runId).error.code,'BASE_PROJECT_UNAVAILABLE');assert.equal((await service.app.inject({url})).statusCode,200);
-    const newer=(await post(aPath,{...input,taskId:'new-template-task'})).json().data;await service.runner.tick();assert.equal(service.repo.get(newer.runId).state,'succeeded');assert.equal(downloads,2);assert.notEqual(service.repo.get(newer.runId).checkpoint.template.digest,originalTemplate);
+    const broken=(await post(rPath,{...request,baseRenderRunId:r.runId,revisionInstructions:'另一修改'})).json().data;await service.runner.tick();await service.runner.drain();assert.equal(service.repo.get(broken.runId).error.code,'BASE_PROJECT_UNAVAILABLE');assert.equal((await service.app.inject({url})).statusCode,200);
+    const newer=(await post(aPath,{...input,taskId:'new-template-task'})).json().data;await service.runner.tick();await service.runner.drain();assert.equal(service.repo.get(newer.runId).state,'succeeded');assert.equal(downloads,2);assert.notEqual(service.repo.get(newer.runId).checkpoint.template.digest,originalTemplate);
     assert.equal((await post(aPath,input)).json().data.runId,a.runId);assert.equal(downloads,2);
   }finally{await service.close();await new Promise<void>(r=>platform.close(()=>r()));}
 });
