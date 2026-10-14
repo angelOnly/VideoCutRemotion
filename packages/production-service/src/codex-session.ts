@@ -203,7 +203,15 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
     }
     while(true){
       ensureActive();const parsed=turnResultSchema.parse(result);if(parsed.kind==='final'){await discoveryChecks;ensureActive();return parsed;}
-      const next=await controller.wait(threadId!,turnId!,parsed);ensureActive();
+      let next;
+      try{next=await controller.wait(threadId!,turnId!,parsed);}catch(error){
+        // 静帧等非正式导出不能进入媒体休眠；参数拒绝只纠正本轮，不取消仍在执行的原作业。
+        if(error instanceof ProductionError&&error.code==='WAIT_JOB_INVALID'){
+          result=await runTurn(`等待请求未执行：${error.message}。await_runtime 仅用于已受理的正式导出。请用 read_render_job 读取原编号 ${parsed.renderRequestId} 并继续当前阶段，不重新提交媒体，不把静帧等待当最终交付。`);continue;
+        }
+        throw error;
+      }
+      ensureActive();
       result=await runTurn(next!.message,id=>controller.bind(next!.wait,id));
     }
   }catch(error){if(connectionError)throw connectionError;throw error;}

@@ -2054,7 +2054,16 @@ async function executeCodex(run, root, repo, config, signal, media) {
         ensureActive();
         return parsed;
       }
-      const next = await controller.wait(threadId, turnId, parsed);
+      let next;
+      try {
+        next = await controller.wait(threadId, turnId, parsed);
+      } catch (error) {
+        if (error instanceof ProductionError && error.code === "WAIT_JOB_INVALID") {
+          result = await runTurn(`\u7B49\u5F85\u8BF7\u6C42\u672A\u6267\u884C\uFF1A${error.message}\u3002await_runtime \u4EC5\u7528\u4E8E\u5DF2\u53D7\u7406\u7684\u6B63\u5F0F\u5BFC\u51FA\u3002\u8BF7\u7528 read_render_job \u8BFB\u53D6\u539F\u7F16\u53F7 ${parsed.renderRequestId} \u5E76\u7EE7\u7EED\u5F53\u524D\u9636\u6BB5\uFF0C\u4E0D\u91CD\u65B0\u63D0\u4EA4\u5A92\u4F53\uFF0C\u4E0D\u628A\u9759\u5E27\u7B49\u5F85\u5F53\u6700\u7EC8\u4EA4\u4ED8\u3002`);
+          continue;
+        }
+        throw error;
+      }
       ensureActive();
       result = await runTurn(next.message, (id) => controller.bind(next.wait, id));
     }
