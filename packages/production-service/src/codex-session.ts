@@ -151,9 +151,10 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
   const ensureActive=()=>{if(connectionError)throw connectionError;if(signal.aborted)throw new ProductionError('PROCESS_CANCELLED','任务已取消');};
   const toolConfig={command:process.execPath,args:[join(config.pluginRoot,'scripts/production-mcp-launcher.mjs')],cwd:config.pluginRoot,env:{TEXTVIDEO_PLUGIN_ROOT:config.pluginRoot,TEXTVIDEO_DEPENDENCY_ROOT:config.dependencyRoot,TEXTVIDEO_RUNTIME_URL:env.TEXTVIDEO_RUNTIME_URL!,TEXTVIDEO_RUN_ID:run.runId,TEXTVIDEO_RUN_TOKEN:run.token!},startup_timeout_sec:60,tool_timeout_sec:180,default_tools_approval_mode:'approve'};
   const startParams:ThreadStartParams={cwd:root,approvalPolicy:'never',sandbox:'workspace-write',...(config.model?{model:config.model}:{}),config:{web_search:'disabled',features:{apps:false},skills:{config:stageSkills.overrides},...(process.platform==='win32'?{windows:{sandbox:'unelevated'}}:{}),mcp_servers:{'textvideo-studio':toolConfig}},developerInstructions:'这是已授权的隔离模板视频生产。只使用本 Run 阶段入口及工具。新作者通过当前完整稿与受管材料引用交接，不默认继承完整父历史；持续作者沿原线程接收真实差异。主协调只读运行合同，专业作者按职责读取完整方法。禁止读取凭据或访问其他任务。纯媒体等待返回 await_runtime，最后以 final 交付。'};
-  const runTurn=async(text:string,onStarted?:(id:string)=>void)=>{
+  const runTurn=async(text:string,onStarted?:(id:string)=>void,firstTurn=false)=>{
     ensureActive();receiver=createTurnReceiver(threadId!);
-    const before=await readThreadTurns(client,threadId!,'notLoaded');const priorIds=before.map(t=>t.id);
+    // 刚创建的线程尚未持久化首条消息，宿主不支持读取历史；恢复和续轮仍须实际核查。
+    const priorIds=firstTurn?[]:(await readThreadTurns(client,threadId!,'notLoaded')).map(t=>t.id);
     // 外部启动不在数据库事务中；持久化意图并在响应未知时查询，绝不直接重发。
     repo.checkpoint(run.runId,run.token!,{codex:{startIntent:{priorIds,createdAt:Date.now()},threadId}});
     const params:TurnStartParams={threadId:threadId!,input:[{type:'text',text,text_elements:[]}],effort:'low',approvalPolicy:'never',sandboxPolicy:{type:'workspaceWrite',writableRoots:[root],networkAccess:false,excludeTmpdirEnvVar:false,excludeSlashTmp:false},outputSchema:JSON.parse(JSON.stringify(handoffSchema))};
@@ -197,7 +198,7 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
       if(!JSON.stringify(runtime).includes(config.release.releaseId))throw new ProductionError('RELEASE_MISMATCH','后台 MCP 与 Runtime 不同版',503);
       const instruction=taskInstruction(run,root,config.pluginRoot,config);await fs.writeFile(join(root,'codex-instruction.txt'),instruction);
       await writeJson(join(root,'plugin-evidence.json'),{release:config.release,skills,statuses,runtime,model:{requested:config.model??null,actual:started.model??started.thread?.model??null,reasoningEffort:'low'},codexVersion:await processFile(config.codexExecutable,['--version'])});
-      result=await runTurn(instruction);
+      result=await runTurn(instruction,undefined,true);
     }
     while(true){
       ensureActive();const parsed=turnResultSchema.parse(result);if(parsed.kind==='final'){await discoveryChecks;ensureActive();return parsed;}

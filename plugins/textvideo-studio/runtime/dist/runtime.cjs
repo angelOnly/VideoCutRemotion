@@ -1965,11 +1965,10 @@ async function executeCodex(run, root, repo, config, signal, media) {
   };
   const toolConfig = { command: process.execPath, args: [(0, import_node_path11.join)(config.pluginRoot, "scripts/production-mcp-launcher.mjs")], cwd: config.pluginRoot, env: { TEXTVIDEO_PLUGIN_ROOT: config.pluginRoot, TEXTVIDEO_DEPENDENCY_ROOT: config.dependencyRoot, TEXTVIDEO_RUNTIME_URL: env.TEXTVIDEO_RUNTIME_URL, TEXTVIDEO_RUN_ID: run.runId, TEXTVIDEO_RUN_TOKEN: run.token }, startup_timeout_sec: 60, tool_timeout_sec: 180, default_tools_approval_mode: "approve" };
   const startParams = { cwd: root, approvalPolicy: "never", sandbox: "workspace-write", ...config.model ? { model: config.model } : {}, config: { web_search: "disabled", features: { apps: false }, skills: { config: stageSkills.overrides }, ...process.platform === "win32" ? { windows: { sandbox: "unelevated" } } : {}, mcp_servers: { "textvideo-studio": toolConfig } }, developerInstructions: "\u8FD9\u662F\u5DF2\u6388\u6743\u7684\u9694\u79BB\u6A21\u677F\u89C6\u9891\u751F\u4EA7\u3002\u53EA\u4F7F\u7528\u672C Run \u9636\u6BB5\u5165\u53E3\u53CA\u5DE5\u5177\u3002\u65B0\u4F5C\u8005\u901A\u8FC7\u5F53\u524D\u5B8C\u6574\u7A3F\u4E0E\u53D7\u7BA1\u6750\u6599\u5F15\u7528\u4EA4\u63A5\uFF0C\u4E0D\u9ED8\u8BA4\u7EE7\u627F\u5B8C\u6574\u7236\u5386\u53F2\uFF1B\u6301\u7EED\u4F5C\u8005\u6CBF\u539F\u7EBF\u7A0B\u63A5\u6536\u771F\u5B9E\u5DEE\u5F02\u3002\u4E3B\u534F\u8C03\u53EA\u8BFB\u8FD0\u884C\u5408\u540C\uFF0C\u4E13\u4E1A\u4F5C\u8005\u6309\u804C\u8D23\u8BFB\u53D6\u5B8C\u6574\u65B9\u6CD5\u3002\u7981\u6B62\u8BFB\u53D6\u51ED\u636E\u6216\u8BBF\u95EE\u5176\u4ED6\u4EFB\u52A1\u3002\u7EAF\u5A92\u4F53\u7B49\u5F85\u8FD4\u56DE await_runtime\uFF0C\u6700\u540E\u4EE5 final \u4EA4\u4ED8\u3002" };
-  const runTurn = async (text3, onStarted) => {
+  const runTurn = async (text3, onStarted, firstTurn = false) => {
     ensureActive();
     receiver = createTurnReceiver(threadId);
-    const before = await readThreadTurns(client, threadId, "notLoaded");
-    const priorIds = before.map((t) => t.id);
+    const priorIds = firstTurn ? [] : (await readThreadTurns(client, threadId, "notLoaded")).map((t) => t.id);
     repo.checkpoint(run.runId, run.token, { codex: { startIntent: { priorIds, createdAt: Date.now() }, threadId } });
     const params = { threadId, input: [{ type: "text", text: text3, text_elements: [] }], effort: "low", approvalPolicy: "never", sandboxPolicy: { type: "workspaceWrite", writableRoots: [root], networkAccess: false, excludeTmpdirEnvVar: false, excludeSlashTmp: false }, outputSchema: JSON.parse(JSON.stringify(handoffSchema)) };
     let response;
@@ -2044,7 +2043,7 @@ async function executeCodex(run, root, repo, config, signal, media) {
       const instruction = taskInstruction(run, root, config.pluginRoot, config);
       await import_node_fs10.promises.writeFile((0, import_node_path11.join)(root, "codex-instruction.txt"), instruction);
       await writeJson((0, import_node_path11.join)(root, "plugin-evidence.json"), { release: config.release, skills, statuses, runtime, model: { requested: config.model ?? null, actual: started.model ?? started.thread?.model ?? null, reasoningEffort: "low" }, codexVersion: await processFile(config.codexExecutable, ["--version"]) });
-      result = await runTurn(instruction);
+      result = await runTurn(instruction, void 0, true);
     }
     while (true) {
       ensureActive();
