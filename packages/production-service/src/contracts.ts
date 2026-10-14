@@ -49,3 +49,5 @@ export const terminal = (state: State) => ['succeeded','failed','cancelled'].inc
 // 非最终等待仅指向已经受理的媒体；交付身份仍由 Worker 独立核验。
 export const finalHandoffSchema=z.object({kind:z.literal('final'),taskId:z.string(),runId:z.string(),inputDigest:z.string(),resultPath:z.string().min(1)}).strict();
 export const turnResultSchema=z.discriminatedUnion('kind',[finalHandoffSchema,z.object({kind:z.literal('await_runtime'),renderRequestId:z.string().regex(/^[A-Za-z0-9_-]{1,100}$/)}).strict()]);
+// 模型结构化输出要求根节点为对象；内部仍共用原有等待／交付联合校验。
+export const modelTurnOutputSchema=z.object({result:turnResultSchema}).strict();

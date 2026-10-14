@@ -2,7 +2,7 @@ import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import { createInterface } from 'node:readline';
 import { createReadStream, promises as fs } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { ProductionError, turnResultSchema, type Run } from './contracts.js';
+import { ProductionError, turnResultSchema, modelTurnOutputSchema, type Run } from './contracts.js';
 import type { ProductionRepository } from './repository.js';
 import type { ProductionConfig } from './config.js';
 import { json, processFile, treeDigest, writeJson } from './files.js';
@@ -14,7 +14,7 @@ import { createTurnReceiver, threadDiscoveries } from './turn-events.js';
 import { ExecutionController, type MediaRuntime } from './execution-controller.js';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 import { CodexUsageObserver } from './codex-usage.js';
-export const handoffSchema=zodToJsonSchema(turnResultSchema,{$refStrategy:'none'});
+export const handoffSchema=zodToJsonSchema(modelTurnOutputSchema,{$refStrategy:'none'});
 export class AppServerResponseError extends Error {
   constructor(public response:unknown){super(JSON.stringify(response));}
 }
@@ -103,7 +103,7 @@ export function completedTurnResult(turn:any){
   if(turn?.status!=='completed')throw new ProductionError('CODEX_RESULT_UNKNOWN','原轮次没有确定完成，保留句柄核查',503);
   const item=[...(turn.items??[])].reverse().find((i:any)=>i.type==='agentMessage');
   if(!item?.text)throw new ProductionError('CODEX_RESULT_UNKNOWN','原轮次缺少完整输出，禁止重放',503);
-  return JSON.parse(item.text);
+  return modelTurnOutputSchema.parse(JSON.parse(item.text)).result;
 }
 export async function executeCodex(run:Run,root:string,repo:ProductionRepository,config:ProductionConfig,signal:AbortSignal,media?:MediaRuntime){
   const env:NodeJS.ProcessEnv={...process.env,CODEX_HOME:config.codexHome,TEXTVIDEO_RUNTIME_URL:`http://${config.host}:${config.port}`,TEXTVIDEO_RUN_ID:run.runId,TEXTVIDEO_RUN_TOKEN:run.token!,TEXTVIDEO_PLUGIN_ROOT:config.pluginRoot};
@@ -165,7 +165,7 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
     }
     turnId=response.turn.id;repo.checkpoint(run.runId,run.token!,{codex:{threadId,turnId,startIntent:null}});onStarted?.(turnId!);receiver.bind(turnId!);
     if(response.turn.status==='completed'){const result=completedTurnResult(response.turn);receiver=undefined;return result;}
-    ensureActive();const result=await receiver.promise;receiver=undefined;return JSON.parse(result.text);
+    ensureActive();const result=await receiver.promise;receiver=undefined;return modelTurnOutputSchema.parse(JSON.parse(result.text)).result;
   };
   try{
     await client.init();ensureActive();
@@ -177,7 +177,7 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
       if(intent){turnId=resolveStartedTurn(turns,intent.priorIds).id;repo.checkpoint(run.runId,run.token!,{codex:{turnId,startIntent:null}});}
       const turn=turns.find(t=>t.id===turnId);result=completedTurnResult(turn);
       // 已确认最终输出可直接交给 Worker，不需要重启作者。
-      if(result.kind==='final'||(!result.kind&&run.checkpoint.instructionVersion!==INSTRUCTION_VERSION))return result;
+      if(result.kind==='final')return result;
       const waiting=run.checkpoint.runtimeWait;
       if(waiting?.state==='resuming'&&turnId!==waiting.originTurnId)controller.bind(waiting,turnId!);
       if(waiting?.state==='resuming'&&turnId===waiting.originTurnId){

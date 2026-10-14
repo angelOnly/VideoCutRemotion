@@ -577,6 +577,7 @@ var deliverySchema = import_zod2.z.object({
 }).strict();
 var finalHandoffSchema = import_zod2.z.object({ kind: import_zod2.z.literal("final"), taskId: import_zod2.z.string(), runId: import_zod2.z.string(), inputDigest: import_zod2.z.string(), resultPath: import_zod2.z.string().min(1) }).strict();
 var turnResultSchema = import_zod2.z.discriminatedUnion("kind", [finalHandoffSchema, import_zod2.z.object({ kind: import_zod2.z.literal("await_runtime"), renderRequestId: import_zod2.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/) }).strict()]);
+var modelTurnOutputSchema = import_zod2.z.object({ result: turnResultSchema }).strict();
 
 // packages/speech-services/src/doubao.ts
 var requestKey = import_zod3.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
