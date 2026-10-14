@@ -2182,7 +2182,13 @@ var ProductionRunner = class {
         this.repo.finish(run.runId, run.token, "cancelled");
         return;
       }
-      const result = await json(run.checkpoint.handoff.resultPath);
+      let result;
+      try {
+        result = await json(run.checkpoint.handoff.resultPath);
+      } catch (error) {
+        if (error instanceof SyntaxError) throw new ProductionError("RESULT_FORMAT_INVALID", "\u4EA4\u4ED8\u6587\u4EF6\u4E0D\u662F\u6709\u6548 JSON\uFF1B\u4FDD\u7559\u539F\u6587\u4EF6\u548C\u672A\u5B8C\u6210\u68C0\u67E5\uFF0C\u4E0D\u53D1\u5E03\u5A92\u4F53");
+        throw error;
+      }
       if (run.stage === "analysis") {
         const parsed = analysisResultSchema.parse(result);
         if (parsed.runId !== run.runId || parsed.taskId !== run.taskId || parsed.inputDigest !== run.inputDigest) throw new ProductionError("ANALYSIS_IDENTITY_INVALID", "\u5206\u6790\u7ED3\u679C\u8EAB\u4EFD\u4E0D\u7B26");
@@ -2192,6 +2198,8 @@ var ProductionRunner = class {
         this.repo.checkpoint(run.runId, run.token, { analysisBasis: { inputDigest: run.inputDigest, templateVersion: run.checkpoint.template.manifest.templateVersion, templateDigest: run.checkpoint.template.digest, analysisContractDigest: run.checkpoint.template.analysisContract.digest } });
         this.repo.finish(run.runId, run.token, "succeeded", parsed);
       } else {
+        const parsed = deliverySchema.safeParse(result);
+        if (!parsed.success) throw new ProductionError("DELIVERY_FORMAT_INVALID", "\u4EA4\u4ED8\u6587\u4EF6\u4E0D\u7B26\u5408\u6210\u529F\u4EA4\u4ED8\u5408\u540C\uFF1B\u4FDD\u7559\u539F\u6587\u4EF6\u548C\u672A\u5B8C\u6210\u68C0\u67E5\uFF0C\u4E0D\u53D1\u5E03\u5A92\u4F53");
         const metrics = { runId: run.runId, renderRequestId: String(result.renderRequestId ?? "publication"), sourceDigest: result.sourceDigest, enabled: this.config.mediaTiming ?? true, signal: controller.signal, onMetric: createMediaMetricSink(root) };
         const published = await withMediaSpan(metrics, "publication", (child) => publishDelivery(run, root, (0, import_node_path12.join)(this.config.dataRoot, "tasks", run.taskKey), this.config.mediaBase, result, controller.signal, child, run.checkpoint.reviewProtocol === 1 ? { assertReview: (id, digest, files) => {
           new ReviewService(this.repo, (r) => this.runRoot(r)).assertDelivery(id, digest, files);

@@ -59,7 +59,12 @@ export class ProductionRunner {
       }
       this.finishing.add(run.runId);await this.settleTools(run.runId);
       if(controller.signal.aborted){this.repo.finish(run.runId,run.token,'cancelled');return;}
-      const result=await json(run.checkpoint.handoff.resultPath);
+      let result;
+      try{result=await json(run.checkpoint.handoff.resultPath);}catch(error){
+        // 已交回的说明文档或坏 JSON 是确定性失败，重启不能把它恢复成合格交付。
+        if(error instanceof SyntaxError)throw new ProductionError('RESULT_FORMAT_INVALID','交付文件不是有效 JSON；保留原文件和未完成检查，不发布媒体');
+        throw error;
+      }
       if(run.stage==='analysis'){
         const parsed=analysisResultSchema.parse(result);if(parsed.runId!==run.runId||parsed.taskId!==run.taskId||parsed.inputDigest!==run.inputDigest)throw new ProductionError('ANALYSIS_IDENTITY_INVALID','分析结果身份不符');
         if(new Set(parsed.dataList.map(s=>s.id)).size!==parsed.dataList.length)throw new ProductionError('ANALYSIS_IDS_INVALID','分析分镜 ID 重复');
@@ -68,6 +73,8 @@ export class ProductionRunner {
         this.repo.checkpoint(run.runId,run.token!,{analysisBasis:{inputDigest:run.inputDigest,templateVersion:run.checkpoint.template.manifest.templateVersion,templateDigest:run.checkpoint.template.digest,analysisContractDigest:run.checkpoint.template.analysisContract.digest}});
         this.repo.finish(run.runId,run.token,'succeeded',parsed);
       }else{
+        const parsed=deliverySchema.safeParse(result);
+        if(!parsed.success)throw new ProductionError('DELIVERY_FORMAT_INVALID','交付文件不符合成功交付合同；保留原文件和未完成检查，不发布媒体');
         const metrics={runId:run.runId,renderRequestId:String(result.renderRequestId??'publication'),sourceDigest:result.sourceDigest,enabled:this.config.mediaTiming??true,signal:controller.signal,onMetric:createMediaMetricSink(root)};
         const published=await withMediaSpan(metrics,'publication',child=>publishDelivery(run,root,join(this.config.dataRoot,'tasks',run.taskKey),this.config.mediaBase,result,controller.signal,child,run.checkpoint.reviewProtocol===1?{assertReview:(id,digest,files)=>{new ReviewService(this.repo,r=>this.runRoot(r)).assertDelivery(id,digest,files);}}:undefined));this.repo.finish(run.runId,run.token,'succeeded',published);
       }

@@ -15,6 +15,22 @@ const deferred=()=>{let resolve!:()=>void;const promise=new Promise<void>(r=>{re
 async function until(predicate:()=>boolean){const end=Date.now()+4000;while(!predicate()){if(Date.now()>end)throw new Error('测试等待超时');await new Promise(r=>setTimeout(r,5));}}
 const configFor=(root:string)=>({dataRoot:root,maxActiveRuns:4,renderConcurrency:5,speechConcurrency:20,speechPerRunConcurrency:5,accountId:'a',apiToken:'test',callbackBase:'http://127.0.0.1',callbackSecret:'test',ready:{codex:true},release:{releaseId:'test'},voicesPath:''} as unknown as ProductionConfig);
 
+test('不合格交付文件明确失败并登记回调，文件读取故障仍保留恢复状态',async()=>{
+ const root=await fs.mkdtemp(join(tmpdir(),'production-invalid-result-')),repo=new ProductionRepository(join(root,'db.sqlite'));
+ const runner=new ProductionRunner(repo,configFor(root),async()=>{throw new Error('不得重新调用模型');});
+ try{
+  for(const [id,body,errorCode] of [['markdown','# 成片检查未完成','RESULT_FORMAT_INVALID'],['pending',JSON.stringify({status:'pending',delivered:false}),'DELIVERY_FORMAT_INVALID'],['missing',null,null]] as const){
+   repo.accept('a','analysis',{taskId:id,content:'正文',otherRequirements:'',plugin:{customTemplateId:'x'}});const analysis=repo.claim()!;repo.finish(analysis.runId,analysis.token,'succeeded',{});
+   repo.accept('a','render',{taskId:id,basePlanVersion:1,dataList:[{id:'s',content:'正文'}],otherRequirements:''});const run=repo.claim()!,path=join(root,`${id}.json`);
+   if(body!==null)await fs.writeFile(path,body);
+   repo.checkpoint(run.runId,run.token!,{handoff:{resultPath:path}});await runner.recover();await runner.drain();
+   const result=repo.get(run.runId);assert.equal(result.state,errorCode?'failed':'recovering');
+   if(errorCode){assert.equal(result.error.code,errorCode);assert.equal(await fs.readFile(path,'utf8'),body);assert.equal((repo.db.prepare('SELECT state FROM callback_outbox WHERE run_id=?').get(run.runId) as any).state,'pending');}
+   else assert.equal(repo.db.prepare('SELECT id FROM callback_outbox WHERE run_id=?').get(run.runId),undefined);
+  }
+ }finally{runner.stop();await runner.drain();repo.close();await fs.rm(root,{recursive:true,force:true});}
+});
+
 test('四任务调度：第五个排队、独立收尾、清理结束后补位',async()=>{
  const root=await fs.mkdtemp(join(tmpdir(),'production-slots-')),repo=new ProductionRepository(join(root,'db.sqlite')),gates=new Map<string,ReturnType<typeof deferred>>(),finishing=new Map<string,ReturnType<typeof deferred>>();
  const runner=new ProductionRunner(repo,configFor(root),async(run,dir,_repo,_config,signal)=>{
