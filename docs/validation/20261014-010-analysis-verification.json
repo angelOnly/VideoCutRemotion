@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "核验结论": "0.1.10 新网页 Analysis 已成功，发行、Runtime、MCP 与检查点身份一致；真实模型为 gpt-6-astra / low。全文和文字阶段边界核验通过，回调首次送达。",
+  "核验说明": [
+    "只读下载本 Run 原始日志、阶段配置及输入，使用 SQLite mode=ro 查询该 Run 的非凭据检查点和回调状态；所有新增证据只写本地目录，不改变源码或生产对象。",
+    "完整 281 条事件仅有 4 次成功命令：分别读取技能入口、input.json、result-schema.json，再重读两份 JSON 生成结果。逐项检查命令与返回，未读 React/TS/TSX 渲染源码，没有制作、配音、动效、预览或导出工具调用。该结论属于本次实际行为证据，不是操作系统读取权限隔离声明。",
+    "实际 MCP 目录只有 read_runtime_release、read_production_task 两个只读工具。skills/list 返回 25 项元数据，只有文字阶段 production-coordinator 启用，其余 24 项禁用；没有 Pages、Sites、Pets。禁用不等于删除磁盘资源，本次没有子会话，不能据此证明 Render 子代理行为。",
+    "模型与 effort 依据服务器原始 rollout 的 turn_context、thread/started 及 plugin-evidence 三方交叉核对。token 汇总与 3 条原始 tokenUsage 事件一致，不累加累计快照；缺少 rawResponse/completed，准确模型响应次数保持 null。",
+    "创建至模型完成实测 71.345 秒，turn 通知间隔 59.434 秒，宿主独立记录 59.451 秒。最后检查点为创建后 71.510 秒。数据库没有单独的 Run 完成或回调完成时间，不把 heartbeat 当作精确结束时间。",
+    "回调时间 71.802 秒为推算值：当前 CallbackSender 对第 1 次尝试以 Date.now()+1000 写入 next_at，从已保存的 next_at 减去默认退避 1000 毫秒可还原响应处理记录时刻；这不是独立持久化的完成时间，不作为严格端到端计时。",
+    "直接比较下载的 input.json 与 result.json，9 个分镜顺序拼接逐字符等于原稿，ID 唯一、估时正数且均为 estimated，context 为非空字符串。669 字符对应 UTF-8 1931 字节，估时总和 153.2 秒。本地 result.json 字节摘要与服务器最终文件一致。",
+    "数据库只读核验得到 succeeded、回调 delivered、attempts=1，诊断为 HTTP 200 且 status=0。输入、模板归档、文字合同和结果身份与检查点一致。"
+  ],
+  "taskId": "58e8968950d04fb88c1c1f331ad18b07",
+  "taskKey": "fc0eaf97-e04a-4080-b993-dc3233fdde0a",
+  "runId": "85a2ba40-8a9e-4fe8-9812-bddd55066a9b",
+  "state": "succeeded",
+  "release": {
+    "pluginVersion": "0.1.10",
+    "releaseId": "release-8b8ce5f6b011574f12f227835d970b556044e5fe41d36e8aafac1d7e3db90b50",
+    "runtimeMcpCheckpointAligned": true,
+    "instructionVersion": "template-production/6"
+  },
+  "evidenceFiles": {
+    "input.json": {
+      "sha256": "f4bfecac4c131d2df618717aa8c624b432ac450226058ff72d7be44f2efb3b77"
+    },
+    "result.json": {
+      "sha256": "def1b4f80546c721a08830da6c766ccd5a2a9d30404402c32a529a58edc1fcab"
+    },
+    "plugin-evidence.json": {
+      "sha256": "c97758731e40ee1c9155390970ccf81ffea2aee2efcdc880b273bf17876f48ed"
+    },
+    "stage-skills.json": {
+      "sha256": "f6d6515921818591a65a040063c0681227bc0ae645a0895643600109586ead85"
+    },
+    "stage-discovery.json": {
+      "sha256": "fa4be862dc32b0997e5da000e3136db9173a016d1aa109a0a3aa244a2b6e2df4"
+    },
+    "codex-events.jsonl": {
+      "sha256": "0e6d226ecc7b0b0d0e884b6f1aa9504325ef13597a4411ba0986391100c993fa"
+    },
+    "codex-usage.json": {
+      "sha256": "1ef50a48c2243446014e854bfff3dcc5a37648b3a999732df49228b30b633c40"
+    },
+    "thread-skill-discovery.jsonl": {
+      "sha256": "6a32d7f3ce27cedc8522fb768dfec20bcbacc5d70fcf81b746f7e53f787eb790"
+    },
+    "run-checkpoint.json": {
+      "sha256": "8f077683903959febc90d0c90908be34140c829387a54e7f38bccb4e45936e5c"
+    },
+    "model-turn-context.jsonl": {
+      "sha256": "5662b13061f554c64aec3c866bd2ac6e2e337797ba67bedf20f7b49f0de90c73"
+    }
+  },
+  "model": {
+    "name": "gpt-6-astra",
+    "effort": "low",
+    "cliVersion": "0.153.4",
+    "contextTimestamp": "2026-10-14T15:31:04.896Z"
+  },
+  "analysisBoundary": {
+    "renderSourceReads": 0,
+    "productionToolCalls": 0,
+    "motionToolCalls": 0,
+    "mcpToolCalls": 0,
+    "commandExecutions": 4,
+    "spawnedSubagents": 0,
+    "observedReadFiles": [
+      ".agents/skills/production-coordinator/SKILL.md",
+      "input.json",
+      "result-schema.json"
+    ],
+    "observedWriteFiles": [
+      "result.json"
+    ],
+    "completedCommandEvidenceLines": [
+      52,
+      54,
+      56,
+      112
+    ],
+    "discoveredMcpTools": [
+      "read_runtime_release",
+      "read_production_task"
+    ]
+  },
+  "skills": {
+    "returnedMetadataCount": 25,
+    "enabledCount": 1,
+    "disabledCount": 24,
+    "enabledNames": [
+      "production-coordinator"
+    ],
+    "forcedSystemCount": 0,
+    "stageDigest": "d75089e4172406110f3b041ae7f1acc16758117e68bc2077af6f6441f0f0ec26",
+    "matchesFixedStagePaths": true,
+    "pagesSitesPetsReturned": false
+  },
+  "timing": {
+    "runCreatedAt": "2026-10-14T23:30:46.576+08:00",
+    "threadStartedAt": "2026-10-14T23:30:55.202+08:00",
+    "turnStartedAt": "2026-10-14T23:30:58.487+08:00",
+    "turnCompletedAt": "2026-10-14T23:31:57.921+08:00",
+    "runCreatedToTurnStartedMs": 11911,
+    "runCreatedToTurnCompletedMs": 71345,
+    "turnEventIntervalMs": 59434,
+    "hostReportedTurnDurationMs": 59451,
+    "lastCheckpointAt": "2026-10-14T23:31:58.086+08:00",
+    "runCreatedToLastCheckpointMs": 71510,
+    "persistedRunFinishedAt": null,
+    "persistedCallbackFinishedAt": null,
+    "derivedCallbackResponseRecordedAt": "2026-10-14T23:31:58.378+08:00",
+    "derivedCreatedToCallbackResponseRecordedMs": 71802
+  },
+  "tokens": {
+    "threadId": "01a13b09-b7f7-72f0-9345-0dcf2996602f",
+    "firstInputTokens": 12985,
+    "peakInputTokens": 16743,
+    "cumulativeInputTokens": 44916,
+    "cumulativeCachedInputTokens": 27776,
+    "cumulativeOutputTokens": 1784,
+    "responseCount": null,
+    "responseCountSource": "未收到精确响应事件，不能用 usage 快照次数代替",
+    "usageSnapshots": 3
+  },
+  "textAndResult": {
+    "requestCharacters": 669,
+    "requestUtf8Bytes": 1931,
+    "requestSha256": "99b1a05c4693dfd16dde38b4e862ea99ce1ed5b377d67330e4e752f8857c08b8",
+    "sceneCount": 9,
+    "estimatedSeconds": 153.2,
+    "contentPreservedExactly": true,
+    "uniqueIds": true,
+    "allDurationSourceEstimated": true,
+    "nonemptyMarkdownContext": true,
+    "inputCheckpointResultIdentityMatched": true,
+    "localResultMatchesServerSha256": "def1b4f80546c721a08830da6c766ccd5a2a9d30404402c32a529a58edc1fcab"
+  },
+  "callback": {
+    "id": "59cc2266-0b20-4b47-aa0a-f17da3310a69",
+    "run_id": "85a2ba40-8a9e-4fe8-9812-bddd55066a9b",
+    "state": "delivered",
+    "attempts": 1,
+    "next_at": 1791991919378,
+    "diagnostic": "HTTP 200 {\"status\":0,\"msg\":\"\"}",
+    "bodyKeys": [
+      "schemaVersion",
+      "eventId",
+      "taskId",
+      "requestId",
+      "runId",
+      "stage",
+      "state",
+      "planVersion",
+      "msg",
+      "dataList",
+      "dataInfo",
+      "plan",
+      "resultVersion",
+      "status",
+      "data",
+      "error"
+    ],
+    "timestampFields": {}
+  },
+  "template": {
+    "templateVersion": "2.0.3",
+    "archiveDigest": "1f2c2a7e6740d2df5f7d5ee8d5d9713915ba63098e89fddd671bae1dfe8e7104",
+    "analysisContractDigest": "f86907bb2d31b97213175eeee3a165e8d3173dcc5ad70872252be80849f452f4"
+  }
+}

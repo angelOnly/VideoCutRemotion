@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-10-14T16:15:51.886Z",
+  "taskId": "58e8968950d04fb88c1c1f331ad18b07",
+  "analysis": "网页已进入素材确认",
+  "render": "网页已进入粗片",
+  "playback": {
+    "src": "http://10.20.130.251:8080/media/fc0eaf97-e04a-4080-b993-dc3233fdde0a/9cd39fb2-d639-4428-9b26-3de83907ecb8/0.mp4",
+    "duration": 128.266667,
+    "currentTime": 13.743275,
+    "paused": false,
+    "readyState": 2,
+    "error": null
+  },
+  "taskListStatus": "已完成",
+  "deliveryPageVisited": true,
+  "displayMismatch": {
+    "page": "9:16、1080×1920、480p草稿、未添加片头片尾",
+    "actualMedia": "1920×1080、128.266667秒、原模板片头片尾各67帧"
+  }
+}

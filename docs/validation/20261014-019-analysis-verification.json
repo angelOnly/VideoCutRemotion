@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "核验结论": "当前 Analysis 实跑符合文字读取及技能启用边界；模型为 gpt-6-astra / low，未发现渲染源码读取或制作工具调用。",
+  "证据边界": [
+    "逐项审阅完整事件中的两次命令及返回：首次读取三个指定文件，第二次仅重读输入与结果协议并写出校验结果。这是行为记录证据，不代表操作系统读权限隔离。",
+    "skills/list 返回 25 个元数据条目，其中仅文字阶段 production-coordinator 启用，其余 24 项实际 enabled=false。禁用不等于磁盘删除。未发现 Pages、Sites、Pets。本次没有子会话，不能据此证明 Render 子代理继承。",
+    "Run 创建时间由主任务读回提供。创建至模型完成为 70.570 秒，turn 通知间隔为 58.616 秒，宿主另报 58.636 秒。尚无结果登记及回调完成时间，完整端到端耗时保持 null。",
+    "首轮及峰值输入、累计输入/缓存/输出已逐项核对原始 tokenUsage 事件，累计快照不相加。未收到 rawResponse/completed，准确模型响应次数保持 null。",
+    "原稿实际为 669 个字符、UTF-8 编码 1931 字节。第 133 行命令在写文件前验证全文拼接、ID 唯一及 JSON Schema，并成功退出；主任务另已读回确认原文保留。此目录未提供最终 result.json，未重新逐字读取最终文件。",
+    "10 个分镜及 143.9 秒估时来自实际命令输出。回调 delivered、一次尝试为主任务已核实数据；本次五个输入证据文件不含原始回调记录。"
+  ],
+  "taskId": "770738ba41c94a35a21cfa7253a7057c",
+  "runId": "8487c23d-0044-432a-9913-2deea603498d",
+  "threadId": "01a13ae1-2ea6-7b13-813d-aa9f158beca4",
+  "evidenceFiles": {
+    "analysis-events.jsonl": {
+      "sha256": "c16dfc7a459135eb6b3311ea1530fdef40e7344d07e9c2f24b63b627bb901817"
+    },
+    "analysis-stage-skills.json": {
+      "sha256": "1b3c0430b9f8ba7825764ac200e5e1f451c31d58757070b178d1702dc3d4a99f"
+    },
+    "analysis-usage.json": {
+      "sha256": "0d221425ec96697363eb94fac787f0ea7170731964fd7938f02c726d5c11effe"
+    },
+    "analysis-skill-discovery.jsonl": {
+      "sha256": "d6ee036962b6efddc85a4671cd509568023df520886f45b44145791fff321228"
+    },
+    "analysis-model.json": {
+      "sha256": "b537a2aa76bab6b9a336977df9f3d2a03e138ae4178fc044655b1d90f72a1f91"
+    }
+  },
+  "model": {
+    "name": "gpt-6-astra",
+    "effort": "low",
+    "cliVersion": "0.153.4"
+  },
+  "analysisBoundary": {
+    "renderSourceReads": 0,
+    "productionToolCalls": 0,
+    "motionToolCalls": 0,
+    "mcpToolCalls": 0,
+    "commandExecutions": 2,
+    "spawnedSubagents": 0,
+    "observedReadFiles": [
+      ".agents/skills/production-coordinator/SKILL.md",
+      "input.json",
+      "result-schema.json"
+    ],
+    "observedWriteFiles": [
+      "result.json"
+    ],
+    "evidenceLines": [
+      50,
+      133
+    ]
+  },
+  "skills": {
+    "returnedMetadataCount": 25,
+    "enabledCount": 1,
+    "disabledCount": 24,
+    "enabledNames": [
+      "production-coordinator"
+    ],
+    "forcedSystemCount": 0,
+    "stageDigest": "d75089e4172406110f3b041ae7f1acc16758117e68bc2077af6f6441f0f0ec26",
+    "matchesFixedStagePaths": true,
+    "pagesSitesPetsReturned": false
+  },
+  "timing": {
+    "runCreatedAt": "2026-10-14T22:46:29.952+08:00",
+    "turnStartedAt": "2026-10-14T22:46:41.906+08:00",
+    "turnCompletedAt": "2026-10-14T22:47:40.522+08:00",
+    "runCreatedToTurnCompletedMs": 70570,
+    "turnEventIntervalMs": 58616,
+    "hostReportedTurnDurationMs": 58636,
+    "endToEndWithCallbackMs": null
+  },
+  "tokens": {
+    "threadId": "01a13ae1-2ea6-7b13-813d-aa9f158beca4",
+    "firstInputTokens": 12985,
+    "peakInputTokens": 16618,
+    "cumulativeInputTokens": 44741,
+    "cumulativeCachedInputTokens": 27776,
+    "cumulativeOutputTokens": 1596,
+    "responseCount": null,
+    "responseCountSource": "未收到精确响应事件，不能用 usage 快照次数代替",
+    "usageSnapshots": 3
+  },
+  "textAndResult": {
+    "requestCharacters": 669,
+    "requestUtf8Bytes": 1931,
+    "requestSha256": "99b1a05c4693dfd16dde38b4e862ea99ce1ed5b377d67330e4e752f8857c08b8",
+    "sceneCount": 10,
+    "estimatedSeconds": 143.9,
+    "writerValidationExitCode": 0,
+    "callbackReportedByCoordinator": {
+      "state": "delivered",
+      "attempts": 1
+    }
+  },
+  "template": {
+    "templateVersion": "2.0.3",
+    "archiveDigest": "1f2c2a7e6740d2df5f7d5ee8d5d9713915ba63098e89fddd671bae1dfe8e7104",
+    "analysisContractDigest": "f86907bb2d31b97213175eeee3a165e8d3173dcc5ad70872252be80849f452f4"
+  }
+}

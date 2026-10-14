@@ -1,0 +1,35 @@
+{
+  "capturedAtUtc": "2026-10-14T15:20:25.076612+00:00",
+  "taskKey": "64add41d-2500-42a3-a1a9-f2f3b67262c1",
+  "runId": "1c2f7391-b08c-4238-b36d-a4fc16d76a17",
+  "renderRequestId": "export-v2",
+  "sourceDigest": "b38b8670b5818be1cc4625b5f873cd1fc61a568129a1c0a592b602b5603e803a",
+  "captureMethod": "原raw.wav存在时只读open，服务finally删除后通过保留fd进行ffprobe；未创建任何生产文件或重试",
+  "productionRawProbe": {
+    "codec_name": "pcm_s16le",
+    "sample_rate": 48000,
+    "channels": 2,
+    "time_base": "1/48000",
+    "duration_ts": 6870416,
+    "durationSeconds": 143.133667,
+    "fileSizeBytes": 27481778,
+    "comment": "Made with Remotion 4.0.425"
+  },
+  "expected": {
+    "frames": 4294,
+    "fps": 30,
+    "samples": 6870400
+  },
+  "deltaSamples": 16,
+  "deltaMilliseconds": 0.3333333333333333,
+  "installedRendererVersion": "4.0.519",
+  "roundingSource": {
+    "path": "node_modules/@remotion/renderer/dist/stringify-ffmpeg-filter.js",
+    "sha256": "73adbc935530651dd07f63c61778bbbe8664cb550db63762c6cf6733b64ed5f6",
+    "padStartExpression": "(padStart * 1000).toFixed(0)",
+    "padEndExpression": "Math.round(padAtEnd * sampleRate)",
+    "boundSamplesAt48000": 25,
+    "boundReason": "毫秒延迟最坏半毫秒=24采样，另留一次采样取整1采样；多轨混音取最长，不累计所有轨道误差"
+  },
+  "conclusion": "真实raw比目标多16采样，符合30fps非整数毫秒延迟进位；不是音频尾部裁切或秒级内容缺失。媒体comment不代表安装的renderer依赖版本。"
+}
