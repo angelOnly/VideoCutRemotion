@@ -1284,7 +1284,23 @@ var ReviewService = class {
       }
     }
     const actualEvidence = [...new Map(evidence.map((e) => [e.evidenceId, e])).values()], snapshot = { sourceDigest, timeline, files: await snapshotFiles(jobs[0].project), timelineRef };
-    const plan = createReviewPlan({ runId: run.runId, sourceDigest, scenes: scenes2.map((s) => ({ sceneId: s.id, ...s })), chapters: timeline.chapters, readyFrames: actualEvidence.filter((e) => e.kind === "image").map((e) => ({ frame: e.frame, sourceDigest })) });
+    let chapters;
+    ensure2(timeline.chapters === void 0 || Array.isArray(timeline.chapters), "REVIEW_CHAPTER_INVALID", "\u7AE0\u8282\u5FC5\u987B\u662F\u6570\u7EC4");
+    if (timeline.chapters?.length) {
+      let previous = 0;
+      chapters = timeline.chapters.map((chapter, index) => {
+        ensure2(chapter && typeof chapter === "object", "REVIEW_CHAPTER_INVALID", "\u7AE0\u8282\u5FC5\u987B\u5305\u542B\u7F16\u53F7\u4E0E\u8303\u56F4");
+        const last = index === timeline.chapters.length - 1, end = chapter.endFrameExclusive;
+        const outroEnd = last && end === timeline.ending?.narrationEndFrame && Number.isInteger(timeline.ending?.outro?.frames) && end + timeline.ending.outro.frames === timeline.totalFrames;
+        ensure2(typeof chapter.id === "string" && chapter.id.trim() && Number.isInteger(chapter.from) && chapter.from === previous && Number.isInteger(end) && end > chapter.from, "REVIEW_CHAPTER_INVALID", "\u7AE0\u8282\u7F16\u53F7\u548C\u5168\u5C40\u8303\u56F4\u5FC5\u987B\u660E\u786E\u3001\u8FDE\u7EED");
+        const reviewEnd = outroEnd ? timeline.totalFrames : end;
+        const selected = scenes2.filter((s) => s.fromFrame >= chapter.from && s.toFrame <= reviewEnd);
+        ensure2(selected.length && selected[0].fromFrame === chapter.from && selected.at(-1).toFrame === reviewEnd && (!last || reviewEnd === timeline.totalFrames), "REVIEW_CHAPTER_INVALID", "\u7AE0\u8282\u8FB9\u754C\u5FC5\u987B\u5B8C\u6574\u8986\u76D6\u8FDE\u7EED\u5206\u955C\uFF1B\u56FA\u5B9A\u7247\u5C3E\u5F52\u672B\u7AE0");
+        previous = end;
+        return { chapterId: chapter.id, sceneIds: selected.map((s) => s.id) };
+      });
+    }
+    const plan = createReviewPlan({ runId: run.runId, sourceDigest, scenes: scenes2.map((s) => ({ sceneId: s.id, ...s })), chapters, readyFrames: actualEvidence.filter((e) => e.kind === "image").map((e) => ({ frame: e.frame, sourceDigest })) });
     const works = plan.units.map((unit) => {
       const images = actualEvidence.filter((e) => e.kind === "image" && e.frame >= unit.fromFrame && e.frame < unit.toFrame);
       const video = actualEvidence.filter((e) => e.kind === "video" && e.toFrame > unit.fromFrame && e.fromFrame < unit.toFrame).sort((a, b) => a.toFrame - a.fromFrame - (b.toFrame - b.fromFrame));

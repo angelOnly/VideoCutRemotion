@@ -125,8 +125,23 @@ export class ReviewService{
       }
     }
     const actualEvidence=[...new Map(evidence.map(e=>[e.evidenceId,e])).values()],snapshot:ReviewSnapshot={sourceDigest,timeline,files:await snapshotFiles(jobs[0].project),timelineRef};
-    // 章节只采纳通过完整性和连续性验证的显式结构；无章节时沿真实分镜组包。
-    const plan=createReviewPlan({runId:run.runId,sourceDigest,scenes:scenes.map(s=>({sceneId:s.id,...s})),chapters:timeline.chapters,readyFrames:actualEvidence.filter(e=>e.kind==='image').map(e=>({frame:e.frame!,sourceDigest}))});
+    // 模板章节保存全局起止帧；审片包使用分镜编号，不能把两种结构直接混用。
+    let chapters;
+    ensure(timeline.chapters===undefined||Array.isArray(timeline.chapters),'REVIEW_CHAPTER_INVALID','章节必须是数组');
+    if(timeline.chapters?.length){
+      let previous=0;
+      chapters=timeline.chapters.map((chapter:any,index:number)=>{
+        ensure(chapter&&typeof chapter==='object','REVIEW_CHAPTER_INVALID','章节必须包含编号与范围');
+        const last=index===timeline.chapters.length-1,end=chapter.endFrameExclusive;
+        const outroEnd=last&&end===timeline.ending?.narrationEndFrame&&Number.isInteger(timeline.ending?.outro?.frames)&&end+timeline.ending.outro.frames===timeline.totalFrames;
+        ensure(typeof chapter.id==='string'&&chapter.id.trim()&&Number.isInteger(chapter.from)&&chapter.from===previous&&Number.isInteger(end)&&end>chapter.from,'REVIEW_CHAPTER_INVALID','章节编号和全局范围必须明确、连续');
+        const reviewEnd=outroEnd?timeline.totalFrames:end;
+        const selected=scenes.filter(s=>s.fromFrame>=chapter.from&&s.toFrame<=reviewEnd);
+        ensure(selected.length&&selected[0].fromFrame===chapter.from&&selected.at(-1)!.toFrame===reviewEnd&&(!last||reviewEnd===timeline.totalFrames),'REVIEW_CHAPTER_INVALID','章节边界必须完整覆盖连续分镜；固定片尾归末章');
+        previous=end;return {chapterId:chapter.id,sceneIds:selected.map(s=>s.id)};
+      });
+    }
+    const plan=createReviewPlan({runId:run.runId,sourceDigest,scenes:scenes.map(s=>({sceneId:s.id,...s})),chapters,readyFrames:actualEvidence.filter(e=>e.kind==='image').map(e=>({frame:e.frame!,sourceDigest}))});
     const works:ReviewWork[]=plan.units.map(unit=>{
       const images=actualEvidence.filter(e=>e.kind==='image'&&e.frame!>=unit.fromFrame&&e.frame!<unit.toFrame);
       const video=actualEvidence.filter(e=>e.kind==='video'&&e.toFrame!>unit.fromFrame&&e.fromFrame!<unit.toFrame).sort((a,b)=>(a.toFrame!-a.fromFrame!)-(b.toFrame!-b.fromFrame!));

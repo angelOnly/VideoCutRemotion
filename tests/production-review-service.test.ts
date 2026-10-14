@@ -37,6 +37,27 @@ function observations(work:Assignment){return work.checks.flatMap(check=>check.m
 const complete=(work:Assignment)=>({assignmentToken:work.assignmentToken,observations:observations(work),issues:[],status:'complete'});
 const code=(expected:string)=>(error:any)=>error?.code===expected;
 
+test('模板全局章节转换为真实分镜包，末章包含固定片尾且拒绝切断或遗漏分镜',async()=>{
+ const f=await fixture();try{
+  for(const [id,end] of [['full',12],['outro',10]] as const){
+   await f.version(id,'pre_export',t=>{t.chapters=[{id:'c1',from:0,endFrameExclusive:6},{id:'c2',from:6,endFrameExclusive:end}];t.ending={narrationEndFrame:10,outro:{frames:2}};});
+   const plan=await f.service.prepare(f.run,{renderRequestIds:[id],phase:'pre_export',timelineRef:'timeline.json'});
+   assert.equal(plan.total,2);const session=f.session(plan.reviewId),first=f.service.claim(f.run.runId,session.credential)!;
+   assert.deepEqual(first.sceneIds,['s0']);assert.equal(first.unitId,'chapter-c1');
+   const secondSession=f.session(plan.reviewId),second=f.service.claim(f.run.runId,secondSession.credential)!;
+   assert.deepEqual(second.sceneIds,['s1']);assert.equal(second.toFrame,12);
+  }
+  for(const [id,chapters] of [
+   ['cut',[{id:'c1',from:0,endFrameExclusive:5},{id:'c2',from:5,endFrameExclusive:12}]],
+   ['missing',[{id:'c1',from:0,endFrameExclusive:6}]],
+   ['overlap',[{id:'c1',from:0,endFrameExclusive:12},{id:'c2',from:6,endFrameExclusive:12}]],
+  ] as const){
+   await f.version(id,'pre_export',t=>{t.chapters=chapters;});
+   await assert.rejects(f.service.prepare(f.run,{renderRequestIds:[id],phase:'pre_export',timelineRef:'timeline.json'}),code('REVIEW_CHAPTER_INVALID'));
+  }
+ }finally{await f.close();}
+});
+
 test('真实冻结版本准备幂等，静帧时间线必须明确且证据/工程篡改被拒绝',async()=>{
  const f=await fixture();try{
   const version=await f.version('preview','pre_export');
