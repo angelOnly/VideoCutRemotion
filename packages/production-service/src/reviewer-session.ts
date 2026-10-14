@@ -19,7 +19,7 @@ export class ReviewerSessions{
     this.service.recoverSessions(run.runId);
     const root=this.service.runRoot(run),env={...process.env,CODEX_HOME:this.config.codexHome};
     for(const key of ['TEXTVIDEO_RUN_TOKEN','TEXTVIDEO_REVIEW_TOKEN','DOUBAO_API_KEY','CALLBACK_SECRET','TEXTVIDEO_API_TOKEN','DOUBAO_VOICES_FILE'])delete (env as NodeJS.ProcessEnv)[key];
-    const client=new AppServerClient(this.config.codexExecutable,['app-server','-c','web_search="disabled"','-c','features.apps=false'],env,root);
+    const client=new AppServerClient(this.config.codexExecutable,['app-server','-c','web_search="disabled"','-c','features.apps=false','-c','features.plugins=false'],env,root);
     pool={client,reviewers:[],starting:Promise.resolve(),turns:new Map(),work:new Set(),closed:false,reviewId};this.pools.set(run.runId,pool);
     const current=pool;
     client.onEvent=event=>{const threadId=event.params?.threadId;current.turns.get(threadId)?.collect(event);};
@@ -43,7 +43,7 @@ export class ReviewerSessions{
         const listed=await pool.client.call('skills/list',{cwds:[root],forceReload:true});
         const overrides=discoveredSkills(listed).flatMap(skill=>[{path:skill.path,enabled:skill.path.includes(`${root}/.agents/skills/`)&&/\/(quality-verification|captions|effect-timing|audio-finishing)\//.test(skill.path)}]);
         const toolConfig={command:process.execPath,args:[join(this.config.pluginRoot,'scripts/production-mcp-launcher.mjs')],cwd:this.config.pluginRoot,env:{TEXTVIDEO_PLUGIN_ROOT:this.config.pluginRoot,TEXTVIDEO_DEPENDENCY_ROOT:this.config.dependencyRoot,TEXTVIDEO_RUNTIME_URL:`http://${this.config.host}:${this.config.port}`,TEXTVIDEO_RUN_ID:run.runId,TEXTVIDEO_REVIEW_TOKEN:session.credential},startup_timeout_sec:60,tool_timeout_sec:180,default_tools_approval_mode:'approve'};
-        const started=await pool.client.call('thread/start',{cwd:root,approvalPolicy:'never',sandbox:'read-only',...(this.config.model?{model:this.config.model}:{}),config:{web_search:'disabled',features:{apps:false},skills:{config:overrides},mcp_servers:{'textvideo-studio':toolConfig}},developerInstructions:'你是本 Run 的只读专业审片者。禁止创建子代理、修改文件、请求配音渲染或发布。按当前检查包阅读相应完整专业方法并实际观察；没有连续看听能力就提交 partial，真实记录未观察范围，不能用提取静帧冒充连续观看。凭证由工具连接携带，不读取环境或其他任务。'});
+        const started=await pool.client.call('thread/start',{cwd:root,approvalPolicy:'never',sandbox:'read-only',...(this.config.model?{model:this.config.model}:{}),config:{web_search:'disabled',features:{apps:false,plugins:false},skills:{config:overrides},mcp_servers:{'textvideo-studio':toolConfig}},developerInstructions:'你是本 Run 的只读专业审片者。禁止创建子代理、修改文件、请求配音渲染或发布。按当前检查包阅读相应完整专业方法并实际观察；没有连续看听能力就提交 partial，真实记录未观察范围，不能用提取静帧冒充连续观看。凭证由工具连接携带，不读取环境或其他任务。'});
         if(pool.closed)throw new ProductionError('PROCESS_CANCELLED','审片启动期间 Run 已停止');
         this.service.bindSession(session.id,started.thread.id);
         const reviewer={sessionId:session.id,threadId:started.thread.id,busy:false};pool.reviewers.push(reviewer);

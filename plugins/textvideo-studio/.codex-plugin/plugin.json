@@ -1,6 +1,6 @@
 {
   "name": "textvideo-studio",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "文本驱动模板视频生产：两阶段分析与制作、豆包配音、Remotion 和可追溯版本。",
   "author": {
     "name": "文稿视频工坊"

@@ -75,7 +75,8 @@ export async function prepareStageSkills(stage:Run['stage'],root:string,pluginRo
   for(const item of await fs.readdir(destination,{withFileTypes:true}))if(item.isDirectory()&&await fs.stat(join(destination,item.name,'SKILL.md')).catch(()=>null))paths.push(await fs.realpath(join(destination,item.name,'SKILL.md')));
   if(!paths.some(path=>path.endsWith(`${process.platform==='win32'?'\\':'/'}production-coordinator${process.platform==='win32'?'\\':'/'}SKILL.md`)))throw new ProductionError('STAGE_SKILLS_MISSING','阶段视图缺少生产入口',503);
   // skills.config 只切换已发现技能，不能添加发现根；按正式 repo 发现机制装入本 Run。
-  const probe=new AppServerClient(executable,['app-server','-c','web_search="disabled"','-c','features.apps=false'],env,root);let baseline:any;
+  // 插件可能在线程创建后异步注入；仅本会话关闭自动发现，阶段技能与显式 MCP 仍正常加载。
+  const probe=new AppServerClient(executable,['app-server','-c','web_search="disabled"','-c','features.apps=false','-c','features.plugins=false'],env,root);let baseline:any;
   try{await probe.init();baseline=await probe.call('skills/list',{cwds:[root],forceReload:true});}finally{await probe.close();}
   await writeJson(join(root,'skill-discovery-baseline.json'),baseline);
   const overrides:Array<{path:string;enabled:boolean}>=[],wanted=new Set(paths);
@@ -116,7 +117,7 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
   if(await fs.stat(log).catch(()=>null))for await(const line of createInterface({input:createReadStream(log),crlfDelay:Infinity})){try{const event=JSON.parse(line);usage.observe(event);for(const t of threadDiscoveries(event))knownThreads.set(t.threadId,t);}catch{}}
   let eventWrites:Promise<unknown>=Promise.resolve(),discoveryChecks:Promise<unknown>=Promise.resolve();
   const stageSkills=await prepareStageSkills(run.stage,root,config.pluginRoot,config.codexExecutable,env);
-  const client=new AppServerClient(config.codexExecutable,['app-server','-c','web_search="disabled"','-c','features.apps=false','-c',skillConfigArgument(stageSkills)],env,root);
+  const client=new AppServerClient(config.codexExecutable,['app-server','-c','web_search="disabled"','-c','features.apps=false','-c','features.plugins=false','-c',skillConfigArgument(stageSkills)],env,root);
   client.child.stderr.on('data',data=>{observer.observeTransport(String(data));void fs.appendFile(join(root,'logs','codex-stderr.log'),data).catch(()=>{});});
   let threadId=run.checkpoint.codex?.threadId as string|undefined,turnId=run.checkpoint.codex?.turnId as string|undefined;
   let receiver:ReturnType<typeof createTurnReceiver>|undefined,connectionError:Error|undefined;
@@ -150,7 +151,7 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
   const abort=()=>{if(threadId&&turnId)void client.call('turn/interrupt',{threadId,turnId},5000).catch(()=>{});receiver?.fail(new ProductionError('PROCESS_CANCELLED','会话已取消'));};signal.addEventListener('abort',abort,{once:true});
   const ensureActive=()=>{if(connectionError)throw connectionError;if(signal.aborted)throw new ProductionError('PROCESS_CANCELLED','任务已取消');};
   const toolConfig={command:process.execPath,args:[join(config.pluginRoot,'scripts/production-mcp-launcher.mjs')],cwd:config.pluginRoot,env:{TEXTVIDEO_PLUGIN_ROOT:config.pluginRoot,TEXTVIDEO_DEPENDENCY_ROOT:config.dependencyRoot,TEXTVIDEO_RUNTIME_URL:env.TEXTVIDEO_RUNTIME_URL!,TEXTVIDEO_RUN_ID:run.runId,TEXTVIDEO_RUN_TOKEN:run.token!},startup_timeout_sec:60,tool_timeout_sec:180,default_tools_approval_mode:'approve'};
-  const startParams:ThreadStartParams={cwd:root,approvalPolicy:'never',sandbox:'workspace-write',...(config.model?{model:config.model}:{}),config:{web_search:'disabled',features:{apps:false},skills:{config:stageSkills.overrides},...(process.platform==='win32'?{windows:{sandbox:'unelevated'}}:{}),mcp_servers:{'textvideo-studio':toolConfig}},developerInstructions:'这是已授权的隔离模板视频生产。只使用本 Run 阶段入口及工具。新作者通过当前完整稿与受管材料引用交接，不默认继承完整父历史；持续作者沿原线程接收真实差异。主协调只读运行合同，专业作者按职责读取完整方法。禁止读取凭据或访问其他任务。纯媒体等待返回 await_runtime，最后以 final 交付。'};
+  const startParams:ThreadStartParams={cwd:root,approvalPolicy:'never',sandbox:'workspace-write',...(config.model?{model:config.model}:{}),config:{web_search:'disabled',features:{apps:false,plugins:false},skills:{config:stageSkills.overrides},...(process.platform==='win32'?{windows:{sandbox:'unelevated'}}:{}),mcp_servers:{'textvideo-studio':toolConfig}},developerInstructions:'这是已授权的隔离模板视频生产。只使用本 Run 阶段入口及工具。新作者通过当前完整稿与受管材料引用交接，不默认继承完整父历史；持续作者沿原线程接收真实差异。主协调只读运行合同，专业作者按职责读取完整方法。禁止读取凭据或访问其他任务。纯媒体等待返回 await_runtime，最后以 final 交付。'};
   const runTurn=async(text:string,onStarted?:(id:string)=>void,firstTurn=false)=>{
     ensureActive();receiver=createTurnReceiver(threadId!);
     // 刚创建的线程尚未持久化首条消息，宿主不支持读取历史；恢复和续轮仍须实际核查。

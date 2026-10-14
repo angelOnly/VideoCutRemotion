@@ -62,7 +62,7 @@ test('隔离宿主按 Run 固定阶段目录，实际 skills/list 不重新发�
     const env={...process.env,CODEX_HOME:codexHome};
     const config=await prepareStageSkills('analysis',runRoot,pluginRoot,executable,env);
     const argument=`skills.config=[${config.overrides.map(item=>`{path=${JSON.stringify(item.path)},enabled=${item.enabled}}`).join(',')}]`;
-    const client=new AppServerClient(executable,['app-server','-c',argument],env,runRoot);
+    const client=new AppServerClient(executable,['app-server','-c','features.plugins=false','-c',argument],env,runRoot);
     try{await client.init();const result=await client.call('skills/list',{cwds:[runRoot],forceReload:true});const evidence=verifyStageSkills(result,config.paths);assert.deepEqual(evidence.enabled.map(s=>s.name),['production-coordinator']);}finally{await client.close();}
     assert.deepEqual(await prepareStageSkills('analysis',runRoot,pluginRoot,executable,env),config);
     await fs.writeFile(config.paths[0],'changed');await assert.rejects(prepareStageSkills('analysis',runRoot,pluginRoot,executable,env),/固定阶段技能已改变/);
