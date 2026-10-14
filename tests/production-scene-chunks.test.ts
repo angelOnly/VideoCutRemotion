@@ -1,14 +1,15 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {promises as fs} from 'node:fs';
-import {join} from 'node:path';
+import {join,dirname} from 'node:path';
+import {createRequire} from 'node:module';
 import {tmpdir} from 'node:os';
 import {bundle} from '@remotion/bundler';
 import {selectComposition,renderMedia,renderFrames,openBrowser} from '@remotion/renderer';
 import {renderTemplate,retryRenderSlices,templateFrames,type MediaJob,type RenderOptions} from '../apps/render-worker/src/template-renderer.js';
 import {cutSceneFromWhole} from '../apps/render-worker/src/template-slices.js';
-import {frameSample,mapMediaLimited} from '../apps/render-worker/src/template-chunks.js';
-import {processFile,writeJson,treeDigest} from '../packages/production-service/src/files.js';
+import {frameSample,mapMediaLimited,checkContinuousPcmSource} from '../apps/render-worker/src/template-chunks.js';
+import {processFile,writeJson,treeDigest,probe} from '../packages/production-service/src/files.js';
 import {sha256} from '../packages/production-service/src/contracts.js';
 import {MediaBudget} from '../packages/production-service/src/run-work.js';
 const engine={bundle,selectComposition,renderMedia,renderFrames,openBrowser};
@@ -97,5 +98,35 @@ test('动态预览有限并发、失败收口与原范围续做；取消不登�
     await processFile(ffmpeg,['-v','error','-re','-f','lavfi','-i','testsrc2=size=64x64:rate=30','-t','5','-c:v','libx264','-threads:v','1',o.outputLocation],{signal:controller.signal});return {} as any;
   }};
   await assert.rejects(renderTemplate(run,root,{...input,renderRequestId:'cancel'},{...options,signal:controller.signal,onFileReady:async f=>{cancelReady.push(f);}},cancelled));assert.equal(launched,2);assert.equal(cancelReady.length,0);
+ }finally{await fs.rm(root,{recursive:true,force:true});}
+});
+
+
+test('连续PCM仅接受毫秒延迟量化边界，拒绝大缺口和错误采样格式',()=>{
+ const expected=6870400,source=(delta:number)=>({codec_name:'pcm_s16le',sample_rate:'48000',time_base:'1/48000',duration_ts:expected+delta});
+ for(const delta of [-25,-16,0,16,25])assert.equal(checkContinuousPcmSource(source(delta),expected).normalizationSamples,delta===0?0:-delta);
+ for(const delta of [-1600,-26,26,1600])assert.throws(()=>checkContinuousPcmSource(source(delta),expected),error=>{assert.match(String(error),/6870400/);assert.match(String(error),/toleranceSamples/);return true;});
+ for(const invalid of [undefined,{...source(0),sample_rate:'44100'},{...source(0),time_base:'1/1000'},{...source(0),codec_name:'aac'},{...source(0),duration_ts:NaN}])assert.throws(()=>checkContinuousPcmSource(invalid,expected),/采样范围不符/);
+});
+
+test('真实Remotion音频滤镜与FFmpeg：非整数毫秒起点产生正负16采样差，规范化不移动已有音频',async(t)=>{
+ const root=await fs.mkdtemp(join(tmpdir(),'pcm-rounding-')),require=createRequire(import.meta.url);
+ const {stringifyFfmpegFilter}=require(join(dirname(require.resolve('@remotion/renderer')),'stringify-ffmpeg-filter.js'));
+ const expected=frameSample(37,30),evidence=[];
+ try{
+  for(const start of [1,2]){
+   const filter=stringifyFfmpegFilter({channels:1,volume:1,fps:30,assetDuration:2,chunkLengthInSeconds:37/30,forSeamlessAacConcatenation:false,trimLeftOffset:0,trimRightOffset:0,asset:{type:'audio',src:'isolated',id:'isolated',startInVideo:start,duration:13,trimLeft:0,volume:1,playbackRate:1,toneFrequency:1,audioStreamIndex:0,audioStartFrame:0},indent:false,logLevel:'error',presentationTimeOffsetInSeconds:0,sampleRate:48000});
+   const original=join(root,`${start}.wav`),normalized=join(root,`${start}-normalized.wav`);
+   const filters=`${filter.filter};[a0]${[filter.pad_start,filter.pad_end].filter(Boolean).join(',')}[out]`;
+   await processFile(ffmpeg,['-v','error','-f','lavfi','-i','sine=frequency=440:sample_rate=48000:duration=2','-filter_complex',filters,'-map','[out]','-c:a','pcm_s16le',original]);
+   const source=(await probe(original)).streams.find((stream:any)=>stream.codec_type==='audio'),range=checkContinuousPcmSource(source,expected);
+   assert.equal(range.sourceSamples-expected,start===1?-16:16);
+   await processFile(ffmpeg,['-v','error','-i',original,'-af',`apad,atrim=end_sample=${expected},asetpts=PTS-STARTPTS`,'-ar','48000','-c:a','pcm_s16le',normalized]);
+   const fixed=(await probe(normalized)).streams.find((stream:any)=>stream.codec_type==='audio');assert.equal(Number(fixed.duration_ts),expected);
+   const before=await raw(original,true),after=await raw(normalized,true);assert.deepEqual(after.subarray(0,Math.min(before.length,after.length)),before.subarray(0,Math.min(before.length,after.length)));
+   if(before.length<after.length)assert.ok(after.subarray(before.length).every(byte=>byte===0));
+   evidence.push({fromFrame:start,padStart:filter.pad_start,expectedSamples:expected,sourceSamples:range.sourceSamples,normalizationSamples:range.normalizationSamples,finalSamples:Number(fixed.duration_ts)});
+  }
+  t.diagnostic(JSON.stringify({pcmMillisecondRounding:evidence}));
  }finally{await fs.rm(root,{recursive:true,force:true});}
 });

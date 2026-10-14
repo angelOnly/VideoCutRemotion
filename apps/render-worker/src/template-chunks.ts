@@ -9,10 +9,21 @@ import { withMediaSpan } from '../../../packages/production-service/src/media-me
 import type { MediaJob, RenderOptions, TemplateRenderInput, VideoFile } from './template-renderer.js';
 
 export type RenderChunk = VideoExtent & {id:string;path:string;sha256:string;sourceDigest:string;parametersDigest:string};
-export type RenderAudio = {path:string;sha256:string;sourceDigest:string;parametersDigest:string;sampleRate:number;samples:number};
+export type RenderAudio = {path:string;sha256:string;sourceDigest:string;parametersDigest:string;sampleRate:number;samples:number;sourceSamples?:number;normalizationSamples?:number};
 const sampleRate=48000;
 /** 边界统一从全局帧换算，不能把各段四舍五入后的时长累加。 */
 export const frameSample=(frame:number,fps:number)=>Math.round(frame*sampleRate/fps);
+
+/** Remotion 的 adelay 按毫秒取整，末尾 apad 按采样取整；混音取最长轨，误差不随句段累加。 */
+export function checkContinuousPcmSource(audio:{codec_name?:unknown;sample_rate?:unknown;time_base?:unknown;duration_ts?:unknown}|undefined,expectedSamples:number){
+  const sourceSamples=Number(audio?.duration_ts),toleranceSamples=Math.ceil(sampleRate/2000)+1;
+  const validFormat=audio?.codec_name==='pcm_s16le'&&Number(audio.sample_rate)===sampleRate&&audio.time_base===`1/${sampleRate}`;
+  const normalizationSamples=expectedSamples-sourceSamples;
+  // 仅吸收半毫秒延迟量化与一次采样舍入；大缺口仍失败，不能用整帧容差或任意静音补齐。
+  if(!validFormat||!Number.isSafeInteger(sourceSamples)||sourceSamples<=0||Math.abs(normalizationSamples)>toleranceSamples)throw new ProductionError('PCM_SOURCE_LENGTH_MISMATCH',`原连续音轨格式或采样范围不符：${JSON.stringify({expectedSamples,sourceSamples:Number.isFinite(sourceSamples)?sourceSamples:null,normalizationSamples:Number.isFinite(normalizationSamples)?normalizationSamples:null,toleranceSamples,sampleRate,validFormat})}`);
+  return {sourceSamples,normalizationSamples,toleranceSamples};
+}
+
 
 /** 出错后停止派发，等待已启动任务收口，避免上层提前释放预算或发布结果。 */
 export async function mapMediaLimited<T,R>(items:T[],limit:number,work:(item:T,index:number)=>Promise<R>):Promise<R[]>{
@@ -89,11 +100,10 @@ export async function renderSceneChunks(args:{run:Run;root:string;input:Template
     try{
       await drawingWork(run.runId,options,()=>processWork(run.runId,options,()=>withMediaSpan(options.metrics,'continuous_audio_render',()=>render({serveUrl,composition,outputLocation:raw,codec:'wav',sampleRate,enforceAudioTrack:true,frameRange:[0,full.toFrame-1],browserExecutable:options.browser,concurrency:options.concurrency,cancelSignal,overwrite:true}))));
       const rawMedia=await processWork(run.runId,options,()=>probe(raw,false,options.signal)),rawAudio=rawMedia.streams.find((stream:any)=>stream.codec_type==='audio');
-      // 只修正帧到采样的末尾舍入；不能靠补静音掩盖缺失的整段声音。
-      if(!rawAudio||Number(rawAudio.sample_rate)!==sampleRate||!Number.isFinite(Number(rawAudio.duration))||Math.abs(Number(rawAudio.duration)-samples/sampleRate)>2/sampleRate)throw new ProductionError('PCM_SOURCE_LENGTH_MISMATCH','原连续音轨未覆盖完整时间线');
-      await processWork(run.runId,options,()=>withMediaSpan(options.metrics,'continuous_audio_normalize',()=>ffmpeg(['-i',raw,'-af',`apad,atrim=end_sample=${samples},asetpts=PTS-STARTPTS`,'-ar',String(sampleRate),'-c:a','pcm_s16le',pending],options)));
+      const sourceRange=checkContinuousPcmSource(rawAudio,samples);
+      await processWork(run.runId,options,()=>withMediaSpan(options.metrics,'continuous_audio_normalize',()=>ffmpeg(['-i',raw,'-af',`apad,atrim=end_sample=${samples},asetpts=PTS-STARTPTS`,'-ar',String(sampleRate),'-c:a','pcm_s16le',pending],options),{sourceSamples:sourceRange.sourceSamples,expectedSamples:samples,normalizationSamples:sourceRange.normalizationSamples,toleranceSamples:sourceRange.toleranceSamples}));
       await processWork(run.runId,options,()=>validatePcm(pending,samples,options));cancelled(options);await fs.rename(pending,pcm);
-      audio={path:pcm,sha256:sha256(await fs.readFile(pcm)),sourceDigest,parametersDigest,sampleRate,samples};await options.onAudioReady?.(audio);
+      audio={path:pcm,sha256:sha256(await fs.readFile(pcm)),sourceDigest,parametersDigest,sampleRate,samples,sourceSamples:sourceRange.sourceSamples,normalizationSamples:sourceRange.normalizationSamples};await options.onAudioReady?.(audio);
     }finally{await fs.rm(raw,{force:true});await fs.rm(pending,{force:true});}
   });
   await mapMediaLimited(tasks,options.runConcurrency??2,task=>task());

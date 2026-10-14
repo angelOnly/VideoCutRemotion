@@ -2288,6 +2288,13 @@ var import_node_fs12 = require("node:fs");
 var import_node_path12 = require("node:path");
 var sampleRate = 48e3;
 var frameSample = (frame, fps) => Math.round(frame * sampleRate / fps);
+function checkContinuousPcmSource(audio, expectedSamples) {
+  const sourceSamples = Number(audio?.duration_ts), toleranceSamples = Math.ceil(sampleRate / 2e3) + 1;
+  const validFormat = audio?.codec_name === "pcm_s16le" && Number(audio.sample_rate) === sampleRate && audio.time_base === `1/${sampleRate}`;
+  const normalizationSamples = expectedSamples - sourceSamples;
+  if (!validFormat || !Number.isSafeInteger(sourceSamples) || sourceSamples <= 0 || Math.abs(normalizationSamples) > toleranceSamples) throw new ProductionError("PCM_SOURCE_LENGTH_MISMATCH", `\u539F\u8FDE\u7EED\u97F3\u8F68\u683C\u5F0F\u6216\u91C7\u6837\u8303\u56F4\u4E0D\u7B26\uFF1A${JSON.stringify({ expectedSamples, sourceSamples: Number.isFinite(sourceSamples) ? sourceSamples : null, normalizationSamples: Number.isFinite(normalizationSamples) ? normalizationSamples : null, toleranceSamples, sampleRate, validFormat })}`);
+  return { sourceSamples, normalizationSamples, toleranceSamples };
+}
 async function mapMediaLimited(items, limit, work) {
   if (!Number.isInteger(limit) || limit < 1) throw new ProductionError("MEDIA_CONCURRENCY_INVALID", "\u5A92\u4F53\u5E76\u53D1\u987B\u4E3A\u6B63\u6574\u6570");
   const result = new Array(items.length);
@@ -2402,12 +2409,12 @@ async function renderSceneChunks(args) {
     try {
       await drawingWork(run.runId, options, () => processWork(run.runId, options, () => withMediaSpan(options.metrics, "continuous_audio_render", () => render({ serveUrl, composition, outputLocation: raw, codec: "wav", sampleRate, enforceAudioTrack: true, frameRange: [0, full.toFrame - 1], browserExecutable: options.browser, concurrency: options.concurrency, cancelSignal, overwrite: true }))));
       const rawMedia = await processWork(run.runId, options, () => probe(raw, false, options.signal)), rawAudio = rawMedia.streams.find((stream) => stream.codec_type === "audio");
-      if (!rawAudio || Number(rawAudio.sample_rate) !== sampleRate || !Number.isFinite(Number(rawAudio.duration)) || Math.abs(Number(rawAudio.duration) - samples / sampleRate) > 2 / sampleRate) throw new ProductionError("PCM_SOURCE_LENGTH_MISMATCH", "\u539F\u8FDE\u7EED\u97F3\u8F68\u672A\u8986\u76D6\u5B8C\u6574\u65F6\u95F4\u7EBF");
-      await processWork(run.runId, options, () => withMediaSpan(options.metrics, "continuous_audio_normalize", () => ffmpeg2(["-i", raw, "-af", `apad,atrim=end_sample=${samples},asetpts=PTS-STARTPTS`, "-ar", String(sampleRate), "-c:a", "pcm_s16le", pending], options)));
+      const sourceRange = checkContinuousPcmSource(rawAudio, samples);
+      await processWork(run.runId, options, () => withMediaSpan(options.metrics, "continuous_audio_normalize", () => ffmpeg2(["-i", raw, "-af", `apad,atrim=end_sample=${samples},asetpts=PTS-STARTPTS`, "-ar", String(sampleRate), "-c:a", "pcm_s16le", pending], options), { sourceSamples: sourceRange.sourceSamples, expectedSamples: samples, normalizationSamples: sourceRange.normalizationSamples, toleranceSamples: sourceRange.toleranceSamples }));
       await processWork(run.runId, options, () => validatePcm(pending, samples, options));
       cancelled(options);
       await import_node_fs12.promises.rename(pending, pcm);
-      audio = { path: pcm, sha256: sha256(await import_node_fs12.promises.readFile(pcm)), sourceDigest, parametersDigest, sampleRate, samples };
+      audio = { path: pcm, sha256: sha256(await import_node_fs12.promises.readFile(pcm)), sourceDigest, parametersDigest, sampleRate, samples, sourceSamples: sourceRange.sourceSamples, normalizationSamples: sourceRange.normalizationSamples };
       await options.onAudioReady?.(audio);
     } finally {
       await import_node_fs12.promises.rm(raw, { force: true });

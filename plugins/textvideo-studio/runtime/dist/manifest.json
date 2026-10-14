@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
-  "pluginVersion": "0.1.9",
-  "releaseId": "release-f92225d5b91d9eadcf82d7a7f3850e393b22f9ec978bcd9d1cb6442a9f22b890",
+  "pluginVersion": "0.1.10",
+  "releaseId": "release-8b8ce5f6b011574f12f227835d970b556044e5fe41d36e8aafac1d7e3db90b50",
   "skillsDigest": "cc919f89c64055d352c1f25f7fe5036e5e4360ac447a71055256a7fa67bae2d1",
   "skillViewsDigest": "eb4bd6c3f5f0fdba76e77e35a2d0e025f9b09fcd845857ae0e0038095b9954b9",
   "skillViews": {
