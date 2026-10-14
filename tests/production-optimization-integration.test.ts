@@ -12,10 +12,10 @@ import {publishDelivery} from '../packages/production-service/src/delivery.js';
 import {renderTemplate,retryRenderSlices,type MediaJob} from '../apps/render-worker/src/template-renderer.js';
 import {type MediaSpanRecord} from '../packages/production-service/src/media-metrics.js';
 
-test('灰度配置默认旧行为，拒绝拼错开关或无效审片名额',()=>{
- assert.deepEqual(readOptimizationConfig({}),{qaParallelReview:false,qaMaxReviewers:3,previewOnDemand:false,sceneCutMode:'accurate',mediaTiming:true});
+test('新任务配置默认动画优化路径，拒绝拼错开关或无效预算',()=>{
+ assert.deepEqual(readOptimizationConfig({}),{qaParallelReview:true,qaMaxReviewers:3,previewOnDemand:true,sceneCutMode:'accurate',mediaTiming:true,renderStrategy:'scene-chunks',mediaGlobalConcurrency:16,mediaRunConcurrency:2,mediaProcessConcurrency:4});
  assert.equal(readOptimizationConfig({TEXTVIDEO_SCENE_CUT_MODE:'hybrid',TEXTVIDEO_MEDIA_TIMING:'false'}).mediaTiming,false);
- for(const env of [{TEXTVIDEO_SCENE_CUT_MODE:'copy'},{TEXTVIDEO_QA_PARALLEL_REVIEW:'yes'},{TEXTVIDEO_QA_MAX_REVIEWERS:'4'},{TEXTVIDEO_QA_MAX_REVIEWERS:'0'},{TEXTVIDEO_PREVIEW_ON_DEMAND:''}])assert.throws(()=>readOptimizationConfig(env));
+ for(const env of [{TEXTVIDEO_SCENE_CUT_MODE:'copy'},{TEXTVIDEO_QA_PARALLEL_REVIEW:'yes'},{TEXTVIDEO_QA_MAX_REVIEWERS:'4'},{TEXTVIDEO_QA_MAX_REVIEWERS:'0'},{TEXTVIDEO_PREVIEW_ON_DEMAND:''},{TEXTVIDEO_RENDER_STRATEGY:'invalid'},{TEXTVIDEO_MEDIA_GLOBAL_CONCURRENCY:'0'},{TEXTVIDEO_MEDIA_RUN_CONCURRENCY:'9'},{TEXTVIDEO_MEDIA_PROCESS_CONCURRENCY:'bad'}])assert.throws(()=>readOptimizationConfig(env));
 });
 
 test('33句TTS仍交付11镜，保留67帧片头片尾及句间停顿',()=>{

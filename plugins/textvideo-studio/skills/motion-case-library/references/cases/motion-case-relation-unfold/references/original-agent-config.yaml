@@ -1,5 +1,0 @@
-interface:
-  display_name: "保持参照与关系拆层"
-  short_description: "VideoFlowCut 按观看任务选读的案例参考"
-policy:
-  allow_implicit_invocation: false

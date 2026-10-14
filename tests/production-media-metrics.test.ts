@@ -104,3 +104,13 @@ test('报告读取真实 JSONL，拒绝截断日志与空基准，重复文件�
     await assert.rejects(report(file), /未找到实际计时记录/);
   } finally { await fs.rm(root, { recursive: true, force: true }); }
 });
+
+test('实际 FFmpeg 子进程计入采样资源，明确保留并发与短进程遗漏边界',async()=>{
+ const {context,records}=recording();
+ await withMediaSpan(context,'media_job',()=>promisify(execFile)(process.env.FFMPEG_PATH??'ffmpeg',['-v','error','-re','-f','lavfi','-i','sine=frequency=440:sample_rate=48000','-t','2','-f','null','-']));
+ const children=records[0].resources.childProcesses!;
+ assert.equal(children.scope,'sampled_chrome_ffmpeg_descendants_including_concurrent_work');
+ if(process.platform!=='win32'){assert.equal(children.available,true);assert.ok(children.observedProcessCount>=1);assert.ok(children.peakCombinedRssBytes>0);}
+ assert.equal(children.accounting,'sampled_lower_bound_short_lived_processes_may_be_missed');
+ assert.equal(JSON.stringify(children).includes('frequency'),false);
+});

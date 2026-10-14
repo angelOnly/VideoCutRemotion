@@ -1,5 +1,0 @@
-interface:
-  display_name: "物体微距、部件离开与大字接管"
-  short_description: "VideoFlowCut 按观看任务选读的案例参考"
-policy:
-  allow_implicit_invocation: false

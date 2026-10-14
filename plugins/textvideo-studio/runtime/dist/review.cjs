@@ -164,7 +164,7 @@ var analysisResultSchema = import_zod.z.object({
   runId: import_zod.z.string().uuid(),
   inputDigest: import_zod.z.string(),
   dataList: import_zod.z.array(sceneSchema.extend({ dur: import_zod.z.number().positive(), durationSource: import_zod.z.literal("estimated") })).min(1),
-  context: import_zod.z.string().min(1)
+  context: import_zod.z.string().min(1).refine((value) => value.trim().length > 0, "context \u5FC5\u987B\u662F\u975E\u7A7A Markdown \u5B57\u7B26\u4E32")
 }).strict();
 var sceneCutMetadataSchema = import_zod.z.object({
   cutMode: import_zod.z.enum(["accurate", "stream_copy", "local_transcode"]),

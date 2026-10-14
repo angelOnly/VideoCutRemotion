@@ -23,7 +23,8 @@ test('主题单元不硬编码数量，同版覆盖完整分镜，真实容量�
   assert.equal(reviewerCapacity({ ...DEFAULT_REVIEW_POLICY, qaParallelReview: true }, 9), 3);
   assert.equal(reviewerCapacity({ ...DEFAULT_REVIEW_POLICY, qaParallelReview: true }, 2), 2);
   assert.equal(reviewerCapacity(DEFAULT_REVIEW_POLICY, 0), 0);
-  assert.equal(reviewerCapacity(DEFAULT_REVIEW_POLICY, 4), 1);
+  assert.equal(reviewerCapacity(DEFAULT_REVIEW_POLICY, 4), 3);
+  assert.equal(reviewerCapacity({...DEFAULT_REVIEW_POLICY, qaParallelReview:false}, 4), 1);
   for (let i = 0; i < 3; i++) assignReviewUnit(current, `chapter-ch${i}`, `agent-${i + 1}`, `assignment-${i + 1}`);
   assert.equal(current.units.filter(unit => unit.status === 'assigned').length, 3);
   assert.throws(() => assignReviewUnit(current, 'chapter-ch0', 'agent-other', 'duplicate'), /待审/);

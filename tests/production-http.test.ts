@@ -13,13 +13,21 @@ import { publishDelivery } from '../packages/production-service/src/delivery.js'
 test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定版本修改闭环',async()=>{
   const root=await fs.mkdtemp(join(tmpdir(),'vfc-http-')),template=join(root,'template');await fs.mkdir(join(template,'renderer/public'),{recursive:true});
   await fs.writeFile(join(template,'说明.md'),'此文件是协议测试模板，不是真实创作结果。');await fs.writeFile(join(template,'renderer/src.ts'),'export {};');await fs.writeFile(join(template,'renderer/timeline.json'),'{}');
-  await writeJson(join(template,'renderer/renderer-manifest.json'),{schemaVersion:1,templateVersion:'1',instructions:['../说明.md'],entry:'src.ts',wholeComposition:'Test',timelineModule:'timeline.json',publicAssetRoot:'public',width:320,height:180,fps:30,voiceRefs:[]});
+  await fs.writeFile(join(template,'文字合同.md'),'逐字保留正文、顺序、数字、英文及换行。');
+  await writeJson(join(template,'renderer/renderer-manifest.json'),{schemaVersion:1,templateVersion:'1',analysisInstructions:['../文字合同.md'],instructions:['../说明.md'],entry:'src.ts',wholeComposition:'Test',timelineModule:'timeline.json',publicAssetRoot:'public',width:320,height:180,fps:30,voiceRefs:[]});
   const zip=join(root,'template.zip');await processFile('python',['-c',"import pathlib,zipfile,sys; p=pathlib.Path(sys.argv[1]); z=zipfile.ZipFile(sys.argv[2],'w'); [z.write(f,f.relative_to(p).as_posix() + ('/' if f.is_dir() else '')) for f in p.rglob('*')]; z.close()",template,zip]);
   let downloads=0;const platform=createServer(async(req,res)=>{if(req.url?.endsWith('/package')){downloads++;res.end(await fs.readFile(zip));}else res.end('{"status":0}');});await new Promise<void>(r=>platform.listen(0,'127.0.0.1',r));
   const base=`http://127.0.0.1:${(platform.address() as any).port}`,config={dataRoot:join(root,'data'),apiToken:'test',accountId:'a',templateBase:base,callbackBase:base,callbackSecret:'secret',mediaBase:'http://local/media',release:{releaseId:'release-test'},ready:{codex:true,tts:true,dependencies:true},searchEnabled:false} as ProductionConfig;let calls=0;
   const media=join(root,'stub.mp4');await processFile('ffmpeg',['-v','error','-f','lavfi','-i','color=c=blue:s=320x180:r=30:d=1','-f','lavfi','-i','sine=frequency=440:duration=1','-c:v','libx264','-c:a','aac','-shortest',media]);
   const service=await createProductionServer(config,async(run,runRoot)=>{calls++;const path=join(runRoot,'result.json');let result:any;
-    if(run.stage==='analysis')assert.equal((await json(join(runRoot,'result-schema.json'))).properties.context.type,'string');
+    if(run.stage==='analysis'){
+      assert.equal((await json(join(runRoot,'result-schema.json'))).properties.context.type,'string');
+      const input=await json(join(runRoot,'input.json'));
+      assert.equal(input.template.templateVersion,run.checkpoint.template.manifest.templateVersion);
+      assert.equal(input.template.analysisInstructions[0].text,'逐字保留正文、顺序、数字、英文及换行。');
+      assert.equal(input.template.root,undefined);assert.equal(input.template.manifest,undefined);assert.equal(input.projectRoot,undefined);
+      assert.ok(!JSON.stringify(input).includes('src.ts'));
+    }
     if(run.stage==='analysis')result={taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,dataList:[{id:'s1',content:'第一段。',dur:1,durationSource:'estimated'},{id:'s2',content:'第二段。',dur:1,durationSource:'estimated'}],context:'已读测试模板；执行器为 stub。'};
     else{await fs.copyFile(media,join(runRoot,'stub.mp4'));await fs.cp(join(runRoot,'project'),join(runRoot,'render-snapshots','test-render','project'),{recursive:true});const scenes=(run.request as any).dataList;result={taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,templateDigest:run.checkpoint.template.digest,renderRequestId:'test-render',sourceDigest:await treeDigest(join(runRoot,'project')),timelineRef:'renderer/timeline.json',checks:['协议测试 stub，未作创意评审'],files:[{id:'whole-video',content:scenes.map((s:any)=>s.content).join('')},...scenes].map(s=>({...s,file:join(runRoot,'stub.mp4'),sha256:sha256(Buffer.from([])),dur:1,fromFrame:0,toFrame:30,width:320,height:180,fps:30}))};for(const f of result.files)f.sha256=sha256(await fs.readFile(media));await fs.writeFile(join(runRoot,'project','post-render-review.md'),'导出后补充审片记录；不改变渲染输入快照。');}
     await writeJson(path,result);return {taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,resultPath:path};});
@@ -30,6 +38,8 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
     const accepted=await post(aPath,input);assert.equal(accepted.statusCode,202);const a=accepted.json().data;await service.runner.tick();await service.runner.drain();assert.equal(service.repo.get(a.runId).state,'succeeded',JSON.stringify(service.repo.get(a.runId).error));assert.equal(downloads,1);
     const repeated=await Promise.all(Array.from({length:8},()=>post(aPath,input)));assert.ok(repeated.every(r=>r.json().data.runId===a.runId));assert.equal(calls,1);
     const originalTemplate=service.repo.get(a.runId).checkpoint.template.digest;
+    assert.equal(service.repo.get(a.runId).checkpoint.analysisBasis.templateDigest,originalTemplate);
+    assert.equal(service.repo.get(a.runId).checkpoint.analysisBasis.analysisContractDigest,service.repo.get(a.runId).checkpoint.template.analysisContract.digest);
     const manifestPath=join(template,'renderer/renderer-manifest.json');await writeJson(manifestPath,{...await json(manifestPath),templateVersion:'2'});
     await processFile('python',['-c',"import pathlib,zipfile,sys; p=pathlib.Path(sys.argv[1]); z=zipfile.ZipFile(sys.argv[2],'w'); [z.write(f,f.relative_to(p).as_posix() + ('/' if f.is_dir() else '')) for f in p.rglob('*')]; z.close()",template,zip]);
     const request={taskId:'t',basePlanVersion:a.planVersion,otherRequirements:'新要求',dataList:[{id:'s2',content:'编辑后的第二段。'},{id:'s1',content:'第一段。'}]};
@@ -60,7 +70,7 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
     await service.runner.recover();await service.runner.drain();assert.equal(service.repo.get(crash.runId).state,'succeeded');assert.equal(calls,5);assert.equal((await fs.stat(publishedFile)).mtimeMs,before.mtimeMs);
     assert.equal(service.repo.get(r.runId).resultVersion,1);
     const tokenRun=service.repo.accept('a','analysis',{...input,content:'另一稿'}),claim=service.repo.claim()!;assert.equal(claim.runId,tokenRun.runId);
-    const denied=await service.app.inject({method:'POST',url:'/internal/tools/render_template',headers:{'x-run-id':claim.runId,'x-run-token':claim.token!},payload:{renderRequestId:'test',timelineRef:'x',ranges:[{id:'s1',fromFrame:0,toFrame:1}],checks:[]}});assert.equal(denied.statusCode,400);assert.match(denied.body,/RENDER_STAGE_FORBIDDEN/);
+    const denied=await service.app.inject({method:'POST',url:'/internal/tools/render_template',headers:{'x-run-id':claim.runId,'x-run-token':claim.token!},payload:{renderRequestId:'test',timelineRef:'x',ranges:[{id:'s1',fromFrame:0,toFrame:1}],checks:[]}});assert.equal(denied.statusCode,403);assert.match(denied.body,/ANALYSIS_TOOL_FORBIDDEN/);
     service.repo.finish(claim.runId,claim.token,'cancelled');
     await fs.rename(join(service.runner.runRoot(rendered),'source-snapshot'),join(service.runner.runRoot(rendered),'missing-snapshot'));
     const broken=(await post(rPath,{...request,baseRenderRunId:r.runId,revisionInstructions:'另一修改'})).json().data;await service.runner.tick();await service.runner.drain();assert.equal(service.repo.get(broken.runId).error.code,'BASE_PROJECT_UNAVAILABLE');assert.equal((await service.app.inject({url})).statusCode,200);

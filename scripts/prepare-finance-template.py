@@ -35,9 +35,21 @@ for name in ['动效组件与内容适配说明.md']:
 
 依赖已由部署提供，任务期间不安装包。模板 Arial 等西文字体仅用于拉丁文字；中文使用包内 Noto Sans SC。技术探测与抽帧不等于完整连续视听，检查真实范围如实记录。保护外观、正文图解、头像、Logo、字幕、片头片尾及声音均需实际核查。
 ''',encoding='utf-8')
+(output/'文字分析合同.md').write_text('''# 财经双人模板文字分析合同
+
+本模板只生成 Remotion 动画，固定为 1920×1080、30fps。输入口播稿是待保留的旁白正文，不构成人物实拍或口型生成入口。
+
+保留输入全文、顺序、标点、换行、数字和英文，不增写开场白、对白或结束语。按完整语义拆成可编辑业务分镜，每项有唯一 id、原文 content、正数 dur，durationSource 为 estimated。所有 content 顺序拼接须逐字等于输入正文；估时只用于文字阶段，制作使用实际音频时长。
+
+模板有固定男女头像。发言按语义由男女两位承担，允许一人连续多句，不机械逐句轮换，不为角色分配增写对白。正式制作音色为 finance.female 与 finance.male，由服务器绑定。本阶段保留角色要求，不生成音频或人物表演。
+
+固定栏目 Logo、背景、导航、字幕区、片头片尾在制作阶段保留；这些包装不授权增写正文。片头不得截断已确认口播，片尾在全部口播结束后播放一次，无结束语授权不加稿。
+
+业务分镜不等于动画章节或 TTS 句段。context 记录上述有效文字约束、拆分依据、未确定事项及本合同引用，不复制制作技术说明；本阶段无需读取组件源码、素材或制作方法。
+''',encoding='utf-8')
 manifest=json.loads((output/'renderer/renderer-manifest.json').read_text(encoding='utf-8'))
 manifest.pop('rules',None);manifest.pop('motionGuide',None);manifest.pop('endingPolicy',None)
-manifest.update(templateVersion='2.0.2',instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
+manifest.update(templateVersion='2.0.3',analysisInstructions=['../文字分析合同.md'],instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
 (output/'renderer/renderer-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 file=output/'renderer/src/FinancialDialogue.tsx';s=file.read_text(encoding='utf-8').replace('AbsoluteFill, Audio,','AbsoluteFill, Audio, OffthreadVideo,')
 start=s.index('export const FinanceEpisode:')

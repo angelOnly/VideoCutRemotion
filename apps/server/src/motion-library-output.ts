@@ -106,3 +106,24 @@ export function projectMotionJob(job: JobRecord): JobRecord | Data {
     ...(next ? { recovery: next } : {})
   };
 }
+
+/** 模板后台只传判断所需的机制摘要；通用工作流保留原投影合同。 */
+export function projectTemplateMotionSearchResult(value: unknown): Data {
+  const source = object(value);
+  const card = (entry: unknown) => pick(entry, ["id", "purpose", "relation", "start_state", "end_state", "document", "storyboard"]);
+  return {
+    ...pick(source, ["source_sha256", "scope", "total", "offset", "next_offset", "exhausted", "warnings", "stage"]),
+    ...(source.cards ? { cards: list(source.cards, card) } : {}),
+    ...(source.groups ? { groups: list(source.groups, projectTemplateMotionSearchResult) } : {}),
+    ...(source.connections ? { connections: list(source.connections, connection) } : {}),
+    ...(source.selection ? { selection: pick(source.selection, ["source_sha256", "ids", "adopted", "unknown_ids", "stale"]) } : {})
+  };
+}
+
+export function projectTemplateMotionMechanismResult(value: unknown): Data {
+  const source = object(value);
+  return {
+    ...pick(source, ["source_sha256", "part", "document", "body", "observation"]),
+    card: pick(source.card, ["id", "purpose", "relation", "start_state", "end_state", "document", "storyboard"])
+  };
+}

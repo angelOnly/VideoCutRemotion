@@ -28,7 +28,7 @@ export function canonical(value: unknown): string {
 }
 export const sha256 = (value: string | Buffer) => createHash('sha256').update(value).digest('hex');
 export const analysisResultSchema = z.object({ taskId: z.string(), runId: z.string().uuid(), inputDigest: z.string(),
-  dataList: z.array(sceneSchema.extend({ dur: z.number().positive(), durationSource: z.literal('estimated') })).min(1), context: z.string().min(1)
+  dataList: z.array(sceneSchema.extend({ dur: z.number().positive(), durationSource: z.literal('estimated') })).min(1), context: z.string().min(1).refine(value=>value.trim().length>0,'context 必须是非空 Markdown 字符串')
 }).strict();
 // 切点保留逻辑区间；文件时长及实际切法单独登记，旧交付无需补字段。
 export const sceneCutMetadataSchema=z.object({

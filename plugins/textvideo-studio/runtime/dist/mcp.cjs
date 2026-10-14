@@ -36,7 +36,7 @@ var import_zod = require("zod");
 var import_node_fs2 = require("node:fs");
 var import_node_path2 = require("node:path");
 
-// references/motion-cases/skillry/tools/mechanisms.mjs
+// references/motion-cases/skillry/tools/mechanism-index.mjs
 var import_node_fs = require("node:fs");
 var import_node_path = require("node:path");
 var import_node_crypto = require("node:crypto");
@@ -340,7 +340,7 @@ function queryMechanisms(index, options = {}, semantic = {}) {
   };
 }
 
-// references/motion-cases/skillry/tools/mechanisms.mjs
+// references/motion-cases/skillry/tools/mechanism-index.mjs
 var defaultRoot = (0, import_node_path.resolve)(process.cwd(), "references/motion-cases/skillry");
 var hash = (bytes) => (0, import_node_crypto.createHash)("sha256").update(bytes).digest("hex");
 var SEARCH_TEXT_VERSION = "motion-relations-v1";
@@ -403,55 +403,6 @@ function loadIndex(root = defaultRoot) {
   if (JSON.stringify(index) !== JSON.stringify(actual)) throw new Error("\u673A\u5236\u7D22\u5F15\u8FC7\u671F\u6216\u635F\u574F\uFF0C\u8BF7\u7EF4\u62A4\u8005\u91CD\u65B0\u751F\u6210\uFF1B\u672C\u6B21\u672A\u8FD4\u56DE\u65E7\u7ED3\u679C");
   return index;
 }
-function selectMechanisms(index, { offset = 0, limit = 20, ids = null } = {}) {
-  if (ids) {
-    if (!Array.isArray(ids) || !ids.length || new Set(ids).size !== ids.length) throw new Error("\u673A\u5236\u7F16\u53F7\u65E0\u6548\u6216\u91CD\u590D");
-    const byId = new Map(index.mechanisms.map((m) => [m.id, m]));
-    for (const id2 of ids) if (!byId.has(id2)) throw new Error(`\u672A\u77E5\u673A\u5236\uFF1A${id2}`);
-    return { scope: index.scope, source_sha256: index.source_sha256, total: index.count, cards: ids.map((id2) => byId.get(id2)), notice: "\u4EC5\u8FD4\u56DE\u6307\u5B9A\u673A\u5236\uFF0C\u6B63\u6587\u53CA\u5206\u955C\u6309\u9700\u8BFB\u53D6\u3002" };
-  }
-  if (!Number.isSafeInteger(offset) || offset < 0 || offset > index.count || !Number.isSafeInteger(limit) || limit < 1 || limit > 50) throw new Error("\u5206\u9875\u8303\u56F4\u65E0\u6548");
-  const cards = index.mechanisms.slice(offset, offset + limit), next = offset + cards.length;
-  return { scope: index.scope, source_sha256: index.source_sha256, total: index.count, offset, next_offset: next < index.count ? next : null, exhausted: next >= index.count, cards, notice: "\u8BED\u4E49\u7406\u89E3\u7531\u6A21\u578B\u5B8C\u6210\uFF1B\u672C\u811A\u672C\u4E0D\u6392\u540D\u3001\u4E0D\u8BFB\u53D6\u89C6\u9891\u3002" };
-}
-function main(args) {
-  const path = (0, import_node_path.resolve)(defaultRoot, "mechanism-index.json");
-  if (args.length === 1 && ["--build", "--check"].includes(args[0])) {
-    const value = JSON.stringify(buildIndex(), null, 2) + "\n";
-    if (args[0] === "--build") {
-      (0, import_node_fs.writeFileSync)(path, value);
-      process.stdout.write("\u673A\u5236\u7D22\u5F15\u5DF2\u66F4\u65B0\n");
-    } else if (!(0, import_node_fs.existsSync)(path) || (0, import_node_fs.readFileSync)(path, "utf8") !== value) throw new Error("\u673A\u5236\u7D22\u5F15\u8FC7\u671F\uFF0C\u8BF7\u91CD\u65B0\u751F\u6210");
-    else process.stdout.write("\u673A\u5236\u7D22\u5F15\u4E0E\u6587\u6863\u4E00\u81F4\n");
-    return;
-  }
-  if (args[0] === "--request" && args.length === 2) {
-    process.stdout.write(JSON.stringify(queryMechanisms(loadIndex(), JSON.parse(args[1])), null, 2) + "\n");
-    return;
-  }
-  const options = {}, seen = /* @__PURE__ */ new Set();
-  for (let i = 0; i < args.length; i += 2) {
-    const key = args[i], v = args[i + 1];
-    if (!["--offset", "--limit", "--ids"].includes(key) || seen.has(key) || v === void 0) throw new Error("\u4EC5\u652F\u6301 --build\u3001--check\uFF0C\u6216 --offset N --limit N / --ids 002-m16");
-    seen.add(key);
-    if (key === "--ids") options.ids = v.split(",").map((s) => s.trim());
-    else {
-      if (!/^\d+$/.test(v)) throw new Error("\u5206\u9875\u5FC5\u987B\u4E3A\u975E\u8D1F\u6574\u6570");
-      options[key.slice(2)] = Number(v);
-    }
-  }
-  if (options.ids && (seen.has("--offset") || seen.has("--limit"))) throw new Error("\u7F16\u53F7\u5B9A\u4F4D\u4E0D\u80FD\u6DF7\u7528\u5206\u9875");
-  const index = loadIndex();
-  process.stdout.write(JSON.stringify(selectMechanisms(index, options), null, 2) + "\n");
-}
-if (process.argv[1]?.replaceAll("\\", "/").endsWith("/tools/mechanisms.mjs")) {
-  try {
-    main(process.argv.slice(2));
-  } catch (e) {
-    process.stderr.write(e.message + "\n");
-    process.exitCode = 1;
-  }
-}
 
 // references/motion-cases/skillry/tools/library-store.mjs
 function searchLibrary(root, request = {}) {
@@ -487,47 +438,23 @@ var pick = (value, fields2) => {
   return Object.fromEntries(fields2.filter((field) => source[field] !== void 0).map((field) => [field, source[field]]));
 };
 var list = (value, project) => Array.isArray(value) ? value.map(project) : void 0;
-var relationFields = ["categories", "actions", "entry", "exit", "holds", "anchors"];
 var connection2 = (value) => pick(value, ["from", "to", "left_end", "right_start", "shared_states", "shared_anchors", "next_holds", "checks", "gap", "continuous_verified"]);
-function mechanismCard(value) {
+function projectTemplateMotionSearchResult(value) {
   const source = object(value);
+  const card = (entry) => pick(entry, ["id", "purpose", "relation", "start_state", "end_state", "document", "storyboard"]);
   return {
-    ...pick(source, ["id", "title", "case_number", "summary", "purpose", "relation", "start_state", "end_state", "tags", "document", "storyboard", "case_slug", "overview", "detail", "score", "match_reasons"]),
-    ...source.retrieval ? { retrieval: pick(source.retrieval, relationFields) } : {},
-    ...source.clip ? { clip: pick(source.clip, ["path", "start_ms", "end_ms", "source_sha256", "sha256", "bytes", "boundary_note"]) } : {},
-    ...source.difference ? { difference: pick(source.difference, ["source_relation", "candidate_relation", "added_actions", "absent_actions"]) } : {},
-    ...source.connection ? { connection: connection2(source.connection) } : {}
-  };
-}
-var diagnostic = (value) => pick(value, ["code", "message"]);
-var recovery = (value) => {
-  const source = object(value);
-  return {
-    ...pick(source, ["action", "tool", "project_id", "job_id", "message"]),
-    ...source.runs ? { runs: list(source.runs, (entry) => pick(entry, ["runId", "status", "workflowId", "schemaVersion", "attemptJobId"])) } : {}
-  };
-};
-function projectMotionSearchResult(value) {
-  const source = object(value), diagnostics = object(source.diagnostics);
-  return {
-    ...pick(source, ["scope", "source_sha256", "library_count", "notice", "stage", "total", "offset", "next_offset", "exhausted", "warnings", "comparison"]),
-    ...source.cards ? { cards: list(source.cards, mechanismCard) } : {},
-    ...source.groups ? { groups: list(source.groups, projectMotionSearchResult) } : {},
+    ...pick(source, ["source_sha256", "scope", "total", "offset", "next_offset", "exhausted", "warnings", "stage"]),
+    ...source.cards ? { cards: list(source.cards, card) } : {},
+    ...source.groups ? { groups: list(source.groups, projectTemplateMotionSearchResult) } : {},
     ...source.connections ? { connections: list(source.connections, connection2) } : {},
-    ...source.selection ? { selection: pick(source.selection, ["v", "source_sha256", "ids", "adopted", "unknown_ids", "stale"]) } : {},
-    ...source.taxonomy ? { taxonomy: pick(source.taxonomy, ["categories", "actions", "states", "holds", "anchors"]) } : {},
-    ...source.diagnostics ? { diagnostics: {
-      ...pick(diagnostics, ["mode", "semantic_used", "source_sha256", "job_id", "status", "reason"]),
-      ...diagnostics.failure ? { failure: diagnostic(diagnostics.failure) } : {},
-      ...diagnostics.recovery ? { recovery: recovery(diagnostics.recovery) } : {}
-    } } : {}
+    ...source.selection ? { selection: pick(source.selection, ["source_sha256", "ids", "adopted", "unknown_ids", "stale"]) } : {}
   };
 }
-function projectMotionMechanismResult(value) {
+function projectTemplateMotionMechanismResult(value) {
   const source = object(value);
   return {
-    ...pick(source, ["source_sha256", "part", "document", "body", "preview_url", "video_path", "observation"]),
-    card: mechanismCard(source.card)
+    ...pick(source, ["source_sha256", "part", "document", "body", "observation"]),
+    card: pick(source.card, ["id", "purpose", "relation", "start_state", "end_state", "document", "storyboard"])
   };
 }
 
@@ -536,23 +463,50 @@ var id = import_zod.z.string().regex(/^\d{3}-m\d{2}$/);
 var fingerprint = import_zod.z.string().regex(/^[a-f0-9]{64}$/);
 var choices = (field) => import_zod.z.array(import_zod.z.enum(termsFor(field))).max(20).optional();
 function registerMotionLibraryTools(server, root = (0, import_node_path3.resolve)(process.cwd(), "references/motion-cases/skillry"), ..._removedProjectArguments) {
-  const failure = (e) => ({ isError: true, content: [{ type: "text", text: JSON.stringify({ code: "MOTION_LIBRARY_UNAVAILABLE", message: String(e), sideEffects: "none" }) }] });
-  server.registerTool("search_motion_mechanisms", { description: "\u6309\u5B9E\u9645\u5185\u5BB9\u548C\u6F14\u51FA\u5173\u7CFB\u67E5\u8BE2\u672C\u5730\u673A\u5236\u8BCD\u6CD5\u5E93\uFF1B\u8FD4\u56DE\u5B9E\u9645\u67E5\u8BE2\u3001\u547D\u4E2D\u4E0E\u9650\u5236\uFF0C\u65E0\u5411\u91CF\u3001\u6A21\u578B\u6216\u7F51\u7EDC\u56DE\u9000\u3002", inputSchema: { query: import_zod.z.string().max(1e3).optional(), stages: import_zod.z.array(import_zod.z.string().min(1).max(1e3)).min(1).max(8).optional(), categories: choices("categories"), actions: choices("actions"), entry: choices("entry"), exit: choices("exit"), holds: choices("holds"), exclude_actions: choices("actions"), similar_to: id.optional(), before: id.optional(), after: id.optional(), ids: import_zod.z.array(id).min(1).max(40).optional(), selection: import_zod.z.string().max(16e3).optional(), offset: import_zod.z.number().int().min(0).optional(), limit: import_zod.z.number().int().min(1).max(50).optional(), source_sha256: fingerprint.optional() } }, async (request) => {
+  const failure = (error) => ({ isError: true, content: [{ type: "text", text: JSON.stringify({ code: "MOTION_LIBRARY_UNAVAILABLE", message: String(error), sideEffects: "none" }) }] });
+  server.registerTool("search_motion_mechanisms", {
+    description: "\u6309\u5B9E\u9645\u5185\u5BB9\u548C\u6F14\u51FA\u5173\u7CFB\u67E5\u8BE2\u672C\u5730\u673A\u5236\u8BCD\u6CD5\u5E93\uFF0C\u9ED8\u8BA4\u8FD4\u56DE 3 \u4E2A\u6458\u8981\uFF1B\u65E0\u5411\u91CF\u3001\u6A21\u578B\u6216\u7F51\u7EDC\u56DE\u9000\u3002",
+    inputSchema: {
+      query: import_zod.z.string().max(1e3).optional(),
+      stages: import_zod.z.array(import_zod.z.string().min(1).max(1e3)).min(1).max(8).optional(),
+      categories: choices("categories"),
+      actions: choices("actions"),
+      entry: choices("entry"),
+      exit: choices("exit"),
+      holds: choices("holds"),
+      exclude_actions: choices("actions"),
+      similar_to: id.optional(),
+      before: id.optional(),
+      after: id.optional(),
+      ids: import_zod.z.array(id).min(1).max(40).optional(),
+      selection: import_zod.z.string().max(16e3).optional(),
+      offset: import_zod.z.number().int().min(0).optional(),
+      limit: import_zod.z.number().int().min(1).max(50).optional(),
+      source_sha256: fingerprint.optional()
+    }
+  }, async (request) => {
     try {
-      const result = searchLibrary(root, request);
-      return { content: [{ type: "text", text: JSON.stringify({ ...projectMotionSearchResult(result), query: request, diagnostics: { mode: "lexical", semantic_used: false, reason: "\u4EC5\u8BCD\u6CD5\u68C0\u7D22\uFF1B\u65E0\u7ED3\u679C\u65F6\u8C03\u6574\u8BCD\u8BED\u6216\u7B5B\u9009" } }) }] };
-    } catch (e) {
-      return failure(e);
+      const filters = [request.categories, request.actions, request.entry, request.exit, request.holds];
+      if (!request.query?.trim() && !request.stages?.length && !request.ids?.length && !request.similar_to && !request.before && !request.after && !request.selection && !filters.some((values) => values?.length)) {
+        throw new Error("\u8BF7\u63D0\u4F9B\u5185\u5BB9\u5173\u7CFB\u3001\u7B5B\u9009\u6761\u4EF6\u6216\u673A\u5236 ID\uFF1B\u540E\u53F0\u4E0D\u63D0\u4F9B\u5168\u5E93\u5206\u9875\u6D4F\u89C8");
+      }
+      const result = searchLibrary(root, { ...request, ...!request.ids && !request.selection ? { limit: request.limit ?? 3 } : {} });
+      return { content: [{ type: "text", text: JSON.stringify({ ...projectTemplateMotionSearchResult(result), query: request, diagnostics: { mode: "lexical", semantic_used: false, reason: "\u4EC5\u8BCD\u6CD5\u68C0\u7D22\uFF1B\u65E0\u7ED3\u679C\u65F6\u8C03\u6574\u8BCD\u8BED\u6216\u7B5B\u9009" } }) }] };
+    } catch (error) {
+      return failure(error);
     }
   });
-  server.registerTool("read_motion_mechanism", { description: "\u8BFB\u53D6\u672C\u5730\u673A\u5236\u539F\u6587\u53CA\u9759\u6001\u5206\u955C\uFF0C\u9759\u6001\u56FE\u7247\u4E0D\u4EE3\u8868\u8FDE\u7EED\u5BA1\u7247\u3002", inputSchema: { id, part: import_zod.z.enum(["mechanism", "overview"]).optional(), source_sha256: fingerprint.optional(), include_storyboard: import_zod.z.boolean().optional() } }, async (request) => {
+  server.registerTool("read_motion_mechanism", {
+    description: "\u9ED8\u8BA4\u53EA\u8BFB\u53D6\u672C\u5730\u673A\u5236\u6B63\u6587\uFF1B\u663E\u5F0F include_storyboard=true \u624D\u9644\u9759\u6001\u5206\u955C\uFF0C\u9759\u6001\u56FE\u7247\u4E0D\u4EE3\u8868\u8FDE\u7EED\u5BA1\u7247\u3002",
+    inputSchema: { id, part: import_zod.z.literal("mechanism").optional(), source_sha256: fingerprint.optional(), include_storyboard: import_zod.z.boolean().optional() }
+  }, async (request) => {
     try {
-      const loaded = readLibraryMechanism(root, request);
-      const content = [{ type: "text", text: JSON.stringify(projectMotionMechanismResult({ ...loaded.result, preview_url: void 0, video_path: void 0 })) }];
+      const loaded = readLibraryMechanism(root, { ...request, include_storyboard: request.include_storyboard ?? false });
+      const content = [{ type: "text", text: JSON.stringify(projectTemplateMotionMechanismResult(loaded.result)) }];
       if (loaded.image) content.push({ type: "image", data: loaded.image, mimeType: "image/jpeg" });
       return { content };
-    } catch (e) {
-      return failure(e);
+    } catch (error) {
+      return failure(error);
     }
   });
 }
@@ -583,7 +537,7 @@ var analysisResultSchema = import_zod2.z.object({
   runId: import_zod2.z.string().uuid(),
   inputDigest: import_zod2.z.string(),
   dataList: import_zod2.z.array(sceneSchema.extend({ dur: import_zod2.z.number().positive(), durationSource: import_zod2.z.literal("estimated") })).min(1),
-  context: import_zod2.z.string().min(1)
+  context: import_zod2.z.string().min(1).refine((value) => value.trim().length > 0, "context \u5FC5\u987B\u662F\u975E\u7A7A Markdown \u5B57\u7B26\u4E32")
 }).strict();
 var sceneCutMetadataSchema = import_zod2.z.object({
   cutMode: import_zod2.z.enum(["accurate", "stream_copy", "local_transcode"]),
@@ -633,7 +587,7 @@ var import_zod5 = require("zod");
 // packages/production-service/src/template-package.ts
 var yauzl = __toESM(require("yauzl"), 1);
 var import_zod4 = require("zod");
-var manifestSchema = import_zod4.z.object({ schemaVersion: import_zod4.z.literal(1), templateVersion: import_zod4.z.string().min(1), instructions: import_zod4.z.array(import_zod4.z.string()).min(1), entry: import_zod4.z.string().min(1), wholeComposition: import_zod4.z.string().min(1), timelineModule: import_zod4.z.string().min(1), publicAssetRoot: import_zod4.z.string().min(1), width: import_zod4.z.number().int().positive(), height: import_zod4.z.number().int().positive(), fps: import_zod4.z.number().positive(), voiceRefs: import_zod4.z.array(import_zod4.z.string()).default([]) }).passthrough();
+var manifestSchema = import_zod4.z.object({ schemaVersion: import_zod4.z.literal(1), templateVersion: import_zod4.z.string().min(1), instructions: import_zod4.z.array(import_zod4.z.string()).min(1), analysisInstructions: import_zod4.z.array(import_zod4.z.string().min(1)).min(1).optional(), entry: import_zod4.z.string().min(1), wholeComposition: import_zod4.z.string().min(1), timelineModule: import_zod4.z.string().min(1), publicAssetRoot: import_zod4.z.string().min(1), width: import_zod4.z.number().int().positive(), height: import_zod4.z.number().int().positive(), fps: import_zod4.z.number().positive(), voiceRefs: import_zod4.z.array(import_zod4.z.string()).default([]) }).passthrough();
 
 // packages/production-service/src/sentence-audio.ts
 var sentenceAuditSchema = import_zod5.z.object({ timelineRef: import_zod5.z.string().min(1), speechBatchRequestIds: import_zod5.z.array(import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/)).min(1), renderRequestId: import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).optional() }).strict();
@@ -645,16 +599,20 @@ var import_pngjs = require("pngjs");
 var import_zod6 = require("zod");
 
 // packages/production-service/src/media-metrics.ts
+var import_node_child_process = require("node:child_process");
+var import_node_util = require("node:util");
 var import_node_crypto2 = require("node:crypto");
+var execFileAsync = (0, import_node_util.promisify)(import_node_child_process.execFile);
 var processInstanceId = (0, import_node_crypto2.randomUUID)();
 
 // apps/render-worker/src/template-renderer.ts
 var renderRequestIdSchema = import_zod6.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
-var renderToolSchema = import_zod6.z.object({ runId: import_zod6.z.string().uuid(), renderRequestId: renderRequestIdSchema, timelineRef: import_zod6.z.string(), ranges: import_zod6.z.array(import_zod6.z.object({ id: import_zod6.z.string(), fromFrame: import_zod6.z.number().int().nonnegative(), toFrame: import_zod6.z.number().int().positive() }).strict()).min(1), checks: import_zod6.z.array(import_zod6.z.string()), previewOnly: import_zod6.z.boolean().default(false) }).strict();
+var dynamicPreviewRequestSchema = import_zod6.z.object({ sourceDigest: import_zod6.z.string().min(1), question: import_zod6.z.string().min(1), fromFrame: import_zod6.z.number().int().nonnegative(), toFrame: import_zod6.z.number().int().positive(), consumer: import_zod6.z.string().min(1), passCriteria: import_zod6.z.string().min(1), needsVideo: import_zod6.z.boolean(), needsAudio: import_zod6.z.boolean(), continuousVideoAvailable: import_zod6.z.boolean(), continuousAudioAvailable: import_zod6.z.boolean() }).strict();
+var renderToolSchema = import_zod6.z.object({ runId: import_zod6.z.string().uuid(), renderRequestId: renderRequestIdSchema, timelineRef: import_zod6.z.string(), ranges: import_zod6.z.array(import_zod6.z.object({ id: import_zod6.z.string(), fromFrame: import_zod6.z.number().int().nonnegative(), toFrame: import_zod6.z.number().int().positive() }).strict()).min(1), checks: import_zod6.z.array(import_zod6.z.string()), previewRequests: import_zod6.z.array(dynamicPreviewRequestSchema).optional(), previewOnly: import_zod6.z.boolean().default(false) }).strict();
 var previewFramesSchema = import_zod6.z.object({ runId: import_zod6.z.string().uuid(), renderRequestId: renderRequestIdSchema, frames: import_zod6.z.array(import_zod6.z.number().int().nonnegative()).min(1).max(12).refine((v) => new Set(v).size === v.length, "\u5E27\u53F7\u4E0D\u53EF\u91CD\u590D") }).strict();
 
 // apps/server/src/production/speech-tools.ts
-function registerProductionTools(server, call) {
+function registerProductionTools(server, call, stage = "render") {
   const register = (name, description, schema) => server.registerTool(name, { description, inputSchema: schema }, async (input) => {
     try {
       return { content: [{ type: "text", text: JSON.stringify(await call(name, input)) }] };
@@ -662,21 +620,22 @@ function registerProductionTools(server, call) {
       return { isError: true, content: [{ type: "text", text: JSON.stringify({ error: String(e) }) }] };
     }
   });
+  register("read_production_task", "\u8BFB\u53D6\u7ED1\u5B9A\u7684\u771F\u5B9E\u4EFB\u52A1\u3001\u9636\u6BB5\u548C\u5FC5\u8981\u6A21\u677F\u4F9D\u636E\uFF1B\u5B8C\u6574\u8F93\u5165\u6CBF\u672C Run \u7684 input.json \u8BFB\u53D6\u3002", {});
+  if (stage === "analysis") return;
   register("synthesize_speech", "\u5F53\u524D Render \u7684\u8C46\u5305\u4E91\u7AEF\u914D\u97F3\uFF1B\u5148\u6301\u4E45\u5316\u540E\u5F02\u6B65\u6267\u884C\u3002\u540C\u952E\u540C\u8F93\u5165\u8BFB\u539F\u4EFB\u52A1\uFF0Cunknown \u4E0D\u5F97\u91CD\u65B0\u6536\u8D39\u8BF7\u6C42\u3002", speechSchema.omit({ runId: true }).shape);
   register("synthesize_speech_batch", "\u4E00\u6B21\u767B\u8BB0\u672C run \u7684\u6574\u6279\u53E5\u6BB5\uFF0C\u670D\u52A1\u6309\u89C6\u9891\u8F6E\u6D41\u6D3E\u53D1\uFF1B\u540C\u6279\u6B21\u540C\u8F93\u5165\u8FD4\u56DE\u539F\u4EFB\u52A1\uFF0C\u4E0D\u91CD\u590D\u6536\u8D39\u3002", speechBatchSchema.omit({ runId: true }).shape);
-  register("read_speech_batch", "\u8BFB\u53D6\u672C run \u914D\u97F3\u6279\u6B21\u53CA\u6309\u539F\u53E5\u6BB5\u7F16\u53F7\u6392\u5217\u7684\u7ED3\u679C\uFF1B\u672A\u77E5\u7ED3\u679C\u4E0D\u5F97\u91CD\u53D1\u3002", { speechBatchRequestId: import_zod7.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/) });
+  register("read_speech_batch", "\u9ED8\u8BA4\u8FD4\u56DE\u914D\u97F3\u6279\u6B21\u8BA1\u6570\u3001\u5F02\u5E38\u4E0E\u5B8C\u6574\u97F3\u9891\u6E05\u5355\u5F15\u7528\uFF1B\u9700\u8981\u5177\u4F53\u53E5\u6BB5\u65F6\u53EF\u8BF7\u6C42\u8BE6\u60C5\uFF0C\u672A\u77E5\u7ED3\u679C\u4E0D\u5F97\u91CD\u53D1\u3002", { speechBatchRequestId: import_zod7.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/), details: import_zod7.z.boolean().default(false) });
   register("retry_speech_validation", "\u4EC5\u6062\u590D\u5DF2\u7ECF\u53D6\u5F97\u97F3\u9891\u7684\u672C\u5730\u68C0\u67E5\uFF0C\u4E0D\u8BF7\u6C42\u4F9B\u5E94\u5546\u91CD\u65B0\u751F\u6210\u3002", { speechJobId: import_zod7.z.string().uuid() });
   register("verify_sentence_audio", "\u56FA\u5B9A\u6838\u5BF9\u5F53\u524D\u786E\u8BA4\u6B63\u6587\u3001\u6279\u6B21\u97F3\u9891\u3001\u5B57\u5E55\u548C PCM \u5B9E\u6D4B\u65F6\u957F\uFF1B\u4E0D\u6267\u884C\u6A21\u677F\u4EFB\u610F\u811A\u672C\uFF0C\u4E0D\u4EE3\u66FF\u542C\u5BA1\u3002", sentenceAuditSchema.shape);
   register("read_speech_job", "\u8BFB\u53D6\u672C run \u539F\u914D\u97F3\u4EFB\u52A1\u3001\u5B9E\u6D4B\u53E5\u6BB5\u65F6\u957F\u548C\u53D7\u7BA1\u97F3\u9891\u3002", { speechJobId: import_zod7.z.string().uuid() });
-  register("render_template", "\u6B63\u5F0F\u5BFC\u51FA\u53EA\u7ED8\u5236\u4E00\u6B21\u6574\u7247\uFF0C\u518D\u6309\u5168\u5C40\u5E27\u533A\u95F4\u751F\u6210\u5206\u955C\uFF1B\u5C40\u90E8\u52A8\u6001\u9884\u89C8\u76F4\u63A5\u7ED8\u5236\u6240\u9009\u8303\u56F4\u3002\u8FD4\u56DE\u4EFB\u52A1ID\uFF0C\u4F7F\u7528read_render_job\u67E5\u8BE2\u3002", renderToolSchema.omit({ runId: true }).shape);
-  register("read_render_job", "\u67E5\u8BE2\u539F\u5A92\u4F53\u4F5C\u4E1A\u3002\u89C6\u9891\u770BreadyFiles\uFF0C\u9759\u5E27\u770BreadyFrames\u4E0EsourceDigest\uFF1B\u4EC5\u5DF2\u6838\u9A8C\u6587\u4EF6\u53EF\u5BA1\u67E5\u3002\u56FE\u7247\u4E0E\u5C40\u90E8\u52A8\u6001\u9884\u89C8\u4E0D\u80FD\u4F5C\u4E3A\u6B63\u5F0F\u4EA4\u4ED8\u3002", { renderRequestId: import_zod7.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/) });
+  register("render_template", "\u6309\u4F5C\u4E1A\u56FA\u5B9A\u7B56\u7565\u8F93\u51FA\uFF1A\u65B0\u4EFB\u52A1\u5E76\u884C\u7ED8\u5236\u5168\u5C40\u5206\u955C\u753B\u9762\u3001\u8FDE\u7EED\u97F3\u8F68\u5408\u6210\u6574\u7247\uFF1B\u52A8\u6001\u9884\u89C8\u7ED8\u5236\u6240\u9009\u8303\u56F4\u3002\u8FD4\u56DE\u4EFB\u52A1ID\uFF0C\u4F7F\u7528read_render_job\u6709\u754C\u7B49\u5F85\u3002", renderToolSchema.omit({ runId: true }).shape);
+  register("read_render_job", "\u8BFB\u53D6\u539F\u5A92\u4F53\u4F5C\u4E1A\u6458\u8981\uFF1BwaitMs \u6700\u591A60000\uFF0C\u643A\u5E26 afterDigest \u65F6\u4EC5\u5728\u72B6\u6001\u53D8\u5316\u6216\u8D85\u65F6\u8FD4\u56DE\u3002readyFiles/readyFrames \u4EC5\u542B\u5DF2\u6838\u9A8C\u6587\u4EF6\uFF0C\u8BE6\u60C5\u6CBF detailsRef \u8BFB\u53D6\u3002", { renderRequestId: renderRequestIdSchema, waitMs: import_zod7.z.number().int().min(0).max(6e4).default(0), afterDigest: import_zod7.z.string().optional(), details: import_zod7.z.boolean().default(false) });
   register("preview_template_frames", "\u4E00\u6B21\u767B\u8BB01\uFF5E12\u4E2A\u552F\u4E00\u5168\u5C40\u5E27\uFF0C\u5F02\u6B65\u751F\u6210\u540C\u4E00\u56FA\u5B9A\u7248\u672C\u7684\u539F\u5C3A\u5BF8\u56FE\u7247\u4E0E\u6982\u89C8\uFF1B\u7528read_render_job\u8BFB\u53D6\uFF0C\u539F\u7F16\u53F7\u4E0D\u91CD\u590D\u751F\u6210\u3002", previewFramesSchema.omit({ runId: true }).shape);
-  register("retry_render_slices", "\u4EC5\u5728\u672CRun\u6D3B\u52A8\u671F\u95F4\uFF0C\u7EED\u505A\u660E\u786E\u5931\u8D25\u7684\u539F\u6B63\u5F0F\u4F5C\u4E1A\u4E2D\u672A\u5B8C\u6210\u5206\u955C\uFF1B\u987B\u539F\u6574\u7247\u548C\u5FEB\u7167\u53EF\u4FE1\u3002\u672A\u77E5\u3001\u53D6\u6D88\u53CA\u5C40\u90E8\u9884\u89C8\u4E0D\u53EF\u7EED\u5207\u3002", { renderRequestId: renderRequestIdSchema });
-  register("read_production_task", "\u8BFB\u53D6\u7ED1\u5B9A\u7684\u771F\u5B9E\u4EFB\u52A1\u3001\u8F93\u5165\u3001\u9636\u6BB5\u548C\u68C0\u67E5\u70B9\u3002", {});
+  register("retry_render_slices", "\u6062\u590D\u660E\u786E\u5931\u8D25\u7684\u539F\u5A92\u4F53\u4F5C\u4E1A\u3002\u65B0\u7B56\u7565\u6838\u9A8C\u539F\u5FEB\u7167\u4E0E\u6210\u529F\u5757\u540E\u7EED\u505A\u7F3A\u5931\u5757\u6216\u5408\u6210\uFF1B\u65E7\u7B56\u7565\u987B\u53EF\u4FE1\u6574\u7247\u3002\u672A\u77E5\u3001\u53D6\u6D88\u4F5C\u4E1A\u4E0D\u80FD\u91CD\u653E\u3002", { renderRequestId: renderRequestIdSchema });
 }
 
 // apps/server/src/mcp.ts
-async function main2() {
+async function main() {
   const root = process.env.TEXTVIDEO_PLUGIN_ROOT;
   if (!root) throw new Error("\u7F3A\u5C11\u63D2\u4EF6\u53D1\u884C\u4F4D\u7F6E");
   const release = JSON.parse((0, import_node_fs3.readFileSync)((0, import_node_path4.join)(root, "runtime/dist/manifest.json"), "utf8"));
@@ -693,17 +652,22 @@ async function main2() {
       return { isError: true, content: [{ type: "text", text: String(e) }] };
     }
   });
-  registerMotionLibraryTools(server, (0, import_node_path4.join)(root, "runtime/dist/motion-library"));
-  registerProductionTools(server, async (name, input) => {
+  const call = async (name, input) => {
     if (!runtime) throw new Error("Runtime \u672A\u914D\u7F6E\uFF1B\u8BF7\u901A\u8FC7\u670D\u52A1\u542F\u52A8\u5165\u53E3\u542F\u52A8");
     const response = await fetch(`${runtime}/internal/tools/${name}`, { method: "POST", headers: { "Content-Type": "application/json", "X-Run-Id": process.env.TEXTVIDEO_RUN_ID ?? "", "X-Run-Token": process.env.TEXTVIDEO_RUN_TOKEN ?? "" }, body: JSON.stringify(input), signal: AbortSignal.timeout(18e4) });
     const data = await response.json();
     if (!response.ok) throw new Error(JSON.stringify(data));
     return data;
-  });
+  };
+  if (process.env.TEXTVIDEO_RUN_ID && process.env.TEXTVIDEO_RUN_TOKEN) {
+    const task = await call("read_production_task", {});
+    if (task.stage !== "analysis" && task.stage !== "render") throw new Error("\u8FD0\u884C\u9636\u6BB5\u65E0\u6548");
+    if (task.stage === "render") registerMotionLibraryTools(server, (0, import_node_path4.join)(root, "runtime/dist/motion-library"));
+    registerProductionTools(server, call, task.stage);
+  }
   await server.connect(new import_stdio.StdioServerTransport());
 }
-void main2().catch((e) => {
+void main().catch((e) => {
   console.error(e);
   process.exitCode = 1;
 });

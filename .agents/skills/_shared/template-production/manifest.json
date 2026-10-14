@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "sourceRoot": ".agents/skills/_shared/template-production",
+  "retainedSkills": [
+    "production-coordinator",
+    "project-basics",
+    "production-director",
+    "visual-explainer-director",
+    "scene-planning",
+    "visual-treatment-planning",
+    "remotion-production",
+    "effect-timing",
+    "motion-brief-writing",
+    "motion-case-library",
+    "voice-production",
+    "captions",
+    "audio-finishing",
+    "quality-verification",
+    "export",
+    "known-errors",
+    "depth-composition",
+    "evidence-visualization"
+  ],
+  "excludedSkills": [
+    "narration-writing",
+    "presenter-motion-director",
+    "vlog-director",
+    "avatar-performance",
+    "semantic-continuity",
+    "transcription",
+    "asset-import",
+    "cutaway-planning",
+    "visual-asset-sourcing",
+    "sound-asset-sourcing",
+    "web-editor-operator"
+  ],
+  "excludedHistoricalCases": [
+    "motion-case-active-window-focus",
+    "motion-case-attention-programme",
+    "motion-case-comment-focus",
+    "motion-case-context-detail-observation",
+    "motion-case-cover-flow",
+    "motion-case-mixed-scene-relay",
+    "motion-case-object-type-relay",
+    "motion-case-occlusion-condition-reveal",
+    "motion-case-product-fan",
+    "motion-case-relation-unfold",
+    "motion-case-sim-paper",
+    "motion-case-smooth-relay",
+    "motion-case-ticket-phone"
+  ],
+  "renderFiles": [
+    {
+      "source": "render/production-coordinator/entry.md",
+      "target": "production-coordinator/SKILL.md"
+    },
+    {
+      "source": "render/project-basics/entry.md",
+      "target": "project-basics/SKILL.md"
+    },
+    {
+      "source": "render/production-director/entry.md",
+      "target": "production-director/SKILL.md"
+    },
+    {
+      "source": "render/visual-explainer-director/entry.md",
+      "target": "visual-explainer-director/SKILL.md"
+    },
+    {
+      "source": "render/scene-planning/entry.md",
+      "target": "scene-planning/SKILL.md"
+    },
+    {
+      "source": "render/visual-treatment-planning/entry.md",
+      "target": "visual-treatment-planning/SKILL.md"
+    },
+    {
+      "source": "render/remotion-production/entry.md",
+      "target": "remotion-production/SKILL.md"
+    },
+    {
+      "source": "render/effect-timing/entry.md",
+      "target": "effect-timing/SKILL.md"
+    },
+    {
+      "source": "render/motion-brief-writing/entry.md",
+      "target": "motion-brief-writing/SKILL.md"
+    },
+    {
+      "source": "render/motion-case-library/entry.md",
+      "target": "motion-case-library/SKILL.md"
+    },
+    {
+      "source": "render/voice-production/entry.md",
+      "target": "voice-production/SKILL.md"
+    },
+    {
+      "source": "render/captions/entry.md",
+      "target": "captions/SKILL.md"
+    },
+    {
+      "source": "render/audio-finishing/entry.md",
+      "target": "audio-finishing/SKILL.md"
+    },
+    {
+      "source": "render/quality-verification/entry.md",
+      "target": "quality-verification/SKILL.md"
+    },
+    {
+      "source": "render/export/entry.md",
+      "target": "export/SKILL.md"
+    },
+    {
+      "source": "render/known-errors/entry.md",
+      "target": "known-errors/SKILL.md"
+    },
+    {
+      "source": "render/depth-composition/entry.md",
+      "target": "depth-composition/SKILL.md"
+    },
+    {
+      "source": "render/evidence-visualization/entry.md",
+      "target": "evidence-visualization/SKILL.md"
+    },
+    {
+      "source": "references/base.md",
+      "target": "production-coordinator/references/base.md"
+    },
+    {
+      "source": "references/analysis.md",
+      "target": "production-coordinator/references/analysis.md"
+    },
+    {
+      "source": "references/render.md",
+      "target": "production-coordinator/references/render.md"
+    },
+    {
+      "source": "references/director.md",
+      "target": "production-coordinator/references/director.md"
+    },
+    {
+      "source": "references/visual.md",
+      "target": "production-coordinator/references/visual.md"
+    },
+    {
+      "source": "references/audio.md",
+      "target": "production-coordinator/references/audio.md"
+    },
+    {
+      "source": "references/review.md",
+      "target": "production-coordinator/references/review.md"
+    },
+    {
+      "source": "references/export.md",
+      "target": "production-coordinator/references/export.md"
+    },
+    {
+      "source": "references/scene.md",
+      "target": "production-coordinator/references/scene.md"
+    },
+    {
+      "source": "references/motion.md",
+      "target": "production-coordinator/references/motion.md"
+    },
+    {
+      "source": "references/depth.md",
+      "target": "production-coordinator/references/depth.md"
+    },
+    {
+      "source": "references/evidence.md",
+      "target": "production-coordinator/references/evidence.md"
+    }
+  ],
+  "analysisFiles": [
+    {
+      "source": "analysis.md",
+      "target": "production-coordinator/SKILL.md"
+    },
+    {
+      "source": "references/analysis.md",
+      "target": "production-coordinator/references/analysis.md"
+    }
+  ]
+}

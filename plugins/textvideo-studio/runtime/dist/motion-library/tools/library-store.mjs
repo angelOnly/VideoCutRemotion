@@ -1,6 +1,6 @@
 import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
-import {loadIndex,localFile} from './mechanisms.mjs';
+import {loadIndex,localFile} from './mechanism-index.mjs';
 import {queryMechanisms} from '../mechanism-search.mjs';
 import {taxonomy} from '../taxonomy.mjs';
 export function searchLibrary(root,request={}){return {...queryMechanisms(loadIndex(root),request),taxonomy};}

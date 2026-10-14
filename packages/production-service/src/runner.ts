@@ -4,7 +4,7 @@ import { analysisResultSchema, deliverySchema, ProductionError, type Run, type A
 import { zodToJsonSchema } from 'zod-to-json-schema';
 import type { ProductionConfig } from './config.js';
 import type { ProductionRepository } from './repository.js';
-import { freezeTemplate } from './template-package.js';
+import { analysisTemplateInput, freezeTemplate } from './template-package.js';
 import { json, writeJson, treeDigest, regular } from './files.js';
 import { publishDelivery } from './delivery.js';
 import { executeCodex } from './codex-session.js';
@@ -33,7 +33,9 @@ export class ProductionRunner {
       const project=join(root,'project');if(!(await fs.stat(project).catch(()=>null)))await fs.cp(source,project,{recursive:true});
     }
     run=this.repo.checkpoint(run.runId,run.token!,{template,release:this.config.release});
-    await writeJson(join(root,'input.json'),{taskId:run.taskId,runId:run.runId,stage:run.stage,inputDigest:run.inputDigest,request:run.request,template,analysis:analysis?.result,baseRender:base?{runId:base.runId,result:base.result,request:base.request}:null,workRoot:root,projectRoot:join(root,'project'),release:this.config.release});
+    const identity={taskId:run.taskId,runId:run.runId,stage:run.stage,inputDigest:run.inputDigest,request:run.request};
+    // Analysis 只展开冻结文字；源码路径和完整制作 manifest 留在服务检查点。
+    await writeJson(join(root,'input.json'),run.stage==='analysis'?{...identity,template:analysisTemplateInput(template)}:{...identity,template,analysis:analysis?.result,baseRender:base?{runId:base.runId,result:base.result,request:base.request}:null,workRoot:root,projectRoot:join(root,'project'),release:this.config.release});
     // 从实际校验器生成协议，避免示例文字被误读为字段类型。
     await writeJson(join(root,'result-schema.json'),zodToJsonSchema(run.stage==='analysis'?analysisResultSchema:deliverySchema,{$refStrategy:'none'}));
     return run;
@@ -56,7 +58,9 @@ export class ProductionRunner {
         const parsed=analysisResultSchema.parse(result);if(parsed.runId!==run.runId||parsed.taskId!==run.taskId||parsed.inputDigest!==run.inputDigest)throw new ProductionError('ANALYSIS_IDENTITY_INVALID','分析结果身份不符');
         if(new Set(parsed.dataList.map(s=>s.id)).size!==parsed.dataList.length)throw new ProductionError('ANALYSIS_IDS_INVALID','分析分镜 ID 重复');
         if(parsed.dataList.map(s=>s.content).join('')!==(run.request as AnalysisRequest).content)throw new ProductionError('ANALYSIS_CONTENT_CHANGED','分析分镜必须完整保留输入正文及顺序');
-        await fs.writeFile(join(root,'analysis-context.md'),parsed.context);this.repo.finish(run.runId,run.token,'succeeded',parsed);
+        await fs.writeFile(join(root,'analysis-context.md'),parsed.context);
+        this.repo.checkpoint(run.runId,run.token!,{analysisBasis:{inputDigest:run.inputDigest,templateVersion:run.checkpoint.template.manifest.templateVersion,templateDigest:run.checkpoint.template.digest,analysisContractDigest:run.checkpoint.template.analysisContract.digest}});
+        this.repo.finish(run.runId,run.token,'succeeded',parsed);
       }else{
         const metrics={runId:run.runId,renderRequestId:String(result.renderRequestId??'publication'),sourceDigest:result.sourceDigest,enabled:this.config.mediaTiming??true,signal:controller.signal,onMetric:createMediaMetricSink(root)};
         const published=await withMediaSpan(metrics,'publication',child=>publishDelivery(run,root,join(this.config.dataRoot,'tasks',run.taskKey),this.config.mediaBase,result,controller.signal,child));this.repo.finish(run.runId,run.token,'succeeded',published);

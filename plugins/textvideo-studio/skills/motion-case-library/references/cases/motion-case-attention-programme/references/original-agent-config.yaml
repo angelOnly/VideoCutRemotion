@@ -1,5 +1,0 @@
-interface:
-  display_name: "时代变化与节目安排"
-  short_description: "已认可完整声画作品：从草稿到审片的共同参考与各角色教学"
-policy:
-  allow_implicit_invocation: false

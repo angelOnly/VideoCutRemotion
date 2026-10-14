@@ -1,5 +1,0 @@
-interface:
-  display_name: "前景让位、遮挡揭字与挂边依据"
-  short_description: "VideoFlowCut 按观看任务选读的案例参考"
-policy:
-  allow_implicit_invocation: false

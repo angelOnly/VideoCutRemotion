@@ -8,7 +8,7 @@ export interface ReviewPolicyConfig {
   previewOnDemand: boolean;
 }
 export const DEFAULT_REVIEW_POLICY: ReviewPolicyConfig = {
-  qaParallelReview: false, qaMaxReviewers: 3, previewOnDemand: false,
+  qaParallelReview: true, qaMaxReviewers: 3, previewOnDemand: true,
 };
 export interface ReviewScene { sceneId: string; fromFrame: number; toFrame: number }
 export interface ReviewUnit {

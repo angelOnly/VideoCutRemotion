@@ -1,0 +1,12 @@
+✔ 有限队列乱序完成仍保序；失败停止新增并等待活动工作结束；全局样本没有累计误差 (48.414673ms)
+✔ 真实 Remotion：不等长全局块与连续PCM，单块/合并失败续做，画面复用及缓存隔离 (149305.924804ms)
+ℹ {"globalFramePixels":[{"frame":0,"topLeft":[249,3,0],"background":[254,0,0],"marker":[242,255,249]},{"frame":1,"topLeft":[9,247,25],"background":[0,254,1],"marker":[253,255,221]},{"frame":13,"topLeft":[8,251,0],"background":[0,254,1],"marker":[237,255,229]},{"frame":14,"topLeft":[0,0,252],"background":[0,0,254],"marker":[231,255,254]},{"frame":36,"topLeft":[0,0,254],"background":[0,0,254],"marker":[232,255,241]}]}
+✔ 动态预览有限并发、失败收口与原范围续做；取消不登记临时文件 (3928.713866ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 155430.448189

@@ -1,0 +1,2 @@
+2026-10-14：全仓库 TypeScript 类型检查完成，退出码 0，无诊断输出。
+命令：node node_modules/typescript/bin/tsc --noEmit

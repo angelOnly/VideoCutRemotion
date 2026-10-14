@@ -1,5 +1,0 @@
-interface:
-  display_name: "完整声画演出稿"
-  short_description: "在动画制作阶段将机制适配实际材料并组合成连续演出"
-policy:
-  allow_implicit_invocation: false

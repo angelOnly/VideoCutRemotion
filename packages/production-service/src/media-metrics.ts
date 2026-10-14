@@ -1,3 +1,5 @@
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { randomUUID } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import { freemem } from 'node:os';
@@ -45,8 +47,50 @@ export interface MediaSpanRecord {
     hostFreeMemoryEndBytes: number;
     processAvailableMemoryEndBytes: number | null;
     activeMediaJobs: number | null;
+    childProcesses?: ChildResourceSample;
   };
   metadata: MediaMetricMetadata;
+}
+
+export interface ChildResourceSample {
+  scope: 'sampled_chrome_ffmpeg_descendants_including_concurrent_work';
+  available: boolean;
+  intervalMs: number;
+  samples: number;
+  observedProcessCount: number;
+  observedCpuMs: number;
+  peakCombinedRssBytes: number;
+  accounting: 'sampled_lower_bound_short_lived_processes_may_be_missed';
+}
+const execFileAsync=promisify(execFile);
+function cpuTimeMs(value:string){
+  const [daysPart,timePart]=value.includes('-')?value.split('-'):['0',value];
+  const pieces=timePart.split(':').map(Number);let seconds=0;for(const p of pieces)seconds=seconds*60+p;
+  return (Number(daysPart)*86400+seconds)*1000;
+}
+/** 只读取进程名与资源数字；不采集可能带凭据的命令参数。并行作业共享子树，不能归因成独占资源。 */
+function sampleChildren(){
+  const result:ChildResourceSample={scope:'sampled_chrome_ffmpeg_descendants_including_concurrent_work',available:false,intervalMs:1000,samples:0,observedProcessCount:0,observedCpuMs:0,peakCombinedRssBytes:0,accounting:'sampled_lower_bound_short_lived_processes_may_be_missed'};
+  const cpu=new Map<number,{base:number;last:number}>();let sampling:Promise<void>|undefined,stopped=false;
+  const sample=()=>{
+    if(sampling)return sampling;
+    sampling=(async()=>{
+      try{
+        const {stdout}=await execFileAsync('ps',['-axo','pid=,ppid=,time=,rss=,comm='],{timeout:2000,maxBuffer:4*1024*1024});
+        const processes=stdout.split('\n').flatMap(line=>{const m=line.trim().match(/^(\d+)\s+(\d+)\s+(\S+)\s+(\d+)\s+(.+)$/);return m?[{pid:Number(m[1]),parent:Number(m[2]),cpu:cpuTimeMs(m[3]),rss:Number(m[4])*1024,name:m[5]}]:[];});
+        const descendants=new Set([process.pid]);let added=true;
+        while(added){added=false;for(const p of processes)if(descendants.has(p.parent)&&!descendants.has(p.pid)){descendants.add(p.pid);added=true;}}
+        let rss=0;
+        for(const p of processes.filter(p=>descendants.has(p.pid)&&/chrome|chromium|ffmpeg|ffprobe/i.test(p.name))){
+          if(!cpu.has(p.pid))cpu.set(p.pid,{base:result.samples===0?p.cpu:0,last:p.cpu});else cpu.get(p.pid)!.last=p.cpu;rss+=p.rss;
+        }
+        result.available=true;result.samples++;result.peakCombinedRssBytes=Math.max(result.peakCombinedRssBytes,rss);
+        result.observedProcessCount=cpu.size;result.observedCpuMs=[...cpu.values()].reduce((sum,p)=>sum+Math.max(0,p.last-p.base),0);
+      }catch{/* 宿主无 ps 或采样失败只影响观测，不影响正式媒体。 */}
+    })().finally(()=>{sampling=undefined;});return sampling;
+  };
+  const initial=sample();const timer=setInterval(()=>{if(!stopped)void sample();},result.intervalMs);timer.unref();
+  return {initial,async stop(){stopped=true;clearInterval(timer);await sampling;await sample();return result;}};
 }
 
 const processInstanceId = randomUUID();
@@ -79,6 +123,8 @@ export async function withMediaSpan<T>(
     // 宿主无法采样时仍执行原操作，不把观测能力当成渲染前置条件。
     return operation(context);
   }
+  const sampler=['media_job','media_job_resume'].includes(stage)?sampleChildren():undefined;
+  // 采样在旁路进行，不能为收集资源数据延迟真正的媒体工作。
   let result: MediaSpanRecord['result'] = 'succeeded';
   try {
     return await operation(child);
@@ -90,6 +136,7 @@ export async function withMediaSpan<T>(
   } finally {
     // 计时/落盘失败不能覆盖媒体结果或原始错误；不记录可能包含凭据的错误文本。
     try {
+      const childProcesses=await sampler?.stop();
       const end = performance.now();
       const endedAt = new Date().toISOString();
       const finalUsage = process.resourceUsage();
@@ -103,6 +150,7 @@ export async function withMediaSpan<T>(
         clock: { processInstanceId, startedMonotonicMs: start, endedMonotonicMs: end },
         resources: {
           scope: 'node_process_including_concurrent_work_excluding_children', cpuUserMs, cpuSystemMs,
+          ...(childProcesses?{childProcesses}:{}),
           cpuPercentOfOneCore: durationMs > 0 ? (cpuUserMs + cpuSystemMs) / durationMs * 100 : 0,
           rssStartBytes: rss, rssEndBytes: process.memoryUsage.rss(),
           // maxRSS 是 Node 进程启动以来的峰值，不是此阶段或 FFmpeg 的峰值。

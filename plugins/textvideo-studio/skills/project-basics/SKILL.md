@@ -1,21 +1,10 @@
 ---
 name: project-basics
-description: 在任何 VideoFlowCut 项目读写前建立完整运行合同：发现 MCP、定位 Project/Timeline/Revision、理解对象边界、处理并发与结果未知，并把结构、预览、最终文件和交付状态分开。
+description: 核对模板生产的 task、run、阶段、模板、工程和原作业身份。
 ---
 
-## 当前文本模板任务入口
+# project-basics
 
-收到包含 taskId/runId/stage 的服务输入时，先读 [模板生产执行合同](../_shared/TEMPLATE_PRODUCTION.md)，以该合同执行本阶段。原有方法章节继续用于专业判断；旧 Project/Revision 写入、本地模型、向量与网络取材分支不适用于模板服务，不调用已移除工具。
+读取 [基础事实](../production-coordinator/references/base.md)，先调用 read_runtime_release 和 read_production_task 核对本任务事实及能力。身份来自输入与正式返回，不从路径猜测。
 
-
-# 项目定位与操作边界
-
-任何 VideoFlowCut 项目读写前，发现当前实际 MCP 工具及 Schema，读取已连接 Runtime 版本；用 `list_projects`、`target_project`、`read_project` 定位真实项目、Revision、Timeline、目标对象、素材与未结束 Job。不凭名字猜 ID，不因用户只改局部就新建整片。
-
-尚无项目时记录这个事实，由导演提出明确建项参数，主任务创建后读回真实版本。恢复原任务优先续接原项目、当前稿和既有负责人。视频创作从 [协调入口](../production-coordinator/SKILL.md) 调度。
-
-不熟悉对象关系或本次操作涉及依赖、就绪、stale 时，读取 [项目模型](references/project-model.md) 对应章节；Project、Sequence/Timeline、Asset、Story、Script、Scene、Cue 与 ExportArtifact 不混用。当前代码存在的能力不等于本会话已发布能力。
-
-实际提交或 Job 恢复时，主任务读取 [写入与恢复](../production-coordinator/references/project-writes.md)。带当前 `base_revision_id`，写后读回版本、目标与影响；异步任务按其真实合同排序。结果未知先对账，不简单换版本或幂等键重放。
-
-剪辑只使用已发布 MCP，不改平台代码或绕过接口。暂时连接失败、服务停止与原因未知先只读诊断并按已有授权恢复；只有确认平台/服务自身 Bug 且阻断当前工作才报独立 Repair Ticket。返回真实项目事实、输入版本、目标范围、可用与待处理事项；协作沿 [唯一交接约定](../_shared/PROJECT_REVISION_AND_HANDOFF.md)。
+确认当前阶段及固定模板、输入摘要；Render 的工程、时间轴和源码摘要共同确定可检查版本。服务冻结文件字节不表示模型已读取。工具结果先检查 isError，结果未知时沿原作业核查，不换键重放。只读事实与没有依赖的查询可以并行，正式修改、生成、渲染提交由主协调排序；排序提交不要求等待异步任务结束。

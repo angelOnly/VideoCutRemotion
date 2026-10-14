@@ -15,4 +15,15 @@ if(!found.cards?.length)throw new Error('发行词法库检索未返回机制');
 const read=readLibraryMechanism(library,{id:found.cards[0].id});
 if(!read.image||!read.result.body)throw new Error('发行词法库缺少正文或分镜图');
 for(const entry of ['runtime.cjs','mcp.cjs','review.cjs']){const code=readFileSync(join(pluginRoot,'runtime/dist',entry),'utf8');for(const forbidden of ['ComfyUIBridge','runWorkerForever','OmniVoice','submit_transcription','analyze_motion_reference'])if(code.includes(forbidden))throw new Error(`发行物仍包含已删除能力：${forbidden}`);}
+
+const { readSkillManifest, verifySkillView, listFiles } = await import('./skill-manifest.mjs');
+const { root: skillSource, manifest: skillManifest } = await readSkillManifest(resolve(pluginRoot, '../..'));
+for (const [path, files] of [['skills', skillManifest.renderFiles], ['skills-stages/render', skillManifest.renderFiles], ['skills-stages/analysis', skillManifest.analysisFiles]]) await verifySkillView(join(pluginRoot, path), skillSource, files);
+if (manifest.skillViewsDigest !== digestTree(join(pluginRoot, 'skills-stages'))) throw new Error('阶段技能摘要不匹配');
+const { mechanismModules } = await import('./package-motion-library.mjs');
+for (const file of await listFiles(library)) {
+  if (!mechanismModules.includes(file) && file !== 'mechanism-index.json' && !/^cases\/[a-zA-Z0-9-]+\/mechanisms\/m\d{2}\.(md|jpg)$/.test(file)) throw new Error(`机制发行包含非必要资源：${file}`);
+}
+const index = JSON.parse(readFileSync(join(library, 'mechanism-index.json'), 'utf8'));
+if (index.count !== manifest.motionLibrary.count || index.source_sha256 !== manifest.motionLibrary.source_sha256) throw new Error('机制发行身份不一致');
 console.log(JSON.stringify({status:'passed',releaseId:manifest.releaseId,skillsDigest:manifest.skillsDigest,capabilities:manifest.capabilities}));

@@ -1,0 +1,762 @@
+{
+  "artifact": ".candidate/media-chunks-diagnostic/output-staging/chunks/0.mp4",
+  "sha256": "6b2065f9719a298b5c7bb8434a2aef595edd4d4b0f12c158edacac5939cd351d",
+  "width": 64,
+  "height": 64,
+  "fps": 30,
+  "actualFrames": 37,
+  "pixels": [
+    {
+      "globalFrame": 0,
+      "topLeftRgb": [
+        249,
+        3,
+        0
+      ],
+      "background63x63Rgb": [
+        254,
+        0,
+        0
+      ],
+      "markerX": 1,
+      "markerY": 11,
+      "markerRgb": [
+        242,
+        255,
+        249
+      ]
+    },
+    {
+      "globalFrame": 1,
+      "topLeftRgb": [
+        9,
+        247,
+        25
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 2,
+      "markerY": 11,
+      "markerRgb": [
+        253,
+        255,
+        221
+      ]
+    },
+    {
+      "globalFrame": 2,
+      "topLeftRgb": [
+        14,
+        245,
+        15
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 3,
+      "markerY": 11,
+      "markerRgb": [
+        252,
+        253,
+        255
+      ]
+    },
+    {
+      "globalFrame": 3,
+      "topLeftRgb": [
+        0,
+        254,
+        10
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 4,
+      "markerY": 11,
+      "markerRgb": [
+        232,
+        255,
+        240
+      ]
+    },
+    {
+      "globalFrame": 4,
+      "topLeftRgb": [
+        0,
+        255,
+        0
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 5,
+      "markerY": 11,
+      "markerRgb": [
+        244,
+        254,
+        235
+      ]
+    },
+    {
+      "globalFrame": 5,
+      "topLeftRgb": [
+        0,
+        255,
+        2
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 6,
+      "markerY": 11,
+      "markerRgb": [
+        227,
+        255,
+        229
+      ]
+    },
+    {
+      "globalFrame": 6,
+      "topLeftRgb": [
+        5,
+        250,
+        10
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 7,
+      "markerY": 11,
+      "markerRgb": [
+        235,
+        255,
+        238
+      ]
+    },
+    {
+      "globalFrame": 7,
+      "topLeftRgb": [
+        5,
+        255,
+        0
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 8,
+      "markerY": 11,
+      "markerRgb": [
+        218,
+        255,
+        229
+      ]
+    },
+    {
+      "globalFrame": 8,
+      "topLeftRgb": [
+        0,
+        254,
+        10
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 9,
+      "markerY": 11,
+      "markerRgb": [
+        231,
+        255,
+        255
+      ]
+    },
+    {
+      "globalFrame": 9,
+      "topLeftRgb": [
+        6,
+        246,
+        25
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 10,
+      "markerY": 11,
+      "markerRgb": [
+        236,
+        255,
+        238
+      ]
+    },
+    {
+      "globalFrame": 10,
+      "topLeftRgb": [
+        0,
+        255,
+        0
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 11,
+      "markerY": 11,
+      "markerRgb": [
+        219,
+        255,
+        246
+      ]
+    },
+    {
+      "globalFrame": 11,
+      "topLeftRgb": [
+        5,
+        249,
+        15
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 12,
+      "markerY": 11,
+      "markerRgb": [
+        247,
+        255,
+        219
+      ]
+    },
+    {
+      "globalFrame": 12,
+      "topLeftRgb": [
+        15,
+        246,
+        1
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 13,
+      "markerY": 11,
+      "markerRgb": [
+        224,
+        255,
+        214
+      ]
+    },
+    {
+      "globalFrame": 13,
+      "topLeftRgb": [
+        8,
+        251,
+        0
+      ],
+      "background63x63Rgb": [
+        0,
+        254,
+        1
+      ],
+      "markerX": 14,
+      "markerY": 11,
+      "markerRgb": [
+        237,
+        255,
+        229
+      ]
+    },
+    {
+      "globalFrame": 14,
+      "topLeftRgb": [
+        0,
+        0,
+        252
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 15,
+      "markerY": 11,
+      "markerRgb": [
+        231,
+        255,
+        254
+      ]
+    },
+    {
+      "globalFrame": 15,
+      "topLeftRgb": [
+        0,
+        0,
+        246
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 16,
+      "markerY": 11,
+      "markerRgb": [
+        230,
+        255,
+        255
+      ]
+    },
+    {
+      "globalFrame": 16,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 17,
+      "markerY": 11,
+      "markerRgb": [
+        234,
+        255,
+        248
+      ]
+    },
+    {
+      "globalFrame": 17,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 18,
+      "markerY": 11,
+      "markerRgb": [
+        235,
+        255,
+        244
+      ]
+    },
+    {
+      "globalFrame": 18,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 19,
+      "markerY": 11,
+      "markerRgb": [
+        232,
+        255,
+        241
+      ]
+    },
+    {
+      "globalFrame": 19,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 20,
+      "markerY": 11,
+      "markerRgb": [
+        235,
+        255,
+        255
+      ]
+    },
+    {
+      "globalFrame": 20,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 21,
+      "markerY": 11,
+      "markerRgb": [
+        232,
+        255,
+        237
+      ]
+    },
+    {
+      "globalFrame": 21,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 22,
+      "markerY": 11,
+      "markerRgb": [
+        232,
+        255,
+        253
+      ]
+    },
+    {
+      "globalFrame": 22,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 23,
+      "markerY": 11,
+      "markerRgb": [
+        235,
+        255,
+        246
+      ]
+    },
+    {
+      "globalFrame": 23,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 24,
+      "markerY": 11,
+      "markerRgb": [
+        235,
+        255,
+        254
+      ]
+    },
+    {
+      "globalFrame": 24,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 25,
+      "markerY": 11,
+      "markerRgb": [
+        236,
+        255,
+        255
+      ]
+    },
+    {
+      "globalFrame": 25,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 26,
+      "markerY": 11,
+      "markerRgb": [
+        235,
+        255,
+        255
+      ]
+    },
+    {
+      "globalFrame": 26,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 27,
+      "markerY": 11,
+      "markerRgb": [
+        232,
+        255,
+        255
+      ]
+    },
+    {
+      "globalFrame": 27,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 28,
+      "markerY": 11,
+      "markerRgb": [
+        235,
+        255,
+        243
+      ]
+    },
+    {
+      "globalFrame": 28,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 29,
+      "markerY": 11,
+      "markerRgb": [
+        235,
+        255,
+        255
+      ]
+    },
+    {
+      "globalFrame": 29,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 30,
+      "markerY": 11,
+      "markerRgb": [
+        234,
+        255,
+        255
+      ]
+    },
+    {
+      "globalFrame": 30,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 31,
+      "markerY": 11,
+      "markerRgb": [
+        236,
+        255,
+        255
+      ]
+    },
+    {
+      "globalFrame": 31,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 32,
+      "markerY": 11,
+      "markerRgb": [
+        235,
+        255,
+        255
+      ]
+    },
+    {
+      "globalFrame": 32,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 33,
+      "markerY": 11,
+      "markerRgb": [
+        238,
+        255,
+        253
+      ]
+    },
+    {
+      "globalFrame": 33,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 34,
+      "markerY": 11,
+      "markerRgb": [
+        234,
+        255,
+        251
+      ]
+    },
+    {
+      "globalFrame": 34,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 35,
+      "markerY": 11,
+      "markerRgb": [
+        232,
+        255,
+        243
+      ]
+    },
+    {
+      "globalFrame": 35,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 36,
+      "markerY": 11,
+      "markerRgb": [
+        232,
+        255,
+        248
+      ]
+    },
+    {
+      "globalFrame": 36,
+      "topLeftRgb": [
+        0,
+        0,
+        254
+      ],
+      "background63x63Rgb": [
+        0,
+        0,
+        254
+      ],
+      "markerX": 37,
+      "markerY": 11,
+      "markerRgb": [
+        232,
+        255,
+        241
+      ]
+    }
+  ],
+  "segmentDecodedVideoMatchesWhole": [
+    true,
+    true,
+    true
+  ],
+  "continuousPcmSamples": 59200,
+  "wholeAudioCorrelation": 0.9999992770022932,
+  "sceneAudioCorrelations": {
+    "2": 0.9999993028894328,
+    "3": 0.9998820575958769
+  },
+  "说明": "原新增断言在左上角检测纯色，受到附近白块所在压缩区域的色度影响；改从远离白块的固定纯背景区域采样，保留原阈值，并覆盖全部37帧。视频生产实现未修改。"
+}

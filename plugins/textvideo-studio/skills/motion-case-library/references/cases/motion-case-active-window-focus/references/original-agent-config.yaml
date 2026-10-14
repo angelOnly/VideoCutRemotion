@@ -1,5 +1,0 @@
-interface:
-  display_name: "活动视窗展开与主体聚焦"
-  short_description: "VideoFlowCut 按观看任务选读的案例参考"
-policy:
-  allow_implicit_invocation: false

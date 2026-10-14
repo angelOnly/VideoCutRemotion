@@ -16,7 +16,7 @@ export function sceneRangesFromTimeline(timeline:any,expected:RenderRequest['dat
     ensure(Number.isInteger(scene.from)&&scene.from===previous&&Number.isInteger(scene.frames)&&scene.frames>0,'分镜全局范围必须连续且完整');
     const end=scene.from+scene.frames;
     ensure(end<=total,'分镜超出整片');
-    ensure(Array.isArray(scene.utterances)&&scene.utterances.length>0,'快速切片须有已核验的句段时间轴');
+    ensure(Array.isArray(scene.utterances)&&scene.utterances.length>0,'分段输出须有已核验的句段时间轴');
     let speechEnd=0;
     for(const utterance of scene.utterances){
       ensure(Number.isInteger(utterance.startFrame)&&Number.isInteger(utterance.endFrameExclusive)&&utterance.startFrame>=speechEnd&&utterance.endFrameExclusive>utterance.startFrame&&utterance.endFrameExclusive<=scene.frames,'句段边界越界或重叠');
@@ -36,8 +36,8 @@ export async function verifyCutTimeline(root:string,project:string,timelineRef:s
   const planned=sceneRangesFromTimeline(timeline,expected,total,fps);
   ensure(JSON.stringify(planned)===JSON.stringify(ranges.map(({id,fromFrame,toFrame})=>({id,fromFrame,toFrame}))),'请求切点与已确认时间轴不一致');
   // 服务检查点保留真实核验凭据，作者可写的检查报告不能自行宣布审计成功。
-  ensure(trustedAudits?.[sourceDigest]?.timelineSha256===sha256(JSON.stringify(timeline)),'混合切片要求服务确认同版 verify_sentence_audio 结果');
+  ensure(trustedAudits?.[sourceDigest]?.timelineSha256===sha256(JSON.stringify(timeline)),'分段输出要求服务确认同版 verify_sentence_audio 结果');
   const reports=await Promise.all([renderRequestId,'working'].map(id=>json(join(root,'checks',`sentence-audio-${id}.json`)).catch((error:any)=>{if(error.code==='ENOENT')return null;throw error;})));
-  ensure(reports.some(report=>report?.sourceDigest===sourceDigest&&report.timelineSha256===sha256(JSON.stringify(timeline))),'混合切片要求同一源码版本已通过 verify_sentence_audio；请先核验当前工程');
+  ensure(reports.some(report=>report?.sourceDigest===sourceDigest&&report.timelineSha256===sha256(JSON.stringify(timeline))),'分段输出要求同一源码版本已通过 verify_sentence_audio；请先核验当前工程');
   return planned;
 }

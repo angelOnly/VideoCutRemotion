@@ -17,9 +17,10 @@ test('同版已核验整片直接复用，旧版不能充作当前检查媒体',
   assert.equal(decideDynamicPreview({ onDemand: true, request, verifiedWholeVideo: { sourceDigest: 'v1', fileRef: 'readyFiles/whole.mp4' } }), 'reuse_whole_video');
   assert.equal(decideDynamicPreview({ onDemand: true, request, verifiedWholeVideo: { sourceDigest: 'v0', fileRef: 'readyFiles/whole.mp4' } }), 'request_preview');
 });
-test('真实运行时指令随灰度开关变化，默认旧流程，Analysis 不启动审片', () => {
+test('真实运行时指令随开关变化，默认按需预览，Analysis 不启动审片', () => {
   const render = { stage: 'render', request: {} } as Run;
-  const legacy = taskInstruction(render, '/run', '/plugin');
+  assert.match(taskInstruction(render, '/run', '/plugin'), /动态预览不是固定下一步/);
+  const legacy = taskInstruction(render, '/run', '/plugin', { qaParallelReview: false, qaMaxReviewers: 3, previewOnDemand: false });
   assert.match(legacy, /并行主题审片=关闭/);
   assert.match(legacy, /再用 render_template 的 previewOnly\/ranges 检查真实运动和声音/);
   const optimized = taskInstruction(render, '/run', '/plugin', { qaParallelReview: true, qaMaxReviewers: 2, previewOnDemand: true });
@@ -28,8 +29,8 @@ test('真实运行时指令随灰度开关变化，默认旧流程，Analysis �
   assert.match(optimized, /professional_review_pending/);
   assert.match(optimized, /旧负责人迟到结果仅存历史/);
   assert.ok(!optimized.includes('再用 render_template 的 previewOnly/ranges 检查真实运动和声音'));
-  assert.match(INSTRUCTION_VERSION, /\/5$/);
+  assert.match(INSTRUCTION_VERSION, /\/6$/);
   const analysis = taskInstruction({ stage: 'analysis', request: {} } as Run, '/run', '/plugin', { qaParallelReview: true, qaMaxReviewers: 3, previewOnDemand: true });
-  assert.match(analysis, /禁止配音、渲染或生成媒体/);
+  assert.match(analysis, /不调用配音、预览、媒体生成/);
   assert.ok(!analysis.includes('只读主题审查单元'));
 });

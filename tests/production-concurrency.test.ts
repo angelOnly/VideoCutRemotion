@@ -22,7 +22,7 @@ test('四任务调度：第五个排队、独立收尾、清理结束后补位',
    const path=join(dir,'result.json');await writeJson(path,{taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,dataList:[{id:'s',content:(run.request as any).content,dur:1,durationSource:'estimated'}],context:'测试'});
    return {taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,resultPath:path};
  });
- runner.prepare=async run=>run;runner.settleTools=async id=>{if(id)await finishing.get(id)?.promise;};
+ runner.prepare=async run=>repo.checkpoint(run.runId,run.token!,{template:{digest:'template',manifest:{templateVersion:'fixture'},analysisContract:{digest:'text'}}});runner.settleTools=async id=>{if(id)await finishing.get(id)?.promise;};
  const runs=Array.from({length:6},(_,i)=>repo.accept('a','analysis',{taskId:`video-${i}`,content:'正文',otherRequirements:'',plugin:{customTemplateId:'x'}}));
  try{
    await runner.tick();await until(()=>gates.size===4);assert.equal(runner.active.size,4);assert.equal(repo.get(runs[4].runId).state,'queued');
@@ -107,7 +107,7 @@ test('批量静帧与续切共用幂等、容量和持久化：并发回调不�
   assert.equal((await call('render_template',video)).statusCode,200);await service.runner.settleTools(r.runId);
   assert.equal((await call('read_render_job',{renderRequestId:'video'})).json().state,'failed');
   assert.equal((await call('retry_render_slices',{renderRequestId:'video'})).statusCode,200);await service.runner.settleTools(r.runId);assert.equal(retries,1);
-  const done=(await call('read_render_job',{renderRequestId:'video'})).json();assert.equal(done.state,'succeeded');assert.deepEqual(done.readyFiles.map((f:any)=>f.id),['whole-video','s']);
+  const done=(await call('read_render_job',{renderRequestId:'video',details:true})).json();assert.equal(done.state,'succeeded');assert.deepEqual(done.readyFiles.map((f:any)=>f.id),['whole-video','s']);
   await call('retry_render_slices',{renderRequestId:'video'});assert.equal(retries,1);
   const path=join(service.runner.runRoot(r),'render-jobs/video.json');
   for(const state of ['running','unknown','cancelled']){
