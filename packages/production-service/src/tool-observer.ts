@@ -3,13 +3,17 @@ export class ToolObserver {
   private calls=new Map<string,{threadId:string;itemId:string;type:string;startedAt:number}>();
   private transport=new Map<string,{kind:string;source:'stderr'|'connection';lastObservedAt:number;count:number}>();
   private stderrTail='';
+  private threads=new Map<string,{threadId:string;method:string;error:unknown;willRetry?:boolean;observedAt:number}>();
   observe(event:any,now=Date.now()){
-    const p=event.params,item=p?.item;if(!p?.threadId||!item?.id)return;
+    const p=event.params,item=p?.item;
+    if(p?.threadId&&(event.method==='error'||event.method==='thread/error'||event.method==='thread/status/changed'))this.threads.set(p.threadId,{threadId:p.threadId,method:event.method,error:p.error??p.status,willRetry:p.willRetry,observedAt:now});
+    if(!p?.threadId||!item?.id)return;
     const key=`${p.threadId}:${item.id}`;
     if(event.method==='item/completed')this.calls.delete(key);
     else if(event.method==='item/started'&&['commandExecution','mcpToolCall'].includes(item.type))this.calls.set(key,{threadId:p.threadId,itemId:item.id,type:item.type,startedAt:now});
   }
   stalled(now=Date.now(),thresholdMs=180000){return [...this.calls.values()].filter(c=>now-c.startedAt>=thresholdMs).map(c=>({...c,elapsedMs:now-c.startedAt}));}
+  threadDiagnostics(){return [...this.threads.values()];}
   /** 仅记录通信诊断类别，不据此重放媒体，也不能推断某个审片单元没有进展。 */
   observeTransport(text:string,source:'stderr'|'connection'='stderr',now=Date.now()){
     const message=source==='stderr'?this.stderrTail+text:text;

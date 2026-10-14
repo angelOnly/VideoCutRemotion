@@ -16,9 +16,10 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
   await fs.writeFile(join(template,'文字合同.md'),'逐字保留正文、顺序、数字、英文及换行。');
   await writeJson(join(template,'renderer/renderer-manifest.json'),{schemaVersion:1,templateVersion:'1',analysisInstructions:['../文字合同.md'],instructions:['../说明.md'],entry:'src.ts',wholeComposition:'Test',timelineModule:'timeline.json',publicAssetRoot:'public',width:320,height:180,fps:30,voiceRefs:[]});
   const zip=join(root,'template.zip');await processFile('python',['-c',"import pathlib,zipfile,sys; p=pathlib.Path(sys.argv[1]); z=zipfile.ZipFile(sys.argv[2],'w'); [z.write(f,f.relative_to(p).as_posix() + ('/' if f.is_dir() else '')) for f in p.rglob('*')]; z.close()",template,zip]);
+  const media=join(root,'stub.mp4'),wholeMedia=join(root,'whole.mp4');
+  for(const [path,duration] of [[media,1],[wholeMedia,2]] as const)await processFile('ffmpeg',['-v','error','-f','lavfi','-i',`color=c=blue:s=320x180:r=30:d=${duration}`,'-f','lavfi','-i',`sine=frequency=440:duration=${duration}`,'-c:v','libx264','-c:a','aac','-shortest',path]);
   let downloads=0;const platform=createServer(async(req,res)=>{if(req.url?.endsWith('/package')){downloads++;res.end(await fs.readFile(zip));}else res.end('{"status":0}');});await new Promise<void>(r=>platform.listen(0,'127.0.0.1',r));
   const base=`http://127.0.0.1:${(platform.address() as any).port}`,config={dataRoot:join(root,'data'),apiToken:'test',accountId:'a',templateBase:base,callbackBase:base,callbackSecret:'secret',mediaBase:'http://local/media',release:{releaseId:'release-test'},ready:{codex:true,tts:true,dependencies:true},searchEnabled:false} as ProductionConfig;let calls=0;
-  const media=join(root,'stub.mp4');await processFile('ffmpeg',['-v','error','-f','lavfi','-i','color=c=blue:s=320x180:r=30:d=1','-f','lavfi','-i','sine=frequency=440:duration=1','-c:v','libx264','-c:a','aac','-shortest',media]);
   const service=await createProductionServer(config,async(run,runRoot)=>{calls++;const path=join(runRoot,'result.json');let result:any;
     if(run.stage==='analysis'){
       assert.equal((await json(join(runRoot,'result-schema.json'))).properties.context.type,'string');
@@ -29,7 +30,23 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
       assert.ok(!JSON.stringify(input).includes('src.ts'));
     }
     if(run.stage==='analysis')result={taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,dataList:[{id:'s1',content:'第一段。',dur:1,durationSource:'estimated'},{id:'s2',content:'第二段。',dur:1,durationSource:'estimated'}],context:'已读测试模板；执行器为 stub。'};
-    else{await fs.copyFile(media,join(runRoot,'stub.mp4'));await fs.cp(join(runRoot,'project'),join(runRoot,'render-snapshots','test-render','project'),{recursive:true});const scenes=(run.request as any).dataList;result={taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,templateDigest:run.checkpoint.template.digest,renderRequestId:'test-render',sourceDigest:await treeDigest(join(runRoot,'project')),timelineRef:'renderer/timeline.json',checks:['协议测试 stub，未作创意评审'],files:[{id:'whole-video',content:scenes.map((s:any)=>s.content).join('')},...scenes].map(s=>({...s,file:join(runRoot,'stub.mp4'),sha256:sha256(Buffer.from([])),dur:1,fromFrame:0,toFrame:30,width:320,height:180,fps:30}))};for(const f of result.files)f.sha256=sha256(await fs.readFile(media));await fs.writeFile(join(runRoot,'project','post-render-review.md'),'导出后补充审片记录；不改变渲染输入快照。');}
+    else{
+      const scenes=(run.request as any).dataList;
+      const timeline={fps:30,totalFrames:60,scenes:scenes.map((s:any,i:number)=>({id:s.id,from:i*30,frames:30,utterances:[{id:`u${i}`,text:s.content,startFrame:0,endFrameExclusive:30}],captions:[{text:s.content,startFrame:0,endFrameExclusive:30}]}))};
+      await writeJson(join(runRoot,'project/renderer/timeline.json'),timeline);
+      await fs.copyFile(media,join(runRoot,'stub.mp4'));await fs.copyFile(wholeMedia,join(runRoot,'whole.mp4'));
+      await fs.cp(join(runRoot,'project'),join(runRoot,'render-snapshots','test-render','project'),{recursive:true});
+      result={taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,templateDigest:run.checkpoint.template.digest,renderRequestId:'test-render',sourceDigest:await treeDigest(join(runRoot,'project')),timelineRef:'renderer/timeline.json',checks:['隔离协议测试，未作真实创意评审'],files:[{id:'whole-video',content:scenes.map((s:any)=>s.content).join('')},...scenes].map((s:any,i:number)=>({...s,file:join(runRoot,i===0?'whole.mp4':'stub.mp4'),sha256:'',dur:i===0?2:1,fromFrame:i===0?0:(i-1)*30,toFrame:i===0?60:i*30,width:320,height:180,fps:30}))};
+      for(const f of result.files)f.sha256=sha256(await fs.readFile(f.file));
+      await writeJson(join(runRoot,'render-jobs/test-render.json'),{id:'test-render',runId:run.runId,kind:'template-render',state:'succeeded',sourceDigest:result.sourceDigest,input:{timelineRef:result.timelineRef,previewOnly:false},readyFrames:[],readyFiles:result.files});
+      // 仅验证服务协议：模拟观察不是实际作品看听，缺质量依据时首先应拒绝。
+      assert.throws(()=>service.reviews.assertDelivery(run.runId,result.sourceDigest,result.files),/专业审查/);
+      const plan=await service.reviews.prepare(run,{renderRequestIds:['test-render'],phase:'final'}),session=service.reviews.createSession(run.runId,plan.reviewId);
+      service.reviews.bindSession(session.id,`isolated-protocol-${run.runId}`);
+      let work=service.reviews.claim(run.runId,session.credential);
+      while(work)work=service.reviews.submit(run.runId,session.credential,{assignmentToken:work.assignmentToken,observations:work.checks.map(check=>({checkId:check.checkId,evidenceId:check.evidenceIds[0],range:check.range,note:'隔离协议观察夹具，不是实际作品批准'})),issues:[],status:'complete'}).next;
+      await fs.writeFile(join(runRoot,'project','post-render-review.md'),'导出后记录，不改变渲染快照。');
+    }
     await writeJson(path,result);return {taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,resultPath:path};});
   const post=(path:string,body:any)=>service.app.inject({method:'POST',url:path,headers:{authorization:'Bearer test'},payload:body});
   const aPath='/narrate/ai_video_director/getAiVideoEditingAnalysisData',rPath='/narrate/ai_video_director/getAiVideoEditingData',input={taskId:'t',content:'第一段。第二段。',otherRequirements:'',plugin:{customTemplateId:'3'}};

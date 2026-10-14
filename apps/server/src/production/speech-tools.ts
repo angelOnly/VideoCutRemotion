@@ -3,10 +3,18 @@ import { z } from 'zod';
 import { speechSchema, speechBatchSchema } from '../../../../packages/speech-services/src/doubao.js';
 import { sentenceAuditSchema } from '../../../../packages/production-service/src/sentence-audio.js';
 import { renderToolSchema, previewFramesSchema, renderRequestIdSchema } from '../../../render-worker/src/template-renderer.js';
-export function registerProductionTools(server:McpServer,call:(name:string,input:unknown)=>Promise<any>,stage:'analysis'|'render'='render'){
-  const register=(name:string,description:string,schema:Record<string,z.ZodTypeAny>)=>server.registerTool(name,{description,inputSchema:schema},async input=>{try{return {content:[{type:'text',text:JSON.stringify(await call(name,input))}]};}catch(e){return {isError:true,content:[{type:'text',text:JSON.stringify({error:String(e)})}]};}});
+import { prepareReviewSchema,claimReviewSchema,submitReviewSchema,readReviewSchema } from '../../../../packages/production-service/src/review-service.js';
+export function registerProductionTools(server:McpServer,call:(name:string,input:unknown)=>Promise<any>,stage:'analysis'|'render'='render',role:'production'|'reviewer'='production'){
+  const register=(name:string,description:string,schema:Record<string,z.ZodTypeAny>)=>server.registerTool(name,{description,inputSchema:schema},async input=>{try{const result=await call(name,input);return {content:[{type:'text',text:JSON.stringify(result)}],structuredContent:result&&typeof result==='object'?result:{result}};}catch(e:any){const result={code:e.code??'TOOL_FAILED',reason:e.message??String(e),...(e.fields?{fields:e.fields}:{}),nextStep:e.nextStep??'核对当前参数和原任务状态，保留已经观察的材料'};return {isError:true,content:[{type:'text',text:JSON.stringify(result)}],structuredContent:result};}});
   register('read_production_task','读取绑定的真实任务、阶段和必要模板依据；完整输入沿本 Run 的 input.json 读取。',{});
   if(stage==='analysis')return;
+  if(role==='reviewer'){
+    register('claim_review_work','领取当前会话绑定的章节检查包；重复调用返回已有活动包。',claimReviewSchema.shape);
+    register('submit_review','保存实际观察；partial 累积，complete 在覆盖齐全后原子续领下一包。没有实际看听能力时不得声明完成。',submitReviewSchema.shape);
+    register('read_review','读取当前审片计划的简短状态和未完成范围。',readReviewSchema.shape);return;
+  }
+  register('prepare_review','从本 Run 已冻结媒体和真实时间线建立审片计划，启动有界只读审片会话；同输入保留进度。',prepareReviewSchema.shape);
+  register('read_review','读取计划剩余数量、阻断问题和异常，不重复搬运历史。',readReviewSchema.shape);
   register('synthesize_speech','当前 Render 的豆包云端配音；先持久化后异步执行。同键同输入读原任务，unknown 不得重新收费请求。',speechSchema.omit({runId:true}).shape);
   register('synthesize_speech_batch','一次登记本 run 的整批句段，服务按视频轮流派发；同批次同输入返回原任务，不重复收费。',speechBatchSchema.omit({runId:true}).shape);
   register('read_speech_batch','默认返回配音批次计数、异常与完整音频清单引用；需要具体句段时可请求详情，未知结果不得重发。',{speechBatchRequestId:z.string().regex(/^[A-Za-z0-9_-]{1,100}$/),details:z.boolean().default(false)});

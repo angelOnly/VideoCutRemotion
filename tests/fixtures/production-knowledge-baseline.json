@@ -1,0 +1,218 @@
+{
+  "baseline": "a128eee",
+  "说明": "完整未改专业段落的字节指纹；旧接口、相对链接迁移和任务约束适配另见恢复对照。",
+  "files": [
+    {
+      "source": "captions/SKILL.md",
+      "target": "captions/references/caption-design.md",
+      "preservedParagraphs": [
+        "284ecfa7912782226a52eceee320a751d199e6de5c9df99e37321fcf65bbcf63",
+        "37e756c76679976d8afe2be12ec3e6e739df3de2ee0815d51a0bc3c4e878cd68",
+        "0051509bf2aded69ccc2c4c608fd426737fd1da3ffdda3072afc7636ed418d21",
+        "c470e961e44bf16e62974caa6a72b0814874097dbf91dd265ba9afaf92413567",
+        "072c07f145a880c6922d35d7f8b616a673a894ffd231794a95c71e3725a9e82c",
+        "20930b63132d8ce8f0aba8b0b713b60a5c4a02ff94feb798efef00bb2dfa9106",
+        "7ebe113aba559105df41b26d614551cd7f5d50e409ca3120ba1782f06cb35f91",
+        "320ebfc9e07130ad4392f67e50cc27c8456d3ec8899459500078c1c852e3f65c",
+        "85db836bfa78b60ba407defda8df4eec11b1b0e6a23ef8d82bc9f50319e0ecf9"
+      ]
+    },
+    {
+      "source": "voice-production/SKILL.md",
+      "target": "voice-production/references/speech-performance.md",
+      "preservedParagraphs": [
+        "a279235c6ce230acb093e281af74a1ea15496228c87dccb5102dbcb018b49720",
+        "782670a28bfc951ed38837b1b7c0b17e12a0e87e66c4122db30d77f4d6cedf7f",
+        "3bd8939b7e29da09c209f2bf7b84d4e4e093394c385dc51c022a016cc284a8c3",
+        "70fa5de6dbbd072e6b960db73cee9b592698cbdd45894bb3564720ebed1d4504",
+        "38f569d865a424fa50751d02784cc89f9466a5671f2c32cb726ddedcc8a2dbb0",
+        "66ba11eb91ad0798e769872e6f72917659ef103fb06024b1f601febd2b53dbb0",
+        "993660f63a79517218164fca0d31d65125b0d9acc92f5191c7cf84ab0343293b",
+        "7e81d2c5f8c1d87c7bbf5cf9b565ee3dd67a309f6fe5196d6f7159db13489c50"
+      ]
+    },
+    {
+      "source": "effect-timing/SKILL.md",
+      "target": "effect-timing/references/timing-design.md",
+      "preservedParagraphs": [
+        "41777416f7f7f533fc73aa930a71e0649183ec3a0703abd6b13be17014d5a9ab",
+        "b712958858d8f5ce776da2b7f2f0b820eb07de06af8d2991158198a59caf1bcb",
+        "67e1019d30faec6a3f1db9bed63225501c5a3e1b52a79bd8c33970b93c927fd8",
+        "1f39b925f453b7e8925d1e490f6c91669c0a3d5bd721e452f7b0fb92d087aa66",
+        "dfc753c8ccb103cf646eee1e6279b4ac5ee70f109e502d767627a0e09a24b058",
+        "2061b26205ca89eb66c51347b61ea5add9cbb9780f12347adba98d2cd459be4e",
+        "06aca2558dc6562c71e4fd12e942f6dde06c728b9a0c279c8682f96b983ab71e",
+        "2f2dacc509f8fd8f4804414fc506493ed67da345a2e7b6bd9de87aa7b06e8894",
+        "c3e5faf9498e59b3fd5dd50e3b21abe787c4fe9279b3e822080ca5607db5b2f0",
+        "62180ead9c1253bdaf2223cd6ec587f8dc22ae64fcd1cf86cde0ba41d6f9c710",
+        "5f9e8d3ce4457c84aa6269ba6e1152405733654669d1d83000936ab5023520fb",
+        "bc9cbfb6d8f1bebc0a256f999081e1f2091e12562a6026956d691850e41f60d5",
+        "0f13a2de62b538c9f301bc01a4bef3015f5bf7f8e70f376f96632bf194987432"
+      ]
+    },
+    {
+      "source": "effect-timing/references/event-and-audio-binding.md",
+      "target": "effect-timing/references/audio-placement-method.md",
+      "preservedParagraphs": [
+        "aa3f3d795f52fac759c0a1e70182e46a7ff9385fb043b687c78fad6eadf52c2a",
+        "8d3ae8af6c250f2bebe78c8899dc85ee853f75ecb50d3e7a20c9673b9d1613fe"
+      ]
+    },
+    {
+      "source": "motion-case-library/references/mechanism-retrieval.md",
+      "target": "motion-case-library/references/mechanism-design.md",
+      "preservedParagraphs": [
+        "b35f30d94899328cba00f834e17e0066d6d56ca60099ba2d5ebd9000a3c5d987",
+        "184f991ba2fed39ac84aece0098e8020e99a196a43f3d6fdc8a6fea04d854452",
+        "c7fcf4640b78a304954929a7da6e1fd64aad8c4a95f7815fb294b0017065903e",
+        "d1cfe307f4c0f0a0ceb68956181a8e1c541ae697b37a934bf9e002f860c08ee5",
+        "96cd45e8a120d472de365b945a3e39f895abb7a331c36f72aaf530d44e53e16d",
+        "c8941fe9eca8396e50fbe4a3698e9fb6d1f44637d440513ab36cea50064df357",
+        "d5c55a3d736ee3ddf9f44751368bb69ed6938cc52d833b265f52ed87389893bf",
+        "49a09546eebcdd000f9045d4e5b1652f8a896757e0fff670adaf15250cbb14ff",
+        "0481562c1b23a9a8b14d6840ad415302c34425bb7ea63579194e6695bbf4afc5",
+        "5219353dade17eae03580bcc2035c930f236b81c142b3f7b84abfd73bfacd494"
+      ]
+    },
+    {
+      "source": "motion-brief-writing/references/performance-design.md",
+      "target": "motion-brief-writing/references/performance-design.md",
+      "preservedParagraphs": [
+        "9f8d068b30d4f5f4b169ad0b3ab4d0bdb0137c4a2ba455278c8c0ba9ef3b0bcc",
+        "f071fe47525aae178e6de36e421796458049d8f7278086bac70b5133b3af0634",
+        "8e63f4d177407f9b56b39abaa3320c06eec99366d721237c49db7c64a9146112",
+        "5a14f9a8a6c445c135ca36622cf10272d1e804f07f142868c07bd77d43065b76",
+        "15f12e04fc68f7cd85b294407e2d9bd3371544ce756c33d65c28ff71950b3b84",
+        "a0e0e0aacb5cc10bb93d807a5a9aac8b48c2f9dc7fd3ac37d2a61582500b8fb7",
+        "3e749a8d53e813427d6278800cfa4ff2b95c9740e8ff72ea1a607665dbe5f02e",
+        "6124af4f14a08bd80510e2b308b5dcab93472290724aa895e378863047524347",
+        "13844682bb234ef8bde6b2477fb86f452ec76ebbfb6c19286e87d68bf4246a3e",
+        "d169577dbb589056217845419f5233aa1d4450925cd938a2e49bbaabfa62514f",
+        "42a4bcd8ba40eafc914fe7f85e1de01830e6d055ea0bb9a70c10b332b4877f53",
+        "3ddb2030e6fb5a1027ef0afcedffcad0d367148fe1abe42e71a6f1c40ba58272",
+        "403a32c52db89d60ebbbf11216cf2173cbd4c5d5fe276ff2da433f903a082cfc",
+        "d4a90bb313099348f4aeef84e1ea42ad93953a79c4c1cb86efa293a71d7f3b64",
+        "ab7f716d4afaeae4672aa4999b059000ee57f308ee527da7b5e7f4ef92234457",
+        "88664825ae52714548c5a1b0dffc269e23a54de82a25cf3a15dd609aee316945",
+        "59623363ee4523184eca31f105f849faa1c398201938215c236337455bdb3060",
+        "cc6c78e42a273633cc1641add977a4ce51ca360a733b3501c43cc7cfa938b924",
+        "9ef6df7be86b4b3480fc719534289c00347fdc26ad4f16ebd323295db4921af6",
+        "5a316fb6e1e5d8250c570c59a03a442d0501a1e1404c74d1288a8d1273a1c532",
+        "8187742385ff5d80f33cf873d93ceaf80757d63d6003ef6b7d998259d3a2e94e",
+        "33003d2fbd6e3e89f669f6b1efe9a1718cd664877cdd4b7b045b25b3c6f5cdbe",
+        "71e2fcfc5d983fa8a20c2a10d93420a8b76cadcedbff575a5a31a2276ce03c54"
+      ]
+    },
+    {
+      "source": "motion-brief-writing/references/execution-brief-template.md",
+      "target": "motion-brief-writing/references/execution-brief-template.md",
+      "preservedParagraphs": [
+        "416d473a973e405549d7fa7e22282267ad6cf254764b05ed287f2ea565a59156",
+        "b273d618872bb3e8952e575a2f4a43450a7901ff89377061c0352108de7ff12c",
+        "fe47ac2a79b15d3a40f6c54ff37ac6e8d7cd93dfd6fb16430457bf39db40bed8",
+        "2991b66fd7c69a1b8a5155728d1a85cc86ee5c515fbf2bf8bc96c93dd622e27b",
+        "56c6883105dc11c8bd6617030520731810ad7b06e419709b8acfd012b8f2fd7a",
+        "ffecf45446d783eb4a6898a7c3f9bb5929f4f8d5caadd6afbfdf19d785b61621",
+        "06f65799492901f6631deff380edf4c927d71dbb9272c0a55eec59442e8dc212",
+        "477706ac5d572b07dfedf281df403f1c051ec0f8762b054b0e2640d6d4477888",
+        "3b8439c532ad775b62edfef710716bbed0b7c3ff984da916665dea54e46a3527",
+        "a54037763397a91f46129b3be7d7a78c21eda175feb96f62703f2bab6772cc9c"
+      ]
+    },
+    {
+      "source": "visual-treatment-planning/references/art-direction.md",
+      "target": "visual-treatment-planning/references/art-direction.md",
+      "preservedParagraphs": [
+        "088ffdd5681dd69a3035d73cb95680c3b1235eadf47862601b62d442d268da9c",
+        "4fe8a494dd40a88434f463b342820b1e8c93f38e1b69bafe5980c3454db22b5d",
+        "3ab109e66a24f07d71fcff29cc1a6b83c2d168bb19d24ce3b3230f5e03d04a51",
+        "9735a22334603a289ec623ac8c1f4b848774e94ff02009fed41a224c9d4eae44",
+        "1db48743d26810481d20f7e652f3289607da2b77882fd307987b84f086fce2df",
+        "45c087c80d889256a92f5018bd31cd6ae1ffecf162d62244485f165295bf8a1c",
+        "1242f8bc54d6b4016125427ade60d8015ef9ad7637eef2b1ec7691851b56ec4c",
+        "c16bd043edac1945bde638810fee54151b2bcc42d924f6a457eaac999fda5c53",
+        "169d40119e4d1c944716babf5bdcd9971196e20c4bcf01c52c08886d583a670a",
+        "1f26205146f87a46d46f00e7437704e64ea2864902387d77142eb4626dc93b67",
+        "0dda18e82b0c3ea2184fa61f0411f0623e6ae051d60d25b5b0610206fd1f46fc",
+        "9f0fd7817a91a30c6aee79258187384bc989b7203edad56a96ef244e49b7f9f6",
+        "f7d3497f578a60a507d0b09ab796664b1f2534437fb517d82f5143c0ea819dbf",
+        "eae14755100cb7eda2e06cbfd0e5ef1bcfba27ac52b66071f611352845f028f5",
+        "c32b9cb612282beb1c7c01a0467facd125ab0b3be3ee3f7a2585b781eb7bffc2",
+        "e87280c30835bd1c8d141932ed092399c6ef122d21bf7b8e524f24573a643458",
+        "a9c0fc5a064c9c55526961426808634326f1e3f4b4566ff7601c9036f71e0762",
+        "5983a9d8ca43df78cb10f12038a3aff00a274d185aec22ad1b55661192d658d3",
+        "2614f8fa52189e23a3579288549088cfbee133ac23994c9a0c64f3b2fbca51a8",
+        "f4c8cf82f878a8c885e9a643e5867322c3c527bd71f61ef6c15a493f23a72832",
+        "6b22bc3df56df78fb537f2e8590cd4a49d4f6c9fa57e21e9e9eafcb1fc61f6c2",
+        "b2524651bbedd8d8ed800e530f502d6c87df86abb51092d03f1072b4bdd85b07",
+        "691822fd69c1828df9397379375cf1fc63acafc37425926b5678e3bb624bcf5d",
+        "9f948ca84c91b3fe3ea0442fe6fffe0e0925a2b40a2362eaaf43840828e41dcb",
+        "782f4cbb7195d0fcbe6575f66c9c6219338e4e2590a3db7efa9703ad909311f9",
+        "f38d296a7089bc4e7cd42d121bfdb046148f3d943c7dbdc1bf64507af7a3b094",
+        "8516ee5a411b2b9e5cd9b0e03d539937e3f2bab198e334a765bdc86d2a936e17",
+        "94cf4b3043347ec277389d096ba855a2306ee816dacbd4b466ee5b3e5038f491",
+        "fbd10d297ffb696288f58708cc9c3dce92fe9440cf861f1540b38cc9db4d1f3f",
+        "2453bc64118daed0f8b7a765d774f021a0f6f5f859dd2707a07b6bcf68edc7d5",
+        "d84217d3f7af6a3aa1a089d70eef64cf633145bac5922c87be1d96b19027407d",
+        "ebd3d2310764a21dd097649c38a0e701c320bdf30659c2fa6eedc4bb5fdef939",
+        "a5f2a044e6f5f457680e12f8820503c9195bfb8b5040c89782ab7835a8c39f18",
+        "9c3b4f12f26e30338d475aee7bf6341acd898c527cb74f7903ba890941028ddb",
+        "ba912ec269a25d146015605c73b921b5b99de6827c9f5ccda18641e183b6ca02",
+        "44f7a26a08bf23c2508f7f1c38a732fd094f936188f76c10d531a1128d9bef8e",
+        "29986ae9858aca61469c43c9ee876192c65514bf9dbeebdde12c65e721d623ae"
+      ]
+    },
+    {
+      "source": "visual-treatment-planning/references/art-directions.md",
+      "target": "visual-treatment-planning/references/art-directions.md",
+      "preservedParagraphs": [
+        "00b75557ada1311920be8ae4ab74a6e7ab87d70161ffc4517c44f4534ccf8409",
+        "61ffd8ba2db822a404697017737c0ddea38b37917561d66dcdc3632511aba07e",
+        "d29b1e9cc2e48ed8f0f0a7ca279ad01b55e1e288155fa0d037f5618b5b7dbe26",
+        "d6c40aae817ff030716ef3e22e6a087e3729f7b404e840aa4e1bf3a4478463c6",
+        "6418376de75bf4d6380d8bec2523542d2e530e09308883e9f4646e7a6c65c710",
+        "46d27775fe249ee857128b5da02e715a571a5ef4c6602441dbc309295169285e",
+        "5f4ab5e9da4f2f1860e9c659c8c3c79ef591c1ebeaf990ff5c2a3cad3dd6c271",
+        "2ad61de3bb3f77c74d6c27b8f3c06bb5fafe014cdce41afb4f59723c462fcdd8",
+        "bf8790974ff3cd351c7150870cac4595df36fcec7d30a06ddaefd4cf69f5deaa",
+        "15ff44ee96a572f320a7cdffac1c82ccfe8d59af9d72e4540ef4041a06e5fbbb",
+        "0d52aa008c57916ca9991ac905c8cf9a017bf0753413a5fb0df6286077ba1b34"
+      ]
+    },
+    {
+      "source": "remotion-production/references/material-space-and-time.md",
+      "target": "remotion-production/references/material-space-and-time.md",
+      "preservedParagraphs": [
+        "588b166df60279e4d64bd81c0215ee72c779671f74c6605758adeaf86573d64c",
+        "7a918505e846786e101acdbafcac8733b023e3640921842ead73863c6bcf6414",
+        "afd7b0005620f91b52b352af2a221ecd4a11a3712162b6c4f25f520960a18b09",
+        "dbe603b94a962f27a27d0e7eed4405e3db7f50d8d53398a025a569f750a00920",
+        "402a49572810c49c250c3aeb1c78abdc9dcc3da050e944986af4128326ea93a0",
+        "06dab580a2d1442ef3f53fa11d1780f5063d7a6ce6dbd3d529bae80ef201c8ec",
+        "673fb5342ec7395b2429e7ca0358cc89a3c5fc4a0c153f5598cdebc434c631bf",
+        "f875cb19ff261422d8afbb14017d6fa5174b02bcf3ef6649d77e51d21edbb4cd",
+        "c6414b2529986875c8eef62c63f276c44a8968c7fcf95008844b5b6fedb59feb",
+        "9054b524ee65bfc4d093bf8df2e2380f058e6b53105b072ce39d3fb21f67876e",
+        "61358dc24a72b7e62b2c205306ff72888546d366678e4e8f847e70a554b3bf5f",
+        "c140c580b5e2b71e9c3686119476ffb740451d56e0c388686158f734b10d9f20",
+        "dfd104c1b118788f42f4d6892578c1f0421709abde71366447b9721c9bff28fb",
+        "0b9207b57b3e4ff8035e729e60ca41f42cf9bee30ccea63d6d6bbb8f79c75e7d",
+        "3b4b6af9dc5beb05e2fab696a46c1c95a36d7e4ce34c9df4e59a231fc341f34c",
+        "1089b9fbbc982b4fef782bb3b29d603c95a3f9147f842d916d74c63e2145a49a",
+        "4bcf63b1b27226d8d10af6f051f01be41d3a3d7a3a7ece797a763c8f07e66e22",
+        "2fc9dccd1d79f350edcb433f1981b0a56a6a2a5e18524651c42b7cbb90ae8513",
+        "eaa9c9f9697c6b5221c33379fbdcedc88cbf396f864156ee9d693336c7e5de26",
+        "f4a433652943a8c135da246b1386690b8a58bc64209ae7fbd102cbf11bb3c86c",
+        "e89603984fb0ac388d8012ab254f166d84e0b2a6886a3276a41eeb7624412f1a"
+      ]
+    },
+    {
+      "source": "remotion-production/references/remotion-component-contract.md",
+      "target": "remotion-production/references/deterministic-motion.md",
+      "preservedParagraphs": [
+        "1006c94e18179a8e03188a5d85d6a003f0f5938dcc0cafe835fc29eba46561f2",
+        "b0afd71ec9253153bdb7f736aab1dcaa8cadddb1dfccc6ec5e4b15687b9a60ff"
+      ]
+    }
+  ]
+}

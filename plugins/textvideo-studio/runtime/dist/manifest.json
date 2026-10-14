@@ -1,9 +1,9 @@
 {
   "schemaVersion": 3,
-  "pluginVersion": "0.1.10",
-  "releaseId": "release-8b8ce5f6b011574f12f227835d970b556044e5fe41d36e8aafac1d7e3db90b50",
-  "skillsDigest": "cc919f89c64055d352c1f25f7fe5036e5e4360ac447a71055256a7fa67bae2d1",
-  "skillViewsDigest": "eb4bd6c3f5f0fdba76e77e35a2d0e025f9b09fcd845857ae0e0038095b9954b9",
+  "pluginVersion": "0.1.11",
+  "releaseId": "release-7b7f196b48c960daa4519d3dd102c28d490691e8edc154f1fc9050caaeea6544",
+  "skillsDigest": "e516131833438d4cfd274e580e99aa10488ee8aa90526877c8bf12c72d34ffb7",
+  "skillViewsDigest": "e957b0bd87861ba06c910ac45cdd3c23c9b37b745b4dfb36ba7bea41b42ce27a",
   "skillViews": {
     "analysis": "skills-stages/analysis",
     "render": "skills-stages/render"
@@ -19,7 +19,9 @@
   "capabilities": {
     "localModels": false,
     "lexical": true,
-    "networkSearchDefault": false
+    "networkSearchDefault": false,
+    "reviewProtocol": 1,
+    "runtimeWait": true
   },
   "dependencies": "固定 Node 包、Chromium、FFmpeg/ffprobe、Codex CLI 和豆包凭据由部署清单准备"
 }

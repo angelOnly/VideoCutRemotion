@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 1,
-  "sourceRoot": ".agents/skills/_shared/template-production",
+  "schemaVersion": 2,
+  "sourceRoot": ".agents/skills",
   "retainedSkills": [
     "production-coordinator",
     "project-basics",
@@ -51,134 +51,269 @@
   ],
   "renderFiles": [
     {
-      "source": "render/production-coordinator/entry.md",
+      "source": "_shared/template-production/render/production-coordinator/entry.md",
       "target": "production-coordinator/SKILL.md"
     },
     {
-      "source": "render/project-basics/entry.md",
+      "source": "_shared/template-production/render/project-basics/entry.md",
       "target": "project-basics/SKILL.md"
     },
     {
-      "source": "render/production-director/entry.md",
+      "source": "_shared/template-production/render/production-director/entry.md",
       "target": "production-director/SKILL.md"
     },
     {
-      "source": "render/visual-explainer-director/entry.md",
+      "source": "_shared/template-production/render/visual-explainer-director/entry.md",
       "target": "visual-explainer-director/SKILL.md"
     },
     {
-      "source": "render/scene-planning/entry.md",
+      "source": "_shared/template-production/render/scene-planning/entry.md",
       "target": "scene-planning/SKILL.md"
     },
     {
-      "source": "render/visual-treatment-planning/entry.md",
+      "source": "_shared/template-production/render/visual-treatment-planning/entry.md",
       "target": "visual-treatment-planning/SKILL.md"
     },
     {
-      "source": "render/remotion-production/entry.md",
+      "source": "_shared/template-production/render/remotion-production/entry.md",
       "target": "remotion-production/SKILL.md"
     },
     {
-      "source": "render/effect-timing/entry.md",
+      "source": "_shared/template-production/render/effect-timing/entry.md",
       "target": "effect-timing/SKILL.md"
     },
     {
-      "source": "render/motion-brief-writing/entry.md",
+      "source": "_shared/template-production/render/motion-brief-writing/entry.md",
       "target": "motion-brief-writing/SKILL.md"
     },
     {
-      "source": "render/motion-case-library/entry.md",
+      "source": "_shared/template-production/render/motion-case-library/entry.md",
       "target": "motion-case-library/SKILL.md"
     },
     {
-      "source": "render/voice-production/entry.md",
+      "source": "_shared/template-production/render/voice-production/entry.md",
       "target": "voice-production/SKILL.md"
     },
     {
-      "source": "render/captions/entry.md",
+      "source": "_shared/template-production/render/captions/entry.md",
       "target": "captions/SKILL.md"
     },
     {
-      "source": "render/audio-finishing/entry.md",
+      "source": "_shared/template-production/render/audio-finishing/entry.md",
       "target": "audio-finishing/SKILL.md"
     },
     {
-      "source": "render/quality-verification/entry.md",
+      "source": "_shared/template-production/render/quality-verification/entry.md",
       "target": "quality-verification/SKILL.md"
     },
     {
-      "source": "render/export/entry.md",
+      "source": "_shared/template-production/render/export/entry.md",
       "target": "export/SKILL.md"
     },
     {
-      "source": "render/known-errors/entry.md",
+      "source": "_shared/template-production/render/known-errors/entry.md",
       "target": "known-errors/SKILL.md"
     },
     {
-      "source": "render/depth-composition/entry.md",
+      "source": "_shared/template-production/render/depth-composition/entry.md",
       "target": "depth-composition/SKILL.md"
     },
     {
-      "source": "render/evidence-visualization/entry.md",
+      "source": "_shared/template-production/render/evidence-visualization/entry.md",
       "target": "evidence-visualization/SKILL.md"
     },
     {
-      "source": "references/base.md",
+      "source": "_shared/template-production/references/base.md",
       "target": "production-coordinator/references/base.md"
     },
     {
-      "source": "references/analysis.md",
+      "source": "_shared/template-production/references/analysis.md",
       "target": "production-coordinator/references/analysis.md"
     },
     {
-      "source": "references/render.md",
+      "source": "_shared/template-production/references/render.md",
       "target": "production-coordinator/references/render.md"
     },
     {
-      "source": "references/director.md",
+      "source": "_shared/template-production/references/director.md",
       "target": "production-coordinator/references/director.md"
     },
     {
-      "source": "references/visual.md",
+      "source": "_shared/template-production/references/visual.md",
       "target": "production-coordinator/references/visual.md"
     },
     {
-      "source": "references/audio.md",
+      "source": "_shared/template-production/references/audio.md",
       "target": "production-coordinator/references/audio.md"
     },
     {
-      "source": "references/review.md",
+      "source": "_shared/template-production/references/review.md",
       "target": "production-coordinator/references/review.md"
     },
     {
-      "source": "references/export.md",
+      "source": "_shared/template-production/references/export.md",
       "target": "production-coordinator/references/export.md"
     },
     {
-      "source": "references/scene.md",
+      "source": "_shared/template-production/references/scene.md",
       "target": "production-coordinator/references/scene.md"
     },
     {
-      "source": "references/motion.md",
+      "source": "_shared/template-production/references/motion.md",
       "target": "production-coordinator/references/motion.md"
     },
     {
-      "source": "references/depth.md",
+      "source": "_shared/template-production/references/depth.md",
       "target": "production-coordinator/references/depth.md"
     },
     {
-      "source": "references/evidence.md",
+      "source": "_shared/template-production/references/evidence.md",
       "target": "production-coordinator/references/evidence.md"
+    },
+    {
+      "source": "captions/references/caption-design.md",
+      "target": "captions/references/caption-design.md"
+    },
+    {
+      "source": "voice-production/references/speech-performance.md",
+      "target": "voice-production/references/speech-performance.md"
+    },
+    {
+      "source": "effect-timing/references/timing-design.md",
+      "target": "effect-timing/references/timing-design.md"
+    },
+    {
+      "source": "effect-timing/references/audio-placement-method.md",
+      "target": "effect-timing/references/audio-placement-method.md"
+    },
+    {
+      "source": "motion-case-library/references/mechanism-design.md",
+      "target": "motion-case-library/references/mechanism-design.md"
+    },
+    {
+      "source": "motion-brief-writing/references/performance-design.md",
+      "target": "motion-brief-writing/references/performance-design.md"
+    },
+    {
+      "source": "motion-brief-writing/references/execution-brief-template.md",
+      "target": "motion-brief-writing/references/execution-brief-template.md"
+    },
+    {
+      "source": "visual-treatment-planning/references/art-direction.md",
+      "target": "visual-treatment-planning/references/art-direction.md"
+    },
+    {
+      "source": "visual-treatment-planning/references/art-directions.md",
+      "target": "visual-treatment-planning/references/art-directions.md"
+    },
+    {
+      "source": "remotion-production/references/material-space-and-time.md",
+      "target": "remotion-production/references/material-space-and-time.md"
+    },
+    {
+      "source": "remotion-production/references/deterministic-motion.md",
+      "target": "remotion-production/references/deterministic-motion.md"
     }
   ],
   "analysisFiles": [
     {
-      "source": "analysis.md",
+      "source": "_shared/template-production/analysis.md",
       "target": "production-coordinator/SKILL.md"
     },
     {
-      "source": "references/analysis.md",
+      "source": "_shared/template-production/references/analysis.md",
       "target": "production-coordinator/references/analysis.md"
     }
-  ]
+  ],
+  "professionalSources": [
+    "captions/references/caption-design.md",
+    "voice-production/references/speech-performance.md",
+    "effect-timing/references/timing-design.md",
+    "effect-timing/references/audio-placement-method.md",
+    "motion-case-library/references/mechanism-design.md",
+    "motion-brief-writing/references/performance-design.md",
+    "motion-brief-writing/references/execution-brief-template.md",
+    "visual-treatment-planning/references/art-direction.md",
+    "visual-treatment-planning/references/art-directions.md",
+    "remotion-production/references/material-space-and-time.md",
+    "remotion-production/references/deterministic-motion.md"
+  ],
+  "roles": {
+    "coordinator": {
+      "entries": [
+        "production-coordinator"
+      ],
+      "references": [
+        "production-coordinator/references/base.md",
+        "production-coordinator/references/render.md"
+      ]
+    },
+    "director": {
+      "entries": [
+        "production-director",
+        "visual-explainer-director",
+        "scene-planning"
+      ],
+      "references": [
+        "production-coordinator/references/director.md",
+        "production-coordinator/references/scene.md"
+      ]
+    },
+    "visual": {
+      "entries": [
+        "visual-treatment-planning",
+        "motion-brief-writing",
+        "effect-timing",
+        "remotion-production"
+      ],
+      "references": [
+        "visual-treatment-planning/references/art-direction.md",
+        "motion-brief-writing/references/performance-design.md",
+        "effect-timing/references/timing-design.md",
+        "remotion-production/references/material-space-and-time.md"
+      ],
+      "conditionalReferences": [
+        "visual-treatment-planning/references/art-directions.md",
+        "motion-case-library/references/mechanism-design.md",
+        "motion-brief-writing/references/execution-brief-template.md",
+        "remotion-production/references/deterministic-motion.md"
+      ]
+    },
+    "audio": {
+      "entries": [
+        "voice-production",
+        "captions",
+        "audio-finishing"
+      ],
+      "references": [
+        "voice-production/references/speech-performance.md",
+        "captions/references/caption-design.md",
+        "production-coordinator/references/audio.md"
+      ],
+      "conditionalReferences": [
+        "effect-timing/references/audio-placement-method.md"
+      ]
+    },
+    "reviewer": {
+      "entries": [
+        "quality-verification"
+      ],
+      "references": [
+        "production-coordinator/references/review.md"
+      ],
+      "conditionalReferences": [
+        "captions/references/caption-design.md",
+        "voice-production/references/speech-performance.md",
+        "effect-timing/references/timing-design.md",
+        "effect-timing/references/audio-placement-method.md",
+        "motion-case-library/references/mechanism-design.md",
+        "motion-brief-writing/references/performance-design.md",
+        "motion-brief-writing/references/execution-brief-template.md",
+        "visual-treatment-planning/references/art-direction.md",
+        "visual-treatment-planning/references/art-directions.md",
+        "remotion-production/references/material-space-and-time.md",
+        "remotion-production/references/deterministic-motion.md"
+      ]
+    }
+  }
 }

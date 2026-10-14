@@ -18,4 +18,4 @@ for (const [target, files] of [
   }
   await verifySkillView(target, root, files);
 }
-console.log('已生成独立后台技能视图：Analysis 1 项、Render 18 项；排除 11 项工作流与 13 个历史案例包。');
+console.log(`已生成独立后台技能视图：Analysis 1 项、Render ${manifest.retainedSkills.length} 项；恢复 ${manifest.professionalSources.length} 份唯一专业正文，校验角色读取闭包与文件字节。`);

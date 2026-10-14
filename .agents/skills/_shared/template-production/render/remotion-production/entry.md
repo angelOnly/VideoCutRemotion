@@ -5,7 +5,7 @@ description: 按实际模板接口实现本期 Remotion 动画、全局时序和
 
 # remotion-production
 
-读取 [视觉制作](../production-coordinator/references/visual.md)，只在当前实现需要时读取对应组件接口及实现。遵守模板授权区域、固定资源、字体、Logo、头像与包装，不能在任务工程中更改已冻结模板合同。
+完整新制作先读[空间与源时间](references/material-space-and-time.md)，需要模拟时读[任意帧重建](references/deterministic-motion.md)。读取 [视觉制作](../production-coordinator/references/visual.md)，只在当前实现需要时读取对应组件接口及实现。遵守模板授权区域、固定资源、字体、Logo、头像与包装，不能在任务工程中更改已冻结模板合同。
 
 采用全片 Composition 和全局帧时钟；场面局部时间由全局帧减起点得到，不把交付分镜当成从零启动的独立世界。跨句对象、进度条、章节标题与片尾必须在全局时间下连续。音频和字幕使用实际时间轴，明确源坐标、画面坐标及时间单位。
 

@@ -12,7 +12,13 @@ export class ProductionRepository {
     this.db.exec(`PRAGMA journal_mode=WAL; PRAGMA busy_timeout=5000; PRAGMA foreign_keys=ON;
       CREATE TABLE IF NOT EXISTS tasks (id TEXT PRIMARY KEY, account_id TEXT NOT NULL, external_id TEXT NOT NULL, version INTEGER NOT NULL DEFAULT 0, result_version INTEGER NOT NULL DEFAULT 0, latest_success TEXT, UNIQUE(account_id,external_id));
       CREATE TABLE IF NOT EXISTS runs (id TEXT PRIMARY KEY, request_id TEXT NOT NULL UNIQUE, account_id TEXT NOT NULL, task_id TEXT NOT NULL REFERENCES tasks(id), stage TEXT NOT NULL, input_digest TEXT NOT NULL, request TEXT NOT NULL, version INTEGER NOT NULL, state TEXT NOT NULL, token TEXT, heartbeat INTEGER, checkpoint TEXT NOT NULL DEFAULT '{}', result TEXT, error TEXT, result_version INTEGER, created_at INTEGER NOT NULL, UNIQUE(account_id,task_id,stage,input_digest));
-      CREATE TABLE IF NOT EXISTS callback_outbox (id TEXT PRIMARY KEY, run_id TEXT NOT NULL UNIQUE REFERENCES runs(id), body TEXT NOT NULL, state TEXT NOT NULL DEFAULT 'pending', attempts INTEGER NOT NULL DEFAULT 0, next_at INTEGER NOT NULL DEFAULT 0, diagnostic TEXT);`);
+      CREATE TABLE IF NOT EXISTS callback_outbox (id TEXT PRIMARY KEY, run_id TEXT NOT NULL UNIQUE REFERENCES runs(id), body TEXT NOT NULL, state TEXT NOT NULL DEFAULT 'pending', attempts INTEGER NOT NULL DEFAULT 0, next_at INTEGER NOT NULL DEFAULT 0, diagnostic TEXT);
+      CREATE TABLE IF NOT EXISTS reviews (id TEXT PRIMARY KEY, run_id TEXT NOT NULL REFERENCES runs(id), input_digest TEXT NOT NULL, source_digest TEXT NOT NULL, phase TEXT NOT NULL, state TEXT NOT NULL, data TEXT NOT NULL, created_at INTEGER NOT NULL);
+      CREATE UNIQUE INDEX IF NOT EXISTS reviews_active_input ON reviews(run_id,input_digest) WHERE state='active';
+      CREATE TABLE IF NOT EXISTS review_sessions (id TEXT PRIMARY KEY, run_id TEXT NOT NULL REFERENCES runs(id), review_id TEXT NOT NULL REFERENCES reviews(id), credential_digest TEXT NOT NULL UNIQUE, thread_id TEXT, state TEXT NOT NULL, diagnostic TEXT);
+      CREATE TABLE IF NOT EXISTS review_work (id TEXT PRIMARY KEY, review_id TEXT NOT NULL REFERENCES reviews(id), ordinal INTEGER NOT NULL, state TEXT NOT NULL, session_id TEXT REFERENCES review_sessions(id), assignment_token TEXT UNIQUE, generation INTEGER NOT NULL DEFAULT 0, data TEXT NOT NULL);
+      CREATE UNIQUE INDEX IF NOT EXISTS review_one_active_work ON review_work(session_id) WHERE state='assigned';
+      CREATE TABLE IF NOT EXISTS review_submissions (id INTEGER PRIMARY KEY, session_id TEXT NOT NULL REFERENCES review_sessions(id), assignment_token TEXT NOT NULL, body_digest TEXT NOT NULL, body TEXT NOT NULL, response TEXT NOT NULL, accepted INTEGER NOT NULL, created_at INTEGER NOT NULL, UNIQUE(session_id,assignment_token,body_digest));`);
   }
   transaction<T>(fn: () => T): T { this.db.exec('BEGIN IMMEDIATE'); try { const v = fn(); this.db.exec('COMMIT'); return v; } catch(e) { this.db.exec('ROLLBACK'); throw e; } }
   private decode(row: any): Run { return { runId: row.id, requestId: row.request_id, accountId: row.account_id, taskKey: row.task_id, taskId: row.external_id,
@@ -58,8 +64,18 @@ export class ProductionRepository {
   }
   checkpoint(id: string, token: string, patch: Record<string, any>) {
     return this.transaction(() => { const run = this.get(id); this.guard(run,token);
-      this.db.prepare('UPDATE runs SET checkpoint=?,heartbeat=? WHERE id=? AND token=?').run(JSON.stringify({...run.checkpoint,...patch}),Date.now(),id,token);
+      const next={...run.checkpoint,...patch};
+      // 会话和等待记录会被多个事件补充，心跳不得覆盖嵌套句柄。
+      for(const key of ['codex','runtimeWait'])if(patch[key]&&typeof patch[key]==='object')next[key]={...run.checkpoint[key],...patch[key]};
+      this.db.prepare('UPDATE runs SET checkpoint=?,heartbeat=? WHERE id=? AND token=?').run(JSON.stringify(next),Date.now(),id,token);
       return this.get(id);
+    });
+  }
+  heartbeat(id:string,token:string){const run=this.get(id);this.guard(run,token);this.db.prepare('UPDATE runs SET heartbeat=? WHERE id=? AND token=?').run(Date.now(),id,token);}
+  compareCheckpoint(id:string,token:string,key:string,expected:unknown,value:unknown):boolean{
+    return this.transaction(()=>{const run=this.get(id);this.guard(run,token);
+      if(canonical(run.checkpoint[key]??null)!==canonical(expected??null))return false;
+      this.db.prepare('UPDATE runs SET checkpoint=?,heartbeat=? WHERE id=? AND token=?').run(JSON.stringify({...run.checkpoint,[key]:value}),Date.now(),id,token);return true;
     });
   }
   guard(run: Run, token: string) { if (run.token !== token || terminal(run.state)) throw new ProductionError('EXECUTION_FENCED','执行令牌已失效',409); }

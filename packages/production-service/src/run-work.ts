@@ -70,6 +70,16 @@ export class MediaBudget {
 export class MediaJobEvents {
   private listeners=new Map<string,Set<()=>void>>();
   notify(key:string){for(const listener of [...this.listeners.get(key)??[]])listener();}
+  /** 先订阅后读取磁盘，避免完成事件恰好落在读状态与注册监听之间。 */
+  subscribe(key:string,ms:number,signal?:AbortSignal){
+    let dispose=()=>{};
+    const promise=new Promise<void>(resolve=>{
+      const done=()=>{clearTimeout(timer);signal?.removeEventListener('abort',done);const group=this.listeners.get(key);group?.delete(done);if(!group?.size)this.listeners.delete(key);resolve();};
+      const timer=setTimeout(done,ms);dispose=done;
+      if(!this.listeners.has(key))this.listeners.set(key,new Set());this.listeners.get(key)!.add(done);
+      signal?.addEventListener('abort',done,{once:true});if(signal?.aborted)done();
+    });return {promise,dispose};
+  }
   async wait(key:string,ms:number,signal?:AbortSignal){
     if(ms<=0||signal?.aborted)return;
     await new Promise<void>(resolve=>{

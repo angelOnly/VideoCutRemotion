@@ -14,7 +14,7 @@ const found=searchLibrary(library,{query:'比较',limit:1});
 if(!found.cards?.length)throw new Error('发行词法库检索未返回机制');
 const read=readLibraryMechanism(library,{id:found.cards[0].id});
 if(!read.image||!read.result.body)throw new Error('发行词法库缺少正文或分镜图');
-for(const entry of ['runtime.cjs','mcp.cjs','review.cjs']){const code=readFileSync(join(pluginRoot,'runtime/dist',entry),'utf8');for(const forbidden of ['ComfyUIBridge','runWorkerForever','OmniVoice','submit_transcription','analyze_motion_reference'])if(code.includes(forbidden))throw new Error(`发行物仍包含已删除能力：${forbidden}`);}
+for(const entry of ['runtime.cjs','mcp.cjs']){const code=readFileSync(join(pluginRoot,'runtime/dist',entry),'utf8');for(const forbidden of ['ComfyUIBridge','runWorkerForever','OmniVoice','submit_transcription','analyze_motion_reference'])if(code.includes(forbidden))throw new Error(`发行物仍包含已删除能力：${forbidden}`);}
 
 const { readSkillManifest, verifySkillView, listFiles } = await import('./skill-manifest.mjs');
 const { root: skillSource, manifest: skillManifest } = await readSkillManifest(resolve(pluginRoot, '../..'));

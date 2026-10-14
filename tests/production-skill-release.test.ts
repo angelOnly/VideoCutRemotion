@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, rm, readFile, access } from 'node:fs/promises';
+import { mkdtemp, rm, readFile, access, cp, writeFile, symlink } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -14,8 +15,8 @@ import { projectTemplateMotionSearchResult } from '../apps/server/src/motion-lib
 const repo = process.cwd(), plugin = join(repo, 'plugins/textvideo-studio');
 
 test('后台技能完整处置 29 项，阶段链接闭包与发行字节一致，历史源保留', async () => {
-  const { root, manifest } = await readSkillManifest(repo);
-  assert.equal((await listFiles(root)).some(path => path.endsWith('/SKILL.md')), false, '后台映射源不能被宿主递归注册为第二组同名技能');
+  const { root, templateRoot, manifest } = await readSkillManifest(repo);
+  assert.equal((await listFiles(templateRoot)).some(path => path.endsWith('/SKILL.md')), false, '后台映射源不能被宿主递归注册为第二组同名技能');
   assert.equal(manifest.retainedSkills.length, 18);
   assert.equal(manifest.excludedSkills.length, 11);
   assert.equal(manifest.excludedHistoricalCases.length, 13);
@@ -27,6 +28,49 @@ test('后台技能完整处置 29 项，阶段链接闭包与发行字节一致�
   assert.equal(analysis.some(path => /\.tsx?$/.test(path)), false);
   for (const name of manifest.excludedSkills) await access(join(repo, '.agents/skills', name, 'SKILL.md'));
   for (const name of manifest.excludedHistoricalCases) await access(join(repo, '.agents/skills/motion-case-library/references/cases', name));
+});
+
+test('恢复正文保留 0.1.8 专业原段、唯一维护源与角色读取闭包，不发行旧操作', async () => {
+  const { root, manifest } = await readSkillManifest(repo);
+  const provenance = JSON.parse(await readFile(join(repo, 'tests/fixtures/production-knowledge-baseline.json'), 'utf8'));
+  assert.equal(provenance.baseline, 'a128eee');
+  const digest = (text: string) => createHash('sha256').update(text).digest('hex');
+  for (const entry of provenance.files) {
+    const body = await readFile(join(root, entry.target), 'utf8');
+    const hashes = new Set(body.split(/\n\s*\n/).map((paragraph: string) => digest(paragraph.trim())));
+    for (const hash of entry.preservedParagraphs) assert.ok(hashes.has(hash), `完整专业原段被删改：${entry.target} ${hash}`);
+    assert.equal(manifest.renderFiles.filter((file: any) => file.source === entry.target).length, 1);
+  }
+  for (const file of manifest.renderFiles) {
+    const body = await readFile(join(root, file.source), 'utf8');
+    assert.doesNotMatch(body, /generate_speech_captions|submit_motion_work|apply_authored_script|read_motion_capabilities|manage_effect_cues|semantic_used|analyze_motion_reference|pauseBefore\/After/);
+  }
+  assert.ok(manifest.roles.visual.references.includes('effect-timing/references/timing-design.md'));
+  assert.ok(manifest.roles.audio.references.includes('voice-production/references/speech-performance.md'));
+  assert.ok(manifest.roles.audio.references.includes('captions/references/caption-design.md'));
+});
+
+test('专业映射拒绝未登记来源、重复、真实路径逃逸及不完整角色引用', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'textvideo-skill-boundary-'));
+  try {
+    await cp(join(repo, '.agents'), join(directory, '.agents'), { recursive: true });
+    const path = join(directory, '.agents/skills/_shared/template-production/manifest.json');
+    const original = JSON.parse(await readFile(path, 'utf8'));
+    const assertMutation = async (change: (manifest: any) => void, error: RegExp) => {
+      const candidate = structuredClone(original); change(candidate);
+      await writeFile(path, JSON.stringify(candidate));
+      await assert.rejects(readSkillManifest(directory), error);
+    };
+    await assertMutation(m => { m.renderFiles.push({ source: 'captions/references/caption-operations.md', target: 'captions/references/old.md' }); }, /未在明确清单/);
+    await assertMutation(m => { m.renderFiles.push(m.renderFiles.at(-1)); }, /目标路径重复/);
+    await assertMutation(m => { m.roles.audio.references.push('captions/references/missing.md'); }, /角色参考不在发行闭包/);
+    await assertMutation(m => { m.renderFiles[0].source = '../outside.md'; }, /路径越界/);
+    await writeFile(path, JSON.stringify(original));
+    const source = join(directory, '.agents/skills', original.professionalSources[0]);
+    const outside = join(directory, 'outside.md');
+    await writeFile(outside, '越界正文'); await rm(source); await symlink(outside, source);
+    await assert.rejects(readSkillManifest(directory), /真实路径越界/);
+  } finally { await rm(directory, { recursive: true, force: true }); }
 });
 
 test('后台机制摘要不带全 taxonomy、源码检索正文或整片浏览入口', () => {

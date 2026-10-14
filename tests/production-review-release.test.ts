@@ -2,39 +2,37 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { promises as fs } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { tmpdir } from 'node:os';
-import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
-import { createHash } from 'node:crypto';
+import { createServer } from 'node:http';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 
-const exec = promisify(execFile);
-test('发行 review.cjs 能真实初始化、分派、接收结果和登记问题', async () => {
-  const entry = resolve('plugins/textvideo-studio/runtime/dist/review.cjs');
-  await fs.access(entry);
-  const root = await fs.realpath(await fs.mkdtemp(join(tmpdir(), 'review-release-')));
-  try {
-    await fs.mkdir(join(root, 'qa'));
-    await fs.mkdir(join(root, 'render-jobs'));
-    const path = join(root, 'frame.png');
-    await fs.writeFile(path, '隔离静帧文件');
-    const digest = createHash('sha256').update('隔离静帧文件').digest('hex');
-    await fs.writeFile(join(root, 'render-jobs', 'preview.json'), JSON.stringify({ id: 'preview', runId: 'r', kind: 'frame-preview', sourceDigest: 'snapshot', readyFrames: [{ frame: 10, path, sha256: digest }] }));
-    const call = async (request: unknown) => {
-      await fs.writeFile(join(root, 'qa', 'request.json'), JSON.stringify(request));
-      const { stdout } = await exec(process.execPath, [entry, root, 'request.json']);
-      assert.ok(stdout.trim(), '发行命令必须执行主入口并返回结果');
-      return JSON.parse(stdout);
-    };
-    await call({ operation: 'initialize', renderRequestIds: ['preview'], input: { runId: 'r', sourceDigest: 'snapshot', scenes: [{ sceneId: 's', fromFrame: 0, toFrame: 20 }], readyFrames: [{ frame: 10, sourceDigest: 'snapshot' }] } });
-    await call({ operation: 'assign', unitId: 'scene-s', agentId: 'actual-reviewer', assignmentId: 'assignment-1' });
-    const result = await call({ operation: 'result', result: { unitId: 'scene-s', sourceDigest: 'snapshot', reviewerAgentId: 'actual-reviewer', assignmentId: 'assignment-1', status: 'completed', observedFrames: [10], reviewedAudio: false, observations: [{ sceneId: 's', frame: 10, category: '连线遮挡', severity: 'blocking', evidence: `${path}#${digest}`, problem: '标签被连线遮挡', expected: '文字完整可读' }] } });
-    assert.equal(result.accepted, true);
-    const ledger = JSON.parse(await fs.readFile(join(root, 'qa', 'issue-ledger.json'), 'utf8'));
-    assert.equal(ledger.sourceDigest, 'snapshot');
-    assert.equal(ledger.issues[0].severity, 'blocking');
-    const plan = JSON.parse(await fs.readFile(join(root, 'qa', 'review-plan.json'), 'utf8'));
-    assert.equal(plan.units[0].status, 'completed');
-    assert.equal(plan.units[0].reviewedAudio, false);
-    assert.ok(plan.units[0].lastMeaningfulProgressAt);
-  } finally { await fs.rm(root, { recursive: true, force: true }); }
+// 实际启动候选 MCP 进程，身份由服务返回，不能通过模型参数切换角色。
+test('候选发行移除文件审片入口，审片 MCP 使用最小同源合同与独立连接凭证',async()=>{
+ const plugin=resolve('plugins/textvideo-studio'),release=JSON.parse(await fs.readFile(join(plugin,'runtime/dist/manifest.json'),'utf8'));
+ await assert.rejects(fs.access(join(plugin,'runtime/dist/review.cjs')));
+ const received:any[]=[];
+ const runtime=createServer(async(req,res)=>{
+  res.setHeader('Content-Type','application/json');
+  if(req.url==='/healthz'){res.end(JSON.stringify({releaseId:release.releaseId}));return;}
+  let body='';for await(const chunk of req)body+=chunk;
+  received.push({url:req.url,headers:req.headers,body:JSON.parse(body)});
+  if(req.url==='/internal/tools/read_production_task')res.end(JSON.stringify({stage:'render',role:'reviewer'}));
+  else if(req.url==='/internal/tools/submit_review'){res.statusCode=409;res.end(JSON.stringify({msg:'分派已经过期',error:{code:'REVIEW_ASSIGNMENT_STALE',nextStep:'重新领取当前包'}}));}
+  else res.end(JSON.stringify({assignmentToken:'00000000-0000-4000-8000-000000000001',unitId:'scene-a'}));
+ });
+ await new Promise<void>(done=>runtime.listen(0,'127.0.0.1',done));
+ const port=(runtime.address() as any).port;
+ const transport=new StdioClientTransport({command:process.execPath,args:[join(plugin,'runtime/dist/mcp.cjs')],env:{...Object.fromEntries(Object.entries(process.env).filter((entry):entry is [string,string]=>typeof entry[1]==='string')),TEXTVIDEO_PLUGIN_ROOT:plugin,TEXTVIDEO_RUNTIME_URL:`http://127.0.0.1:${port}`,TEXTVIDEO_RUN_ID:'isolated-run',TEXTVIDEO_REVIEW_TOKEN:'isolated-reviewer',TEXTVIDEO_RUN_TOKEN:'must-not-transmit'},stderr:'pipe'});
+ const client=new Client({name:'隔离发行验证',version:'1'});
+ try{
+  await client.connect(transport);
+  const listed=await client.listTools();assert.deepEqual(listed.tools.map(t=>t.name).sort(),['claim_review_work','read_production_task','read_review','read_runtime_release','submit_review']);
+  const submission=listed.tools.find(t=>t.name==='submit_review')!;
+  assert.deepEqual(new Set(submission.inputSchema.required),new Set(['assignmentToken','observations','issues','status']));
+  assert.equal((await client.callTool({name:'render_template',arguments:{}})).isError,true);
+  const claimed=await client.callTool({name:'claim_review_work',arguments:{}});assert.equal((claimed.structuredContent as any).unitId,'scene-a');
+  const rejected=await client.callTool({name:'submit_review',arguments:{assignmentToken:'00000000-0000-4000-8000-000000000001',observations:[],issues:[],status:'partial'}});
+  assert.equal(rejected.isError,true);assert.equal((rejected.structuredContent as any).code,'REVIEW_ASSIGNMENT_STALE');assert.equal((rejected.structuredContent as any).nextStep,'重新领取当前包');
+  assert.ok(received.every(r=>r.headers['x-review-token']==='isolated-reviewer'&&!r.headers['x-run-token']));
+ }finally{await client.close();await new Promise<void>(done=>runtime.close(()=>done()));}
 });

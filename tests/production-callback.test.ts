@@ -42,3 +42,19 @@ test('T13/T14/T15：回调独立重试、原字节签名及事件身份保持',a
   await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));const base=`http://127.0.0.1:${(server.address() as any).port}`,sender=new CallbackSender(repo,base,'secret',{maxAttempts:3,timeoutMs:1000,baseDelayMs:0});
   try{const r=repo.accept('a','analysis',{taskId:'t',content:'原文',otherRequirements:'',plugin:{customTemplateId:'3'}}),c=repo.claim()!;repo.finish(r.runId,c.token,'succeeded',{});await sender.tick();assert.equal(repo.get(r.runId).state,'succeeded');assert.equal((repo.db.prepare('SELECT * FROM callback_outbox').get() as any).state,'retrying');mode='string';await sender.tick();const event=repo.db.prepare('SELECT * FROM callback_outbox').get() as any;assert.equal(event.state,'dead_letter');sender.retry(event.id,'a');mode='ok';await sender.tick();assert.equal((repo.db.prepare('SELECT * FROM callback_outbox').get() as any).state,'delivered');assert.equal(new Set(bodies).size,1);assert.equal(repo.list('a','t').length,1);}finally{await new Promise<void>(r=>server.close(()=>r()));repo.close();}
 });
+
+test('并发 tick 只投递一次；HTTP 200 的畸形正文不是业务接受',async()=>{
+ const root=mkdtempSync(join(tmpdir(),'callback-overlap-')),repo=new ProductionRepository(join(root,'tasks.sqlite'));
+ let received=0,body='null';
+ const server=createServer(async(req,res)=>{for await(const _chunk of req){}received++;await new Promise(resolve=>setTimeout(resolve,20));res.end(body);});
+ await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));
+ const sender=new CallbackSender(repo,`http://127.0.0.1:${(server.address() as any).port}`,'secret',{maxAttempts:10,timeoutMs:1000,baseDelayMs:0});
+ try{
+  const run=repo.accept('a','analysis',{taskId:'overlap',content:'原文',otherRequirements:'',plugin:{customTemplateId:'3'}}),claim=repo.claim()!;
+  repo.finish(run.runId,claim.token,'succeeded',{marker:'已发布'});
+  const event=()=>repo.db.prepare('SELECT * FROM callback_outbox').get() as any;
+  await Promise.all([sender.tick(),sender.tick(),sender.tick()]);assert.equal(received,1);assert.equal(event().attempts,1);assert.equal(event().state,'retrying');
+  for(const malformed of ['[]','0','{}','{"status":null}']){body=malformed;await sender.tick();assert.notEqual(event().state,'delivered');if(event().state==='dead_letter')sender.retry(event().id,'a');}
+  body='{"status":0}';await sender.tick();assert.equal(event().state,'delivered');assert.equal(repo.get(run.runId).state,'succeeded');
+ }finally{server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()));repo.close();}
+});

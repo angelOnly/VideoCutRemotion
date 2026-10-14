@@ -3,12 +3,6 @@ name: motion-brief-writing
 description: 新建或实质重构动画时编写连续演出稿，说明对象关系与接力。
 ---
 
-处理本项专业工作时读取 [具体方法](../production-coordinator/references/motion.md)；只修局部时只读受影响部分。
-
 # motion-brief-writing
 
-把设计写成可执行的连续状态，至少包含对象身份、起止位置与状态、保持不动的参照、动作原因、节奏、层级、阅读时间和退出交接。不要只列“淡入、弹出、缩放”等特效名称。
-
-先让观众认出对象，再通过形变、移动、聚合、拆分或遮挡表达关系变化；大动作与局部强调错开，主对象之外的运动服从当前解释。跨段接力说明上一段留下什么、下一段如何接收、多余层如何退让。
-
-需要借鉴新运动关系时由视觉作者按需读 motion-case-library。已经采用的机制仍适用时，改字、改色、微调位置与局部偏移继续复用，不强制重新检索。回传对象映射、保留与舍弃动作、关键观察范围及尚未验证的连续性。
+新建或实质重构主要动画时完整读取[演出方法](references/performance-design.md)、[机制需求与组合](../motion-case-library/references/mechanism-design.md)和[时机方法](../effect-timing/references/timing-design.md)。复杂场面使用[执行稿结构](references/execution-brief-template.md)。当前检索边界读[模板机制操作](../production-coordinator/references/motion.md)。同一作者持续负责设计、实现与局部返修；只改既定参数时不重读或重搜全库。

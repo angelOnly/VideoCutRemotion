@@ -63,3 +63,7 @@ SpeechAssembler 按 Script 顺序拼接真实段级文件，并应用明确的�
 | 阶段 | 当前 MCP 命令与关键输入 | 写后读回 / 下一步 |
 |---|---|---|
 | 旁白按帧留白 | `submit_speech_placement(base_revision_id, placements=[{speech_segment_id,start_frame}], duration_frames?, idempotency_key)`；按 Script 顺序提供全部当前已就绪段，起点为非负整数帧且互不重叠、不越过场景；可指定末段后的总轨结束帧 | Worker 复用现有段音频生成带静音总轨；成功后同一 Revision 更新 Dialogue、SpeechTiming 与稳定字幕。`track_job` 终态后读回并试听，旧 Revision 拒绝写入。 |
+
+## 原项目链的声音与字幕衔接
+
+原项目工作流的声音改动沿 Script 与声音链提交，读回实际时长、Impact 及依赖。`apply_authored_script` 可能通过 reconcile 重建多项依赖，不承诺“改一句其余自动有效”。声音稳定后可用该项目当前 `generate_speech_captions` 从最终 SpeechAsset 的真实音频取得分屏时间；支持的 Segment、pauseBefore/After 和表演参数以实时 Schema 为准。本段不适用于模板服务；模板能力按其专用入口处理。

@@ -7,20 +7,25 @@ import type { ProductionRepository } from './repository.js';
 import { analysisTemplateInput, freezeTemplate } from './template-package.js';
 import { json, writeJson, treeDigest, regular } from './files.js';
 import { publishDelivery } from './delivery.js';
+import { ReviewService } from './review-service.js';
+import type { MediaRuntime } from './execution-controller.js';
 import { executeCodex } from './codex-session.js';
 import { createMediaMetricSink, withMediaSpan } from './media-metrics.js';
-export type Executor=(run:Run,root:string,repo:ProductionRepository,config:ProductionConfig,signal:AbortSignal)=>Promise<any>;
+export type Executor=(run:Run,root:string,repo:ProductionRepository,config:ProductionConfig,signal:AbortSignal,media?:MediaRuntime)=>Promise<any>;
 export class ProductionRunner {
   active=new Map<string,AbortController>();stopping=false;
+  mediaRuntime?:MediaRuntime;
   private executions=new Map<string,Promise<void>>();
   private finishing=new Set<string>();
   private recovery:Run[]=[];
   onRunStopping:(runId:string)=>void=()=>{};
+  onRunSettled:(runId:string)=>Promise<void>=async()=>{};
   settleTools:(runId?:string)=>Promise<void>=async()=>{};
   constructor(public repo:ProductionRepository,public config:ProductionConfig,private executor:Executor=executeCodex){}
   canStartWork(runId:string){return this.active.has(runId)&&!this.stopping&&!this.finishing.has(runId)&&!this.active.get(runId)?.signal.aborted;}
   runRoot(run:Run){return join(this.config.dataRoot,'tasks',run.taskKey,'runs',run.runId);}
   async prepare(run:Run){
+    if(run.checkpoint.release?.releaseId&&run.checkpoint.release.releaseId!==this.config.release.releaseId)throw new ProductionError('CODEX_RESULT_UNKNOWN','原 Run 固定发行与当前 Runtime 不同，请沿原发行恢复，不能迁入新协议',503);
     const root=this.runRoot(run),taskRoot=join(this.config.dataRoot,'tasks',run.taskKey);await fs.mkdir(root,{recursive:true});let template:any,analysis:any,base:any;
     if(run.stage==='analysis')template=await freezeTemplate(this.config.templateBase,(run.request as AnalysisRequest).plugin.customTemplateId,join(taskRoot,'analyses',run.runId),AbortSignal.any([this.active.get(run.runId)!.signal,AbortSignal.timeout(120000)]));
     else{
@@ -32,7 +37,7 @@ export class ProductionRunner {
       }
       const project=join(root,'project');if(!(await fs.stat(project).catch(()=>null)))await fs.cp(source,project,{recursive:true});
     }
-    run=this.repo.checkpoint(run.runId,run.token!,{template,release:this.config.release});
+    run=this.repo.checkpoint(run.runId,run.token!,{template,release:this.config.release,...(run.stage==='render'&&!run.checkpoint.release?{reviewProtocol:1}:{})});
     const identity={taskId:run.taskId,runId:run.runId,stage:run.stage,inputDigest:run.inputDigest,request:run.request};
     // Analysis 只展开冻结文字；源码路径和完整制作 manifest 留在服务检查点。
     await writeJson(join(root,'input.json'),run.stage==='analysis'?{...identity,template:analysisTemplateInput(template)}:{...identity,template,analysis:analysis?.result,baseRender:base?{runId:base.runId,result:base.result,request:base.request}:null,workRoot:root,projectRoot:join(root,'project'),release:this.config.release});
@@ -42,11 +47,12 @@ export class ProductionRunner {
   }
   private async execute(run:Run){
     const controller=new AbortController();this.active.set(run.runId,controller);const root=this.runRoot(run);
-    const heartbeat=setInterval(()=>{try{const latest=this.repo.get(run.runId);if(latest.state==='cancelling')this.stopRun(run.runId);else this.repo.checkpoint(run.runId,run.token!,{});}catch{}},1000);
+    const heartbeat=setInterval(()=>{try{const latest=this.repo.get(run.runId);if(latest.state==='cancelling')this.stopRun(run.runId);else this.repo.heartbeat(run.runId,run.token!);}catch{}},1000);
     try{
       if(run.state==='cancelling')throw new ProductionError('PROCESS_CANCELLED','恢复前已取消');
       // 先恢复确定的交付检查点；发布失败不重新请求 Codex 或配音。
-      if(!run.checkpoint.handoff){run=await this.prepare(run);if(controller.signal.aborted)throw new ProductionError('PROCESS_CANCELLED','准备阶段已取消');const handoff=await this.executor(run,root,this.repo,this.config,controller.signal);
+      if(!run.checkpoint.handoff){run=await this.prepare(run);if(controller.signal.aborted)throw new ProductionError('PROCESS_CANCELLED','准备阶段已取消');const handoff=await this.executor(run,root,this.repo,this.config,controller.signal,this.mediaRuntime);
+        if(handoff.kind==='await_runtime')throw new ProductionError('HANDOFF_NOT_FINAL','非最终等待不能进入发布');
         if(handoff.runId!==run.runId||handoff.taskId!==run.taskId||handoff.inputDigest!==run.inputDigest)throw new ProductionError('HANDOFF_IDENTITY_INVALID','后台交接身份不符');
         if(typeof handoff.resultPath!=='string'||!handoff.resultPath.trim())throw new ProductionError('CODEX_NO_RESULT','后台未交付结果文件；详见本 run 的 Codex 事件和工具诊断',500);
         const path=await regular(root,relative(root,handoff.resultPath));run=this.repo.checkpoint(run.runId,run.token!,{handoff:{...handoff,resultPath:path}});
@@ -63,7 +69,7 @@ export class ProductionRunner {
         this.repo.finish(run.runId,run.token,'succeeded',parsed);
       }else{
         const metrics={runId:run.runId,renderRequestId:String(result.renderRequestId??'publication'),sourceDigest:result.sourceDigest,enabled:this.config.mediaTiming??true,signal:controller.signal,onMetric:createMediaMetricSink(root)};
-        const published=await withMediaSpan(metrics,'publication',child=>publishDelivery(run,root,join(this.config.dataRoot,'tasks',run.taskKey),this.config.mediaBase,result,controller.signal,child));this.repo.finish(run.runId,run.token,'succeeded',published);
+        const published=await withMediaSpan(metrics,'publication',child=>publishDelivery(run,root,join(this.config.dataRoot,'tasks',run.taskKey),this.config.mediaBase,result,controller.signal,child,run.checkpoint.reviewProtocol===1?{assertReview:(id,digest,files)=>{new ReviewService(this.repo,r=>this.runRoot(r)).assertDelivery(id,digest,files);}}:undefined));this.repo.finish(run.runId,run.token,'succeeded',published);
       }
     }catch(e){
       const error={code:e instanceof ProductionError?e.code:'EXECUTION_FAILED',message:e instanceof Error?e.message:String(e)};
@@ -73,7 +79,7 @@ export class ProductionRunner {
       else if(error.code==='CODEX_RESULT_UNKNOWN'||error.code==='PROCESS_CANCELLED')this.repo.mark(run.runId,run.token!,'unknown',error);
       else if(!(e instanceof ProductionError)&&this.repo.get(run.runId).checkpoint.handoff&&run.stage==='render')this.repo.mark(run.runId,run.token!,'recovering',error);
       else this.repo.finish(run.runId,run.token,'failed',null,error);
-    }finally{clearInterval(heartbeat);await this.settleTools(run.runId);this.active.delete(run.runId);this.finishing.delete(run.runId);}
+    }finally{clearInterval(heartbeat);await this.settleTools(run.runId);await this.onRunSettled(run.runId);this.active.delete(run.runId);this.finishing.delete(run.runId);}
   }
   // 启动与登记同步完成，调度不等待整条视频；名额直到所属工作收敛才释放。
   async tick(){

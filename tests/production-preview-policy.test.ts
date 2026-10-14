@@ -24,12 +24,12 @@ test('真实运行时指令随开关变化，默认按需预览，Analysis 不�
   assert.match(legacy, /并行主题审片=关闭/);
   assert.match(legacy, /再用 render_template 的 previewOnly\/ranges 检查真实运动和声音/);
   const optimized = taskInstruction(render, '/run', '/plugin', { qaParallelReview: true, qaMaxReviewers: 2, previewOnDemand: true });
-  assert.match(optimized, /最多 2 名独立审片者/);
+  assert.match(optimized, /审片代理上限=2/);
   assert.match(optimized, /动态预览不是固定下一步/);
   assert.match(optimized, /professional_review_pending/);
-  assert.match(optimized, /旧负责人迟到结果仅存历史/);
+  assert.match(optimized, /Runtime 启动有界只读审片线程并绑定独立身份/);
   assert.ok(!optimized.includes('再用 render_template 的 previewOnly/ranges 检查真实运动和声音'));
-  assert.match(INSTRUCTION_VERSION, /\/6$/);
+  assert.match(INSTRUCTION_VERSION, /\/7$/);
   const analysis = taskInstruction({ stage: 'analysis', request: {} } as Run, '/run', '/plugin', { qaParallelReview: true, qaMaxReviewers: 3, previewOnDemand: true });
   assert.match(analysis, /不调用配音、预览、媒体生成/);
   assert.ok(!analysis.includes('只读主题审查单元'));

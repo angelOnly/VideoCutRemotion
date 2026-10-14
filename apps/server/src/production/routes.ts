@@ -17,9 +17,13 @@ import { normalizeWebAnalysis, normalizeWebRender } from '../../../../packages/p
 import { createMediaMetricSink, withMediaSpan } from '../../../../packages/production-service/src/media-metrics.js';
 import { decideDynamicPreview } from '../../../../packages/production-service/src/preview-policy.js';
 import { mediaJobSummary, speechBatchSummary, productionTaskSummary } from '../../../../packages/production-service/src/tool-results.js';
+import { ReviewService, prepareReviewSchema, readReviewSchema } from '../../../../packages/production-service/src/review-service.js';
+import { ReviewerSessions } from '../../../../packages/production-service/src/reviewer-session.js';
 export async function createProductionServer(config:ProductionConfig,executor?:Executor,overrides:Partial<{renderTemplate:typeof renderTemplate;templateFrames:typeof templateFrames;retryRenderSlices:typeof retryRenderSlices}>={}){
   const renderers={renderTemplate,templateFrames,retryRenderSlices,...overrides};
   const repo=new ProductionRepository(join(config.dataRoot,'tasks.sqlite')),runner=new ProductionRunner(repo,config,executor),callbacks=new CallbackSender(repo,config.callbackBase,config.callbackSecret);
+  const reviews=new ReviewService(repo,run=>runner.runRoot(run));
+  const reviewers=new ReviewerSessions(reviews,config,id=>runner.active.get(id)?.signal);
   const speech=new DoubaoService(repo,config.dataRoot,config.voicesPath??'',process.env.DOUBAO_API_KEY??'',undefined,{concurrency:config.speechConcurrency??20,perRunConcurrency:config.speechPerRunConcurrency??5,signalFor:id=>runner.active.get(id)?.signal});
   await speech.recover();
   const app=Fastify({bodyLimit:2*1024*1024});await app.register(cors,{origin:true,exposedHeaders:['Content-Range','Content-Length','Accept-Ranges']});
@@ -27,14 +31,22 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
   app.addHook('preHandler',async(request,reply)=>{
     if(request.method==='OPTIONS'||request.url==='/healthz'||request.url.startsWith('/media/'))return;
     if(request.url.startsWith('/internal/tools/')){
+      const reviewToken=request.headers['x-review-token'];
+      if(typeof reviewToken==='string'){
+        const runId=request.headers['x-run-id'];if(typeof runId!=='string')throw new ProductionError('RUN_AUTH_REQUIRED','需要执行身份',401);
+        const name=request.url.slice('/internal/tools/'.length);
+        if(!['read_production_task','claim_review_work','submit_review','read_review'].includes(name))throw new ProductionError('REVIEW_TOOL_FORBIDDEN','审片凭证无生成、渲染或项目写入权限',403);
+        reviews.authenticate(runId,reviewToken,name==='read_production_task');return;
+      }
       const runId=request.headers['x-run-id'],token=request.headers['x-run-token'];if(typeof runId!=='string'||typeof token!=='string')throw new ProductionError('RUN_AUTH_REQUIRED','需要执行身份',401);
-      const run=repo.get(runId);if(run.token!==token||!['running','cancelling'].includes(run.state))throw new ProductionError('RUN_AUTH_INVALID','执行身份已失效',403);return;
+      const run=repo.get(runId);if(run.token!==token||!['running','cancelling'].includes(run.state))throw new ProductionError('RUN_AUTH_INVALID','执行身份已失效',403);
+      if(run.checkpoint.release?.releaseId&&run.checkpoint.release.releaseId!==config.release.releaseId)throw new ProductionError('RUN_RELEASE_MISMATCH','原任务必须使用固定发行，不得跨版混用工具',409);return;
     }
     // 旧网页服务没有令牌配置；只对白名单直连地址开放两阶段提交，管理接口仍需令牌。
     const webSubmit=request.method==='POST'&&['/narrate/ai_video_director/getAiVideoEditingAnalysisData','/narrate/ai_video_director/getAiVideoEditingData'].includes(request.url)&&config.webSubmitAddresses?.includes(request.ip.replace(/^::ffff:/,''));
     if(!webSubmit&&request.headers.authorization!==`Bearer ${config.apiToken}`)throw new ProductionError('UNAUTHORIZED','需要有效服务身份',401);
   });
-  app.get('/healthz',async()=>({status:'ready',releaseId:config.release.releaseId,pluginVersion:config.release.pluginVersion,skillsDigest:config.release.skillsDigest,configurationReady:Object.values(config.ready).every(Boolean),productionReady:Object.values(config.ready).every(Boolean)?null:false,readinessScope:'configuration_only',dependencies:config.ready,capacity:{maxActiveRuns:config.maxActiveRuns??4,renderConcurrency:config.renderConcurrency??4,mediaGlobalConcurrency:config.mediaGlobalConcurrency??16,mediaRunConcurrency:config.mediaRunConcurrency??2,mediaProcessConcurrency:config.mediaProcessConcurrency??4,speechConcurrency:config.speechConcurrency??20,speechPerRunConcurrency:config.speechPerRunConcurrency??5,activeRuns:runner.active.size},optimization:{renderStrategy:config.renderStrategy??'scene-chunks',qaParallelReview:config.qaParallelReview??true,previewOnDemand:config.previewOnDemand??true},capabilities:{localModels:false,networkSearch:config.searchEnabled,lexicalMechanisms:true}}));
+  app.get('/healthz',async()=>({status:'ready',releaseId:config.release.releaseId,pluginVersion:config.release.pluginVersion,skillsDigest:config.release.skillsDigest,configurationReady:Object.values(config.ready).every(Boolean),productionReady:Object.values(config.ready).every(Boolean)?null:false,readinessScope:'configuration_only',dependencies:config.ready,capacity:{maxActiveRuns:config.maxActiveRuns??4,renderConcurrency:config.renderConcurrency??4,mediaGlobalConcurrency:config.mediaGlobalConcurrency??16,mediaRunConcurrency:config.mediaRunConcurrency??2,mediaProcessConcurrency:config.mediaProcessConcurrency??4,speechConcurrency:config.speechConcurrency??20,speechPerRunConcurrency:config.speechPerRunConcurrency??5,activeRuns:runner.active.size},optimization:{renderStrategy:config.renderStrategy??'scene-chunks',qaParallelReview:config.qaParallelReview??true,previewOnDemand:config.previewOnDemand??true},capabilities:{localModels:false,networkSearch:config.searchEnabled,lexicalMechanisms:true,reviewProtocol:1,runtimeWait:true,reviewStorage:'sqlite',reviewIdentity:'thread_scoped_mcp'}}));
   const accept=(stage:'analysis'|'render')=>async(request:any,reply:any)=>{if(runner.stopping)throw new ProductionError('STOPPING','服务正在停止受理',503);const input=stage==='analysis'?normalizeWebAnalysis(request.body):normalizeWebRender(request.body,repo.list(config.accountId,request.body?.taskId??''));const run=repo.accept(config.accountId,stage,input);return reply.code(202).send({status:0,msg:'已持久化受理',data:{taskId:run.taskId,requestId:run.requestId,runId:run.runId,stage,state:run.state,planVersion:run.planVersion}});};
   app.post('/narrate/ai_video_director/getAiVideoEditingAnalysisData',accept('analysis'));app.post('/narrate/ai_video_director/getAiVideoEditingData',accept('render'));
   app.get('/ai_video_director/tasks/:taskId',async(request:any)=>{const runs=repo.list(config.accountId,request.params.taskId);return {status:0,data:{latestSubmitted:runs.at(-1)?.runId,current:runs.find(r=>['running','unknown','recovering','cancelling'].includes(r.state))?.runId,latestSuccess:[...runs].reverse().find(r=>r.stage==='render'&&r.state==='succeeded')?.runId,runs:runs.map(r=>({...r,token:undefined,checkpoint:undefined,callback:repo.db.prepare('SELECT id,state,attempts,diagnostic FROM callback_outbox WHERE run_id=?').get(r.runId)}))}};});
@@ -49,8 +61,15 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
     reply.header('Content-Length',end-start+1);return request.method==='HEAD'?reply.send():reply.send(createReadStream(path,{start,end}));
   }});
   const rendering=new RunWork(),budget=new MediaBudget(config.mediaGlobalConcurrency??16,config.mediaProcessConcurrency??4),events=new MediaJobEvents();let toolQueue:Promise<any>=Promise.resolve();
+  runner.mediaRuntime={events,read:async(run,id)=>{
+    renderRequestIdSchema.parse(id);const job=await json(await regular(runner.runRoot(run),join('render-jobs',`${id}.json`)));
+    if(job.id!==id||job.runId!==run.runId||job.kind!=='template-render'||job.input.previewOnly)throw new ProductionError('WAIT_JOB_INVALID','只允许等待当前 Run 已受理的原正式导出');
+    if(job.inputDigest!==sha256(canonical({kind:job.kind,input:job.input})))throw new ProductionError('WAIT_JOB_CHANGED','原媒体作业身份摘要不符');
+    return {...job,attempt:job.attempt??1,...(job.state==='running'&&rendering.current(run.runId)!==id?{state:'unknown' as const,error:'无法确认原媒体执行状态，请核查原作业'}:{})};
+  }};
   const serial=<T>(work:()=>Promise<T>)=>{const next=toolQueue.then(work);toolQueue=next.catch(()=>{});return next;};
-  runner.onRunStopping=id=>speech.cancelQueued(id);
+  runner.onRunStopping=id=>{speech.cancelQueued(id);void reviewers.stop(id);};
+  runner.onRunSettled=id=>reviewers.stop(id);
   runner.settleTools=async(runId)=>{await toolQueue;await speech.drain(runId);await rendering.drain(runId);};
   const runnable=(id:string)=>{const run=repo.get(id);if(!runner.canStartWork(id)||run.state!=='running')throw new ProductionError('RUN_STOPPING','任务已停止接受新生成',409);return run;};
   // 只在入口短锁中登记；实际核验、绘图和编码始终属于本Run的工作生命周期。
@@ -58,6 +77,7 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
     if(rendering.current(current.runId))throw new ProductionError('RENDER_BUSY',`本视频正在处理 ${rendering.current(current.runId)}`,409);
     // 续切校验使用入口确认的失败记录；对外登记 running 不得抹去这份恢复依据。
     const retryJob=resume?structuredClone(job):undefined;
+    job.attempt=resume?(job.attempt??1)+1:job.attempt??1;
     let persisted!:()=>void,rejected!:(error:unknown)=>void;
     const registered=new Promise<void>((yes,no)=>{persisted=yes;rejected=no;});
     const work=rendering.start(current.runId,job.id,async()=>{
@@ -65,7 +85,7 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
       try{await writeJson(path,job);persisted();}catch(error){rejected(error);throw error;}
       // renderFrames并发回调，单作业清单必须串行落盘，避免固定.tmp文件互相覆盖。
       let writes:Promise<unknown>=Promise.resolve();
-      const persist=(change:()=>void)=>{const next=writes.then(async()=>{change();await writeJson(path,job);events.notify(path);});writes=next.catch(()=>{});return next;};
+      const persist=(change:()=>void)=>{const next=writes.then(async()=>{change();await writeJson(path,job);events.notify(path);events.notify(`${current.runId}:${job.id}`);});writes=next.catch(()=>{});return next;};
       const root=runner.runRoot(current),signal=runner.active.get(current.runId)?.signal;
       const options:RenderOptions={dependencyRoot:config.dependencyRoot,releaseId:config.release.releaseId,browser:config.browser,concurrency:job.concurrency??config.renderConcurrency??4,runConcurrency:job.runConcurrency??config.mediaRunConcurrency??2,renderStrategy:job.renderStrategy??'whole-slices',budget,signal,sceneCutMode:job.sceneCutMode??'accurate',audioAudits:current.checkpoint.sentenceAudioAudits,
         metrics:{runId:current.runId,renderRequestId:job.id,sourceDigest:job.sourceDigest,signal,enabled:config.mediaTiming??true,activeMediaJobs:()=>rendering.size,onMetric:createMediaMetricSink(root)},
@@ -97,7 +117,18 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
   };
   app.post('/internal/tools/:name',async(request:any)=>{
     const name=request.params.name,run=repo.get(request.headers['x-run-id']),body=request.body??{};if(body.runId&&body.runId!==run.runId)throw new ProductionError('RUN_SCOPE_INVALID','工具不能访问其他执行',403);
+    if(request.headers['x-review-token']){
+      const credential=request.headers['x-review-token'],session=reviews.authenticate(run.runId,credential,name==='read_production_task');
+      if(name==='read_production_task')return {runId:run.runId,stage:run.stage,role:'reviewer',reviewId:session.review_id};
+      if(name==='claim_review_work')return reviews.claim(run.runId,credential,body);
+      if(name==='submit_review'){await reviews.verifySubmissionEvidence(run.runId,credential,body);return reviews.submit(run.runId,credential,body);}
+      if(name==='read_review'){const {reviewId}=readReviewSchema.parse(body);if(reviewId!==session.review_id)throw new ProductionError('REVIEW_SCOPE_INVALID','仅允许读取会话绑定的当前计划',403);return reviews.read(run.runId,reviewId);}
+    }
     if(run.stage==='analysis'&&name!=='read_production_task')throw new ProductionError('ANALYSIS_TOOL_FORBIDDEN','Analysis 仅提供文字阶段事实读取',403);
+    if(name==='prepare_review'){
+      const result=await reviews.prepare(runnable(run.runId),prepareReviewSchema.parse(body));reviewers.start(run,result.reviewId);return result;
+    }
+    if(name==='read_review'){const {reviewId}=readReviewSchema.parse(body);return reviews.read(run.runId,reviewId);}
     if(name==='synthesize_speech'){runnable(run.runId);return speech.submit({...body,runId:run.runId},run.accountId);}
     if(name==='synthesize_speech_batch'){runnable(run.runId);return speechBatchSummary(runner.runRoot(run),await speech.submitBatch({...body,runId:run.runId},run.accountId));}
     if(name==='read_speech_job')return speech.read(body.speechJobId,run.runId,run.accountId);
@@ -110,7 +141,7 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
         const signal=runner.active.get(run.runId)?.signal;
         const result=await budget.withProcess(run.runId,signal,()=>verifySentenceAudio(current,runner.runRoot(current),body,speech,signal));
         const latest=repo.get(run.runId);
-        repo.checkpoint(run.runId,current.token!,{sentenceAudioAudits:{...latest.checkpoint.sentenceAudioAudits,[result.sourceDigest]:{timelineSha256:result.timelineSha256}}});
+        repo.checkpoint(run.runId,current.token!,{sentenceAudioAudits:{...latest.checkpoint.sentenceAudioAudits,[result.sourceDigest]:{timelineSha256:result.timelineSha256,timelineRef:body.timelineRef}}});
         return result;
       });
     }
@@ -178,5 +209,5 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
     }
     throw new ProductionError('TOOL_NOT_FOUND','制作工具不存在',404);
   });
-  return {app,repo,runner,callbacks,speech,async close(){runner.stop();speech.stop();await runner.drain();await runner.settleTools();await app.close();repo.close();}};
+  return {app,repo,runner,callbacks,speech,reviews,async close(){runner.stop();speech.stop();await reviewers.stop();await runner.drain();await runner.settleTools();await app.close();repo.close();}};
 }
