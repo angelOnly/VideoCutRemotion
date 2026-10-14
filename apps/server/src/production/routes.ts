@@ -11,10 +11,11 @@ import type { ProductionConfig } from '../../../../packages/production-service/s
 import { RunWork } from '../../../../packages/production-service/src/run-work.js';
 import { verifySentenceAudio } from '../../../../packages/production-service/src/sentence-audio.js';
 import { DoubaoService } from '../../../../packages/speech-services/src/doubao.js';
-import { renderTemplate, renderToolSchema, templateFrame } from '../../../render-worker/src/template-renderer.js';
+import { renderTemplate, renderToolSchema, templateFrames, previewFramesSchema, renderRequestIdSchema, retryRenderSlices, type MediaJob, type RenderOptions } from '../../../render-worker/src/template-renderer.js';
 import { json, writeJson } from '../../../../packages/production-service/src/files.js';
 import { normalizeWebAnalysis, normalizeWebRender } from '../../../../packages/production-service/src/web-contract.js';
-export async function createProductionServer(config:ProductionConfig,executor?:Executor,renderers={renderTemplate,templateFrame}){
+export async function createProductionServer(config:ProductionConfig,executor?:Executor,overrides:Partial<{renderTemplate:typeof renderTemplate;templateFrames:typeof templateFrames;retryRenderSlices:typeof retryRenderSlices}>={}){
+  const renderers={renderTemplate,templateFrames,retryRenderSlices,...overrides};
   const repo=new ProductionRepository(join(config.dataRoot,'tasks.sqlite')),runner=new ProductionRunner(repo,config,executor),callbacks=new CallbackSender(repo,config.callbackBase,config.callbackSecret);
   const speech=new DoubaoService(repo,config.dataRoot,config.voicesPath??'',process.env.DOUBAO_API_KEY??'',undefined,{concurrency:config.speechConcurrency??20,perRunConcurrency:config.speechPerRunConcurrency??5,signalFor:id=>runner.active.get(id)?.signal});
   await speech.recover();
@@ -49,6 +50,39 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
   runner.onRunStopping=id=>speech.cancelQueued(id);
   runner.settleTools=async(runId)=>{await toolQueue;await speech.drain(runId);await rendering.drain(runId);};
   const runnable=(id:string)=>{const run=repo.get(id);if(!runner.canStartWork(id)||run.state!=='running')throw new ProductionError('RUN_STOPPING','任务已停止接受新生成',409);return run;};
+  // 只在入口短锁中登记；实际核验、绘图和编码始终属于本Run的工作生命周期。
+  const startMedia=async(current:ReturnType<typeof repo.get>,path:string,job:MediaJob,resume:boolean)=>{
+    if(rendering.current(current.runId))throw new ProductionError('RENDER_BUSY',`本视频正在处理 ${rendering.current(current.runId)}`,409);
+    let persisted!:()=>void,rejected!:(error:unknown)=>void;
+    const registered=new Promise<void>((yes,no)=>{persisted=yes;rejected=no;});
+    const work=rendering.start(current.runId,job.id,async()=>{
+      job.state='running';delete job.error;
+      try{await writeJson(path,job);persisted();}catch(error){rejected(error);throw error;}
+      // renderFrames并发回调，单作业清单必须串行落盘，避免固定.tmp文件互相覆盖。
+      let writes:Promise<unknown>=Promise.resolve();
+      const persist=(change:()=>void)=>{const next=writes.then(async()=>{change();await writeJson(path,job);});writes=next.catch(()=>{});return next;};
+      const options:RenderOptions={dependencyRoot:config.dependencyRoot,browser:config.browser,concurrency:config.renderConcurrency??5,signal:runner.active.get(current.runId)?.signal,
+        onSourceFrozen:digest=>persist(()=>{job.sourceDigest=digest;}),
+        onOutputStart:id=>persist(()=>{job.currentOutput=id;}),
+        onFileReady:file=>persist(()=>{job.readyFiles=job.readyFiles.filter(f=>f.id!==file.id).concat(file);}),
+        onFrameReady:frame=>persist(()=>{
+          const requested='frames' in job.input?job.input.frames:[];
+          job.readyFrames=job.readyFrames.filter(f=>f.frame!==frame.frame).concat(frame).sort((a,b)=>requested.indexOf(a.frame)-requested.indexOf(b.frame));
+        })};
+      try{
+        const root=runner.runRoot(current);
+        const result=resume?await renderers.retryRenderSlices(current,root,job,options):job.kind==='frame-preview'
+          ?await renderers.templateFrames(current,root,previewFramesSchema.parse(job.input),options)
+          :await renderers.renderTemplate(current,root,renderToolSchema.parse(job.input),options);
+        if(options.signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','本视频已取消');
+        await persist(()=>Object.assign(job,{state:'succeeded',...result}));
+      }catch(e){await persist(()=>{
+        Object.assign(job,{state:options.signal?.aborted?'cancelled':'failed',error:String(e)});
+        if('frames' in job.input)job.missingFrames=job.input.frames.filter(frame=>!job.readyFrames.some(f=>f.frame===frame));
+      });}
+      await writes;
+    });void work.catch(()=>{});await registered;return job;
+  };
   app.post('/internal/tools/:name',async(request:any)=>{
     const name=request.params.name,run=repo.get(request.headers['x-run-id']),body=request.body??{};if(body.runId&&body.runId!==run.runId)throw new ProductionError('RUN_SCOPE_INVALID','工具不能访问其他执行',403);
     if(name==='synthesize_speech'){runnable(run.runId);return speech.submit({...body,runId:run.runId},run.accountId);}
@@ -61,37 +95,29 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
       const current=runnable(run.runId);
       return rendering.start(run.runId,'sentence-audio-check',()=>verifySentenceAudio(current,runner.runRoot(current),body,speech,runner.active.get(run.runId)?.signal));
     }
-    if(name==='preview_template_frame'){
-      const parsed=z.object({frame:z.number().int().nonnegative()}).strict().parse(body),current=runnable(run.runId);
-      if(current.stage!=='render')throw new ProductionError('RENDER_STAGE_FORBIDDEN','Analysis 不允许渲染');
-      // 短登记锁只保护入口，不把静帧实际执行放进全局等待链。
-      const entry=await serial(async()=>{
-        runnable(run.runId);const path=join(runner.runRoot(current),'previews',`frame-${parsed.frame}.png`);
-        const work=rendering.start(run.runId,`frame-${parsed.frame}`,async()=>{await renderers.templateFrame(join(runner.runRoot(current),'project'),parsed.frame,path,config.dependencyRoot,config.browser,runner.active.get(run.runId)?.signal);return {path};});
-        return {work};
-      });return entry.work;
-    }
-    if(name==='render_template')return serial(async()=>{
-      const input=renderToolSchema.parse({...body,runId:run.runId});if(run.stage!=='render')throw new ProductionError('RENDER_STAGE_FORBIDDEN','Analysis 不允许渲染');
-      const root=runner.runRoot(run),path=join(root,'render-jobs',`${input.renderRequestId}.json`),digest=sha256(canonical(input));
+    if(name==='render_template'||name==='preview_template_frames')return serial(async()=>{
+      const kind=name==='render_template'?'template-render':'frame-preview';
+      const input=name==='render_template'?renderToolSchema.parse({...body,runId:run.runId}):previewFramesSchema.parse({...body,runId:run.runId});
+      if(run.stage!=='render')throw new ProductionError('RENDER_STAGE_FORBIDDEN','Analysis 不允许渲染');
+      const path=join(runner.runRoot(run),'render-jobs',`${input.renderRequestId}.json`),digest=sha256(canonical({kind,input}));
       const old=await json(path).catch((e:any)=>{if(e.code==='ENOENT')return null;throw e;});
-      if(old){if(old.inputDigest!==digest)throw new ProductionError('RENDER_KEY_CONFLICT','同一渲染键输入不同',409);return old.state==='running'&&rendering.current(run.runId)!==old.id?{...old,state:'unknown',error:'原渲染状态需要核查'}:old;}
+      if(old){
+        if(old.kind!==kind||old.inputDigest!==digest)throw new ProductionError('RENDER_KEY_CONFLICT','同一编号的作业类型或输入不同',409);
+        return old.state==='running'&&rendering.current(run.runId)!==old.id?{...old,state:'unknown',error:'原工作状态需要核查'}:old;
+      }
       const current=runnable(run.runId);
-      if(rendering.current(run.runId))throw new ProductionError('RENDER_BUSY',`本视频正在处理 ${rendering.current(run.runId)}，请先查询原任务`,409);
-      const job:any={id:input.renderRequestId,runId:run.runId,state:'running',inputDigest:digest,readyFiles:[]};
-      // 入口立即占位，登记和实际渲染都属于本 Run；同编号查询不会启动第二份。
-      let persisted!:()=>void,registrationFailed!:(error:unknown)=>void;
-      const registered=new Promise<void>((resolve,reject)=>{persisted=resolve;registrationFailed=reject;});
-      const work=rendering.start(run.runId,input.renderRequestId,async()=>{
-        try{await writeJson(path,job);persisted();}catch(error){registrationFailed(error);throw error;}
-        try{
-          const result=await renderers.renderTemplate(current,root,input,{dependencyRoot:config.dependencyRoot,browser:config.browser,concurrency:config.renderConcurrency??5,signal:runner.active.get(run.runId)?.signal,
-            onOutputStart:async id=>{job.currentOutput=id;await writeJson(path,job);},
-            onFileReady:async file=>{job.readyFiles.push(file);await writeJson(path,job);}});
-          Object.assign(job,{state:'succeeded',...result});
-        }catch(e){Object.assign(job,{state:runner.active.get(run.runId)?.signal.aborted?'cancelled':'failed',error:String(e)});}
-        await writeJson(path,job);
-      });void work.catch(()=>{});await registered;return job;
+      const job:MediaJob={id:input.renderRequestId,runId:run.runId,kind,state:'running',inputDigest:digest,input,readyFiles:[],readyFrames:[]};
+      return startMedia(current,path,job,false);
+    });
+    if(name==='retry_render_slices')return serial(async()=>{
+      const {renderRequestId}=z.object({renderRequestId:renderRequestIdSchema}).strict().parse(body);
+      const current=runnable(run.runId),path=join(runner.runRoot(run),'render-jobs',`${renderRequestId}.json`),job:MediaJob=await json(path);
+      if(job.runId!==run.runId||job.kind!=='template-render'||!job.input||!('previewOnly' in job.input)||job.input.previewOnly)throw new ProductionError('SLICE_RETRY_FORBIDDEN','仅本Run原正式导出可以续切',409);
+      if(job.inputDigest!==sha256(canonical({kind:job.kind,input:job.input})))throw new ProductionError('RENDER_KEY_CONFLICT','原作业输入摘要不符',409);
+      if(job.state==='succeeded')return job;
+      if(job.state==='running')return rendering.current(run.runId)===job.id?job:{...job,state:'unknown',error:'原工作状态需要核查，不能续切'};
+      if(job.state!=='failed'||!job.sourceDigest||!job.readyFiles.some(f=>f.id==='whole-video'))throw new ProductionError('SLICE_RETRY_FORBIDDEN','须明确失败且原整片已核验，未知或取消作业不能续切',409);
+      return startMedia(current,path,job,true);
     });
     if(name==='read_render_job'){
       const id=z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).parse(body.renderRequestId),path=join(runner.runRoot(run),'render-jobs',`${id}.json`);

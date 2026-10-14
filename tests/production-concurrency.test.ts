@@ -37,7 +37,7 @@ test('四任务调度：第五个排队、独立收尾、清理结束后补位',
 
 test('渲染入口：四视频各五槽，同视频不同请求及静帧不能绕过，已完成文件可查询',async()=>{
  const root=await fs.mkdtemp(join(tmpdir(),'production-render-gate-')),gates=new Map<string,ReturnType<typeof deferred>>(),options=new Map<string,any>();let active=0,peak=0;
- const fake={renderTemplate:async(run:any,_root:any,input:any,opt:any)=>{active+=opt.concurrency;peak=Math.max(peak,active);options.set(run.runId,opt);const gate=deferred();gates.set(run.runId,gate);await gate.promise;active-=opt.concurrency;if(opt.signal.aborted)throw new Error('本视频已取消');if(input.renderRequestId==='failed')throw new Error('模拟文件完整性检查失败');return {deliveryPath:'test',delivery:{} as any};},templateFrame:async()=>{throw new Error('静帧不应该绕过正在进行的渲染');}};
+ const fake={renderTemplate:async(run:any,_root:any,input:any,opt:any)=>{active+=opt.concurrency;peak=Math.max(peak,active);options.set(run.runId,opt);const gate=deferred();gates.set(run.runId,gate);await gate.promise;active-=opt.concurrency;if(opt.signal.aborted)throw new Error('本视频已取消');if(input.renderRequestId==='failed')throw new Error('模拟文件完整性检查失败');return {deliveryPath:'test',delivery:{} as any};},templateFrames:async()=>{throw new Error('静帧不应该绕过正在进行的渲染');}};
  const service=await createProductionServer(configFor(root),undefined,fake);
  const runs=[];
  for(let i=0;i<4;i++){const a=service.repo.accept('a','analysis',{taskId:`v${i}`,content:'原文',otherRequirements:'',plugin:{customTemplateId:'x'}}),claimed=service.repo.claim()!;service.repo.finish(a.runId,claimed.token,'succeeded',{});const r=service.repo.accept('a','render',{taskId:`v${i}`,basePlanVersion:1,dataList:[{id:'s',content:'原文'}],otherRequirements:''}),c=service.repo.claim()!;service.runner.active.set(r.runId,new AbortController());runs.push(c);}
@@ -49,12 +49,12 @@ test('渲染入口：四视频各五槽，同视频不同请求及静帧不能�
    assert.equal((await call(runs[0],'render_template',input)).statusCode,200);assert.equal(gates.size,4);
    assert.equal((await call(runs[0],'render_template',{...input,checks:['更改输入']})).statusCode,409);
    assert.equal((await call(runs[0],'render_template',{...input,renderRequestId:'second'})).statusCode,409);
-   assert.equal((await call(runs[0],'preview_template_frame',{frame:0})).statusCode,409);
+   assert.equal((await call(runs[0],'preview_template_frames',{renderRequestId:'frames',frames:[0]})).statusCode,409);
    assert.equal((await call(runs[0],'read_render_job',{renderRequestId:'first'})).json().readyFiles.length,0);
    await options.get(runs[0].runId).onFileReady({id:'whole-video',file:'checked.mp4'});
    const partial=(await call(runs[0],'read_render_job',{renderRequestId:'first'})).json();assert.equal(partial.state,'running');assert.equal(partial.readyFiles[0].id,'whole-video');
    gates.get(runs[0].runId)!.resolve();await service.runner.settleTools(runs[0].runId);assert.equal(active,15);assert.equal((await call(runs[0],'read_render_job',{renderRequestId:'first'})).json().state,'succeeded');
-   await service.app.inject({method:'POST',url:`/ai_video_director/runs/${runs[1].runId}/cancel`,headers:{authorization:'Bearer test'}});assert.equal((await call(runs[1],'preview_template_frame',{frame:1})).statusCode,409);
+   await service.app.inject({method:'POST',url:`/ai_video_director/runs/${runs[1].runId}/cancel`,headers:{authorization:'Bearer test'}});assert.equal((await call(runs[1],'preview_template_frames',{renderRequestId:'frames',frames:[1]})).statusCode,409);
    assert.equal(options.get(runs[1].runId).signal.aborted,true);assert.equal(options.get(runs[2].runId).signal.aborted,false);gates.get(runs[1].runId)!.resolve();await service.runner.settleTools(runs[1].runId);assert.equal((await call(runs[1],'read_render_job',{renderRequestId:'first'})).json().state,'cancelled');
    assert.equal((await call(runs[0],'render_template',{...input,renderRequestId:'failed'})).statusCode,200);gates.get(runs[0].runId)!.resolve();await service.runner.settleTools(runs[0].runId);const failed=(await call(runs[0],'read_render_job',{renderRequestId:'failed'})).json();assert.equal(failed.state,'failed');assert.deepEqual(failed.readyFiles,[]);
  }finally{for(const gate of gates.values())gate.resolve();await service.close();await fs.rm(root,{recursive:true,force:true});}
@@ -85,4 +85,35 @@ test('会话关闭等待自己的进程退出，重复关闭返回原等待，�
  const a=new AppServerClient(process.execPath,['-e',code],process.env,root),b=new AppServerClient(process.execPath,['-e',code],process.env,root);
  try{const closing=a.close();assert.equal(a.close(),closing);await closing;assert.equal(a.child.exitCode,0);assert.equal(b.child.exitCode,null);process.kill(b.child.pid!,0);await b.close();assert.equal(b.child.exitCode,0);}
  finally{await Promise.all([a.close(),b.close()]);await fs.rm(root,{recursive:true,force:true});}
+});
+
+test('批量静帧与续切共用幂等、容量和持久化：并发回调不丢项，未知及取消不能续做',async()=>{
+ const root=await fs.mkdtemp(join(tmpdir(),'production-media-jobs-'));let previewCalls=0,retries=0;const gate=deferred();
+ const fake={templateFrames:async(_run:any,_root:any,_input:any,opt:any)=>{previewCalls++;assert.equal(opt.concurrency,5);await opt.onSourceFrozen('snapshot');await Promise.all([2,0,1].map(frame=>opt.onFrameReady({frame,path:`${frame}.png`,sha256:'test'})));await gate.promise;return {sourceDigest:'snapshot',readyFrames:[2,1,0].map(frame=>({frame,path:`${frame}.png`,sha256:'test'})),overviewPaths:[],warnings:[]};},renderTemplate:async(_run:any,_root:any,_input:any,opt:any)=>{await opt.onSourceFrozen('snapshot');await opt.onFileReady({id:'whole-video',file:'whole.mp4'});throw new Error('切分中断');},retryRenderSlices:async(_run:any,_root:any,job:any,opt:any)=>{retries++;assert.equal(job.readyFiles.length,1);await opt.onFileReady({id:'s',file:'s.mp4'});return {deliveryPath:'delivery.json',delivery:{} as any};}};
+ const service=await createProductionServer(configFor(root),undefined,fake);
+ const a=service.repo.accept('a','analysis',{taskId:'media',content:'正文',otherRequirements:'',plugin:{customTemplateId:'x'}}),claimed=service.repo.claim()!;service.repo.finish(a.runId,claimed.token,'succeeded',{});
+ service.repo.accept('a','render',{taskId:'media',basePlanVersion:1,dataList:[{id:'s',content:'正文'}],otherRequirements:''});const r=service.repo.claim()!;service.runner.active.set(r.runId,new AbortController());
+ const call=(name:string,body:any)=>service.app.inject({method:'POST',url:`/internal/tools/${name}`,headers:{'x-run-id':r.runId,'x-run-token':r.token!},payload:body});
+ const video={renderRequestId:'video',timelineRef:'timeline.json',ranges:[{id:'s',fromFrame:0,toFrame:30}],checks:[]};
+ try{
+  assert.equal((await call('preview_template_frames',{renderRequestId:'frames',frames:[2,1,0]})).statusCode,200);
+  await until(()=>previewCalls===1);
+  let batch:any;for(let i=0;i<40;i++){batch=(await call('read_render_job',{renderRequestId:'frames'})).json();if(batch.readyFrames.length===3)break;await new Promise(r=>setTimeout(r,5));}
+  assert.deepEqual(batch.readyFrames.map((f:any)=>f.frame),[2,1,0]);assert.deepEqual(batch.readyFiles,[]);assert.equal(batch.sourceDigest,'snapshot');
+  assert.equal((await call('render_template',{...video,renderRequestId:'frames'})).statusCode,409);
+  assert.equal((await call('preview_template_frames',{renderRequestId:'frames',frames:[2,1,0]})).statusCode,200);assert.equal(previewCalls,1);
+  assert.equal((await call('retry_render_slices',{renderRequestId:'frames'})).statusCode,409);
+  gate.resolve();await service.runner.settleTools(r.runId);
+  assert.equal((await call('render_template',video)).statusCode,200);await service.runner.settleTools(r.runId);
+  assert.equal((await call('read_render_job',{renderRequestId:'video'})).json().state,'failed');
+  assert.equal((await call('retry_render_slices',{renderRequestId:'video'})).statusCode,200);await service.runner.settleTools(r.runId);assert.equal(retries,1);
+  const done=(await call('read_render_job',{renderRequestId:'video'})).json();assert.equal(done.state,'succeeded');assert.deepEqual(done.readyFiles.map((f:any)=>f.id),['whole-video','s']);
+  await call('retry_render_slices',{renderRequestId:'video'});assert.equal(retries,1);
+  const path=join(service.runner.runRoot(r),'render-jobs/video.json');
+  for(const state of ['running','unknown','cancelled']){
+   await writeJson(path,{...done,state});const response=await call('retry_render_slices',{renderRequestId:'video'});
+   assert.equal(response.statusCode,state==='running'?200:409);if(state==='running')assert.equal(response.json().state,'unknown');assert.equal(retries,1);
+  }
+  await writeJson(path,{...done,state:'failed',inputDigest:'篡改'});assert.equal((await call('retry_render_slices',{renderRequestId:'video'})).statusCode,409);
+ }finally{gate.resolve();await service.close();await fs.rm(root,{recursive:true,force:true});}
 });

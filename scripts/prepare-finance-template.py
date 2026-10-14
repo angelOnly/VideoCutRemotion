@@ -1,5 +1,5 @@
 """将已授权财经模板整理成服务合同包；不改共享原件，不生成本期作品。"""
-import argparse, json, shutil, zipfile, hashlib
+import argparse, json, shutil, zipfile, hashlib, subprocess, runpy
 from pathlib import Path
 
 p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--output',required=True);a=p.parse_args()
@@ -27,7 +27,9 @@ for name in ['动效组件与内容适配说明.md']:
 
 全部音频及素材放 renderer/public。staticFile 的路径从 public 起，例如 template-assets/assets/images/brand/logo-dark.png。豆包工具返回音频先复制到 public/speech/ 后绑定，不引用机器个人目录。保留原 BGM，按发言压低音乐；音效依据落点适量安排。
 
-片头使用 assets/video/intro 中原件，在开场钩子之后或正文之前安排；不得截断或遮蔽已确认口播。片尾使用 assets/video/outro 中原件，在全部口播结束后完整播放一次。ending.narrationEndFrame 为片尾开始全局帧；ending.outro.frames 来自原件实测；totalFrames 包含片尾。源码已把片尾纳入 FinanceEpisode，不再用占位视频后替换流程；没有结束语授权不加稿。
+片头使用 assets/video/intro 中原件，在开场钩子之后或正文之前安排；intro.frames 必须按原件实测，intro.fromFrame 为镜内起点，不能与 scene.chapter 重叠。片头结束后恢复原全局时刻的正文，不能重置图解或字幕时间；不得截断或遮蔽已确认口播。片尾使用 assets/video/outro 中原件，在全部口播结束后完整播放一次。ending.narrationEndFrame 为片尾开始全局帧；ending.outro.frames 来自原件实测；totalFrames 包含片尾。源码已把片尾纳入 FinanceEpisode，不再用占位视频后替换流程；没有结束语授权不加稿。
+
+图解文字可使用 src/safe-visuals.tsx 中 DiagramText，明确取消 SVG 继承描边；动态数字可使用 RightAlignedValue，并按最长值预留空间。这些示例不能代替实际布局审查。
 
 本期 timeline.ts 和一份实际 timeline.json 必须同步保存。保持模板时序和 LayoutGuard 检查，不删除校验来通过渲染。使用本插件预览和渲染工具，整片及分镜全部使用 FinanceEpisode，全局帧 ranges 对应确认分镜，不能用 FinanceScene-* 重置全片时间。正式交付 N+1 文件，整片在前。
 
@@ -35,7 +37,7 @@ for name in ['动效组件与内容适配说明.md']:
 ''',encoding='utf-8')
 manifest=json.loads((output/'renderer/renderer-manifest.json').read_text(encoding='utf-8'))
 manifest.pop('rules',None);manifest.pop('motionGuide',None);manifest.pop('endingPolicy',None)
-manifest.update(templateVersion='2.0.1',instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
+manifest.update(templateVersion='2.0.2',instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
 (output/'renderer/renderer-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 file=output/'renderer/src/FinancialDialogue.tsx';s=file.read_text(encoding='utf-8').replace('AbsoluteFill, Audio,','AbsoluteFill, Audio, OffthreadVideo,')
 start=s.index('export const FinanceEpisode:')
@@ -73,6 +75,8 @@ if fonts:
     entry=output/'renderer/src/index.ts';s=entry.read_text(encoding='utf-8');s='import {staticFile, delayRender, continueRender} from "remotion";\n'+s
     s+='\nconst fontHandle=delayRender("加载模板中文字体");\nconst font=new FontFace("Noto Sans CJK SC",`url(${staticFile("fonts/'+fonts[0].name+'")})`);\nfont.load().then(f=>{document.fonts.add(f);continueRender(fontHandle);});\n'
     entry.write_text(s,encoding='utf-8')
+runpy.run_path(str(Path(__file__).with_name('patch-finance-template.py')))['patch_template'](output)
+subprocess.run(['node', str(Path(__file__).with_name('verify-finance-template.mjs')), str(output)], check=True)
 archive=output.with_suffix('.zip')
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
     for f in sorted(output.rglob('*')):

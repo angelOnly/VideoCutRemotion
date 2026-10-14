@@ -627,8 +627,11 @@ var sentenceAuditSchema = import_zod5.z.object({ timelineRef: import_zod5.z.stri
 // apps/render-worker/src/template-renderer.ts
 var import_bundler = require("@remotion/bundler");
 var import_renderer = require("@remotion/renderer");
+var import_pngjs = require("pngjs");
 var import_zod6 = require("zod");
-var renderToolSchema = import_zod6.z.object({ runId: import_zod6.z.string().uuid(), renderRequestId: import_zod6.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/), timelineRef: import_zod6.z.string(), ranges: import_zod6.z.array(import_zod6.z.object({ id: import_zod6.z.string(), fromFrame: import_zod6.z.number().int().nonnegative(), toFrame: import_zod6.z.number().int().positive() }).strict()).min(1), checks: import_zod6.z.array(import_zod6.z.string()), previewOnly: import_zod6.z.boolean().default(false) }).strict();
+var renderRequestIdSchema = import_zod6.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
+var renderToolSchema = import_zod6.z.object({ runId: import_zod6.z.string().uuid(), renderRequestId: renderRequestIdSchema, timelineRef: import_zod6.z.string(), ranges: import_zod6.z.array(import_zod6.z.object({ id: import_zod6.z.string(), fromFrame: import_zod6.z.number().int().nonnegative(), toFrame: import_zod6.z.number().int().positive() }).strict()).min(1), checks: import_zod6.z.array(import_zod6.z.string()), previewOnly: import_zod6.z.boolean().default(false) }).strict();
+var previewFramesSchema = import_zod6.z.object({ runId: import_zod6.z.string().uuid(), renderRequestId: renderRequestIdSchema, frames: import_zod6.z.array(import_zod6.z.number().int().nonnegative()).min(1).max(12).refine((v) => new Set(v).size === v.length, "\u5E27\u53F7\u4E0D\u53EF\u91CD\u590D") }).strict();
 
 // apps/server/src/production/speech-tools.ts
 function registerProductionTools(server, call) {
@@ -645,9 +648,10 @@ function registerProductionTools(server, call) {
   register("retry_speech_validation", "\u4EC5\u6062\u590D\u5DF2\u7ECF\u53D6\u5F97\u97F3\u9891\u7684\u672C\u5730\u68C0\u67E5\uFF0C\u4E0D\u8BF7\u6C42\u4F9B\u5E94\u5546\u91CD\u65B0\u751F\u6210\u3002", { speechJobId: import_zod7.z.string().uuid() });
   register("verify_sentence_audio", "\u56FA\u5B9A\u6838\u5BF9\u5F53\u524D\u786E\u8BA4\u6B63\u6587\u3001\u6279\u6B21\u97F3\u9891\u3001\u5B57\u5E55\u548C PCM \u5B9E\u6D4B\u65F6\u957F\uFF1B\u4E0D\u6267\u884C\u6A21\u677F\u4EFB\u610F\u811A\u672C\uFF0C\u4E0D\u4EE3\u66FF\u542C\u5BA1\u3002", sentenceAuditSchema.shape);
   register("read_speech_job", "\u8BFB\u53D6\u672C run \u539F\u914D\u97F3\u4EFB\u52A1\u3001\u5B9E\u6D4B\u53E5\u6BB5\u65F6\u957F\u548C\u53D7\u7BA1\u97F3\u9891\u3002", { speechJobId: import_zod7.z.string().uuid() });
-  register("render_template", "\u6309\u6A21\u677F\u6574\u7247 Composition \u7684\u5168\u5C40\u5E27\u8303\u56F4\u6E32\u67D3\uFF1B\u8FD4\u56DE\u4EFB\u52A1 ID\uFF0C\u4F7F\u7528 read_render_job \u67E5\u8BE2\uFF0C\u4E0D\u91CD\u590D\u63D0\u4EA4\u3002", renderToolSchema.omit({ runId: true }).shape);
-  register("read_render_job", "\u67E5\u8BE2\u539F\u6A21\u677F\u6E32\u67D3\u4EFB\u52A1\u3001\u5F53\u524D\u8F93\u51FA\u53CA readyFiles\u3002\u4EC5 readyFiles \u5185\u6587\u4EF6\u53EF\u63D0\u524D\u5BA1\u67E5\uFF0C\u6574\u5957\u6210\u529F\u540E\u624D\u53EF\u4EA4\u4ED8\u3002", { renderRequestId: import_zod7.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/) });
-  register("preview_template_frame", "\u6E32\u67D3\u672C run \u6A21\u677F\u5B9E\u9645\u5E27\uFF0C\u8FD4\u56DE\u56FE\u7247\u6587\u4EF6\uFF1B\u4E4B\u540E\u7528\u56FE\u50CF\u67E5\u770B\u5DE5\u5177\u89C2\u5BDF\u3002", { frame: import_zod7.z.number().int().nonnegative() });
+  register("render_template", "\u6B63\u5F0F\u5BFC\u51FA\u53EA\u7ED8\u5236\u4E00\u6B21\u6574\u7247\uFF0C\u518D\u6309\u5168\u5C40\u5E27\u533A\u95F4\u751F\u6210\u5206\u955C\uFF1B\u5C40\u90E8\u52A8\u6001\u9884\u89C8\u76F4\u63A5\u7ED8\u5236\u6240\u9009\u8303\u56F4\u3002\u8FD4\u56DE\u4EFB\u52A1ID\uFF0C\u4F7F\u7528read_render_job\u67E5\u8BE2\u3002", renderToolSchema.omit({ runId: true }).shape);
+  register("read_render_job", "\u67E5\u8BE2\u539F\u5A92\u4F53\u4F5C\u4E1A\u3002\u89C6\u9891\u770BreadyFiles\uFF0C\u9759\u5E27\u770BreadyFrames\u4E0EsourceDigest\uFF1B\u4EC5\u5DF2\u6838\u9A8C\u6587\u4EF6\u53EF\u5BA1\u67E5\u3002\u56FE\u7247\u4E0E\u5C40\u90E8\u52A8\u6001\u9884\u89C8\u4E0D\u80FD\u4F5C\u4E3A\u6B63\u5F0F\u4EA4\u4ED8\u3002", { renderRequestId: import_zod7.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/) });
+  register("preview_template_frames", "\u4E00\u6B21\u767B\u8BB01\uFF5E12\u4E2A\u552F\u4E00\u5168\u5C40\u5E27\uFF0C\u5F02\u6B65\u751F\u6210\u540C\u4E00\u56FA\u5B9A\u7248\u672C\u7684\u539F\u5C3A\u5BF8\u56FE\u7247\u4E0E\u6982\u89C8\uFF1B\u7528read_render_job\u8BFB\u53D6\uFF0C\u539F\u7F16\u53F7\u4E0D\u91CD\u590D\u751F\u6210\u3002", previewFramesSchema.omit({ runId: true }).shape);
+  register("retry_render_slices", "\u4EC5\u5728\u672CRun\u6D3B\u52A8\u671F\u95F4\uFF0C\u7EED\u505A\u660E\u786E\u5931\u8D25\u7684\u539F\u6B63\u5F0F\u4F5C\u4E1A\u4E2D\u672A\u5B8C\u6210\u5206\u955C\uFF1B\u987B\u539F\u6574\u7247\u548C\u5FEB\u7167\u53EF\u4FE1\u3002\u672A\u77E5\u3001\u53D6\u6D88\u53CA\u5C40\u90E8\u9884\u89C8\u4E0D\u53EF\u7EED\u5207\u3002", { renderRequestId: renderRequestIdSchema });
   register("read_production_task", "\u8BFB\u53D6\u7ED1\u5B9A\u7684\u771F\u5B9E\u4EFB\u52A1\u3001\u8F93\u5165\u3001\u9636\u6BB5\u548C\u68C0\u67E5\u70B9\u3002", {});
 }
 

@@ -1,6 +1,6 @@
 import { ProductionError } from './contracts.js';
 
-/** 同一视频的渲染、单帧和固定媒体检查共用入口，直到真实工作结束才释放。 */
+/** 同一视频的渲染、批量静帧和固定媒体检查共用入口，直到真实工作结束才释放。 */
 export class RunWork {
   private active=new Map<string,{id:string;promise:Promise<unknown>}>();
   current(runId:string){return this.active.get(runId)?.id;}

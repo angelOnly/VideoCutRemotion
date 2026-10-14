@@ -19,7 +19,8 @@ test('候选发行：隔离启动真实 Runtime 与 MCP，核对同版、四任�
  try{
    let health:any;for(let i=0;i<200;i++){try{const response=await fetch(`${url}/healthz`,{signal:AbortSignal.timeout(500)});if(response.ok){health=await response.json();break;}}catch{}if(child.exitCode!==null)assert.fail(diagnostic);await new Promise(r=>setTimeout(r,25));}
    assert.ok(health,diagnostic);assert.equal(health.releaseId,manifest.releaseId);assert.deepEqual(health.capacity,{maxActiveRuns:4,renderConcurrency:5,speechConcurrency:20,speechPerRunConcurrency:5,activeRuns:0});
-   await client.connect(transport);const tools=await client.listTools();for(const name of ['synthesize_speech_batch','read_speech_batch','retry_speech_validation','verify_sentence_audio','render_template','read_render_job'])assert.ok(tools.tools.some(t=>t.name===name),name);
+   await client.connect(transport);const tools=await client.listTools();for(const name of ['synthesize_speech_batch','read_speech_batch','retry_speech_validation','verify_sentence_audio','render_template','read_render_job','preview_template_frames','retry_render_slices'])assert.ok(tools.tools.some(t=>t.name===name),name);
+   assert.ok(!tools.tools.some(t=>t.name==='preview_template_frame'));
    const release=await client.callTool({name:'read_runtime_release',arguments:{}});assert.notEqual(release.isError,true,JSON.stringify(release));const content=JSON.parse((release.content as any)[0].text);assert.equal(content.aligned,true);assert.equal(content.mcpReleaseId,manifest.releaseId);
  }finally{await client.close();child.kill('SIGTERM');const timer=setTimeout(()=>child.kill('SIGKILL'),5000);try{await exited;}finally{clearTimeout(timer);await fs.rm(root,{recursive:true,force:true});}}
 });

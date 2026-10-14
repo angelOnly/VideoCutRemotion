@@ -17,8 +17,10 @@ Render 以本次完整 dataList/otherRequirements 为准，覆盖分析旧稿与
 - 配音成功后按工具 audioRef 把音频复制到本期工程 public 目录；记录确切文本、声音身份、实测时长和句段边界。字幕依真实句段分页，不伪造词级对齐。最终 spoken text 拼接必须对应确认正文，不添加结束语。
 - search_motion_mechanisms/read_motion_mechanism：仅本地词法。围绕本场内容关系检索并核读原文、分镜；无结果调整词语或筛选，无向量/网络回退。
 - 每个视频同时只执行一项渲染或固定媒体检查；静帧、连续预览及正式导出共用入口。RENDER_BUSY 表示本视频已有工作，查询并等待原任务，不换编号绕过。四个视频可并行，每项视频绘图最多 5 槽；额度由服务控制。
-- preview_template_frame：指定 frame，生成实际图片后用图像工具查看。静态画面合格不等于运动和声音合格。
-- render_template：renderRequestId、timelineRef（相对 project 的实际 JSON 时间轴文件）、ranges（完整确认分镜 ID 和全局半开帧区间）、checks（真实检查说明）、previewOnly。先预览必要范围；正式交付 previewOnly=false，工具自动增加整片。read_render_job 查询原 renderRequestId；不要因等待超时重复发起。新源码修订使用新的渲染键。read_render_job 的 readyFiles 仅包含渲染及检查完成的文件，允许提前审片；不要自行探测仍在写入的路径。所有文件成功后才是完整交付。
+- preview_template_frames：提交renderRequestId和1～12个唯一全局frames，异步生成同一固定版本的图片；read_render_job返回readyFrames、sourceDigest和分组概览路径。长度1也用此接口。只有sourceDigest持久化后作者才可继续改工作目录；running不代表已冻结。按请求帧顺序看概览，用原尺寸图片检查中文细节。静态图片不能作为视频交付或代替运动和声音观察。
+- 原作者交回可预览版本、关键静帧/动态范围及疑点；独立审片集中汇总同版问题，主任务去重后交原作者修订。记录真实修改和影响范围，复查修改位置及相邻切口；共用组件、字幕或全局时序变化扩大检查，不机械限制返修次数。部分静帧失败保留原证据，明确原因后只补必要范围；工程改变后不混用两版图片作为同版结论。
+- retry_render_slices：只传原renderRequestId，在活动Run内恢复已明确failed、整片和固定快照仍可信的正式导出。使用原范围，只补未完成分镜；不适用于unknown、取消、终态Run、局部预览或未完成整片。整片或已登记文件损坏时先读原诊断，不能盲重放。
+- render_template：renderRequestId、timelineRef（相对 project 的实际 JSON 时间轴文件）、ranges（完整确认分镜 ID 和全局半开帧区间）、checks（真实检查说明）、previewOnly。先预览必要范围；正式交付 previewOnly=false，服务只绘制一次整片，再按原范围准确生成分镜；局部动态预览仍直接绘制所选范围，期间不能修改工作目录。read_render_job 查询原 renderRequestId；不要因等待超时重复发起。新源码修订使用新的渲染键。read_render_job 的 readyFiles 仅包含渲染及检查完成的文件，允许提前审片；不要自行探测仍在写入的路径。所有文件成功后才是完整交付。
 - 工具始终使用模板 wholeComposition；分镜不使用局部从零计时的 Composition。保留完整全片进度、跨句图形和片尾归属。整片时长可包含不属于任何分镜的片头片尾。
 
 最终将成功工具返回的 delivery.json 内容保存为本 run/result.json，保留准确 task/run/输入/模板/源码摘要及文件清单。工程、时间轴、配音、检查记录全部保存在 project 中，供下一版本重制。工具做技术校验，作者做美术及真实视听，Worker 做完整性、发布与通知，三者不能互相代替。
@@ -29,6 +31,6 @@ baseRenderRunId 指向明确成功版本，project 已是该版本的独立副�
 
 ## 恢复和交付边界
 
-isError 先读原始诊断。相同配音键不同输入拒绝；unknown 保留原供应商请求和文件，不换 ID 盲重试。渲染等待只读原任务；明确失败后修正实际原因再提交新渲染键。提交身份、发布、回调由服务负责，禁止直接修改数据库或已发布目录。
+isError 先读原始诊断。相同配音键不同输入拒绝；unknown 保留原供应商请求和文件，不换 ID 盲重试。渲染等待只读原任务；明确失败且符合原正式作业续切条件时先使用retry_render_slices；其他失败修正真实原因后提交新编号，新源码修订也使用新编号。提交身份、发布、回调由服务负责，禁止直接修改数据库或已发布目录。
 
 检查模板固定包装、准确正文、排版、真实运动、实际声音与最终文件。按实际观察记录覆盖和未完成项；不能把 ffprobe、完整解码、代表帧或静音代理说成完整连续视听。不等待额外用户确认来执行已授权测试流程，但最终用户定稿与自动测试通过分开。
