@@ -4,6 +4,7 @@ import { ProductionError } from './contracts.js';
 export class RunWork {
   private active=new Map<string,{id:string;promise:Promise<unknown>}>();
   current(runId:string){return this.active.get(runId)?.id;}
+  get size(){return this.active.size;}
   start<T>(runId:string,id:string,work:()=>Promise<T>):Promise<T>{
     const old=this.active.get(runId);
     if(old)throw new ProductionError('RENDER_BUSY',`本视频正在处理 ${old.id}，请先读取原任务`,409);

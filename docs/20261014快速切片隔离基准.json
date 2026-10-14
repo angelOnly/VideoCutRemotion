@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-14",
+  "description": "首次隔离同输入切片 A/B；按工具原始输出保留数值，临时媒体已被环境清理，复现使用 scripts/production-cut-benchmark.ts。没有测专业连续视听或生产样片。",
+  "environment": {
+    "platform": "macOS x64",
+    "ffmpegExecutable": "/usr/local/opt/ffmpeg@7/bin/ffmpeg",
+    "ffmpegVersion": "7.1（完整构建号未在原测量保存）",
+    "source": "testsrc2 640x360 30fps 60秒，H264 B帧3 GOP120 + AAC192k 48kHz连续变频信号",
+    "schedule": "三轮交替 accurate/hybrid；未隔离OS缓存，不声称冷启动/P95"
+  },
+  "extent": {
+    "fromFrame": 1567,
+    "toFrame": 1747,
+    "fps": 30,
+    "width": 640,
+    "height": 360
+  },
+  "results": [
+    {
+      "round": 1,
+      "mode": "accurate",
+      "elapsedMs": 2159.509945,
+      "actualCutMode": "accurate",
+      "startDeviationMs": 0,
+      "endDeviationMs": 0,
+      "measuredDurationSec": 6
+    },
+    {
+      "round": 1,
+      "mode": "hybrid",
+      "elapsedMs": 2633.5604040000017,
+      "actualCutMode": "local_transcode",
+      "startDeviationMs": 0,
+      "endDeviationMs": 0,
+      "measuredDurationSec": 6,
+      "fallbackReason": "stream_copy: 快速切片的源 PTS 超出一帧边界容差"
+    },
+    {
+      "round": 2,
+      "mode": "accurate",
+      "elapsedMs": 2227.0762889999987,
+      "actualCutMode": "accurate",
+      "startDeviationMs": 0,
+      "endDeviationMs": 0,
+      "measuredDurationSec": 6
+    },
+    {
+      "round": 2,
+      "mode": "hybrid",
+      "elapsedMs": 2623.260554999999,
+      "actualCutMode": "local_transcode",
+      "startDeviationMs": 0,
+      "endDeviationMs": 0,
+      "measuredDurationSec": 6,
+      "fallbackReason": "stream_copy: 快速切片的源 PTS 超出一帧边界容差"
+    },
+    {
+      "round": 3,
+      "mode": "accurate",
+      "elapsedMs": 2281.7937980000024,
+      "actualCutMode": "accurate",
+      "startDeviationMs": 0,
+      "endDeviationMs": 0,
+      "measuredDurationSec": 6
+    },
+    {
+      "round": 3,
+      "mode": "hybrid",
+      "elapsedMs": 2635.268004999998,
+      "actualCutMode": "local_transcode",
+      "startDeviationMs": 0,
+      "endDeviationMs": 0,
+      "measuredDurationSec": 6,
+      "fallbackReason": "stream_copy: 快速切片的源 PTS 超出一帧边界容差"
+    }
+  ],
+  "summary": {
+    "accurateMedianMs": 2227.0762889999987,
+    "hybridMedianMs": 2633.5604040000017,
+    "hybridRelativeChangePercent": 18.251916964304904,
+    "conclusion": "该短低清场景混合模式更慢；安全边界验证启动多个进程，抵消输入定位收益。默认保持accurate，不能据此承诺生产提速。"
+  }
+}

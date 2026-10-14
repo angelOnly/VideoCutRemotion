@@ -8,6 +8,7 @@ import { freezeTemplate } from './template-package.js';
 import { json, writeJson, treeDigest, regular } from './files.js';
 import { publishDelivery } from './delivery.js';
 import { executeCodex } from './codex-session.js';
+import { createMediaMetricSink, withMediaSpan } from './media-metrics.js';
 export type Executor=(run:Run,root:string,repo:ProductionRepository,config:ProductionConfig,signal:AbortSignal)=>Promise<any>;
 export class ProductionRunner {
   active=new Map<string,AbortController>();stopping=false;
@@ -57,7 +58,8 @@ export class ProductionRunner {
         if(parsed.dataList.map(s=>s.content).join('')!==(run.request as AnalysisRequest).content)throw new ProductionError('ANALYSIS_CONTENT_CHANGED','分析分镜必须完整保留输入正文及顺序');
         await fs.writeFile(join(root,'analysis-context.md'),parsed.context);this.repo.finish(run.runId,run.token,'succeeded',parsed);
       }else{
-        const published=await publishDelivery(run,root,join(this.config.dataRoot,'tasks',run.taskKey),this.config.mediaBase,result,controller.signal);this.repo.finish(run.runId,run.token,'succeeded',published);
+        const metrics={runId:run.runId,renderRequestId:String(result.renderRequestId??'publication'),sourceDigest:result.sourceDigest,enabled:this.config.mediaTiming??true,signal:controller.signal,onMetric:createMediaMetricSink(root)};
+        const published=await withMediaSpan(metrics,'publication',child=>publishDelivery(run,root,join(this.config.dataRoot,'tasks',run.taskKey),this.config.mediaBase,result,controller.signal,child));this.repo.finish(run.runId,run.token,'succeeded',published);
       }
     }catch(e){
       const error={code:e instanceof ProductionError?e.code:'EXECUTION_FAILED',message:e instanceof Error?e.message:String(e)};

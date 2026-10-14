@@ -1,0 +1,674 @@
+{
+  "schemaVersion": 1,
+  "status": "完成",
+  "startedAt": "2026-10-14T09:27:15.582Z",
+  "recordedAt": "2026-10-14T09:29:32.807Z",
+  "description": "同输入真实 Remotion 小样本：三轮关闭/开启计时依次交替，完整绘制整片后准确切成两镜。",
+  "config": {
+    "width": 320,
+    "height": 180,
+    "fps": 30,
+    "frames": 60,
+    "concurrency": 2,
+    "sceneCutMode": "accurate",
+    "codec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "audioChannels": 1,
+    "audioSamples": 96000
+  },
+  "sourceDigest": "8243842ccb91a5e476be1115ac8b559ab900907fe1b124cdcc27f6cb250f485e",
+  "audioSha256": "74d91910be3a8269b2f9dd0fa0b7efaf7d53757ffc141d3a7eb6d6ddc29f6abd",
+  "contentInputSha256": "56e65d3675b1e415dd90af66e02f3d4a1a19a1ed633ab8d964fcaba4fff8aa7d",
+  "implementationDigests": {
+    "apps/render-worker/src/template-renderer.ts": "c810292d0b85538ac18745d495e657d4a287dbccadcc5dbf628c06f945eb26a0",
+    "apps/render-worker/src/template-slices.ts": "af11176f4477851d684965500fce1c5250ff16b40e742b52dc7a49e556f1a1c5",
+    "packages/production-service/src/media-metrics.ts": "bf97d227a8a380105b613e5270464724f588bf489b076ba727dd7d5e450dc4f8",
+    "packages/production-service/src/video-output.ts": "6e6e72e36528979b367cd65d001ce8ca23f9488f428d9cb93e1c054da17e9747"
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "darwin",
+    "osRelease": "25.5.0",
+    "architecture": "x64",
+    "cpuModel": "Intel(R) Core(TM) i5-1038NG7 CPU @ 2.00GHz",
+    "logicalCpus": 8,
+    "totalMemoryBytes": 17179869184,
+    "ffmpeg": "ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers",
+    "ffprobe": "ffprobe version 7.1 Copyright (c) 2007-2024 the FFmpeg developers",
+    "browser": "Google Chrome 155.0.8059.41",
+    "remotion": "4.0.519"
+  },
+  "samples": [
+    {
+      "order": 1,
+      "round": 1,
+      "timingEnabled": false,
+      "runId": "00000000-0000-4000-8000-000000000001",
+      "wallTimeMs": 24846.713588,
+      "sourceDigest": "8243842ccb91a5e476be1115ac8b559ab900907fe1b124cdcc27f6cb250f485e",
+      "files": [
+        {
+          "id": "whole-video",
+          "fromFrame": 0,
+          "toFrame": 60,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 2.048,
+          "sha256": "a9272ef19f6f511936973d1eb5cfe5a42eeabf48810f80be565f4c93ec4ba405",
+          "cutMode": null
+        },
+        {
+          "id": "s1",
+          "fromFrame": 0,
+          "toFrame": 30,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 1,
+          "sha256": "2aeb3651aa7438895623aa09fc11e7b95254dcffea4210d0e15992d3eaf32dc6",
+          "cutMode": "accurate"
+        },
+        {
+          "id": "s2",
+          "fromFrame": 30,
+          "toFrame": 60,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 1,
+          "sha256": "f78768db951c2982652840ec2ec808eab53c9548a8a1d23504ef8e0569ab806f",
+          "cutMode": "accurate"
+        }
+      ],
+      "metricRecordCount": 0,
+      "stageSummary": null
+    },
+    {
+      "order": 2,
+      "round": 1,
+      "timingEnabled": true,
+      "runId": "00000000-0000-4000-8000-000000000002",
+      "wallTimeMs": 27649.312936000002,
+      "sourceDigest": "8243842ccb91a5e476be1115ac8b559ab900907fe1b124cdcc27f6cb250f485e",
+      "files": [
+        {
+          "id": "whole-video",
+          "fromFrame": 0,
+          "toFrame": 60,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 2.048,
+          "sha256": "a9272ef19f6f511936973d1eb5cfe5a42eeabf48810f80be565f4c93ec4ba405",
+          "cutMode": null
+        },
+        {
+          "id": "s1",
+          "fromFrame": 0,
+          "toFrame": 30,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 1,
+          "sha256": "2aeb3651aa7438895623aa09fc11e7b95254dcffea4210d0e15992d3eaf32dc6",
+          "cutMode": "accurate"
+        },
+        {
+          "id": "s2",
+          "fromFrame": 30,
+          "toFrame": 60,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 1,
+          "sha256": "f78768db951c2982652840ec2ec808eab53c9548a8a1d23504ef8e0569ab806f",
+          "cutMode": "accurate"
+        }
+      ],
+      "metricRecordCount": 21,
+      "stageSummary": {
+        "runId": "00000000-0000-4000-8000-000000000002",
+        "renderRequestId": "fixed-render",
+        "sourceDigests": [
+          "8243842ccb91a5e476be1115ac8b559ab900907fe1b124cdcc27f6cb250f485e"
+        ],
+        "clockBasis": "monotonic",
+        "observedWallClockMs": 27648.817514,
+        "observedCoverageMs": 27648.817514,
+        "stages": [
+          {
+            "stage": "freeze_project",
+            "count": 1,
+            "coverageMs": 16.055859000000055,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "template_validation",
+            "count": 1,
+            "coverageMs": 3.117972000000009,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "bundle",
+            "count": 1,
+            "coverageMs": 17503.035513999996,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "prepare",
+            "count": 1,
+            "coverageMs": 17508.261551,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "select_composition",
+            "count": 1,
+            "coverageMs": 2012.2988049999985,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "render_media",
+            "count": 1,
+            "coverageMs": 6544.869961000004,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "video_ffprobe",
+            "count": 3,
+            "coverageMs": 597.1604000000007,
+            "succeeded": 3,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "video_full_decode",
+            "count": 3,
+            "coverageMs": 448.8392109999986,
+            "succeeded": 3,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "video_validation",
+            "count": 1,
+            "coverageMs": 496.48021799999697,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "file_record_sha",
+            "count": 3,
+            "coverageMs": 1.3441400000083377,
+            "succeeded": 3,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "scene_accurate",
+            "count": 2,
+            "coverageMs": 491.1695140000011,
+            "succeeded": 2,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "scene_slice",
+            "count": 2,
+            "coverageMs": 1049.3987209999977,
+            "succeeded": 2,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "benchmark_render_total",
+            "count": 1,
+            "coverageMs": 27648.817514,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          }
+        ]
+      }
+    },
+    {
+      "order": 3,
+      "round": 2,
+      "timingEnabled": false,
+      "runId": "00000000-0000-4000-8000-000000000003",
+      "wallTimeMs": 20340.13983,
+      "sourceDigest": "8243842ccb91a5e476be1115ac8b559ab900907fe1b124cdcc27f6cb250f485e",
+      "files": [
+        {
+          "id": "whole-video",
+          "fromFrame": 0,
+          "toFrame": 60,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 2.048,
+          "sha256": "a9272ef19f6f511936973d1eb5cfe5a42eeabf48810f80be565f4c93ec4ba405",
+          "cutMode": null
+        },
+        {
+          "id": "s1",
+          "fromFrame": 0,
+          "toFrame": 30,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 1,
+          "sha256": "2aeb3651aa7438895623aa09fc11e7b95254dcffea4210d0e15992d3eaf32dc6",
+          "cutMode": "accurate"
+        },
+        {
+          "id": "s2",
+          "fromFrame": 30,
+          "toFrame": 60,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 1,
+          "sha256": "f78768db951c2982652840ec2ec808eab53c9548a8a1d23504ef8e0569ab806f",
+          "cutMode": "accurate"
+        }
+      ],
+      "metricRecordCount": 0,
+      "stageSummary": null
+    },
+    {
+      "order": 4,
+      "round": 2,
+      "timingEnabled": true,
+      "runId": "00000000-0000-4000-8000-000000000004",
+      "wallTimeMs": 22795.869250000003,
+      "sourceDigest": "8243842ccb91a5e476be1115ac8b559ab900907fe1b124cdcc27f6cb250f485e",
+      "files": [
+        {
+          "id": "whole-video",
+          "fromFrame": 0,
+          "toFrame": 60,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 2.048,
+          "sha256": "a9272ef19f6f511936973d1eb5cfe5a42eeabf48810f80be565f4c93ec4ba405",
+          "cutMode": null
+        },
+        {
+          "id": "s1",
+          "fromFrame": 0,
+          "toFrame": 30,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 1,
+          "sha256": "2aeb3651aa7438895623aa09fc11e7b95254dcffea4210d0e15992d3eaf32dc6",
+          "cutMode": "accurate"
+        },
+        {
+          "id": "s2",
+          "fromFrame": 30,
+          "toFrame": 60,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 1,
+          "sha256": "f78768db951c2982652840ec2ec808eab53c9548a8a1d23504ef8e0569ab806f",
+          "cutMode": "accurate"
+        }
+      ],
+      "metricRecordCount": 21,
+      "stageSummary": {
+        "runId": "00000000-0000-4000-8000-000000000004",
+        "renderRequestId": "fixed-render",
+        "sourceDigests": [
+          "8243842ccb91a5e476be1115ac8b559ab900907fe1b124cdcc27f6cb250f485e"
+        ],
+        "clockBasis": "monotonic",
+        "observedWallClockMs": 22795.299371999994,
+        "observedCoverageMs": 22795.299371999994,
+        "stages": [
+          {
+            "stage": "freeze_project",
+            "count": 1,
+            "coverageMs": 15.021624999993946,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "template_validation",
+            "count": 1,
+            "coverageMs": 3.1399099999980535,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "bundle",
+            "count": 1,
+            "coverageMs": 13448.081084999998,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "prepare",
+            "count": 1,
+            "coverageMs": 13453.210536999992,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "select_composition",
+            "count": 1,
+            "coverageMs": 1884.3406680000044,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "render_media",
+            "count": 1,
+            "coverageMs": 5889.2305729999935,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "video_ffprobe",
+            "count": 3,
+            "coverageMs": 557.5869509999902,
+            "succeeded": 3,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "video_full_decode",
+            "count": 3,
+            "coverageMs": 465.0876639999915,
+            "succeeded": 3,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "video_validation",
+            "count": 1,
+            "coverageMs": 430.53600800001004,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "file_record_sha",
+            "count": 3,
+            "coverageMs": 1.3246299999882467,
+            "succeeded": 3,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "scene_accurate",
+            "count": 2,
+            "coverageMs": 499.0297920000012,
+            "succeeded": 2,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "scene_slice",
+            "count": 2,
+            "coverageMs": 1099.9693990000087,
+            "succeeded": 2,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "benchmark_render_total",
+            "count": 1,
+            "coverageMs": 22795.299371999994,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          }
+        ]
+      }
+    },
+    {
+      "order": 5,
+      "round": 3,
+      "timingEnabled": false,
+      "runId": "00000000-0000-4000-8000-000000000005",
+      "wallTimeMs": 19470.076109,
+      "sourceDigest": "8243842ccb91a5e476be1115ac8b559ab900907fe1b124cdcc27f6cb250f485e",
+      "files": [
+        {
+          "id": "whole-video",
+          "fromFrame": 0,
+          "toFrame": 60,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 2.048,
+          "sha256": "a9272ef19f6f511936973d1eb5cfe5a42eeabf48810f80be565f4c93ec4ba405",
+          "cutMode": null
+        },
+        {
+          "id": "s1",
+          "fromFrame": 0,
+          "toFrame": 30,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 1,
+          "sha256": "2aeb3651aa7438895623aa09fc11e7b95254dcffea4210d0e15992d3eaf32dc6",
+          "cutMode": "accurate"
+        },
+        {
+          "id": "s2",
+          "fromFrame": 30,
+          "toFrame": 60,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 1,
+          "sha256": "f78768db951c2982652840ec2ec808eab53c9548a8a1d23504ef8e0569ab806f",
+          "cutMode": "accurate"
+        }
+      ],
+      "metricRecordCount": 0,
+      "stageSummary": null
+    },
+    {
+      "order": 6,
+      "round": 3,
+      "timingEnabled": true,
+      "runId": "00000000-0000-4000-8000-000000000006",
+      "wallTimeMs": 21566.32699,
+      "sourceDigest": "8243842ccb91a5e476be1115ac8b559ab900907fe1b124cdcc27f6cb250f485e",
+      "files": [
+        {
+          "id": "whole-video",
+          "fromFrame": 0,
+          "toFrame": 60,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 2.048,
+          "sha256": "a9272ef19f6f511936973d1eb5cfe5a42eeabf48810f80be565f4c93ec4ba405",
+          "cutMode": null
+        },
+        {
+          "id": "s1",
+          "fromFrame": 0,
+          "toFrame": 30,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 1,
+          "sha256": "2aeb3651aa7438895623aa09fc11e7b95254dcffea4210d0e15992d3eaf32dc6",
+          "cutMode": "accurate"
+        },
+        {
+          "id": "s2",
+          "fromFrame": 30,
+          "toFrame": 60,
+          "width": 320,
+          "height": 180,
+          "fps": 30,
+          "durationSeconds": 1,
+          "sha256": "f78768db951c2982652840ec2ec808eab53c9548a8a1d23504ef8e0569ab806f",
+          "cutMode": "accurate"
+        }
+      ],
+      "metricRecordCount": 21,
+      "stageSummary": {
+        "runId": "00000000-0000-4000-8000-000000000006",
+        "renderRequestId": "fixed-render",
+        "sourceDigests": [
+          "8243842ccb91a5e476be1115ac8b559ab900907fe1b124cdcc27f6cb250f485e"
+        ],
+        "clockBasis": "monotonic",
+        "observedWallClockMs": 21565.271101000006,
+        "observedCoverageMs": 21565.271101000006,
+        "stages": [
+          {
+            "stage": "freeze_project",
+            "count": 1,
+            "coverageMs": 15.750083999999333,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "template_validation",
+            "count": 1,
+            "coverageMs": 2.978229000000283,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "bundle",
+            "count": 1,
+            "coverageMs": 12773.748248999997,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "prepare",
+            "count": 1,
+            "coverageMs": 12779.050705000001,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "select_composition",
+            "count": 1,
+            "coverageMs": 1628.1909160000068,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "render_media",
+            "count": 1,
+            "coverageMs": 5550.381533999986,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "video_ffprobe",
+            "count": 3,
+            "coverageMs": 566.7570160000178,
+            "succeeded": 3,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "video_full_decode",
+            "count": 3,
+            "coverageMs": 477.22575900002266,
+            "succeeded": 3,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "video_validation",
+            "count": 1,
+            "coverageMs": 446.49663000000874,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "file_record_sha",
+            "count": 3,
+            "coverageMs": 1.713848000013968,
+            "succeeded": 3,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "scene_accurate",
+            "count": 2,
+            "coverageMs": 511.69003099997644,
+            "succeeded": 2,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "scene_slice",
+            "count": 2,
+            "coverageMs": 1118.5922340000106,
+            "succeeded": 2,
+            "failed": 0,
+            "cancelled": 0
+          },
+          {
+            "stage": "benchmark_render_total",
+            "count": 1,
+            "coverageMs": 21565.271101000006,
+            "succeeded": 1,
+            "failed": 0,
+            "cancelled": 0
+          }
+        ]
+      }
+    }
+  ],
+  "notes": [
+    "全部样本源码、WAV 字节、业务输入、渲染参数和 accurate 算法一致；只有隔离目录、运行编号与计时开关变化。",
+    "每个样本重新冻结、bundle、启动浏览器、渲染和完整验证；没有预热或复用 bundle。首次执行受模块加载与操作系统缓存冷启动影响，后续仍可能受共享缓存影响。",
+    "顺序固定为 off/on × 3，样本量不足以报告 P95、证明无计时开销或外推到真实长片；保留所有观测，不剔除首次样本。",
+    "墙钟包含 renderTemplate 和启用时的阶段日志落盘；不包括生成测试输入、报告落盘及临时目录清理。开启模式记录真实 JSONL，关闭模式断言无日志。",
+    "阶段有父子与并行重叠，不可相加充当总墙钟；资源字段仅属于 Node 进程，不能据此断言 FFmpeg 或浏览器瓶颈。",
+    "没有调用生产服务、正式队列、回调或发布路径；机器上的其他工作仍可能影响测量。"
+  ],
+  "executionObservations": [
+    {
+      "sampleOrder": 1,
+      "source": "本次命令标准错误输出",
+      "diagnostic": "Remotion 在浏览器关闭时打印 Page.bringToFront Target closed；renderTemplate 未拒绝，整片及两个切片均通过验证。该样本保留，不重试、不剔除。"
+    }
+  ]
+}

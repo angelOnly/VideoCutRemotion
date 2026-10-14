@@ -10,6 +10,9 @@ import { regular, inside, treeDigest, writeJson } from '../../../packages/produc
 import { sha256, ProductionError, deliverySchema, type Delivery, type Run, type RenderRequest } from '../../../packages/production-service/src/contracts.js';
 import { validateVideoOutput, type VideoExtent } from '../../../packages/production-service/src/video-output.js';
 import { cutSceneFromWhole } from './template-slices.js';
+import { withMediaSpan, type MetricContext } from '../../../packages/production-service/src/media-metrics.js';
+import { validateRegisteredVideo } from '../../../packages/production-service/src/registered-video.js';
+import { verifyCutTimeline, type AudioAuditEvidence } from '../../../packages/production-service/src/scene-cut-timeline.js';
 
 export const renderRequestIdSchema=z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
 export const renderToolSchema=z.object({runId:z.string().uuid(),renderRequestId:renderRequestIdSchema,timelineRef:z.string(),ranges:z.array(z.object({id:z.string(),fromFrame:z.number().int().nonnegative(),toFrame:z.number().int().positive()}).strict()).min(1),checks:z.array(z.string()),previewOnly:z.boolean().default(false)}).strict();
@@ -18,8 +21,8 @@ export type TemplateRenderInput=z.infer<typeof renderToolSchema>;
 export type PreviewFramesInput=z.infer<typeof previewFramesSchema>;
 export type VideoFile=Delivery['files'][number];
 export type ReadyFrame={frame:number;path:string;sha256:string};
-export type MediaJob={id:string;runId:string;kind:'template-render'|'frame-preview';state:'running'|'succeeded'|'failed'|'cancelled'|'unknown';inputDigest:string;input:TemplateRenderInput|PreviewFramesInput;sourceDigest?:string;readyFiles:VideoFile[];readyFrames:ReadyFrame[];currentOutput?:string;deliveryPath?:string;delivery?:Delivery;overviewPaths?:string[];warnings?:string[];missingFrames?:number[];error?:string};
-export type RenderOptions={dependencyRoot:string;browser?:string;concurrency:number;signal?:AbortSignal;onFileReady?:(file:VideoFile)=>Promise<void>;onFrameReady?:(frame:ReadyFrame)=>Promise<void>;onOutputStart?:(id:string)=>Promise<void>;onSourceFrozen?:(digest:string)=>Promise<void>};
+export type MediaJob={id:string;runId:string;kind:'template-render'|'frame-preview';state:'running'|'succeeded'|'failed'|'cancelled'|'unknown';inputDigest:string;input:TemplateRenderInput|PreviewFramesInput;sourceDigest?:string;sceneCutMode?:'accurate'|'hybrid';readyFiles:VideoFile[];readyFrames:ReadyFrame[];currentOutput?:string;deliveryPath?:string;delivery?:Delivery;overviewPaths?:string[];warnings?:string[];missingFrames?:number[];error?:string};
+export type RenderOptions={dependencyRoot:string;browser?:string;concurrency:number;sceneCutMode?:'accurate'|'hybrid';audioAudits?:AudioAuditEvidence;metrics?:MetricContext;signal?:AbortSignal;onFileReady?:(file:VideoFile)=>Promise<void>;onFrameReady?:(frame:ReadyFrame)=>Promise<void>;onOutputStart?:(id:string)=>Promise<void>;onSourceFrozen?:(digest:string)=>Promise<void>};
 const engine={bundle,selectComposition,renderMedia,renderFrames,openBrowser};
 function checkCancelled(signal?:AbortSignal){if(signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','渲染操作已取消');}
 function assertRun(run:Run,options:RenderOptions){checkCancelled(options.signal);if(run.stage!=='render'||run.state!=='running')throw new ProductionError('RENDER_STAGE_FORBIDDEN','仅运行中的 Render 可生成媒体',409);if(!Number.isInteger(options.concurrency)||options.concurrency<1||options.concurrency>5)throw new ProductionError('RENDER_CONCURRENCY_INVALID','每视频绘图并发须为1到5');}
@@ -33,10 +36,11 @@ async function freezeProject(root:string,destination:string,signal?:AbortSignal)
   checkCancelled(signal);return digest;
 }
 async function prepare(project:string,options:RenderOptions,backend=engine){
-  const manifest=await validateTemplate(project),renderer=join(project,'renderer');
+  const manifest=await withMediaSpan(options.metrics,'template_validation',()=>validateTemplate(project)),renderer=join(project,'renderer');
   const buildRoot=await fs.mkdtemp(join(tmpdir(),'textvideo-bundle-'));
   try {
-    const serveUrl=await backend.bundle({outDir:buildRoot,entryPoint:await regular(renderer,manifest.entry),publicDir:inside(renderer,manifest.publicAssetRoot),webpackOverride:c=>({...c,resolve:{...c.resolve,modules:[join(options.dependencyRoot,'node_modules'),'node_modules']}})});
+    const entryPoint=await regular(renderer,manifest.entry);
+    const serveUrl=await withMediaSpan(options.metrics,'bundle',()=>backend.bundle({outDir:buildRoot,entryPoint,publicDir:inside(renderer,manifest.publicAssetRoot),webpackOverride:c=>({...c,resolve:{...c.resolve,modules:[join(options.dependencyRoot,'node_modules'),'node_modules']}})}));
     checkCancelled(options.signal);return {manifest,serveUrl,buildRoot};
   }catch(error){await fs.rm(buildRoot,{recursive:true,force:true});throw error;}
 }
@@ -63,8 +67,8 @@ async function renderMissingSlices(run:Run,root:string,input:TemplateRenderInput
     if(files.some(f=>f.id===r.id))continue;
     checkCancelled(options.signal);await options.onOutputStart?.(r.id);
     const extent={...r,width:whole.width,height:whole.height,fps:whole.fps},path=join(output,`${i+1}.mp4`);
-    const media=await cutSceneFromWhole(whole.file,path,extent,options.signal);
-    const file=await fileRecord(run,r.id,path,extent,media.duration);checkCancelled(options.signal);
+    const media=await withMediaSpan(options.metrics,'scene_slice',child=>cutSceneFromWhole(whole.file,path,extent,options.signal,options.sceneCutMode??'accurate',child),{fromFrame:r.fromFrame,toFrame:r.toFrame});
+    const file={...await withMediaSpan(options.metrics,'file_record_sha',()=>fileRecord(run,r.id,path,extent,media.duration)),cutMetadata:media.cutMetadata};checkCancelled(options.signal);
     await options.onFileReady?.(file);files.push(file);
   }
   return completeDelivery(run,join(root,'render-snapshots',input.renderRequestId,'project'),output,input,digest,[whole,...input.ranges.map(r=>files.find(f=>f.id===r.id)!)],options.signal);
@@ -72,21 +76,23 @@ async function renderMissingSlices(run:Run,root:string,input:TemplateRenderInput
 
 export async function renderTemplate(run:Run,root:string,input:TemplateRenderInput,options:RenderOptions,backend=engine){
   assertRun(run,options);const project=input.previewOnly?join(root,'project'):join(root,'render-snapshots',input.renderRequestId,'project');
-  const digest=input.previewOnly?await treeDigest(project):await freezeProject(root,project,options.signal);
+  const digest=await withMediaSpan(options.metrics,'freeze_project',async child=>{const digest=input.previewOnly?await treeDigest(project):await freezeProject(root,project,options.signal);if(child)child.sourceDigest=digest;return digest;});
+  options={...options,metrics:options.metrics?{...options.metrics,sourceDigest:digest}:undefined};
   if(!input.previewOnly)await options.onSourceFrozen?.(digest);await regular(project,input.timelineRef);
-  const {manifest,serveUrl,buildRoot}=await prepare(project,options,backend);
+  const {manifest,serveUrl,buildRoot}=await withMediaSpan(options.metrics,'prepare',child=>prepare(project,{...options,metrics:child},backend));
   const cancellation=makeCancelSignal(),abort=()=>cancellation.cancel();options.signal?.addEventListener('abort',abort,{once:true});if(options.signal?.aborted)abort();
   try{
-    const composition=await backend.selectComposition({serveUrl,id:manifest.wholeComposition,browserExecutable:options.browser});
+    const composition=await withMediaSpan(options.metrics,'select_composition',()=>backend.selectComposition({serveUrl,id:manifest.wholeComposition,browserExecutable:options.browser}));
     checkComposition({...composition,fromFrame:0,toFrame:composition.durationInFrames},manifest);checkRanges(run,input,composition.durationInFrames);
+    if(!input.previewOnly&&options.sceneCutMode==='hybrid')await verifyCutTimeline(root,project,input.timelineRef,digest,input.renderRequestId,(run.request as RenderRequest).dataList,composition.durationInFrames,composition.fps,input.ranges,options.audioAudits);
     const output=join(root,input.previewOnly?'previews':'output-staging',input.renderRequestId);await fs.mkdir(output,{recursive:true});
     // 正式任务仅绘制整片；局部动态预览仍直接绘制所选范围。
     const ranges=input.previewOnly?input.ranges:[{id:'whole-video',fromFrame:0,toFrame:composition.durationInFrames}];const files:VideoFile[]=[];
     for(const [i,r] of ranges.entries()){
       checkCancelled(options.signal);await options.onOutputStart?.(r.id);const path=join(output,`${i}.mp4`);
-      await backend.renderMedia({serveUrl,composition,outputLocation:path,codec:'h264',audioCodec:'aac',frameRange:[r.fromFrame,r.toFrame-1],browserExecutable:options.browser,concurrency:options.concurrency,cancelSignal:cancellation.cancelSignal,overwrite:true});
-      const extent={...r,width:composition.width,height:composition.height,fps:composition.fps},media=await validateVideoOutput(path,extent,options.signal);
-      const file=await fileRecord(run,r.id,path,extent,media.duration);checkCancelled(options.signal);await options.onFileReady?.(file);files.push(file);
+      await withMediaSpan(options.metrics,'render_media',()=>backend.renderMedia({serveUrl,composition,outputLocation:path,codec:'h264',audioCodec:'aac',frameRange:[r.fromFrame,r.toFrame-1],browserExecutable:options.browser,concurrency:options.concurrency,cancelSignal:cancellation.cancelSignal,overwrite:true}),{fromFrame:r.fromFrame,toFrame:r.toFrame,concurrency:options.concurrency});
+      const extent={...r,width:composition.width,height:composition.height,fps:composition.fps},media=await withMediaSpan(options.metrics,'video_validation',child=>validateVideoOutput(path,extent,options.signal,child));
+      const file=await withMediaSpan(options.metrics,'file_record_sha',()=>fileRecord(run,r.id,path,extent,media.duration));checkCancelled(options.signal);await options.onFileReady?.(file);files.push(file);
     }
     if(!input.previewOnly)return await renderMissingSlices(run,root,input,digest,files,options);
     return await completeDelivery(run,project,output,input,digest,files,options.signal);
@@ -95,7 +101,9 @@ export async function renderTemplate(run:Run,root:string,input:TemplateRenderInp
 
 export async function retryRenderSlices(run:Run,root:string,job:MediaJob,options:RenderOptions){
   assertRun(run,options);
-  if(job.kind!=='template-render'||!job.sourceDigest)throw new ProductionError('SLICE_RETRY_FORBIDDEN','原作业缺少固定工程依据');
+  // 原作业保存切法；部署后切换灰度开关也不改变失败续做的合同。
+  options={...options,sceneCutMode:z.enum(['accurate','hybrid']).default('accurate').parse(job.sceneCutMode),metrics:options.metrics?{...options.metrics,sourceDigest:job.sourceDigest}:undefined};
+  if(job.state!=='failed'||job.kind!=='template-render'||!job.sourceDigest)throw new ProductionError('SLICE_RETRY_FORBIDDEN','仅明确失败且具备固定工程依据的作业可以续切');
   const input=renderToolSchema.parse(job.input);
   if(input.previewOnly||input.runId!==run.runId||input.renderRequestId!==job.id)throw new ProductionError('SLICE_RETRY_FORBIDDEN','仅原正式视频作业可续切');
   const project=join(root,'render-snapshots',job.id,'project');
@@ -104,15 +112,16 @@ export async function retryRenderSlices(run:Run,root:string,job:MediaJob,options
   const files=z.array(deliverySchema.shape.files.element).min(1).parse(job.readyFiles),whole=files.find(f=>f.id==='whole-video');
   if(!whole||whole.fromFrame!==0)throw new ProductionError('SLICE_RETRY_FORBIDDEN','原整片没有核验成功');
   checkComposition(whole,manifest);checkRanges(run,input,whole.toFrame);
+  if(options.sceneCutMode==='hybrid')await verifyCutTimeline(root,project,input.timelineRef,job.sourceDigest,input.renderRequestId,(run.request as RenderRequest).dataList,whole.toFrame,whole.fps,input.ranges,options.audioAudits);
   const expected=[{id:'whole-video',fromFrame:0,toFrame:whole.toFrame},...input.ranges];
   if(new Set(files.map(f=>f.id)).size!==files.length)throw new ProductionError('FILE_IDENTITY_INVALID','已完成清单包含重复文件');
   for(const file of files){
     const index=expected.findIndex(r=>r.id===file.id),range=expected[index];
     if(!range||file.fromFrame!==range.fromFrame||file.toFrame!==range.toFrame||file.width!==whole.width||file.height!==whole.height||file.fps!==whole.fps||resolve(file.file)!==resolve(root,'output-staging',job.id,`${index}.mp4`))throw new ProductionError('FILE_IDENTITY_INVALID','已完成文件范围、规格或位置不符');
     const path=await regular(root,relative(root,file.file));
-    const record=await fileRecord(run,file.id,path,file,file.dur);
+    const record=await withMediaSpan(options.metrics,'retry_file_sha',()=>fileRecord(run,file.id,path,file,file.dur));
     if(record.sha256!==file.sha256||record.content!==file.content)throw new ProductionError('FILE_DIGEST_MISMATCH','原已完成文件摘要或正文不符');
-    const media=await validateVideoOutput(path,file,options.signal);
+    const media=await withMediaSpan(options.metrics,'retry_video_validation',child=>validateRegisteredVideo(file,whole,options.signal,child));
     if(Math.abs(media.duration-file.dur)>0.1)throw new ProductionError('MEDIA_CHECK_FAILED','原文件实测时长不符');
   }
   // 不读取工作目录，不重建快照，也不重新绘制整片。
@@ -137,27 +146,28 @@ async function overview(frames:ReadyFrame[],output:string){
 }
 export async function templateFrames(run:Run,root:string,input:PreviewFramesInput,options:RenderOptions,backend=engine){
   assertRun(run,options);input=previewFramesSchema.parse(input);
-  const project=join(root,'preview-snapshots',input.renderRequestId,'project'),sourceDigest=await freezeProject(root,project,options.signal);
-  await options.onSourceFrozen?.(sourceDigest);const {manifest,serveUrl,buildRoot}=await prepare(project,options,backend);
+  const project=join(root,'preview-snapshots',input.renderRequestId,'project'),sourceDigest=await withMediaSpan(options.metrics,'freeze_project',async child=>{const digest=await freezeProject(root,project,options.signal);if(child)child.sourceDigest=digest;return digest;});
+  options={...options,metrics:options.metrics?{...options.metrics,sourceDigest}:undefined};
+  await options.onSourceFrozen?.(sourceDigest);const {manifest,serveUrl,buildRoot}=await withMediaSpan(options.metrics,'prepare',child=>prepare(project,{...options,metrics:child},backend));
   const output=join(root,'previews',input.renderRequestId);
   let browser:Awaited<ReturnType<typeof openBrowser>>|undefined;
   const cancellation=makeCancelSignal(),abort=()=>cancellation.cancel();options.signal?.addEventListener('abort',abort,{once:true});if(options.signal?.aborted)abort();
   const ready=new Map<number,ReadyFrame>();const writes:Promise<void>[]=[];
   try{
     await fs.mkdir(output,{recursive:true});checkCancelled(options.signal);
-    browser=await backend.openBrowser('chrome',{browserExecutable:options.browser});
+    browser=await withMediaSpan(options.metrics,'open_browser',()=>backend.openBrowser('chrome',{browserExecutable:options.browser}));
     checkCancelled(options.signal);
-    const composition=await backend.selectComposition({serveUrl,id:manifest.wholeComposition,puppeteerInstance:browser});
+    const composition=await withMediaSpan(options.metrics,'select_composition',()=>backend.selectComposition({serveUrl,id:manifest.wholeComposition,puppeteerInstance:browser}));
     checkComposition({...composition,fromFrame:0,toFrame:composition.durationInFrames},manifest);
     if(input.frames.some(f=>f>=composition.durationInFrames))throw new ProductionError('RANGE_INVALID','静帧超出Composition范围');
-    await backend.renderFrames({serveUrl,composition,inputProps:{},frames:input.frames,concurrency:options.concurrency,puppeteerInstance:browser,imageFormat:'png',outputDir:null,muted:true,cancelSignal:cancellation.cancelSignal,onStart:()=>{},onFrameUpdate:()=>{},onFrameBuffer:(buffer,frame)=>{
+    await withMediaSpan(options.metrics,'render_frames',()=>backend.renderFrames({serveUrl,composition,inputProps:{},frames:input.frames,concurrency:options.concurrency,puppeteerInstance:browser,imageFormat:'png',outputDir:null,muted:true,cancelSignal:cancellation.cancelSignal,onStart:()=>{},onFrameUpdate:()=>{},onFrameBuffer:(buffer,frame)=>{
       const work=(async()=>{
         checkCancelled(options.signal);const png=PNG.sync.read(buffer);
         if(!input.frames.includes(frame)||png.width!==composition.width||png.height!==composition.height)throw new ProductionError('PREVIEW_FRAME_INVALID','预览图片帧号或规格不符');
         const path=join(output,`frame-${frame}.png`);await fs.writeFile(`${path}.tmp`,buffer);await fs.rename(`${path}.tmp`,path);
         const item={frame,path,sha256:sha256(buffer)};checkCancelled(options.signal);await options.onFrameReady?.(item);ready.set(frame,item);
       })();writes.push(work);void work.catch(abort);return work;
-    }});
+    }}),{frameCount:input.frames.length,concurrency:options.concurrency});
     await Promise.all(writes);checkCancelled(options.signal);
     if(ready.size!==input.frames.length)throw new ProductionError('PREVIEW_INCOMPLETE','部分静帧未生成');
     if(await treeDigest(project)!==sourceDigest)throw new ProductionError('SOURCE_CHANGED','预览固定快照发生变化');

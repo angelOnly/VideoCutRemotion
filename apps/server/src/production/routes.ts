@@ -14,6 +14,7 @@ import { DoubaoService } from '../../../../packages/speech-services/src/doubao.j
 import { renderTemplate, renderToolSchema, templateFrames, previewFramesSchema, renderRequestIdSchema, retryRenderSlices, type MediaJob, type RenderOptions } from '../../../render-worker/src/template-renderer.js';
 import { json, writeJson } from '../../../../packages/production-service/src/files.js';
 import { normalizeWebAnalysis, normalizeWebRender } from '../../../../packages/production-service/src/web-contract.js';
+import { createMediaMetricSink, withMediaSpan } from '../../../../packages/production-service/src/media-metrics.js';
 export async function createProductionServer(config:ProductionConfig,executor?:Executor,overrides:Partial<{renderTemplate:typeof renderTemplate;templateFrames:typeof templateFrames;retryRenderSlices:typeof retryRenderSlices}>={}){
   const renderers={renderTemplate,templateFrames,retryRenderSlices,...overrides};
   const repo=new ProductionRepository(join(config.dataRoot,'tasks.sqlite')),runner=new ProductionRunner(repo,config,executor),callbacks=new CallbackSender(repo,config.callbackBase,config.callbackSecret);
@@ -53,6 +54,8 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
   // 只在入口短锁中登记；实际核验、绘图和编码始终属于本Run的工作生命周期。
   const startMedia=async(current:ReturnType<typeof repo.get>,path:string,job:MediaJob,resume:boolean)=>{
     if(rendering.current(current.runId))throw new ProductionError('RENDER_BUSY',`本视频正在处理 ${rendering.current(current.runId)}`,409);
+    // 续切校验使用入口确认的失败记录；对外登记 running 不得抹去这份恢复依据。
+    const retryJob=resume?structuredClone(job):undefined;
     let persisted!:()=>void,rejected!:(error:unknown)=>void;
     const registered=new Promise<void>((yes,no)=>{persisted=yes;rejected=no;});
     const work=rendering.start(current.runId,job.id,async()=>{
@@ -61,7 +64,9 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
       // renderFrames并发回调，单作业清单必须串行落盘，避免固定.tmp文件互相覆盖。
       let writes:Promise<unknown>=Promise.resolve();
       const persist=(change:()=>void)=>{const next=writes.then(async()=>{change();await writeJson(path,job);});writes=next.catch(()=>{});return next;};
-      const options:RenderOptions={dependencyRoot:config.dependencyRoot,browser:config.browser,concurrency:config.renderConcurrency??5,signal:runner.active.get(current.runId)?.signal,
+      const root=runner.runRoot(current),signal=runner.active.get(current.runId)?.signal;
+      const options:RenderOptions={dependencyRoot:config.dependencyRoot,browser:config.browser,concurrency:config.renderConcurrency??5,signal,sceneCutMode:job.sceneCutMode??'accurate',audioAudits:current.checkpoint.sentenceAudioAudits,
+        metrics:{runId:current.runId,renderRequestId:job.id,sourceDigest:job.sourceDigest,signal,enabled:config.mediaTiming??true,activeMediaJobs:()=>rendering.size,onMetric:createMediaMetricSink(root)},
         onSourceFrozen:digest=>persist(()=>{job.sourceDigest=digest;}),
         onOutputStart:id=>persist(()=>{job.currentOutput=id;}),
         onFileReady:file=>persist(()=>{job.readyFiles=job.readyFiles.filter(f=>f.id!==file.id).concat(file);}),
@@ -70,10 +75,13 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
           job.readyFrames=job.readyFrames.filter(f=>f.frame!==frame.frame).concat(frame).sort((a,b)=>requested.indexOf(a.frame)-requested.indexOf(b.frame));
         })};
       try{
-        const root=runner.runRoot(current);
-        const result=resume?await renderers.retryRenderSlices(current,root,job,options):job.kind==='frame-preview'
-          ?await renderers.templateFrames(current,root,previewFramesSchema.parse(job.input),options)
-          :await renderers.renderTemplate(current,root,renderToolSchema.parse(job.input),options);
+        const result=await withMediaSpan(options.metrics,resume?'media_job_resume':'media_job',async metrics=>{
+          const scoped={...options,metrics};
+          const result=retryJob?await renderers.retryRenderSlices(current,root,retryJob,scoped):job.kind==='frame-preview'
+            ?await renderers.templateFrames(current,root,previewFramesSchema.parse(job.input),scoped)
+            :await renderers.renderTemplate(current,root,renderToolSchema.parse(job.input),scoped);
+          if(metrics)metrics.sourceDigest=job.sourceDigest;return result;
+        });
         if(options.signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','本视频已取消');
         await persist(()=>Object.assign(job,{state:'succeeded',...result}));
       }catch(e){await persist(()=>{
@@ -90,10 +98,15 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
     if(name==='read_speech_job')return speech.read(body.speechJobId,run.runId,run.accountId);
     if(name==='read_speech_batch')return speech.readBatch(body.speechBatchRequestId,run.runId,run.accountId);
     if(name==='retry_speech_validation'){runnable(run.runId);return speech.retryValidation(body.speechJobId,run.runId,run.accountId);}
-    if(name==='read_production_task')return {...run,token:undefined,activeRender:rendering.current(run.runId)};
+    if(name==='read_production_task')return {...run,token:undefined,activeRender:rendering.current(run.runId),qaRoot:join(runner.runRoot(run),'qa'),metricsPath:join(runner.runRoot(run),'metrics','media.jsonl'),optimization:{qaParallelReview:config.qaParallelReview??false,qaMaxReviewers:config.qaMaxReviewers??3,previewOnDemand:config.previewOnDemand??false,sceneCutMode:config.sceneCutMode??'accurate',mediaTiming:config.mediaTiming??true}};
     if(name==='verify_sentence_audio'){
       const current=runnable(run.runId);
-      return rendering.start(run.runId,'sentence-audio-check',()=>verifySentenceAudio(current,runner.runRoot(current),body,speech,runner.active.get(run.runId)?.signal));
+      return rendering.start(run.runId,'sentence-audio-check',async()=>{
+        const result=await verifySentenceAudio(current,runner.runRoot(current),body,speech,runner.active.get(run.runId)?.signal);
+        const latest=repo.get(run.runId);
+        repo.checkpoint(run.runId,current.token!,{sentenceAudioAudits:{...latest.checkpoint.sentenceAudioAudits,[result.sourceDigest]:{timelineSha256:result.timelineSha256}}});
+        return result;
+      });
     }
     if(name==='render_template'||name==='preview_template_frames')return serial(async()=>{
       const kind=name==='render_template'?'template-render':'frame-preview';
@@ -106,7 +119,7 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
         return old.state==='running'&&rendering.current(run.runId)!==old.id?{...old,state:'unknown',error:'原工作状态需要核查'}:old;
       }
       const current=runnable(run.runId);
-      const job:MediaJob={id:input.renderRequestId,runId:run.runId,kind,state:'running',inputDigest:digest,input,readyFiles:[],readyFrames:[]};
+      const job:MediaJob={id:input.renderRequestId,runId:run.runId,kind,state:'running',inputDigest:digest,input,sceneCutMode:config.sceneCutMode??'accurate',readyFiles:[],readyFrames:[]};
       return startMedia(current,path,job,false);
     });
     if(name==='retry_render_slices')return serial(async()=>{

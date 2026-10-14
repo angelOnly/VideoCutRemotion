@@ -10,7 +10,8 @@ await rm(dist,{recursive:true,force:true,maxRetries:10,retryDelay:200});await mk
 const options={bundle:true,format:'cjs',platform:'node',target:'node22',packages:'external',sourcemap:'linked',sourcesContent:false,logLevel:'warning'};
 await Promise.all([
   build({...options,entryPoints:[join(repo,'apps/runtime/src/index.ts')],outfile:join(dist,'runtime.cjs')}),
-  build({...options,entryPoints:[join(repo,'apps/server/src/mcp.ts')],outfile:join(dist,'mcp.cjs')})
+  build({...options,entryPoints:[join(repo,'apps/server/src/mcp.ts')],outfile:join(dist,'mcp.cjs')}),
+  build({...options,entryPoints:[join(repo,'packages/production-service/src/review-cli.ts')],outfile:join(dist,'review.cjs')})
 ]);
 // 机制正文、词法索引和静态分镜随发行；不复制历史原片和模型集成。
 await cp(join(repo,'references/motion-cases/skillry'),join(dist,'motion-library'),{recursive:true,filter:path=>!/[\\/](__pycache__|\.git|node_modules)([\\/]|$)/.test(path)&&! /\.(mp4|webm|mov|pyc)$/i.test(path)});

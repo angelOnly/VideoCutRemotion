@@ -2,7 +2,7 @@ import { promises as fs } from 'node:fs';
 import { join, isAbsolute } from 'node:path';
 import { z } from 'zod';
 import { ProductionError, sha256, type Run, type RenderRequest } from './contracts.js';
-import { decodedAudioSeconds, regular, json, writeJson, inside } from './files.js';
+import { decodedAudioSeconds, regular, json, writeJson, inside, treeDigest } from './files.js';
 import { validateTemplate } from './template-package.js';
 import type { DoubaoService } from '../../speech-services/src/doubao.js';
 export const sentenceAuditSchema=z.object({timelineRef:z.string().min(1),speechBatchRequestIds:z.array(z.string().regex(/^[A-Za-z0-9_-]{1,100}$/)).min(1),renderRequestId:z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).optional()}).strict();
@@ -113,6 +113,7 @@ export async function verifySentenceAudio(run:Run,runRoot:string,raw:unknown,spe
   if(run.stage!=='render'||run.state!=='running')throw new ProductionError('SPEECH_STAGE_FORBIDDEN','只有当前制作任务可检查音频');
   const project=input.renderRequestId?join(runRoot,'render-snapshots',input.renderRequestId,'project'):join(runRoot,'project');
   inside(await fs.realpath(runRoot),await fs.realpath(project));
+  const sourceDigest=await treeDigest(project);
   const manifest=await validateTemplate(project),publicDirectory=join(project,'renderer',manifest.publicAssetRoot);
   inside(await fs.realpath(project),await fs.realpath(publicDirectory));
   const timeline=await json(await regular(project,input.timelineRef));
@@ -126,8 +127,9 @@ export async function verifySentenceAudio(run:Run,runRoot:string,raw:unknown,spe
   }
   const plan={scenes:(run.request as RenderRequest).dataList.map(s=>({id:s.id,text:s.content}))};
   const report=await auditSentenceAudio({plan,tts,timeline,publicDirectory,signal});
+  ensure(await treeDigest(project)===sourceDigest,'检查期间工程发生变化，请原作者停止写入后重新核验');
   const path=join(runRoot,'checks',`sentence-audio-${input.renderRequestId??'working'}.json`);
-  await writeJson(path,{...report,runId:run.runId,checkedAt:new Date().toISOString(),timelineSha256:sha256(canonicalTimeline(timeline)),scope:'句段、字幕、PCM 时长及音频归属；不代替听审'});
-  return {...report,path};
+  await writeJson(path,{...report,runId:run.runId,sourceDigest,checkedAt:new Date().toISOString(),timelineSha256:sha256(canonicalTimeline(timeline)),scope:'句段、字幕、PCM 时长及音频归属；不代替听审'});
+  return {...report,path,sourceDigest,timelineSha256:sha256(canonicalTimeline(timeline))};
 }
 function canonicalTimeline(value:unknown){return JSON.stringify(value);}

@@ -2,6 +2,19 @@ import { resolve, join } from 'node:path';
 import { existsSync, readFileSync } from 'node:fs';
 import { ProductionError } from './contracts.js';
 export type ProductionConfig=ReturnType<typeof readProductionConfig>;
+/** 灰度开关只在配置入口解析，任务指令与媒体工作共用同一份结果。 */
+export function readOptimizationConfig(env:NodeJS.ProcessEnv=process.env){
+  const boolean=(name:string,fallback:boolean)=>{
+    const value=env[name];if(value===undefined)return fallback;
+    if(value==='true')return true;if(value==='false')return false;
+    throw new ProductionError('CONFIG_INVALID',`${name} 必须是 true 或 false`,503);
+  };
+  const qaMaxReviewers=Number(env.TEXTVIDEO_QA_MAX_REVIEWERS??3);
+  if(!Number.isInteger(qaMaxReviewers)||qaMaxReviewers<1||qaMaxReviewers>3)throw new ProductionError('CONFIG_INVALID','TEXTVIDEO_QA_MAX_REVIEWERS 必须是 1 到 3 的整数',503);
+  const sceneCutMode=env.TEXTVIDEO_SCENE_CUT_MODE??'accurate';
+  if(sceneCutMode!=='accurate'&&sceneCutMode!=='hybrid')throw new ProductionError('CONFIG_INVALID','TEXTVIDEO_SCENE_CUT_MODE 必须是 accurate 或 hybrid',503);
+  return {qaParallelReview:boolean('TEXTVIDEO_QA_PARALLEL_REVIEW',false),qaMaxReviewers,previewOnDemand:boolean('TEXTVIDEO_PREVIEW_ON_DEMAND',false),sceneCutMode:sceneCutMode as 'accurate'|'hybrid',mediaTiming:boolean('TEXTVIDEO_MEDIA_TIMING',true)};
+}
 export function readProductionConfig(){
   const required=(name:string)=>{const value=process.env[name];if(!value)throw new ProductionError('CONFIG_REQUIRED',`缺少部署配置 ${name}`,503);return value;};
   const positive=(name:string,fallback:number,max:number)=>{const value=Number(process.env[name]??fallback);if(!Number.isInteger(value)||value<1||value>max)throw new ProductionError('CONFIG_INVALID',`${name} 必须是 1 到 ${max} 的整数`,503);return value;};
@@ -10,7 +23,7 @@ export function readProductionConfig(){
   if(speechPerRunConcurrency>speechConcurrency)throw new ProductionError('CONFIG_INVALID','单任务配音并发不能超过全局并发',503);
   const pluginRoot=resolve(required('TEXTVIDEO_PLUGIN_ROOT')),dataRoot=resolve(required('TEXTVIDEO_DATA_ROOT'));
   const release=JSON.parse(readFileSync(join(pluginRoot,'runtime/dist/manifest.json'),'utf8'));
-  return { pluginRoot,dataRoot,release,host:process.env.TEXTVIDEO_HOST??'127.0.0.1',port:Number(process.env.TEXTVIDEO_PORT??3410),
+  return { ...readOptimizationConfig(),pluginRoot,dataRoot,release,host:process.env.TEXTVIDEO_HOST??'127.0.0.1',port:Number(process.env.TEXTVIDEO_PORT??3410),
     apiToken:required('TEXTVIDEO_API_TOKEN'),accountId:process.env.TEXTVIDEO_ACCOUNT_ID??'local',
     webSubmitAddresses:(process.env.TEXTVIDEO_WEB_SUBMIT_ADDRESSES??'').split(',').map(s=>s.trim()).filter(Boolean),
     templateBase:required('CUSTOM_TEMPLATE_API_BASE_URL'),callbackBase:required('CALLBACK_BASE_URL'),callbackSecret:required('CALLBACK_SECRET'),

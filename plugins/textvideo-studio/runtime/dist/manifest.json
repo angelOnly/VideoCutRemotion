@@ -1,8 +1,8 @@
 {
   "schemaVersion": 3,
-  "pluginVersion": "0.1.7",
-  "releaseId": "release-ca1c24d8614bedc0d792e9cc7c805829a3d2866d644780a1e0b7f784f8522d3d",
-  "skillsDigest": "38e83b285ebca6a39aff4a81c2384091b1851c20b29180d6ca171099fed74a1a",
+  "pluginVersion": "0.1.8",
+  "releaseId": "release-dc568272afced43e499020ff1443e1d70c21e3a830572927ca3fa32b4c0e0f50",
+  "skillsDigest": "909e45e918ac0be7546b8767c6a43ec185b8c952ed54d3107e12eee761433669",
   "runtimeEntry": "runtime.cjs",
   "mcpEntry": "mcp.cjs",
   "codexProtocolVersion": "0.144.4",

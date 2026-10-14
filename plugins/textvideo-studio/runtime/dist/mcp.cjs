@@ -585,6 +585,19 @@ var analysisResultSchema = import_zod2.z.object({
   dataList: import_zod2.z.array(sceneSchema.extend({ dur: import_zod2.z.number().positive(), durationSource: import_zod2.z.literal("estimated") })).min(1),
   context: import_zod2.z.string().min(1)
 }).strict();
+var sceneCutMetadataSchema = import_zod2.z.object({
+  cutMode: import_zod2.z.enum(["accurate", "stream_copy", "local_transcode"]),
+  requestedStartSec: import_zod2.z.number().finite().nonnegative(),
+  requestedEndSec: import_zod2.z.number().finite().positive(),
+  measuredDurationSec: import_zod2.z.number().finite().positive(),
+  startDeviationMs: import_zod2.z.number().finite(),
+  endDeviationMs: import_zod2.z.number().finite(),
+  mediaValidationVersion: import_zod2.z.literal("scene-cut-v1"),
+  fallbackReason: import_zod2.z.string().max(8e3).optional(),
+  boundaryValidation: import_zod2.z.enum(["packet-pts-and-decoded-boundaries", "decoded-boundaries", "accurate-frame-trim"]),
+  videoToleranceMs: import_zod2.z.number().finite().nonnegative(),
+  audioToleranceMs: import_zod2.z.number().finite().nonnegative()
+}).strict();
 var deliverySchema = import_zod2.z.object({
   taskId: import_zod2.z.string(),
   runId: import_zod2.z.string().uuid(),
@@ -604,7 +617,8 @@ var deliverySchema = import_zod2.z.object({
     toFrame: import_zod2.z.number().int().positive(),
     width: import_zod2.z.number().int().positive(),
     height: import_zod2.z.number().int().positive(),
-    fps: import_zod2.z.number().positive()
+    fps: import_zod2.z.number().positive(),
+    cutMetadata: sceneCutMetadataSchema.optional()
   }).strict()).min(2)
 }).strict();
 
@@ -629,6 +643,12 @@ var import_bundler = require("@remotion/bundler");
 var import_renderer = require("@remotion/renderer");
 var import_pngjs = require("pngjs");
 var import_zod6 = require("zod");
+
+// packages/production-service/src/media-metrics.ts
+var import_node_crypto2 = require("node:crypto");
+var processInstanceId = (0, import_node_crypto2.randomUUID)();
+
+// apps/render-worker/src/template-renderer.ts
 var renderRequestIdSchema = import_zod6.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
 var renderToolSchema = import_zod6.z.object({ runId: import_zod6.z.string().uuid(), renderRequestId: renderRequestIdSchema, timelineRef: import_zod6.z.string(), ranges: import_zod6.z.array(import_zod6.z.object({ id: import_zod6.z.string(), fromFrame: import_zod6.z.number().int().nonnegative(), toFrame: import_zod6.z.number().int().positive() }).strict()).min(1), checks: import_zod6.z.array(import_zod6.z.string()), previewOnly: import_zod6.z.boolean().default(false) }).strict();
 var previewFramesSchema = import_zod6.z.object({ runId: import_zod6.z.string().uuid(), renderRequestId: renderRequestIdSchema, frames: import_zod6.z.array(import_zod6.z.number().int().nonnegative()).min(1).max(12).refine((v) => new Set(v).size === v.length, "\u5E27\u53F7\u4E0D\u53EF\u91CD\u590D") }).strict();

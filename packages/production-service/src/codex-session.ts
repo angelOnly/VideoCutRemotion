@@ -43,17 +43,18 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
   const env:NodeJS.ProcessEnv={...process.env,CODEX_HOME:config.codexHome,TEXTVIDEO_RUNTIME_URL:`http://${config.host}:${config.port}`,TEXTVIDEO_RUN_ID:run.runId,TEXTVIDEO_RUN_TOKEN:run.token!,TEXTVIDEO_PLUGIN_ROOT:config.pluginRoot};
   delete env.DOUBAO_API_KEY;delete env.CALLBACK_SECRET;delete env.TEXTVIDEO_API_TOKEN;delete env.DOUBAO_VOICES_FILE;
   const log=join(root,'logs','codex-events.jsonl');await fs.mkdir(join(root,'logs'),{recursive:true});
+  const observer=new ToolObserver();
   const client=new AppServerClient(config.codexExecutable,['app-server','-c','web_search="disabled"'],env,root);
-  client.child.stderr.on('data',data=>{void fs.appendFile(join(root,'logs','codex-stderr.log'),data).catch(()=>{});});
+  client.child.stderr.on('data',data=>{observer.observeTransport(String(data));void fs.appendFile(join(root,'logs','codex-stderr.log'),data).catch(()=>{});});
   let threadId=run.checkpoint.codex?.threadId,turnId=run.checkpoint.codex?.turnId;
   let finish!:(value:any)=>void,fail!:(reason:any)=>void;const completed=new Promise<any>((resolve,reject)=>{finish=resolve;fail=reject;});
   completed.catch(()=>{});
   // 先安装事件处理，再发 turn/start，避免极短 turn 完成事件早于响应。
   const collect=collectMainTurn(()=>({threadId,turnId}),finish,fail);
-  const observer=new ToolObserver();
-  const observeTimer=setInterval(()=>{try{repo.checkpoint(run.runId,run.token!,{stalledTools:observer.stalled()});}catch{}},15000);
+  const saveDiagnostics=()=>{try{repo.checkpoint(run.runId,run.token!,{stalledTools:observer.stalled(),transportDiagnostics:observer.transportDiagnostics()});}catch{}};
+  const observeTimer=setInterval(saveDiagnostics,15000);
   client.onEvent=event=>{void fs.appendFile(log,JSON.stringify(event)+'\n').catch(()=>{});observer.observe(event);collect(event);};
-  client.onClose=e=>fail(new ProductionError('CODEX_RESULT_UNKNOWN',e.message,503));
+  client.onClose=e=>{observer.observeTransport(e.message,'connection');saveDiagnostics();fail(new ProductionError('CODEX_RESULT_UNKNOWN',e.message,503));};
   const abort=()=>{if(threadId&&turnId)void client.call('turn/interrupt',{threadId,turnId},5000).catch(()=>{});void client.close().then(()=>fail(new ProductionError('CODEX_RESULT_UNKNOWN','会话已停止，原工具结果需核查',503)));};signal.addEventListener('abort',abort,{once:true});
   try{
     await client.init();
@@ -74,7 +75,7 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
     const statusText=JSON.stringify(statuses);if(!statusText.includes('synthesize_speech_batch')||!statusText.includes('verify_sentence_audio')||!statusText.includes('render_template')||!JSON.stringify(skills).includes('production-coordinator'))throw new ProductionError('PLUGIN_NOT_LOADED','后台会话没有加载完整本版插件',503);
     const runtime=await client.call('mcpServer/tool/call',{threadId,server:'textvideo-studio',tool:'read_runtime_release',arguments:{}});
     if(!JSON.stringify(runtime).includes(config.release.releaseId))throw new ProductionError('RELEASE_MISMATCH','后台 MCP 与 Runtime 不同版',503);
-    const instruction=taskInstruction(run,root,config.pluginRoot);await fs.writeFile(join(root,'codex-instruction.txt'),instruction);
+    const instruction=taskInstruction(run,root,config.pluginRoot,config);await fs.writeFile(join(root,'codex-instruction.txt'),instruction);
     await writeJson(join(root,'plugin-evidence.json'),{release:config.release,skills,statuses,runtime,codexVersion:await processFile(config.codexExecutable,['--version'])});
     const turnParams:TurnStartParams={threadId,input:[{type:'text',text:instruction,text_elements:[]}],approvalPolicy:'never',sandboxPolicy:{type:'workspaceWrite',writableRoots:[root],networkAccess:false,excludeTmpdirEnvVar:false,excludeSlashTmp:false},outputSchema:handoffSchema};
     const response=await client.call('turn/start',turnParams);turnId=response.turn.id;repo.checkpoint(run.runId,run.token!,{codex:{threadId,turnId}});
