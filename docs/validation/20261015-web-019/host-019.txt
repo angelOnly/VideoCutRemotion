@@ -1,0 +1,34 @@
+TAP version 13
+# Subtest: Analysis 文字合同投影保留版本和摘要，不展开制作路径与组件正文
+ok 1 - Analysis 文字合同投影保留版本和摘要，不展开制作路径与组件正文
+  ---
+  duration_ms: 23.790436
+  type: 'test'
+  ...
+# Subtest: 新 Analysis 明确拒绝缺文字合同、源码引用、越界、空文及无效字段；旧工程仍能 Render 校验
+ok 2 - 新 Analysis 明确拒绝缺文字合同、源码引用、越界、空文及无效字段；旧工程仍能 Render 校验
+  ---
+  duration_ms: 16.338461
+  type: 'test'
+  ...
+# Subtest: Analysis 提示不再加载制作合同或动效工具，发现校验按可信阶段分开
+ok 3 - Analysis 提示不再加载制作合同或动效工具，发现校验按可信阶段分开
+  ---
+  duration_ms: 1.989802
+  type: 'test'
+  ...
+# Subtest: 隔离宿主按 Run 固定阶段目录，实际 skills/list 不重新发现无关技能
+ok 4 - 隔离宿主按 Run 固定阶段目录，实际 skills/list 不重新发现无关技能
+  ---
+  duration_ms: 832.564755
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1505.659531

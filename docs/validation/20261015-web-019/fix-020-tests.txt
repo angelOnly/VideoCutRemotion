@@ -1,0 +1,96 @@
+TAP version 13
+# Subtest: 音频整数帧取整只覆盖真实PCM，整数及分数fps边界可靠
+ok 1 - 音频整数帧取整只覆盖真实PCM，整数及分数fps边界可靠
+  ---
+  duration_ms: 1.66803
+  type: 'test'
+  ...
+# Subtest: 工具发现提供同源计划结构，错误计划返回完整结构且不写入
+ok 2 - 工具发现提供同源计划结构，错误计划返回完整结构且不写入
+  ---
+  duration_ms: 27.32287
+  type: 'test'
+  ...
+# Subtest: 窄装配按稳定ID重排，保留停顿、视觉、章节时钟和包装；同键重查不覆盖作者新稿
+ok 3 - 窄装配按稳定ID重排，保留停顿、视觉、章节时钟和包装；同键重查不覆盖作者新稿
+  ---
+  duration_ms: 71.585338
+  type: 'test'
+  ...
+# Subtest: 装配缺段、重号、正文、摘要、无依据分页和旧基线明确拒绝
+ok 4 - 装配缺段、重号、正文、摘要、无依据分页和旧基线明确拒绝
+  ---
+  duration_ms: 69.617195
+  type: 'test'
+  ...
+# Subtest: 可靠分页按绑定记录装配，音频时长变化报告范围且不拉伸动作
+ok 5 - 可靠分页按绑定记录装配，音频时长变化报告范围且不拉伸动作
+  ---
+  duration_ms: 19.578058
+  type: 'test'
+  ...
+# Subtest: 替换前后中断沿原记录恢复；冲突保留当前稿，不调用新的配音
+ok 6 - 替换前后中断沿原记录恢复；冲突保留当前稿，不调用新的配音
+  ---
+  duration_ms: 36.591994
+  type: 'test'
+  ...
+# Subtest: 取消禁止初次写入及恢复提交；成功后计划已删除仍可查回原结果
+ok 7 - 取消禁止初次写入及恢复提交；成功后计划已删除仍可查回原结果
+  ---
+  duration_ms: 27.429245
+  type: 'test'
+  ...
+# (node:1159945) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: 候选发行：隔离启动真实 Runtime 与 MCP，核对同版、四任务配置和新工具发现
+ok 8 - 候选发行：隔离启动真实 Runtime 与 MCP，核对同版、四任务配置和新工具发现
+  ---
+  duration_ms: 3980.542152
+  type: 'test'
+  ...
+# Subtest: 后台技能完整处置 29 项，阶段链接闭包与发行字节一致，历史源保留
+ok 9 - 后台技能完整处置 29 项，阶段链接闭包与发行字节一致，历史源保留
+  ---
+  duration_ms: 100.680989
+  type: 'test'
+  ...
+# Subtest: 恢复正文保留 0.1.8 专业原段、唯一维护源与角色读取闭包，不发行旧操作
+ok 10 - 恢复正文保留 0.1.8 专业原段、唯一维护源与角色读取闭包，不发行旧操作
+  ---
+  duration_ms: 58.706733
+  type: 'test'
+  ...
+# Subtest: 专业映射拒绝未登记来源、重复、真实路径逃逸及不完整角色引用
+ok 11 - 专业映射拒绝未登记来源、重复、真实路径逃逸及不完整角色引用
+  ---
+  duration_ms: 630.759723
+  type: 'test'
+  ...
+# Subtest: 后台机制摘要不带全 taxonomy、源码检索正文或整片浏览入口
+ok 12 - 后台机制摘要不带全 taxonomy、源码检索正文或整片浏览入口
+  ---
+  duration_ms: 2.276309
+  type: 'test'
+  ...
+# Subtest: 最小机制发行包支持实际词法检索和按需静态图，不开放全库或 overview
+ok 13 - 最小机制发行包支持实际词法检索和按需静态图，不开放全库或 overview
+  ---
+  duration_ms: 2795.865488
+  type: 'test'
+  ...
+# Subtest: 模板发行明确静帧检查后直接交付，不恢复最终视听发布限制
+ok 14 - 模板发行明确静帧检查后直接交付，不恢复最终视听发布限制
+  ---
+  duration_ms: 1.915781
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4811.551377
