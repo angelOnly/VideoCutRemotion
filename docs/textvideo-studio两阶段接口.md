@@ -21,6 +21,8 @@
 
 Analysis 下载并冻结 `GET <CUSTOM_TEMPLATE_API_BASE_URL>/api/custom-templates/3/package` 返回的 ZIP。阶段只产出文字分镜和 estimated 时长，拒绝配音和渲染。content（最多 100000 字符）和 otherRequirements（最多 20000 字符）均允许省略，只传任意一栏即可；缺省栏归一化为空串，两栏至少一栏有实质内容，实际传入的原始字符串不裁剪。综合两栏识别台词、人物、章节、画面说明与明确替换，实际台词和可见人物/画面标签一起进入分镜 content，采用及替换说明保存在原有非空 Markdown context；不要求逐字符来源台账。
 
+模板职责：analysisInstructions 定义原稿人物、动作、栏目标记的解释；speakerBindings 以可见人物名为键，值为 {speaker, voiceRef}，同一张表用于 Analysis 的文字输入、返回标签检查、Render 当前稿解析及配音装配。instructions 定义模板制作步骤、固定包装、专属字段和检查。Analysis 读取展开后的文字合同与人物表；Render 读取冻结 manifest 及 instructions。平台不维护栏目人物名单或公司标题来源规则。财经模板的标题来源检查随模板脚本发布，按该模板说明运行。
+
 `POST /narrate/ai_video_director/getAiVideoEditingData`
 
 ```json
@@ -30,7 +32,7 @@ Analysis 下载并冻结 `GET <CUSTOM_TEMPLATE_API_BASE_URL>/api/custom-template
   "introUrl": "", "introIndex": 0,
   "outroUrl": "", "outroIndex": 0,
   "dataList": [
-    {"id": "scene_001", "content": "【财小策】第一句。【室长】第二句。【画面：展示图表】", "dur": 5, "extraData": {}},
+    {"id": "scene_001", "content": "【主持人】第一句。【嘉宾】第二句。【画面：展示图表】", "dur": 5, "extraData": {}},
     {"id": "scene_002", "content": "【无口播：3秒】【画面：企业概况图】", "dur": 3, "extraData": {}}
   ]
 }
@@ -38,7 +40,7 @@ Analysis 下载并冻结 `GET <CUSTOM_TEMPLATE_API_BASE_URL>/api/custom-template
 
 上述为现有网页提交格式；网页与转发接口不改，不传分析版本、隐藏人物信息或新增制作要求。服务按 taskId 关联最新一次 Analysis，只有其成功时受理，失败或未完成时不回退；从该记录读取原始要求。接收当前完整列表，不能恢复用户删掉的镜头或标签。网页的 dur 仅是估时，不能决定口播时长；extraData 沿现有接口接收，不用它暗补正文或人物。
 
-服务只识别可见标签：【财小策】、【室长】、【画面：说明】、【章节：标题】和【无口播：3秒】。人物、画面及章节标签不朗读；普通括号、数字和标点保持原样。未知或破损的【】标签报具体分镜。纯画面必须有画面说明、明确正时长（至多 3600 秒）且无台词；口播不能用无口播标签绕过配音。每镜独立解释，不从上一镜或旧 Analysis 猜回被删人物；拆镜后需要固定人物时应在新镜保留相应可见标签。
+人物标签来自冻结模板 manifest.speakerBindings 的键名，例如本示例模板声明“主持人”和“嘉宾”，则识别【主持人】、【嘉宾】；没有内置人物或旧栏目别名。平台另识别通用标签【画面：说明】、【章节：标题】和【无口播：3秒】。人物、画面及章节标签不朗读；普通括号、数字和标点保持原样。未知或破损的【】标签报具体分镜。纯画面必须有画面说明、明确正时长（至多 3600 秒）且无台词；口播不能用无口播标签绕过配音。每镜独立解释，不从上一镜或旧 Analysis 猜回被删人物；拆镜后需要固定人物时应在新镜保留相应可见标签。
 
 归一化在请求摘要和保存前完成：内部 dataList.content 为实际台词，submittedContent（有标签时）保存提交原串，directing 是代码从本次文本计算的人物发言范围、画面、章节及无口播时长。范围只供制作与校验使用，不要求网页编辑。分镜 ID 为 1～80 位字母、数字、下划线或连字符，唯一且不能为 whole-video；分镜数量 1～200。改字、换标签、删镜和重排都以本次提交为准，参与现有幂等判断。
 

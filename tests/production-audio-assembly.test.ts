@@ -15,7 +15,7 @@ async function fixture(){
  const root=await fs.mkdtemp(join(tmpdir(),'audio-assembly-')),project=join(root,'project'),pub=join(project,'renderer/public');await fs.mkdir(pub,{recursive:true});
  await fs.writeFile(join(project,'renderer/index.ts'),'export {};');await fs.writeFile(join(project,'renderer/instructions.md'),'隔离测试');
  await fs.writeFile(join(pub,'intro.mp4'),'片头');await fs.writeFile(join(pub,'outro.mp4'),'片尾');
- await writeJson(join(project,'renderer/renderer-manifest.json'),{schemaVersion:1,templateVersion:'test',...{speakerBindings:{caixiaoce:{speaker:'female-host',voiceRef:'finance.female'},shizhang:{speaker:'male-chief',voiceRef:'finance.male'}}},instructions:['instructions.md'],entry:'index.ts',wholeComposition:'Test',timelineModule:'index.ts',timelineDataRef:'timeline.json',timelineContract:'sentence-timeline/1',publicAssetRoot:'public',width:320,height:180,fps:30});
+ await writeJson(join(project,'renderer/renderer-manifest.json'),{schemaVersion:1,templateVersion:'test',...{speakerBindings:{主持人:{speaker:'female-host',voiceRef:'finance.female'},嘉宾:{speaker:'male-chief',voiceRef:'finance.male'}}},instructions:['instructions.md'],entry:'index.ts',wholeComposition:'Test',timelineModule:'index.ts',timelineDataRef:'timeline.json',timelineContract:'sentence-timeline/1',publicAssetRoot:'public',width:320,height:180,fps:30});
  const utterances=[{id:'u1',text:'甲。',src:'old1.mp3',startFrame:4,endFrameExclusive:7},{id:'u2',text:'乙。',src:'old2.mp3',startFrame:9,endFrameExclusive:12}];
  const timeline:any={fps:30,totalFrames:17,chapters:[{id:'c',from:4,endFrameExclusive:15,title:'保持视觉时钟'}],scenes:[{id:'s',from:0,frames:15,intro:{src:'intro.mp4',frames:4,fromFrame:0},utterances,captions:utterances.map(u=>({utteranceId:u.id,text:u.text,startFrame:u.startFrame,endFrameExclusive:u.endFrameExclusive})),visualBlocks:[{from:6,event:'不要缩放'}]}],ending:{narrationEndFrame:15,outro:{src:'outro.mp4',frames:2}},bgm:[],sfx:[]};
  const timelinePath=join(project,'renderer/timeline.json');await writeJson(timelinePath,timeline);
@@ -95,7 +95,7 @@ test('取消禁止初次写入及恢复提交；成功后计划已删除仍可�
 
 test('同镜多人装配保留人物与音色、拒绝跨人和错配；无口播走真实时长且不读空批次',async()=>{
  const f=await fixture();try{
-  f.run.request.dataList[0]=parseSceneScript({id:'s',content:'【财小策】甲。【室长】乙。'});
+  f.run.request.dataList[0]=parseSceneScript({id:'s',content:'【主持人】甲。【嘉宾】乙。'},await json(join(f.root,'project/renderer/renderer-manifest.json')));
   f.jobs[0].request.voiceRef='finance.female';f.jobs[1].request.voiceRef='finance.male';
   await assembleSentenceAudio(f.run,f.root,f.input,f.speech);const out=await json(f.timelinePath);
   assert.deepEqual(out.scenes[0].utterances.map((u:any)=>[u.turnId,u.speaker,u.voiceRef]),[['turn_1','female-host','finance.female'],['turn_2','male-chief','finance.male']]);

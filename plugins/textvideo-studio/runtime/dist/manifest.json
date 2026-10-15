@@ -1,9 +1,9 @@
 {
   "schemaVersion": 3,
-  "pluginVersion": "0.1.21",
-  "releaseId": "release-352ef53319a069816da75e4c93eb69c11d15dfa94ddc44baffa0d79b95baecb6",
-  "skillsDigest": "87be45bc4577364a50d62b9ee26e588430c5b117aaf7eba755678f4c1006a4a9",
-  "skillViewsDigest": "f7d267ca6520f6207df8889e58907b0dd7c8b1678d75af06da9d759c580b8031",
+  "pluginVersion": "0.1.22",
+  "releaseId": "release-820fd269269aa2cc0565626d706debacc3c944f1dc55be9545c79abb97f742ca",
+  "skillsDigest": "696b874ff3f282a19117824b2848f65c154bfbf591585de5078182bfac7ca48e",
+  "skillViewsDigest": "3f8f73df73436aa96c0d0f10267e00de3a68377c7518ab8f4464ea53db48cf5d",
   "skillViews": {
     "analysis": "skills-stages/analysis",
     "render": "skills-stages/render"

@@ -30,6 +30,9 @@ def patch_template(output):
     adapt_timeline(output)
     src = Path(output) / 'renderer/src'
     assets = Path(__file__).parent / 'finance-template-patches'
+    scripts = Path(output) / 'renderer/scripts'
+    scripts.mkdir(exist_ok=True)
+    shutil.copyfile(assets / 'verify-episode.mjs', scripts / 'verify-episode.mjs')
     for name in ['intro-timing.ts', 'safe-visuals.tsx', 'CompanyTitleOverlay.tsx']:
         shutil.copyfile(assets / name, src / name)
     types = src / 'types.ts'

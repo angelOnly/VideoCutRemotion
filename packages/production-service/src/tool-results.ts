@@ -27,7 +27,7 @@ export function mediaJobSummary(job:any,detailsRef:string,details=false){
 export function productionTaskSummary(run:Run){
   const template=run.checkpoint.template;
   if(run.stage==='analysis')return {taskId:run.taskId,runId:run.runId,stage:run.stage,state:run.state,inputDigest:run.inputDigest,planVersion:run.planVersion,request:run.request,
-    template:template?{templateVersion:template.manifest?.templateVersion??template.manifest?.version,archiveDigest:template.digest,analysisContractDigest:template.analysisContract?.digest,analysisContract:template.analysisContract,width:template.manifest?.width,height:template.manifest?.height,fps:template.manifest?.fps}:undefined};
+    template:template?{templateVersion:template.manifest?.templateVersion??template.manifest?.version,archiveDigest:template.digest,analysisContractDigest:template.analysisContract?.digest,analysisContract:template.analysisContract,speakerBindings:template.manifest?.speakerBindings??{},width:template.manifest?.width,height:template.manifest?.height,fps:template.manifest?.fps}:undefined};
   return {taskId:run.taskId,runId:run.runId,stage:run.stage,state:run.state,inputDigest:run.inputDigest,planVersion:run.planVersion,
     template:template?{digest:template.digest,sourceDigest:template.sourceDigest,version:template.manifest?.templateVersion,timelineDataRef:template.manifest?.timelineDataRef,timelineContract:template.manifest?.timelineContract}:undefined};
 }

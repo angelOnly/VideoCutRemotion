@@ -16,7 +16,7 @@ async function fixture(){
   await fs.writeFile(join(root,'文字.md'),'保留 AI、42.5%、数字与标点。\n不添加结束语。');
   await fs.writeFile(join(root,'renderer/scene.tsx'),'SOURCE_BODY_MUST_NOT_ENTER_ANALYSIS');
   await fs.writeFile(join(root,'renderer/timeline.ts'),'export {};');
-  const manifest={schemaVersion:1,templateVersion:'test-2',instructions:['../制作.md'],analysisInstructions:['../文字.md'],entry:'scene.tsx',timelineModule:'timeline.ts',wholeComposition:'Main',publicAssetRoot:'public',width:1920,height:1080,fps:30};
+  const manifest={schemaVersion:1,templateVersion:'test-2',speakerBindings:{向导:{speaker:'guide',voiceRef:'guide.voice'}},instructions:['../制作.md'],analysisInstructions:['../文字.md'],entry:'scene.tsx',timelineModule:'timeline.ts',wholeComposition:'Main',publicAssetRoot:'public',width:1920,height:1080,fps:30};
   await writeJson(join(root,'renderer/renderer-manifest.json'),manifest);
   return {root,manifest};
 }
@@ -25,6 +25,7 @@ test('Analysis 文字合同投影保留版本和摘要，不展开制作路径�
     const manifest=await validateTemplate(root),analysisContract=await readAnalysisContract(root,manifest);
     const projected=analysisTemplateInput({digest:'archive',manifest,analysisContract});
     assert.equal(projected.analysisInstructions[0].text,'保留 AI、42.5%、数字与标点。\n不添加结束语。');
+    assert.deepEqual(projected.speakerBindings,manifest.speakerBindings);
     assert.equal(projected.analysisInstructions[0].path,'文字.md');assert.equal(projected.archiveDigest,'archive');
     assert.ok(!JSON.stringify(projected).includes('scene.tsx'));assert.ok(!JSON.stringify(projected).includes('SOURCE_BODY'));
     const differentVersion=await readAnalysisContract(root,{...manifest,templateVersion:'test-3'});assert.notEqual(differentVersion.digest,analysisContract.digest);

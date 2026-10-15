@@ -59,18 +59,19 @@ test('真实 HTTP 按原网页载荷接回可见标签，删除、换人、重�
  const service=await createProductionServer(config);
  const post=(suffix:string,payload:Record<string,unknown>)=>service.app.inject({method:'POST',url:'/narrate/ai_video_director/'+suffix,payload,remoteAddress:'10.20.130.250'});
  try{
-  const a=await post('getAiVideoEditingAnalysisData',{taskId:'t',content:'【室长】原稿。',otherRequirements:'语气平实',plugin:{customTemplateId:'8'}});assert.equal(a.statusCode,202);
-  const run=service.repo.claim()!;service.repo.finish(run.runId,run.token,'succeeded',{dataList:[{id:'s1',content:'【室长】原稿。',dur:3,durationSource:'estimated'},{id:'deleted',content:'被删句。',dur:2,durationSource:'estimated'}],context:'原稿采用，保持语气平实'});
+  const a=await post('getAiVideoEditingAnalysisData',{taskId:'t',content:'【嘉宾】原稿。',otherRequirements:'语气平实',plugin:{customTemplateId:'8'}});assert.equal(a.statusCode,202);
+  const run=service.repo.claim()!;service.repo.checkpoint(run.runId,run.token!,{template:{manifest:{speakerBindings:{主持人:{speaker:'host',voiceRef:'host.voice'},嘉宾:{speaker:'guest',voiceRef:'guest.voice'}}}}});service.repo.finish(run.runId,run.token,'succeeded',{dataList:[{id:'s1',content:'【嘉宾】原稿。',dur:3,durationSource:'estimated'},{id:'deleted',content:'被删句。',dur:2,durationSource:'estimated'}],context:'原稿采用，保持语气平实'});
   const callback=JSON.parse((service.repo.db.prepare('SELECT body FROM callback_outbox WHERE run_id=?').get(run.runId) as any).body);
-  assert.equal(callback.dataList[0].content,'【室长】原稿。');
-  const payload={taskId:'t',templateId:'',introUrl:'',introIndex:0,outroUrl:'',outroIndex:0,dataList:[{id:'new',content:'【无口播：2秒】【画面：当前公司图表】',dur:3,extraData:{}},{id:'s1',content:'【财小策】改过（含括号）的稿。',dur:4,extraData:{keywordList:['公司']}}]};
+  assert.equal(callback.dataList[0].content,'【嘉宾】原稿。');
+  const payload={taskId:'t',templateId:'',introUrl:'',introIndex:0,outroUrl:'',outroIndex:0,dataList:[{id:'new',content:'【无口播：2秒】【画面：当前公司图表】',dur:3,extraData:{}},{id:'s1',content:'【主持人】改过（含括号）的稿。',dur:4,extraData:{keywordList:['公司']}}]};
   const r=await post('getAiVideoEditingData',payload);assert.equal(r.statusCode,202,r.body);
   const saved=service.repo.get(r.json().data.runId).request as any;
   assert.equal(saved.basePlanVersion,run.planVersion);assert.equal(saved.otherRequirements,'语气平实');assert.deepEqual(saved.dataList.map((s:any)=>s.id),['new','s1']);
   assert.equal(saved.dataList[0].content,'');assert.equal(saved.dataList[0].directing.durationSec,2);
-  assert.equal(saved.dataList[1].submittedContent,payload.dataList[1].content);assert.equal(saved.dataList[1].content,'改过（含括号）的稿。');assert.equal(saved.dataList[1].directing.speechTurns[0].speakerId,'caixiaoce');
+  assert.equal(saved.dataList[1].submittedContent,payload.dataList[1].content);assert.equal(saved.dataList[1].content,'改过（含括号）的稿。');assert.equal(saved.dataList[1].directing.speechTurns[0].speakerId,'主持人');
   const repeated=await post('getAiVideoEditingData',payload);assert.equal(repeated.json().data.runId,r.json().data.runId);
-  const invalid=await post('getAiVideoEditingData',{...payload,dataList:[{id:'s1',content:'【室长'}]});assert.equal(invalid.statusCode,400);
+  const invalid=await post('getAiVideoEditingData',{...payload,dataList:[{id:'s1',content:'【嘉宾'}]});assert.equal(invalid.statusCode,400);
+  const other=await post('getAiVideoEditingData',{...payload,dataList:[{id:'s1',content:'【医生】不属于此模板。'}]});assert.equal(other.statusCode,400);assert.match(other.body,/当前模板/);
   assert.equal(service.repo.list('web','t').length,2);
  }finally{await service.close();}
 });

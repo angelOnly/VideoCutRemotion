@@ -8,6 +8,9 @@ if(manifest.timelineContract!=='sentence-timeline/1'||manifest.timelineDataRef!=
 const source=await readFile(resolve(root,'renderer',manifest.timelineModule),'utf8');
 if(!source.includes("import timelineData from '../timeline.json'")||!/export const timeline: FinanceTimeline = timelineData as FinanceTimeline;/.test(source))throw new Error('渲染入口未使用唯一时间线');
 JSON.parse(await readFile(resolve(root,'renderer',manifest.timelineDataRef),'utf8'));
+// 栏目规则从生成包加载，验证换题检查确实随模板交付。
+const {pathToFileURL}=await import('node:url');
+const {verifyEpisode}=await import(pathToFileURL(resolve(root,'renderer/scripts/verify-episode.mjs')).href);
 
 // 编译本地模块及新增示例，外部依赖由正式运行环境提供。
 await build({entryPoints:[resolve(root,'renderer/src/index.ts'),resolve(root,'renderer/src/safe-visuals.tsx')],bundle:true,write:false,outdir:'unused',platform:'browser',packages:'external',jsx:'automatic',nodePaths:[resolve(dirname(fileURLToPath(import.meta.url)),'../node_modules')]});
@@ -17,6 +20,15 @@ console.log('模板源码编译通过');
 const {createRequire}=await import('node:module');
 const assert=(await import('node:assert/strict')).default;
 const require=createRequire(import.meta.url);
+assert.deepEqual(Object.keys(manifest.speakerBindings),['财小策','室长']);
+const confirmed=[{id:'s',content:'今天拆新公司。',directing:{chapter:'新公司'}}];
+const episode={scenes:[{id:'s',intro:{companyName:'新公司',companyEvidence:{sceneId:'s',field:'content',start:3,end:6}}}]};
+verifyEpisode(episode,confirmed);
+episode.scenes[0].intro.companyName='旧公司';assert.throws(()=>verifyEpisode(episode,confirmed),/当前确认/);
+episode.scenes[0].intro.companyName='新公司';episode.scenes[0].intro.companyEvidence={sceneId:'s',field:'chapter',start:0,end:3};verifyEpisode(episode,confirmed);
+confirmed[0].directing.chapter='换公司';assert.throws(()=>verifyEpisode(episode,confirmed),/当前确认/);
+episode.scenes[0].intro.companyName=null;verifyEpisode(episode,confirmed);
+console.log('模板人物表与本期公司名来源检查通过');
 const compiled=await build({entryPoints:[resolve(root,'renderer/src/validateTimeline.ts')],bundle:true,write:false,platform:'node',format:'cjs',packages:'external'});
 const mod={exports:{}};new Function('require','module','exports',compiled.outputFiles[0].text)(require,mod,mod.exports);
 const {validateTimeline}=mod.exports;

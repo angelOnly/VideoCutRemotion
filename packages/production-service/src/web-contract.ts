@@ -23,7 +23,10 @@ export function normalizeWebAnalysis(raw:unknown) {
 export function normalizeWebRender(raw:unknown,runs:Run[]) {
   // 保留原有内部指定版本/指定成片 API；网页不需要提供这些字段。
   const direct=renderRequestSchema.safeParse(raw);
-  if(direct.success)return {...direct.data,dataList:direct.data.dataList.map(s=>s.directing?s:parseSceneScript(s))};
+  if(direct.success){
+    const analysis=runs.find(r=>r.taskId===direct.data.taskId&&r.stage==='analysis'&&r.planVersion===direct.data.basePlanVersion);
+    return {...direct.data,dataList:direct.data.dataList.map(s=>s.directing?s:parseSceneScript(s,analysis?.checkpoint.template?.manifest))};
+  }
   const web=webRender.parse(raw);
   // 沿原任务关联最新一次分析；失败或尚未完成时不回退到旧结果。
   const analysis=[...runs].filter(r=>r.taskId===web.taskId&&r.stage==='analysis').sort((a,b)=>b.planVersion-a.planVersion)[0];
@@ -31,7 +34,7 @@ export function normalizeWebRender(raw:unknown,runs:Run[]) {
   const base=analysis.request as AnalysisRequest;
   if(web.templateId&&web.templateId!==base.plugin.customTemplateId)throw new ProductionError('TEMPLATE_CONFLICT','渲染模板与分析冻结模板不一致',409);
   if(web.introUrl||web.outroUrl)throw new ProductionError('UNSUPPORTED_WEB_INPUT','片头片尾由定制模板提供，不支持网页额外替换');
-  return renderRequestSchema.parse({taskId:web.taskId,basePlanVersion:analysis.planVersion,otherRequirements:base.otherRequirements,dataList:web.dataList.map(parseSceneScript)});
+  return renderRequestSchema.parse({taskId:web.taskId,basePlanVersion:analysis.planVersion,otherRequirements:base.otherRequirements,dataList:web.dataList.map(scene=>parseSceneScript(scene,analysis.checkpoint.template?.manifest))});
 }
 
 export function webCallbackFields(stage:string,result:any,templateId:string) {

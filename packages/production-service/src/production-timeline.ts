@@ -58,12 +58,6 @@ export function validateProductionTimeline(timeline:any,expected:RenderRequest['
     }
     if(scene.intro){
       requireField(typeof scene.intro.src==='string'&&scene.intro.src.trim(),`${field}.intro.src`,'片头素材缺失');
-      if(scene.intro.companyName!=null){
-        const evidence=scene.intro.companyEvidence,target=expected.find(s=>s.id===evidence?.sceneId);
-        const source=evidence?.field==='content'?target?.content:evidence?.field==='chapter'?target?.directing?.chapter:undefined;
-        requireField(typeof scene.intro.companyName==='string'&&scene.intro.companyName.trim()&&scene.intro.companyName.length<=100,`${field}.intro.companyName`,'公司名无效');
-        requireField(typeof source==='string'&&Number.isInteger(evidence?.start)&&Number.isInteger(evidence?.end)&&evidence.start>=0&&evidence.end>evidence.start&&evidence.end<=source.length&&source.slice(evidence.start,evidence.end).includes(scene.intro.companyName),`${field}.intro.companyEvidence`,'公司名须引用当前采用台词或章节标题，换题后不能沿用旧依据');
-      }
       const start=scene.intro.fromFrame??0,end=start+scene.intro.frames;
       requireField(Number.isInteger(start)&&start>=0&&Number.isInteger(scene.intro.frames)&&scene.intro.frames>0&&end<=scene.frames,`${field}.intro`,'片头须有实测帧数并位于场景内');
       requireField(!scene.chapter||start>=scene.chapter.frames,`${field}.intro`,'片头与章节转场重叠');

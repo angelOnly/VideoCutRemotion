@@ -30,7 +30,7 @@ export async function readAnalysisContract(root:string,manifest:z.infer<typeof m
 }
 export function analysisTemplateInput(template:{digest:string;manifest:z.infer<typeof manifestSchema>;analysisContract:AnalysisContract}){
   const {manifest,analysisContract}=template;
-  return {templateVersion:manifest.templateVersion,archiveDigest:template.digest,analysisContractDigest:analysisContract.digest,width:manifest.width,height:manifest.height,fps:manifest.fps,analysisInstructions:analysisContract.files};
+  return {templateVersion:manifest.templateVersion,archiveDigest:template.digest,analysisContractDigest:analysisContract.digest,width:manifest.width,height:manifest.height,fps:manifest.fps,analysisInstructions:analysisContract.files,speakerBindings:manifest.speakerBindings??{}};
 }
 export async function extractZip(zipPath:string,destination:string,maxBytes=1024*1024*1024) {
   await fs.mkdir(destination,{recursive:true});

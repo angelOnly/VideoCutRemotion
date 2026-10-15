@@ -1,7 +1,8 @@
 import {ProductionError,sceneSchema,type RenderRequest} from './contracts.js';
+import type {TemplatePerformanceContract} from './template-package.js';
 
 /** 网页仍只传当前文本；仅解释明确的标签，不猜人物，也不删除普通括号。 */
-export function parseSceneScript(scene:{id:string;content:string}):RenderRequest['dataList'][number]{
+export function parseSceneScript(scene:{id:string;content:string},template:TemplatePerformanceContract={}):RenderRequest['dataList'][number]{
   const submittedContent=scene.content;
   if(!/[【】]/u.test(submittedContent))return sceneSchema.parse({id:scene.id,content:submittedContent});
   const fail=(message:string):never=>{throw new ProductionError('SCRIPT_TAG_INVALID',`${scene.id}：${message}`);};
@@ -18,14 +19,15 @@ export function parseSceneScript(scene:{id:string;content:string}):RenderRequest
   for(const match of submittedContent.matchAll(/【([^【】]*)】/gu)){
     append(submittedContent.slice(cursor,match.index));cursor=match.index!+match[0].length;
     const label=match[1].trim();
-    if(label==='财小策'||label==='室长'){speakerId=label==='财小策'?'caixiaoce':'shizhang';continue;}
+    // 可见人物名就是模板绑定的键；通用服务不维护栏目人物或别名。
+    if(Object.hasOwn(template.speakerBindings??{},label)){speakerId=label;continue;}
     const direction=/^画面\s*[:：]\s*(.+)$/su.exec(label);
     if(direction){visualDirections.push(direction[1].trim());continue;}
     const title=/^章节\s*[:：]\s*(.+)$/su.exec(label);
     if(title){if(chapter!==undefined)fail('同一分镜只能有一个章节标签');chapter=title[1].trim();continue;}
     const visual=/^无口播\s*[:：]\s*(\d+(?:\.\d+)?)\s*秒$/u.exec(label);
     if(visual){if(durationSec!==undefined)fail('同一分镜只能有一个无口播时长');durationSec=Number(visual[1]);continue;}
-    fail(`无法识别标签【${label}】，请使用人物、画面、章节或无口播标签`);
+    fail(`无法识别标签【${label}】，请使用当前模板声明的人物、画面、章节或无口播标签`);
   }
   append(submittedContent.slice(cursor));
   if(durationSec!==undefined&&content.trim())fail('无口播分镜不能同时包含台词');

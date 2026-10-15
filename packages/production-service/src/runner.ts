@@ -80,7 +80,7 @@ export class ProductionRunner {
         const parsed=analysisResultSchema.parse(result);if(parsed.runId!==run.runId||parsed.taskId!==run.taskId||parsed.inputDigest!==run.inputDigest)throw new ProductionError('ANALYSIS_IDENTITY_INVALID','分析结果身份不符');
         if(new Set(parsed.dataList.map(s=>s.id)).size!==parsed.dataList.length)throw new ProductionError('ANALYSIS_IDS_INVALID','分析分镜 ID 重复');
         // 校验可见标签，采用及替换说明沿原 context 保存，不再登记逐字符来源台账。
-        parsed.dataList.forEach(parseSceneScript);
+        parsed.dataList.forEach(scene=>parseSceneScript(scene,run.checkpoint.template.manifest));
         await fs.writeFile(join(root,'analysis-context.md'),parsed.context);
         this.repo.checkpoint(run.runId,run.token!,{analysisBasis:{inputDigest:run.inputDigest,templateVersion:run.checkpoint.template.manifest.templateVersion,templateDigest:run.checkpoint.template.digest,analysisContractDigest:run.checkpoint.template.analysisContract.digest}});
         this.repo.finish(run.runId,run.token,'succeeded',parsed);

@@ -15,7 +15,7 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
   const root=await fs.mkdtemp(join(tmpdir(),'vfc-http-')),template=join(root,'template');await fs.mkdir(join(template,'renderer/public'),{recursive:true});
   await fs.writeFile(join(template,'说明.md'),'此文件是协议测试模板，不是真实创作结果。');await fs.writeFile(join(template,'renderer/src.ts'),'export {};');await fs.writeFile(join(template,'renderer/timeline.json'),'{}');
   await fs.writeFile(join(template,'文字合同.md'),'逐字保留正文、顺序、数字、英文及换行。');
-  await writeJson(join(template,'renderer/renderer-manifest.json'),{schemaVersion:1,templateVersion:'1',analysisInstructions:['../文字合同.md'],instructions:['../说明.md'],entry:'src.ts',wholeComposition:'Test',timelineModule:'timeline.json',publicAssetRoot:'public',width:320,height:180,fps:30,voiceRefs:[]});
+  await writeJson(join(template,'renderer/renderer-manifest.json'),{schemaVersion:1,templateVersion:'1',speakerBindings:{解说员:{speaker:'narrator',voiceRef:'narrator.voice'}},analysisInstructions:['../文字合同.md'],instructions:['../说明.md'],entry:'src.ts',wholeComposition:'Test',timelineModule:'timeline.json',publicAssetRoot:'public',width:320,height:180,fps:30,voiceRefs:[]});
   const zip=join(root,'template.zip');await processFile('python',['-c',"import pathlib,zipfile,sys; p=pathlib.Path(sys.argv[1]); z=zipfile.ZipFile(sys.argv[2],'w'); [z.write(f,f.relative_to(p).as_posix() + ('/' if f.is_dir() else '')) for f in p.rglob('*')]; z.close()",template,zip]);
   const media=join(root,'stub.mp4'),wholeMedia=join(root,'whole.mp4');
   // 接口测试只验证文件与回调，使用 FFmpeg 内建编码器生成隔离小样。
@@ -28,13 +28,14 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
       const input=await json(join(runRoot,'input.json'));
       assert.equal(input.template.templateVersion,run.checkpoint.template.manifest.templateVersion);
       assert.equal(input.template.analysisInstructions[0].text,'逐字保留正文、顺序、数字、英文及换行。');
+      assert.deepEqual(input.template.speakerBindings,{解说员:{speaker:'narrator',voiceRef:'narrator.voice'}});
       assert.equal(input.template.root,undefined);assert.equal(input.template.manifest,undefined);assert.equal(input.projectRoot,undefined);
       assert.ok(!JSON.stringify(input).includes('src.ts'));
     }
-    if(run.stage==='analysis')result={taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,dataList:[{id:'s1',content:'第一段。',dur:1,durationSource:'estimated'},{id:'s2',content:'第二段。',dur:1,durationSource:'estimated'}],context:'已读测试模板；执行器为 stub。'};
+    if(run.stage==='analysis')result={taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,dataList:[{id:'s1',content:'【解说员】第一段。',dur:1,durationSource:'estimated'},{id:'s2',content:'第二段。',dur:1,durationSource:'estimated'}],context:'已读测试模板；执行器为 stub。'};
     else{
       const prepared=await json(join(runRoot,'input.json'));
-      assert.equal(prepared.analysisInput.content,'第一段。第二段。');assert.equal(prepared.analysis.dataList[0].content,'第一段。');assert.deepEqual(prepared.request,run.request);
+      assert.equal(prepared.analysisInput.content,'第一段。第二段。');assert.equal(prepared.analysis.dataList[0].content,'【解说员】第一段。');assert.deepEqual(prepared.request,run.request);
       const scenes=(run.request as any).dataList;
       const timeline={fps:30,totalFrames:60,scenes:scenes.map((s:any,i:number)=>({id:s.id,from:i*30,frames:30,utterances:[{id:`u${i}`,text:s.content,startFrame:0,endFrameExclusive:30}],captions:[{text:s.content,startFrame:0,endFrameExclusive:30}]}))};
       await writeJson(join(runRoot,'project/renderer/timeline.json'),timeline);

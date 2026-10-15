@@ -45,4 +45,4 @@
 
 指定 speechTurns 按人物边界拆现有自然句段，保留 turnId，segmentId 继续作为 utterance.id；不跨人物、不按问号猜角色。visualDirections 与 chapter 交视觉作者，绝不拼入 TTS。kind=visual 只用明确画面与 durationSec 推进，不能从配音失败推断无口播。
 
-片头公司名由当前采用台词或章节标题确定，保存 scene.intro.companyName 与 companyEvidence={sceneId,field:'content'或'chapter',start,end}，范围为当前正文 UTF-16 半开区间；多家公司主次不明或没有公司用 null。编辑换题后重新核对，不引用原模板标题或旧任务。只在原片头范围叠字，保留素材、声音及全部原时序。
+栏目人物、标题和固定包装的规则、专属字段及检查步骤从当前模板 manifest.instructions 读取。根据本次确认内容执行模板要求，不沿用模板样稿或历史任务的具体内容。
