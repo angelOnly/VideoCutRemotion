@@ -1,3 +1,4 @@
+import {chapterWorkPlan} from './chapter-work.js';
 import {parseSceneScript} from './scene-script.js';
 import { promises as fs } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -40,7 +41,7 @@ export class ProductionRunner {
     run=this.repo.checkpoint(run.runId,run.token!,{template,release:this.config.release});
     const identity={taskId:run.taskId,runId:run.runId,stage:run.stage,inputDigest:run.inputDigest,request:run.request};
     // Analysis 只展开冻结文字；源码路径和完整制作 manifest 留在服务检查点。
-    await writeJson(join(root,'input.json'),run.stage==='analysis'?{...identity,template:analysisTemplateInput(template)}:{...identity,template,analysis:analysis?.result,analysisInput:analysis?.request,baseRender:base?{runId:base.runId,result:base.result,request:base.request}:null,workRoot:root,projectRoot:join(root,'project'),release:this.config.release});
+    await writeJson(join(root,'input.json'),run.stage==='analysis'?{...identity,template:analysisTemplateInput(template)}:{...identity,chapterWork:chapterWorkPlan((run.request as RenderRequest).dataList),template,analysis:analysis?.result,analysisInput:analysis?.request,baseRender:base?{runId:base.runId,result:base.result,request:base.request}:null,workRoot:root,projectRoot:join(root,'project'),release:this.config.release});
     // 从实际校验器生成协议，避免示例文字被误读为字段类型。
     await writeJson(join(root,'result-schema.json'),zodToJsonSchema(run.stage==='analysis'?analysisResultSchema:deliverySchema,{$refStrategy:'none'}));
     return run;

@@ -12,6 +12,8 @@ prepare_review 输入 renderRequestIds、phase（pre_export 或 post_export）�
 
 ## 原生分派、部分观察与恢复
 
+每完成一个检查单元即保存自己的报告，未完成部分标 partial。主协调收到可用报告即提交，不等待其他作者全部结束。连续两分钟没有可见进展时先读取原代理状态并询问剩余范围；仍无响应时中断原代理，保存已有报告，再按原检查包续接剩余工作。需要更换负责人时沿现有分派恢复接口处理，不能重新制材或把超时当作通过。
+
 主协调先通过宿主真实创建或续接审片代理，再调用 assign_review_work({reviewId,unitId,reviewerAgentId,assignmentRequestId}) 登记对应单元。reviewerAgentId 必须来自真实代理返回；服务仅记录 coordinator_reported 来源，不把该字段当作经认证的代理身份。assignmentRequestId 稳定重试，不同输入换新请求；assignmentToken 是分派版本标识，不是访问凭据。
 
 主协调将返回的检查包和独立报告路径交给该代理。审片者实际查看证据后，把完整机器可读结果写入当前 Run 的 records/review-results/ 下自己的 JSON 文件；只写报告，不修改作品源码、媒体或生产对象，也不调用正式写入工具。回传报告路径及必要的问题摘要，主协调不重新抄写观察、编号或拼接多个作者的 JSON。

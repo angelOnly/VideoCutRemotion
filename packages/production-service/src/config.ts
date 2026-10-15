@@ -16,13 +16,13 @@ export function readOptimizationConfig(env:NodeJS.ProcessEnv=process.env){
   const renderStrategy=env.TEXTVIDEO_RENDER_STRATEGY??'scene-chunks';
   if(renderStrategy!=='scene-chunks'&&renderStrategy!=='whole-slices')throw new ProductionError('CONFIG_INVALID','TEXTVIDEO_RENDER_STRATEGY 必须是 scene-chunks 或 whole-slices',503);
   const integer=(name:string,fallback:number,max:number)=>{const value=Number(env[name]??fallback);if(!Number.isInteger(value)||value<1||value>max)throw new ProductionError('CONFIG_INVALID',`${name} 必须是 1 到 ${max} 的整数`,503);return value;};
-  return {qaParallelReview:boolean('TEXTVIDEO_QA_PARALLEL_REVIEW',true),qaMaxReviewers,previewOnDemand:boolean('TEXTVIDEO_PREVIEW_ON_DEMAND',true),sceneCutMode:sceneCutMode as 'accurate'|'hybrid',mediaTiming:boolean('TEXTVIDEO_MEDIA_TIMING',true),renderStrategy:renderStrategy as 'scene-chunks'|'whole-slices',mediaGlobalConcurrency:integer('TEXTVIDEO_MEDIA_GLOBAL_CONCURRENCY',16,128),mediaRunConcurrency:integer('TEXTVIDEO_MEDIA_RUN_CONCURRENCY',2,8),mediaProcessConcurrency:integer('TEXTVIDEO_MEDIA_PROCESS_CONCURRENCY',4,32)};
+  return {qaParallelReview:boolean('TEXTVIDEO_QA_PARALLEL_REVIEW',true),qaMaxReviewers,previewOnDemand:boolean('TEXTVIDEO_PREVIEW_ON_DEMAND',true),sceneCutMode:sceneCutMode as 'accurate'|'hybrid',mediaTiming:boolean('TEXTVIDEO_MEDIA_TIMING',true),renderStrategy:renderStrategy as 'scene-chunks'|'whole-slices',mediaGlobalConcurrency:integer('TEXTVIDEO_MEDIA_GLOBAL_CONCURRENCY',16,128),mediaRunConcurrency:integer('TEXTVIDEO_MEDIA_RUN_CONCURRENCY',4,8),mediaProcessConcurrency:integer('TEXTVIDEO_MEDIA_PROCESS_CONCURRENCY',5,32)};
 }
 export function readProductionConfig(){
   const required=(name:string)=>{const value=process.env[name];if(!value)throw new ProductionError('CONFIG_REQUIRED',`缺少部署配置 ${name}`,503);return value;};
   const positive=(name:string,fallback:number,max:number)=>{const value=Number(process.env[name]??fallback);if(!Number.isInteger(value)||value<1||value>max)throw new ProductionError('CONFIG_INVALID',`${name} 必须是 1 到 ${max} 的整数`,503);return value;};
   const optimization=readOptimizationConfig();
-  const maxActiveRuns=positive('TEXTVIDEO_MAX_ACTIVE_RUNS',4,4),renderConcurrency=positive('TEXTVIDEO_RENDER_CONCURRENCY',4,32);
+  const maxActiveRuns=positive('TEXTVIDEO_MAX_ACTIVE_RUNS',4,4),renderConcurrency=positive('TEXTVIDEO_RENDER_CONCURRENCY',3,32);
   if(renderConcurrency>optimization.mediaGlobalConcurrency)throw new ProductionError('CONFIG_INVALID','单片绘图并发不能超过全局绘图预算',503);
   const speechConcurrency=positive('TEXTVIDEO_SPEECH_CONCURRENCY',20,20),speechPerRunConcurrency=positive('TEXTVIDEO_SPEECH_PER_RUN_CONCURRENCY',5,5);
   if(speechPerRunConcurrency>speechConcurrency)throw new ProductionError('CONFIG_INVALID','单任务配音并发不能超过全局并发',503);

@@ -16,13 +16,13 @@ const engine={bundle,selectComposition,renderMedia,renderFrames,openBrowser};
 const runId='00000000-0000-4000-8000-000000000001';
 const browser=process.env.TEST_BROWSER??(process.platform==='darwin'?'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome':undefined);
 const ffmpeg=process.env.FFMPEG_PATH??'ffmpeg';
-async function fixture(root:string){
+async function fixture(root:string,five=false){
  const p=join(root,'project'),renderer=join(p,'renderer');await fs.mkdir(join(renderer,'public'),{recursive:true});
  await fs.writeFile(join(p,'说明.md'),'隔离媒体测试');await fs.writeFile(join(renderer,'timeline.ts'),'export default {};');
  await fs.writeFile(join(renderer,'index.tsx'),`import React from 'react';import {Composition,registerRoot,useCurrentFrame,AbsoluteFill,Audio,staticFile} from 'remotion';const Frame=()=>{const f=useCurrentFrame();return <AbsoluteFill style={{backgroundColor:f===0?'red':f<14?'lime':'blue'}}><div style={{position:'absolute',left:f,top:10,width:4,height:4,backgroundColor:'white'}}/><Audio src={staticFile('voice.wav')}/></AbsoluteFill>};registerRoot(()=> <Composition id="Main" component={Frame} width={64} height={64} fps={30} durationInFrames={37}/>);`);
  await processFile(ffmpeg,['-v','error','-f','lavfi','-i','aevalsrc=0.2*sin(2*PI*(220*t+110*t*t)):s=48000','-t','2','-c:a','pcm_s16le',join(renderer,'public/voice.wav')]);
  await writeJson(join(renderer,'renderer-manifest.json'),{schemaVersion:1,templateVersion:'test',instructions:['../说明.md'],entry:'index.tsx',timelineModule:'timeline.ts',wholeComposition:'Main',publicAssetRoot:'public',width:64,height:64,fps:30,voiceRefs:[]});
- const ranges=[{id:'a',fromFrame:0,toFrame:1},{id:'b',fromFrame:1,toFrame:14},{id:'c',fromFrame:14,toFrame:37}];
+ const ranges=five?[{id:'a',fromFrame:0,toFrame:1},{id:'b',fromFrame:1,toFrame:7},{id:'c',fromFrame:7,toFrame:14},{id:'d',fromFrame:14,toFrame:25},{id:'e',fromFrame:25,toFrame:37}]:[{id:'a',fromFrame:0,toFrame:1},{id:'b',fromFrame:1,toFrame:14},{id:'c',fromFrame:14,toFrame:37}];
  const timeline={fps:30,totalFrames:37,scenes:ranges.map(r=>({id:r.id,from:r.fromFrame,frames:r.toFrame-r.fromFrame,utterances:[{startFrame:0,endFrameExclusive:r.toFrame-r.fromFrame}]}))};
  await writeJson(join(p,'timeline.json'),timeline);
  const sourceDigest=await treeDigest(p),timelineSha256=sha256(JSON.stringify(timeline));await writeJson(join(root,'checks/sentence-audio-working.json'),{sourceDigest,timelineSha256});
@@ -38,35 +38,35 @@ test('有限队列乱序完成仍保序；失败停止新增并等待活动工�
  const fps=30000/1001,bounds=[0,1,14,37];assert.equal(bounds.slice(1).reduce((sum,b,i)=>sum+frameSample(b,fps)-frameSample(bounds[i],fps),0),frameSample(37,fps));
 });
 
-test('连续音轨未完成时两路画面同时派发；任一分支失败后停止新增并等待全部预算收口',async()=>{
+test('连续音轨未完成时四路画面同时派发；任一分支失败后停止新增并等待全部预算收口',async()=>{
  const root=await fs.mkdtemp(join(tmpdir(),'scene-audio-scheduling-'));
  try{
-  const {run,ranges,audioAudits}=await fixture(root);
+  const {run,ranges,audioAudits}=await fixture(root,true);
   for(const failedUnit of ['audio','visual-0']){
-   const budget=new MediaBudget(3,3),started:string[]=[],active=new Set<string>(),ready:string[]=[];
+   const budget=new MediaBudget(16,5),started:string[]=[],active=new Set<string>(),ready:string[]=[];
    const releases=new Map<string,()=>void>(),firstFailure=new Error(`注入${failedUnit}失败`);
-   const gates=new Map(['audio','visual-0','visual-1','visual-14'].map(id=>[id,new Promise<void>(resolve=>releases.set(id,resolve))]));
+   const gates=new Map(['audio','visual-0','visual-1','visual-7','visual-14','visual-25'].map(id=>[id,new Promise<void>(resolve=>releases.set(id,resolve))]));
    let allStarted!:()=>void;const startedThree=new Promise<void>(resolve=>{allStarted=resolve;});
    let settled=false,outcome:Promise<unknown>|undefined;
-   const options:RenderOptions={dependencyRoot:process.cwd(),concurrency:1,runConcurrency:2,renderStrategy:'scene-chunks',audioAudits,budget,onFileReady:async f=>{ready.push(f.id);}};
+   const options:RenderOptions={dependencyRoot:process.cwd(),concurrency:3,runConcurrency:4,renderStrategy:'scene-chunks',audioAudits,budget,onFileReady:async f=>{ready.push(f.id);}};
    const backend={...engine,bundle:async()=> 'isolated',selectComposition:async()=>({id:'Main',width:64,height:64,fps:30,durationInFrames:37,props:{},defaultProps:{}} as any),renderMedia:async(o:any)=>{
     const id=o.codec==='wav'?'audio':`visual-${o.frameRange[0]}`;
-    started.push(id);active.add(id);if(active.size===3)allStarted();
+    started.push(id);active.add(id);if(active.size===5)allStarted();
     try{await gates.get(id);throw id===failedUnit?firstFailure:new Error(`已收口${id}`);}finally{active.delete(id);}
    }};
    try{
     outcome=renderTemplate(run,root,{runId,renderRequestId:`schedule-${failedUnit}`,timelineRef:'timeline.json',ranges,checks:[],previewOnly:false},options,backend).then(()=>{settled=true;return new Error('失败作业不应交付');},error=>{settled=true;return error;});
     let timer:ReturnType<typeof setTimeout>|undefined;
     try{await Promise.race([startedThree,new Promise<void>((_,reject)=>{timer=setTimeout(()=>reject(new Error('声音阻塞了第二路画面派发')),5000);})]);}finally{clearTimeout(timer);}
-    assert.deepEqual(new Set(started),new Set(['audio','visual-0','visual-1']));
-    assert.deepEqual(budget.active,{drawing:3,processes:3},'声音和两路画面都须领取现有预算');
+    assert.deepEqual(new Set(started),new Set(['audio','visual-0','visual-1','visual-7','visual-14']));
+    assert.deepEqual(budget.active,{drawing:15,processes:5},'声音和四路画面都须领取现有预算');
     releases.get(failedUnit)!();await new Promise<void>(resolve=>setImmediate(resolve));
     assert.equal(settled,false,'不能在其他已启动任务结束前返回失败');
-    assert.equal(started.length,3,'失败后不再派发第三段画面');
-    assert.deepEqual(budget.active,{drawing:2,processes:2});
+    assert.equal(started.length,5,'失败后不再派发第五段画面');
+    assert.deepEqual(budget.active,{drawing:12,processes:4});
     const remaining=[...active];releases.get(remaining[0])!();await new Promise<void>(resolve=>setImmediate(resolve));
-    assert.equal(settled,false);assert.deepEqual(budget.active,{drawing:1,processes:1});
-    releases.get(remaining[1])!();assert.equal(await outcome,firstFailure);
+    assert.equal(settled,false);assert.deepEqual(budget.active,{drawing:9,processes:3});
+    for(const id of remaining.slice(1))releases.get(id)!();assert.equal(await outcome,firstFailure);
     assert.equal(active.size,0);assert.deepEqual(budget.active,{drawing:0,processes:0});assert.deepEqual(ready,[]);
    }finally{for(const release of releases.values())release();await outcome;}
   }

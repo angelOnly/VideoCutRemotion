@@ -150,3 +150,13 @@ const View=({companyName,bodyEnd})=>{const scene={...base.scenes[0],intro:{...ba
     console.log('实际模板边界、换题、长名称与同镜换人静帧：'+frameRoot);
   }finally{await browser?.close({silent:true});await rm(entry,{force:true});await rm(audio,{force:true});}
 }
+// 定制图解提前校验不得加载组件，否则会再次触发 React 依赖故障。
+const customCheck=await build({entryPoints:[resolve(root,'renderer/src/validateTimeline.ts')],bundle:true,write:false,platform:'node',format:'cjs',plugins:[{name:'isolated-validator',setup(api){
+ api.onLoad({filter:/visualExtensions\.tsx$/},()=>{throw new Error('纯校验错误加载了画面组件');});
+ api.onLoad({filter:/visualValidators\.ts$/},()=>({contents:"export const visualValidators={custom:(b)=>{if(b.props.value!=='ok')throw new Error('自定义参数无效')}};",loader:'js'}));
+}}]});
+const customModule={exports:{}};new Function('module','exports',customCheck.outputFiles[0].text)(customModule,customModule.exports);
+const customTimeline=make();customTimeline.chapters[0].visualBlocks[0].kind='custom';customTimeline.chapters[0].visualBlocks[0].props={value:'ok'};
+customModule.exports.validateTimeline(customTimeline);
+customTimeline.chapters[0].visualBlocks[0].props.value='bad';assert.throws(()=>customModule.exports.validateTimeline(customTimeline),/自定义参数无效/);
+console.log('定制图解纯校验与 React 组件依赖隔离通过');

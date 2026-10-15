@@ -30,7 +30,7 @@ manifest['speakerBindings']={
     '室长':{'speaker':'male-chief','voiceRef':'finance.male'},
 }
 manifest['captionTimingPolicy']='authored'
-manifest.update(templateVersion='2.0.8',timelineDataRef='timeline.json',timelineContract='sentence-timeline/1',timelineValidator='src/validateTimeline.ts',analysisInstructions=['../文字分析合同.md'],instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
+manifest.update(templateVersion='2.0.9',timelineDataRef='timeline.json',timelineContract='sentence-timeline/1',timelineValidator='src/validateTimeline.ts',analysisInstructions=['../文字分析合同.md'],instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
 (output/'renderer/renderer-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 file=output/'renderer/src/FinancialDialogue.tsx';s=file.read_text(encoding='utf-8').replace('AbsoluteFill, Audio,','AbsoluteFill, Audio, OffthreadVideo,')
 start=s.index('export const FinanceEpisode:')
@@ -69,6 +69,13 @@ if fonts:
     s+='\nconst fontHandle=delayRender("加载模板中文字体");\nconst font=new FontFace("Noto Sans CJK SC",`url(${staticFile("fonts/'+fonts[0].name+'")})`);\nfont.load().then(f=>{document.fonts.add(f);continueRender(fontHandle);});\n'
     entry.write_text(s,encoding='utf-8')
 runpy.run_path(str(Path(__file__).with_name('patch-finance-template.py')))['patch_template'](output)
+# 纯校验只加载参数规则，不能经注册表带入 React 组件。
+src=output/'renderer/src'
+f=src/'validateTimeline.ts'
+s=f.read_text(encoding='utf-8').replace("import {visualExtensions} from './visualExtensions';", "import {visualValidators} from './visualValidators';")
+s=s.replace('visualExtensions[b.kind]', 'visualValidators[b.kind]').replace("extension && typeof extension.component === 'function' && typeof extension.validate === 'function'", "typeof extension === 'function'").replace('extension.validate(b)', 'extension(b)')
+f.write_text(s,encoding='utf-8')
+(src/'visualValidators.ts').write_text("import type {VisualBlock} from './types';\n// 这里只导入纯参数规则，禁止导入画面组件。\nexport const visualValidators: Record<string, (block: VisualBlock) => void> = {};\n",encoding='utf-8')
 subprocess.run(['node', str(Path(__file__).with_name('verify-finance-template.mjs')), str(output)], check=True)
 archive=output.with_suffix('.zip')
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:

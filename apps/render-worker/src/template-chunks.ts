@@ -116,7 +116,7 @@ export async function renderSceneChunks(args:{run:Run;root:string;input:Template
   };
   await Promise.all([
     finishTask(async()=>{if(audioTask)await audioTask();}),
-    finishTask(()=>mapMediaLimited(visualTasks,options.runConcurrency??2,task=>finishTask(task)))
+    finishTask(()=>mapMediaLimited(visualTasks,options.runConcurrency??4,task=>finishTask(task)))
   ]);
   if(failure)throw failure.error;
   cancelled(options);
@@ -130,7 +130,7 @@ export async function renderSceneChunks(args:{run:Run;root:string;input:Template
     const media=await processWork(run.runId,options,()=>validateVideoOutput(file.file,extent,options.signal,options.metrics));
     if((await record(file.id,file.file,extent,media.duration)).content!==file.content)throw new ProductionError('FILE_IDENTITY_INVALID','原封装文件正文不符');files.set(file.id,file);
   }
-  await mapMediaLimited(expected,options.runConcurrency??2,async(extent,index)=>{
+  await mapMediaLimited(expected,options.runConcurrency??4,async(extent,index)=>{
     if(files.has(extent.id))return;cancelled(options);await options.onOutputStart?.(extent.id);
     const path=join(output,`${index}.mp4`),pending=join(output,`${index}.pending.mp4`);
     try{
