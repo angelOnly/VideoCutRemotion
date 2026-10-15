@@ -1,14 +1,17 @@
 import {promises as fs} from 'node:fs';
 import {join,dirname} from 'node:path';
 import {z} from 'zod';
+import {zodToJsonSchema} from 'zod-to-json-schema';
 import {canonical,sha256,ProductionError,type Run,type RenderRequest} from './contracts.js';
 import {inside,regular,json,writeJson,type PcmMeasurement} from './files.js';
 import {validateTemplate} from './template-package.js';
 import {validateProductionTimeline,reviewChaptersFromTimeline,SENTENCE_TIMELINE_CONTRACT} from './production-timeline.js';
 import type {DoubaoService} from '../../speech-services/src/doubao.js';
 const key=z.string().regex(/^[A-Za-z0-9_-]{1,100}$/),frames=z.number().int().nonnegative();
-export const sentenceAssemblySchema=z.object({assemblyRequestId:key,speechBatchRequestIds:z.array(key).min(1),planRef:z.string().min(1),expectedTimelineSha256:z.string().regex(/^[a-f0-9]{64}$/)}).strict();
 export const sentenceAssemblyPlanSchema=z.object({scenes:z.array(z.object({sceneId:z.string().min(1),utterances:z.array(z.object({id:z.string().min(1),gapBeforeFrames:frames.optional(),captionText:z.string().min(1).optional()}).strict()).min(1).optional(),tailFrames:frames.optional(),captionTiming:z.object({src:z.string().min(1),sha256:z.string().regex(/^[a-f0-9]{64}$/)}).strict().optional()}).strict()).min(1),chapters:z.array(z.object({chapterId:z.string().min(1),sceneIds:z.array(z.string().min(1)).min(1)}).strict()).optional()}).strict();
+// 计划文件不在工具入参中，必须把同源结构暴露给作者，避免靠错误猜字段。
+export const sentenceAssemblyPlanJsonSchema=zodToJsonSchema(sentenceAssemblyPlanSchema,{$refStrategy:'none'});
+export const sentenceAssemblySchema=z.object({assemblyRequestId:key,speechBatchRequestIds:z.array(key).min(1),planRef:z.string().min(1).describe('相对 project 的 JSON 计划文件。完整结构：'+JSON.stringify(sentenceAssemblyPlanJsonSchema)),expectedTimelineSha256:z.string().regex(/^[a-f0-9]{64}$/)}).strict();
 const normalized=(s:unknown)=>String(s??'').replace(/\s+/gu,'');
 function ensure(value:unknown,message:string):asserts value{if(!value)throw new ProductionError('SENTENCE_ASSEMBLY_INVALID',message);}
 function cancelled(signal?:AbortSignal){if(signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','装配提交已取消');}
@@ -31,7 +34,9 @@ export async function assembleSentenceAudio(run:Run,runRoot:string,raw:unknown,s
   if(prior){ensure(prior.runId===run.runId,'装配记录不属于当前 Run');if(canonical(prior.input)!==canonical(input))conflict('同一装配编号不可改变输入，请读取原记录');}
   const planPath=await regular(project,input.planRef).catch((e:any)=>{if(e.code==='ENOENT'&&prior?.state==='succeeded')return null;throw e;});
   if(!planPath)return prior.result;
-  const planBytes=await fs.readFile(planPath),plan=sentenceAssemblyPlanSchema.parse(JSON.parse(planBytes.toString('utf8'))),digest=sha256(canonical({input,planSha256:sha256(planBytes)}));
+  const planBytes=await fs.readFile(planPath),parsedPlan=sentenceAssemblyPlanSchema.safeParse(JSON.parse(planBytes.toString('utf8')));
+  if(!parsedPlan.success)throw new ProductionError('SENTENCE_ASSEMBLY_PLAN_INVALID',`计划字段错误：${JSON.stringify(parsedPlan.error.issues)}。完整结构：${JSON.stringify(sentenceAssemblyPlanJsonSchema)}`);
+  const plan=parsedPlan.data,digest=sha256(canonical({input,planSha256:sha256(planBytes)}));
   if(prior&&prior.inputDigest!==digest)conflict('同一装配编号不可改变输入或计划，请读取原装配记录');
   if(prior?.state==='succeeded')return prior.result;
   const manifest=await validateTemplate(project);

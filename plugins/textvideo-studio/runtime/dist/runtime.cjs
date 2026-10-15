@@ -2207,6 +2207,7 @@ var MediaJobEvents = class {
 var import_node_fs11 = require("node:fs");
 var import_node_path13 = require("node:path");
 var import_zod4 = require("zod");
+var import_zod_to_json_schema3 = require("zod-to-json-schema");
 
 // packages/production-service/src/production-timeline.ts
 var import_node_fs10 = require("node:fs");
@@ -2360,8 +2361,9 @@ async function preflightTimeline(project, expected, options = {}) {
 // packages/production-service/src/sentence-audio-assembly.ts
 var key = import_zod4.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
 var frames = import_zod4.z.number().int().nonnegative();
-var sentenceAssemblySchema = import_zod4.z.object({ assemblyRequestId: key, speechBatchRequestIds: import_zod4.z.array(key).min(1), planRef: import_zod4.z.string().min(1), expectedTimelineSha256: import_zod4.z.string().regex(/^[a-f0-9]{64}$/) }).strict();
 var sentenceAssemblyPlanSchema = import_zod4.z.object({ scenes: import_zod4.z.array(import_zod4.z.object({ sceneId: import_zod4.z.string().min(1), utterances: import_zod4.z.array(import_zod4.z.object({ id: import_zod4.z.string().min(1), gapBeforeFrames: frames.optional(), captionText: import_zod4.z.string().min(1).optional() }).strict()).min(1).optional(), tailFrames: frames.optional(), captionTiming: import_zod4.z.object({ src: import_zod4.z.string().min(1), sha256: import_zod4.z.string().regex(/^[a-f0-9]{64}$/) }).strict().optional() }).strict()).min(1), chapters: import_zod4.z.array(import_zod4.z.object({ chapterId: import_zod4.z.string().min(1), sceneIds: import_zod4.z.array(import_zod4.z.string().min(1)).min(1) }).strict()).optional() }).strict();
+var sentenceAssemblyPlanJsonSchema = (0, import_zod_to_json_schema3.zodToJsonSchema)(sentenceAssemblyPlanSchema, { $refStrategy: "none" });
+var sentenceAssemblySchema = import_zod4.z.object({ assemblyRequestId: key, speechBatchRequestIds: import_zod4.z.array(key).min(1), planRef: import_zod4.z.string().min(1).describe("\u76F8\u5BF9 project \u7684 JSON \u8BA1\u5212\u6587\u4EF6\u3002\u5B8C\u6574\u7ED3\u6784\uFF1A" + JSON.stringify(sentenceAssemblyPlanJsonSchema)), expectedTimelineSha256: import_zod4.z.string().regex(/^[a-f0-9]{64}$/) }).strict();
 var normalized2 = (s) => String(s ?? "").replace(/\s+/gu, "");
 function ensure2(value, message) {
   if (!value) throw new ProductionError("SENTENCE_ASSEMBLY_INVALID", message);
@@ -2408,7 +2410,9 @@ async function assembleSentenceAudio(run, runRoot, raw, speech, signal) {
     throw e;
   });
   if (!planPath) return prior.result;
-  const planBytes = await import_node_fs11.promises.readFile(planPath), plan = sentenceAssemblyPlanSchema.parse(JSON.parse(planBytes.toString("utf8"))), digest = sha256(canonical({ input, planSha256: sha256(planBytes) }));
+  const planBytes = await import_node_fs11.promises.readFile(planPath), parsedPlan = sentenceAssemblyPlanSchema.safeParse(JSON.parse(planBytes.toString("utf8")));
+  if (!parsedPlan.success) throw new ProductionError("SENTENCE_ASSEMBLY_PLAN_INVALID", `\u8BA1\u5212\u5B57\u6BB5\u9519\u8BEF\uFF1A${JSON.stringify(parsedPlan.error.issues)}\u3002\u5B8C\u6574\u7ED3\u6784\uFF1A${JSON.stringify(sentenceAssemblyPlanJsonSchema)}`);
+  const plan = parsedPlan.data, digest = sha256(canonical({ input, planSha256: sha256(planBytes) }));
   if (prior && prior.inputDigest !== digest) conflict("\u540C\u4E00\u88C5\u914D\u7F16\u53F7\u4E0D\u53EF\u6539\u53D8\u8F93\u5165\u6216\u8BA1\u5212\uFF0C\u8BF7\u8BFB\u53D6\u539F\u88C5\u914D\u8BB0\u5F55");
   if (prior?.state === "succeeded") return prior.result;
   const manifest = await validateTemplate(project);

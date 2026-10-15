@@ -35,3 +35,7 @@ Ducking 以听清语言为目标：在旁白发声前合理开始退让，句内
 正文、音色或速度改变只重做受影响段，按实测时长更新后续字幕和动作；纯视觉微调不重做声音。最终源码停止写入后执行 verify_sentence_audio，审计的 sourceDigest 必须匹配正式导出；失败按具体诊断修，不换键盲重试。服务按固定导出策略生成连续音轨和文件，作者不手写切片拼音轨绕过正式核验。
 
 交回批次/音频/时间轴引用、计数与异常段、Spotting 与包络决定、实际听过的方法和范围、受影响字幕/动作及未完成事项；保持完成生成、完成技术核验和完成听审三个结论可区分。
+
+### 装配计划文件结构
+
+`planRef` 指向 project 内 JSON；工具字段说明提供与运行校验同源的完整 JSON Schema。最小形式为 `{"scenes":[{"sceneId":"确认分镜ID","utterances":[{"id":"配音segmentId","gapBeforeFrames":0}],"tailFrames":0}],"chapters":[{"chapterId":"时间线章节id","sceneIds":["确认分镜ID"]}]}`。scenes 按确认稿顺序完整列出；utterances 可省略以采用批次顺序，显式填写时须完整覆盖该分镜句段。停顿放在 scenes[].utterances[]，句段使用 id，不是 segmentId；不在顶层添加 segments、sentences 或 utterances。章节归属用 chapterId。gapBeforeFrames 是相对上一句结束的留白，首句须包含实际片头或章节转场占用；以真实包装帧数填写，不照抄示例 0。captionText 只改换行，可靠分页按 captionTiming 的当前音频摘要证据。装配成功前不手算音频帧界绕过服务。

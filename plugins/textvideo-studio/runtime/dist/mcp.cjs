@@ -586,6 +586,7 @@ var speechBatchSchema = import_zod3.z.object({ runId: import_zod3.z.string().uui
 
 // packages/production-service/src/sentence-audio-assembly.ts
 var import_zod5 = require("zod");
+var import_zod_to_json_schema = require("zod-to-json-schema");
 
 // packages/production-service/src/template-package.ts
 var yauzl = __toESM(require("yauzl"), 1);
@@ -595,8 +596,9 @@ var manifestSchema = import_zod4.z.object({ schemaVersion: import_zod4.z.literal
 // packages/production-service/src/sentence-audio-assembly.ts
 var key = import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
 var frames = import_zod5.z.number().int().nonnegative();
-var sentenceAssemblySchema = import_zod5.z.object({ assemblyRequestId: key, speechBatchRequestIds: import_zod5.z.array(key).min(1), planRef: import_zod5.z.string().min(1), expectedTimelineSha256: import_zod5.z.string().regex(/^[a-f0-9]{64}$/) }).strict();
 var sentenceAssemblyPlanSchema = import_zod5.z.object({ scenes: import_zod5.z.array(import_zod5.z.object({ sceneId: import_zod5.z.string().min(1), utterances: import_zod5.z.array(import_zod5.z.object({ id: import_zod5.z.string().min(1), gapBeforeFrames: frames.optional(), captionText: import_zod5.z.string().min(1).optional() }).strict()).min(1).optional(), tailFrames: frames.optional(), captionTiming: import_zod5.z.object({ src: import_zod5.z.string().min(1), sha256: import_zod5.z.string().regex(/^[a-f0-9]{64}$/) }).strict().optional() }).strict()).min(1), chapters: import_zod5.z.array(import_zod5.z.object({ chapterId: import_zod5.z.string().min(1), sceneIds: import_zod5.z.array(import_zod5.z.string().min(1)).min(1) }).strict()).optional() }).strict();
+var sentenceAssemblyPlanJsonSchema = (0, import_zod_to_json_schema.zodToJsonSchema)(sentenceAssemblyPlanSchema, { $refStrategy: "none" });
+var sentenceAssemblySchema = import_zod5.z.object({ assemblyRequestId: key, speechBatchRequestIds: import_zod5.z.array(key).min(1), planRef: import_zod5.z.string().min(1).describe("\u76F8\u5BF9 project \u7684 JSON \u8BA1\u5212\u6587\u4EF6\u3002\u5B8C\u6574\u7ED3\u6784\uFF1A" + JSON.stringify(sentenceAssemblyPlanJsonSchema)), expectedTimelineSha256: import_zod5.z.string().regex(/^[a-f0-9]{64}$/) }).strict();
 
 // packages/production-service/src/sentence-audio.ts
 var import_zod6 = require("zod");

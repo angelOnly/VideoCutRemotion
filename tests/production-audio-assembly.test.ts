@@ -6,6 +6,8 @@ import {tmpdir} from 'node:os';
 import {assembleSentenceAudio,audioFrames} from '../packages/production-service/src/sentence-audio-assembly.js';
 import {json,writeJson,type PcmMeasurement} from '../packages/production-service/src/files.js';
 import {sha256} from '../packages/production-service/src/contracts.js';
+import {registerProductionTools} from '../apps/server/src/production/speech-tools.js';
+import {sentenceAssemblyPlanJsonSchema} from '../packages/production-service/src/sentence-audio-assembly.js';
 
 const measure=(count:number,hash='a'.repeat(64)):PcmMeasurement=>({ruleVersion:'mono-48000-s16le/1',decoderId:'fixture',audioSha256:hash,sampleFormat:'s16le',sampleRate:48000,channels:1,sampleCount:count,duration:count/48000});
 async function fixture(){
@@ -25,6 +27,21 @@ async function fixture(){
 }
 
 test('音频整数帧取整只覆盖真实PCM，整数及分数fps边界可靠',()=>{assert.equal(audioFrames(measure(4800),30),3);assert.equal(audioFrames(measure(4801),30),4);assert.equal(audioFrames(measure(48048),30000/1001),30);});
+
+test('工具发现提供同源计划结构，错误计划返回完整结构且不写入',async()=>{
+ const tools=new Map<string,any>();registerProductionTools({registerTool:(name:string,config:any)=>tools.set(name,config)} as any,async()=>({}));
+ const description=tools.get('assemble_sentence_audio').inputSchema.planRef.description;
+ assert.deepEqual(JSON.parse(description.slice(description.indexOf('{'))),sentenceAssemblyPlanJsonSchema);
+ const f=await fixture();try{
+  await writeJson(f.planPath,{scenes:[{sceneId:'s',segments:[{segmentId:'u1'}]}]});
+  await assert.rejects(assembleSentenceAudio(f.run,f.root,f.input,f.speech),(e:any)=>{
+   assert.equal(e.code,'SENTENCE_ASSEMBLY_PLAN_INVALID');
+   assert.deepEqual(JSON.parse(e.message.split('完整结构：')[1]),sentenceAssemblyPlanJsonSchema);return true;
+  });
+  assert.equal(sha256(await fs.readFile(f.timelinePath)),f.input.expectedTimelineSha256);
+  assert.equal(await fs.stat(join(f.root,'audio-assemblies')).catch(()=>null),null);
+ }finally{await f.close();}
+});
 
 test('窄装配按稳定ID重排，保留停顿、视觉、章节时钟和包装；同键重查不覆盖作者新稿',async()=>{
  const f=await fixture();try{
