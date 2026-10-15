@@ -80,8 +80,8 @@ test('单一 JSON 模板迁移保留完整数值、顺序和动作对象，拒�
 });
 
 test('真实 HTTP 可连续登记两批静帧，合并等待只创建一份同版完整计划',async t=>{
- const {createProductionServer}=await import('../apps/server/src/production/routes.js'),{ReviewerSessions}=await import('../packages/production-service/src/reviewer-session.js'),{treeDigest}=await import('../packages/production-service/src/files.js'),{sha256}=await import('../packages/production-service/src/contracts.js'),{PNG}=await import('pngjs');
- const start=t.mock.method(ReviewerSessions.prototype,'start',()=>{});const f=await fixture();let release!:()=>void;const gate=new Promise<void>(yes=>{release=yes;}),started:string[]=[];
+ const {createProductionServer}=await import('../apps/server/src/production/routes.js'),{treeDigest}=await import('../packages/production-service/src/files.js'),{sha256}=await import('../packages/production-service/src/contracts.js'),{PNG}=await import('pngjs');
+ const f=await fixture();let release!:()=>void;const gate=new Promise<void>(yes=>{release=yes;}),started:string[]=[];
  const config:any={dataRoot:join(f.root,'service'),apiToken:'test',accountId:'test',callbackBase:'http://localhost',callbackSecret:'test',ready:{},release:{releaseId:'test'},voicesPath:''};
  const service=await createProductionServer(config,undefined,{templateFrames:async(run,root,input,options)=>{
   started.push(input.renderRequestId);const project=join(root,'preview-snapshots',input.renderRequestId,'project');await fs.cp(join(root,'project'),project,{recursive:true});const sourceDigest=await treeDigest(project);await options.onSourceFrozen?.(sourceDigest);
@@ -96,7 +96,7 @@ test('真实 HTTP 可连续登记两批静帧，合并等待只创建一份同�
   assert.equal((await call('preview_template_frames',{renderRequestId:'first',frames:[0]})).statusCode,200);
   const second=await call('preview_template_frames',{renderRequestId:'second',frames:[35]});assert.equal(second.statusCode,200);assert.equal(second.json().state,'queued');
   assert.equal((await call('render_template',{renderRequestId:'forbidden',timelineRef:'renderer/timeline.json',checks:[]})).statusCode,409);
-  const prepare={renderRequestIds:['first','second'],phase:'pre_export',waitMs:10};const waiting=(await call('prepare_review',prepare)).json();assert.equal(waiting.state,'waiting_media');assert.equal(start.mock.callCount(),0);assert.deepEqual(started,['first']);
+  const prepare={renderRequestIds:['first','second'],phase:'pre_export',waitMs:10,units:expected.map((scene,i)=>({unitId:scene.id,sceneIds:[scene.id],checks:[{checkId:'meaning',purpose:'实际场面关系',mode:'image',evidence:[{renderRequestId:i?'second':'first',frame:i*35}]}]}))};const waiting=(await call('prepare_review',prepare)).json();assert.equal(waiting.state,'waiting_media');assert.equal(service.repo.db.prepare('SELECT COUNT(*) AS n FROM review_sessions').get()?.n,0);assert.deepEqual(started,['first']);
   const pending=call('prepare_review',{...prepare,waitMs:3000});release();const ready=(await pending).json();assert.ok(ready.reviewId);assert.deepEqual(started,['first','second']);
   assert.equal(service.repo.db.prepare('SELECT COUNT(*) AS n FROM reviews').get()?.n,1);
   assert.equal((await call('prepare_review',prepare)).json().reviewId,ready.reviewId);

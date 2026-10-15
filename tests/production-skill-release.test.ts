@@ -117,10 +117,10 @@ test('最小机制发行包支持实际词法检索和按需静态图，不开�
 });
 
 
-test('模板发行明确静帧检查后直接交付，不恢复最终视听发布限制',async()=>{
+test('模板发行由 Codex 选择检查，不恢复最终视听发布限制',async()=>{
   const review=await readFile(join(plugin,'skills/production-coordinator/references/review.md'),'utf8');
   const exported=await readFile(join(plugin,'skills/production-coordinator/references/export.md'),'utf8');
-  assert.match(review,/phase 固定为 pre_export/);
+  assert.match(review,/Worker 只执行媒体工具/);assert.match(review,/不会启动模型/);assert.match(review,/assign_review_work/);assert.doesNotMatch(review,/claim_review_work|previewRequests/);
   assert.match(exported,/未观察内容仅如实记入 checks/);
   assert.match(exported,/deliveryPath/);
   assert.doesNotMatch(exported,/通过 prepare_review 的 final|缺关键连续看听.*不发布/);

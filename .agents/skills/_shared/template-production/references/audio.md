@@ -6,7 +6,7 @@
 
 完整读取[自然分段与表演](../../voice-production/references/speech-performance.md)和[字幕阅读与分卡](../../captions/references/caption-design.md)。声音句群、字幕卡和场面各按用途划分；短句与长句的代价、列表承接、四轮回听和中文阅读诊断只维护在这些正文中，不以本页代替。
 
-没有可靠 captionTiming 时，当前校验仍是一段音频对应一张卡；本轮不放宽限制、不按字符比例猜时间、不新造对齐 JSON。按自然且可演出的边界选择句段，已有可靠对齐按当前合同使用。实际材料仍有冲突时交原作者调整相应范围，明确能力缺口，不全片重配。voiceRef 来自模板与实际服务解析，不猜身份。
+字幕作者根据语义和实际看听决定分页及阅读时长，可通过装配计划 scenes[].captions 明确给出 utteranceId、text、startFrame、endFrameExclusive。作者时序不冒称自动或逐词精确对齐；已有可靠 captionTiming 则按其真实音频摘要核验。仅模板明确声明 captionTimingPolicy=utterance 时要求句段边界或可靠对齐。实际材料仍有冲突时交原作者调整相应范围，明确能力缺口，不全片重配。voiceRef 来自模板与实际服务解析，不猜身份。
 
 ## 当前声音提交与恢复
 
@@ -14,7 +14,7 @@
 
 局部段使用 synthesize_speech/read_speech_job。相同键不同输入拒绝；成功音频的复用核对文本、音色、参数、归属与文件摘要，跨 Run 显式 reuseRunId。unknown 沿原 job/run 核查，不复用或换键重新收费。已有音频 validation_failed 时仅 retry_speech_validation，不重新请求供应商。
 
-配音批次成功后，由主协调调用 assemble_sentence_audio，传 assemblyRequestId、speechBatchRequestIds、planRef 和当前时间线文件的 expectedTimelineSha256。计划只写自然句段顺序、gapBeforeFrames、tailFrames、字幕换行或可靠 captionTiming 引用及章节归属；批次已明确的值不重复抄写。服务按稳定 ID 接回、验证摘要、复制到 public、复用可信 PCM 测量并计算覆盖音频的帧界。模板必须声明 timelineDataRef 与 sentence-timeline/1；不支持时报告合同范围，不解析任意 TypeScript。原键同输入只返回原记录，不覆盖作者后续改稿；冲突读回真实差异，不新发 TTS。装配期间暂停同文件写入。视觉对象、BGM、SFX 和源码保留，时长改变交视觉作者重校动作与接管，不自动缩放。听查每段起句、重音、语速、句尾与前后连接，尤其留意分段后语气不断重置、半音节截尾、异常长停顿和重复句。短淡化只能消除爆点，不能修复错读、断义和明显语气跳变；问题段需要真实重做并更新依赖。
+配音批次成功后，由主协调调用 assemble_sentence_audio，传 assemblyRequestId、speechBatchRequestIds、planRef 和当前时间线文件的 expectedTimelineSha256。计划只写自然句段顺序、gapBeforeFrames、tailFrames、作者字幕页及帧界或可靠 captionTiming 引用及章节归属；批次已明确的值不重复抄写。服务按稳定 ID 接回、验证摘要、复制到 public、复用可信 PCM 测量并计算覆盖音频的帧界。模板必须声明 timelineDataRef 与 sentence-timeline/1；不支持时报告合同范围，不解析任意 TypeScript。原键同输入只返回原记录，不覆盖作者后续改稿；冲突读回真实差异，不新发 TTS。装配期间暂停同文件写入。视觉对象、BGM、SFX 和源码保留，时长改变交视觉作者重校动作与接管，不自动缩放。听查每段起句、重音、语速、句尾与前后连接，尤其留意分段后语气不断重置、半音节截尾、异常长停顿和重复句。短淡化只能消除爆点，不能修复错读、断义和明显语气跳变；问题段需要真实重做并更新依赖。
 
 ## 音乐先做 Spotting，再决定包络
 
@@ -38,4 +38,10 @@ Ducking 以听清语言为目标：在旁白发声前合理开始退让，句内
 
 ### 装配计划文件结构
 
-`planRef` 指向 project 内 JSON；工具字段说明提供与运行校验同源的完整 JSON Schema。最小形式为 `{"scenes":[{"sceneId":"确认分镜ID","utterances":[{"id":"配音segmentId","gapBeforeFrames":0}],"tailFrames":0}],"chapters":[{"chapterId":"时间线章节id","sceneIds":["确认分镜ID"]}]}`。scenes 按确认稿顺序完整列出；utterances 可省略以采用批次顺序，显式填写时须完整覆盖该分镜句段。停顿放在 scenes[].utterances[]，句段使用 id，不是 segmentId；不在顶层添加 segments、sentences 或 utterances。章节归属用 chapterId。gapBeforeFrames 是相对上一句结束的留白，首句须包含实际片头或章节转场占用；以真实包装帧数填写，不照抄示例 0。captionText 只改换行，可靠分页按 captionTiming 的当前音频摘要证据。装配成功前不手算音频帧界绕过服务。
+`planRef` 指向 project 内 JSON；工具字段说明提供与运行校验同源的完整 JSON Schema。最小形式为 `{"scenes":[{"sceneId":"确认分镜ID","utterances":[{"id":"配音segmentId","gapBeforeFrames":0}],"tailFrames":0}],"chapters":[{"chapterId":"时间线章节id","sceneIds":["确认分镜ID"]}]}`。scenes 按确认稿顺序完整列出；utterances 可省略以采用批次顺序，显式填写时须完整覆盖该分镜句段。停顿放在 scenes[].utterances[]，句段使用 id，不是 segmentId；不在顶层添加 segments、sentences 或 utterances。章节归属用 chapterId。gapBeforeFrames 是相对上一句结束的留白，首句须包含实际片头或章节转场占用；以真实包装帧数填写，不照抄示例 0。captionText 只改换行；语义分页使用 scenes[].captions，不能与 captionTiming 同时指定。可靠对齐按 captionTiming 的当前音频摘要证据，不造对齐文件。装配成功前不手算音频帧界绕过服务。
+
+### 指定人物与无口播范围
+
+按服务从本次可见标签计算的 directing.speechTurns 拆自然句段（普通无标签稿沿模板安排），每段不得跨发言边界。角色及音色绑定读取本模板 renderer-manifest.json 的 speakerBindings；未指定时由作者按模板安排，通用 Worker 不根据人物名称或音色编号猜角色。装配根据已确认范围写 utterance.turnId/speaker/voiceRef，核验文本、顺序、人物与音色，不能按句段到达顺序重新猜人。
+
+kind=visual 且正文为空、画面说明非空和 durationSec 正数，允许 utterances=[]、captions=[]；装配按明确时长推进。全部画面均无口播时 speechBatchRequestIds=[]，不提交空配音批次，仍执行装配和当前版本核验。模板 intro 按原实测帧播放，句段和字幕避开片头，保留首句停顿/片头内部间隔及尾帧，不虚造台词。有台词缺音频仍失败。

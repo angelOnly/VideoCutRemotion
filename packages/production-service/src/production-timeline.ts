@@ -1,8 +1,9 @@
+import {isVisualScene,speechBindings} from './scene-speech.js';
 import { promises as fs } from 'node:fs';
 import { join, relative } from 'node:path';
 import { ProductionError, sha256, type RenderRequest } from './contracts.js';
 import { json, regular } from './files.js';
-import { validateTemplate } from './template-package.js';
+import { validateTemplate, type TemplatePerformanceContract } from './template-package.js';
 import { sceneRangesFromTimeline } from './scene-cut-timeline.js';
 
 export const SENTENCE_TIMELINE_CONTRACT='sentence-timeline/1';
@@ -32,14 +33,15 @@ export function reviewChaptersFromTimeline(timeline:any,ranges:Array<{id:string;
 }
 
 /** 所有入口共用便宜的结构校验，不承担创意判断，也不改写作者数据。 */
-export function validateProductionTimeline(timeline:any,expected:RenderRequest['dataList'],fps:number){
+export function validateProductionTimeline(timeline:any,expected:RenderRequest['dataList'],fps:number,template:TemplatePerformanceContract={}){
   requireField(Number.isInteger(timeline?.totalFrames)&&timeline.totalFrames>0,'totalFrames','须为正整数');
   requireField(Number.isFinite(fps)&&fps>0&&timeline.fps===fps,'fps','与模板规格不一致');
   const ranges=sceneRangesFromTimeline(timeline,expected,timeline.totalFrames,fps),ids=new Set<string>();
   for(const [index,scene] of timeline.scenes.entries()){
     const field=`scenes[${index}]`,text=normalized(expected[index].content);
-    requireField(Array.isArray(scene.captions)&&scene.captions.length,`${field}.captions`,'缺少字幕');
+    requireField(Array.isArray(scene.captions)&&(isVisualScene(expected[index])?scene.captions.length===0:scene.captions.length>0),`${field}.captions`,'缺少字幕');
     requireField(scene.captions.every((c:any)=>typeof c.text==='string')&&normalized(scene.captions.map((c:any)=>c.text).join(''))===text,`${field}.captions.text`,'字幕与确认正文或顺序不一致');
+    if(expected[index].directing)speechBindings(expected[index],scene.utterances,true,template);
     if(scene.utterances.every((u:any)=>typeof u.text==='string'))requireField(normalized(scene.utterances.map((u:any)=>u.text).join(''))===text,`${field}.utterances.text`,'配音正文与确认稿不同');
     for(const u of scene.utterances){requireField(typeof u.id==='string'&&u.id&&!ids.has(u.id),`${field}.utterances.id`,'句段编号缺失或重复');ids.add(u.id);}
     if(scene.captionTiming)requireField(typeof scene.captionTiming==='object'&&typeof scene.captionTiming.src==='string'&&scene.captionTiming.src.length>0&&/^[a-f0-9]{64}$/.test(scene.captionTiming.sha256),`${field}.captionTiming`,'可靠分页必须提供受管引用与 SHA256');
@@ -47,14 +49,22 @@ export function validateProductionTimeline(timeline:any,expected:RenderRequest['
     for(const [i,c] of scene.captions.entries()){
       const u=scene.utterances.find((u:any)=>u.id===c.utteranceId);
       requireField(Number.isInteger(c.startFrame)&&Number.isInteger(c.endFrameExclusive)&&c.startFrame>=previous&&c.endFrameExclusive>c.startFrame&&c.endFrameExclusive<=scene.frames,`${field}.captions[${i}]`,'字幕越界、重叠或倒序');
-      requireField(u&&c.startFrame>=u.startFrame&&c.endFrameExclusive<=u.endFrameExclusive,`${field}.captions[${i}].utteranceId`,'未绑定正确句段范围');previous=c.endFrameExclusive;
+      requireField(u&&(template.captionTimingPolicy!=='utterance'||c.startFrame>=u.startFrame&&c.endFrameExclusive<=u.endFrameExclusive),`${field}.captions[${i}].utteranceId`,'未绑定正确句段范围');previous=c.endFrameExclusive;
     }
     for(const u of scene.utterances){
       const pages=scene.captions.filter((c:any)=>c.utteranceId===u.id);
       requireField(pages.length&&(!u.text||normalized(pages.map((c:any)=>c.text).join(''))===normalized(u.text)),`${field}.captions`,'句段字幕不完整');
-      requireField(scene.captionTiming||(pages.length===1&&pages[0].startFrame===u.startFrame&&pages[0].endFrameExclusive===u.endFrameExclusive),`${field}.captionTiming`,'分页或不同字幕边界须有可靠对齐依据');
+      requireField(template.captionTimingPolicy!=='utterance'||scene.captionTiming||(pages.length===1&&pages[0].startFrame===u.startFrame&&pages[0].endFrameExclusive===u.endFrameExclusive),`${field}.captionTiming`,'分页或不同字幕边界须有可靠对齐依据');
     }
-    if(scene.intro){const start=scene.intro.fromFrame??0,end=start+scene.intro.frames;
+    if(scene.intro){
+      requireField(typeof scene.intro.src==='string'&&scene.intro.src.trim(),`${field}.intro.src`,'片头素材缺失');
+      if(scene.intro.companyName!=null){
+        const evidence=scene.intro.companyEvidence,target=expected.find(s=>s.id===evidence?.sceneId);
+        const source=evidence?.field==='content'?target?.content:evidence?.field==='chapter'?target?.directing?.chapter:undefined;
+        requireField(typeof scene.intro.companyName==='string'&&scene.intro.companyName.trim()&&scene.intro.companyName.length<=100,`${field}.intro.companyName`,'公司名无效');
+        requireField(typeof source==='string'&&Number.isInteger(evidence?.start)&&Number.isInteger(evidence?.end)&&evidence.start>=0&&evidence.end>evidence.start&&evidence.end<=source.length&&source.slice(evidence.start,evidence.end).includes(scene.intro.companyName),`${field}.intro.companyEvidence`,'公司名须引用当前采用台词或章节标题，换题后不能沿用旧依据');
+      }
+      const start=scene.intro.fromFrame??0,end=start+scene.intro.frames;
       requireField(Number.isInteger(start)&&start>=0&&Number.isInteger(scene.intro.frames)&&scene.intro.frames>0&&end<=scene.frames,`${field}.intro`,'片头须有实测帧数并位于场景内');
       requireField(!scene.chapter||start>=scene.chapter.frames,`${field}.intro`,'片头与章节转场重叠');
       requireField(scene.utterances.every((u:any)=>u.endFrameExclusive<=start||u.startFrame>=end),`${field}.intro`,'片头遮蔽已确认口播');
@@ -75,7 +85,7 @@ export async function preflightTimeline(project:string,expected:RenderRequest['d
   const timelineRef=declared??options.timelineRef;
   requireField(timelineRef,'timelineRef','模板未声明时间线数据源，请提供既有 JSON 引用');
   const timeline=await json(await regular(project,timelineRef));
-  const structure=validateProductionTimeline(timeline,expected,manifest.fps);
+  const structure=validateProductionTimeline(timeline,expected,manifest.fps,manifest);
   requireField(!options.frames?.some(f=>!Number.isInteger(f)||f<0||f>=timeline.totalFrames),'frames','静帧请求越出冻结时间线');
   // 新合同校验已知资源路径；旧冻结模板保持原接口的读取能力。
   if(declared){

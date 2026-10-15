@@ -1,36 +1,9 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { decideDynamicPreview, type DynamicPreviewRequest } from '../packages/production-service/src/preview-policy.js';
-import { taskInstruction, INSTRUCTION_VERSION } from '../packages/production-service/src/task-instructions.js';
-import type { Run } from '../packages/production-service/src/contracts.js';
-
-const request: DynamicPreviewRequest = { sourceDigest: 'v1', question: '章间过渡是否遮字', fromFrame: 80, toFrame: 110, consumer: 'actual-agent', passCriteria: '标题完整可读', needsVideo: true, needsAudio: false, continuousVideoAvailable: true, continuousAudioAvailable: false };
-test('按需预览：无疑点不生成，无真实能力留待审，能力齐全才提交', () => {
-  assert.equal(decideDynamicPreview({ onDemand: false }), 'legacy');
-  assert.equal(decideDynamicPreview({ onDemand: true }), 'not_needed');
-  assert.equal(decideDynamicPreview({ onDemand: true, request: { ...request, continuousVideoAvailable: false } }), 'professional_review_pending');
-  assert.equal(decideDynamicPreview({ onDemand: true, request: { ...request, needsAudio: true } }), 'professional_review_pending');
-  assert.equal(decideDynamicPreview({ onDemand: true, request }), 'request_preview');
-  assert.throws(() => decideDynamicPreview({ onDemand: true, request: { ...request, passCriteria: '' } }), /通过标准/);
-});
-test('同版已核验整片直接复用，旧版不能充作当前检查媒体', () => {
-  assert.equal(decideDynamicPreview({ onDemand: true, request, verifiedWholeVideo: { sourceDigest: 'v1', fileRef: 'readyFiles/whole.mp4' } }), 'reuse_whole_video');
-  assert.equal(decideDynamicPreview({ onDemand: true, request, verifiedWholeVideo: { sourceDigest: 'v0', fileRef: 'readyFiles/whole.mp4' } }), 'request_preview');
-});
-test('真实运行时指令随开关变化，默认按需预览，Analysis 不启动审片', () => {
-  const render = { stage: 'render', request: {} } as Run;
-  assert.match(taskInstruction(render, '/run', '/plugin'), /仅针对真实疑点且有连续观察者/);
-  const legacy = taskInstruction(render, '/run', '/plugin', { qaParallelReview: false, qaMaxReviewers: 3, previewOnDemand: false });
-  assert.match(legacy, /并行主题审片=关闭/);
-  assert.match(legacy, /依据真实疑点安排/);
-  const optimized = taskInstruction(render, '/run', '/plugin', { qaParallelReview: true, qaMaxReviewers: 2, previewOnDemand: true });
-  assert.match(optimized, /审片代理上限=2/);
-  assert.match(optimized, /仅针对真实疑点且有连续观察者/);
-  assert.match(optimized, /未听审、未连续观看如实记入 checks/);
-  assert.match(optimized, /审片者真实观察服务指定的图片与检查目的/);
-  assert.ok(!optimized.includes('依据真实疑点安排'));
-  assert.match(INSTRUCTION_VERSION, /\/10$/);
-  const analysis = taskInstruction({ stage: 'analysis', request: {} } as Run, '/run', '/plugin', { qaParallelReview: true, qaMaxReviewers: 3, previewOnDemand: true });
-  assert.match(analysis, /不调用配音、预览、媒体生成/);
-  assert.ok(!analysis.includes('只读主题审查单元'));
+import {taskInstruction,INSTRUCTION_VERSION} from '../packages/production-service/src/task-instructions.js';
+import type {Run} from '../packages/production-service/src/contracts.js';
+test('阶段入口保留输入合同，效果策略交技能与 Codex，Analysis 不启动审片',()=>{
+ const render=taskInstruction({stage:'render',request:{}} as Run,'/run','/plugin',{qaParallelReview:true,qaMaxReviewers:2,previewOnDemand:true});
+ assert.match(render,/审片代理上限=2/);assert.match(render,/宿主原生代理分派/);assert.doesNotMatch(render,/previewRequests|claim_review_work/);assert.match(render,/submittedContent/);assert.match(INSTRUCTION_VERSION,/\/13$/);
+ const analysis=taskInstruction({stage:'analysis',request:{}} as Run,'/run','/plugin');assert.match(analysis,/不调用配音、预览、媒体生成/);assert.match(analysis,/content 同时保留台词与可见标签/);
 });

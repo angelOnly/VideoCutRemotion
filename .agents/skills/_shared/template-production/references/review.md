@@ -1,26 +1,34 @@
-# 同版检查、返修与按需预览
+# Codex 主导审片、返修与按需预览
 
-作者结束写入并提交关键风险点，主协调一次冻结同版静帧。preview_template_frames 使用唯一 renderRequestId 与 1～12 个唯一全局 frames；12 是上限。提交本轮全部批次后直接 prepare_review 等待；sourceDigest 与 readyFrames 成立后才可分派观察。图形中间态、长中文、固定包装与章节切口优先，原尺寸图检查细节。
+效果判断归 Codex。主协调通过宿主原生代理能力真实分派审片者，明确检查目的与范围，收回观察并交原作者返修。Worker 只执行媒体工具、核验证据身份、保存进度和传输结果；prepare_review 与 assign_review_work 都不会启动模型、创建线程或自动派下一包。
 
-## 服务领活、观察与连续提交
+## 准备证据与明确检查目的
 
-主协调调用 prepare_review({renderRequestIds,phase,waitMs:60000})，phase 固定为 pre_export，只分配静帧布局与字幕布局检查；只有服务无法从作业或同快照核验记录定位时间线时才补 timelineRef。全部批次同快照成功才创建完整计划；超时返回 waiting_media 和 pendingJobs，沿原参数续准备，不创建空计划或新媒体。failed/cancelled/unknown 沿原身份处理，不隐式重绘。Runtime 依据配置和宿主实际名额启动有界的只读审片会话。每个会话只绑定当前唯一计划，凭证来自服务环境，不由模型自报身份，不继承制作、生成与发布权限。
+作者停止本轮写入后，主协调选择需要看的实际状态。preview_template_frames 每批使用稳定 renderRequestId 和 1～12 个唯一全局 frames；12 是接口上限，不是必选数量。连续预览使用 render_template({previewOnly:true,ranges,...})；可传 sourceDigest 防止冻结了错误版本。疑点、看听者、观察方法与通过依据保存在协调交接中，不是 Worker 的预览许可条件。已有同版文件优先直接使用；是否生成预览由主协调判断。
 
-审片者调用 claim_review_work({}) 获取当前包；重复领取返回原活动包。实际读完对应证据后调用 submit_review({assignmentToken,observations,issues,status})。observations 每项填服务给出的 checkId、evidenceId、简短 note；静帧使用服务登记的帧号，不填连续媒体 range。issues 填 checkId、evidenceId、severity、problem，必要时提供问题 range；没问题用空数组，不填占位问题。status 仅为 partial 或 complete。
+prepare_review 输入 renderRequestIds、phase（pre_export 或 post_export）、units 和可选 timelineRef/waitMs。units 由主协调指定，每项包含 unitId、sceneIds、checks；每个 check 包含 checkId、purpose、mode 和 evidence。图片引用为 {renderRequestId,frame}，连续媒体引用为 {renderRequestId,fileId}；mode 为 image/video/audio/audiovisual，连续观察另给全局半开 range={fromFrame,toFrame}。只引用当前工具实际返回的材料，不编造编号或媒体能力。
 
-不手填 runId、审片者身份、文件摘要、分派代次或 submissionId。服务核对当前分派、证据、观察目的和已查看图片；不同 checkId 的覆盖不能互相代替。partial 保存已完成范围并返回剩余要求；complete 成功后原子返回 next，审片者直接继续，不等主协调逐包登记和派单。工具重试使用原分派与相同正文，读取已保存响应，不另造身份。主协调调用 read_review({reviewId}) 首次立即读取简短汇总；后续传 afterDigest=statusDigest、waitMs:60000 等待观察、问题或会话变化。timedOut 只表示暂无新状态，不判失败、不重建计划；具体异常才展开材料。
+本轮批次可以先并行提交，再以 waitMs 等待同版完整材料；waiting_media 保留 pendingJobs，沿原参数续查，不换作业重绘。未知、失败、取消分别处理。服务验证快照、媒体摘要和范围，不生成固定的“布局/字幕”检查清单。
 
-新 Run 不使用手填 QA JSON 或 review.cjs assign/result 作为主状态。审查断流保留已完成覆盖，撤销旧代次后只接替未完成只读范围；过期分派和跨版迟到结果留档，不能覆盖新结论。参数拒绝只纠正明确未执行字段；证据部分不可读只恢复该读取，不能把打开播放器记作已看完。
+## 原生分派、部分观察与恢复
 
-返修交回实际修改文件与范围，服务从快照真实差异核对失效范围。局部字幕文字或换行复查该卡及换卡边界；全局字幕样式才扩大布局检查，不因字幕变化自动重审全片。普通场景变化检查当前完整场景，有明确源时钟、遮挡或接管依赖才扩展相邻范围；共享组件、全局时序和固定包装按真实影响展开。未知依赖保守保留复查，不能仅凭作者自报 local 复用。复用逐 checkId + evidenceId 核对字节、尺寸、fps、帧号、规则、场景章节语义与依赖；partial 中已保存观察也可继承。同章其他图片变化不自动否决本图。未变证据的问题随观察保留；变化证据旧问题进入 pendingIssues，真实复查后按 issueResolutions 明确处置，不能以空 issues 数组关闭旧问题。图片变化不做区域差分，未知共享依赖仍保守扩大。
+主协调先通过宿主真实创建或续接审片代理，再调用 assign_review_work({reviewId,unitId,reviewerAgentId,assignmentRequestId}) 登记对应单元。reviewerAgentId 必须来自真实代理返回；服务仅记录 coordinator_reported 来源，不把该字段当作经认证的代理身份。assignmentRequestId 稳定重试，不同输入换新请求；assignmentToken 是分派版本标识，不是访问凭据。
 
-按需预览开启时先记录 sourceDigest、具体疑点、最小全局帧范围、consumer、真实看听能力和 passCriteria。没有连续观察者则标记 professional_review_pending，不生成无人消费的大范围视频。render_template 的 previewOnly=true 请求须按每个范围附 previewRequests，字段为 sourceDigest、question、fromFrame、toFrame、consumer、passCriteria、needsVideo、needsAudio、continuousVideoAvailable、continuousAudioAvailable；范围与 ranges 一一对应。有限片段并发由服务控制，不能自行启动额外编码。已有同版核验整片直接观察该文件。
+主协调将返回的检查包交给该代理，说明只读范围。审片者实际查看证据后回传 checkId、evidenceId、note、实际观察范围、问题和未知。原生代理只回传给主协调，不直接修改项目或冒用主任务提交权限。主协调通过 submit_review({reviewId,assignmentToken,observations,issues,status}) 保存实际回传；status 为 partial 或 complete。静帧不填连续 range；连续观察填实际看听的全局半开 range。issues 包含 checkId、evidenceId、severity、problem，必要时加范围；没有问题用空数组。完成覆盖不代表作品通过，也不会自动分配下一包。
 
-静帧、连续画面、音频与技术结果分别报告，静音代理与探针不能证明完整视听。连续观察发现问题仍回原作者修订；最终源码须再次核验实际音频，再冻结导出。
+及时保存 partial，保留真实已看范围。read_review 首次立即读取，之后携带 afterDigest=statusDigest 和 waitMs 等待变化；timedOut 只表示暂无变化。等待过长时主协调核对原生代理状态与最后实际进度，再决定续接或接替，不能由 Worker 启动另一条审片线程。接替先读当前包，调用 assign_review_work 时传 previousAssignmentToken、真实 reason 和新请求编号；新负责人继续剩余范围。旧结果迟到只留历史，不覆盖新分派；相同提交重试恢复原响应。不要把打开播放器或文件存在当成实际看完。
+
+## 变更、复用与问题处置
+
+服务返回真实 changedFiles、changedScenes、changedTimelineFields 和 previousReviewId；这些是差异事实，不是语义影响判断。主协调和原作者判断哪些观察受影响：局部字幕检查该卡及换卡边界，共享组件和全局时序按真实依赖展开，不因文件名猜测影响，也不只凭作者自报 local 缩小范围。
+
+默认新版不自动继承观察。明确确认仍适用时，在 prepare_review 的 reuse 中给 sourceReviewId、unitId、checkId、evidenceId、reason。当前仅支持已有原始观察的同目的、同字节、同帧号/尺寸/fps/场景静帧复用；服务核对机械条件，语义影响依据仍由 Codex 负责。连续观察不自动复用。已有问题随版本保留为 pendingIssues；实际复查后用 issueResolutions 记录 resolved/retained 及理由，必要时指定新 evidenceId；检查目的或编号改变时同时指定本次复查 checkId。空 issues 不关闭旧问题。
+
+静帧、连续画面、音频和技术结果分别报告。原作者集中返修，再对受影响范围复查；正式导出前重新核验实际音频与源码版本。主协调决定最终创作交接，不以观察条数或服务 remaining=0 冒充效果合格。
 
 ## 专业观察方法的适用边界
 
-下表保留专业方法参考，不是本 Worker 的必做清单。当前流程仅执行静帧检查，不分配听审、连续观看和声画同步任务，不因未执行这些方法阻止导出或回传。五轮是不同观察任务，不是要求五个代理或五次重复加载全片。主协调根据真实能力、已有证据与当前疑点分派；同一观察者可兼任但分别记录方法和范围。首次观看轮应在读导演预期答案前进行；其他轮可按问题组织。没有足够连续视频或音频能力的轮保持 inconclusive，不填模拟通过，也不为了凑满五轮生成无人观察的视频。
+下表是专业方法，不是固定必做清单。主协调依据当前疑点、真实能力与已有证据选择方法、范围和负责人；同一观察者可兼任，但分别记录实际方法和范围。首次观看应在读导演预期答案前进行。没有真实看听能力的部分保持未知，不制造通过，不为了凑轮次重复加载全片。
 
 | 观察轮 | 实际操作与判断 | 问题去向 |
 |---|---|---|
@@ -48,4 +56,4 @@
 
 复查同一上下文的新旧结果，说明问题是否解决、付出了什么代价及剩余未知。未变范围复用必须有可信摘要与影响依据；共享组件、全局字幕样式、全局时序和固定包装按真实影响扩大复核。观察缺失如实保留，真实已知技术/用途阻断按合同处理；可选审美建议不另增审批，不要求用关闭所有意见换取导出。
 
-本流程完成条件：分配的静帧已查看，已发现 blocking 已修复并复查，warning 明确处置，suggestion 可保留。专业看听缺失只写检查说明，不产生 Worker 待审状态；正式媒体成功后沿导出合同直接交付。
+主协调决定创作是否完成：分配的检查有实际结果，已知阻断已修复并复查，警告明确处置，可选建议允许保留。观察缺失如实写入交付说明；Worker 不根据检查目的或意见等级自动决定作品是否好看，也不新增待审发布门禁。主协调选定正式导出并交出 await_runtime 后，沿导出合同完成技术交付。

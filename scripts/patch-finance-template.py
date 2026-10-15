@@ -30,16 +30,23 @@ def patch_template(output):
     adapt_timeline(output)
     src = Path(output) / 'renderer/src'
     assets = Path(__file__).parent / 'finance-template-patches'
-    for name in ['intro-timing.ts', 'safe-visuals.tsx']:
+    for name in ['intro-timing.ts', 'safe-visuals.tsx', 'CompanyTitleOverlay.tsx']:
         shutil.copyfile(assets / name, src / name)
     types = src / 'types.ts'
-    types.write_text(once(types.read_text(encoding='utf-8'), 'intro?: {src: string; fromFrame?: number; frames?: number; muted: boolean};', 'intro?: {src: string; fromFrame?: number; frames: number; muted: boolean};'), encoding='utf-8')
+    types.write_text(once(types.read_text(encoding='utf-8'), 'intro?: {src: string; fromFrame?: number; frames?: number; muted: boolean};', 'intro?: {src: string; fromFrame?: number; frames: number; muted: boolean; companyName?: string | null; companyEvidence?: {sceneId: string; field: \'content\' | \'chapter\'; start: number; end: number}};'), encoding='utf-8')
+    text = types.read_text(encoding='utf-8')
+    text = once(text, 'export type Utterance = {', 'export type Utterance = {\n  speaker?: Speaker;\n  turnId?: string;\n  voiceRef?: string;')
+    text = once(text, 'export type DialogueScene = {', "export type DialogueScene = {\n  directing?: {kind: 'speech' | 'visual'; durationSec?: number; visualDirections: string[]};")
+    types.write_text(text, encoding='utf-8')
     file = src / 'FinancialDialogue.tsx'
     s = file.read_text(encoding='utf-8')
     s = "import {isIntroFrame} from './intro-timing';\n" + s
     s = once(s, 'durationInFrames={scene.intro.frames ?? 67}', 'durationInFrames={scene.intro.frames!}')
     s = once(s, 'if (scene.intro && frame >= (scene.intro.fromFrame ?? 0)) return <Sequence from={scene.intro.fromFrame ?? 0} durationInFrames={scene.frames - (scene.intro.fromFrame ?? 0)}>', 'if (scene.intro && isIntroFrame(scene, frame)) return <Sequence from={scene.intro.fromFrame ?? 0} durationInFrames={scene.intro.frames!}>')
     s = once(s, '<TemplateMotion {...scene.intro} muted holdLastFrame />', '<TemplateMotion {...scene.intro} muted />')
+    s = "import {CompanyTitleOverlay, activeSpeaker} from './CompanyTitleOverlay';\n" + s
+    s = once(s, '<TemplateMotion {...scene.intro} muted />', '<TemplateMotion {...scene.intro} muted />\n    <CompanyTitleOverlay name={scene.intro.companyName} />')
+    s = once(s, 'speaker={scene.speaker}', 'speaker={activeSpeaker(scene, frame)}')
     file.write_text(s, encoding='utf-8')
     file = src / 'validateTimeline.ts'
     s = file.read_text(encoding='utf-8')
@@ -50,4 +57,18 @@ def patch_template(output):
     s = once(s, 'let covered = s.from + (s.chapter?.frames ?? 0);', 'let covered = s.from + bodyStart;')
     # 正文覆盖不再取决于是否填写 ending；不能用片头标记跳过全镜检查。
     s = once(s, 'if (t.ending) {\n          // 只检查真实正文', '{\n          // 只检查真实正文')
+    file.write_text(s, encoding='utf-8')
+
+    s = file.read_text(encoding='utf-8')
+    s = once(s, "check(utterances.length > 0, '结束记录缺少实际口播');", "// 无口播段仍使用场景真实范围，片尾不要求虚构口播。")
+    s = once(s, "check(integer(e.narrationEndFrame) && e.narrationEndFrame === last.scene.from + last.utterance.endFrameExclusive, '全部口播结束帧与实际配音不一致');", "check(integer(e.narrationEndFrame) && (!last || e.narrationEndFrame >= last.scene.from + last.utterance.endFrameExclusive), '片尾不能截断实际配音');")
+    s = once(s, "check(finalScene && e.narrationEndFrame > finalScene.from && (finalScene.contentFrames ?? finalScene.frames) === finalEnd - finalScene.from && finalScene.from + finalScene.frames >= finalEnd, '末镜内容长度必须等于完整口播加片尾；仅允许封装补帧');", "check(finalScene && finalScene.from + finalScene.frames === e.narrationEndFrame && finalEnd === t.totalFrames, '末镜结束后完整播放独立片尾');")
+    s = once(s, "check(t.scenes.length && end === t.totalFrames, '总帧数与分镜不一致');", "check(t.scenes.length && end + (t.ending?.outro?.frames ?? 0) === t.totalFrames, '总帧数与分镜及片尾不一致');")
+    s = once(s, '    let captionEnd = 0;', """    if(s.intro?.companyName != null) check(typeof s.intro.companyName === 'string' && !!s.intro.companyName.trim() && s.intro.companyName.length <= 100, `${s.id} 公司名无效`);
+    if(s.directing?.kind === 'visual') check(s.utterances.length === 0 && s.captions.length === 0 && s.directing.visualDirections.length > 0 && Number.isFinite(s.directing.durationSec) && s.frames === Math.ceil(s.directing.durationSec! * t.fps), `${s.id} 无口播画面时长或内容无效`);
+    if(s.directing?.kind === 'speech') check(s.utterances.length > 0, `${s.id} 口播缺少配音`);
+    let captionEnd = 0;""")
+    s = once(s, '    for (const u of s.utterances) {', """    for (const u of s.utterances) {
+      check(u.speaker === undefined || u.speaker === 'male-chief' || u.speaker === 'female-host', `${s.id} 句段人物无效`);
+      if(s.intro) check(u.endFrameExclusive <= (s.intro.fromFrame ?? 0) || u.startFrame >= (s.intro.fromFrame ?? 0) + s.intro.frames, `${s.id} 片头遮挡口播`);""")
     file.write_text(s, encoding='utf-8')

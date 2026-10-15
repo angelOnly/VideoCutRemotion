@@ -12,7 +12,7 @@ description: 作为 VideoFlowCut 主任务的协调入口，真实分派导演�
 
 本节只在运行时指令的并行主题审片开关开启时执行，关闭时沿用原流程。sourceDigest 和 readyFrames 冻结后，按确认章节/分镜建立唯一 unitId。用 list_agents 核对实际名额，最多安排配置允许的 3 名独立只读审片者，低名额时降级。空闲审片者通过 followup_task 续领待审单元，不重复创建负责人；导演保留跨主题、片头片尾审查责任，原视觉作者唯一负责源码修改。
 
-审片只读统一准备的证据，交回 sourceDigest/unitId/assignmentId/真实 agentId、实际观察帧、问题与未完成范围。主任务去重后集中交原作者；返修只复查真实影响和相邻切口，共享内容变化扩大范围。按需动态预览及 run/qa 记录沿模板合同执行。
+审片只读统一准备的证据，交回 sourceDigest/unitId/assignmentToken/真实 agentId、实际观察帧、问题与未完成范围。主任务去重后集中交原作者；返修只复查真实影响和相邻切口，共享内容变化扩大范围。通过宿主原生代理分派，主协调按模板 references/review.md 使用 MCP 登记与提交；Worker 不启动审片模型。
 
 只接受当前版本及当前 assignmentId 负责人的结论。通信异常保留已完成单元，按[任务路由](references/task-routing.md)接管剩余只读范围，旧负责人迟到结果存档，不重做配音、媒体或作者工作。
 

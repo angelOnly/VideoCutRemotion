@@ -17,22 +17,21 @@ import { preflightTimeline } from '../../../packages/production-service/src/prod
 import { verifyCutTimeline, type AudioAuditEvidence } from '../../../packages/production-service/src/scene-cut-timeline.js';
 
 export const renderRequestIdSchema=z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
-export const dynamicPreviewRequestSchema=z.object({sourceDigest:z.string().min(1),question:z.string().min(1),fromFrame:z.number().int().nonnegative(),toFrame:z.number().int().positive(),consumer:z.string().min(1),passCriteria:z.string().min(1),needsVideo:z.boolean(),needsAudio:z.boolean(),continuousVideoAvailable:z.boolean(),continuousAudioAvailable:z.boolean()}).strict();
 const rangeSchema=z.array(z.object({id:z.string(),fromFrame:z.number().int().nonnegative(),toFrame:z.number().int().positive()}).strict()).min(1);
 const renderBase={renderRequestId:renderRequestIdSchema,timelineRef:z.string().min(1),checks:z.array(z.string())};
 // 正式与动态预览从同一组字段生成；正式入口不接受模型抄写的 ranges。
 export const publicRenderToolSchema=z.union([
   z.object({...renderBase,previewOnly:z.literal(false).default(false)}).strict(),
-  z.object({...renderBase,previewOnly:z.literal(true),ranges:rangeSchema,previewRequests:z.array(dynamicPreviewRequestSchema).optional()}).strict(),
+  z.object({...renderBase,previewOnly:z.literal(true),ranges:rangeSchema,sourceDigest:z.string().min(1).optional()}).strict(),
 ]);
 // SDK 的 tools/list 只接受对象；发现字段与严格分支复用同源定义，调用仍用 union 校验。
-export const publicRenderToolFields=z.object({...renderBase,previewOnly:z.boolean().default(false).describe('false 为正式导出，服务推导全部范围；true 为动态预览'),ranges:rangeSchema.optional().describe('仅 previewOnly=true 必填；正式导出禁止传入'),previewRequests:z.array(dynamicPreviewRequestSchema).optional().describe('仅动态预览使用，与 ranges 一一对应')}).strict();
+export const publicRenderToolFields=z.object({...renderBase,previewOnly:z.boolean().default(false).describe('false 为正式导出，服务推导全部范围；true 为动态预览'),ranges:rangeSchema.optional().describe('仅 previewOnly=true 必填；正式导出禁止传入'),sourceDigest:z.string().min(1).optional().describe('预览可绑定已有源码摘要；冻结后不一致会拒绝，不判断预览目的')}).strict();
 export const renderToolSchema=z.union([
   z.object({...renderBase,runId:z.string().uuid(),previewOnly:z.literal(false).default(false)}).strict(),
-  z.object({...renderBase,runId:z.string().uuid(),previewOnly:z.literal(true),ranges:rangeSchema,previewRequests:z.array(dynamicPreviewRequestSchema).optional()}).strict(),
+  z.object({...renderBase,runId:z.string().uuid(),previewOnly:z.literal(true),ranges:rangeSchema,sourceDigest:z.string().min(1).optional()}).strict(),
 ]);
 // 仅用于读取历史作业及内部已解析输入，不暴露给新 MCP 调用。
-const resolvedRenderSchema=z.object({...renderBase,runId:z.string().uuid(),ranges:rangeSchema,previewRequests:z.array(dynamicPreviewRequestSchema).optional(),previewOnly:z.boolean().default(false)}).strict();
+const resolvedRenderSchema=z.object({...renderBase,runId:z.string().uuid(),ranges:rangeSchema,sourceDigest:z.string().min(1).optional(),previewOnly:z.boolean().default(false)}).strict();
 export type RenderToolInput=z.infer<typeof renderToolSchema>;
 export const previewFramesSchema=z.object({runId:z.string().uuid(),renderRequestId:renderRequestIdSchema,frames:z.array(z.number().int().nonnegative()).min(1).max(12).refine(v=>new Set(v).size===v.length,'帧号不可重复')}).strict();
 export type TemplateRenderInput=z.infer<typeof resolvedRenderSchema>;
@@ -116,8 +115,8 @@ export async function renderTemplate(run:Run,root:string,request:RenderToolInput
   assertRun(run,options);const project=join(root,input.previewOnly?'preview-snapshots':'render-snapshots',input.renderRequestId,'project');
   const digest=await withMediaSpan(options.metrics,'freeze_project',async child=>{const digest=await freezeProject(root,project,options.signal);if(child)child.sourceDigest=digest;return digest;});
   options={...options,bundleCacheRoot:join(root,'.bundle-cache'),metrics:options.metrics?{...options.metrics,sourceDigest:digest}:undefined};
-  // 冻结前的策略判断不能替代本快照核验，防止作者在排队窗口修改源码。
-  if(input.previewOnly&&input.previewRequests?.some(request=>request.sourceDigest!==digest))throw new ProductionError('PREVIEW_SCOPE_CHANGED','预览冻结版本与检查疑点不同，请按实际变更重新规划',409);
+  // 请求摘要须与实际冻结快照一致，防止排队期间源码改变。
+  if(input.previewOnly&&input.sourceDigest&&input.sourceDigest!==digest)throw new ProductionError('PREVIEW_SCOPE_CHANGED','预览冻结版本与请求摘要不同，请核对当前工程',409);
   await options.onSourceFrozen?.(digest);await regular(project,input.timelineRef);
   const declared=await validateTemplate(project);
   if(!('ranges' in request)&&declared.timelineContract!=='sentence-timeline/1')throw new ProductionError('TIMELINE_CONTRACT_UNSUPPORTED','新正式导出要求模板声明 sentence-timeline/1；旧冻结作业仅按原合同恢复');

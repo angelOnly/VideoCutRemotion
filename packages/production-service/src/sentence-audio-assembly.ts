@@ -1,3 +1,4 @@
+import {isVisualScene,visualSceneFrames,speechBindings} from './scene-speech.js';
 import {promises as fs} from 'node:fs';
 import {join,dirname} from 'node:path';
 import {z} from 'zod';
@@ -8,10 +9,10 @@ import {validateTemplate} from './template-package.js';
 import {validateProductionTimeline,reviewChaptersFromTimeline,SENTENCE_TIMELINE_CONTRACT} from './production-timeline.js';
 import type {DoubaoService} from '../../speech-services/src/doubao.js';
 const key=z.string().regex(/^[A-Za-z0-9_-]{1,100}$/),frames=z.number().int().nonnegative();
-export const sentenceAssemblyPlanSchema=z.object({scenes:z.array(z.object({sceneId:z.string().min(1),utterances:z.array(z.object({id:z.string().min(1),gapBeforeFrames:frames.optional(),captionText:z.string().min(1).optional()}).strict()).min(1).optional(),tailFrames:frames.optional(),captionTiming:z.object({src:z.string().min(1),sha256:z.string().regex(/^[a-f0-9]{64}$/)}).strict().optional()}).strict()).min(1),chapters:z.array(z.object({chapterId:z.string().min(1),sceneIds:z.array(z.string().min(1)).min(1)}).strict()).optional()}).strict();
+export const sentenceAssemblyPlanSchema=z.object({scenes:z.array(z.object({sceneId:z.string().min(1),utterances:z.array(z.object({id:z.string().min(1),gapBeforeFrames:frames.optional(),captionText:z.string().min(1).optional()}).strict()).optional(),tailFrames:frames.optional(),captions:z.array(z.object({utteranceId:z.string().min(1),text:z.string().min(1),startFrame:frames,endFrameExclusive:frames}).strict()).optional(),captionTiming:z.object({src:z.string().min(1),sha256:z.string().regex(/^[a-f0-9]{64}$/)}).strict().optional()}).strict()).min(1),chapters:z.array(z.object({chapterId:z.string().min(1),sceneIds:z.array(z.string().min(1)).min(1)}).strict()).optional()}).strict();
 // 计划文件不在工具入参中，必须把同源结构暴露给作者，避免靠错误猜字段。
 export const sentenceAssemblyPlanJsonSchema=zodToJsonSchema(sentenceAssemblyPlanSchema,{$refStrategy:'none'});
-export const sentenceAssemblySchema=z.object({assemblyRequestId:key,speechBatchRequestIds:z.array(key).min(1),planRef:z.string().min(1).describe('相对 project 的 JSON 计划文件。完整结构：'+JSON.stringify(sentenceAssemblyPlanJsonSchema)),expectedTimelineSha256:z.string().regex(/^[a-f0-9]{64}$/)}).strict();
+export const sentenceAssemblySchema=z.object({assemblyRequestId:key,speechBatchRequestIds:z.array(key),planRef:z.string().min(1).describe('相对 project 的 JSON 计划文件。完整结构：'+JSON.stringify(sentenceAssemblyPlanJsonSchema)),expectedTimelineSha256:z.string().regex(/^[a-f0-9]{64}$/)}).strict();
 const normalized=(s:unknown)=>String(s??'').replace(/\s+/gu,'');
 function ensure(value:unknown,message:string):asserts value{if(!value)throw new ProductionError('SENTENCE_ASSEMBLY_INVALID',message);}
 function cancelled(signal?:AbortSignal){if(signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','装配提交已取消');}
@@ -70,9 +71,16 @@ export async function assembleSentenceAudio(run:Run,runRoot:string,raw:unknown,s
   for(const [index,decision] of plan.scenes.entries()){
     const scene=timeline.scenes[index],original=old.scenes[index],selected=jobs.filter(j=>j.request.sceneId===scene.id);
     const ordered:Array<{id:string;gapBeforeFrames?:number;captionText?:string}>=decision.utterances??selected.map(j=>({id:j.request.segmentId}));
+    if(isVisualScene(expected[index])){
+      ensure(!selected.length&&!ordered.length&&!decision.captionTiming&&!decision.captions?.length&&!decision.tailFrames,`${scene.id} 无口播画面不能带配音、字幕对齐或额外尾帧`);
+      const visualFrames=visualSceneFrames(expected[index],manifest.fps);
+      Object.assign(scene,{from:cursor,frames:visualFrames,...(scene.contentFrames!==undefined?{contentFrames:visualFrames}:{}),directing:expected[index].directing,utterances:[],captions:[]});delete scene.captionTiming;cursor+=scene.frames;continue;
+    }
     ensure(ordered.length===selected.length&&ordered.length>0,`${scene.id} 句段数量缺失或多余`);
+    const bindings=speechBindings(expected[index],ordered.map(choice=>{const j=selected.find(j=>j.request.segmentId===choice.id);ensure(j,`${scene.id} 缺少句段 ${choice.id}`);return {id:choice.id,text:j.request.text,voiceRef:j.request.voiceRef};}),false,manifest);
     let end=0;const utterances:any[]=[],captions:any[]=[];
-    const timing=decision.captionTiming??original.captionTiming;
+    ensure(!(decision.captions&&decision.captionTiming),`${scene.id} 作者字幕与对齐文件不能同时指定`);
+    const timing=decision.captions?undefined:decision.captionTiming??original.captionTiming;
     let aligned:any;
     if(timing){const file=await regular(publicRoot,timing.src);ensure(sha256(await fs.readFile(file))===timing.sha256,`${scene.id} 字幕对齐摘要不符`);aligned=await json(file);ensure(['provider_timestamps','forced_alignment','reviewed_timestamps'].includes(aligned.method),`${scene.id} 分页缺少可靠时间依据`);}
     for(const [i,choice] of ordered.entries()){
@@ -84,14 +92,14 @@ export async function assembleSentenceAudio(run:Run,runRoot:string,raw:unknown,s
       const gap=choice.gapBeforeFrames??oldGap;ensure(Number.isInteger(gap)&&gap>=0,`${choice.id} 原停顿无效，请在计划指定 gapBeforeFrames`);
       const start=end+gap;end=start+audioFrames(measured.measurement,manifest.fps);
       const src=`speech/${job.id}-${job.sha256}.mp3`;copies.push({target:inside(publicRoot,src),bytes,hash:job.sha256});
-      utterances.push({...oldU,id:choice.id,text:job.request.text,src,startFrame:start,endFrameExclusive:end});
+      utterances.push({...oldU,...bindings[i],id:choice.id,text:job.request.text,voiceRef:job.request.voiceRef,src,startFrame:start,endFrameExclusive:end});
       if(aligned){const evidence=aligned.utterances?.[choice.id];ensure(evidence?.audioSha256===job.sha256&&Array.isArray(evidence.captions),`${choice.id} 分页对齐没有绑定当前音频`);ensure(!choice.captionText,`${choice.id} 使用可靠分页时请在对齐记录中修改字幕`);captions.push(...evidence.captions.map((c:any)=>({...c,utteranceId:choice.id})));}
       else {const oldCaption=original.captions?.filter((c:any)=>c.utteranceId===choice.id);const text=choice.captionText??(oldCaption?.length===1?oldCaption[0].text:job.request.text);ensure(normalized(text)===normalized(job.request.text),`${choice.id} 字幕只能调整换行，不能改正文`);captions.push({...oldCaption?.[0],utteranceId:choice.id,text,startFrame:start,endFrameExclusive:end});}
     }
     ensure(normalized(utterances.map(u=>u.text).join(''))===normalized(expected[index].content),`${scene.id} 配音正文或顺序与确认稿不一致`);
     const oldTail=original.utterances?.length?original.frames-original.utterances.at(-1).endFrameExclusive:0,tail=decision.tailFrames??oldTail;
     ensure(Number.isInteger(tail)&&tail>=0,`${scene.id} 尾保留帧无效，请指定 tailFrames`);
-    Object.assign(scene,{from:cursor,frames:end+tail,utterances,captions});if(timing)scene.captionTiming=timing;cursor+=scene.frames;
+    Object.assign(scene,{from:cursor,frames:end+tail,utterances,captions:decision.captions??captions,...(expected[index].directing?{directing:expected[index].directing}:{})});if(timing)scene.captionTiming=timing;else delete scene.captionTiming;cursor+=scene.frames;
   }
   ensure(consumed.size===jobs.length,'配音批次含未绑定分镜的条目');
   if(timeline.ending?.outro){timeline.ending.narrationEndFrame=cursor;timeline.totalFrames=cursor+timeline.ending.outro.frames;}else timeline.totalFrames=cursor;
@@ -108,7 +116,7 @@ export async function assembleSentenceAudio(run:Run,runRoot:string,raw:unknown,s
     }
     ensure(chapterCursor===timeline.scenes.length,'章节分组未完整覆盖场景');
   }else ensure(!plan.chapters?.length,'计划不能凭空创建章节设计，请先由作者建立章节');
-  validateProductionTimeline(timeline,expected,manifest.fps);
+  validateProductionTimeline(timeline,expected,manifest.fps,manifest);
   for(const copy of copies){cancelled(signal);await fs.mkdir(dirname(copy.target),{recursive:true});inside(await fs.realpath(publicRoot),await fs.realpath(dirname(copy.target)));try{await fs.writeFile(copy.target,copy.bytes,{flag:'wx'});copied++;}catch(e:any){if(e.code!=='EEXIST')throw e;await regular(publicRoot,copy.target);ensure(sha256(await fs.readFile(copy.target))===copy.hash,'目标音频已有不同字节，拒绝覆盖');reused++;}}
   const refs:string[]=[];const visit=(v:any)=>{if(!v||typeof v!=='object')return;for(const [k,item]of Object.entries(v)){if(k==='src'&&typeof item==='string')refs.push(item);else visit(item);}};visit(timeline);for(const ref of new Set(refs))await regular(publicRoot,ref);
   if(signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','装配提交前已取消');

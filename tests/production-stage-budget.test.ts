@@ -51,10 +51,8 @@ test('服务拒绝 Analysis 制作调用；媒体等待读取原身份并返回�
     service.repo.accept('test','render',{taskId:'a',basePlanVersion:1,dataList:[{id:'s',content:'正文'}],otherRequirements:''});const run=service.repo.claim()!;service.runner.active.set(run.runId,new AbortController());
     const project=join(service.runner.runRoot(run),'project');await fs.mkdir(project,{recursive:true});await fs.writeFile(join(project,'timeline.json'),'{}');
     const preview={renderRequestId:'preview',timelineRef:'timeline.json',ranges:[{id:'s',fromFrame:0,toFrame:30}],checks:[],previewOnly:true};
-    assert.equal((await call(run,'render_template',preview)).statusCode,400);
-    const pending=(await call(run,'render_template',{...preview,previewRequests:[{sourceDigest:await treeDigest(project),question:'检查过渡',fromFrame:0,toFrame:30,consumer:'观察者',passCriteria:'无遮挡',needsVideo:true,needsAudio:false,continuousVideoAvailable:false,continuousAudioAvailable:false}]})).json();
-    assert.equal(pending.state,'not_started');assert.deepEqual(pending.decisions,['professional_review_pending']);assert.equal(options,undefined);assert.equal((await fs.stat(pending.decisionRef)).isFile(),true);
-    const submitted=(await call(run,'render_template',{renderRequestId:'original',timelineRef:'timeline.json',checks:[]})).json();
+    assert.equal((await call(run,'render_template',{...preview,ranges:[{id:'s',fromFrame:30,toFrame:0}]})).statusCode,400);
+    const submitted=(await call(run,'render_template',{...preview,renderRequestId:'original'})).json();
     assert.equal(submitted.renderStrategy,'scene-chunks');assert.equal(submitted.input,undefined);
     const startedAt=Date.now();while(!options){assert.ok(Date.now()-startedAt<5000,'异步作业未进入渲染器');await new Promise(done=>setTimeout(done,10));}
     const first=(await call(run,'read_render_job',{renderRequestId:'original'})).json();
@@ -77,6 +75,6 @@ test('预览冻结后再次绑定疑点版本，排队期间源码变化不能�
   const root=await fs.mkdtemp(join(tmpdir(),'preview-freeze-'));
   try{
     const project=join(root,'project');await fs.mkdir(project);await fs.writeFile(join(project,'timeline.json'),'旧版');const oldDigest=await treeDigest(project);await fs.writeFile(join(project,'timeline.json'),'新版');
-    await assert.rejects(renderTemplate({stage:'render',state:'running'} as any,root,{runId:'00000000-0000-4000-8000-000000000010',renderRequestId:'p',timelineRef:'timeline.json',ranges:[{id:'s',fromFrame:0,toFrame:1}],checks:[],previewOnly:true,previewRequests:[{sourceDigest:oldDigest,question:'检查旧版',fromFrame:0,toFrame:1,consumer:'观察者',passCriteria:'正确',needsVideo:true,needsAudio:false,continuousVideoAvailable:true,continuousAudioAvailable:false}]},{dependencyRoot:root,concurrency:1}),/冻结版本与检查疑点不同/);
+    await assert.rejects(renderTemplate({stage:'render',state:'running'} as any,root,{runId:'00000000-0000-4000-8000-000000000010',renderRequestId:'p',timelineRef:'timeline.json',ranges:[{id:'s',fromFrame:0,toFrame:1}],checks:[],previewOnly:true,sourceDigest:oldDigest},{dependencyRoot:root,concurrency:1}),/预览冻结版本与请求摘要不同/);
   }finally{await fs.rm(root,{recursive:true,force:true});}
 });

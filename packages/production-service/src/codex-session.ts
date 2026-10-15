@@ -61,7 +61,7 @@ export function verifyStageSkills(result:any,paths:string[]){
 export function verifyStageTools(statuses:any,stage:Run['stage']){
   const servers=Array.isArray(statuses?.data)?statuses.data:[statuses];
   const names=new Set<string>(servers.flatMap((server:any)=>Object.entries(server?.tools??{}).map(([key,value])=>(value as any)?.name??key)));
-  const required=stage==='analysis'?['read_runtime_release','read_production_task']:['read_runtime_release','read_production_task','synthesize_speech_batch','assemble_sentence_audio','verify_sentence_audio','prepare_review','read_review','render_template'];
+  const required=stage==='analysis'?['read_runtime_release','read_production_task']:['read_runtime_release','read_production_task','synthesize_speech_batch','assemble_sentence_audio','verify_sentence_audio','prepare_review','assign_review_work','submit_review','read_review','render_template'];
   if(required.some(name=>!names.has(name)))throw new ProductionError('PLUGIN_NOT_LOADED',`后台会话未加载 ${stage} 阶段必要工具`,503);
   if(stage==='analysis'&&[...names].some(name=>!required.includes(name)))throw new ProductionError('ANALYSIS_TOOLS_EXPOSED','Analysis 发现了制作或动效等阶段外工具',503);
 }

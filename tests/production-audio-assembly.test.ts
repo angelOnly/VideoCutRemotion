@@ -1,3 +1,4 @@
+import {parseSceneScript} from '../packages/production-service/src/scene-script.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {promises as fs} from 'node:fs';
@@ -14,7 +15,7 @@ async function fixture(){
  const root=await fs.mkdtemp(join(tmpdir(),'audio-assembly-')),project=join(root,'project'),pub=join(project,'renderer/public');await fs.mkdir(pub,{recursive:true});
  await fs.writeFile(join(project,'renderer/index.ts'),'export {};');await fs.writeFile(join(project,'renderer/instructions.md'),'隔离测试');
  await fs.writeFile(join(pub,'intro.mp4'),'片头');await fs.writeFile(join(pub,'outro.mp4'),'片尾');
- await writeJson(join(project,'renderer/renderer-manifest.json'),{schemaVersion:1,templateVersion:'test',instructions:['instructions.md'],entry:'index.ts',wholeComposition:'Test',timelineModule:'index.ts',timelineDataRef:'timeline.json',timelineContract:'sentence-timeline/1',publicAssetRoot:'public',width:320,height:180,fps:30});
+ await writeJson(join(project,'renderer/renderer-manifest.json'),{schemaVersion:1,templateVersion:'test',...{speakerBindings:{caixiaoce:{speaker:'female-host',voiceRef:'finance.female'},shizhang:{speaker:'male-chief',voiceRef:'finance.male'}}},instructions:['instructions.md'],entry:'index.ts',wholeComposition:'Test',timelineModule:'index.ts',timelineDataRef:'timeline.json',timelineContract:'sentence-timeline/1',publicAssetRoot:'public',width:320,height:180,fps:30});
  const utterances=[{id:'u1',text:'甲。',src:'old1.mp3',startFrame:4,endFrameExclusive:7},{id:'u2',text:'乙。',src:'old2.mp3',startFrame:9,endFrameExclusive:12}];
  const timeline:any={fps:30,totalFrames:17,chapters:[{id:'c',from:4,endFrameExclusive:15,title:'保持视觉时钟'}],scenes:[{id:'s',from:0,frames:15,intro:{src:'intro.mp4',frames:4,fromFrame:0},utterances,captions:utterances.map(u=>({utteranceId:u.id,text:u.text,startFrame:u.startFrame,endFrameExclusive:u.endFrameExclusive})),visualBlocks:[{from:6,event:'不要缩放'}]}],ending:{narrationEndFrame:15,outro:{src:'outro.mp4',frames:2}},bgm:[],sfx:[]};
  const timelinePath=join(project,'renderer/timeline.json');await writeJson(timelinePath,timeline);
@@ -89,5 +90,49 @@ test('取消禁止初次写入及恢复提交；成功后计划已删除仍可�
   const result=await assembleSentenceAudio(f.run,f.root,f.input,f.speech),record=await json(result.detailsRef);await writeJson(result.detailsRef,{...record,state:'committing'});await writeJson(f.timelinePath,f.timeline);
   await assert.rejects(assembleSentenceAudio(f.run,f.root,f.input,f.speech,AbortSignal.abort()),/取消/);assert.equal(sha256(await fs.readFile(f.timelinePath)),f.input.expectedTimelineSha256);assert.equal((await json(result.detailsRef)).state,'committing');
   await assembleSentenceAudio(f.run,f.root,f.input,f.speech);await fs.unlink(f.planPath);assert.deepEqual(await assembleSentenceAudio(f.run,f.root,f.input,f.speech),result);
+ }finally{await f.close();}
+});
+
+test('同镜多人装配保留人物与音色、拒绝跨人和错配；无口播走真实时长且不读空批次',async()=>{
+ const f=await fixture();try{
+  f.run.request.dataList[0]=parseSceneScript({id:'s',content:'【财小策】甲。【室长】乙。'});
+  f.jobs[0].request.voiceRef='finance.female';f.jobs[1].request.voiceRef='finance.male';
+  await assembleSentenceAudio(f.run,f.root,f.input,f.speech);const out=await json(f.timelinePath);
+  assert.deepEqual(out.scenes[0].utterances.map((u:any)=>[u.turnId,u.speaker,u.voiceRef]),[['turn_1','female-host','finance.female'],['turn_2','male-chief','finance.male']]);
+ }finally{await f.close();}
+ const v=await fixture();try{
+  v.run.request.dataList=[{id:'s',content:'',directing:{kind:'visual',speechTurns:[],visualDirections:['完整展示企业图表'],durationSec:2}}];
+  v.timeline.scenes[0].utterances=[];v.timeline.scenes[0].captions=[];v.timeline.scenes[0].frames=60;v.timeline.ending.narrationEndFrame=60;v.timeline.totalFrames=62;v.timeline.chapters[0].endFrameExclusive=60;
+  await writeJson(v.timelinePath,v.timeline);await writeJson(v.planPath,{scenes:[{sceneId:'s',utterances:[]}]});
+  v.input.speechBatchRequestIds=[];v.input.expectedTimelineSha256=sha256(await fs.readFile(v.timelinePath));
+  v.speech.readBatch=async()=>{throw Error('无口播不能提交或读取空批次');};
+  await assembleSentenceAudio(v.run,v.root,v.input,v.speech);const out=await json(v.timelinePath);assert.equal(out.totalFrames,62);assert.equal(out.scenes[0].frames,60);assert.deepEqual(out.scenes[0].utterances,[]);
+  const {verifySentenceAudio}=await import('../packages/production-service/src/sentence-audio.js');
+  const audit=await verifySentenceAudio(v.run,v.root,{timelineRef:'renderer/timeline.json',speechBatchRequestIds:[]},v.speech);assert.equal(audit.scenes[0].sentenceCount,0);
+ }finally{await v.close();}
+});
+
+test('无口播插入后按明确时长推进下一镜，口播及模板片头范围保持有效',async()=>{
+ const f=await fixture();try{
+  const v={id:'v',content:'',directing:{kind:'visual',speechTurns:[],visualDirections:['展示企业概况'],durationSec:2}};
+  f.run.request.dataList.unshift(v);f.timeline.scenes[0].from=30;
+  f.timeline.scenes.unshift({id:'v',from:0,frames:30,contentFrames:30,utterances:[],captions:[],visualBlocks:[]});f.timeline.chapters=[];f.timeline.totalFrames=47;f.timeline.ending.narrationEndFrame=45;
+  await writeJson(f.timelinePath,f.timeline);const plan=await json(f.planPath);plan.scenes.unshift({sceneId:'v',utterances:[]});await writeJson(f.planPath,plan);f.input.expectedTimelineSha256=sha256(await fs.readFile(f.timelinePath));
+  await assembleSentenceAudio(f.run,f.root,f.input,f.speech);const out=await json(f.timelinePath);
+  assert.equal(out.scenes[0].frames,60);assert.equal(out.scenes[0].contentFrames,60);assert.equal(out.scenes[1].from,60);assert.equal(out.totalFrames,77);
+  assert.equal(out.scenes[1].utterances[0].startFrame,4);assert.deepEqual(out.scenes[1].intro,f.timeline.scenes[1].intro);
+ }finally{await f.close();}
+});
+
+test('作者可提交语义分页与阅读时长，不冒充强制对齐；实际范围仍核验',async()=>{
+ const f=await fixture();try{
+  const captions=[{utteranceId:'u1',text:'甲',startFrame:4,endFrameExclusive:5},{utteranceId:'u1',text:'。',startFrame:5,endFrameExclusive:8},{utteranceId:'u2',text:'乙。',startFrame:8,endFrameExclusive:14}];
+  await writeJson(f.planPath,{scenes:[{sceneId:'s',utterances:[{id:'u1'},{id:'u2'}],captions}]});
+  await assembleSentenceAudio(f.run,f.root,f.input,f.speech);const out=await json(f.timelinePath);assert.deepEqual(out.scenes[0].captions,captions);assert.equal(out.scenes[0].captionTiming,undefined);
+  const {verifySentenceAudio}=await import('../packages/production-service/src/sentence-audio.js');
+  const audit=await verifySentenceAudio(f.run,f.root,{timelineRef:'renderer/timeline.json',speechBatchRequestIds:['batch']},f.speech);assert.equal(audit.scenes[0].sentenceCount,2);assert.equal('recommendations' in audit,false);
+  const {validateProductionTimeline}=await import('../packages/production-service/src/production-timeline.js');
+  assert.throws(()=>validateProductionTimeline(out,f.run.request.dataList,30,{captionTimingPolicy:'utterance'}));
+  out.scenes[0].captions[2].endFrameExclusive=99;assert.throws(()=>validateProductionTimeline(out,f.run.request.dataList,30));
  }finally{await f.close();}
 });

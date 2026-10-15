@@ -72,6 +72,6 @@
 
 ## 当前模板的只读主题单元接管
 
-并行主题审片仅在任务实际开关开启后使用。run/qa 中每个 unitId 只有一个当前 assignedAgentId/assignmentId，绑定同一 sourceDigest。先读取宿主 list_agents；并发不超过实际剩余名额及配置上限 3，导演与作者占用同一宿主预算。名额拒绝后读回状态，不连续 spawn 冲撞。空闲的现有审片者优先 followup_task 领取下一单元。
+主协调依据实际宿主名额和任务需要安排原生审片代理，同一单元只有一个当前负责人。通过 assign_review_work 登记真实 reviewerAgentId、reviewId、unitId 和稳定 assignmentRequestId；服务不创建代理、不自动续派。空闲原负责人优先续接，不能用登记字段冒充实际委派。
 
-收到 Broken pipe、无进展或通信中断时，先核对代理状态和最后已保存反馈；单凭等待时长不推断视频或媒体损坏。保存已完成单元/帧及未完成范围，记录原因，向健康代理分派剩余只读范围并生成新 assignmentId；接任者确认同版输入后才算接管。当前负责人及代次不符、跨 sourceDigest 的结果仅存历史，不更新当前通过结论。不得因审片接管重启 TTS、视觉作者、整片渲染或重放未知媒体提交。
+通信异常先读原生代理状态和 read_review 的已保存进度；等待时长不能证明媒体损坏。接替通过 previousAssignmentToken 和真实 reason 明确变更负责人，保留 partial 观察；迟到结果留档，不覆盖当前结论。不因审片接替重启配音、视觉作者或重放未知媒体作业。

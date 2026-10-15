@@ -1,3 +1,4 @@
+import {isVisualScene,visualSceneFrames} from './scene-speech.js';
 import { join } from 'node:path';
 import { ProductionError, sha256, type RenderRequest } from './contracts.js';
 import { json, regular } from './files.js';
@@ -16,7 +17,8 @@ export function sceneRangesFromTimeline(timeline:any,expected:RenderRequest['dat
     ensure(Number.isInteger(scene.from)&&scene.from===previous&&Number.isInteger(scene.frames)&&scene.frames>0,'分镜全局范围必须连续且完整');
     const end=scene.from+scene.frames;
     ensure(end<=total,'分镜超出整片');
-    ensure(Array.isArray(scene.utterances)&&scene.utterances.length>0,'分段输出须有已核验的句段时间轴');
+    ensure(Array.isArray(scene.utterances)&&(isVisualScene(expected[index])?scene.utterances.length===0:scene.utterances.length>0),'分段输出的句段须与口播类型一致');
+    if(isVisualScene(expected[index]))ensure(scene.frames===visualSceneFrames(expected[index],fps),'无口播分镜时长与确认稿不同');
     let speechEnd=0;
     for(const utterance of scene.utterances){
       ensure(Number.isInteger(utterance.startFrame)&&Number.isInteger(utterance.endFrameExclusive)&&utterance.startFrame>=speechEnd&&utterance.endFrameExclusive>utterance.startFrame&&utterance.endFrameExclusive<=scene.frames,'句段边界越界或重叠');

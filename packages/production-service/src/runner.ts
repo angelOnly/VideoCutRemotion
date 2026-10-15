@@ -1,3 +1,4 @@
+import {parseSceneScript} from './scene-script.js';
 import { promises as fs } from 'node:fs';
 import { join, relative } from 'node:path';
 import { analysisResultSchema, canonical, deliverySchema, sha256, ProductionError, type Run, type AnalysisRequest, type RenderRequest } from './contracts.js';
@@ -39,7 +40,7 @@ export class ProductionRunner {
     run=this.repo.checkpoint(run.runId,run.token!,{template,release:this.config.release});
     const identity={taskId:run.taskId,runId:run.runId,stage:run.stage,inputDigest:run.inputDigest,request:run.request};
     // Analysis 只展开冻结文字；源码路径和完整制作 manifest 留在服务检查点。
-    await writeJson(join(root,'input.json'),run.stage==='analysis'?{...identity,template:analysisTemplateInput(template)}:{...identity,template,analysis:analysis?.result,baseRender:base?{runId:base.runId,result:base.result,request:base.request}:null,workRoot:root,projectRoot:join(root,'project'),release:this.config.release});
+    await writeJson(join(root,'input.json'),run.stage==='analysis'?{...identity,template:analysisTemplateInput(template)}:{...identity,template,analysis:analysis?.result,analysisInput:analysis?.request,baseRender:base?{runId:base.runId,result:base.result,request:base.request}:null,workRoot:root,projectRoot:join(root,'project'),release:this.config.release});
     // 从实际校验器生成协议，避免示例文字被误读为字段类型。
     await writeJson(join(root,'result-schema.json'),zodToJsonSchema(run.stage==='analysis'?analysisResultSchema:deliverySchema,{$refStrategy:'none'}));
     return run;
@@ -78,7 +79,8 @@ export class ProductionRunner {
       if(run.stage==='analysis'){
         const parsed=analysisResultSchema.parse(result);if(parsed.runId!==run.runId||parsed.taskId!==run.taskId||parsed.inputDigest!==run.inputDigest)throw new ProductionError('ANALYSIS_IDENTITY_INVALID','分析结果身份不符');
         if(new Set(parsed.dataList.map(s=>s.id)).size!==parsed.dataList.length)throw new ProductionError('ANALYSIS_IDS_INVALID','分析分镜 ID 重复');
-        if(parsed.dataList.map(s=>s.content).join('')!==(run.request as AnalysisRequest).content)throw new ProductionError('ANALYSIS_CONTENT_CHANGED','分析分镜必须完整保留输入正文及顺序');
+        // 校验可见标签，采用及替换说明沿原 context 保存，不再登记逐字符来源台账。
+        parsed.dataList.forEach(parseSceneScript);
         await fs.writeFile(join(root,'analysis-context.md'),parsed.context);
         this.repo.checkpoint(run.runId,run.token!,{analysisBasis:{inputDigest:run.inputDigest,templateVersion:run.checkpoint.template.manifest.templateVersion,templateDigest:run.checkpoint.template.digest,analysisContractDigest:run.checkpoint.template.analysisContract.digest}});
         this.repo.finish(run.runId,run.token,'succeeded',parsed);

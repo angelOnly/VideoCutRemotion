@@ -33,6 +33,8 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
     }
     if(run.stage==='analysis')result={taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,dataList:[{id:'s1',content:'第一段。',dur:1,durationSource:'estimated'},{id:'s2',content:'第二段。',dur:1,durationSource:'estimated'}],context:'已读测试模板；执行器为 stub。'};
     else{
+      const prepared=await json(join(runRoot,'input.json'));
+      assert.equal(prepared.analysisInput.content,'第一段。第二段。');assert.equal(prepared.analysis.dataList[0].content,'第一段。');assert.deepEqual(prepared.request,run.request);
       const scenes=(run.request as any).dataList;
       const timeline={fps:30,totalFrames:60,scenes:scenes.map((s:any,i:number)=>({id:s.id,from:i*30,frames:30,utterances:[{id:`u${i}`,text:s.content,startFrame:0,endFrameExclusive:30}],captions:[{text:s.content,startFrame:0,endFrameExclusive:30}]}))};
       await writeJson(join(runRoot,'project/renderer/timeline.json'),timeline);

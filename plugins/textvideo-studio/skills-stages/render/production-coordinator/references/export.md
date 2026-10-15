@@ -1,6 +1,6 @@
 # 固定版本导出与完整交付
 
-正式 render_template 提交 renderRequestId、相对工程的 timelineRef、真实 checks 和 previewOnly=false，不传 ranges。服务在冻结快照上按确认 ID 与顺序推导全部全局半开范围，并固定保存在原作业。动态预览 previewOnly=true 仍须明确 ranges 和对应疑点。具体策略从本 Run 实际配置读回，不由模型自行切换。
+正式 render_template 提交 renderRequestId、相对工程的 timelineRef、真实 checks 和 previewOnly=false，不传 ranges。服务在冻结快照上按确认 ID 与顺序推导全部全局半开范围，并固定保存在原作业。动态预览 previewOnly=true 仍须明确 ranges 和对应疑点。预览和审片策略由主协调按专业方法决定，Worker 只校验范围与版本。
 
 新策略由服务按确认分镜全局范围并行绘制，复用画面合成整片并处理连续音轨。全部范围连续覆盖整片，首镜包含开头包装，末镜含片尾；分镜均使用 wholeComposition 的全局时钟。旧作业沿其创建时固定策略恢复，不因新部署悄悄改切法。
 
@@ -8,7 +8,7 @@
 
 正式导出已受理且没有可独立推进的工作时，返回 {result:{kind:"await_runtime",renderRequestId:"原编号"}} 结束本轮；Worker 保存等待检查点并监听原作业终态，成功直接接回原 delivery.json，明确媒体失败需要判断时才续接原线程。await_runtime 表示该作业为本次正式交付目标且制作方已无剩余独立创作步骤。正常等待不反复调用 read_render_job，不另起作者或重新提交媒体。事件丢失、重启或结果未知沿原作业与检查点恢复，不能把存在线程 ID 当成已恢复成功。
 
-静帧审查、已发现阻断问题的返修及受影响范围复查在正式导出前完成。媒体完整成功后 Worker 直接读取选定原作业的 deliveryPath，不再唤醒模型复制 result.json。服务核对 task/run、attempt、令牌、发行、输入/模板/源码摘要及完整文件清单，并在短事务保存等待转交与 handoff。发布和回调由服务负责，不直接修改已发布目录。技术结果、实际视听范围与用户定稿分别说明。
+主协调选定的实际检查、已发现阻断问题的返修及受影响范围复查在正式导出前完成。媒体完整成功后 Worker 直接读取选定原作业的 deliveryPath，不再唤醒模型复制 result.json。服务核对 task/run、attempt、令牌、发行、输入/模板/源码摘要及完整文件清单，并在短事务保存等待转交与 handoff。发布和回调由服务负责，不直接修改已发布目录。技术结果、实际视听范围与用户定稿分别说明。
 
 服务直接生成沿用原 delivery.json 的 final 交接；历史人工 final 形状仍可读，不生成重复清单。Worker 核对当前文件身份、完整性及媒体技术要求后发布，并在同一事务保存成功结果及通知事件。通知失败只重投原事件，不调用模型、配音或渲染；文件已发布与网页业务接受分别报告。
 

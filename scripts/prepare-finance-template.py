@@ -21,7 +21,7 @@ for name in ['动效组件与内容适配说明.md']:
 
 此包只提供栏目固定包装与组件接口，原稿及确认正文来自本次任务输入。完整读取动效组件与内容适配说明、renderer/src/types.ts、validateTimeline.ts、VisualBlocks.tsx、visualExtensions.tsx、FinancialDialogue.tsx。
 
-本模板固定为 1920×1080、30fps。保留男女头像、Logo、SpeakerStage、栏目背景、中央面板外壳、导航、全片进度及字幕区。发言按语义由男女两位承担，允许一人连续多句，不机械逐句轮换，不添加新对白。voiceRef 为 finance.female 与 finance.male，实际音色由服务器配置。
+本模板固定为 1920×1080、30fps。保留男女头像、Logo、SpeakerStage、栏目背景、中央面板外壳、导航、全片进度及字幕区。指定财小策为 caixiaoce（female-host / finance.female），室长为 shizhang（male-chief / finance.male）；制作时按服务从当前标签计算的 speechTurns 采用，未指定发言按语义由男女两位承担，允许一人连续多句，不机械逐句轮换，不添加新对白。voiceRef 为 finance.female 与 finance.male，实际音色由服务器配置。
 
 中央图解由本期作者在 src/visualExtensions.tsx 注册并实现；可以增加独立源码文件。保留正文原文、顺序、数字及原意，分镜内部按自然句段配音、实测时长；字幕按真实句段，拼接应完全等于确认正文。本文不提供本期章节数量或固定动效菜单。
 
@@ -31,6 +31,8 @@ for name in ['动效组件与内容适配说明.md']:
 
 图解文字可使用 src/safe-visuals.tsx 中 DiagramText，明确取消 SVG 继承描边；动态数字可使用 RightAlignedValue，并按最长值预留空间。这些示例不能代替实际布局审查。
 
+公司名仅按当前采用台词或章节标题确定，写 intro.companyName 与 companyEvidence={sceneId,field:'content'或'chapter',start,end}；多家公司主次不明或没有公司为 null，换题后重新核对。CompanyTitleOverlay 在原片头标题下方叠字，空值无占位。每条 utterance 保存 speaker、turnId、voiceRef，人物按真实句段范围切换，停顿沿用 scene.speaker。明确无口播场景 directing.kind=visual、正文为空、有 visualDirections 和 durationSec，无需伪造 utterances/captions；片尾使用独立范围，scenes 的结束等于 ending.narrationEndFrame。
+
 本期只修改 renderer/timeline.json；src/timeline.ts 固定导入此 JSON，禁止内嵌第二份对象。保持模板时序和 LayoutGuard 检查，不删除校验来通过渲染。使用本插件预览和渲染工具，整片及分镜全部使用 FinanceEpisode，正式导出不传 ranges，服务从冻结时间线推导确认分镜的全局范围，不能用 FinanceScene-* 重置全片时间。正式交付 N+1 文件，整片在前。
 
 依赖已由部署提供，任务期间不安装包。模板 Arial 等西文字体仅用于拉丁文字；中文使用包内 Noto Sans SC。技术探测与抽帧不等于完整连续视听，检查真实范围如实记录。保护外观、正文图解、头像、Logo、字幕、片头片尾及声音均需实际核查。
@@ -39,9 +41,9 @@ for name in ['动效组件与内容适配说明.md']:
 
 本模板只生成 Remotion 动画，固定为 1920×1080、30fps。输入口播稿是待保留的旁白正文，不构成人物实拍或口型生成入口。
 
-保留输入全文、顺序、标点、换行、数字和英文，不增写开场白、对白或结束语。按完整语义拆成可编辑业务分镜，每项有唯一 id、原文 content、正数 dur，durationSource 为 estimated。所有 content 顺序拼接须逐字等于输入正文；估时只用于文字阶段，制作使用实际音频时长。
+保留实际采用台词的原字、顺序、标点、数字和英文，不增写对白。每镜返回唯一 id、可编辑 content、正数 dur、durationSource=estimated。两栏共同理解，必要的人物与导演信息放进现有 content 的可见标签：【财小策】、【室长】、【画面：说明】、【章节：标题】。每镜独立标明必要人物；纯画面写【无口播：3秒】【画面：说明】，时长大于零且不超过 3600 秒。标签不朗读，普通括号台词保留。采用、替换或参考说明写原有 context，不输出隐藏 directing、字符范围或来源台账。只有要求没有可采用内容时报告缺项。
 
-模板有固定男女头像。发言按语义由男女两位承担，允许一人连续多句，不机械逐句轮换，不为角色分配增写对白。正式制作音色为 finance.female 与 finance.male，由服务器绑定。本阶段保留角色要求，不生成音频或人物表演。
+模板有固定男女头像。指定财小策为 caixiaoce（female-host / finance.female），室长为 shizhang（male-chief / finance.male）；制作时按服务从当前标签计算的 speechTurns 采用，未指定发言按语义由男女两位承担，允许一人连续多句，不机械逐句轮换，不为角色分配增写对白。正式制作音色为 finance.female 与 finance.male，由服务器绑定。本阶段保留角色要求，不生成音频或人物表演。
 
 固定栏目 Logo、背景、导航、字幕区、片头片尾在制作阶段保留；这些包装不授权增写正文。片头不得截断已确认口播，片尾在全部口播结束后播放一次，无结束语授权不加稿。
 
@@ -49,7 +51,15 @@ for name in ['动效组件与内容适配说明.md']:
 ''',encoding='utf-8')
 manifest=json.loads((output/'renderer/renderer-manifest.json').read_text(encoding='utf-8'))
 manifest.pop('rules',None);manifest.pop('motionGuide',None);manifest.pop('endingPolicy',None)
-manifest.update(templateVersion='2.0.4',timelineDataRef='timeline.json',timelineContract='sentence-timeline/1',analysisInstructions=['../文字分析合同.md'],instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
+# 人物映射属于本模板，通用 Worker 不认识栏目角色。
+manifest['speakerBindings']={
+    'caixiaoce':{'speaker':'female-host','voiceRef':'finance.female'},
+    'shizhang':{'speaker':'male-chief','voiceRef':'finance.male'},
+    'female-host':{'speaker':'female-host','voiceRef':'finance.female'},
+    'male-chief':{'speaker':'male-chief','voiceRef':'finance.male'},
+}
+manifest['captionTimingPolicy']='authored'
+manifest.update(templateVersion='2.0.6',timelineDataRef='timeline.json',timelineContract='sentence-timeline/1',analysisInstructions=['../文字分析合同.md'],instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
 (output/'renderer/renderer-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 file=output/'renderer/src/FinancialDialogue.tsx';s=file.read_text(encoding='utf-8').replace('AbsoluteFill, Audio,','AbsoluteFill, Audio, OffthreadVideo,')
 start=s.index('export const FinanceEpisode:')
