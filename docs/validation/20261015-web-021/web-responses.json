@@ -1,0 +1,75 @@
+[
+  {
+    "url": "http://10.20.130.250:8000/api/custom-templates",
+    "status": 201,
+    "body": {
+      "code": 0,
+      "message": "success",
+      "data": {
+        "id": 15,
+        "group_id": 1,
+        "group_name": "管理员组",
+        "owner_id": 21,
+        "owner_name": "志碧管理员",
+        "name": "财报揭秘室｜完整时间线2.0.6｜0.1.21浩欧博验收",
+        "description": "配套 textvideo-studio 0.1.21，支持需求解释单栏、同镜人物切换、公司片头及原生审片分工。",
+        "cover_name": "04_chapter-card.png",
+        "package_name": "finance-template-206.zip",
+        "cover_url": "http://10.20.130.250:8000/api/custom-templates/15/cover",
+        "package_url": "http://10.20.130.250:8000/api/custom-templates/15/package",
+        "cover_local_path": "/home/ops/vea/uploads/custom_templates/1/641c59e3b51d4cc0930d4ab261ed4aa6.png",
+        "package_local_path": "/home/ops/vea/uploads/custom_templates/1/078976e495b54da582d22990f41db339.zip",
+        "created_at": "2026-10-15T14:42:58.098516+08:00",
+        "updated_at": "2026-10-15T14:42:58.098516+08:00"
+      }
+    }
+  },
+  {
+    "url": "http://10.20.130.250:8000/ai_video_director/tasks",
+    "status": 200,
+    "body": {
+      "code": 0,
+      "message": "success",
+      "data": {
+        "taskId": "78d1888e4e0e4200b6fa47329135d0ec",
+        "status": "draft"
+      }
+    }
+  },
+  {
+    "url": "http://10.20.130.250:8000/ai_video_director/getAiVideoEditingAnalysisData",
+    "status": 200,
+    "body": {
+      "code": 0,
+      "message": "success",
+      "data": {
+        "taskId": "78d1888e4e0e4200b6fa47329135d0ec",
+        "status": "analyzing"
+      }
+    }
+  },
+  {
+    "url": "http://10.20.130.250:8000/ai_video_director/tasks",
+    "status": 200,
+    "body": {
+      "code": 0,
+      "message": "success",
+      "data": {
+        "taskId": "78d1888e4e0e4200b6fa47329135d0ec",
+        "status": "analysis_done"
+      }
+    }
+  },
+  {
+    "url": "http://10.20.130.250:8000/ai_video_director/getAiVideoEditingData",
+    "status": 200,
+    "body": {
+      "code": 0,
+      "message": "success",
+      "data": {
+        "taskId": "78d1888e4e0e4200b6fa47329135d0ec",
+        "status": "editing"
+      }
+    }
+  }
+]

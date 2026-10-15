@@ -1,0 +1,73 @@
+{
+  "stalledTools": [],
+  "transportDiagnostics": [
+    {
+      "kind": "transport_timeout",
+      "source": "stderr",
+      "lastObservedAt": 1792047936190,
+      "count": 4,
+      "scope": "connection_or_unattributed",
+      "reviewProgressKnown": false
+    }
+  ],
+  "threadDiagnostics": [
+    {
+      "threadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+      "method": "thread/status/changed",
+      "error": {
+        "type": "active",
+        "activeFlags": []
+      },
+      "observedAt": 1792046838000
+    },
+    {
+      "threadId": "01a13e51-2b80-7b52-bab8-c58926c4519d",
+      "method": "thread/status/changed",
+      "error": {
+        "type": "notLoaded"
+      },
+      "observedAt": 1792047402370
+    },
+    {
+      "threadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+      "method": "error",
+      "error": {
+        "message": "Reconnecting... 2/5",
+        "codexErrorInfo": {
+          "responseStreamDisconnected": {
+            "httpStatusCode": null
+          }
+        },
+        "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+        "misalignment": null
+      },
+      "willRetry": true,
+      "observedAt": 1792048115759
+    },
+    {
+      "threadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+      "method": "thread/status/changed",
+      "error": {
+        "type": "notLoaded"
+      },
+      "observedAt": 1792047404687
+    },
+    {
+      "threadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+      "method": "thread/status/changed",
+      "error": {
+        "type": "idle"
+      },
+      "observedAt": 1792048210719
+    },
+    {
+      "threadId": "01a13e59-5312-7880-b635-9341c211f676",
+      "method": "thread/status/changed",
+      "error": {
+        "type": "active",
+        "activeFlags": []
+      },
+      "observedAt": 1792048197133
+    }
+  ]
+}

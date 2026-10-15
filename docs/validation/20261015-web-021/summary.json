@@ -1,0 +1,1291 @@
+{
+  "observedAt": "2026-10-15T07:18:26.661930+00:00",
+  "webTaskId": "78d1888e4e0e4200b6fa47329135d0ec",
+  "workerTaskId": "d49dea17-af66-4202-b689-69391ade9247",
+  "runs": [
+    {
+      "id": "2ba51697-d003-48f2-9aaf-973945bbea5b",
+      "stage": "analysis",
+      "state": "succeeded",
+      "error": "null",
+      "input_digest": "feacd9b9f9b96915490852e8d2b7fc9f308a507acd471ea1ac1b72181f90732c",
+      "created_at": 1792046662832,
+      "result": {
+        "taskId": "78d1888e4e0e4200b6fa47329135d0ec",
+        "runId": "2ba51697-d003-48f2-9aaf-973945bbea5b",
+        "inputDigest": "feacd9b9f9b96915490852e8d2b7fc9f308a507acd471ea1ac1b72181f90732c",
+        "dataList": [
+          {
+            "id": "shot_001",
+            "content": "【章节：数据反差】【画面：悬念画面 营业收入+3.2% 与 扣非净利润+48% 两行数字对冲】【财小策】营收增3.2%，扣非净利润却增48%。这笔利润是从哪来的？",
+            "dur": 6,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_002",
+            "content": "【章节：片头】【室长】财报揭秘室，揭开数据背后的真问题。",
+            "dur": 3.5,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_003",
+            "content": "【章节：公司概况】【画面：室长出镜】【室长】今天拆浩欧博，一家做体外诊断试剂的企业，主攻过敏和自身免疫两个检测领域。在长期由进口品牌主导的自免检测赛道里，它是少数做到规模化生产的厂商之一。上半年营收2亿、同比增3.2%，行业整体承压，这个速度算不上快。",
+            "dur": 21.7,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_004",
+            "content": "【章节：费用端】【财小策】那你先说说，这48%是怎么增出来的？",
+            "dur": 3.8,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_005",
+            "content": "【室长】一句话，七成不是卖出来的，是省出来的。利润总额同比多出的部分里，四成多来自股份支付费用减少，三成多来自研发费用压缩。股份支付是非现金支出，跟经营好坏无关；研发费用率从11.3%降到10.1%，说明研发投入在收窄。",
+            "dur": 22.1,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_006",
+            "content": "【财小策】收入没怎么涨，营业利润率怎么还升2.5个百分点？",
+            "dur": 5,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_007",
+            "content": "【章节：利润端】【室长】看两件事。一是成本几乎没动，营业成本7764.8万元，收入增3.2%而成本基本持平，毛利率从59.2%升到60.3%。二是费用也压住了，销售费用4524万元、管理费用3192万元、研发费用1977万元。这三项合起来跟去年差不多，营业利润率从6.2%升到8.7%。",
+            "dur": 27.3,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_008",
+            "content": "【章节：现金流】【财小策】营收才增3.2%，经营现金流怎么增了60.2%？",
+            "dur": 5,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_009",
+            "content": "【室长】现金流这块是真的。经营现金流净额3728.6万元、同比增60.2%，比同期的归母净利润1667.8万元还高，净现比2.2倍。赚一块钱利润，收回来两块多现金。",
+            "dur": 16.2,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_010",
+            "content": "【章节：业务结构】【财小策】那这2亿收入里，有没有真正在涨的业务？",
+            "dur": 4,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_011",
+            "content": "【室长】收入里有两块在涨。脱敏药欧脱克收入同比增116.8%，境外诊断收入同比增38.1%，靠的是海南自贸港和粤港澳大湾区 的政策区域。国内诊断业务是承压的那一块，收入同比微降0.5%。",
+            "dur": 18.3,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_012",
+            "content": "【章节：行业观察】【财小策】那账上有没有要盯的地方？",
+            "dur": 2.5,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_013",
+            "content": "【室长】有三处。应收账款占收入14.7%，跟去年的14.4%持平，回款节奏基本稳定。研发再投资率从19.1%降到16.7%，每赚一块钱毛利投回研发的钱比去年少。账面没有商誉，没有并购留下的减值风险。",
+            "dur": 19.8,
+            "durationSource": "estimated"
+          },
+          {
+            "id": "shot_014",
+            "content": "【章节：下期验证】【室长】下期验证三件事。收入增速能不能回到两位数，股份支付费用会不会重新压上来，第二季度单季1650万元的利润能不能延续。每期3分钟，拆解财报里的关键信号。更多深度财报研判，搜索财小策。",
+            "dur": 18.5,
+            "durationSource": "estimated"
+          }
+        ],
+        "context": "# 文字约束与分析决定\n\n- 两栏合并理解：content 为空，otherRequirements 提供完整可采用脚本，不构成台词缺项。稿件标题为“浩欧博 2026中报 短视频脚本”，作为稿件识别信息，不作为口播增入。\n- 保留全部实际台词的原字、顺序、标点、数字、英文及内部空格；无替换关系，不补造问答，不校改财务说法。人物提示中的提问、应答、讲解、收尾是职能提示，统一成可见人物标签。\n- 按完整发言轮次拆镜；较长回答保留在同一可编辑业务分镜中，业务分镜不等于动画章节或语音句段。各镜独立标明人物，章节标题放在对应首镜。\n- “定位语”后括号内容为明确画面指令，与首句提问同镜；“室长亮相（室长出镜）”是画面指令，与公司概况回答同镜。没有明确要求独立无口播停留，不另加纯画面镜头。出镜按模板固定头像表达，不作为实拍或口型生成要求。实际台词若有普通括号仍须原样保留。\n- 片头句“财报揭秘室，揭开数据背后的真问题。”保留为口播；原稿未指定该句角色，本次依模板许可按语义分配室长。财小策对应 caixiaoce / female-host / finance.female；室长对应 shizhang / male-chief / finance.male。本阶段仅记录人物要求，不生成声音。\n- 估时按每秒约 4.8 个非空白文本字符粗估，数字和百分比的实际读法会影响时长；全部 durationSource 为 estimated。稿中“每期3分钟”为原台词，不据此删改稿件或承诺成片精确三分钟。\n- 固定栏目包装不授权增写正文；片头不得截断已确认口播，片尾在全部口播结束后播放一次，沿用已有收尾台词，不另加结束语。\n\n# 未确定事项\n\n- 片头角色为本次语义分配，原稿未明确指定。\n- 精确朗读时长尚未确定；财务数据作为用户稿件保留，本阶段未作外部事实核验。\n\n# 模板文字合同依据\n\n- 模板版本：2.0.6。\n- 引用：input.json → template.analysisInstructions，文字分析合同.md。\n- 合同文件 SHA-256：3f298f372b67907930a6747b7c8b9a2c6797c1ec1029abc97f41b91f8232821f。\n- analysisContractDigest：f9a5f889f922f8d8c6a3545ed6ab17c2757634f31afc49c0be92e6d83be1efcf。\n- archiveDigest：2b50ae5d11163068405160a42d67fb6d32820dd431e9499f5e7787eebd3e3354。\n- 合同摘要：双人固定角色，台词逐字保留且不增写；用规定可见标签表达人物、章节及画面；分镜独立可编辑且仅估时；包装不改写已确认口播。\n- 读取范围仅为本次指定的 input.json、result-schema.json 与技能入口。技能所指 references/analysis.md 未在允许读取范围内，未读取；本次直接依据已展开的模板文字合同。当前工具未提供可用的只读事实核对入口，身份与摘要采用 input.json 所载值。\n"
+      },
+      "callback": [
+        {
+          "state": "delivered",
+          "attempts": 1,
+          "diagnostic": "HTTP 200 {\"status\":0,\"msg\":\"\"}"
+        }
+      ],
+      "diagnostics": {
+        "stalledTools": [],
+        "transportDiagnostics": [
+          {
+            "kind": "transport_timeout",
+            "source": "stderr",
+            "lastObservedAt": 1792046687059,
+            "count": 3,
+            "scope": "connection_or_unattributed",
+            "reviewProgressKnown": false
+          }
+        ],
+        "threadDiagnostics": [
+          {
+            "threadId": "01a13e4e-2411-7d83-be32-24ff5624b0e1",
+            "method": "thread/status/changed",
+            "error": {
+              "type": "active",
+              "activeFlags": []
+            },
+            "observedAt": 1792046674219
+          }
+        ]
+      },
+      "runtimeWait": {},
+      "toolCalls": [],
+      "agentActivity": [],
+      "errors": [],
+      "speechSummary": {},
+      "mediaJobs": [],
+      "reviews": []
+    },
+    {
+      "id": "63047449-ce42-4f1f-a343-5c11ebbc82c3",
+      "stage": "render",
+      "state": "running",
+      "error": null,
+      "input_digest": "7492af67104a22811055c732df1358ac3ef12c84a1e7a331da637b85a2693044",
+      "created_at": 1792046832828,
+      "result": null,
+      "callback": [],
+      "diagnostics": {
+        "stalledTools": [],
+        "transportDiagnostics": [
+          {
+            "kind": "transport_timeout",
+            "source": "stderr",
+            "lastObservedAt": 1792048484049,
+            "count": 5,
+            "scope": "connection_or_unattributed",
+            "reviewProgressKnown": false
+          }
+        ],
+        "threadDiagnostics": [
+          {
+            "threadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+            "method": "error",
+            "error": {
+              "message": "Reconnecting... 3/5",
+              "codexErrorInfo": {
+                "responseStreamDisconnected": {
+                  "httpStatusCode": null
+                }
+              },
+              "additionalDetails": "stream disconnected before completion: idle timeout sending websocket request",
+              "misalignment": null
+            },
+            "willRetry": true,
+            "observedAt": 1792048683223
+          },
+          {
+            "threadId": "01a13e51-2b80-7b52-bab8-c58926c4519d",
+            "method": "thread/status/changed",
+            "error": {
+              "type": "notLoaded"
+            },
+            "observedAt": 1792047402370
+          },
+          {
+            "threadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+            "method": "error",
+            "error": {
+              "message": "Reconnecting... 5/5",
+              "codexErrorInfo": {
+                "responseStreamDisconnected": {
+                  "httpStatusCode": null
+                }
+              },
+              "additionalDetails": "stream disconnected before completion: idle timeout sending websocket request",
+              "misalignment": null
+            },
+            "willRetry": true,
+            "observedAt": 1792048656971
+          },
+          {
+            "threadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+            "method": "thread/status/changed",
+            "error": {
+              "type": "notLoaded"
+            },
+            "observedAt": 1792047404687
+          },
+          {
+            "threadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+            "method": "error",
+            "error": {
+              "message": "Reconnecting... 2/5",
+              "codexErrorInfo": {
+                "responseStreamDisconnected": {
+                  "httpStatusCode": null
+                }
+              },
+              "additionalDetails": "request timed out",
+              "misalignment": null
+            },
+            "willRetry": true,
+            "observedAt": 1792048636616
+          },
+          {
+            "threadId": "01a13e59-5312-7880-b635-9341c211f676",
+            "method": "error",
+            "error": {
+              "message": "Reconnecting... 2/5",
+              "codexErrorInfo": {
+                "responseStreamDisconnected": {
+                  "httpStatusCode": null
+                }
+              },
+              "additionalDetails": "request timed out",
+              "misalignment": null
+            },
+            "willRetry": true,
+            "observedAt": 1792048607424
+          }
+        ]
+      },
+      "runtimeWait": {},
+      "toolCalls": [
+        {
+          "tool": "read_production_task",
+          "status": "completed",
+          "durationMs": 25
+        },
+        {
+          "tool": "read_runtime_release",
+          "status": "completed",
+          "durationMs": 11
+        },
+        {
+          "tool": "search_motion_mechanisms",
+          "status": "completed",
+          "durationMs": 541
+        },
+        {
+          "tool": "read_motion_mechanism",
+          "status": "completed",
+          "durationMs": 411
+        },
+        {
+          "tool": "synthesize_speech_batch",
+          "status": "completed",
+          "durationMs": 276
+        },
+        {
+          "tool": "read_speech_batch",
+          "status": "completed",
+          "durationMs": 67
+        },
+        {
+          "tool": "assemble_sentence_audio",
+          "status": "failed",
+          "durationMs": 32
+        },
+        {
+          "tool": "assemble_sentence_audio",
+          "status": "failed",
+          "durationMs": 200
+        },
+        {
+          "tool": "assemble_sentence_audio",
+          "status": "completed",
+          "durationMs": 262
+        },
+        {
+          "tool": "verify_sentence_audio",
+          "status": "failed",
+          "durationMs": 24
+        },
+        {
+          "tool": "verify_sentence_audio",
+          "status": "completed",
+          "durationMs": 988
+        },
+        {
+          "tool": "preview_template_frames",
+          "status": "completed",
+          "durationMs": 47
+        },
+        {
+          "tool": "preview_template_frames",
+          "status": "completed",
+          "durationMs": 29
+        },
+        {
+          "tool": "read_render_job",
+          "status": "completed",
+          "durationMs": 23
+        },
+        {
+          "tool": "read_render_job",
+          "status": "completed",
+          "durationMs": 1013
+        },
+        {
+          "tool": "read_render_job",
+          "status": "completed",
+          "durationMs": 28
+        },
+        {
+          "tool": "prepare_review",
+          "status": "completed",
+          "durationMs": 1318
+        },
+        {
+          "tool": "assign_review_work",
+          "status": "completed",
+          "durationMs": 39
+        },
+        {
+          "tool": "assign_review_work",
+          "status": "completed",
+          "durationMs": 31
+        },
+        {
+          "tool": "assign_review_work",
+          "status": "completed",
+          "durationMs": 31
+        }
+      ],
+      "agentActivity": [
+        {
+          "type": "subAgentActivity",
+          "id": "call_c96bd5f7e2f445bb8c2f4ec33938e515",
+          "kind": "started",
+          "agentThreadId": "01a13e51-2b80-7b52-bab8-c58926c4519d",
+          "agentPath": "/root/director"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_0e66f0f303e544feae29c7125a5f0197",
+          "kind": "started",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_0d1093452d99435195c6350f728bd9d1",
+          "kind": "started",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_97849684141649aea4a4dd8802699097",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_1f4fcd46680548138668c8c9465522c3",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-2b80-7b52-bab8-c58926c4519d",
+          "agentPath": "/root/director"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_77a372131a4b4e2bacd3f88be3bb0c94",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_f02666cf16f14a26a8edcce4bd9e4f6a",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_a5462cb4abfd4c17b2971534c6af4768",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_05c4671167834de0bc3f7289ac3c2176",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_c8237e2339f44ab2abd25fc27b92d592",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_62b7ebacac24484e85998c8643cc4049",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_13f619c48c684a97973f1511c3a5fafc",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_5edeccefb6e440528b07468172ebac73",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_5e78a79c49dc4f6680caa1a1203b5094",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_6f2aa7d6459d4b8fae0eb7e1c216f76b",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_59f0d16d257d4a91aa8a0329d4935afc",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "subagent-completed-01a13e51-4c79-7f81-a817-d9e2a48a572d",
+          "kind": "completed",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_bb1918feccc0434a87e3d10400f9ecdf",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_7494711b9454442e9246decd27e597a2",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-2b80-7b52-bab8-c58926c4519d",
+          "agentPath": "/root/director"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_f7b78fe68c07491ab2da6c7dff4dcf26",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_4c59ada2418a450585154566e218a4d5",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_013bcf42b168421f96cd6ce4befea16b",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "subagent-completed-01a13e51-2bbd-7173-a792-c619a71f3007",
+          "kind": "completed",
+          "agentThreadId": "01a13e51-2b80-7b52-bab8-c58926c4519d",
+          "agentPath": "/root/director"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_440f31ba3dbc40eb9d6a2811ac634087",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_4036b3c5dbca49a29becf99cd6549c40",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_63b4fad185df4b1a9aa565bbccfa827a",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_fb409df512d7467abc393ec8c8b2e388",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_7f72502ad89041d0be12667103e4f918",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_cf55ea2496be43f3920b63fcd48f2f13",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_9a264ac4ad84425a964aab91e1ef1d63",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-2b80-7b52-bab8-c58926c4519d",
+          "agentPath": "/root/director"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_946f06012b2d474fb9f4aac38e6bbecd",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_e5d0e0021cc141a79bfbad9418c45cb9",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "subagent-completed-01a13e53-6353-7110-a848-68f6d5f55888",
+          "kind": "completed",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_52d7023a69b743d9b5869235324f9870",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-2b80-7b52-bab8-c58926c4519d",
+          "agentPath": "/root/director"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_dadf8e8de48442f2b10af5382a2f6ab5",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_b02282caf5bb4e8abf01ad2e5ad929ad",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_25971625c8b2410bab1fcc12572ee2f4",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_559a4cf9d1ee4221acc8be4e43e7058d",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_75db3a60d62c4c96bea5b15196ded797",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "subagent-completed-01a13e54-b754-7e82-8e5f-9bf005e32124",
+          "kind": "completed",
+          "agentThreadId": "01a13e51-2b80-7b52-bab8-c58926c4519d",
+          "agentPath": "/root/director"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_16e21c00ba134bc6a20bc67aa4183501",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_fd1f6f69daec4c90a137d1963ecf6a68",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_ec8d2bc0641742cf8e2893b6aec2869c",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_69bc16d743434c24ba7ed077fdad19cd",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_ba7cf8f358f949d389d559ea537a85c1",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-2b80-7b52-bab8-c58926c4519d",
+          "agentPath": "/root/director"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_e7968afa3c2147a792b2018ad5b8e4db",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_dbf26a10d04f4c2e9260d13b679d8888",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_83eebf3e1c91464fafb003d261d0ddc2",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_4cbfc063515545a7a049977c49000fc3",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-2b80-7b52-bab8-c58926c4519d",
+          "agentPath": "/root/director"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_95dace72167440b3ac4655a68e1f85ab",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_fba9b7db195640f98f7e96de82a62262",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_1dda86a8c5e04e0bb76d0127d611dffd",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "subagent-completed-01a13e57-1688-7cd1-a52c-7b4c175c752c",
+          "kind": "completed",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_9589a88c619242adad1595425852a0af",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_30921903f2bf499fba442d1ee16be1a7",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_0cf2453f8a1c403094f430658aca7954",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_b8e30e73c42246178c62b265819a6443",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "subagent-completed-01a13e57-b3c4-74b0-8141-18d6e1afbfb8",
+          "kind": "completed",
+          "agentThreadId": "01a13e51-2b80-7b52-bab8-c58926c4519d",
+          "agentPath": "/root/director"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_2a685d297ce942d29ca67d004d0455c2",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_625e0fb06b0e49ff8e4d34bd83811ad9",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_d90e8e0e675945c4a2a65a6584db465b",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_448ee0abbfe7442d9cec178209c0b0f9",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_7823a06372624d18a237ac195d7dc1dd",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "subagent-completed-01a13e51-8093-7943-8061-1b3af63055aa",
+          "kind": "completed",
+          "agentThreadId": "01a13e51-805f-7eb1-8156-4b9689c88423",
+          "agentPath": "/root/visual"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_ece4e2073ca846998ed48ff95d003911",
+          "kind": "started",
+          "agentThreadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+          "agentPath": "/root/review_content"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_540ebcb1444a473ea696193a59079935",
+          "kind": "started",
+          "agentThreadId": "01a13e59-5312-7880-b635-9341c211f676",
+          "agentPath": "/root/review_layout"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_7ec6c04b57134691a9da6b277c92d0e0",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_f292be2a0f2248bcbeac2a08d5749418",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_d75aa3a70cf14a79b5e5e3fdbff83edb",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_2e65358ebb02405899699416aa20fab1",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_fec85684e05f44f48eafd4ed7d4daa6c",
+          "kind": "interacted",
+          "agentThreadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "agentPath": "/root"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "subagent-completed-01a13e59-988c-7c11-b9bb-cf3df12660cd",
+          "kind": "completed",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_cf3c2dc866d04f1f9d8d8313911c36e6",
+          "kind": "interacted",
+          "agentThreadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+          "agentPath": "/root/review_content"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_15a0fbd0bff34cc29f860c16bf63316b",
+          "kind": "interacted",
+          "agentThreadId": "01a13e59-5312-7880-b635-9341c211f676",
+          "agentPath": "/root/review_layout"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_61024d9b91ca4e42bfa390a2935f3615",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_8caf2f5bd7f1403c835fcba4666bbaef",
+          "kind": "interacted",
+          "agentThreadId": "01a13e59-5312-7880-b635-9341c211f676",
+          "agentPath": "/root/review_layout"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_f8f01017801c4c209f6bf57b131ae1f5",
+          "kind": "interacted",
+          "agentThreadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+          "agentPath": "/root/review_content"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_3e8c4cf9b0a34168b87ae5dc4cc6c953",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_dcca0c7015e74fc3b92bf58cc353e080",
+          "kind": "interacted",
+          "agentThreadId": "01a13e59-5312-7880-b635-9341c211f676",
+          "agentPath": "/root/review_layout"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_6df544f0ed124ed09eada04a71b71228",
+          "kind": "interacted",
+          "agentThreadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+          "agentPath": "/root/review_content"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_b46758badc1744e5bed6fcac66373cb5",
+          "kind": "interrupted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_f628483e5d2c4706856a1e61fe1b1d3a",
+          "kind": "interacted",
+          "agentThreadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "agentPath": "/root/audio"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_795c545d67094d45a7f23f04c340f9c8",
+          "kind": "interrupted",
+          "agentThreadId": "01a13e59-5312-7880-b635-9341c211f676",
+          "agentPath": "/root/review_layout"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_97b36b14da404faaa78cb9f03fabaa30",
+          "kind": "interacted",
+          "agentThreadId": "01a13e59-5312-7880-b635-9341c211f676",
+          "agentPath": "/root/review_layout"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_9f8cb8dae49f433399a8c45d35c7ab6a",
+          "kind": "interrupted",
+          "agentThreadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+          "agentPath": "/root/review_content"
+        },
+        {
+          "type": "subAgentActivity",
+          "id": "call_aced52d474604ae2a284dea3cbaf1ab3",
+          "kind": "interacted",
+          "agentThreadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+          "agentPath": "/root/review_content"
+        }
+      ],
+      "errors": [
+        {
+          "error": {
+            "message": "Reconnecting... 2/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e59-5312-7880-b635-9341c211f676",
+          "turnId": "01a13e59-534c-79f0-9fda-3235c85727e2"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 2/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "turnId": "01a13e5a-9768-77a2-881f-6cfab4c9eef6"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 3/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e59-5312-7880-b635-9341c211f676",
+          "turnId": "01a13e59-534c-79f0-9fda-3235c85727e2"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 3/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "turnId": "01a13e5a-9768-77a2-881f-6cfab4c9eef6"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 2/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+          "turnId": "01a13e59-3826-7132-ba6e-9c359c23d7f9"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 4/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e59-5312-7880-b635-9341c211f676",
+          "turnId": "01a13e59-534c-79f0-9fda-3235c85727e2"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 3/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+          "turnId": "01a13e59-3826-7132-ba6e-9c359c23d7f9"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 5/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e59-5312-7880-b635-9341c211f676",
+          "turnId": "01a13e59-534c-79f0-9fda-3235c85727e2"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 4/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+          "turnId": "01a13e59-3826-7132-ba6e-9c359c23d7f9"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 5/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+          "turnId": "01a13e59-3826-7132-ba6e-9c359c23d7f9"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 2/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "turnId": "01a13e61-84da-7b51-9f10-ab3cff8d6d5b"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 3/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "turnId": "01a13e61-84da-7b51-9f10-ab3cff8d6d5b"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 4/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: failed to send websocket request: IO error: Broken pipe (os error 32)",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "turnId": "01a13e61-84da-7b51-9f10-ab3cff8d6d5b"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 2/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: websocket closed by server before response.completed",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "turnId": "01a13e50-b0b8-7de0-96e6-4128020952d7"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 1/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "request timed out",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e59-5312-7880-b635-9341c211f676",
+          "turnId": "01a13e65-6df4-7401-80cc-7f79166df098"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 1/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "request timed out",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+          "turnId": "01a13e65-ba91-7fa1-8b61-8d58da9385ca"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 2/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "request timed out",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e59-5312-7880-b635-9341c211f676",
+          "turnId": "01a13e65-6df4-7401-80cc-7f79166df098"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 2/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "request timed out",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e59-37f4-7740-b523-a38f26f4cb5f",
+          "turnId": "01a13e65-ba91-7fa1-8b61-8d58da9385ca"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 5/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: idle timeout sending websocket request",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e51-4c41-7af3-a891-bb2bbf052c32",
+          "turnId": "01a13e61-84da-7b51-9f10-ab3cff8d6d5b"
+        },
+        {
+          "error": {
+            "message": "Reconnecting... 3/5",
+            "codexErrorInfo": {
+              "responseStreamDisconnected": {
+                "httpStatusCode": null
+              }
+            },
+            "additionalDetails": "stream disconnected before completion: idle timeout sending websocket request",
+            "misalignment": null
+          },
+          "willRetry": true,
+          "threadId": "01a13e50-a3ae-7591-9917-c80f6dc415a8",
+          "turnId": "01a13e50-b0b8-7de0-96e6-4128020952d7"
+        }
+      ],
+      "speechSummary": {
+        "succeeded": 34
+      },
+      "mediaJobs": [
+        {
+          "id": "63047449_frames_a_v1",
+          "kind": "frame-preview",
+          "state": "succeeded",
+          "sourceDigest": "12348694a5e85f93961507f149689b576b746a1668d66e05e287a58d5cf99fba",
+          "error": null,
+          "deliveryPath": null,
+          "frames": 12,
+          "files": 0
+        },
+        {
+          "id": "63047449_frames_b_v1",
+          "kind": "frame-preview",
+          "state": "succeeded",
+          "sourceDigest": "12348694a5e85f93961507f149689b576b746a1668d66e05e287a58d5cf99fba",
+          "error": null,
+          "deliveryPath": null,
+          "frames": 12,
+          "files": 0
+        }
+      ],
+      "reviews": [
+        {
+          "id": "9ad6502a-4571-4ab6-8719-9ea95f30e7d3",
+          "phase": "pre_export",
+          "state": "active"
+        }
+      ]
+    }
+  ]
+}
