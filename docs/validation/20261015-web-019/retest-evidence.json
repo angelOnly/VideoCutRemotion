@@ -1,0 +1,717 @@
+{
+  "webTaskId": "5deec712fc9b46479145fd95720b3752",
+  "taskKey": "e5d1e85f-47c6-45ce-bc24-b0184cb6aab2",
+  "renderRunId": "4ecfa3f5-bfad-4685-ae3b-8ada23c4e5a7",
+  "release": {
+    "schemaVersion": 3,
+    "pluginVersion": "0.1.20",
+    "releaseId": "release-a648c4fb03767e826950ac396c728594e496f79b0ab0c824ad28d7848adb9b45",
+    "skillsDigest": "0ae19f183c4776ae2231a0def5e9d2e51eb0c0f38b68f46f37db4d56d38ef934",
+    "skillViewsDigest": "24cd247133a939739ffcb6a482b24d523413f18d6e0a3ecd4fc5d590c08b041a",
+    "skillViews": {
+      "analysis": "skills-stages/analysis",
+      "render": "skills-stages/render"
+    },
+    "motionLibrary": {
+      "count": 567,
+      "source_sha256": "6451a8923c7c2ccf27503a9b68634d18d47e5224f700f46ebd9ec6f9f4649872"
+    },
+    "runtimeEntry": "runtime.cjs",
+    "mcpEntry": "mcp.cjs",
+    "codexProtocolVersion": "0.144.4",
+    "nodeRuntime": ">=22.5.0",
+    "capabilities": {
+      "localModels": false,
+      "lexical": true,
+      "networkSearchDefault": false,
+      "reviewProtocol": 3,
+      "runtimeWait": true,
+      "sentenceAssembly": true,
+      "timelineContract": "sentence-timeline/1",
+      "derivedRenderRanges": true,
+      "directDelivery": true
+    },
+    "dependencies": "固定 Node 包、Chromium、FFmpeg/ffprobe、Codex CLI 和豆包凭据由部署清单准备"
+  },
+  "instructionVersion": "template-production/10",
+  "renderTextEqualsAnalysis": true,
+  "totalFrames": 4215,
+  "fps": 30,
+  "assemblies": [
+    {
+      "assemblyRequestId": "4ecfa3f5-assembly-v1",
+      "state": "succeeded",
+      "timelineRef": "renderer/timeline.json",
+      "timelineSha256": "b355a3ae5a4eca35a39916f90791fd31bdc483279778462f9368bfaa44471b34",
+      "sceneCount": 12,
+      "utteranceCount": 34,
+      "timingChangedSceneIds": [
+        "scene_001",
+        "scene_002",
+        "scene_003",
+        "scene_004",
+        "scene_005",
+        "scene_006",
+        "scene_007",
+        "scene_008",
+        "scene_009",
+        "scene_010",
+        "scene_011",
+        "scene_012"
+      ],
+      "detailsRef": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/e5d1e85f-47c6-45ce-bc24-b0184cb6aab2/runs/4ecfa3f5-bfad-4685-ae3b-8ada23c4e5a7/audio-assemblies/4ecfa3f5-assembly-v1.json"
+    }
+  ],
+  "latestToolEvidence": [
+    {
+      "at": 1792034625601,
+      "tool": "read_review",
+      "status": "completed",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"reviewId\":\"7c94d479-bf28-455f-9d07-6101451b5d85\",\"runState\":\"running\",\"phase\":\"pre_export\",\"sourceDigest\":\"66f163bd513ac5260a50936a221a631ee6f21c35a0a63f6f849f557fad4e4080\",\"state\":\"active\",\"total\":4,\"remaining\":4,\"missing\":[],\"changes\":[],\"requiredObservationCount\":40,\"issues\":[],\"pendingIssues\":[],\"observationCount\":0,\"reusedCount\":0,\"sessions\":[{\"thread_id\":\"01a13d96-1143-7480-bc6d-ac8cc88fa2d0\",\"state\":\"active\",\"diagnostic\":null},{\"thread_id\":\"01a13d96-2a04-76d0-8366-6fbede4c54aa\",\"state\":\"active\",\"diagnostic\":null},{\"thread_id\":\"01a13d96-1dcb-7103-81b1-2ae2e781c659\",\"state\":\"active\",\"diagnostic\":null}],\"unobserved\":[{\"unitId\":\"chapter-chapter_01\",\"remaining\":[{\"checkId\":\"visual-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-61c52748cdfffaf5b3367117\",\"ev-70322cd0a501fdf300ff9f4a\",\"ev-98954122cd7e88d9e145e787\",\"ev-a5cf4c88c47ff398a2a5f8b0\"],\"ranges\":[]},{\"checkId\":\"caption-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-61c52748cdfffaf5b3367117\",\"ev-70322cd0a501fdf300ff9f4a\",\"ev-98954122cd7e88d9e145e787\",\"ev-a5cf4c88c47ff398a2a5f8b0\"],\"ranges\":[]}]},{\"unitId\":\"chapter-chapter_02\",\"remaining\":[{\"checkId\":\"visual-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-427a7794574a498d84c2be01\",\"ev-8a5c861a62aaead1a2deae37\",\"ev-a0cfabffe4761d83943ac74f\",\"ev-10e7dbf1b6e677a6a5fa0cdd\",\"ev-b170a68ce81272fe938fcb0a\",\"ev-11bd5c7799751951f9662e3a\"],\"ranges\":[]},{\"checkId\":\"caption-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-427a7794574a498d84c2be01\",\"ev-8a5c861a62aaead1a2deae37\",\"ev-a0cfabffe4761d83943ac74f\",\"ev-10e7dbf1b6e677a6a5fa0cdd\",\"ev-b170a68ce81272fe938fcb0a\",\"ev-11bd5c7799751951f9662e3a\"],\"ranges\":[]}]},{\"unitId\":\"chapter-chapter_03\",\"remaining\":[{\"checkId\":\"visual-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-6212af525c9fd190a77eb87c\",\"ev-c02d3b0dce5d78dbfda1318b\",\"ev-1003ebf6be05af6967d366d6\",\"ev-2158461601349bc7cbed0c20\",\"ev-ed888039fb7e17b5ed6b5456\",\"ev-3c99084db71f555f657757a2\"],\"ranges\":[]},{\"checkId\":\"caption-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-6212af525c9fd190a77eb87c\",\"ev-c02d3b0dce5d78dbfda1318b\",\"ev-1003ebf6be05af6967d366d6\",\"ev-2158461601349bc7cbed0c20\",\"ev-ed888039fb7e17b5ed6b5456\",\"ev-3c99084db71f555f657757a2\"],\"ranges\":[]}]},{\"unitId\":\"chapter-chapter_04\",\"remaining\":[{\"checkId\":\"visual-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-2e65ac0e378aca979de28884\",\"ev-5210d2734094a6a2fb9ae8f2\",\"ev-76490fa3e7e9bebeab5c9881\",\"ev-d47ffc67b8afa8a2e4f8614c\"],\"ranges\":[]},{\"checkId\":\"caption-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-2e65ac0e378aca979de28884\",\"ev-5210d2734094a6a2fb9ae8f2\",\"ev-76490fa3e7e9bebeab5c9881\",\"ev-d47ffc67b8afa8a2e4f8614c\"],\"ranges\":[]}]}],\"metrics\":{\"firstClaimedAt\":1792034625580,\"lastAcceptedSubmissionAt\":null,\"preparedAt\":1792034606893,\"readQueryCount\":3,\"readTimeoutCount\":0},\"statusDigest\":\"3c653901802a54bcf1977a946ef25ae60139424888be3185dee9bb79f6eb7157\",\"timedOut\":false}"
+          }
+        ],
+        "structuredContent": {
+          "reviewId": "7c94d479-bf28-455f-9d07-6101451b5d85",
+          "runState": "running",
+          "phase": "pre_export",
+          "sourceDigest": "66f163bd513ac5260a50936a221a631ee6f21c35a0a63f6f849f557fad4e4080",
+          "state": "active",
+          "total": 4,
+          "remaining": 4,
+          "missing": [],
+          "changes": [],
+          "requiredObservationCount": 40,
+          "issues": [],
+          "pendingIssues": [],
+          "observationCount": 0,
+          "reusedCount": 0,
+          "sessions": [
+            {
+              "thread_id": "01a13d96-1143-7480-bc6d-ac8cc88fa2d0",
+              "state": "active",
+              "diagnostic": null
+            },
+            {
+              "thread_id": "01a13d96-2a04-76d0-8366-6fbede4c54aa",
+              "state": "active",
+              "diagnostic": null
+            },
+            {
+              "thread_id": "01a13d96-1dcb-7103-81b1-2ae2e781c659",
+              "state": "active",
+              "diagnostic": null
+            }
+          ],
+          "unobserved": [
+            {
+              "unitId": "chapter-chapter_01",
+              "remaining": [
+                {
+                  "checkId": "visual-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-61c52748cdfffaf5b3367117",
+                    "ev-70322cd0a501fdf300ff9f4a",
+                    "ev-98954122cd7e88d9e145e787",
+                    "ev-a5cf4c88c47ff398a2a5f8b0"
+                  ],
+                  "ranges": []
+                },
+                {
+                  "checkId": "caption-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-61c52748cdfffaf5b3367117",
+                    "ev-70322cd0a501fdf300ff9f4a",
+                    "ev-98954122cd7e88d9e145e787",
+                    "ev-a5cf4c88c47ff398a2a5f8b0"
+                  ],
+                  "ranges": []
+                }
+              ]
+            },
+            {
+              "unitId": "chapter-chapter_02",
+              "remaining": [
+                {
+                  "checkId": "visual-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-427a7794574a498d84c2be01",
+                    "ev-8a5c861a62aaead1a2deae37",
+                    "ev-a0cfabffe4761d83943ac74f",
+                    "ev-10e7dbf1b6e677a6a5fa0cdd",
+                    "ev-b170a68ce81272fe938fcb0a",
+                    "ev-11bd5c7799751951f9662e3a"
+                  ],
+                  "ranges": []
+                },
+                {
+                  "checkId": "caption-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-427a7794574a498d84c2be01",
+                    "ev-8a5c861a62aaead1a2deae37",
+                    "ev-a0cfabffe4761d83943ac74f",
+                    "ev-10e7dbf1b6e677a6a5fa0cdd",
+                    "ev-b170a68ce81272fe938fcb0a",
+                    "ev-11bd5c7799751951f9662e3a"
+                  ],
+                  "ranges": []
+                }
+              ]
+            },
+            {
+              "unitId": "chapter-chapter_03",
+              "remaining": [
+                {
+                  "checkId": "visual-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-6212af525c9fd190a77eb87c",
+                    "ev-c02d3b0dce5d78dbfda1318b",
+                    "ev-1003ebf6be05af6967d366d6",
+                    "ev-2158461601349bc7cbed0c20",
+                    "ev-ed888039fb7e17b5ed6b5456",
+                    "ev-3c99084db71f555f657757a2"
+                  ],
+                  "ranges": []
+                },
+                {
+                  "checkId": "caption-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-6212af525c9fd190a77eb87c",
+                    "ev-c02d3b0dce5d78dbfda1318b",
+                    "ev-1003ebf6be05af6967d366d6",
+                    "ev-2158461601349bc7cbed0c20",
+                    "ev-ed888039fb7e17b5ed6b5456",
+                    "ev-3c99084db71f555f657757a2"
+                  ],
+                  "ranges": []
+                }
+              ]
+            },
+            {
+              "unitId": "chapter-chapter_04",
+              "remaining": [
+                {
+                  "checkId": "visual-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-2e65ac0e378aca979de28884",
+                    "ev-5210d2734094a6a2fb9ae8f2",
+                    "ev-76490fa3e7e9bebeab5c9881",
+                    "ev-d47ffc67b8afa8a2e4f8614c"
+                  ],
+                  "ranges": []
+                },
+                {
+                  "checkId": "caption-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-2e65ac0e378aca979de28884",
+                    "ev-5210d2734094a6a2fb9ae8f2",
+                    "ev-76490fa3e7e9bebeab5c9881",
+                    "ev-d47ffc67b8afa8a2e4f8614c"
+                  ],
+                  "ranges": []
+                }
+              ]
+            }
+          ],
+          "metrics": {
+            "firstClaimedAt": 1792034625580,
+            "lastAcceptedSubmissionAt": null,
+            "preparedAt": 1792034606893,
+            "readQueryCount": 3,
+            "readTimeoutCount": 0
+          },
+          "statusDigest": "3c653901802a54bcf1977a946ef25ae60139424888be3185dee9bb79f6eb7157",
+          "timedOut": false
+        },
+        "_meta": null
+      }
+    },
+    {
+      "at": 1792034690756,
+      "tool": "read_review",
+      "status": "completed",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"reviewId\":\"7c94d479-bf28-455f-9d07-6101451b5d85\",\"runState\":\"running\",\"phase\":\"pre_export\",\"sourceDigest\":\"66f163bd513ac5260a50936a221a631ee6f21c35a0a63f6f849f557fad4e4080\",\"state\":\"active\",\"total\":4,\"remaining\":3,\"missing\":[],\"changes\":[],\"requiredObservationCount\":40,\"issues\":[],\"pendingIssues\":[],\"observationCount\":8,\"reusedCount\":0,\"sessions\":[{\"thread_id\":\"01a13d96-1143-7480-bc6d-ac8cc88fa2d0\",\"state\":\"active\",\"diagnostic\":null},{\"thread_id\":\"01a13d96-2a04-76d0-8366-6fbede4c54aa\",\"state\":\"active\",\"diagnostic\":null},{\"thread_id\":\"01a13d96-1dcb-7103-81b1-2ae2e781c659\",\"state\":\"active\",\"diagnostic\":null}],\"unobserved\":[{\"unitId\":\"chapter-chapter_02\",\"remaining\":[{\"checkId\":\"visual-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-427a7794574a498d84c2be01\",\"ev-8a5c861a62aaead1a2deae37\",\"ev-a0cfabffe4761d83943ac74f\",\"ev-10e7dbf1b6e677a6a5fa0cdd\",\"ev-b170a68ce81272fe938fcb0a\",\"ev-11bd5c7799751951f9662e3a\"],\"ranges\":[]},{\"checkId\":\"caption-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-427a7794574a498d84c2be01\",\"ev-8a5c861a62aaead1a2deae37\",\"ev-a0cfabffe4761d83943ac74f\",\"ev-10e7dbf1b6e677a6a5fa0cdd\",\"ev-b170a68ce81272fe938fcb0a\",\"ev-11bd5c7799751951f9662e3a\"],\"ranges\":[]}]},{\"unitId\":\"chapter-chapter_03\",\"remaining\":[{\"checkId\":\"visual-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-6212af525c9fd190a77eb87c\",\"ev-c02d3b0dce5d78dbfda1318b\",\"ev-1003ebf6be05af6967d366d6\",\"ev-2158461601349bc7cbed0c20\",\"ev-ed888039fb7e17b5ed6b5456\",\"ev-3c99084db71f555f657757a2\"],\"ranges\":[]},{\"checkId\":\"caption-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-6212af525c9fd190a77eb87c\",\"ev-c02d3b0dce5d78dbfda1318b\",\"ev-1003ebf6be05af6967d366d6\",\"ev-2158461601349bc7cbed0c20\",\"ev-ed888039fb7e17b5ed6b5456\",\"ev-3c99084db71f555f657757a2\"],\"ranges\":[]}]},{\"unitId\":\"chapter-chapter_04\",\"remaining\":[{\"checkId\":\"visual-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-2e65ac0e378aca979de28884\",\"ev-5210d2734094a6a2fb9ae8f2\",\"ev-76490fa3e7e9bebeab5c9881\",\"ev-d47ffc67b8afa8a2e4f8614c\"],\"ranges\":[]},{\"checkId\":\"caption-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-2e65ac0e378aca979de28884\",\"ev-5210d2734094a6a2fb9ae8f2\",\"ev-76490fa3e7e9bebeab5c9881\",\"ev-d47ffc67b8afa8a2e4f8614c\"],\"ranges\":[]}]}],\"metrics\":{\"firstClaimedAt\":1792034625580,\"lastAcceptedSubmissionAt\":1792034690735,\"preparedAt\":1792034606893,\"readQueryCount\":4,\"readTimeoutCount\":0},\"statusDigest\":\"41c07b4066cfb03bc5df430802fd19a5e3f3fdc8e020c0fcc049913752a36677\",\"timedOut\":false}"
+          }
+        ],
+        "structuredContent": {
+          "reviewId": "7c94d479-bf28-455f-9d07-6101451b5d85",
+          "runState": "running",
+          "phase": "pre_export",
+          "sourceDigest": "66f163bd513ac5260a50936a221a631ee6f21c35a0a63f6f849f557fad4e4080",
+          "state": "active",
+          "total": 4,
+          "remaining": 3,
+          "missing": [],
+          "changes": [],
+          "requiredObservationCount": 40,
+          "issues": [],
+          "pendingIssues": [],
+          "observationCount": 8,
+          "reusedCount": 0,
+          "sessions": [
+            {
+              "thread_id": "01a13d96-1143-7480-bc6d-ac8cc88fa2d0",
+              "state": "active",
+              "diagnostic": null
+            },
+            {
+              "thread_id": "01a13d96-2a04-76d0-8366-6fbede4c54aa",
+              "state": "active",
+              "diagnostic": null
+            },
+            {
+              "thread_id": "01a13d96-1dcb-7103-81b1-2ae2e781c659",
+              "state": "active",
+              "diagnostic": null
+            }
+          ],
+          "unobserved": [
+            {
+              "unitId": "chapter-chapter_02",
+              "remaining": [
+                {
+                  "checkId": "visual-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-427a7794574a498d84c2be01",
+                    "ev-8a5c861a62aaead1a2deae37",
+                    "ev-a0cfabffe4761d83943ac74f",
+                    "ev-10e7dbf1b6e677a6a5fa0cdd",
+                    "ev-b170a68ce81272fe938fcb0a",
+                    "ev-11bd5c7799751951f9662e3a"
+                  ],
+                  "ranges": []
+                },
+                {
+                  "checkId": "caption-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-427a7794574a498d84c2be01",
+                    "ev-8a5c861a62aaead1a2deae37",
+                    "ev-a0cfabffe4761d83943ac74f",
+                    "ev-10e7dbf1b6e677a6a5fa0cdd",
+                    "ev-b170a68ce81272fe938fcb0a",
+                    "ev-11bd5c7799751951f9662e3a"
+                  ],
+                  "ranges": []
+                }
+              ]
+            },
+            {
+              "unitId": "chapter-chapter_03",
+              "remaining": [
+                {
+                  "checkId": "visual-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-6212af525c9fd190a77eb87c",
+                    "ev-c02d3b0dce5d78dbfda1318b",
+                    "ev-1003ebf6be05af6967d366d6",
+                    "ev-2158461601349bc7cbed0c20",
+                    "ev-ed888039fb7e17b5ed6b5456",
+                    "ev-3c99084db71f555f657757a2"
+                  ],
+                  "ranges": []
+                },
+                {
+                  "checkId": "caption-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-6212af525c9fd190a77eb87c",
+                    "ev-c02d3b0dce5d78dbfda1318b",
+                    "ev-1003ebf6be05af6967d366d6",
+                    "ev-2158461601349bc7cbed0c20",
+                    "ev-ed888039fb7e17b5ed6b5456",
+                    "ev-3c99084db71f555f657757a2"
+                  ],
+                  "ranges": []
+                }
+              ]
+            },
+            {
+              "unitId": "chapter-chapter_04",
+              "remaining": [
+                {
+                  "checkId": "visual-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-2e65ac0e378aca979de28884",
+                    "ev-5210d2734094a6a2fb9ae8f2",
+                    "ev-76490fa3e7e9bebeab5c9881",
+                    "ev-d47ffc67b8afa8a2e4f8614c"
+                  ],
+                  "ranges": []
+                },
+                {
+                  "checkId": "caption-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-2e65ac0e378aca979de28884",
+                    "ev-5210d2734094a6a2fb9ae8f2",
+                    "ev-76490fa3e7e9bebeab5c9881",
+                    "ev-d47ffc67b8afa8a2e4f8614c"
+                  ],
+                  "ranges": []
+                }
+              ]
+            }
+          ],
+          "metrics": {
+            "firstClaimedAt": 1792034625580,
+            "lastAcceptedSubmissionAt": 1792034690735,
+            "preparedAt": 1792034606893,
+            "readQueryCount": 4,
+            "readTimeoutCount": 0
+          },
+          "statusDigest": "41c07b4066cfb03bc5df430802fd19a5e3f3fdc8e020c0fcc049913752a36677",
+          "timedOut": false
+        },
+        "_meta": null
+      }
+    },
+    {
+      "at": 1792034734425,
+      "tool": "read_review",
+      "status": "completed",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"reviewId\":\"7c94d479-bf28-455f-9d07-6101451b5d85\",\"runState\":\"running\",\"phase\":\"pre_export\",\"sourceDigest\":\"66f163bd513ac5260a50936a221a631ee6f21c35a0a63f6f849f557fad4e4080\",\"state\":\"active\",\"total\":4,\"remaining\":2,\"missing\":[],\"changes\":[],\"requiredObservationCount\":40,\"issues\":[{\"unitId\":\"chapter-chapter_03\",\"checkId\":\"visual-layout\",\"evidenceId\":\"ev-2158461601349bc7cbed0c20\",\"problem\":\"第2450帧红色管制竖条顶部与“对华芯片管制”中间字形重叠，红条和红字融在一起，损害标签辨读。请将标签移至竖条上方并留间距。\",\"severity\":\"warning\"},{\"unitId\":\"chapter-chapter_03\",\"checkId\":\"visual-layout\",\"evidenceId\":\"ev-ed888039fb7e17b5ed6b5456\",\"problem\":\"第2705帧“稿称当前”红条仍长至近90%，顶部却已写“份额从近90%跌至0”，且该帧未显示趋零标记。建议中间态添加变化中提示，以免单帧被理解为当前仍占近90%；第2890帧已有→0，第2925帧已归零。\",\"severity\":\"suggestion\"}],\"pendingIssues\":[],\"observationCount\":20,\"reusedCount\":0,\"sessions\":[{\"thread_id\":\"01a13d96-1143-7480-bc6d-ac8cc88fa2d0\",\"state\":\"active\",\"diagnostic\":null},{\"thread_id\":\"01a13d96-2a04-76d0-8366-6fbede4c54aa\",\"state\":\"active\",\"diagnostic\":null},{\"thread_id\":\"01a13d96-1dcb-7103-81b1-2ae2e781c659\",\"state\":\"active\",\"diagnostic\":null}],\"unobserved\":[{\"unitId\":\"chapter-chapter_02\",\"remaining\":[{\"checkId\":\"visual-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-427a7794574a498d84c2be01\",\"ev-8a5c861a62aaead1a2deae37\",\"ev-a0cfabffe4761d83943ac74f\",\"ev-10e7dbf1b6e677a6a5fa0cdd\",\"ev-b170a68ce81272fe938fcb0a\",\"ev-11bd5c7799751951f9662e3a\"],\"ranges\":[]},{\"checkId\":\"caption-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-427a7794574a498d84c2be01\",\"ev-8a5c861a62aaead1a2deae37\",\"ev-a0cfabffe4761d83943ac74f\",\"ev-10e7dbf1b6e677a6a5fa0cdd\",\"ev-b170a68ce81272fe938fcb0a\",\"ev-11bd5c7799751951f9662e3a\"],\"ranges\":[]}]},{\"unitId\":\"chapter-chapter_04\",\"remaining\":[{\"checkId\":\"visual-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-2e65ac0e378aca979de28884\",\"ev-5210d2734094a6a2fb9ae8f2\",\"ev-76490fa3e7e9bebeab5c9881\",\"ev-d47ffc67b8afa8a2e4f8614c\"],\"ranges\":[]},{\"checkId\":\"caption-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-2e65ac0e378aca979de28884\",\"ev-5210d2734094a6a2fb9ae8f2\",\"ev-76490fa3e7e9bebeab5c9881\",\"ev-d47ffc67b8afa8a2e4f8614c\"],\"ranges\":[]}]}],\"metrics\":{\"firstClaimedAt\":1792034625580,\"lastAcceptedSubmissionAt\":1792034734403,\"preparedAt\":1792034606893,\"readQueryCount\":5,\"readTimeoutCount\":0},\"statusDigest\":\"607c8b86332036df202b854c1e5a966b74773c9573715a685f1808f712cf8c40\",\"timedOut\":false}"
+          }
+        ],
+        "structuredContent": {
+          "reviewId": "7c94d479-bf28-455f-9d07-6101451b5d85",
+          "runState": "running",
+          "phase": "pre_export",
+          "sourceDigest": "66f163bd513ac5260a50936a221a631ee6f21c35a0a63f6f849f557fad4e4080",
+          "state": "active",
+          "total": 4,
+          "remaining": 2,
+          "missing": [],
+          "changes": [],
+          "requiredObservationCount": 40,
+          "issues": [
+            {
+              "unitId": "chapter-chapter_03",
+              "checkId": "visual-layout",
+              "evidenceId": "ev-2158461601349bc7cbed0c20",
+              "problem": "第2450帧红色管制竖条顶部与“对华芯片管制”中间字形重叠，红条和红字融在一起，损害标签辨读。请将标签移至竖条上方并留间距。",
+              "severity": "warning"
+            },
+            {
+              "unitId": "chapter-chapter_03",
+              "checkId": "visual-layout",
+              "evidenceId": "ev-ed888039fb7e17b5ed6b5456",
+              "problem": "第2705帧“稿称当前”红条仍长至近90%，顶部却已写“份额从近90%跌至0”，且该帧未显示趋零标记。建议中间态添加变化中提示，以免单帧被理解为当前仍占近90%；第2890帧已有→0，第2925帧已归零。",
+              "severity": "suggestion"
+            }
+          ],
+          "pendingIssues": [],
+          "observationCount": 20,
+          "reusedCount": 0,
+          "sessions": [
+            {
+              "thread_id": "01a13d96-1143-7480-bc6d-ac8cc88fa2d0",
+              "state": "active",
+              "diagnostic": null
+            },
+            {
+              "thread_id": "01a13d96-2a04-76d0-8366-6fbede4c54aa",
+              "state": "active",
+              "diagnostic": null
+            },
+            {
+              "thread_id": "01a13d96-1dcb-7103-81b1-2ae2e781c659",
+              "state": "active",
+              "diagnostic": null
+            }
+          ],
+          "unobserved": [
+            {
+              "unitId": "chapter-chapter_02",
+              "remaining": [
+                {
+                  "checkId": "visual-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-427a7794574a498d84c2be01",
+                    "ev-8a5c861a62aaead1a2deae37",
+                    "ev-a0cfabffe4761d83943ac74f",
+                    "ev-10e7dbf1b6e677a6a5fa0cdd",
+                    "ev-b170a68ce81272fe938fcb0a",
+                    "ev-11bd5c7799751951f9662e3a"
+                  ],
+                  "ranges": []
+                },
+                {
+                  "checkId": "caption-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-427a7794574a498d84c2be01",
+                    "ev-8a5c861a62aaead1a2deae37",
+                    "ev-a0cfabffe4761d83943ac74f",
+                    "ev-10e7dbf1b6e677a6a5fa0cdd",
+                    "ev-b170a68ce81272fe938fcb0a",
+                    "ev-11bd5c7799751951f9662e3a"
+                  ],
+                  "ranges": []
+                }
+              ]
+            },
+            {
+              "unitId": "chapter-chapter_04",
+              "remaining": [
+                {
+                  "checkId": "visual-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-2e65ac0e378aca979de28884",
+                    "ev-5210d2734094a6a2fb9ae8f2",
+                    "ev-76490fa3e7e9bebeab5c9881",
+                    "ev-d47ffc67b8afa8a2e4f8614c"
+                  ],
+                  "ranges": []
+                },
+                {
+                  "checkId": "caption-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-2e65ac0e378aca979de28884",
+                    "ev-5210d2734094a6a2fb9ae8f2",
+                    "ev-76490fa3e7e9bebeab5c9881",
+                    "ev-d47ffc67b8afa8a2e4f8614c"
+                  ],
+                  "ranges": []
+                }
+              ]
+            }
+          ],
+          "metrics": {
+            "firstClaimedAt": 1792034625580,
+            "lastAcceptedSubmissionAt": 1792034734403,
+            "preparedAt": 1792034606893,
+            "readQueryCount": 5,
+            "readTimeoutCount": 0
+          },
+          "statusDigest": "607c8b86332036df202b854c1e5a966b74773c9573715a685f1808f712cf8c40",
+          "timedOut": false
+        },
+        "_meta": null
+      }
+    },
+    {
+      "at": 1792034745973,
+      "tool": "read_review",
+      "status": "completed",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"reviewId\":\"7c94d479-bf28-455f-9d07-6101451b5d85\",\"runState\":\"running\",\"phase\":\"pre_export\",\"sourceDigest\":\"66f163bd513ac5260a50936a221a631ee6f21c35a0a63f6f849f557fad4e4080\",\"state\":\"active\",\"total\":4,\"remaining\":1,\"missing\":[],\"changes\":[],\"requiredObservationCount\":40,\"issues\":[{\"unitId\":\"chapter-chapter_03\",\"checkId\":\"visual-layout\",\"evidenceId\":\"ev-2158461601349bc7cbed0c20\",\"problem\":\"第2450帧红色管制竖条顶部与“对华芯片管制”中间字形重叠，红条和红字融在一起，损害标签辨读。请将标签移至竖条上方并留间距。\",\"severity\":\"warning\"},{\"unitId\":\"chapter-chapter_03\",\"checkId\":\"visual-layout\",\"evidenceId\":\"ev-ed888039fb7e17b5ed6b5456\",\"problem\":\"第2705帧“稿称当前”红条仍长至近90%，顶部却已写“份额从近90%跌至0”，且该帧未显示趋零标记。建议中间态添加变化中提示，以免单帧被理解为当前仍占近90%；第2890帧已有→0，第2925帧已归零。\",\"severity\":\"suggestion\"},{\"unitId\":\"chapter-chapter_04\",\"checkId\":\"visual-layout\",\"evidenceId\":\"ev-d47ffc67b8afa8a2e4f8614c\",\"problem\":\"4180帧片尾品牌标志放大后边缘及“原创财经解读栏目”小字略显模糊，可选用更高分辨率或矢量素材改善清晰度；当前仍可辨认，不强制返修。\",\"severity\":\"suggestion\"}],\"pendingIssues\":[],\"observationCount\":28,\"reusedCount\":0,\"sessions\":[{\"thread_id\":\"01a13d96-1143-7480-bc6d-ac8cc88fa2d0\",\"state\":\"active\",\"diagnostic\":null},{\"thread_id\":\"01a13d96-2a04-76d0-8366-6fbede4c54aa\",\"state\":\"active\",\"diagnostic\":null},{\"thread_id\":\"01a13d96-1dcb-7103-81b1-2ae2e781c659\",\"state\":\"active\",\"diagnostic\":null}],\"unobserved\":[{\"unitId\":\"chapter-chapter_02\",\"remaining\":[{\"checkId\":\"visual-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-427a7794574a498d84c2be01\",\"ev-8a5c861a62aaead1a2deae37\",\"ev-a0cfabffe4761d83943ac74f\",\"ev-10e7dbf1b6e677a6a5fa0cdd\",\"ev-b170a68ce81272fe938fcb0a\",\"ev-11bd5c7799751951f9662e3a\"],\"ranges\":[]},{\"checkId\":\"caption-layout\",\"reason\":\"尚未观察全部静帧\",\"evidenceIds\":[\"ev-427a7794574a498d84c2be01\",\"ev-8a5c861a62aaead1a2deae37\",\"ev-a0cfabffe4761d83943ac74f\",\"ev-10e7dbf1b6e677a6a5fa0cdd\",\"ev-b170a68ce81272fe938fcb0a\",\"ev-11bd5c7799751951f9662e3a\"],\"ranges\":[]}]}],\"metrics\":{\"firstClaimedAt\":1792034625580,\"lastAcceptedSubmissionAt\":1792034745952,\"preparedAt\":1792034606893,\"readQueryCount\":6,\"readTimeoutCount\":0},\"statusDigest\":\"6eebaba505ebf83718d7b09ebaaeabcac508d320034b252d4ca5ec92167926f0\",\"timedOut\":false}"
+          }
+        ],
+        "structuredContent": {
+          "reviewId": "7c94d479-bf28-455f-9d07-6101451b5d85",
+          "runState": "running",
+          "phase": "pre_export",
+          "sourceDigest": "66f163bd513ac5260a50936a221a631ee6f21c35a0a63f6f849f557fad4e4080",
+          "state": "active",
+          "total": 4,
+          "remaining": 1,
+          "missing": [],
+          "changes": [],
+          "requiredObservationCount": 40,
+          "issues": [
+            {
+              "unitId": "chapter-chapter_03",
+              "checkId": "visual-layout",
+              "evidenceId": "ev-2158461601349bc7cbed0c20",
+              "problem": "第2450帧红色管制竖条顶部与“对华芯片管制”中间字形重叠，红条和红字融在一起，损害标签辨读。请将标签移至竖条上方并留间距。",
+              "severity": "warning"
+            },
+            {
+              "unitId": "chapter-chapter_03",
+              "checkId": "visual-layout",
+              "evidenceId": "ev-ed888039fb7e17b5ed6b5456",
+              "problem": "第2705帧“稿称当前”红条仍长至近90%，顶部却已写“份额从近90%跌至0”，且该帧未显示趋零标记。建议中间态添加变化中提示，以免单帧被理解为当前仍占近90%；第2890帧已有→0，第2925帧已归零。",
+              "severity": "suggestion"
+            },
+            {
+              "unitId": "chapter-chapter_04",
+              "checkId": "visual-layout",
+              "evidenceId": "ev-d47ffc67b8afa8a2e4f8614c",
+              "problem": "4180帧片尾品牌标志放大后边缘及“原创财经解读栏目”小字略显模糊，可选用更高分辨率或矢量素材改善清晰度；当前仍可辨认，不强制返修。",
+              "severity": "suggestion"
+            }
+          ],
+          "pendingIssues": [],
+          "observationCount": 28,
+          "reusedCount": 0,
+          "sessions": [
+            {
+              "thread_id": "01a13d96-1143-7480-bc6d-ac8cc88fa2d0",
+              "state": "active",
+              "diagnostic": null
+            },
+            {
+              "thread_id": "01a13d96-2a04-76d0-8366-6fbede4c54aa",
+              "state": "active",
+              "diagnostic": null
+            },
+            {
+              "thread_id": "01a13d96-1dcb-7103-81b1-2ae2e781c659",
+              "state": "active",
+              "diagnostic": null
+            }
+          ],
+          "unobserved": [
+            {
+              "unitId": "chapter-chapter_02",
+              "remaining": [
+                {
+                  "checkId": "visual-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-427a7794574a498d84c2be01",
+                    "ev-8a5c861a62aaead1a2deae37",
+                    "ev-a0cfabffe4761d83943ac74f",
+                    "ev-10e7dbf1b6e677a6a5fa0cdd",
+                    "ev-b170a68ce81272fe938fcb0a",
+                    "ev-11bd5c7799751951f9662e3a"
+                  ],
+                  "ranges": []
+                },
+                {
+                  "checkId": "caption-layout",
+                  "reason": "尚未观察全部静帧",
+                  "evidenceIds": [
+                    "ev-427a7794574a498d84c2be01",
+                    "ev-8a5c861a62aaead1a2deae37",
+                    "ev-a0cfabffe4761d83943ac74f",
+                    "ev-10e7dbf1b6e677a6a5fa0cdd",
+                    "ev-b170a68ce81272fe938fcb0a",
+                    "ev-11bd5c7799751951f9662e3a"
+                  ],
+                  "ranges": []
+                }
+              ]
+            }
+          ],
+          "metrics": {
+            "firstClaimedAt": 1792034625580,
+            "lastAcceptedSubmissionAt": 1792034745952,
+            "preparedAt": 1792034606893,
+            "readQueryCount": 6,
+            "readTimeoutCount": 0
+          },
+          "statusDigest": "6eebaba505ebf83718d7b09ebaaeabcac508d320034b252d4ca5ec92167926f0",
+          "timedOut": false
+        },
+        "_meta": null
+      }
+    },
+    {
+      "at": 1792034753921,
+      "tool": "read_review",
+      "status": "completed",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"reviewId\":\"7c94d479-bf28-455f-9d07-6101451b5d85\",\"runState\":\"running\",\"phase\":\"pre_export\",\"sourceDigest\":\"66f163bd513ac5260a50936a221a631ee6f21c35a0a63f6f849f557fad4e4080\",\"state\":\"active\",\"total\":4,\"remaining\":0,\"missing\":[],\"changes\":[],\"requiredObservationCount\":40,\"issues\":[{\"unitId\":\"chapter-chapter_02\",\"checkId\":\"visual-layout\",\"evidenceId\":\"ev-b170a68ce81272fe938fcb0a\",\"problem\":\"帧2290应用层右侧的“稿称亚洲应用领先”标签与应用层底边、右边框相交，前部字形被青色线穿过，并紧贴上方“应用层成为焦点”，使关键领先关系的注释拥挤、辨读受损。应调整注释与边框间距。\",\"severity\":\"warning\"},{\"unitId\":\"chapter-chapter_03\",\"checkId\":\"visual-layout\",\"evidenceId\":\"ev-2158461601349bc7cbed0c20\",\"problem\":\"第2450帧红色管制竖条顶部与“对华芯片管制”中间字形重叠，红条和红字融在一起，损害标签辨读。请将标签移至竖条上方并留间距。\",\"severity\":\"warning\"},{\"unitId\":\"chapter-chapter_03\",\"checkId\":\"visual-layout\",\"evidenceId\":\"ev-ed888039fb7e17b5ed6b5456\",\"problem\":\"第2705帧“稿称当前”红条仍长至近90%，顶部却已写“份额从近90%跌至0”，且该帧未显示趋零标记。建议中间态添加变化中提示，以免单帧被理解为当前仍占近90%；第2890帧已有→0，第2925帧已归零。\",\"severity\":\"suggestion\"},{\"unitId\":\"chapter-chapter_04\",\"checkId\":\"visual-layout\",\"evidenceId\":\"ev-d47ffc67b8afa8a2e4f8614c\",\"problem\":\"4180帧片尾品牌标志放大后边缘及“原创财经解读栏目”小字略显模糊，可选用更高分辨率或矢量素材改善清晰度；当前仍可辨认，不强制返修。\",\"severity\":\"suggestion\"}],\"pendingIssues\":[],\"observationCount\":40,\"reusedCount\":0,\"sessions\":[{\"thread_id\":\"01a13d96-1143-7480-bc6d-ac8cc88fa2d0\",\"state\":\"active\",\"diagnostic\":null},{\"thread_id\":\"01a13d96-2a04-76d0-8366-6fbede4c54aa\",\"state\":\"active\",\"diagnostic\":null},{\"thread_id\":\"01a13d96-1dcb-7103-81b1-2ae2e781c659\",\"state\":\"active\",\"diagnostic\":null}],\"unobserved\":[],\"metrics\":{\"firstClaimedAt\":1792034625580,\"lastAcceptedSubmissionAt\":1792034753906,\"preparedAt\":1792034606893,\"readQueryCount\":7,\"readTimeoutCount\":0},\"statusDigest\":\"61b727999e476720b8220abbe896c2e7ac429dcbd801680efff7a57824cc96a6\",\"timedOut\":false}"
+          }
+        ],
+        "structuredContent": {
+          "reviewId": "7c94d479-bf28-455f-9d07-6101451b5d85",
+          "runState": "running",
+          "phase": "pre_export",
+          "sourceDigest": "66f163bd513ac5260a50936a221a631ee6f21c35a0a63f6f849f557fad4e4080",
+          "state": "active",
+          "total": 4,
+          "remaining": 0,
+          "missing": [],
+          "changes": [],
+          "requiredObservationCount": 40,
+          "issues": [
+            {
+              "unitId": "chapter-chapter_02",
+              "checkId": "visual-layout",
+              "evidenceId": "ev-b170a68ce81272fe938fcb0a",
+              "problem": "帧2290应用层右侧的“稿称亚洲应用领先”标签与应用层底边、右边框相交，前部字形被青色线穿过，并紧贴上方“应用层成为焦点”，使关键领先关系的注释拥挤、辨读受损。应调整注释与边框间距。",
+              "severity": "warning"
+            },
+            {
+              "unitId": "chapter-chapter_03",
+              "checkId": "visual-layout",
+              "evidenceId": "ev-2158461601349bc7cbed0c20",
+              "problem": "第2450帧红色管制竖条顶部与“对华芯片管制”中间字形重叠，红条和红字融在一起，损害标签辨读。请将标签移至竖条上方并留间距。",
+              "severity": "warning"
+            },
+            {
+              "unitId": "chapter-chapter_03",
+              "checkId": "visual-layout",
+              "evidenceId": "ev-ed888039fb7e17b5ed6b5456",
+              "problem": "第2705帧“稿称当前”红条仍长至近90%，顶部却已写“份额从近90%跌至0”，且该帧未显示趋零标记。建议中间态添加变化中提示，以免单帧被理解为当前仍占近90%；第2890帧已有→0，第2925帧已归零。",
+              "severity": "suggestion"
+            },
+            {
+              "unitId": "chapter-chapter_04",
+              "checkId": "visual-layout",
+              "evidenceId": "ev-d47ffc67b8afa8a2e4f8614c",
+              "problem": "4180帧片尾品牌标志放大后边缘及“原创财经解读栏目”小字略显模糊，可选用更高分辨率或矢量素材改善清晰度；当前仍可辨认，不强制返修。",
+              "severity": "suggestion"
+            }
+          ],
+          "pendingIssues": [],
+          "observationCount": 40,
+          "reusedCount": 0,
+          "sessions": [
+            {
+              "thread_id": "01a13d96-1143-7480-bc6d-ac8cc88fa2d0",
+              "state": "active",
+              "diagnostic": null
+            },
+            {
+              "thread_id": "01a13d96-2a04-76d0-8366-6fbede4c54aa",
+              "state": "active",
+              "diagnostic": null
+            },
+            {
+              "thread_id": "01a13d96-1dcb-7103-81b1-2ae2e781c659",
+              "state": "active",
+              "diagnostic": null
+            }
+          ],
+          "unobserved": [],
+          "metrics": {
+            "firstClaimedAt": 1792034625580,
+            "lastAcceptedSubmissionAt": 1792034753906,
+            "preparedAt": 1792034606893,
+            "readQueryCount": 7,
+            "readTimeoutCount": 0
+          },
+          "statusDigest": "61b727999e476720b8220abbe896c2e7ac429dcbd801680efff7a57824cc96a6",
+          "timedOut": false
+        },
+        "_meta": null
+      }
+    }
+  ],
+  "lastEventAtMs": 1792034754325
+}

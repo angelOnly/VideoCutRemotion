@@ -1,0 +1,80 @@
+{
+  "taskId": "5deec712fc9b46479145fd95720b3752",
+  "runId": "f859a321-cefa-4fd3-aec7-bd808d5d2952",
+  "inputDigest": "1abf9e48d3f957c3448279d318fbd3ce51ac5d6df6ed74ace98cc3a93a96ae15",
+  "dataList": [
+    {
+      "id": "scene_001",
+      "content": "首个全球90%的AI芯片，站在AI技术金字塔尖的黄仁勋，这次是真的慌了。在月初的最新采访中，这位英伟达CEO全程眉头紧锁。",
+      "dur": 13.6,
+      "durationSource": "estimated"
+    },
+    {
+      "id": "scene_002",
+      "content": "他没有炫耀最新的芯片技术，也没有吹嘘英伟达的业绩，而是对着镜头发出了最严厉的警告：“美国正在亲手葬送自己的国运”。\n",
+      "dur": 13.1,
+      "durationSource": "estimated"
+    },
+    {
+      "id": "scene_003",
+      "content": "“技术领先根本不算赢，谁能把AI真正用起来，谁才是最后的赢家。”黄仁勋戳破了华盛顿最大的幻觉。",
+      "dur": 10.7,
+      "durationSource": "estimated"
+    },
+    {
+      "id": "scene_004",
+      "content": "现在的美国，上到国会下到媒体，所有人都在吵着AI有多危险，要怎么监管，会不会毁灭人类。用“20%概率灭绝人类”这种科幻小说式的言论制造全民恐慌。\n",
+      "dur": 16.3,
+      "durationSource": "estimated"
+    },
+    {
+      "id": "scene_005",
+      "content": "而另一边，亚洲国家根本没空讨论这些虚无缥缈的问题，正开足马力把AI落地到工厂、医院、零售的每一个角落，以极大的热情拥抱AI，快速推进商业化落地。这种反差让黄仁勋坐立难安。\n",
+      "dur": 19.7,
+      "durationSource": "estimated"
+    },
+    {
+      "id": "scene_006",
+      "content": "他用自己提出的AI五层蛋糕模型打比方：美国在能源、芯片、基础设施、模型这四层全都遥遥领先，但在最关键的应用层已经被亚洲甩在了身后。",
+      "dur": 15.1,
+      "durationSource": "estimated"
+    },
+    {
+      "id": "scene_007",
+      "content": "最让他痛心的是，美国对华芯片管制政策的搬起石头砸自己的脚。",
+      "dur": 7.0,
+      "durationSource": "estimated"
+    },
+    {
+      "id": "scene_008",
+      "content": "黄仁勋在采访中亲口承认，英伟达在中国AI芯片市场的份额已经从巅峰时的近90%，直接跌到了0。“把中国这么大的市场白白让出去，从战略上讲蠢透了。”\n",
+      "dur": 16.3,
+      "durationSource": "estimated"
+    },
+    {
+      "id": "scene_009",
+      "content": "这项政策早就适得其反了。中国无论如何都会搞出自己的芯片，谁也拦不住。",
+      "dur": 8.4,
+      "durationSource": "estimated"
+    },
+    {
+      "id": "scene_010",
+      "content": "而美国企业失去的不只是真金白银的收入，更是能决定未来的市场份额和生态主导权。",
+      "dur": 9.2,
+      "durationSource": "estimated"
+    },
+    {
+      "id": "scene_011",
+      "content": "“AI是全球性的产业，我们应该把技术卖到全世界去，市场份额本身就是‘最硬的战略武器’。”\n",
+      "dur": 9.3,
+      "durationSource": "estimated"
+    },
+    {
+      "id": "scene_012",
+      "content": "黄仁勋呼吁，如果继续被恐慌情绪绑架，阻碍AI落地，就算美国有全世界最好的芯片和模型，最终也会输掉这场决定国运的工业革命。",
+      "dur": 14.0,
+      "durationSource": "estimated"
+    }
+  ],
+  "context": "# 文字分析约束与决定\n\n- 阶段：analysis；完整保留本次输入正文及其顺序、数字、英文、标点与换行，不纠错、不改写，不新增开场白、对白或结束语。otherRequirements 为空。\n- 按语义拆为 12 个可编辑业务分镜：采访背景、警告、应用竞争判断、美国监管与恐慌、亚洲落地、五层模型、管制政策转折、市场份额与引语、政策效果、中国市场及生态损失、全球市场主张、结尾呼吁。段落换行保留在对应前一分镜末尾。业务分镜独立于 TTS 句段及动画章节，不规定三者一一对应。\n- dur 单位为秒，按约每秒 4.2 个文字计量单位并计入标点停顿估算，全部 durationSource 为 estimated；制作时以实际音频时长为准。\n- 保留固定男女头像与两位语义分工要求；建议 scene_001—scene_002 女声、scene_003—scene_004 男声、scene_005 女声、scene_006—scene_008 男声、scene_009—scene_010 女声、scene_011—scene_012 男声。允许连续多句，不机械逐句轮换，不增写角色对白。正式音色 finance.female 与 finance.male 由服务器绑定，本阶段不生成音频或人物表演。\n- 固定栏目 Logo、背景、导航、字幕区、片头片尾保留要求不构成增写正文授权；片头不得截断口播，片尾在全部口播结束后播放一次。\n\n## 未确定事项\n\n- 具体语速、停顿及最终时长尚未确定；角色分配为文字阶段建议。\n- 原文“首个全球90%的AI芯片”等表述及报道、引语、数字的事实依据未提供，按原稿保留，不作校订或真实性背书。\n\n## 模板文字合同依据\n\n- 引用 input.json 的 template.analysisInstructions[0]：文字分析合同.md（财经双人模板文字分析合同），SHA-256：d58eab661d36b25cd6a74e2fd170993c38eda7b088ca449a1ab7687f110b1cae。\n- 模板 customTemplateId：14；templateVersion：2.0.4。\n- archiveDigest：f6cd53260f6614bb68056f12c8a42bef60b27a59e370b1dc266df167e0d3a66c。\n- analysisContractDigest：fce46b9eb2d6751539b4e151a6783d8ed7326e380573bd917625b1f40d522377。\n- 合同摘要：全文逐字保留、完整语义拆分、估时明确标识、男女语义分工且不添对白、包装不增稿、业务分镜与配音句段及动画章节分别处理。只依据已展开文字合同，不读取源码、素材或制作方法。\n"
+}
