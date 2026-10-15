@@ -1,0 +1,143 @@
+[
+  {
+    "schemaVersion": 1,
+    "event": "media_span_finished",
+    "runId": "2d5d22bf-835d-4427-86d6-c263a2be86a4",
+    "renderRequestId": "haoyobo-frames-v1",
+    "sourceDigest": null,
+    "stage": "media_job",
+    "spanId": "bb6a521c-fcca-4e49-99de-d1061ed52419",
+    "parentSpanId": null,
+    "startedAt": "2026-10-15T08:53:12.962Z",
+    "endedAt": "2026-10-15T08:54:00.223Z",
+    "durationMs": 47259.698119000066,
+    "result": "failed",
+    "clock": {
+      "processInstanceId": "bd318ab6-424a-418a-8b0e-4838d116d654",
+      "startedMonotonicMs": 700807.430812,
+      "endedMonotonicMs": 748067.128931
+    },
+    "resources": {
+      "scope": "node_process_including_concurrent_work_excluding_children",
+      "cpuUserMs": 34810.455,
+      "cpuSystemMs": 7667.03,
+      "childProcesses": {
+        "scope": "sampled_chrome_ffmpeg_descendants_including_concurrent_work",
+        "available": true,
+        "intervalMs": 1000,
+        "samples": 18,
+        "observedProcessCount": 8,
+        "observedCpuMs": 3990,
+        "peakCombinedRssBytes": 592498688,
+        "accounting": "sampled_lower_bound_short_lived_processes_may_be_missed"
+      },
+      "cpuPercentOfOneCore": 89.88099097256517,
+      "rssStartBytes": 63348736,
+      "rssEndBytes": 618627072,
+      "processLifetimePeakRssBytes": 918228992,
+      "fileSystemReadOperations": 0,
+      "fileSystemWriteOperations": 0,
+      "ioAccounting": "resourceUsage_platform_dependent_zero_may_be_unavailable",
+      "ioWaitMs": null,
+      "hostFreeMemoryStartBytes": 32448512,
+      "hostFreeMemoryEndBytes": 332910592,
+      "processAvailableMemoryEndBytes": 5641863168,
+      "activeMediaJobs": 1
+    },
+    "metadata": {}
+  },
+  {
+    "schemaVersion": 1,
+    "event": "media_span_finished",
+    "runId": "2d5d22bf-835d-4427-86d6-c263a2be86a4",
+    "renderRequestId": "haoyobo-frames-v2",
+    "sourceDigest": null,
+    "stage": "media_job",
+    "spanId": "9a69165e-b2c5-489f-b163-4113b824bbeb",
+    "parentSpanId": null,
+    "startedAt": "2026-10-15T08:55:08.765Z",
+    "endedAt": "2026-10-15T08:55:42.360Z",
+    "durationMs": 33594.64772800007,
+    "result": "failed",
+    "clock": {
+      "processInstanceId": "bd318ab6-424a-418a-8b0e-4838d116d654",
+      "startedMonotonicMs": 816608.352707,
+      "endedMonotonicMs": 850203.000435
+    },
+    "resources": {
+      "scope": "node_process_including_concurrent_work_excluding_children",
+      "cpuUserMs": 24395.25,
+      "cpuSystemMs": 6593.612,
+      "childProcesses": {
+        "scope": "sampled_chrome_ffmpeg_descendants_including_concurrent_work",
+        "available": true,
+        "intervalMs": 1000,
+        "samples": 20,
+        "observedProcessCount": 12,
+        "observedCpuMs": 11960,
+        "peakCombinedRssBytes": 984100864,
+        "accounting": "sampled_lower_bound_short_lived_processes_may_be_missed"
+      },
+      "cpuPercentOfOneCore": 92.24344976289711,
+      "rssStartBytes": 160083968,
+      "rssEndBytes": 543965184,
+      "processLifetimePeakRssBytes": 918228992,
+      "fileSystemReadOperations": 0,
+      "fileSystemWriteOperations": 0,
+      "ioAccounting": "resourceUsage_platform_dependent_zero_may_be_unavailable",
+      "ioWaitMs": null,
+      "hostFreeMemoryStartBytes": 134987776,
+      "hostFreeMemoryEndBytes": 39133184,
+      "processAvailableMemoryEndBytes": 5265453056,
+      "activeMediaJobs": 1
+    },
+    "metadata": {}
+  },
+  {
+    "schemaVersion": 1,
+    "event": "media_span_finished",
+    "runId": "2d5d22bf-835d-4427-86d6-c263a2be86a4",
+    "renderRequestId": "haoyobo-motion-preview-v1",
+    "sourceDigest": "a2b0bf1131862e96e25bc26b36ffbfde8861ff374f76d2335de8a68e1a2e0fb4",
+    "stage": "media_job",
+    "spanId": "ba0c48ee-adf0-40a1-a27c-c6e0dca85d6e",
+    "parentSpanId": null,
+    "startedAt": "2026-10-15T08:56:03.520Z",
+    "endedAt": "2026-10-15T09:04:08.844Z",
+    "durationMs": 485343.58615999995,
+    "result": "succeeded",
+    "clock": {
+      "processInstanceId": "bd318ab6-424a-418a-8b0e-4838d116d654",
+      "startedMonotonicMs": 871362.891848,
+      "endedMonotonicMs": 1356706.478008
+    },
+    "resources": {
+      "scope": "node_process_including_concurrent_work_excluding_children",
+      "cpuUserMs": 27281.152,
+      "cpuSystemMs": 10314.746,
+      "childProcesses": {
+        "scope": "sampled_chrome_ffmpeg_descendants_including_concurrent_work",
+        "available": true,
+        "intervalMs": 1000,
+        "samples": 192,
+        "observedProcessCount": 41,
+        "observedCpuMs": 312470,
+        "peakCombinedRssBytes": 2727362560,
+        "accounting": "sampled_lower_bound_short_lived_processes_may_be_missed"
+      },
+      "cpuPercentOfOneCore": 7.746243912988687,
+      "rssStartBytes": 163762176,
+      "rssEndBytes": 207376384,
+      "processLifetimePeakRssBytes": 918228992,
+      "fileSystemReadOperations": 0,
+      "fileSystemWriteOperations": 0,
+      "ioAccounting": "resourceUsage_platform_dependent_zero_may_be_unavailable",
+      "ioWaitMs": null,
+      "hostFreeMemoryStartBytes": 757100544,
+      "hostFreeMemoryEndBytes": 58503168,
+      "processAvailableMemoryEndBytes": 5284851712,
+      "activeMediaJobs": 1
+    },
+    "metadata": {}
+  }
+]

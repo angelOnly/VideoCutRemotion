@@ -94,7 +94,10 @@ test('连续观察按协调者指定的目的与区间登记，静帧不能冒�
 
 test('媒体等待保留原作业；未知、取消与关闭不重建检查计划',async()=>{
  const f=await reviewFixture();try{
-  const v=await f.version('v1');v.job.state='running';await writeJson(join(f.root,'render-jobs','v1.json'),v.job);
+  const v=await f.version('v1');
+  const controller=new AbortController(),cancelled=f.service.prepare(f.run,f.input('v1'),{signal:controller.signal});controller.abort();await assert.rejects(cancelled,code('PROCESS_CANCELLED'));
+  assert.equal((f.repo.db.prepare('SELECT COUNT(*) n FROM reviews').get() as any).n,0);
+  v.job.state='running';await writeJson(join(f.root,'render-jobs','v1.json'),v.job);
   assert.equal((await f.plan('v1')).state,'waiting_media');assert.equal((f.repo.db.prepare('SELECT COUNT(*) n FROM reviews').get() as any).n,0);
   assert.equal((await f.service.prepare(f.run,f.input('v1'),{isRunning:()=>false})).jobs[0].state,'unknown');
   const waiting=f.service.prepare(f.run,{...f.input('v1'),waitMs:1000});const rejection=assert.rejects(waiting,code('PROCESS_CANCELLED'));f.service.close();await rejection;
@@ -106,6 +109,7 @@ test('状态等待由分派与观察唤醒，查询不伪装进展且取消清�
  const f=await reviewFixture();try{
   await f.version('v1');const plan=await f.plan('v1');const pending=f.service.readWait(f.run.runId,{reviewId:plan.reviewId,afterDigest:plan.statusDigest,waitMs:1000});
   const a=f.assign(plan.reviewId);const changed=await pending;assert.notEqual(changed.statusDigest,plan.statusDigest);
+  f.service.submit(f.run.runId,{...complete(a),observations:[],status:'partial'});const idle=f.service.read(f.run.runId,plan.reviewId);assert.equal(idle.statusDigest,changed.statusDigest);assert.equal(idle.units[0].lastProgressAt,undefined);
   const timeout=await f.service.readWait(f.run.runId,{reviewId:plan.reviewId,afterDigest:changed.statusDigest,waitMs:5});assert.equal(timeout.timedOut,true);assert.equal(timeout.statusDigest,changed.statusDigest);
   const body={...complete(a),observations:observations(a).slice(0,1)};f.service.submit(f.run.runId,body);const saved=f.service.read(f.run.runId,plan.reviewId);f.service.submit(f.run.runId,body);assert.deepEqual(f.service.read(f.run.runId,plan.reviewId),saved);
   const waiting=f.service.readWait(f.run.runId,{reviewId:plan.reviewId,afterDigest:saved.statusDigest,waitMs:1000});const rejected=assert.rejects(waiting,code('PROCESS_CANCELLED'));f.service.close();await rejected;

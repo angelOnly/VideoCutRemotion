@@ -28,6 +28,7 @@ def adapt_timeline(output):
 
 def patch_template(output):
     adapt_timeline(output)
+    patch_visual_primitives(output)
     src = Path(output) / 'renderer/src'
     assets = Path(__file__).parent / 'finance-template-patches'
     scripts = Path(output) / 'renderer/scripts'
@@ -75,3 +76,25 @@ def patch_template(output):
       check(u.speaker === undefined || u.speaker === 'male-chief' || u.speaker === 'female-host', `${s.id} 句段人物无效`);
       if(s.intro) check(u.endFrameExclusive <= (s.intro.fromFrame ?? 0) || u.startFrame >= (s.intro.fromFrame ?? 0) + s.intro.frames, `${s.id} 片头遮挡口播`);""")
     file.write_text(s, encoding='utf-8')
+
+
+def patch_visual_primitives(output):
+    """维护稳定包装，正文扩展仍由本期作者负责；不把自由场面改成参数菜单。"""
+    src = Path(output) / 'renderer/src'
+    shutil.copyfile(Path(__file__).parent / 'finance-template-patches/safe-visuals.tsx', src / 'safe-visuals.tsx')
+    file = src / 'VisualBlocks.tsx'
+    text = file.read_text(encoding='utf-8')
+    text = "import {PanelTitle, MetricCard, isVisualFrame} from './safe-visuals';\n" + text
+    text = once(text, "frame >= b.startFrame && frame < b.endFrameExclusive", "isVisualFrame(frame, b.startFrame, b.endFrameExclusive)")
+    start = text.index("    body = <div style={{...box, width: '100%', textAlign: 'center'}}>")
+    end = text.index('    </div>;', start) + len('    </div>;')
+    text = text[:start] + "    body = <MetricCard style={box} label={text(p.label)} value={text(p.value)} detail={text(p.detail)} />;" + text[end:]
+    start = text.index("    <div style={{position: 'absolute', top: 25, left: 42, right: 42}}>")
+    end = text.index('    </div>', start) + len('    </div>')
+    text = text[:start] + '    <PanelTitle title={title} label={label} />' + text[end:]
+    file.write_text(text, encoding='utf-8')
+    # 保留作者显式字幕换行，仍让浏览器处理行宽，已有 LayoutGuard 检查真实高度。
+    caption = src / 'SubtitleLayer.tsx'
+    caption.write_text(once(caption.read_text(encoding='utf-8'), "whiteSpace: 'normal'", "whiteSpace: 'pre-wrap'"), encoding='utf-8')
+    guard = src / 'LayoutGuard.tsx'
+    guard.write_text(once(guard.read_text(encoding='utf-8'), '文字溢出：${element.textContent?.slice(0, 40)}', "文字溢出：${element.dataset.layoutObject ?? element.closest('[data-block]')?.getAttribute('data-block') ?? '未命名文字'}：${element.textContent?.slice(0, 40)}"), encoding='utf-8')

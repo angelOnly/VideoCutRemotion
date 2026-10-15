@@ -15,11 +15,20 @@ const {verifyEpisode}=await import(pathToFileURL(resolve(root,'renderer/scripts/
 // 编译本地模块及新增示例，外部依赖由正式运行环境提供。
 await build({entryPoints:[resolve(root,'renderer/src/index.ts'),resolve(root,'renderer/src/safe-visuals.tsx')],bundle:true,write:false,outdir:'unused',platform:'browser',packages:'external',jsx:'automatic',nodePaths:[resolve(dirname(fileURLToPath(import.meta.url)),'../node_modules')]});
 console.log('模板源码编译通过');
+// 状态退出必须真正卸载整组对象，保留指定时钟；不能靠隐去标题留下旧图表。
+const primitives=await build({entryPoints:[resolve(root,'renderer/src/safe-visuals.tsx')],bundle:true,write:false,platform:'node',format:'cjs',packages:'external',jsx:'automatic'});
+
 
 // 对生成后的真实校验器跑边界用例，未通过就不允许打包ZIP。
 const {createRequire}=await import('node:module');
 const assert=(await import('node:assert/strict')).default;
 const require=createRequire(import.meta.url);
+const primitiveMod={exports:{}};new Function('require','module','exports',primitives.outputFiles[0].text)(require,primitiveMod,primitiveMod.exports);
+const {VisualState,isVisualFrame}=primitiveMod.exports;
+for(const frame of [9,20])assert.equal(VisualState({frame,fromFrame:10,toFrame:20,children:()=>{throw new Error('边界外不能挂载旧画面');}}),null);
+let local;VisualState({frame:19,fromFrame:10,toFrame:20,children:value=>{local=value;return null;}});assert.equal(local,9);
+assert.equal(isVisualFrame(20,20,30),true);assert.throws(()=>isVisualFrame(0,5,5),/半开/);
+
 assert.deepEqual(Object.keys(manifest.speakerBindings),['财小策','室长']);
 const confirmed=[{id:'s',content:'今天拆新公司。',directing:{chapter:'新公司'}}];
 const episode={scenes:[{id:'s',intro:{companyName:'新公司',companyEvidence:{sceneId:'s',field:'content',start:3,end:6}}}]};

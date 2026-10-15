@@ -215,7 +215,7 @@ var import_fastify = __toESM(require("fastify"), 1);
 var import_cors = __toESM(require("@fastify/cors"), 1);
 var import_node_fs20 = require("node:fs");
 var import_node_path21 = require("node:path");
-var import_zod9 = require("zod");
+var import_zod10 = require("zod");
 
 // packages/production-service/src/repository.ts
 var import_node_sqlite = require("node:sqlite");
@@ -676,14 +676,14 @@ async function readAnalysisContract(root, manifest) {
     const bytes = await import_node_fs4.promises.readFile(file);
     total += bytes.length;
     if (total > 128 * 1024) throw new ProductionError("TEMPLATE_ANALYSIS_CONTRACT_INVALID", "analysisInstructions \u6587\u5B57\u5408\u540C\u5408\u8BA1\u8D85\u8FC7 128 KiB");
-    let text3;
+    let text4;
     try {
-      text3 = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+      text4 = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
     } catch {
       throw new ProductionError("TEMPLATE_ANALYSIS_CONTRACT_INVALID", `analysisInstructions \u5FC5\u987B\u662F UTF-8 \u6587\u5B57\uFF1A${path}`);
     }
-    if (!text3.trim() || text3.includes("\0")) throw new ProductionError("TEMPLATE_ANALYSIS_CONTRACT_INVALID", `analysisInstructions \u5185\u5BB9\u4E3A\u7A7A\u6216\u4E0D\u662F\u6587\u5B57\uFF1A${path}`);
-    files.push({ path: normalized5, sha256: sha256(bytes), text: text3 });
+    if (!text4.trim() || text4.includes("\0")) throw new ProductionError("TEMPLATE_ANALYSIS_CONTRACT_INVALID", `analysisInstructions \u5185\u5BB9\u4E3A\u7A7A\u6216\u4E0D\u662F\u6587\u5B57\uFF1A${path}`);
+    files.push({ path: normalized5, sha256: sha256(bytes), text: text4 });
   }
   return { digest: sha256(JSON.stringify({ templateVersion: manifest.templateVersion, files: files.map(({ path, sha256: sha2562 }) => ({ path, sha256: sha2562 })) })), files };
 }
@@ -1286,7 +1286,7 @@ var DEFAULT_REVIEW_POLICY = {
 };
 
 // packages/production-service/src/task-instructions.ts
-var INSTRUCTION_VERSION = "template-production/14";
+var INSTRUCTION_VERSION = "template-production/15";
 function taskInstruction(run, runRoot, pluginRoot, policy = DEFAULT_REVIEW_POLICY) {
   if (run.stage === "analysis") return `\u4F60\u6B63\u5728\u6267\u884C Analysis\uFF08\u6587\u5B57\u5206\u6790\uFF09\u9636\u6BB5\uFF0C\u53EA\u5904\u7406\u6587\u5B57\u3002
 \u4EFB\u52A1\u8F93\u5165\uFF1A${(0, import_node_path8.join)(runRoot, "input.json")}
@@ -1304,12 +1304,12 @@ context \u5FC5\u987B\u662F\u975E\u7A7A Markdown \u5B57\u7B26\u4E32\uFF0C\u53EA\u
 \u9636\u6BB5\u7ED3\u679C\u534F\u8BAE\uFF1A${(0, import_node_path8.join)(runRoot, "result-schema.json")}
 \u672C\u6B21\u534F\u8C03\u504F\u597D\uFF1A\u5E76\u884C\u4E3B\u9898\u5BA1\u7247=${policy.qaParallelReview ? "\u5F00\u542F" : "\u5173\u95ED"}\uFF1B\u5BA1\u7247\u4EE3\u7406\u4E0A\u9650=${policy.qaMaxReviewers}\uFF08\u4E0D\u521B\u9020\u5BBF\u4E3B\u540D\u989D\uFF09\uFF1B\u6309\u9700\u52A8\u6001\u9884\u89C8=${policy.previewOnDemand ? "\u5F00\u542F" : "\u5173\u95ED"}\u3002\u8FD9\u4E9B\u503C\u4E0D\u521B\u9020\u5BBF\u4E3B\u540D\u989D\uFF0C\u4E5F\u4E0D\u662F Worker \u7684\u6548\u679C\u5224\u5B9A\u6216\u9884\u89C8\u8BB8\u53EF\u3002\u4E3B\u534F\u8C03\u7ED3\u5408\u5B9E\u9645\u4EFB\u52A1\u51B3\u5B9A\u3002
 
-\u8BFB\u53D6\u5F53\u524D\u5B8C\u6574\u8F93\u5165\u3001\u751F\u4EA7\u5165\u53E3\u548C\u51BB\u7ED3\u6A21\u677F renderer/renderer-manifest.json\uFF0C\u5E76\u6CBF manifest.instructions \u8BFB\u53D6\u672C\u6A21\u677F\u5236\u4F5C\u8BF4\u660E\u3002\u4EBA\u7269\u3001\u680F\u76EE\u5305\u88C5\u3001\u4E13\u5C5E\u5B57\u6BB5\u53CA\u5236\u4F5C\u4E0E\u68C0\u67E5\u6B65\u9AA4\u7531\u6A21\u677F\u58F0\u660E\uFF1B\u901A\u7528\u6280\u80FD\u63D0\u4F9B\u6267\u884C\u65B9\u6CD5\uFF0C\u4E0D\u9884\u8BBE\u680F\u76EE\u4E1A\u52A1\u3002\u4E3B\u534F\u8C03\u8D1F\u8D23\u771F\u5B9E\u5206\u6D3E\u3001\u91C7\u7528\u3001\u539F\u4F5C\u8005\u8FD4\u4FEE\u3001\u6B63\u5F0F\u63D0\u4EA4\u53CA\u7ED3\u679C\u63A5\u56DE\uFF1B\u4F5C\u8005\u6309\u804C\u8D23\u8BFB\u53D6\u6A21\u677F\u8BF4\u660E\u548C\u6280\u80FD\u4E13\u4E1A\u65B9\u6CD5\uFF0C\u4E0D\u9ED8\u8BA4\u91CD\u590D\u52A0\u8F7D\u5168\u90E8\u6E90\u7801\u3002\u5F53\u524D request.dataList \u6765\u81EA\u7528\u6237\u6700\u65B0\u63D0\u4EA4\uFF1AsubmittedContent\uFF08\u5B58\u5728\u65F6\uFF09\u4FDD\u7559\u53EF\u89C1\u6807\u7B7E\u539F\u4E32\uFF0Ccontent \u662F\u89E3\u6790\u540E\u7684\u914D\u97F3\u6B63\u6587\uFF0Cdirecting \u7531\u670D\u52A1\u91CD\u65B0\u8BA1\u7B97\u3002\u955C\u5934\u96C6\u5408\u3001\u987A\u5E8F\u3001\u4EBA\u7269\u548C\u753B\u9762\u90FD\u4EE5\u5B83\u4E3A\u51C6\uFF0C\u7981\u6B62\u4ECE\u65E7\u5206\u6790\u8865\u56DE\u5DF2\u5220\u6807\u7B7E\u3002\u6CA1\u6709\u6807\u7B7E\u7684\u666E\u901A\u7A3F\u6309\u6A21\u677F\u5B89\u6392\u4EBA\u7269\u3002\u7F51\u9875\u4E0D\u4F20\u5206\u6790\u7248\u672C\u6216\u5F53\u524D\u8981\u6C42\uFF0C\u670D\u52A1\u5DF2\u5728\u53D7\u7406\u65F6\u6CBF\u4EFB\u52A1\u8BB0\u5F55\u786E\u5B9A\uFF0C\u4E0D\u80FD\u8981\u6C42\u7528\u6237\u4FEE\u6539\u7F51\u9875\u3002otherRequirements \u53EA\u8865\u5145\u672A\u6307\u5B9A\u90E8\u5206\u3002analysisInput \u4FDD\u5B58\u5BF9\u5E94 Analysis \u539F\u59CB\u4E24\u680F\uFF0Canalysis.context \u8BF4\u660E\u91C7\u7528\u5173\u7CFB\uFF1B\u65E7\u66FF\u6362\u6307\u4EE4\u5DF2\u91C7\u7528\u7684\u4E0D\u91CD\u505A\uFF0C\u65E7\u7A3F\u53EA\u4F5C\u51FA\u5904\uFF0C\u4E0D\u6062\u590D\u5220\u955C\u548C\u65E7\u53E5\u3002\u7ED3\u6784\u5316\u5B57\u6BB5\u4E0E\u5F53\u524D\u6587\u5B57\u8981\u6C42\u77DB\u76FE\u65F6\u62A5\u544A\u5177\u4F53\u5206\u955C\u548C\u51B2\u7A81\uFF0C\u9700\u6539\u6B63\u6587\u6216\u6307\u5B9A\u4EBA\u7269\u5148\u56DE\u7F16\u8F91\u533A\uFF0C\u4E0D\u6084\u6084\u8986\u76D6\u8BF7\u6C42\u3002\u6A21\u677F\u4E13\u5C5E\u6807\u9898\u3001\u7247\u5934\u7247\u5C3E\u53CA\u9A8C\u8BC1\u6309\u672C\u6A21\u677F\u8BF4\u660E\u6267\u884C\u3002
+\u8BFB\u53D6\u5F53\u524D\u5B8C\u6574\u8F93\u5165\u3001\u751F\u4EA7\u5165\u53E3\u548C\u51BB\u7ED3\u6A21\u677F renderer/renderer-manifest.json\uFF0C\u5E76\u6CBF manifest.instructions \u8BFB\u53D6\u672C\u6A21\u677F\u5236\u4F5C\u8BF4\u660E\u3002\u4EBA\u7269\u3001\u680F\u76EE\u5305\u88C5\u3001\u4E13\u5C5E\u5B57\u6BB5\u53CA\u5236\u4F5C\u4E0E\u68C0\u67E5\u6B65\u9AA4\u7531\u6A21\u677F\u58F0\u660E\uFF1B\u901A\u7528\u6280\u80FD\u63D0\u4F9B\u6267\u884C\u65B9\u6CD5\uFF0C\u4E0D\u9884\u8BBE\u680F\u76EE\u4E1A\u52A1\u3002\u4E3B\u534F\u8C03\u8D1F\u8D23\u771F\u5B9E\u5206\u6D3E\u3001\u91C7\u7528\u3001\u539F\u4F5C\u8005\u8FD4\u4FEE\u3001\u6B63\u5F0F\u63D0\u4EA4\u53CA\u7ED3\u679C\u63A5\u56DE\uFF1B\u5B8C\u6574\u786E\u8BA4\u7A3F\u5177\u5907\u65F6\u53EF\u517C\u5BFC\u6F14\uFF0C\u89C6\u89C9\u4F5C\u8005\u8FDE\u7EED\u8D1F\u8D23\u7F8E\u672F\u3001\u52A8\u4F5C\u4E0E\u5B9E\u73B0\uFF0C\u58F0\u97F3\u4F5C\u8005\u8FDE\u7EED\u8D1F\u8D23\u58F0\u97F3\u4E0E\u5B57\u5E55\uFF0C\u6309\u771F\u5B9E\u4F9D\u8D56\u5206\u6D3E\uFF1B\u4F5C\u8005\u6309\u804C\u8D23\u8BFB\u53D6\u6A21\u677F\u8BF4\u660E\u548C\u6280\u80FD\u4E13\u4E1A\u65B9\u6CD5\uFF0C\u4E0D\u9ED8\u8BA4\u91CD\u590D\u52A0\u8F7D\u5168\u90E8\u6E90\u7801\u3002\u5F53\u524D request.dataList \u6765\u81EA\u7528\u6237\u6700\u65B0\u63D0\u4EA4\uFF1AsubmittedContent\uFF08\u5B58\u5728\u65F6\uFF09\u4FDD\u7559\u53EF\u89C1\u6807\u7B7E\u539F\u4E32\uFF0Ccontent \u662F\u89E3\u6790\u540E\u7684\u914D\u97F3\u6B63\u6587\uFF0Cdirecting \u7531\u670D\u52A1\u91CD\u65B0\u8BA1\u7B97\u3002\u955C\u5934\u96C6\u5408\u3001\u987A\u5E8F\u3001\u4EBA\u7269\u548C\u753B\u9762\u90FD\u4EE5\u5B83\u4E3A\u51C6\uFF0C\u7981\u6B62\u4ECE\u65E7\u5206\u6790\u8865\u56DE\u5DF2\u5220\u6807\u7B7E\u3002\u6CA1\u6709\u6807\u7B7E\u7684\u666E\u901A\u7A3F\u6309\u6A21\u677F\u5B89\u6392\u4EBA\u7269\u3002\u7F51\u9875\u4E0D\u4F20\u5206\u6790\u7248\u672C\u6216\u5F53\u524D\u8981\u6C42\uFF0C\u670D\u52A1\u5DF2\u5728\u53D7\u7406\u65F6\u6CBF\u4EFB\u52A1\u8BB0\u5F55\u786E\u5B9A\uFF0C\u4E0D\u80FD\u8981\u6C42\u7528\u6237\u4FEE\u6539\u7F51\u9875\u3002otherRequirements \u53EA\u8865\u5145\u672A\u6307\u5B9A\u90E8\u5206\u3002analysisInput \u4FDD\u5B58\u5BF9\u5E94 Analysis \u539F\u59CB\u4E24\u680F\uFF0Canalysis.context \u8BF4\u660E\u91C7\u7528\u5173\u7CFB\uFF1B\u65E7\u66FF\u6362\u6307\u4EE4\u5DF2\u91C7\u7528\u7684\u4E0D\u91CD\u505A\uFF0C\u65E7\u7A3F\u53EA\u4F5C\u51FA\u5904\uFF0C\u4E0D\u6062\u590D\u5220\u955C\u548C\u65E7\u53E5\u3002\u7ED3\u6784\u5316\u5B57\u6BB5\u4E0E\u5F53\u524D\u6587\u5B57\u8981\u6C42\u77DB\u76FE\u65F6\u62A5\u544A\u5177\u4F53\u5206\u955C\u548C\u51B2\u7A81\uFF0C\u9700\u6539\u6B63\u6587\u6216\u6307\u5B9A\u4EBA\u7269\u5148\u56DE\u7F16\u8F91\u533A\uFF0C\u4E0D\u6084\u6084\u8986\u76D6\u8BF7\u6C42\u3002\u6A21\u677F\u4E13\u5C5E\u6807\u9898\u3001\u7247\u5934\u7247\u5C3E\u53CA\u9A8C\u8BC1\u6309\u672C\u6A21\u677F\u8BF4\u660E\u6267\u884C\u3002
 ${"baseRenderRunId" in run.request && run.request.baseRenderRunId ? "\u4EE5\u6307\u5B9A\u57FA\u7840\u6210\u7247\u526F\u672C\u4E3A\u8D77\u70B9\uFF0C\u6309 revisionInstructions \u548C\u771F\u5B9E\u5DEE\u5F02\u7EED\u63A5\u539F\u4F5C\u8005\uFF1B\u57FA\u7840\u6587\u4EF6\u4E0D\u5B8C\u6574\u660E\u786E\u62A5\u544A\u3002" : "\u53EA\u5728\u672C run \u7684 project \u5DE5\u7A0B\u526F\u672C\u5236\u4F5C\uFF0C\u4E0D\u6539\u5171\u4EAB\u6A21\u677F\u3002"}
 
 \u9636\u6BB5\u64CD\u4F5C\u552F\u4E00\u5165\u53E3\u4E3A production-coordinator \u7684 references/render.md\uFF1B\u58F0\u97F3\u3001\u5BA1\u7247\u548C\u4EA4\u4ED8\u5206\u522B\u8BFB\u53D6 references/audio.md\u3001review.md\u3001export.md\u3002\u81EA\u7136\u8BED\u97F3\u3001\u5B57\u5E55\u9605\u8BFB\u3001\u7F8E\u672F\u3001\u6301\u7EED\u6F14\u51FA\u548C\u52A8\u6548\u65F6\u673A\u7684\u5B8C\u6574\u65B9\u6CD5\u4ECD\u5728\u5404\u4E13\u4E1A\u53C2\u8003\u6B63\u6587\uFF0C\u4E0D\u4EE5\u672C\u63D0\u793A\u4EE3\u66FF\u3002\u72EC\u7ACB\u67E5\u8BE2\u53EF\u4EE5\u5E76\u884C\uFF0C\u540C\u4E00\u5DE5\u7A0B\u6B63\u5F0F\u5199\u5165\u7531\u4E3B\u534F\u8C03\u6392\u5E8F\uFF1B\u51BB\u7ED3\u6216\u88C5\u914D\u671F\u95F4\u6682\u505C\u540C\u6587\u4EF6\u5199\u5165\u3002
 
-\u5F53\u524D\u80FD\u529B\uFF1Asynthesize_speech_batch \u4FDD\u5B58\u7A33\u5B9A\u53E5\u6BB5\u8EAB\u4EFD\uFF1Bassemble_sentence_audio \u4ECE\u6210\u529F\u6279\u6B21\u548C\u4F5C\u8005\u8BA1\u5212\u88C5\u914D\u58F0\u660E sentence-timeline/1 \u7684\u552F\u4E00 JSON\uFF0C\u4E0D\u8986\u76D6\u89C6\u89C9\u4E0E\u6DF7\u97F3\u8BBE\u8BA1\u3002\u6E90\u7801\u5B8C\u6210\u540E verify_sentence_audio \u7ED1\u5B9A\u5F53\u524D\u6E90\u7801\u6458\u8981\uFF0C\u590D\u7528\u91C7\u6837\u4E8B\u5B9E\u4E0D\u4EE3\u8868\u590D\u7528\u65E7\u5DE5\u7A0B\u901A\u8FC7\u7ED3\u8BBA\u3002\u81EA\u7136\u5206\u6BB5\u3001\u505C\u987F\u3001\u5B57\u5E55\u9605\u8BFB\u4E0E\u52A8\u4F5C\u6821\u51C6\u4ECD\u7531\u4F5C\u8005\u51B3\u5B9A\u3002unknown \u6CBF\u539F\u4EFB\u52A1\u6838\u67E5\uFF0C\u4E0D\u6362\u952E\u91CD\u65B0\u6536\u8D39\u6216\u91CD\u7ED8\u3002
+\u5F53\u524D\u80FD\u529B\uFF1Aprepare_review_frames \u4E00\u6B21\u51C6\u5907\u6574\u8F6E\u9759\u5E27\u5E76\u767B\u8BB0\u68C0\u67E5\uFF0CfreezeState=frozen \u540E\u624D\u80FD\u6539\u5DE5\u4F5C\u526F\u672C\uFF1B\u5A92\u4F53\u6210\u529F\u4E0E reviewPreparation \u5206\u522B\u6838\u67E5\uFF0C\u767B\u8BB0\u5F02\u5E38\u53EA\u6CBF\u539F\u7F16\u53F7 retry_review_preparation\uFF1Bread_review \u9ED8\u8BA4\u6458\u8981\uFF0C\u5B8C\u6574\u7ED3\u679C\u6309 detailsRef \u6216 details=true \u8BFB\u53D6\u3002synthesize_speech_batch \u4FDD\u5B58\u7A33\u5B9A\u53E5\u6BB5\u8EAB\u4EFD\uFF1Bassemble_sentence_audio \u4ECE\u6210\u529F\u6279\u6B21\u548C\u4F5C\u8005\u8BA1\u5212\u88C5\u914D\u58F0\u660E sentence-timeline/1 \u7684\u552F\u4E00 JSON\uFF0C\u4E0D\u8986\u76D6\u89C6\u89C9\u4E0E\u6DF7\u97F3\u8BBE\u8BA1\u3002\u6E90\u7801\u5B8C\u6210\u540E verify_sentence_audio \u7ED1\u5B9A\u5F53\u524D\u6E90\u7801\u6458\u8981\uFF0C\u590D\u7528\u91C7\u6837\u4E8B\u5B9E\u4E0D\u4EE3\u8868\u590D\u7528\u65E7\u5DE5\u7A0B\u901A\u8FC7\u7ED3\u8BBA\u3002\u81EA\u7136\u5206\u6BB5\u3001\u505C\u987F\u3001\u5B57\u5E55\u9605\u8BFB\u4E0E\u52A8\u4F5C\u6821\u51C6\u4ECD\u7531\u4F5C\u8005\u51B3\u5B9A\u3002unknown \u6CBF\u539F\u4EFB\u52A1\u6838\u67E5\uFF0C\u4E0D\u6362\u952E\u91CD\u65B0\u6536\u8D39\u6216\u91CD\u7ED8\u3002
 
 \u5BA1\u7247\u3001\u590D\u7528\u548C\u9884\u89C8\u7B56\u7565\u6309 references/review.md \u7531\u4E3B Codex \u9009\u62E9\u5E76\u901A\u8FC7\u5BBF\u4E3B\u539F\u751F\u4EE3\u7406\u5206\u6D3E\u3002Worker \u53EA\u767B\u8BB0\u68C0\u67E5\u3001\u5206\u6D3E\u548C\u5B9E\u9645\u89C2\u5BDF\uFF0C\u4E0D\u521B\u5EFA\u5BA1\u7247\u6A21\u578B\u4F1A\u8BDD\u3002\u4E3B\u534F\u8C03\u4FDD\u5B58\u90E8\u5206\u7ED3\u679C\u4E0E\u771F\u5B9E\u672A\u77E5\uFF0C\u5FC5\u8981\u8FD4\u4FEE\u4EA4\u539F\u4F5C\u8005\uFF1B\u4E0D\u8981\u628A\u670D\u52A1\u8986\u76D6\u5B8C\u6210\u7B49\u540C\u4E8E\u6548\u679C\u901A\u8FC7\u3002
 
@@ -1342,8 +1342,8 @@ var ToolObserver = class {
     return [...this.threads.values()];
   }
   /** 仅记录通信诊断类别，不据此重放媒体，也不能推断某个审片单元没有进展。 */
-  observeTransport(text3, source = "stderr", now = Date.now()) {
-    const message = source === "stderr" ? this.stderrTail + text3 : text3;
+  observeTransport(text4, source = "stderr", now = Date.now()) {
+    const message = source === "stderr" ? this.stderrTail + text4 : text4;
     if (source === "stderr") this.stderrTail = message.slice(-128);
     const kinds = source === "connection" ? ["connection_closed"] : [
       .../broken pipe|EPIPE/i.test(message) ? ["broken_pipe"] : [],
@@ -1583,7 +1583,7 @@ function verifyStageSkills(result, paths) {
 function verifyStageTools(statuses, stage) {
   const servers = Array.isArray(statuses?.data) ? statuses.data : [statuses];
   const names = new Set(servers.flatMap((server) => Object.entries(server?.tools ?? {}).map(([key2, value]) => value?.name ?? key2)));
-  const required = stage === "analysis" ? ["read_runtime_release", "read_production_task"] : ["read_runtime_release", "read_production_task", "synthesize_speech_batch", "assemble_sentence_audio", "verify_sentence_audio", "prepare_review", "assign_review_work", "submit_review", "read_review", "render_template"];
+  const required = stage === "analysis" ? ["read_runtime_release", "read_production_task"] : ["read_runtime_release", "read_production_task", "synthesize_speech_batch", "assemble_sentence_audio", "verify_sentence_audio", "prepare_review_frames", "retry_review_preparation", "prepare_review", "assign_review_work", "submit_review", "read_review", "render_template"];
   if (required.some((name) => !names.has(name))) throw new ProductionError("PLUGIN_NOT_LOADED", `\u540E\u53F0\u4F1A\u8BDD\u672A\u52A0\u8F7D ${stage} \u9636\u6BB5\u5FC5\u8981\u5DE5\u5177`, 503);
   if (stage === "analysis" && [...names].some((name) => !required.includes(name))) throw new ProductionError("ANALYSIS_TOOLS_EXPOSED", "Analysis \u53D1\u73B0\u4E86\u5236\u4F5C\u6216\u52A8\u6548\u7B49\u9636\u6BB5\u5916\u5DE5\u5177", 503);
 }
@@ -1683,7 +1683,8 @@ async function executeCodex(run, root, repo, config, signal, media) {
   };
   const observeTimer = setInterval(saveDiagnostics, 15e3);
   client.onEvent = (event) => {
-    eventWrites = eventWrites.then(() => import_node_fs8.promises.appendFile(log, JSON.stringify(event) + "\n")).catch(() => {
+    const recorded = { ...event, recordedAt: (/* @__PURE__ */ new Date()).toISOString() };
+    eventWrites = eventWrites.then(() => import_node_fs8.promises.appendFile(log, JSON.stringify(recorded) + "\n")).catch(() => {
     });
     usage2.observe(event);
     observer.observe(event);
@@ -1734,12 +1735,12 @@ async function executeCodex(run, root, repo, config, signal, media) {
   };
   const toolConfig = { command: process.execPath, args: [(0, import_node_path9.join)(config.pluginRoot, "scripts/production-mcp-launcher.mjs")], cwd: config.pluginRoot, env: { TEXTVIDEO_PLUGIN_ROOT: config.pluginRoot, TEXTVIDEO_DEPENDENCY_ROOT: config.dependencyRoot, TEXTVIDEO_RUNTIME_URL: env.TEXTVIDEO_RUNTIME_URL, TEXTVIDEO_RUN_ID: run.runId, TEXTVIDEO_RUN_TOKEN: run.token }, startup_timeout_sec: 60, tool_timeout_sec: 180, default_tools_approval_mode: "approve" };
   const startParams = { cwd: root, approvalPolicy: "never", sandbox: "workspace-write", ...config.model ? { model: config.model } : {}, config: { web_search: "disabled", features: { apps: false, plugins: false }, skills: { config: stageSkills.overrides }, ...process.platform === "win32" ? { windows: { sandbox: "unelevated" } } : {}, mcp_servers: { "textvideo-studio": toolConfig } }, developerInstructions: "\u8FD9\u662F\u5DF2\u6388\u6743\u7684\u9694\u79BB\u6A21\u677F\u89C6\u9891\u751F\u4EA7\u3002\u53EA\u4F7F\u7528\u672C Run \u9636\u6BB5\u5165\u53E3\u53CA\u5DE5\u5177\u3002\u65B0\u4F5C\u8005\u901A\u8FC7\u5F53\u524D\u5B8C\u6574\u7A3F\u4E0E\u53D7\u7BA1\u6750\u6599\u5F15\u7528\u4EA4\u63A5\uFF0C\u4E0D\u9ED8\u8BA4\u7EE7\u627F\u5B8C\u6574\u7236\u5386\u53F2\uFF1B\u6301\u7EED\u4F5C\u8005\u6CBF\u539F\u7EBF\u7A0B\u63A5\u6536\u771F\u5B9E\u5DEE\u5F02\u3002\u4E3B\u534F\u8C03\u53EA\u8BFB\u8FD0\u884C\u5408\u540C\uFF0C\u4E13\u4E1A\u4F5C\u8005\u6309\u804C\u8D23\u8BFB\u53D6\u5B8C\u6574\u65B9\u6CD5\u3002\u7981\u6B62\u8BFB\u53D6\u51ED\u636E\u6216\u8BBF\u95EE\u5176\u4ED6\u4EFB\u52A1\u3002\u660E\u786E\u9009\u5B9A\u6B63\u5F0F\u5BFC\u51FA\u4E14\u65E0\u72EC\u7ACB\u521B\u4F5C\u6B65\u9AA4\u65F6\u8FD4\u56DE await_runtime\uFF0C\u6210\u529F\u7531 Worker \u76F4\u63A5\u4EA4\u4ED8\u539F\u6E05\u5355\uFF1B\u5206\u6790\u7ED3\u679C\u4EE5 final \u4EA4\u4ED8\u3002" };
-  const runTurn = async (text3, onStarted, firstTurn = false) => {
+  const runTurn = async (text4, onStarted, firstTurn = false) => {
     ensureActive();
     receiver = createTurnReceiver(threadId);
     const priorIds = firstTurn ? [] : (await readThreadTurns(client, threadId, "notLoaded")).map((t) => t.id);
     repo.checkpoint(run.runId, run.token, { codex: { startIntent: { priorIds, createdAt: Date.now() }, threadId } });
-    const params = { threadId, input: [{ type: "text", text: text3, text_elements: [] }], effort: "low", approvalPolicy: "never", sandboxPolicy: { type: "workspaceWrite", writableRoots: [root], networkAccess: false, excludeTmpdirEnvVar: false, excludeSlashTmp: false }, outputSchema: JSON.parse(JSON.stringify(handoffSchema)) };
+    const params = { threadId, input: [{ type: "text", text: text4, text_elements: [] }], effort: "low", approvalPolicy: "never", sandboxPolicy: { type: "workspaceWrite", writableRoots: [root], networkAccess: false, excludeTmpdirEnvVar: false, excludeSlashTmp: false }, outputSchema: JSON.parse(JSON.stringify(handoffSchema)) };
     let response;
     try {
       response = await client.call("turn/start", params);
@@ -2292,16 +2293,16 @@ function speechBindings(scene, segments, checkSpeaker = false, template = {}) {
   if (!turns) return segments.map(() => void 0);
   let turnIndex = 0, offset2 = 0;
   return segments.map((segment) => {
-    const turn = turns[turnIndex], text3 = normalized(segment.text);
-    if (!turn || !text3) fail2(`${segment.id} \u4E0D\u5C5E\u4E8E\u6709\u6548\u53D1\u8A00`);
+    const turn = turns[turnIndex], text4 = normalized(segment.text);
+    if (!turn || !text4) fail2(`${segment.id} \u4E0D\u5C5E\u4E8E\u6709\u6548\u53D1\u8A00`);
     const expected = normalized(scene.content.slice(turn.start, turn.end));
-    if (!expected.startsWith(text3, offset2)) fail2(`${segment.id} \u6539\u5B57\u6216\u8DE8\u8D8A\u4EBA\u7269\u53D1\u8A00\u8FB9\u754C`);
+    if (!expected.startsWith(text4, offset2)) fail2(`${segment.id} \u6539\u5B57\u6216\u8DE8\u8D8A\u4EBA\u7269\u53D1\u8A00\u8FB9\u754C`);
     const binding = turn.speakerId ? template.speakerBindings?.[turn.speakerId] : void 0;
     if (turn.speakerId && !binding) fail2(`${turn.id} \u672A\u77E5\u6A21\u677F\u4EBA\u7269 ${turn.speakerId}`);
     if (binding && segment.voiceRef !== void 0 && segment.voiceRef !== binding.voiceRef) fail2(`${segment.id} \u97F3\u8272\u4E0E\u6307\u5B9A\u4EBA\u7269\u4E0D\u7B26`);
     if (checkSpeaker && binding && segment.speaker !== binding.speaker) fail2(`${segment.id} \u753B\u9762\u4EBA\u7269\u4E0E\u6307\u5B9A\u4EBA\u7269\u4E0D\u7B26`);
     if (checkSpeaker && segment.turnId !== turn.id) fail2(`${segment.id} \u53D1\u8A00\u5F52\u5C5E\u4E0D\u7B26`);
-    offset2 += text3.length;
+    offset2 += text4.length;
     if (offset2 === expected.length) {
       turnIndex++;
       offset2 = 0;
@@ -2395,11 +2396,11 @@ function validateProductionTimeline(timeline, expected, fps, template = {}) {
   requireField(Number.isFinite(fps) && fps > 0 && timeline.fps === fps, "fps", "\u4E0E\u6A21\u677F\u89C4\u683C\u4E0D\u4E00\u81F4");
   const ranges = sceneRangesFromTimeline(timeline, expected, timeline.totalFrames, fps), ids = /* @__PURE__ */ new Set();
   for (const [index, scene] of timeline.scenes.entries()) {
-    const field = `scenes[${index}]`, text3 = normalized2(expected[index].content);
+    const field = `scenes[${index}]`, text4 = normalized2(expected[index].content);
     requireField(Array.isArray(scene.captions) && (isVisualScene(expected[index]) ? scene.captions.length === 0 : scene.captions.length > 0), `${field}.captions`, "\u7F3A\u5C11\u5B57\u5E55");
-    requireField(scene.captions.every((c) => typeof c.text === "string") && normalized2(scene.captions.map((c) => c.text).join("")) === text3, `${field}.captions.text`, "\u5B57\u5E55\u4E0E\u786E\u8BA4\u6B63\u6587\u6216\u987A\u5E8F\u4E0D\u4E00\u81F4");
+    requireField(scene.captions.every((c) => typeof c.text === "string") && normalized2(scene.captions.map((c) => c.text).join("")) === text4, `${field}.captions.text`, "\u5B57\u5E55\u4E0E\u786E\u8BA4\u6B63\u6587\u6216\u987A\u5E8F\u4E0D\u4E00\u81F4");
     if (expected[index].directing) speechBindings(expected[index], scene.utterances, true, template);
-    if (scene.utterances.every((u) => typeof u.text === "string")) requireField(normalized2(scene.utterances.map((u) => u.text).join("")) === text3, `${field}.utterances.text`, "\u914D\u97F3\u6B63\u6587\u4E0E\u786E\u8BA4\u7A3F\u4E0D\u540C");
+    if (scene.utterances.every((u) => typeof u.text === "string")) requireField(normalized2(scene.utterances.map((u) => u.text).join("")) === text4, `${field}.utterances.text`, "\u914D\u97F3\u6B63\u6587\u4E0E\u786E\u8BA4\u7A3F\u4E0D\u540C");
     for (const u of scene.utterances) {
       requireField(typeof u.id === "string" && u.id && !ids.has(u.id), `${field}.utterances.id`, "\u53E5\u6BB5\u7F16\u53F7\u7F3A\u5931\u6216\u91CD\u590D");
       ids.add(u.id);
@@ -2461,7 +2462,7 @@ async function preflightTimeline(project, expected, options = {}) {
     const aligned = JSON.parse(bytes.toString("utf8"));
     requireField(["provider_timestamps", "forced_alignment", "reviewed_timestamps"].includes(aligned.method), `${scene.id}.captionTiming.method`, "\u4E0D\u652F\u6301\u6309\u5B57\u6570\u6BD4\u4F8B\u731C\u6D4B\u5206\u9875");
     for (const u of scene.utterances) {
-      const record = aligned.utterances?.[u.id], pages = scene.captions.filter((c) => c.utteranceId === u.id).map(({ text: text3, startFrame, endFrameExclusive }) => ({ text: text3, startFrame, endFrameExclusive }));
+      const record = aligned.utterances?.[u.id], pages = scene.captions.filter((c) => c.utteranceId === u.id).map(({ text: text4, startFrame, endFrameExclusive }) => ({ text: text4, startFrame, endFrameExclusive }));
       requireField(record?.audioSha256 === sha256(await import_node_fs10.promises.readFile(await regular(publicRoot, u.src))) && JSON.stringify(record.captions) === JSON.stringify(pages), `${scene.id}.captionTiming.${u.id}`, "\u5BF9\u9F50\u8BB0\u5F55\u6CA1\u6709\u7ED1\u5B9A\u5F53\u524D\u97F3\u9891\u4E0E\u771F\u5B9E\u5206\u9875");
     }
   }
@@ -2627,9 +2628,9 @@ async function assembleSentenceAudio(run, runRoot, raw, speech, signal) {
         captions.push(...evidence.captions.map((c) => ({ ...c, utteranceId: choice.id })));
       } else {
         const oldCaption = original.captions?.filter((c) => c.utteranceId === choice.id);
-        const text3 = choice.captionText ?? (oldCaption?.length === 1 ? oldCaption[0].text : job.request.text);
-        ensure2(normalized3(text3) === normalized3(job.request.text), `${choice.id} \u5B57\u5E55\u53EA\u80FD\u8C03\u6574\u6362\u884C\uFF0C\u4E0D\u80FD\u6539\u6B63\u6587`);
-        captions.push({ ...oldCaption?.[0], utteranceId: choice.id, text: text3, startFrame: start, endFrameExclusive: end });
+        const text4 = choice.captionText ?? (oldCaption?.length === 1 ? oldCaption[0].text : job.request.text);
+        ensure2(normalized3(text4) === normalized3(job.request.text), `${choice.id} \u5B57\u5E55\u53EA\u80FD\u8C03\u6574\u6362\u884C\uFF0C\u4E0D\u80FD\u6539\u6B63\u6587`);
+        captions.push({ ...oldCaption?.[0], utteranceId: choice.id, text: text4, startFrame: start, endFrameExclusive: end });
       }
     }
     ensure2(normalized3(utterances.map((u) => u.text).join("")) === normalized3(expected[index].content), `${scene.id} \u914D\u97F3\u6B63\u6587\u6216\u987A\u5E8F\u4E0E\u786E\u8BA4\u7A3F\u4E0D\u4E00\u81F4`);
@@ -2719,7 +2720,7 @@ var import_node_fs12 = require("node:fs");
 var import_node_path14 = require("node:path");
 var import_zod5 = require("zod");
 var sentenceAuditSchema = import_zod5.z.object({ timelineRef: import_zod5.z.string().min(1), speechBatchRequestIds: import_zod5.z.array(import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/)), renderRequestId: import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).optional() }).strict();
-var normalized4 = (text3) => String(text3 ?? "").replace(/\s+/gu, "");
+var normalized4 = (text4) => String(text4 ?? "").replace(/\s+/gu, "");
 function ensure3(value, message) {
   if (!value) throw new ProductionError("SENTENCE_AUDIO_INVALID", `\u53E5\u7EA7\u97F3\u9891\u5BA1\u8BA1\u5931\u8D25\uFF1A${message}`);
 }
@@ -2803,7 +2804,7 @@ async function auditSentenceAudio({ plan, tts, timeline, publicDirectory, signal
         const evidence = aligned.utterances?.[item.id];
         const hash = sha256(await import_node_fs12.promises.readFile(await taskFile(publicDirectory, utterance.src)));
         ensure3(evidence?.audioSha256 === hash, `${scene.id} \u5BF9\u9F50\u8BB0\u5F55\u4E0D\u5C5E\u4E8E\u5F53\u524D\u97F3\u9891`);
-        ensure3(JSON.stringify(evidence.captions) === JSON.stringify(pages.map(({ text: text3, startFrame, endFrameExclusive }) => ({ text: text3, startFrame, endFrameExclusive }))), `${scene.id} \u5206\u9875\u672A\u4F7F\u7528\u5BF9\u9F50\u8BB0\u5F55`);
+        ensure3(JSON.stringify(evidence.captions) === JSON.stringify(pages.map(({ text: text4, startFrame, endFrameExclusive }) => ({ text: text4, startFrame, endFrameExclusive }))), `${scene.id} \u5206\u9875\u672A\u4F7F\u7528\u5BF9\u9F50\u8BB0\u5F55`);
       } else if (template.captionTimingPolicy === "utterance") ensure3(pages.length === 1 && pages[0].startFrame === start && pages[0].endFrameExclusive === end, `${scene.id} \u5B57\u5E55\u6CA1\u6709\u4F7F\u7528\u8BE5\u53E5\u97F3\u9891\u8FB9\u754C`);
       const seconds = item.measurement.duration;
       const frameSeconds = (end - start) / timeline.fps;
@@ -3542,7 +3543,8 @@ var renderToolSchema = import_zod7.z.union([
   import_zod7.z.object({ ...renderBase, runId: import_zod7.z.string().uuid(), previewOnly: import_zod7.z.literal(true), ranges: rangeSchema, sourceDigest: import_zod7.z.string().min(1).optional() }).strict()
 ]);
 var resolvedRenderSchema = import_zod7.z.object({ ...renderBase, runId: import_zod7.z.string().uuid(), ranges: rangeSchema, sourceDigest: import_zod7.z.string().min(1).optional(), previewOnly: import_zod7.z.boolean().default(false) }).strict();
-var previewFramesSchema = import_zod7.z.object({ runId: import_zod7.z.string().uuid(), renderRequestId: renderRequestIdSchema, frames: import_zod7.z.array(import_zod7.z.number().int().nonnegative()).min(1).max(12).refine((v) => new Set(v).size === v.length, "\u5E27\u53F7\u4E0D\u53EF\u91CD\u590D") }).strict();
+var frameBatchSchema = import_zod7.z.object({ runId: import_zod7.z.string().uuid(), renderRequestId: renderRequestIdSchema, sourceDigest: import_zod7.z.string().min(1).optional(), frames: import_zod7.z.array(import_zod7.z.number().int().nonnegative()).min(1).refine((v) => new Set(v).size === v.length, "\u5E27\u53F7\u4E0D\u53EF\u91CD\u590D") }).strict();
+var previewFramesSchema = frameBatchSchema.extend({ frames: import_zod7.z.array(import_zod7.z.number().int().nonnegative()).min(1).max(12).refine((v) => new Set(v).size === v.length, "\u5E27\u53F7\u4E0D\u53EF\u91CD\u590D") });
 var engine = { bundle: import_bundler.bundle, selectComposition: import_renderer.selectComposition, renderMedia: import_renderer.renderMedia, renderFrames: import_renderer.renderFrames, openBrowser: import_renderer.openBrowser };
 function checkCancelled(signal) {
   if (signal?.aborted) throw new ProductionError("PROCESS_CANCELLED", "\u6E32\u67D3\u64CD\u4F5C\u5DF2\u53D6\u6D88");
@@ -3789,13 +3791,14 @@ async function overview(frames2, output) {
 }
 async function templateFrames(run, root, input, options, backend = engine) {
   assertRun(run, options);
-  input = previewFramesSchema.parse(input);
+  input = frameBatchSchema.parse(input);
   const project = (0, import_node_path17.join)(root, "preview-snapshots", input.renderRequestId, "project"), sourceDigest = await withMediaSpan(options.metrics, "freeze_project", async (child) => {
     const digest = await freezeProject(root, project, options.signal);
     if (child) child.sourceDigest = digest;
     return digest;
   });
   options = { ...options, bundleCacheRoot: (0, import_node_path17.join)(root, ".bundle-cache"), metrics: options.metrics ? { ...options.metrics, sourceDigest } : void 0 };
+  if (input.sourceDigest && input.sourceDigest !== sourceDigest) throw new ProductionError("SOURCE_CHANGED", "\u5B9E\u9645\u51BB\u7ED3\u7248\u672C\u4E0E\u6307\u5B9A\u6E90\u7801\u6458\u8981\u4E0D\u4E00\u81F4");
   await options.onSourceFrozen?.(sourceDigest);
   const declared = await validateTemplate(project);
   const preflight = declared.timelineDataRef ? await preflightTimeline(project, run.request.dataList, { frames: input.frames }) : void 0;
@@ -3861,84 +3864,28 @@ async function templateFrames(run, root, input, options, backend = engine) {
 }
 
 // packages/production-service/src/tool-results.ts
-var import_node_fs17 = require("node:fs");
-var import_node_path18 = require("node:path");
-var import_node_crypto7 = require("node:crypto");
-async function speechBatchSummary(root, result, details = false) {
-  const text3 = JSON.stringify(result, null, 2), directory = (0, import_node_path18.join)(root, "tool-results");
-  await import_node_fs17.promises.mkdir(directory, { recursive: true });
-  const detailsRef = (0, import_node_path18.join)(directory, `speech-${sha256(text3)}.json`);
-  const temporary = (0, import_node_path18.join)(directory, `${(0, import_node_crypto7.randomUUID)()}.tmp`);
-  try {
-    await import_node_fs17.promises.writeFile(temporary, text3);
-    await import_node_fs17.promises.rename(temporary, detailsRef);
-  } finally {
-    await import_node_fs17.promises.rm(temporary, { force: true });
-  }
-  if (details) return { ...result, detailsRef };
-  return {
-    id: result.id,
-    runId: result.runId,
-    state: result.state,
-    total: result.total,
-    counts: result.counts,
-    unknownReservations: result.unknownReservations,
-    detailsRef,
-    issues: result.jobs.filter((job) => ["failed", "unknown", "validation_failed", "cancelled"].includes(job.state)).map((job) => ({ id: job.id, segmentId: job.request.segmentId, state: job.state, diagnostic: job.diagnostic, error: job.error }))
-  };
-}
-function mediaJobSummary(job, detailsRef, details = false) {
-  if (details) return { ...job, detailsRef };
-  const { input, delivery, continuousAudio, chunks, ...summary } = job;
-  return {
-    ...summary,
-    detailsRef,
-    readyFiles: job.readyFiles?.map(({ content, ...file }) => file),
-    completedChunks: chunks?.map(({ id, fromFrame, toFrame, sha256: sha2562 }) => ({ id, fromFrame, toFrame, sha256: sha2562 })),
-    failedChunks: job.state === "failed" && job.renderStrategy === "scene-chunks" ? (job.resolvedRanges ?? input?.ranges)?.filter((range) => !chunks?.some((chunk) => chunk.id === range.id)).map((range) => range.id) : void 0
-  };
-}
-function productionTaskSummary(run) {
-  const template = run.checkpoint.template;
-  if (run.stage === "analysis") return {
-    taskId: run.taskId,
-    runId: run.runId,
-    stage: run.stage,
-    state: run.state,
-    inputDigest: run.inputDigest,
-    planVersion: run.planVersion,
-    request: run.request,
-    template: template ? { templateVersion: template.manifest?.templateVersion ?? template.manifest?.version, archiveDigest: template.digest, analysisContractDigest: template.analysisContract?.digest, analysisContract: template.analysisContract, speakerBindings: template.manifest?.speakerBindings ?? {}, width: template.manifest?.width, height: template.manifest?.height, fps: template.manifest?.fps } : void 0
-  };
-  return {
-    taskId: run.taskId,
-    runId: run.runId,
-    stage: run.stage,
-    state: run.state,
-    inputDigest: run.inputDigest,
-    planVersion: run.planVersion,
-    template: template ? { digest: template.digest, sourceDigest: template.sourceDigest, version: template.manifest?.templateVersion, timelineDataRef: template.manifest?.timelineDataRef, timelineContract: template.manifest?.timelineContract } : void 0
-  };
-}
-
-// packages/production-service/src/review-service.ts
-var import_node_crypto8 = require("node:crypto");
 var import_node_fs19 = require("node:fs");
 var import_node_path20 = require("node:path");
+var import_node_crypto8 = require("node:crypto");
+
+// packages/production-service/src/review-service.ts
+var import_node_crypto7 = require("node:crypto");
+var import_node_fs18 = require("node:fs");
+var import_node_path19 = require("node:path");
 var import_zod8 = require("zod");
 
 // packages/production-service/src/review-invalidation.ts
-var import_node_fs18 = require("node:fs");
-var import_node_path19 = require("node:path");
+var import_node_fs17 = require("node:fs");
+var import_node_path18 = require("node:path");
 async function snapshotFiles(root) {
   const result = {};
   async function walk(directory) {
-    for (const entry of await import_node_fs18.promises.readdir(directory, { withFileTypes: true })) {
+    for (const entry of await import_node_fs17.promises.readdir(directory, { withFileTypes: true })) {
       if (["node_modules", ".cache"].includes(entry.name)) continue;
-      const path = (0, import_node_path19.join)(directory, entry.name);
+      const path = (0, import_node_path18.join)(directory, entry.name);
       if (entry.isSymbolicLink()) throw new ProductionError("LINK_FORBIDDEN", "\u5BA1\u7247\u5FEB\u7167\u4E0D\u5F97\u5305\u542B\u94FE\u63A5");
       if (entry.isDirectory()) await walk(path);
-      else result[(0, import_node_path19.relative)(root, path).replaceAll("\\", "/")] = sha256(await import_node_fs18.promises.readFile(path));
+      else result[(0, import_node_path18.relative)(root, path).replaceAll("\\", "/")] = sha256(await import_node_fs17.promises.readFile(path));
     }
   }
   await walk(root);
@@ -3978,7 +3925,7 @@ var prepareReviewSchema = import_zod8.z.object({
   reuse: import_zod8.z.array(import_zod8.z.object({ sourceReviewId: import_zod8.z.string().uuid(), unitId: text2, checkId: text2, evidenceId: text2, reason: text2 }).strict()).default([])
 }).strict();
 var assignReviewSchema = import_zod8.z.object({ reviewId: import_zod8.z.string().uuid(), unitId: text2, reviewerAgentId: text2, assignmentRequestId: requestId, previousAssignmentToken: import_zod8.z.string().uuid().nullable().default(null), reason: text2.optional() }).strict();
-var readReviewSchema = import_zod8.z.object({ reviewId: import_zod8.z.string().uuid(), afterDigest: import_zod8.z.string().regex(/^[a-f0-9]{64}$/).optional(), waitMs: import_zod8.z.number().int().min(0).max(6e4).default(0) }).strict();
+var readReviewSchema = import_zod8.z.object({ details: import_zod8.z.boolean().default(false), reviewId: import_zod8.z.string().uuid(), afterDigest: import_zod8.z.string().regex(/^[a-f0-9]{64}$/).optional(), waitMs: import_zod8.z.number().int().min(0).max(6e4).default(0) }).strict();
 var submitReviewSchema = import_zod8.z.object({ reviewId: import_zod8.z.string().uuid(), assignmentToken: import_zod8.z.string().uuid(), observations: import_zod8.z.array(import_zod8.z.object({ checkId: text2, evidenceId: text2, note: text2, range: reviewRangeSchema.optional() }).strict()).max(1e3), issues: import_zod8.z.array(import_zod8.z.object({ checkId: text2, evidenceId: text2, severity: import_zod8.z.enum(["blocking", "warning", "suggestion"]), problem: text2, range: reviewRangeSchema.optional() }).strict()).max(1e3), issueResolutions: import_zod8.z.array(import_zod8.z.object({ issueId: text2, evidenceId: text2.optional(), checkId: text2.optional(), resolution: import_zod8.z.enum(["resolved", "retained"]), note: text2 }).strict()).max(1e3).optional(), status: import_zod8.z.enum(["partial", "complete"]) }).strict();
 function ensure4(v, code, message) {
   if (!v) throw new ProductionError(code, message, 409);
@@ -4071,7 +4018,7 @@ var ReviewService = class {
         this.repo.guard(current, run.token);
         ensure4(current.state === "running", "REVIEW_RUN_STOPPED", "\u4EFB\u52A1\u5DF2\u505C\u6B62");
         jobs = await Promise.all(ids.map(async (id) => {
-          const job = await json(await regular(root, (0, import_node_path20.join)("render-jobs", `${id}.json`)));
+          const job = await json(await regular(root, (0, import_node_path19.join)("render-jobs", `${id}.json`)));
           ensure4(job.runId === run.runId && job.id === id && ["frame-preview", "template-render"].includes(job.kind), "REVIEW_JOB_INVALID", "\u5FC5\u987B\u4F7F\u7528\u5F53\u524D Run \u5DF2\u53D7\u7406\u7684\u539F\u5A92\u4F53\u4F5C\u4E1A");
           if (["running", "queued"].includes(job.state) && options.isRunning && !options.isRunning(id)) return { ...job, state: "unknown", error: "\u65E0\u6CD5\u786E\u8BA4\u539F\u9759\u5E27\u6267\u884C\u72B6\u6001\uFF0C\u8BF7\u6838\u67E5\u539F\u4F5C\u4E1A" };
           return job;
@@ -4088,7 +4035,7 @@ var ReviewService = class {
     }
     jobs = await Promise.all(jobs.map(async (job) => {
       ensure4(job.sourceDigest, "REVIEW_JOB_INVALID", "\u6210\u529F\u9759\u5E27\u5FC5\u987B\u542B\u51BB\u7ED3\u5FEB\u7167\u8EAB\u4EFD");
-      const project = (0, import_node_path20.join)(root, job.kind === "frame-preview" || job.input.previewOnly ? "preview-snapshots" : "render-snapshots", job.id, "project");
+      const project = (0, import_node_path19.join)(root, job.kind === "frame-preview" || job.input.previewOnly ? "preview-snapshots" : "render-snapshots", job.id, "project");
       ensure4(await treeDigest(project) === job.sourceDigest, "REVIEW_SOURCE_CHANGED", "\u51BB\u7ED3\u5DE5\u7A0B\u6458\u8981\u5DF2\u6539\u53D8");
       return { ...job, project };
     }));
@@ -4106,14 +4053,14 @@ var ReviewService = class {
     for (const job of jobs) {
       for (const f of job.readyFrames ?? []) {
         const path = await regular(root, f.path);
-        ensure4(sha256(await import_node_fs19.promises.readFile(path)) === f.sha256, "REVIEW_EVIDENCE_CHANGED", "\u767B\u8BB0\u9759\u5E27\u6458\u8981\u4E0D\u7B26");
+        ensure4(sha256(await import_node_fs18.promises.readFile(path)) === f.sha256, "REVIEW_EVIDENCE_CHANGED", "\u767B\u8BB0\u9759\u5E27\u6458\u8981\u4E0D\u7B26");
         ensure4(Number.isInteger(f.frame) && f.frame >= 0 && f.frame < timeline.totalFrames, "REVIEW_EVIDENCE_RANGE", "\u767B\u8BB0\u9759\u5E27\u8D85\u51FA\u65F6\u95F4\u7EBF");
         evidence.push({ renderRequestId: job.id, evidenceId: `ev-${sha256(canonical(["image", f.frame, f.sha256])).slice(0, 24)}`, kind: "image", sceneId: scenes2.find((s) => f.frame >= s.fromFrame && f.frame < s.toFrame).id, path, sha256: f.sha256, frame: f.frame, fps: timeline.fps, width: manifest.width, height: manifest.height });
       }
     }
     for (const job of jobs) for (const file of job.readyFiles ?? []) {
       const path = await regular(root, file.file);
-      ensure4(sha256(await import_node_fs19.promises.readFile(path)) === file.sha256, "REVIEW_EVIDENCE_CHANGED", "\u767B\u8BB0\u89C6\u9891\u6458\u8981\u4E0D\u7B26");
+      ensure4(sha256(await import_node_fs18.promises.readFile(path)) === file.sha256, "REVIEW_EVIDENCE_CHANGED", "\u767B\u8BB0\u89C6\u9891\u6458\u8981\u4E0D\u7B26");
       ensure4(Number.isInteger(file.fromFrame) && Number.isInteger(file.toFrame) && file.fromFrame >= 0 && file.toFrame > file.fromFrame && file.toFrame <= timeline.totalFrames && file.fps === timeline.fps, "REVIEW_EVIDENCE_RANGE", "\u767B\u8BB0\u89C6\u9891\u8303\u56F4\u6216\u5E27\u7387\u65E0\u6548");
       evidence.push({ evidenceId: `ev-${sha256(canonical(["video", file.sha256, file.fromFrame, file.toFrame])).slice(0, 24)}`, kind: "video", path, sha256: file.sha256, fromFrame: file.fromFrame, toFrame: file.toFrame, fps: file.fps, width: file.width, height: file.height, renderRequestId: job.id, fileId: file.id });
     }
@@ -4140,6 +4087,7 @@ var ReviewService = class {
     });
     const data = { metrics: { preparedAt: Date.now(), firstClaimedAt: null, lastAcceptedSubmissionAt: null, readQueryCount: 0, readTimeoutCount: 0 }, snapshot, evidence: actualEvidence, renderRequestIds: jobs.map((j) => j.id), missing: [] };
     const inputDigest = sha256(canonical({ phase: request.phase, sourceDigest, timelineRef, units: request.units, reuse: request.reuse, evidence: actualEvidence.map(({ path, ...e }) => e), policy: 4 }));
+    ensure4(!options.signal?.aborted, "PROCESS_CANCELLED", "\u5BA1\u7247\u6750\u6599\u6838\u9A8C\u671F\u95F4\u5DF2\u53D6\u6D88\uFF0C\u4E0D\u63D0\u4EA4\u68C0\u67E5\u8BA1\u5212");
     const result = this.repo.transaction(() => {
       const current = this.repo.get(run.runId);
       this.repo.guard(current, run.token);
@@ -4154,9 +4102,9 @@ var ReviewService = class {
       this.applyReuse(run.runId, request.reuse, works);
       this.repo.db.prepare("UPDATE review_work SET state='obsolete' WHERE review_id IN (SELECT id FROM reviews WHERE run_id=? AND state='active') AND state!='completed'").run(run.runId);
       this.repo.db.prepare("UPDATE reviews SET state='superseded' WHERE run_id=? AND state='active'").run(run.runId);
-      const reviewId = (0, import_node_crypto8.randomUUID)();
+      const reviewId = (0, import_node_crypto7.randomUUID)();
       this.repo.db.prepare("INSERT INTO reviews(id,run_id,input_digest,source_digest,phase,state,data,created_at) VALUES(?,?,?,?,?,'active',?,?)").run(reviewId, run.runId, inputDigest, sourceDigest, request.phase, canonical(data), Date.now());
-      works.forEach((work, index) => this.repo.db.prepare("INSERT INTO review_work(id,review_id,ordinal,state,data) VALUES(?,?,?,?,?)").run((0, import_node_crypto8.randomUUID)(), reviewId, index, remainingChecks(work).length ? "pending" : "completed", canonical(work)));
+      works.forEach((work, index) => this.repo.db.prepare("INSERT INTO review_work(id,review_id,ordinal,state,data) VALUES(?,?,?,?,?)").run((0, import_node_crypto7.randomUUID)(), reviewId, index, remainingChecks(work).length ? "pending" : "completed", canonical(work)));
       this.repo.db.prepare("UPDATE review_sessions SET state='revoked' WHERE run_id=? AND review_id!=?").run(run.runId, reviewId);
       return this.read(run.runId, reviewId);
     });
@@ -4221,13 +4169,14 @@ var ReviewService = class {
         ensure4(body.reason, "REVIEW_TAKEOVER_REASON", "\u63A5\u66FF\u987B\u8BB0\u5F55\u771F\u5B9E\u539F\u56E0");
         this.repo.db.prepare("UPDATE review_sessions SET state='revoked' WHERE id=?").run(row.session_id);
       }
-      const id = (0, import_node_crypto8.randomUUID)();
+      const id = (0, import_node_crypto7.randomUUID)();
       this.repo.db.prepare("INSERT INTO review_sessions(id,run_id,review_id,credential_digest,thread_id,state,diagnostic) VALUES(?,?,?,?,?,'active',?)").run(id, runId, body.reviewId, key2, body.reviewerAgentId, canonical({ inputDigest: digest, reason: body.reason, provenance: "coordinator_reported" }));
-      this.repo.db.prepare("UPDATE review_work SET state='assigned',session_id=?,assignment_token=?,generation=generation+1 WHERE id=?").run(id, id, row.id);
-      this.updateMetrics(body.reviewId, (m) => {
-        m.firstClaimedAt ??= Date.now();
-      });
       const work = JSON.parse(row.data);
+      work.assignedAt = Date.now();
+      this.repo.db.prepare("UPDATE review_work SET state='assigned',session_id=?,assignment_token=?,generation=generation+1,data=? WHERE id=?").run(id, id, canonical(work), row.id);
+      this.updateMetrics(body.reviewId, (m) => {
+        m.firstClaimedAt ??= work.assignedAt;
+      });
       return { assignmentToken: id, reviewId: body.reviewId, reviewerAgentId: body.reviewerAgentId, provenance: "coordinator_reported", active: true, ...work, remaining: remainingChecks(work) };
     });
     this.events.notify(body.reviewId);
@@ -4244,7 +4193,7 @@ var ReviewService = class {
       return id2 ? [id2] : [];
     })))) {
       const e = work.evidence.find((e2) => e2.evidenceId === id);
-      if (e) ensure4(sha256(await import_node_fs19.promises.readFile(await regular(root, e.path))) === e.sha256, "REVIEW_EVIDENCE_CHANGED", "\u89C2\u5BDF\u671F\u95F4\u5A92\u4F53\u8BC1\u636E\u53D1\u751F\u6539\u53D8\uFF0C\u8BF7\u4FDD\u7559\u89C2\u5BDF\u5E76\u91CD\u65B0\u51C6\u5907\u672C\u7248\u6750\u6599");
+      if (e) ensure4(sha256(await import_node_fs18.promises.readFile(await regular(root, e.path))) === e.sha256, "REVIEW_EVIDENCE_CHANGED", "\u89C2\u5BDF\u671F\u95F4\u5A92\u4F53\u8BC1\u636E\u53D1\u751F\u6539\u53D8\uFF0C\u8BF7\u4FDD\u7559\u89C2\u5BDF\u5E76\u91CD\u65B0\u51C6\u5907\u672C\u7248\u6750\u6599");
     }
   }
   submit(runId, input) {
@@ -4267,6 +4216,7 @@ var ReviewService = class {
         if (check.mode === "image") ensure4(!item.range && e.kind === "image", "REVIEW_MODE_INVALID", "\u9759\u5E27\u4F7F\u7528\u767B\u8BB0\u5E27\u53F7\uFF0C\u4E0D\u80FD\u5192\u5145\u8FDE\u7EED\u770B\u542C");
         else ensure4(item.range && e.kind === "video" && item.range.fromFrame >= Math.max(check.range.fromFrame, e.fromFrame) && item.range.toFrame <= Math.min(check.range.toFrame, e.toFrame), "REVIEW_RANGE_INVALID", "\u8FDE\u7EED\u5A92\u4F53\u5FC5\u987B\u63D0\u4EA4\u5B9E\u9645\u89C2\u5BDF\u7684\u5168\u5C40\u534A\u5F00\u533A\u95F4");
       };
+      const before = canonical([work.observations, work.issues, work.pendingIssues]);
       body.observations.forEach(validate);
       body.issues.forEach(validate);
       work.observations = unique([...work.observations, ...body.observations]);
@@ -4285,6 +4235,7 @@ var ReviewService = class {
         issue.resolutionNote = resolution.note;
         if (resolution.resolution === "retained") work.issues = unique([...work.issues, { checkId, evidenceId: issue.currentEvidenceId, severity: issue.severity, problem: issue.problem }]);
       }
+      if (before !== canonical([work.observations, work.issues, work.pendingIssues])) work.lastProgressAt = Date.now();
       const remaining = remainingChecks(work), completed = body.status === "complete" && !remaining.length;
       this.repo.db.prepare("UPDATE review_work SET data=?,state=? WHERE id=?").run(canonical(work), completed ? "completed" : "assigned", row.id);
       const response = { accepted: true, status: completed ? "complete" : "partial", remaining, next: null };
@@ -4303,9 +4254,9 @@ var ReviewService = class {
   read(runId, reviewId) {
     const review = this.review(reviewId, runId), rows = this.repo.db.prepare("SELECT state,data,assignment_token,session_id,generation FROM review_work WHERE review_id=? ORDER BY ordinal").all(reviewId), data = JSON.parse(review.data);
     const work = rows.map((r) => ({ ...JSON.parse(r.data), state: r.state, assignmentToken: r.assignment_token, generation: r.generation, reviewerAgentId: r.session_id ? this.repo.db.prepare("SELECT thread_id FROM review_sessions WHERE id=?").get(r.session_id)?.thread_id : null })), issues = work.flatMap((w) => w.issues.map((i) => ({ unitId: w.unitId, ...i })));
-    const summary = { reviewId, runState: this.repo.get(runId).state, phase: review.phase, sourceDigest: review.source_digest, state: review.state, total: rows.length, remaining: rows.filter((r) => r.state !== "completed").length, missing: data.missing, units: work, previousReviewId: data.previousReviewId, changes: data.changes ?? { changedFiles: [], changedScenes: [], changedTimelineFields: [] }, requiredObservationCount: work.reduce((n, w) => n + w.checks.reduce((n2, c) => n2 + c.evidenceIds.length, 0), 0), issues, pendingIssues: work.flatMap((w) => (w.pendingIssues ?? []).filter((i) => !i.resolution).map((i) => ({ unitId: w.unitId, ...i }))), observationCount: new Set(work.flatMap((w) => w.observations.map((o) => canonical([o.checkId, o.evidenceId])))).size, reusedCount: work.reduce((n, w) => n + w.reused.length, 0), ...data.runtimeDiagnostic ? { runtimeDiagnostic: data.runtimeDiagnostic } : {}, provenance: "coordinator_reported", unobserved: work.filter((w) => w.state !== "completed").map((w) => ({ unitId: w.unitId, remaining: remainingChecks(w) })) };
+    const summary = { reviewId, runState: this.repo.get(runId).state, phase: review.phase, sourceDigest: review.source_digest, state: review.state, total: rows.length, remaining: rows.filter((r) => r.state !== "completed").length, missing: data.missing, units: work, previousReviewId: data.previousReviewId, changes: data.changes ?? { changedFiles: [], changedScenes: [], changedTimelineFields: [] }, requiredObservationCount: work.reduce((n, w) => n + w.checks.reduce((n2, c) => n2 + c.evidenceIds.length, 0), 0), issues, pendingIssues: work.flatMap((w) => (w.pendingIssues ?? []).filter((i) => !i.resolution).map((i) => ({ unitId: w.unitId, ...i }))), observationCount: new Set(work.flatMap((w) => w.observations.map((o) => canonical([w.unitId, o.checkId, o.evidenceId])))).size, reusedCount: work.reduce((n, w) => n + w.reused.length, 0), ...data.runtimeDiagnostic ? { runtimeDiagnostic: data.runtimeDiagnostic } : {}, provenance: "coordinator_reported", unobserved: work.filter((w) => w.state !== "completed").map((w) => ({ unitId: w.unitId, remaining: remainingChecks(w) })) };
     const metrics = data.metrics ?? { preparedAt: review.created_at, firstClaimedAt: null, lastAcceptedSubmissionAt: null, readQueryCount: 0, readTimeoutCount: 0 };
-    const { readQueryCount, readTimeoutCount, ...progress } = metrics;
+    const { readQueryCount, readTimeoutCount, lastAcceptedSubmissionAt, ...progress } = metrics;
     return { ...summary, metrics, statusDigest: sha256(canonical({ ...summary, metrics: progress })), timedOut: false };
   }
   async readWait(runId, input, signal) {
@@ -4338,6 +4289,135 @@ var ReviewService = class {
   }
 };
 
+// packages/production-service/src/tool-results.ts
+async function reviewResultSummary(root, result, details = false, afterDigest) {
+  const text4 = JSON.stringify(result, null, 2), directory = (0, import_node_path20.join)(root, "tool-results");
+  await import_node_fs19.promises.mkdir(directory, { recursive: true });
+  const detailsRef = (0, import_node_path20.join)(directory, `review-${sha256(text4)}.json`), temporary = (0, import_node_path20.join)(directory, `${(0, import_node_crypto8.randomUUID)()}.tmp`);
+  try {
+    await import_node_fs19.promises.writeFile(temporary, text4);
+    await import_node_fs19.promises.rename(temporary, detailsRef);
+  } finally {
+    await import_node_fs19.promises.rm(temporary, { force: true });
+  }
+  const changed = afterDigest === void 0 || afterDigest !== result.statusDigest;
+  if (details) return { ...result, changed, detailsRef };
+  const { units, changes, unobserved, ...summary } = result;
+  const remainingObservationCount = units.reduce((count, unit) => count + remainingChecks(unit).reduce((n, check) => n + (check.evidenceIds?.length ?? unit.checks.find((c) => c.checkId === check.checkId).evidenceIds.length), 0), 0);
+  return {
+    ...summary,
+    changed,
+    detailsRef,
+    remainingObservationCount,
+    completedObservationCount: result.requiredObservationCount - remainingObservationCount,
+    units: units.map((unit) => ({
+      unitId: unit.unitId,
+      state: unit.state,
+      reviewerAgentId: unit.reviewerAgentId,
+      assignmentToken: unit.assignmentToken,
+      generation: unit.generation,
+      assignedAt: unit.assignedAt ?? null,
+      lastProgressAt: unit.lastProgressAt ?? null,
+      remainingCheckCount: remainingChecks(unit).length,
+      pendingIssueCount: unit.pendingIssues?.filter((i) => !i.resolution).length ?? 0
+    })),
+    changeCounts: { files: changes.changedFiles.length, scenes: changes.changedScenes.length, timelineFields: changes.changedTimelineFields.length }
+  };
+}
+async function speechBatchSummary(root, result, details = false) {
+  const text4 = JSON.stringify(result, null, 2), directory = (0, import_node_path20.join)(root, "tool-results");
+  await import_node_fs19.promises.mkdir(directory, { recursive: true });
+  const detailsRef = (0, import_node_path20.join)(directory, `speech-${sha256(text4)}.json`);
+  const temporary = (0, import_node_path20.join)(directory, `${(0, import_node_crypto8.randomUUID)()}.tmp`);
+  try {
+    await import_node_fs19.promises.writeFile(temporary, text4);
+    await import_node_fs19.promises.rename(temporary, detailsRef);
+  } finally {
+    await import_node_fs19.promises.rm(temporary, { force: true });
+  }
+  if (details) return { ...result, detailsRef };
+  return {
+    id: result.id,
+    runId: result.runId,
+    state: result.state,
+    total: result.total,
+    counts: result.counts,
+    unknownReservations: result.unknownReservations,
+    detailsRef,
+    issues: result.jobs.filter((job) => ["failed", "unknown", "validation_failed", "cancelled"].includes(job.state)).map((job) => ({ id: job.id, segmentId: job.request.segmentId, state: job.state, diagnostic: job.diagnostic, error: job.error }))
+  };
+}
+function mediaJobSummary(job, detailsRef, details = false) {
+  const freezeState = job.sourceDigest ? "frozen" : ["running", "queued"].includes(job.state) ? "waiting" : "not_frozen";
+  if (details) return { ...job, freezeState, detailsRef };
+  const { input, delivery, continuousAudio, chunks, ...summary } = job;
+  return {
+    ...summary,
+    detailsRef,
+    freezeState,
+    readyFrameCount: job.readyFrames?.length ?? 0,
+    requestedFrameCount: input?.frames?.length,
+    readyFrames: input && "reviewPlan" in input ? void 0 : job.readyFrames,
+    readyFiles: job.readyFiles?.map(({ content, ...file }) => file),
+    completedChunks: chunks?.map(({ id, fromFrame, toFrame, sha256: sha2562 }) => ({ id, fromFrame, toFrame, sha256: sha2562 })),
+    failedChunks: job.state === "failed" && job.renderStrategy === "scene-chunks" ? (job.resolvedRanges ?? input?.ranges)?.filter((range) => !chunks?.some((chunk) => chunk.id === range.id)).map((range) => range.id) : void 0
+  };
+}
+function productionTaskSummary(run) {
+  const template = run.checkpoint.template;
+  if (run.stage === "analysis") return {
+    taskId: run.taskId,
+    runId: run.runId,
+    stage: run.stage,
+    state: run.state,
+    inputDigest: run.inputDigest,
+    planVersion: run.planVersion,
+    request: run.request,
+    template: template ? { templateVersion: template.manifest?.templateVersion ?? template.manifest?.version, archiveDigest: template.digest, analysisContractDigest: template.analysisContract?.digest, analysisContract: template.analysisContract, speakerBindings: template.manifest?.speakerBindings ?? {}, width: template.manifest?.width, height: template.manifest?.height, fps: template.manifest?.fps } : void 0
+  };
+  return {
+    taskId: run.taskId,
+    runId: run.runId,
+    stage: run.stage,
+    state: run.state,
+    inputDigest: run.inputDigest,
+    planVersion: run.planVersion,
+    template: template ? { digest: template.digest, sourceDigest: template.sourceDigest, version: template.manifest?.templateVersion, timelineDataRef: template.manifest?.timelineDataRef, timelineContract: template.manifest?.timelineContract } : void 0
+  };
+}
+
+// packages/production-service/src/review-frame-plan.ts
+var import_zod9 = require("zod");
+var text3 = import_zod9.z.string().trim().min(1).max(4e3);
+var prepareReviewFramesSchema = import_zod9.z.object({
+  renderRequestId: import_zod9.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/),
+  sourceDigest: import_zod9.z.string().min(1).optional(),
+  timelineRef: prepareReviewSchema.shape.timelineRef,
+  phase: prepareReviewSchema.shape.phase,
+  reuse: prepareReviewSchema.shape.reuse,
+  units: import_zod9.z.array(import_zod9.z.object({ unitId: text3, sceneIds: import_zod9.z.array(text3).min(1), checks: import_zod9.z.array(import_zod9.z.object({
+    checkId: text3,
+    purpose: text3,
+    frames: import_zod9.z.array(import_zod9.z.number().int().nonnegative()).min(1)
+  }).strict()).min(1) }).strict()).min(1)
+}).strict();
+function reviewFramesInput(runId, body) {
+  const request = prepareReviewFramesSchema.parse(body);
+  const frames2 = [...new Set(request.units.flatMap((u) => u.checks.flatMap((c) => c.frames)))];
+  const reviewPlan = prepareReviewSchema.parse({
+    renderRequestIds: [request.renderRequestId],
+    phase: request.phase,
+    timelineRef: request.timelineRef,
+    reuse: request.reuse,
+    units: request.units.map((unit) => ({ ...unit, checks: unit.checks.map(({ frames: frames3, ...check }) => ({
+      ...check,
+      mode: "image",
+      evidence: [...new Set(frames3)].map((frame2) => ({ renderRequestId: request.renderRequestId, frame: frame2 }))
+    })) }))
+  });
+  return { runId, renderRequestId: request.renderRequestId, sourceDigest: request.sourceDigest, frames: frames2, reviewPlan };
+}
+
 // apps/server/src/production/routes.ts
 async function createProductionServer(config, executor, overrides = {}) {
   const renderers = { renderTemplate, templateFrames, retryRenderSlices, ...overrides };
@@ -4348,7 +4428,7 @@ async function createProductionServer(config, executor, overrides = {}) {
   const app = (0, import_fastify.default)({ bodyLimit: 2 * 1024 * 1024 });
   await app.register(import_cors.default, { origin: true, exposedHeaders: ["Content-Range", "Content-Length", "Accept-Ranges"] });
   app.setErrorHandler((error, request, reply) => {
-    reply.code(error instanceof import_zod9.z.ZodError ? 400 : error.statusCode ?? 500).send({ status: 1, msg: error.message, error: { code: error instanceof import_zod9.z.ZodError ? "INVALID_FIELDS" : error.code ?? "INTERNAL_ERROR", fields: error instanceof import_zod9.z.ZodError ? error.issues : void 0 } });
+    reply.code(error instanceof import_zod10.z.ZodError ? 400 : error.statusCode ?? 500).send({ status: 1, msg: error.message, error: { code: error instanceof import_zod10.z.ZodError ? "INVALID_FIELDS" : error.code ?? "INTERNAL_ERROR", fields: error instanceof import_zod10.z.ZodError ? error.issues : void 0 } });
   });
   app.addHook("preHandler", async (request, reply) => {
     if (request.method === "OPTIONS" || request.url === "/healthz" || request.url.startsWith("/media/")) return;
@@ -4363,7 +4443,7 @@ async function createProductionServer(config, executor, overrides = {}) {
     const webSubmit = request.method === "POST" && ["/narrate/ai_video_director/getAiVideoEditingAnalysisData", "/narrate/ai_video_director/getAiVideoEditingData"].includes(request.url) && config.webSubmitAddresses?.includes(request.ip.replace(/^::ffff:/, ""));
     if (!webSubmit && request.headers.authorization !== `Bearer ${config.apiToken}`) throw new ProductionError("UNAUTHORIZED", "\u9700\u8981\u6709\u6548\u670D\u52A1\u8EAB\u4EFD", 401);
   });
-  app.get("/healthz", async () => ({ status: "ready", releaseId: config.release.releaseId, pluginVersion: config.release.pluginVersion, skillsDigest: config.release.skillsDigest, configurationReady: Object.values(config.ready).every(Boolean), productionReady: Object.values(config.ready).every(Boolean) ? null : false, readinessScope: "configuration_only", dependencies: config.ready, capacity: { maxActiveRuns: config.maxActiveRuns ?? 4, renderConcurrency: config.renderConcurrency ?? 4, mediaGlobalConcurrency: config.mediaGlobalConcurrency ?? 16, mediaRunConcurrency: config.mediaRunConcurrency ?? 2, mediaProcessConcurrency: config.mediaProcessConcurrency ?? 4, speechConcurrency: config.speechConcurrency ?? 20, speechPerRunConcurrency: config.speechPerRunConcurrency ?? 5, activeRuns: runner.active.size }, optimization: { renderStrategy: config.renderStrategy ?? "scene-chunks", qaParallelReview: config.qaParallelReview ?? true, previewOnDemand: config.previewOnDemand ?? true }, capabilities: { localModels: false, networkSearch: config.searchEnabled, lexicalMechanisms: true, reviewProtocol: 4, runtimeWait: true, sentenceAssembly: true, timelineContract: "sentence-timeline/1", derivedRenderRanges: true, directDelivery: true, reviewStorage: "sqlite", reviewIdentity: "coordinator_reported", reviewOrchestration: "codex_native" } }));
+  app.get("/healthz", async () => ({ status: "ready", releaseId: config.release.releaseId, pluginVersion: config.release.pluginVersion, skillsDigest: config.release.skillsDigest, configurationReady: Object.values(config.ready).every(Boolean), productionReady: Object.values(config.ready).every(Boolean) ? null : false, readinessScope: "configuration_only", dependencies: config.ready, capacity: { maxActiveRuns: config.maxActiveRuns ?? 4, renderConcurrency: config.renderConcurrency ?? 4, mediaGlobalConcurrency: config.mediaGlobalConcurrency ?? 16, mediaRunConcurrency: config.mediaRunConcurrency ?? 2, mediaProcessConcurrency: config.mediaProcessConcurrency ?? 4, speechConcurrency: config.speechConcurrency ?? 20, speechPerRunConcurrency: config.speechPerRunConcurrency ?? 5, activeRuns: runner.active.size }, optimization: { renderStrategy: config.renderStrategy ?? "scene-chunks", qaParallelReview: config.qaParallelReview ?? true, previewOnDemand: config.previewOnDemand ?? true }, capabilities: { localModels: false, networkSearch: config.searchEnabled, lexicalMechanisms: true, reviewProtocol: 4, runtimeWait: true, sentenceAssembly: true, timelineContract: "sentence-timeline/1", derivedRenderRanges: true, directDelivery: true, reviewStorage: "sqlite", reviewIdentity: "coordinator_reported", reviewOrchestration: "codex_native", reviewFramePreparation: true, reviewSummary: true } }));
   const accept = (stage) => async (request, reply) => {
     if (runner.stopping) throw new ProductionError("STOPPING", "\u670D\u52A1\u6B63\u5728\u505C\u6B62\u53D7\u7406", 503);
     const input = stage === "analysis" ? normalizeWebAnalysis(request.body) : normalizeWebRender(request.body, repo.list(config.accountId, request.body?.taskId ?? ""));
@@ -4384,7 +4464,7 @@ async function createProductionServer(config, executor, overrides = {}) {
   app.post("/ai_video_director/callbacks/:eventId/retry", async (request) => ({ status: 0, data: callbacks.retry(request.params.eventId, config.accountId) }));
   app.route({ method: ["GET", "HEAD"], url: "/media/:task/:run/:file", handler: async (request, reply) => {
     const { task, run, file } = request.params;
-    if (!import_zod9.z.string().uuid().safeParse(task).success || !import_zod9.z.string().uuid().safeParse(run).success || !/^\d+\.mp4$/.test(file)) throw new ProductionError("MEDIA_NOT_FOUND", "\u5A92\u4F53\u4E0D\u5B58\u5728", 404);
+    if (!import_zod10.z.string().uuid().safeParse(task).success || !import_zod10.z.string().uuid().safeParse(run).success || !/^\d+\.mp4$/.test(file)) throw new ProductionError("MEDIA_NOT_FOUND", "\u5A92\u4F53\u4E0D\u5B58\u5728", 404);
     const record = repo.get(run);
     if (record.taskKey !== task || record.state !== "succeeded") throw new ProductionError("MEDIA_NOT_FOUND", "\u5A92\u4F53\u5C1A\u672A\u53D1\u5E03", 404);
     const path = (0, import_node_path21.join)(config.dataRoot, "tasks", task, "results", run, file), stat = await import_node_fs20.promises.stat(path);
@@ -4432,6 +4512,30 @@ async function createProductionServer(config, executor, overrides = {}) {
     const run = repo.get(id);
     if (!runner.canStartWork(id) || run.state !== "running") throw new ProductionError("RUN_STOPPING", "\u4EFB\u52A1\u5DF2\u505C\u6B62\u63A5\u53D7\u65B0\u751F\u6210", 409);
     return run;
+  };
+  const registerReview = async (current, job, persist) => {
+    if (!("reviewPlan" in job.input)) return;
+    const signal = runner.active.get(current.runId)?.signal;
+    await persist(() => {
+      job.reviewPreparation = { state: "running" };
+    });
+    try {
+      const result = await withMediaSpan({ runId: current.runId, renderRequestId: job.id, sourceDigest: job.sourceDigest, signal, enabled: config.mediaTiming ?? true, onMetric: createMediaMetricSink(runner.runRoot(current)) }, "review_registration", () => reviews.prepare(current, "reviewPlan" in job.input ? job.input.reviewPlan : void 0, { signal }));
+      if (!result.reviewId) throw new ProductionError("REVIEW_PREPARATION_INCOMPLETE", "\u5A92\u4F53\u672A\u80FD\u767B\u8BB0\u4E3A\u5B8C\u6574\u68C0\u67E5\u6750\u6599");
+      await persist(() => {
+        job.reviewPreparation = { state: "succeeded", reviewId: result.reviewId };
+      });
+    } catch (error) {
+      await persist(() => {
+        job.reviewPreparation = { state: signal?.aborted || repo.get(current.runId).state !== "running" ? "cancelled" : "failed", error: String(error), errorCode: error.code ?? "REVIEW_PREPARATION_FAILED" };
+      });
+    }
+  };
+  const observedJob = (runId, job) => {
+    if (rendering.has(runId, job.id)) return job;
+    if (["running", "queued"].includes(job.state)) return { ...job, state: "unknown", error: "\u539F\u5DE5\u4F5C\u72B6\u6001\u9700\u8981\u6838\u67E5" };
+    if (job.state === "succeeded" && job.reviewPreparation && ["pending", "running"].includes(job.reviewPreparation.state)) return { ...job, reviewPreparation: { ...job.reviewPreparation, state: "unknown", error: "\u5A92\u4F53\u5DF2\u5B8C\u6210\uFF0C\u6750\u6599\u767B\u8BB0\u7ED3\u679C\u5F85\u6838\u67E5\uFF1B\u53EF\u6CBF\u539F\u7F16\u53F7\u6062\u590D\u5E42\u7B49\u767B\u8BB0" } };
+    return job;
   };
   const startMedia = async (current, path, job, resume) => {
     const active = rendering.current(current.runId);
@@ -4514,15 +4618,17 @@ async function createProductionServer(config, executor, overrides = {}) {
         if (signal?.aborted || repo.get(current.runId).state !== "running") throw new ProductionError("PROCESS_CANCELLED", "\u6392\u961F\u9759\u5E27\u542F\u52A8\u524D\u4EFB\u52A1\u5DF2\u53D6\u6D88");
         const result = await withMediaSpan(options.metrics, resume ? "media_job_resume" : "media_job", async (metrics) => {
           const scoped = { ...options, metrics };
-          const result2 = retryJob ? await renderers.retryRenderSlices(current, root, retryJob, scoped) : job.kind === "frame-preview" ? await renderers.templateFrames(current, root, previewFramesSchema.parse(job.input), scoped) : await renderers.renderTemplate(current, root, renderToolSchema.parse(job.input), scoped);
+          const result2 = retryJob ? await renderers.retryRenderSlices(current, root, retryJob, scoped) : job.kind === "frame-preview" ? await renderers.templateFrames(current, root, frameBatchSchema.parse({ runId: job.input.runId, renderRequestId: job.id, ..."frames" in job.input ? { frames: job.input.frames, sourceDigest: job.input.sourceDigest } : {} }), scoped) : await renderers.renderTemplate(current, root, renderToolSchema.parse(job.input), scoped);
           if (metrics) metrics.sourceDigest = job.sourceDigest;
           return result2;
         });
         if (options.signal?.aborted) throw new ProductionError("PROCESS_CANCELLED", "\u672C\u89C6\u9891\u5DF2\u53D6\u6D88");
         await persist(() => Object.assign(job, { state: "succeeded", ...result }));
+        await registerReview(current, job, persist);
       } catch (e) {
         await persist(() => {
           Object.assign(job, { state: options.signal?.aborted ? "cancelled" : "failed", error: String(e) });
+          if (job.reviewPreparation) job.reviewPreparation = { state: options.signal?.aborted ? "cancelled" : "failed", errorCode: "REVIEW_MEDIA_INCOMPLETE", error: "\u5A92\u4F53\u672A\u5B8C\u6210\uFF0C\u672A\u767B\u8BB0\u68C0\u67E5\u8BA1\u5212\uFF1B\u4FDD\u7559\u6210\u529F\u56FE\u7247\u4E0E\u7F3A\u5E27\u6E05\u5355" };
           if ("frames" in job.input) job.missingFrames = job.input.frames.filter((frame2) => !job.readyFrames.some((f) => f.frame === frame2));
         });
       }
@@ -4560,7 +4666,10 @@ async function createProductionServer(config, executor, overrides = {}) {
       await reviews.verifySubmissionEvidence(run.runId, body);
       return reviews.submit(run.runId, body);
     }
-    if (name === "read_review") return waitConnected((signal) => reviews.readWait(run.runId, readReviewSchema.parse(body), signal));
+    if (name === "read_review") {
+      const input = readReviewSchema.parse(body), result = await waitConnected((signal) => reviews.readWait(run.runId, input, signal));
+      return reviewResultSummary(runner.runRoot(run), result, input.details, input.afterDigest);
+    }
     if (name === "synthesize_speech") {
       runnable(run.runId);
       return speech.submit({ ...body, runId: run.runId }, run.accountId);
@@ -4571,7 +4680,7 @@ async function createProductionServer(config, executor, overrides = {}) {
     }
     if (name === "read_speech_job") return speech.read(body.speechJobId, run.runId, run.accountId);
     if (name === "read_speech_batch") {
-      const input = import_zod9.z.object({ speechBatchRequestId: renderRequestIdSchema, details: import_zod9.z.boolean().default(false) }).strict().parse(body);
+      const input = import_zod10.z.object({ speechBatchRequestId: renderRequestIdSchema, details: import_zod10.z.boolean().default(false) }).strict().parse(body);
       return speechBatchSummary(runner.runRoot(run), await speech.readBatch(input.speechBatchRequestId, run.runId, run.accountId), input.details);
     }
     if (name === "retry_speech_validation") {
@@ -4596,9 +4705,9 @@ async function createProductionServer(config, executor, overrides = {}) {
         return result;
       });
     }
-    if (name === "render_template" || name === "preview_template_frames") return serial(async () => {
+    if (name === "render_template" || name === "preview_template_frames" || name === "prepare_review_frames") return serial(async () => {
       const kind = name === "render_template" ? "template-render" : "frame-preview";
-      const input = name === "render_template" ? renderToolSchema.parse({ ...body, runId: run.runId }) : previewFramesSchema.parse({ ...body, runId: run.runId });
+      const input = name === "render_template" ? renderToolSchema.parse({ ...body, runId: run.runId }) : name === "prepare_review_frames" ? reviewFramesInput(run.runId, body) : previewFramesSchema.parse({ ...body, runId: run.runId });
       if (run.stage !== "render") throw new ProductionError("RENDER_STAGE_FORBIDDEN", "Analysis \u4E0D\u5141\u8BB8\u6E32\u67D3");
       const path = (0, import_node_path21.join)(runner.runRoot(run), "render-jobs", `${input.renderRequestId}.json`), digest = sha256(canonical({ kind, input }));
       const old = await json(path).catch((e) => {
@@ -4607,14 +4716,33 @@ async function createProductionServer(config, executor, overrides = {}) {
       });
       if (old) {
         if (old.kind !== kind || old.inputDigest !== digest) throw new ProductionError("RENDER_KEY_CONFLICT", "\u540C\u4E00\u7F16\u53F7\u7684\u4F5C\u4E1A\u7C7B\u578B\u6216\u8F93\u5165\u4E0D\u540C", 409);
-        return mediaJobSummary(["running", "queued"].includes(old.state) && !rendering.has(run.runId, old.id) ? { ...old, state: "unknown", error: "\u539F\u5DE5\u4F5C\u72B6\u6001\u9700\u8981\u6838\u67E5" } : old, path);
+        return mediaJobSummary(observedJob(run.runId, old), path);
       }
       const current = runnable(run.runId);
-      const job = { id: input.renderRequestId, runId: run.runId, kind, state: "running", inputDigest: digest, input, releaseId: config.release.releaseId, rendererVersion: "scene-chunks/1", sceneCutMode: config.sceneCutMode ?? "accurate", renderStrategy: config.renderStrategy ?? "scene-chunks", concurrency: config.renderConcurrency ?? 4, runConcurrency: config.mediaRunConcurrency ?? 2, readyFiles: [], readyFrames: [] };
+      const job = { id: input.renderRequestId, runId: run.runId, kind, state: "running", inputDigest: digest, input, ..."reviewPlan" in input ? { reviewPreparation: { state: "pending" } } : {}, releaseId: config.release.releaseId, rendererVersion: "scene-chunks/1", sceneCutMode: config.sceneCutMode ?? "accurate", renderStrategy: config.renderStrategy ?? "scene-chunks", concurrency: config.renderConcurrency ?? 4, runConcurrency: config.mediaRunConcurrency ?? 2, readyFiles: [], readyFrames: [] };
       return mediaJobSummary(await startMedia(current, path, job, false), path);
     });
+    if (name === "retry_review_preparation") return serial(async () => {
+      const { renderRequestId } = import_zod10.z.object({ renderRequestId: renderRequestIdSchema }).strict().parse(body);
+      const current = runnable(run.runId), path = (0, import_node_path21.join)(runner.runRoot(run), "render-jobs", `${renderRequestId}.json`), job = await json(path);
+      if (job.runId !== run.runId || job.kind !== "frame-preview" || !("reviewPlan" in job.input) || job.inputDigest !== sha256(canonical({ kind: job.kind, input: job.input }))) throw new ProductionError("REVIEW_JOB_INVALID", "\u539F\u6750\u6599\u4F5C\u4E1A\u8EAB\u4EFD\u4E0D\u7B26", 409);
+      if (rendering.has(run.runId, job.id) || job.reviewPreparation?.state === "succeeded") return mediaJobSummary(observedJob(run.runId, job), path);
+      if (job.state !== "succeeded" || job.reviewPreparation?.state === "cancelled") throw new ProductionError("REVIEW_RETRY_FORBIDDEN", "\u4EC5\u6210\u529F\u5A92\u4F53\u53EF\u6062\u590D\u539F\u6750\u6599\u767B\u8BB0\uFF1B\u4E0D\u7EED\u7ED8\u5931\u8D25\u3001\u672A\u77E5\u6216\u53D6\u6D88\u5A92\u4F53", 409);
+      if (rendering.current(run.runId)) throw new ProductionError("RENDER_BUSY", "\u672C Run \u6B63\u5728\u5904\u7406\u5176\u4ED6\u5A92\u4F53\uFF0C\u8BF7\u6CBF\u539F\u4F5C\u4E1A\u7B49\u5F85", 409);
+      job.reviewPreparation = { state: "running" };
+      await writeJson(path, job);
+      void rendering.start(run.runId, job.id, () => registerReview(current, job, async (change) => {
+        change();
+        await writeJson(path, job);
+        events.notify(path);
+        events.notify(`${run.runId}:${job.id}`);
+      })).catch(() => {
+        events.notify(path);
+      });
+      return mediaJobSummary(job, path);
+    });
     if (name === "retry_render_slices") return serial(async () => {
-      const { renderRequestId } = import_zod9.z.object({ renderRequestId: renderRequestIdSchema }).strict().parse(body);
+      const { renderRequestId } = import_zod10.z.object({ renderRequestId: renderRequestIdSchema }).strict().parse(body);
       const current = runnable(run.runId), path = (0, import_node_path21.join)(runner.runRoot(run), "render-jobs", `${renderRequestId}.json`), job = await json(path);
       if (job.runId !== run.runId || job.kind !== "template-render" || !job.input || !("previewOnly" in job.input) || job.input.previewOnly && job.renderStrategy !== "scene-chunks") throw new ProductionError("SLICE_RETRY_FORBIDDEN", "\u4EC5\u672CRun\u539F\u6B63\u5F0F\u5BFC\u51FA\u53EF\u4EE5\u7EED\u5207", 409);
       if (job.inputDigest !== sha256(canonical({ kind: job.kind, input: job.input }))) throw new ProductionError("RENDER_KEY_CONFLICT", "\u539F\u4F5C\u4E1A\u8F93\u5165\u6458\u8981\u4E0D\u7B26", 409);
@@ -4624,20 +4752,16 @@ async function createProductionServer(config, executor, overrides = {}) {
       return mediaJobSummary(await startMedia(current, path, job, true), path);
     });
     if (name === "read_render_job") {
-      const input = import_zod9.z.object({ renderRequestId: renderRequestIdSchema, waitMs: import_zod9.z.number().int().min(0).max(6e4).default(0), afterDigest: import_zod9.z.string().optional(), details: import_zod9.z.boolean().default(false) }).strict().parse(body);
+      const input = import_zod10.z.object({ renderRequestId: renderRequestIdSchema, waitMs: import_zod10.z.number().int().min(0).max(6e4).default(0), afterDigest: import_zod10.z.string().optional(), details: import_zod10.z.boolean().default(false) }).strict().parse(body);
       const path = (0, import_node_path21.join)(runner.runRoot(run), "render-jobs", `${input.renderRequestId}.json`), deadline = Date.now() + input.waitMs;
       await toolQueue;
       while (true) {
         const controller = new AbortController();
         const wake = events.wait(path, Math.max(0, deadline - Date.now()), AbortSignal.any([controller.signal, ...runner.active.get(run.runId) ? [runner.active.get(run.runId).signal] : []]));
         try {
-          const job = await json(path);
-          if (["running", "queued"].includes(job.state) && !rendering.has(run.runId, input.renderRequestId)) {
-            job.state = "unknown";
-            job.error = "\u539F\u6E32\u67D3\u8FDB\u7A0B\u72B6\u6001\u9700\u8981\u6838\u67E5";
-          }
+          const job = observedJob(run.runId, await json(path));
           const statusDigest = sha256(canonical(job));
-          if (!["running", "queued"].includes(job.state) || Date.now() >= deadline || runner.active.get(run.runId)?.signal.aborted || input.afterDigest !== void 0 && input.afterDigest !== statusDigest) return { ...mediaJobSummary(job, path, input.details), statusDigest };
+          if (!["running", "queued"].includes(job.state) && !(job.state === "succeeded" && job.reviewPreparation && ["pending", "running"].includes(job.reviewPreparation.state)) || Date.now() >= deadline || runner.active.get(run.runId)?.signal.aborted || input.afterDigest !== void 0 && input.afterDigest !== statusDigest) return { ...mediaJobSummary(job, path, input.details), statusDigest };
           await wake;
         } finally {
           controller.abort();

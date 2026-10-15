@@ -1,0 +1,102 @@
+{
+  "reviewId": "e2163226-8d29-4176-a48e-a9562393d2f3",
+  "assignmentToken": "a6c6fe5d-5946-4561-9ab1-761f61a93fdd",
+  "observations": [
+    {
+      "checkId": "profit-handoff-samples",
+      "evidenceId": "ev-a214fd3be8940ad705c0ec6b",
+      "note": "标题卡横向多列、纵向多行重复铺排，右侧文字裁切，主体数据、字幕与底部包装均未显示，关键内容无法阅读。 仅实际解码并查看此单帧；未连续播放、未听审，运动、音频及声画同步未知。",
+      "range": {
+        "fromFrame": 2820,
+        "toFrame": 2821
+      }
+    },
+    {
+      "checkId": "profit-handoff-samples",
+      "evidenceId": "ev-a214fd3be8940ad705c0ec6b",
+      "note": "该静帧成本7764.8万元、毛利率59.2%→60.3%、销售4524万元、管理3192万元、研发1977万元可读，字幕与底栏可见，无明显中文缺字或遮挡。 仅实际解码并查看此单帧；未连续播放、未听审，运动、音频及声画同步未知。",
+      "range": {
+        "fromFrame": 2870,
+        "toFrame": 2871
+      }
+    },
+    {
+      "checkId": "profit-handoff-samples",
+      "evidenceId": "ev-a214fd3be8940ad705c0ec6b",
+      "note": "标题卡横向多列、纵向多行重复铺排，右侧文字裁切，主体数据、字幕与底部包装均未显示，关键内容无法阅读。 仅实际解码并查看此单帧；未连续播放、未听审，运动、音频及声画同步未知。",
+      "range": {
+        "fromFrame": 2882,
+        "toFrame": 2883
+      }
+    },
+    {
+      "checkId": "profit-handoff-samples",
+      "evidenceId": "ev-a214fd3be8940ad705c0ec6b",
+      "note": "标题卡横向多列、纵向多行重复铺排，右侧文字裁切，主体数据、字幕与底部包装均未显示，关键内容无法阅读。 仅实际解码并查看此单帧；未连续播放、未听审，运动、音频及声画同步未知。",
+      "range": {
+        "fromFrame": 2920,
+        "toFrame": 2921
+      }
+    },
+    {
+      "checkId": "profit-handoff-samples",
+      "evidenceId": "ev-a214fd3be8940ad705c0ec6b",
+      "note": "标题卡横向多列、纵向多行重复铺排，右侧文字裁切，主体数据、字幕与底部包装均未显示，关键内容无法阅读。 仅实际解码并查看此单帧；未连续播放、未听审，运动、音频及声画同步未知。",
+      "range": {
+        "fromFrame": 2990,
+        "toFrame": 2991
+      }
+    },
+    {
+      "checkId": "opening-samples",
+      "evidenceId": "ev-7b4d346679e7ccbd11359cec",
+      "note": "标题卡横向多列、纵向多行重复铺排，右侧文字裁切，主体数据、字幕与底部包装均未显示，关键内容无法阅读。 仅实际解码并查看此单帧；未连续播放、未听审，运动、音频及声画同步未知。",
+      "range": {
+        "fromFrame": 50,
+        "toFrame": 51
+      }
+    },
+    {
+      "checkId": "opening-samples",
+      "evidenceId": "ev-7b4d346679e7ccbd11359cec",
+      "note": "标题卡横向多列、纵向多行重复铺排，右侧文字裁切，主体数据、字幕与底部包装均未显示，关键内容无法阅读。 仅实际解码并查看此单帧；未连续播放、未听审，运动、音频及声画同步未知。",
+      "range": {
+        "fromFrame": 150,
+        "toFrame": 151
+      }
+    },
+    {
+      "checkId": "opening-samples",
+      "evidenceId": "ev-7b4d346679e7ccbd11359cec",
+      "note": "该静帧显示两名主持人栏目包装，财报揭秘室及浩欧博文字可读，无明显遮挡；不据此判断前后连续性。 仅实际解码并查看此单帧；未连续播放、未听审，运动、音频及声画同步未知。",
+      "range": {
+        "fromFrame": 240,
+        "toFrame": 241
+      }
+    },
+    {
+      "checkId": "opening-samples",
+      "evidenceId": "ev-7b4d346679e7ccbd11359cec",
+      "note": "标题卡横向多列、纵向多行重复铺排，右侧文字裁切，主体数据、字幕与底部包装均未显示，关键内容无法阅读。 仅实际解码并查看此单帧；未连续播放、未听审，运动、音频及声画同步未知。",
+      "range": {
+        "fromFrame": 300,
+        "toFrame": 301
+      }
+    }
+  ],
+  "issues": [
+    {
+      "checkId": "profit-handoff-samples",
+      "evidenceId": "ev-a214fd3be8940ad705c0ec6b",
+      "severity": "blocking",
+      "problem": "实际静帧 2820、2882、2920、2990 均出现标题卡重复铺排与右侧裁切，主体数据、字幕和底部包装缺失，关键内容无法阅读。仅确认所列帧，不推断持续区间。"
+    },
+    {
+      "checkId": "opening-samples",
+      "evidenceId": "ev-7b4d346679e7ccbd11359cec",
+      "severity": "blocking",
+      "problem": "实际静帧 50、150、300 均出现标题卡重复铺排与右侧裁切，主体数据、字幕和底部包装缺失，关键内容无法阅读。仅确认所列帧，不推断持续区间。"
+    }
+  ],
+  "status": "partial"
+}

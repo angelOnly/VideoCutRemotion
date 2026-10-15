@@ -1,0 +1,35 @@
+{
+  "fixture": "64×64、30fps、26帧确定性夹具，同工程、同字体环境、同绘图并发5",
+  "baseline": {
+    "requests": 3,
+    "freezes": 3,
+    "browsers": 3,
+    "elapsedMs": 75157.40048099999
+  },
+  "candidate": {
+    "requests": 1,
+    "freezes": 1,
+    "browsers": 1,
+    "elapsedMs": 22921.870572999993
+  },
+  "result": "26张解码后像素全部一致；冻结后修改工作副本，仍读取原快照",
+  "environment": {
+    "node": "24.19.0",
+    "remotion": "4.0.519",
+    "platform": "macOS x64",
+    "browser": "Google Chrome 155",
+    "compileCache": "未启用跨批次编译复用",
+    "concurrentWork": "本机存在其他工作，未隔离全部宿主进程"
+  },
+  "limitations": [
+    "单次隔离机械执行对照，非真实制作提速或可靠分位数",
+    "旧路径先跑，新路径后跑；系统热缓存和宿主资源波动未排除",
+    "浏览器关闭时输出一次 Target closed 诊断，但像素校验完成且测试退出0"
+  ],
+  "secondRun": {
+    "baselineMs": 168844.383927,
+    "candidateMs": 45135.85537800001,
+    "pixelResult": "全部一致",
+    "conditions": "完整回归期间重复执行，宿主并发负载更高"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "video": "haoyobo-motion-preview-v1/profit-handoff",
+  "localFrame": 62,
+  "globalFrame": 2882,
+  "decodedPixelEqual": true,
+  "pngSha256": [
+    "e1e8d52518cdd6d1b59787ac5cacff5629b0f975688b57c19587c280e7e4f746",
+    "e1e8d52518cdd6d1b59787ac5cacff5629b0f975688b57c19587c280e7e4f746"
+  ],
+  "result": "同一异常帧经两个FFmpeg版本解码像素一致；第60帧正常，属于间歇性异常，底层根因未定位"
+}

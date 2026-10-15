@@ -1,3 +1,4 @@
+import { prepareReviewFramesSchema } from '../../../../packages/production-service/src/review-frame-plan.js';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import { speechSchema, speechBatchSchema } from '../../../../packages/speech-services/src/doubao.js';
@@ -9,10 +10,12 @@ export function registerProductionTools(server:McpServer,call:(name:string,input
   const register=(name:string,description:string,schema:Record<string,z.ZodTypeAny>|z.ZodTypeAny)=>server.registerTool(name,{description,inputSchema:schema},async (input:any)=>{try{const result=await call(name,name==='render_template'?publicRenderToolSchema.parse(input):input);return {content:[{type:'text' as const,text:JSON.stringify(result)}],structuredContent:result&&typeof result==='object'?result:{result}};}catch(e:any){const result={code:e.code??'TOOL_FAILED',reason:e.message??String(e),...(e.fields?{fields:e.fields}:{}),nextStep:e.nextStep??'核对当前参数和原任务状态，保留已经观察的材料'};return {isError:true,content:[{type:'text' as const,text:JSON.stringify(result)}],structuredContent:result};}});
   register('read_production_task','读取绑定的真实任务、阶段和必要模板依据；完整输入沿本 Run 的 input.json 读取。',{});
   if(stage==='analysis')return;
+  register('prepare_review_frames','一次提交整轮静帧目的和选帧；程序去重、冻结一次、绘制全部并登记审片。受理不等于已冻结，沿 read_render_job 查询 freezeState 与独立 reviewPreparation。',prepareReviewFramesSchema.shape);
+  register('retry_review_preparation','仅恢复原成功媒体的审片登记；失败或未知登记沿原编号幂等核验，不重新冻结或绘图。',{renderRequestId:renderRequestIdSchema});
   register('prepare_review','登记主协调指定的检查单元、目的和原媒体证据；不启动模型、不自动复用判断，超时沿原参数续查。',prepareReviewSchema.shape);
   register('assign_review_work','主协调登记已真实创建的原生审片子代理及指定单元；接替需原分派令牌，不创建代理、不自动续领。',assignReviewSchema.shape);
   register('submit_review','主协调保存审片者回传的真实观察和问题；partial 累积，完成不自动分派下一包。',submitReviewSchema.shape);
-  register('read_review','读取计划剩余数量、问题和异常；首次立即返回，之后 afterDigest/waitMs 有界等待新状态，超时不重建。',readReviewSchema.shape);
+  register('read_review','默认返回计数、负责人、全部问题和异常及 detailsRef；details=true 读取完整材料。首次立即返回，之后 afterDigest/waitMs 有界等待新状态，超时不重建。',readReviewSchema.shape);
   register('synthesize_speech','当前 Render 的豆包云端配音；先持久化后异步执行。同键同输入读原任务，unknown 不得重新收费请求。',speechSchema.omit({runId:true}).shape);
   register('synthesize_speech_batch','一次登记本 run 的整批句段，服务按视频轮流派发；同批次同输入返回原任务，不重复收费。',speechBatchSchema.omit({runId:true}).shape);
   register('read_speech_batch','默认返回配音批次计数、异常与完整音频清单引用；需要具体句段时可请求详情，未知结果不得重发。',{speechBatchRequestId:z.string().regex(/^[A-Za-z0-9_-]{1,100}$/),details:z.boolean().default(false)});

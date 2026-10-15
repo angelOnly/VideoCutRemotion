@@ -1,0 +1,55 @@
+{
+  "status": "blocked",
+  "artifactKind": "diagnostic_not_delivery",
+  "taskId": "local-haoyobo-1792053692017",
+  "runId": "2d5d22bf-835d-4427-86d6-c263a2be86a4",
+  "inputDigest": "c0f80affe4515cc746e3796598ad44e77f5d3a033d254d50305f4555b31f77ae",
+  "message": "未完成正式视频导出：实际预览存在标题重复铺排、裁切及正文与包装缺失。不得将本文件当成功媒体清单。",
+  "completed": [
+    "15镜八章本期图解源码与真实时序",
+    "42段配音、42张字幕及装配",
+    "模板标题来源、TypeScript、validateTimeline检查",
+    "同源码verify_sentence_audio通过，42项实测命中"
+  ],
+  "sourceDigest": "a2b0bf1131862e96e25bc26b36ffbfde8861ff374f76d2335de8a68e1a2e0fb4",
+  "originalJobs": {
+    "speechBatch": "haoyobo-speech-v1",
+    "assembly": "haoyobo-assembly-v1",
+    "failedFrames": "haoyobo-frames-v2",
+    "preview": "haoyobo-motion-preview-v1",
+    "reviewId": "e2163226-8d29-4176-a48e-a9562393d2f3"
+  },
+  "diagnosis": "预览技术成功，但实际解码帧50、150、300、2820、2882、2920、2990存在重复标题网格及裁切。源码无对应重复逻辑，疑在渲染或捕获层；具体根因未确定。静帧v2另报本地页面无响应。",
+  "evidence": [
+    "records/review-observations.json",
+    "records/review-submit-corrected.json",
+    "records/review-frames/",
+    "previews/haoyobo-motion-preview-v1/0.mp4",
+    "previews/haoyobo-motion-preview-v1/1.mp4",
+    "records/audio-verify-final.json"
+  ],
+  "changedFiles": [
+    "project/renderer/timeline.json",
+    "project/renderer/src/visualExtensions.tsx",
+    "project/renderer/src/episode/",
+    "project/audio-plan.json",
+    "project/audio-review.md",
+    "project/视觉与演出稿.md",
+    "project/renderer/public/speech/",
+    "project/renderer/public/assets/"
+  ],
+  "callChain": "配音批次→assemble_sentence_audio→本期章节图解→受管预览→原生审片→submit_review partial；未提交正式导出。",
+  "unknown": [
+    "未连续观看与听审",
+    "未观察其他章节实际成片",
+    "渲染异常底层原因"
+  ],
+  "recovery": [
+    "保留上述原作业和冻结源码，不换键伪造恢复，不重新收费配音",
+    "当前Run无report_editing_blocker或平台修复工具，需恢复渲染服务调查能力；制作会话不改平台源码",
+    "修复渲染异常后核对原任务状态，重新取得受管同版证据并由原审片者复查已知blocking",
+    "最终同版音频核验后才提交正式整片和15镜导出，再返回await_runtime"
+  ],
+  "cost": "片头、片尾、BGM保留三份同源副本适配模板和装配路径；既有配音可复用。",
+  "formalExportRequestId": null
+}

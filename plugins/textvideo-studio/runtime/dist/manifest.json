@@ -1,9 +1,9 @@
 {
   "schemaVersion": 3,
-  "pluginVersion": "0.1.22",
-  "releaseId": "release-820fd269269aa2cc0565626d706debacc3c944f1dc55be9545c79abb97f742ca",
-  "skillsDigest": "696b874ff3f282a19117824b2848f65c154bfbf591585de5078182bfac7ca48e",
-  "skillViewsDigest": "3f8f73df73436aa96c0d0f10267e00de3a68377c7518ab8f4464ea53db48cf5d",
+  "pluginVersion": "0.1.23",
+  "releaseId": "release-b8259fefe8b710ca8465ad95797a0c4099300974b8fde49701ff758e9aa107e6",
+  "skillsDigest": "3ecc8a5af7adab4febf67d34d22890aef6458d74cdc8aedf590ccdc02a9899a9",
+  "skillViewsDigest": "a1ab31dc8c11e10293fb417049039b5abd4ef3cd5e1f186ced5fd2b114f76383",
   "skillViews": {
     "analysis": "skills-stages/analysis",
     "render": "skills-stages/render"
@@ -23,6 +23,8 @@
     "reviewProtocol": 4,
     "reviewIdentity": "coordinator_reported",
     "reviewOrchestration": "codex_native",
+    "reviewFramePreparation": true,
+    "reviewSummary": true,
     "runtimeWait": true,
     "sentenceAssembly": true,
     "timelineContract": "sentence-timeline/1",

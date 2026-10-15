@@ -1,3 +1,4 @@
+import type { reviewFramesInput } from '../../../packages/production-service/src/review-frame-plan.js';
 import { bundle } from '@remotion/bundler';
 import { selectComposition, renderMedia, renderFrames, openBrowser, makeCancelSignal } from '@remotion/renderer';
 import { promises as fs } from 'node:fs';
@@ -33,12 +34,14 @@ export const renderToolSchema=z.union([
 // 仅用于读取历史作业及内部已解析输入，不暴露给新 MCP 调用。
 const resolvedRenderSchema=z.object({...renderBase,runId:z.string().uuid(),ranges:rangeSchema,sourceDigest:z.string().min(1).optional(),previewOnly:z.boolean().default(false)}).strict();
 export type RenderToolInput=z.infer<typeof renderToolSchema>;
-export const previewFramesSchema=z.object({runId:z.string().uuid(),renderRequestId:renderRequestIdSchema,frames:z.array(z.number().int().nonnegative()).min(1).max(12).refine(v=>new Set(v).size===v.length,'帧号不可重复')}).strict();
+// 临时预览保留小批入口；整轮材料内部一次冻结、一次绘制，不要求作者拆批。
+export const frameBatchSchema=z.object({runId:z.string().uuid(),renderRequestId:renderRequestIdSchema,sourceDigest:z.string().min(1).optional(),frames:z.array(z.number().int().nonnegative()).min(1).refine(v=>new Set(v).size===v.length,'帧号不可重复')}).strict();
+export const previewFramesSchema=frameBatchSchema.extend({frames:z.array(z.number().int().nonnegative()).min(1).max(12).refine(v=>new Set(v).size===v.length,'帧号不可重复')});
 export type TemplateRenderInput=z.infer<typeof resolvedRenderSchema>;
 export type PreviewFramesInput=z.infer<typeof previewFramesSchema>;
 export type VideoFile=Delivery['files'][number];
 export type ReadyFrame={frame:number;path:string;sha256:string};
-export type MediaJob={attempt?:number;id:string;runId:string;kind:'template-render'|'frame-preview';state:'queued'|'running'|'succeeded'|'failed'|'cancelled'|'unknown';inputDigest:string;input:RenderToolInput|TemplateRenderInput|PreviewFramesInput;resolvedRanges?:TemplateRenderInput['ranges'];sourceDigest?:string;releaseId?:string;rendererVersion?:'scene-chunks/1';renderStrategy?:'scene-chunks'|'whole-slices';concurrency?:number;runConcurrency?:number;chunks?:RenderChunk[];continuousAudio?:RenderAudio;sceneCutMode?:'accurate'|'hybrid';readyFiles:VideoFile[];readyFrames:ReadyFrame[];currentOutput?:string;deliveryPath?:string;delivery?:Delivery;overviewPaths?:string[];warnings?:string[];missingFrames?:number[];error?:string};
+export type MediaJob={attempt?:number;id:string;runId:string;kind:'template-render'|'frame-preview';state:'queued'|'running'|'succeeded'|'failed'|'cancelled'|'unknown';inputDigest:string;input:RenderToolInput|TemplateRenderInput|PreviewFramesInput|ReturnType<typeof reviewFramesInput>;reviewPreparation?:{state:'pending'|'running'|'succeeded'|'failed'|'cancelled'|'unknown';reviewId?:string;error?:string;errorCode?:string};resolvedRanges?:TemplateRenderInput['ranges'];sourceDigest?:string;releaseId?:string;rendererVersion?:'scene-chunks/1';renderStrategy?:'scene-chunks'|'whole-slices';concurrency?:number;runConcurrency?:number;chunks?:RenderChunk[];continuousAudio?:RenderAudio;sceneCutMode?:'accurate'|'hybrid';readyFiles:VideoFile[];readyFrames:ReadyFrame[];currentOutput?:string;deliveryPath?:string;delivery?:Delivery;overviewPaths?:string[];warnings?:string[];missingFrames?:number[];error?:string};
 export type RenderOptions={releaseId?:string;bundleCacheRoot?:string;renderStrategy?:'scene-chunks'|'whole-slices';runConcurrency?:number;budget?:{withDrawing<T>(runId:string,slots:number,signal:AbortSignal|undefined,work:()=>Promise<T>):Promise<T>;withProcess<T>(runId:string,signal:AbortSignal|undefined,work:()=>Promise<T>):Promise<T>};onRangesResolved?:(ranges:TemplateRenderInput['ranges'])=>Promise<void>;onChunkReady?:(chunk:RenderChunk)=>Promise<void>;onAudioReady?:(audio:RenderAudio)=>Promise<void>;dependencyRoot:string;browser?:string;concurrency:number;sceneCutMode?:'accurate'|'hybrid';audioAudits?:AudioAuditEvidence;metrics?:MetricContext;signal?:AbortSignal;onFileReady?:(file:VideoFile)=>Promise<void>;onFrameReady?:(frame:ReadyFrame)=>Promise<void>;onOutputStart?:(id:string)=>Promise<void>;onSourceFrozen?:(digest:string)=>Promise<void>};
 const engine={bundle,selectComposition,renderMedia,renderFrames,openBrowser};
 function checkCancelled(signal?:AbortSignal){if(signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','渲染操作已取消');}
@@ -235,10 +238,11 @@ async function overview(frames:ReadyFrame[],output:string){
   }
   return paths;
 }
-export async function templateFrames(run:Run,root:string,input:PreviewFramesInput,options:RenderOptions,backend=engine){
-  assertRun(run,options);input=previewFramesSchema.parse(input);
+export async function templateFrames(run:Run,root:string,input:z.infer<typeof frameBatchSchema>,options:RenderOptions,backend=engine){
+  assertRun(run,options);input=frameBatchSchema.parse(input);
   const project=join(root,'preview-snapshots',input.renderRequestId,'project'),sourceDigest=await withMediaSpan(options.metrics,'freeze_project',async child=>{const digest=await freezeProject(root,project,options.signal);if(child)child.sourceDigest=digest;return digest;});
   options={...options,bundleCacheRoot:join(root,'.bundle-cache'),metrics:options.metrics?{...options.metrics,sourceDigest}:undefined};
+  if(input.sourceDigest&&input.sourceDigest!==sourceDigest)throw new ProductionError('SOURCE_CHANGED','实际冻结版本与指定源码摘要不一致');
   await options.onSourceFrozen?.(sourceDigest);
   const declared=await validateTemplate(project);
   const preflight=declared.timelineDataRef?await preflightTimeline(project,(run.request as RenderRequest).dataList,{frames:input.frames}):undefined;

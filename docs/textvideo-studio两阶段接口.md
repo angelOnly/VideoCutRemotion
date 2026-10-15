@@ -82,7 +82,10 @@ Render 成功的 data.dataList 为 N+1：首项 whole-video，随后为全部确
 | assemble_sentence_audio | assemblyRequestId、speechBatchRequestIds、planRef、expectedTimelineSha256。按当前人物范围核对句段和音色，合法无口播画面按明确时长推进；没有需配音片段时批次列表可为空 |
 | verify_sentence_audio | timelineRef、speechBatchRequestIds、可选 renderRequestId。核验当前正文、人物、真实音色、音频归属与帧界；无口播仍检查结构和范围 |
 | read_speech_job | speechJobId，只读当前 run 的原配音任务 |
-| preview_template_frames | renderRequestId、frames，生成同一源码快照的实际静帧 |
+| prepare_review_frames | renderRequestId、phase、units；各单元声明 sceneIds 和 checks（checkId、purpose、frames），可指定 sourceDigest、timelineRef、reuse；程序去重、一次冻结绘制全部选帧并登记审片 |
+| retry_review_preparation | renderRequestId；只恢复原成功媒体的材料登记，不重绘 |
+| read_review | reviewId、afterDigest、waitMs、details；默认短摘要与 detailsRef，details=true 读取完整记录 |
+| preview_template_frames | renderRequestId、frames、可选 sourceDigest；独立临时预览仍限 12 帧，整轮材料使用 prepare_review_frames |
 | render_template | renderRequestId、timelineRef、checks；正式导出不传 ranges，服务推导整片和确认分镜范围；动态预览按实时 Schema 提供 ranges |
 | read_render_job | renderRequestId，查询原任务，不重复提交 |
 | search_motion_mechanisms | 本地词法检索，以实时 MCP Schema 为准 |
@@ -101,3 +104,16 @@ Render 成功的 data.dataList 为 N+1：首项 whole-video，随后为全部确
 ## 本地候选 0.1.21 的内部职责拆分
 
 本节描述本轮本地开发，不表示已部署。网页 Analysis/Render 提交格式保持现有合同。审片协议升级为 4：主 Codex 原生分派，`prepare_review` 指定检查项，`assign_review_work` 登记真实分派，主协调 `submit_review` 保存观察，`read_review` 读取状态；Worker 不启动审片模型。动态预览不再提交 `previewRequests`，仅使用实际 ranges 和可选 sourceDigest。字幕语义分页由作者提供，人物音色绑定来自模板 manifest。完整调用链、失败处理和验证见 [拆分开发验证](20261015Codex与Worker效果职责拆分开发验证.md)。
+
+
+## 整轮材料与简洁审片状态（本地开发）
+
+`prepare_review_frames → templateFrames → ReviewService.prepare → read_review` 复用原 RunWork、媒体预算、作业 JSON 与审片 SQLite，不另建队列或数据库。一次计划中的重复帧只绘制一次，不同检查目的各自保留。实际参数由同源 Zod 发布，`prepare_review` 继续支持已有媒体及连续材料。
+
+`read_render_job.freezeState` 为 waiting / frozen / not_frozen。已受理不表示版本已固定；waiting 时暂停修改待冻结工程，frozen 返回实际 sourceDigest 后允许继续工作副本。指定摘要与实际冻结版本不同会失败。
+
+媒体 state 与 reviewPreparation.state 分开记录：后者 pending / running / succeeded / failed / cancelled / unknown，成功包含 reviewId。登记失败或结果未知沿原编号恢复，只重新核验原快照与原图片；同输入返回原计划，已有观察保留。媒体失败保留图片和 missingFrames，当前不支持缺帧续绘；取消停止后续工作。同编号不同输入返回冲突。
+
+审片摘要保留全部 issues、pendingIssues、missing、runtimeDiagnostic、完成/剩余计数、单元负责人及 assignedAt/lastProgressAt；完整检查、观察、区间和变更事实在 detailsRef。连续观察只有覆盖整个指定范围才计完成，不能按提交条数推断。changed 只比较业务摘要；查询次数增加不构成进展。lastProgressAt 只在单元收到新增观察或问题处置时更新，不据固定静默时间自动接替。
+
+宿主原始事件新增接收时间 recordedAt。`scripts/production-flow-timing-report.ts` 读取原 Run 日志及明确的开始、结束时间，生成互不重叠的时间表与可重叠的负责人活动表。无时间戳、未配对及无日志范围保持未归因；不把媒体统计或查询次数当作端到端加速证明。

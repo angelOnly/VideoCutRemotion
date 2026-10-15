@@ -1,0 +1,131 @@
+{
+  "taskId": "local-haoyobo-1792053692017",
+  "releaseId": "release-10d14f31aacf3ca1f6c52b6e52fdf80b6de41383cc42082e79b27552ab837b96",
+  "templateSha256": "e2d76c740c2ebe627769aeff7a8a8e86a28df6ae95a03912d03f8088f8a6a58b",
+  "model": "gpt-6-astra",
+  "reasoningEffort": "low",
+  "measuredAt": "2026-10-15T09:09:32.531Z",
+  "stages": {
+    "analysis": {
+      "runId": "00474c63-1bfb-43b6-b0bd-0d50a3163c03",
+      "submittedAt": "2026-10-15T08:41:36.018Z",
+      "acceptedAt": "2026-10-15T08:41:36.088Z",
+      "state": "succeeded",
+      "finishedObservedAt": "2026-10-15T08:43:16.974Z",
+      "elapsedMs": 100956,
+      "error": null,
+      "runRoot": "/Users/jiang/Downloads/ifeng/VideoCutRemotion/.candidate/local-two-stage-20261015/ready-run/runtime/tasks/61d8daf3-025a-48c6-a80a-97988317e74e/runs/00474c63-1bfb-43b6-b0bd-0d50a3163c03",
+      "callbackReceivedAt": "2026-10-15T08:43:15.679Z",
+      "httpToCallbackMs": 99661,
+      "modelTurnStartedAt": "2026-10-15T08:41:56.059Z",
+      "mainTurnFinishedAt": "2026-10-15T08:43:15.451Z",
+      "toolRequestCount": 2,
+      "hostErrorCount": 0,
+      "inputContentLength": 0,
+      "otherRequirementsLength": 1076,
+      "mediaJobCount": 0
+    },
+    "render": {
+      "runId": "2d5d22bf-835d-4427-86d6-c263a2be86a4",
+      "submittedAt": "2026-10-15T08:43:16.983Z",
+      "acceptedAt": "2026-10-15T08:43:17.005Z",
+      "state": "failed",
+      "finishedObservedAt": "2026-10-15T09:07:05.807Z",
+      "elapsedMs": 1428824,
+      "error": {
+        "code": "DELIVERY_FORMAT_INVALID",
+        "message": "交付文件不符合成功交付合同；保留原文件和未完成检查，不发布媒体"
+      },
+      "runRoot": "/Users/jiang/Downloads/ifeng/VideoCutRemotion/.candidate/local-two-stage-20261015/ready-run/runtime/tasks/61d8daf3-025a-48c6-a80a-97988317e74e/runs/2d5d22bf-835d-4427-86d6-c263a2be86a4",
+      "callbackReceivedAt": "2026-10-15T09:07:05.940Z",
+      "httpToCallbackMs": 1428957,
+      "modelTurnStartedAt": "2026-10-15T08:43:24.502Z",
+      "mainTurnFinishedAt": "2026-10-15T09:07:05.528Z",
+      "toolRequestCount": 176,
+      "hostErrorCount": 0,
+      "otherRequirementsLength": 1076,
+      "mediaJobCount": 3,
+      "formalJobs": [],
+      "beforeFormalExportMs": null,
+      "formalExportMs": [],
+      "publicationMs": null,
+      "speechJobCount": 42
+    }
+  },
+  "limitation": "主阶段从HTTP提交到签名回调接收；未收到回调时只报告进行中或观察时间。模型回合与媒体活动可并行，不相加冒充总时长。",
+  "totalStageMs": 1528618,
+  "confirmationGapMs": 1304,
+  "wholeAttemptMs": 1529922,
+  "renderIntervals": [
+    {
+      "from": "2026-10-15T08:43:16.983Z",
+      "to": "2026-10-15T08:53:12.962Z",
+      "durationMs": 595979,
+      "activity": "制作、配音、装配及工程校验"
+    },
+    {
+      "from": "2026-10-15T08:53:12.962Z",
+      "to": "2026-10-15T08:54:00.223Z",
+      "durationMs": 47261,
+      "activity": "haoyobo-frames-v1",
+      "result": "failed"
+    },
+    {
+      "from": "2026-10-15T08:54:00.223Z",
+      "to": "2026-10-15T08:55:08.765Z",
+      "durationMs": 68542,
+      "activity": "原作者返修、协调或检查准备（非纯等待）"
+    },
+    {
+      "from": "2026-10-15T08:55:08.765Z",
+      "to": "2026-10-15T08:55:42.360Z",
+      "durationMs": 33595,
+      "activity": "haoyobo-frames-v2",
+      "result": "failed"
+    },
+    {
+      "from": "2026-10-15T08:55:42.360Z",
+      "to": "2026-10-15T08:56:03.520Z",
+      "durationMs": 21160,
+      "activity": "原作者返修、协调或检查准备（非纯等待）"
+    },
+    {
+      "from": "2026-10-15T08:56:03.520Z",
+      "to": "2026-10-15T09:04:08.844Z",
+      "durationMs": 485324,
+      "activity": "haoyobo-motion-preview-v1",
+      "result": "succeeded"
+    },
+    {
+      "from": "2026-10-15T09:04:08.844Z",
+      "to": "2026-10-15T09:07:05.940Z",
+      "durationMs": 177096,
+      "activity": "审片、源与媒体诊断、音频核验、阻断交接及失败回调"
+    }
+  ],
+  "renderCompletedItemCounts": {
+    "userMessage": 1,
+    "agentMessage": 31,
+    "commandExecution": 79,
+    "mcpToolCall": 29,
+    "subAgentActivity": 46,
+    "reasoning": 78,
+    "fileChange": 12,
+    "collabAgentToolCall": 22,
+    "sleep": 4,
+    "imageView": 13
+  },
+  "frameValidation": {
+    "video": "haoyobo-motion-preview-v1/profit-handoff",
+    "localFrame": 62,
+    "globalFrame": 2882,
+    "decodedPixelEqual": true,
+    "pngSha256": [
+      "e1e8d52518cdd6d1b59787ac5cacff5629b0f975688b57c19587c280e7e4f746",
+      "e1e8d52518cdd6d1b59787ac5cacff5629b0f975688b57c19587c280e7e4f746"
+    ],
+    "result": "同一异常帧经两个FFmpeg版本解码像素一致；第60帧正常，属于间歇性异常，底层根因未定位"
+  },
+  "formalExportAttempted": false,
+  "result": "Analysis成功；Render失败，未生成正式成片"
+}

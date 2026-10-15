@@ -1,0 +1,65 @@
+[
+  {
+    "taskId": "local-haoyobo-1792053204941",
+    "startedAt": "2026-10-15T08:33:24.942Z",
+    "location": "本机隔离环境",
+    "model": "gpt-6-astra",
+    "reasoningEffort": "low",
+    "runtimePort": 34870,
+    "simulatorPort": 34871,
+    "releaseId": "release-10d14f31aacf3ca1f6c52b6e52fdf80b6de41383cc42082e79b27552ab837b96",
+    "templateSha256": "e2d76c740c2ebe627769aeff7a8a8e86a28df6ae95a03912d03f8088f8a6a58b",
+    "analysis": {
+      "runId": "3cf8adc4-6e34-4613-a310-b9957ef2fa5d",
+      "submittedAt": "2026-10-15T08:33:30.557Z",
+      "acceptedAt": "2026-10-15T08:33:30.687Z",
+      "state": "failed",
+      "finishedObservedAt": "2026-10-15T08:33:48.845Z",
+      "elapsedMs": 18288,
+      "error": {
+        "code": "ANALYSIS_TOOLS_EXPOSED",
+        "message": "Analysis 发现了制作或动效等阶段外工具"
+      }
+    },
+    "error": "Error: analysis阶段failed：{\"code\":\"ANALYSIS_TOOLS_EXPOSED\",\"message\":\"Analysis 发现了制作或动效等阶段外工具\"}",
+    "stoppedAt": "2026-10-15T08:33:48.850Z"
+  },
+  {
+    "taskId": "local-haoyobo-1792053310234",
+    "startedAt": "2026-10-15T08:35:10.235Z",
+    "location": "本机隔离环境",
+    "model": "gpt-6-astra",
+    "reasoningEffort": "low",
+    "runtimePort": 34870,
+    "simulatorPort": 34871,
+    "releaseId": "release-10d14f31aacf3ca1f6c52b6e52fdf80b6de41383cc42082e79b27552ab837b96",
+    "templateSha256": "e2d76c740c2ebe627769aeff7a8a8e86a28df6ae95a03912d03f8088f8a6a58b",
+    "analysis": {
+      "runId": "e3b5ab9e-27f5-4e11-ac58-7a477b0a074e",
+      "submittedAt": "2026-10-15T08:35:15.606Z",
+      "acceptedAt": "2026-10-15T08:35:15.693Z",
+      "state": "succeeded",
+      "finishedObservedAt": "2026-10-15T08:38:55.982Z",
+      "elapsedMs": 220377,
+      "error": null
+    },
+    "confirmation": {
+      "mode": "模拟用户确认：原样采用Analysis分镜，不人工改写",
+      "at": "2026-10-15T08:38:55.998Z"
+    },
+    "render": {
+      "runId": "8b5e5049-22b4-4ed1-89a8-5ea9768f2557",
+      "submittedAt": "2026-10-15T08:38:56.007Z",
+      "acceptedAt": "2026-10-15T08:38:56.069Z",
+      "state": "cancelled",
+      "finishedObservedAt": "2026-10-15T08:40:38.182Z",
+      "elapsedMs": 102175,
+      "error": {
+        "code": "PROCESS_CANCELLED",
+        "message": "会话已取消"
+      }
+    },
+    "error": "Error: render阶段cancelled：{\"code\":\"PROCESS_CANCELLED\",\"message\":\"会话已取消\"}",
+    "stoppedAt": "2026-10-15T08:40:38.187Z"
+  }
+]

@@ -23,7 +23,7 @@ export const prepareReviewSchema=z.object({renderRequestIds:z.array(requestId).m
 }).strict();
 // agentId 是主协调报告的宿主标识，仅用于追溯；写入鉴权仍使用当前 Run 凭证。
 export const assignReviewSchema=z.object({reviewId:z.string().uuid(),unitId:text,reviewerAgentId:text,assignmentRequestId:requestId,previousAssignmentToken:z.string().uuid().nullable().default(null),reason:text.optional()}).strict();
-export const readReviewSchema=z.object({reviewId:z.string().uuid(),afterDigest:z.string().regex(/^[a-f0-9]{64}$/).optional(),waitMs:z.number().int().min(0).max(60000).default(0)}).strict();
+export const readReviewSchema=z.object({details:z.boolean().default(false),reviewId:z.string().uuid(),afterDigest:z.string().regex(/^[a-f0-9]{64}$/).optional(),waitMs:z.number().int().min(0).max(60000).default(0)}).strict();
 export const submitReviewSchema=z.object({reviewId:z.string().uuid(),assignmentToken:z.string().uuid(),observations:z.array(z.object({checkId:text,evidenceId:text,note:text,range:reviewRangeSchema.optional()}).strict()).max(1000),issues:z.array(z.object({checkId:text,evidenceId:text,severity:z.enum(['blocking','warning','suggestion']),problem:text,range:reviewRangeSchema.optional()}).strict()).max(1000),issueResolutions:z.array(z.object({issueId:text,evidenceId:text.optional(),checkId:text.optional(),resolution:z.enum(['resolved','retained']),note:text}).strict()).max(1000).optional(),status:z.enum(['partial','complete'])}).strict();
 export type ReviewRange=z.infer<typeof reviewRangeSchema>;
 type Observation=z.infer<typeof submitReviewSchema>['observations'][number];
@@ -33,7 +33,7 @@ export type ReviewEvidence={evidenceId:string;kind:'image'|'video';path:string;s
 export type ReviewCheck={checkId:string;purpose:string;mode:'image'|'video'|'audio'|'audiovisual';ruleVersion?:number;evidenceIds:string[];range?:ReviewRange};
 type PendingIssue=Issue&{issueId:string;sourceReviewId:string;sourceWorkId:string;currentEvidenceId?:string;resolution?:'resolved'|'retained';resolutionNote?:string};
 type Reuse={reviewId:string;workId:string;checkId:string;evidenceId:string;basis:string};
-export type ReviewWork={unitId:string;sceneIds:string[];fromFrame:number;toFrame:number;fps:number;checks:ReviewCheck[];evidence:ReviewEvidence[];observations:Observation[];issues:Issue[];pendingIssues?:PendingIssue[];context?:{confirmedScenes:{id:string;content:string}[];chapter:unknown};reused:Reuse[]};
+export type ReviewWork={assignedAt?:number;lastProgressAt?:number;unitId:string;sceneIds:string[];fromFrame:number;toFrame:number;fps:number;checks:ReviewCheck[];evidence:ReviewEvidence[];observations:Observation[];issues:Issue[];pendingIssues?:PendingIssue[];context?:{confirmedScenes:{id:string;content:string}[];chapter:unknown};reused:Reuse[]};
 type ReviewMetrics={preparedAt:number;firstClaimedAt:number|null;lastAcceptedSubmissionAt:number|null;readQueryCount:number;readTimeoutCount:number};
 type ReviewData={metrics?:ReviewMetrics;changes?:ReturnType<typeof compareReviewSnapshots>;snapshot:ReviewSnapshot;evidence:ReviewEvidence[];renderRequestIds:string[];missing:string[];previousReviewId?:string;runtimeDiagnostic?:string|null};
 type Session={id:string;run_id:string;review_id:string;thread_id:string|null;state:string};
@@ -161,6 +161,7 @@ export class ReviewService{
     });
     const data:ReviewData={metrics:{preparedAt:Date.now(),firstClaimedAt:null,lastAcceptedSubmissionAt:null,readQueryCount:0,readTimeoutCount:0},snapshot,evidence:actualEvidence,renderRequestIds:jobs.map(j=>j.id),missing:[]};
     const inputDigest=sha256(canonical({phase:request.phase,sourceDigest,timelineRef,units:request.units,reuse:request.reuse,evidence:actualEvidence.map(({path,...e})=>e),policy:4}));
+    ensure(!options.signal?.aborted,'PROCESS_CANCELLED','审片材料核验期间已取消，不提交检查计划');
     const result=this.repo.transaction(()=>{
       const current=this.repo.get(run.runId);this.repo.guard(current,run.token!);ensure(current.state==='running','REVIEW_RUN_STOPPED','任务已停止');
       const existing=this.repo.db.prepare('SELECT id FROM reviews WHERE run_id=? AND input_digest=?').get(run.runId,inputDigest) as any;
@@ -232,8 +233,9 @@ export class ReviewService{
       const id=randomUUID();
       // 沿用旧表保存分派历史；credential_digest 只作请求幂等键，不再签发审片凭证。
       this.repo.db.prepare("INSERT INTO review_sessions(id,run_id,review_id,credential_digest,thread_id,state,diagnostic) VALUES(?,?,?,?,?,'active',?)").run(id,runId,body.reviewId,key,body.reviewerAgentId,canonical({inputDigest:digest,reason:body.reason,provenance:'coordinator_reported'}));
-      this.repo.db.prepare("UPDATE review_work SET state='assigned',session_id=?,assignment_token=?,generation=generation+1 WHERE id=?").run(id,id,row.id);
-      this.updateMetrics(body.reviewId,m=>{m.firstClaimedAt??=Date.now();});const work=JSON.parse(row.data) as ReviewWork;
+      const work=JSON.parse(row.data) as ReviewWork;work.assignedAt=Date.now();
+      this.repo.db.prepare("UPDATE review_work SET state='assigned',session_id=?,assignment_token=?,generation=generation+1,data=? WHERE id=?").run(id,id,canonical(work),row.id);
+      this.updateMetrics(body.reviewId,m=>{m.firstClaimedAt??=work.assignedAt!;});
       return {assignmentToken:id,reviewId:body.reviewId,reviewerAgentId:body.reviewerAgentId,provenance:'coordinator_reported',active:true,...work,remaining:remainingChecks(work)};
     });this.events.notify(body.reviewId);return result;
   }
@@ -264,6 +266,7 @@ export class ReviewService{
         if(check.mode==='image')ensure(!item.range&&e.kind==='image','REVIEW_MODE_INVALID','静帧使用登记帧号，不能冒充连续看听');
         else ensure(item.range&&e.kind==='video'&&item.range.fromFrame>=Math.max(check.range!.fromFrame,e.fromFrame!)&&item.range.toFrame<=Math.min(check.range!.toFrame,e.toFrame!),'REVIEW_RANGE_INVALID','连续媒体必须提交实际观察的全局半开区间');
       };
+      const before=canonical([work.observations,work.issues,work.pendingIssues]);
       body.observations.forEach(validate);body.issues.forEach(validate);
       work.observations=unique([...work.observations,...body.observations]);
       for(const issue of body.issues){
@@ -280,6 +283,8 @@ export class ReviewService{
         issue.resolution=resolution.resolution;issue.resolutionNote=resolution.note;
         if(resolution.resolution==='retained')work.issues=unique([...work.issues,{checkId,evidenceId:issue.currentEvidenceId,severity:issue.severity,problem:issue.problem}]);
       }
+      // 只有有效观察或问题变化更新单元进展；空提交、轮询与接替不伪装观察完成。
+      if(before!==canonical([work.observations,work.issues,work.pendingIssues]))work.lastProgressAt=Date.now();
       const remaining=remainingChecks(work),completed=body.status==='complete'&&!remaining.length;
       this.repo.db.prepare('UPDATE review_work SET data=?,state=? WHERE id=?').run(canonical(work),completed?'completed':'assigned',row.id);
       const response={accepted:true,status:completed?'complete':'partial',remaining,next:null};
@@ -291,10 +296,10 @@ export class ReviewService{
   read(runId:string,reviewId:string){
     const review=this.review(reviewId,runId),rows=this.repo.db.prepare('SELECT state,data,assignment_token,session_id,generation FROM review_work WHERE review_id=? ORDER BY ordinal').all(reviewId) as any[],data=JSON.parse(review.data) as ReviewData;
     const work=rows.map(r=>({...JSON.parse(r.data) as ReviewWork,state:r.state,assignmentToken:r.assignment_token,generation:r.generation,reviewerAgentId:r.session_id?(this.repo.db.prepare('SELECT thread_id FROM review_sessions WHERE id=?').get(r.session_id) as any)?.thread_id:null})),issues=work.flatMap(w=>w.issues.map(i=>({unitId:w.unitId,...i})));
-    const summary={reviewId,runState:this.repo.get(runId).state,phase:review.phase,sourceDigest:review.source_digest,state:review.state,total:rows.length,remaining:rows.filter(r=>r.state!=='completed').length,missing:data.missing,units:work,previousReviewId:data.previousReviewId,changes:data.changes??{changedFiles:[],changedScenes:[],changedTimelineFields:[]},requiredObservationCount:work.reduce((n,w)=>n+w.checks.reduce((n,c)=>n+c.evidenceIds.length,0),0),issues,pendingIssues:work.flatMap(w=>(w.pendingIssues??[]).filter(i=>!i.resolution).map(i=>({unitId:w.unitId,...i}))),observationCount:new Set(work.flatMap(w=>w.observations.map(o=>canonical([o.checkId,o.evidenceId])))).size,reusedCount:work.reduce((n,w)=>n+w.reused.length,0),...(data.runtimeDiagnostic?{runtimeDiagnostic:data.runtimeDiagnostic}:{}),provenance:'coordinator_reported',unobserved:work.filter(w=>w.state!=='completed').map(w=>({unitId:w.unitId,remaining:remainingChecks(w)}))};
+    const summary={reviewId,runState:this.repo.get(runId).state,phase:review.phase,sourceDigest:review.source_digest,state:review.state,total:rows.length,remaining:rows.filter(r=>r.state!=='completed').length,missing:data.missing,units:work,previousReviewId:data.previousReviewId,changes:data.changes??{changedFiles:[],changedScenes:[],changedTimelineFields:[]},requiredObservationCount:work.reduce((n,w)=>n+w.checks.reduce((n,c)=>n+c.evidenceIds.length,0),0),issues,pendingIssues:work.flatMap(w=>(w.pendingIssues??[]).filter(i=>!i.resolution).map(i=>({unitId:w.unitId,...i}))),observationCount:new Set(work.flatMap(w=>w.observations.map(o=>canonical([w.unitId,o.checkId,o.evidenceId])))).size,reusedCount:work.reduce((n,w)=>n+w.reused.length,0),...(data.runtimeDiagnostic?{runtimeDiagnostic:data.runtimeDiagnostic}:{}),provenance:'coordinator_reported',unobserved:work.filter(w=>w.state!=='completed').map(w=>({unitId:w.unitId,remaining:remainingChecks(w)}))};
     const metrics=data.metrics??{preparedAt:review.created_at,firstClaimedAt:null,lastAcceptedSubmissionAt:null,readQueryCount:0,readTimeoutCount:0};
-    const {readQueryCount,readTimeoutCount,...progress}=metrics;
-    // 查询次数只用于耗时分析；不能让本次查询本身改变摘要、提前唤醒等待。
+    const {readQueryCount,readTimeoutCount,lastAcceptedSubmissionAt,...progress}=metrics;
+    // 查询与空提交计时只用于诊断；实际进展由单元内容、状态和 lastProgressAt 表达。
     return {...summary,metrics,statusDigest:sha256(canonical({...summary,metrics:progress})),timedOut:false};
   }
   async readWait(runId:string,input:unknown,signal?:AbortSignal){

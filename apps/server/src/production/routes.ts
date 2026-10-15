@@ -12,12 +12,13 @@ import { RunWork, MediaBudget, MediaJobEvents } from '../../../../packages/produ
 import { assembleSentenceAudio } from '../../../../packages/production-service/src/sentence-audio-assembly.js';
 import { verifySentenceAudio } from '../../../../packages/production-service/src/sentence-audio.js';
 import { DoubaoService } from '../../../../packages/speech-services/src/doubao.js';
-import { renderTemplate, renderToolSchema, templateFrames, previewFramesSchema, renderRequestIdSchema, retryRenderSlices, type MediaJob, type RenderOptions } from '../../../render-worker/src/template-renderer.js';
+import { renderTemplate, renderToolSchema, templateFrames, previewFramesSchema, frameBatchSchema, renderRequestIdSchema, retryRenderSlices, type MediaJob, type RenderOptions } from '../../../render-worker/src/template-renderer.js';
 import { json, writeJson, treeDigest, regular } from '../../../../packages/production-service/src/files.js';
 import { normalizeWebAnalysis, normalizeWebRender } from '../../../../packages/production-service/src/web-contract.js';
 import { createMediaMetricSink, withMediaSpan } from '../../../../packages/production-service/src/media-metrics.js';
-import { mediaJobSummary, speechBatchSummary, productionTaskSummary } from '../../../../packages/production-service/src/tool-results.js';
+import { mediaJobSummary, speechBatchSummary, productionTaskSummary, reviewResultSummary } from '../../../../packages/production-service/src/tool-results.js';
 import { ReviewService, prepareReviewSchema, readReviewSchema } from '../../../../packages/production-service/src/review-service.js';
+import { reviewFramesInput } from '../../../../packages/production-service/src/review-frame-plan.js';
 export async function createProductionServer(config:ProductionConfig,executor?:Executor,overrides:Partial<{renderTemplate:typeof renderTemplate;templateFrames:typeof templateFrames;retryRenderSlices:typeof retryRenderSlices}>={}){
   const renderers={renderTemplate,templateFrames,retryRenderSlices,...overrides};
   const repo=new ProductionRepository(join(config.dataRoot,'tasks.sqlite')),runner=new ProductionRunner(repo,config,executor),callbacks=new CallbackSender(repo,config.callbackBase,config.callbackSecret);
@@ -37,7 +38,7 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
     const webSubmit=request.method==='POST'&&['/narrate/ai_video_director/getAiVideoEditingAnalysisData','/narrate/ai_video_director/getAiVideoEditingData'].includes(request.url)&&config.webSubmitAddresses?.includes(request.ip.replace(/^::ffff:/,''));
     if(!webSubmit&&request.headers.authorization!==`Bearer ${config.apiToken}`)throw new ProductionError('UNAUTHORIZED','需要有效服务身份',401);
   });
-  app.get('/healthz',async()=>({status:'ready',releaseId:config.release.releaseId,pluginVersion:config.release.pluginVersion,skillsDigest:config.release.skillsDigest,configurationReady:Object.values(config.ready).every(Boolean),productionReady:Object.values(config.ready).every(Boolean)?null:false,readinessScope:'configuration_only',dependencies:config.ready,capacity:{maxActiveRuns:config.maxActiveRuns??4,renderConcurrency:config.renderConcurrency??4,mediaGlobalConcurrency:config.mediaGlobalConcurrency??16,mediaRunConcurrency:config.mediaRunConcurrency??2,mediaProcessConcurrency:config.mediaProcessConcurrency??4,speechConcurrency:config.speechConcurrency??20,speechPerRunConcurrency:config.speechPerRunConcurrency??5,activeRuns:runner.active.size},optimization:{renderStrategy:config.renderStrategy??'scene-chunks',qaParallelReview:config.qaParallelReview??true,previewOnDemand:config.previewOnDemand??true},capabilities:{localModels:false,networkSearch:config.searchEnabled,lexicalMechanisms:true,reviewProtocol:4,runtimeWait:true,sentenceAssembly:true,timelineContract:'sentence-timeline/1',derivedRenderRanges:true,directDelivery:true,reviewStorage:'sqlite',reviewIdentity:'coordinator_reported',reviewOrchestration:'codex_native'}}));
+  app.get('/healthz',async()=>({status:'ready',releaseId:config.release.releaseId,pluginVersion:config.release.pluginVersion,skillsDigest:config.release.skillsDigest,configurationReady:Object.values(config.ready).every(Boolean),productionReady:Object.values(config.ready).every(Boolean)?null:false,readinessScope:'configuration_only',dependencies:config.ready,capacity:{maxActiveRuns:config.maxActiveRuns??4,renderConcurrency:config.renderConcurrency??4,mediaGlobalConcurrency:config.mediaGlobalConcurrency??16,mediaRunConcurrency:config.mediaRunConcurrency??2,mediaProcessConcurrency:config.mediaProcessConcurrency??4,speechConcurrency:config.speechConcurrency??20,speechPerRunConcurrency:config.speechPerRunConcurrency??5,activeRuns:runner.active.size},optimization:{renderStrategy:config.renderStrategy??'scene-chunks',qaParallelReview:config.qaParallelReview??true,previewOnDemand:config.previewOnDemand??true},capabilities:{localModels:false,networkSearch:config.searchEnabled,lexicalMechanisms:true,reviewProtocol:4,runtimeWait:true,sentenceAssembly:true,timelineContract:'sentence-timeline/1',derivedRenderRanges:true,directDelivery:true,reviewStorage:'sqlite',reviewIdentity:'coordinator_reported',reviewOrchestration:'codex_native',reviewFramePreparation:true,reviewSummary:true}}));
   const accept=(stage:'analysis'|'render')=>async(request:any,reply:any)=>{if(runner.stopping)throw new ProductionError('STOPPING','服务正在停止受理',503);const input=stage==='analysis'?normalizeWebAnalysis(request.body):normalizeWebRender(request.body,repo.list(config.accountId,request.body?.taskId??''));const run=repo.accept(config.accountId,stage,input);return reply.code(202).send({status:0,msg:'已持久化受理',data:{taskId:run.taskId,requestId:run.requestId,runId:run.runId,stage,state:run.state,planVersion:run.planVersion}});};
   app.post('/narrate/ai_video_director/getAiVideoEditingAnalysisData',accept('analysis'));app.post('/narrate/ai_video_director/getAiVideoEditingData',accept('render'));
   app.get('/ai_video_director/tasks/:taskId',async(request:any)=>{const runs=repo.list(config.accountId,request.params.taskId);return {status:0,data:{latestSubmitted:runs.at(-1)?.runId,current:runs.find(r=>['running','unknown','recovering','cancelling'].includes(r.state))?.runId,latestSuccess:[...runs].reverse().find(r=>r.stage==='render'&&r.state==='succeeded')?.runId,runs:runs.map(r=>({...r,token:undefined,checkpoint:undefined,callback:repo.db.prepare('SELECT id,state,attempts,diagnostic FROM callback_outbox WHERE run_id=?').get(r.runId)}))}};});
@@ -63,6 +64,23 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
   runner.onRunStopping=id=>{speech.cancelQueued(id);};
   runner.settleTools=async(runId)=>{await toolQueue;await speech.drain(runId);await rendering.drain(runId);};
   const runnable=(id:string)=>{const run=repo.get(id);if(!runner.canStartWork(id)||run.state!=='running')throw new ProductionError('RUN_STOPPING','任务已停止接受新生成',409);return run;};
+  // 媒体成功与材料登记分别记账；登记失败只恢复本步骤，不重新冻结或绘图。
+  const registerReview=async(current:ReturnType<typeof repo.get>,job:MediaJob,persist:(change:()=>void)=>Promise<unknown>)=>{
+    if(!('reviewPlan' in job.input))return;
+    const signal=runner.active.get(current.runId)?.signal;
+    await persist(()=>{job.reviewPreparation={state:'running'};});
+    try{
+      const result=await withMediaSpan({runId:current.runId,renderRequestId:job.id,sourceDigest:job.sourceDigest,signal,enabled:config.mediaTiming??true,onMetric:createMediaMetricSink(runner.runRoot(current))},'review_registration',()=>reviews.prepare(current,('reviewPlan' in job.input)?job.input.reviewPlan:undefined,{signal}));
+      if(!result.reviewId)throw new ProductionError('REVIEW_PREPARATION_INCOMPLETE','媒体未能登记为完整检查材料');
+      await persist(()=>{job.reviewPreparation={state:'succeeded',reviewId:result.reviewId};});
+    }catch(error:any){await persist(()=>{job.reviewPreparation={state:signal?.aborted||repo.get(current.runId).state!=='running'?'cancelled':'failed',error:String(error),errorCode:error.code??'REVIEW_PREPARATION_FAILED'};});}
+  };
+  const observedJob=(runId:string,job:MediaJob)=>{
+    if(rendering.has(runId,job.id))return job;
+    if(['running','queued'].includes(job.state))return {...job,state:'unknown',error:'原工作状态需要核查'};
+    if(job.state==='succeeded'&&job.reviewPreparation&&['pending','running'].includes(job.reviewPreparation.state))return {...job,reviewPreparation:{...job.reviewPreparation,state:'unknown',error:'媒体已完成，材料登记结果待核查；可沿原编号恢复幂等登记'}};
+    return job;
+  };
   // 只在入口短锁中登记；实际核验、绘图和编码始终属于本Run的工作生命周期。
   const startMedia=async(current:ReturnType<typeof repo.get>,path:string,job:MediaJob,resume:boolean)=>{
     const active=rendering.current(current.runId);
@@ -99,14 +117,16 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
         const result=await withMediaSpan(options.metrics,resume?'media_job_resume':'media_job',async metrics=>{
           const scoped={...options,metrics};
           const result=retryJob?await renderers.retryRenderSlices(current,root,retryJob,scoped):job.kind==='frame-preview'
-            ?await renderers.templateFrames(current,root,previewFramesSchema.parse(job.input),scoped)
+            ?await renderers.templateFrames(current,root,frameBatchSchema.parse({runId:job.input.runId,renderRequestId:job.id,...('frames' in job.input?{frames:job.input.frames,sourceDigest:job.input.sourceDigest}:{})}),scoped)
             :await renderers.renderTemplate(current,root,renderToolSchema.parse(job.input),scoped);
           if(metrics)metrics.sourceDigest=job.sourceDigest;return result;
         });
         if(options.signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','本视频已取消');
         await persist(()=>Object.assign(job,{state:'succeeded',...result}));
+        await registerReview(current,job,persist);
       }catch(e){await persist(()=>{
         Object.assign(job,{state:options.signal?.aborted?'cancelled':'failed',error:String(e)});
+        if(job.reviewPreparation)job.reviewPreparation={state:options.signal?.aborted?'cancelled':'failed',errorCode:'REVIEW_MEDIA_INCOMPLETE',error:'媒体未完成，未登记检查计划；保留成功图片与缺帧清单'};
         if('frames' in job.input)job.missingFrames=job.input.frames.filter(frame=>!job.readyFrames.some(f=>f.frame===frame));
       });}
       await writes;
@@ -128,7 +148,10 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
     }
     if(name==='assign_review_work')return reviews.assign(run.runId,body);
     if(name==='submit_review'){await reviews.verifySubmissionEvidence(run.runId,body);return reviews.submit(run.runId,body);}
-    if(name==='read_review')return waitConnected(signal=>reviews.readWait(run.runId,readReviewSchema.parse(body),signal));
+    if(name==='read_review'){
+      const input=readReviewSchema.parse(body),result=await waitConnected(signal=>reviews.readWait(run.runId,input,signal));
+      return reviewResultSummary(runner.runRoot(run),result,input.details,input.afterDigest);
+    }
     if(name==='synthesize_speech'){runnable(run.runId);return speech.submit({...body,runId:run.runId},run.accountId);}
     if(name==='synthesize_speech_batch'){runnable(run.runId);return speechBatchSummary(runner.runRoot(run),await speech.submitBatch({...body,runId:run.runId},run.accountId));}
     if(name==='read_speech_job')return speech.read(body.speechJobId,run.runId,run.accountId);
@@ -152,19 +175,31 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
         return result;
       });
     }
-    if(name==='render_template'||name==='preview_template_frames')return serial(async()=>{
+    if(name==='render_template'||name==='preview_template_frames'||name==='prepare_review_frames')return serial(async()=>{
       const kind=name==='render_template'?'template-render':'frame-preview';
-      const input=name==='render_template'?renderToolSchema.parse({...body,runId:run.runId}):previewFramesSchema.parse({...body,runId:run.runId});
+      const input=name==='render_template'?renderToolSchema.parse({...body,runId:run.runId}):name==='prepare_review_frames'?reviewFramesInput(run.runId,body):previewFramesSchema.parse({...body,runId:run.runId});
       if(run.stage!=='render')throw new ProductionError('RENDER_STAGE_FORBIDDEN','Analysis 不允许渲染');
       const path=join(runner.runRoot(run),'render-jobs',`${input.renderRequestId}.json`),digest=sha256(canonical({kind,input}));
       const old=await json(path).catch((e:any)=>{if(e.code==='ENOENT')return null;throw e;});
       if(old){
         if(old.kind!==kind||old.inputDigest!==digest)throw new ProductionError('RENDER_KEY_CONFLICT','同一编号的作业类型或输入不同',409);
-        return mediaJobSummary(['running','queued'].includes(old.state)&&!rendering.has(run.runId,old.id)?{...old,state:'unknown',error:'原工作状态需要核查'}:old,path);
+        return mediaJobSummary(observedJob(run.runId,old),path);
       }
       const current=runnable(run.runId);
-      const job:MediaJob={id:input.renderRequestId,runId:run.runId,kind,state:'running',inputDigest:digest,input,releaseId:config.release.releaseId,rendererVersion:'scene-chunks/1',sceneCutMode:config.sceneCutMode??'accurate',renderStrategy:config.renderStrategy??'scene-chunks',concurrency:config.renderConcurrency??4,runConcurrency:config.mediaRunConcurrency??2,readyFiles:[],readyFrames:[]};
+      const job:MediaJob={id:input.renderRequestId,runId:run.runId,kind,state:'running',inputDigest:digest,input,...('reviewPlan' in input?{reviewPreparation:{state:'pending' as const}}:{}),releaseId:config.release.releaseId,rendererVersion:'scene-chunks/1',sceneCutMode:config.sceneCutMode??'accurate',renderStrategy:config.renderStrategy??'scene-chunks',concurrency:config.renderConcurrency??4,runConcurrency:config.mediaRunConcurrency??2,readyFiles:[],readyFrames:[]};
       return mediaJobSummary(await startMedia(current,path,job,false),path);
+    });
+    if(name==='retry_review_preparation')return serial(async()=>{
+      const {renderRequestId}=z.object({renderRequestId:renderRequestIdSchema}).strict().parse(body);
+      const current=runnable(run.runId),path=join(runner.runRoot(run),'render-jobs',`${renderRequestId}.json`),job:MediaJob=await json(path);
+      if(job.runId!==run.runId||job.kind!=='frame-preview'||!('reviewPlan' in job.input)||job.inputDigest!==sha256(canonical({kind:job.kind,input:job.input})))throw new ProductionError('REVIEW_JOB_INVALID','原材料作业身份不符',409);
+      if(rendering.has(run.runId,job.id)||job.reviewPreparation?.state==='succeeded')return mediaJobSummary(observedJob(run.runId,job),path);
+      if(job.state!=='succeeded'||job.reviewPreparation?.state==='cancelled')throw new ProductionError('REVIEW_RETRY_FORBIDDEN','仅成功媒体可恢复原材料登记；不续绘失败、未知或取消媒体',409);
+      // 原登记结果未知也仅幂等核验原媒体，绝不重绘。占用同一 Run 生命周期防止取消后漏提交。
+      if(rendering.current(run.runId))throw new ProductionError('RENDER_BUSY','本 Run 正在处理其他媒体，请沿原作业等待',409);
+      job.reviewPreparation={state:'running'};await writeJson(path,job);
+      void rendering.start(run.runId,job.id,()=>registerReview(current,job,async change=>{change();await writeJson(path,job);events.notify(path);events.notify(`${run.runId}:${job.id}`);})).catch(()=>{events.notify(path);});
+      return mediaJobSummary(job,path);
     });
     if(name==='retry_render_slices')return serial(async()=>{
       const {renderRequestId}=z.object({renderRequestId:renderRequestIdSchema}).strict().parse(body);
@@ -185,10 +220,9 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
         const controller=new AbortController();
         const wake=events.wait(path,Math.max(0,deadline-Date.now()),AbortSignal.any([controller.signal,...(runner.active.get(run.runId)?[runner.active.get(run.runId)!.signal]:[])]));
         try{
-          const job=await json(path);
-          if(['running','queued'].includes(job.state)&&!rendering.has(run.runId,input.renderRequestId)){job.state='unknown';job.error='原渲染进程状态需要核查';}
+          const job=observedJob(run.runId,await json(path));
           const statusDigest=sha256(canonical(job));
-          if(!['running','queued'].includes(job.state)||Date.now()>=deadline||runner.active.get(run.runId)?.signal.aborted||(input.afterDigest!==undefined&&input.afterDigest!==statusDigest))return {...mediaJobSummary(job,path,input.details),statusDigest};
+          if((!['running','queued'].includes(job.state)&&!(job.state==='succeeded'&&job.reviewPreparation&&['pending','running'].includes(job.reviewPreparation.state)))||Date.now()>=deadline||runner.active.get(run.runId)?.signal.aborted||(input.afterDigest!==undefined&&input.afterDigest!==statusDigest))return {...mediaJobSummary(job,path,input.details),statusDigest};
           await wake;
         }finally{controller.abort();}
       }

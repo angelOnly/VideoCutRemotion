@@ -4,7 +4,7 @@
 
 ## 准备证据与明确检查目的
 
-作者停止本轮写入后，主协调选择需要看的实际状态。preview_template_frames 每批使用稳定 renderRequestId 和 1～12 个唯一全局 frames；12 是接口上限，不是必选数量。连续预览使用 render_template({previewOnly:true,ranges,...})；可传 sourceDigest 防止冻结了错误版本。疑点、看听者、观察方法与通过依据保存在协调交接中，不是 Worker 的预览许可条件。已有同版文件优先直接使用；是否生成预览由主协调判断。
+作者停止本轮写入后，主协调选择需要看的实际状态。整轮静帧检查使用 prepare_review_frames：提交稳定 renderRequestId、phase、各单元 sceneIds 及 checks 的 checkId、purpose、frames；程序合并选帧、冻结一次、生成全部图片并登记原计划，不自行拆 12 帧或搬运批次编号。临时少量预览仍可用 preview_template_frames；已有媒体或动态材料仍用 prepare_review。连续预览使用 render_template({previewOnly:true,ranges,...})；可传 sourceDigest 防止冻结了错误版本。疑点、看听者、观察方法与通过依据保存在协调交接中，不是 Worker 的预览许可条件。已有同版文件优先直接使用；是否生成预览由主协调判断。
 
 prepare_review 输入 renderRequestIds、phase（pre_export 或 post_export）、units 和可选 timelineRef/waitMs。units 由主协调指定，每项包含 unitId、sceneIds、checks；每个 check 包含 checkId、purpose、mode 和 evidence。图片引用为 {renderRequestId,frame}，连续媒体引用为 {renderRequestId,fileId}；mode 为 image/video/audio/audiovisual，连续观察另给全局半开 range={fromFrame,toFrame}。只引用当前工具实际返回的材料，不编造编号或媒体能力。
 
@@ -57,3 +57,9 @@ prepare_review 输入 renderRequestIds、phase（pre_export 或 post_export）�
 复查同一上下文的新旧结果，说明问题是否解决、付出了什么代价及剩余未知。未变范围复用必须有可信摘要与影响依据；共享组件、全局字幕样式、全局时序和固定包装按真实影响扩大复核。观察缺失如实保留，真实已知技术/用途阻断按合同处理；可选审美建议不另增审批，不要求用关闭所有意见换取导出。
 
 主协调决定创作是否完成：分配的检查有实际结果，已知阻断已修复并复查，警告明确处置，可选建议允许保留。观察缺失如实写入交付说明；Worker 不根据检查目的或意见等级自动决定作品是否好看，也不新增待审发布门禁。主协调选定正式导出并交出 await_runtime 后，沿导出合同完成技术交付。
+
+## 材料状态与摘要读取
+
+受理后 read_render_job 的 freezeState=waiting 表示尚未冻结，作者继续暂停写入；frozen 和真实 sourceDigest 返回后可修改工作副本。指定旧版时传 sourceDigest，不一致会明确失败。媒体 state=succeeded 与 reviewPreparation.state=succeeded 是两项结果，后者返回 reviewId。登记失败或结果未知时，沿原编号调用 retry_review_preparation，只核验原快照和图片并恢复登记；媒体失败保留 readyFrames/missingFrames，当前不支持缺帧续绘，不能换键伪装恢复。取消不继续登记。
+
+read_review 默认返回完成/剩余数量、负责人、问题、异常、changed 和 detailsRef。afterDigest/waitMs 沿原计划有界等待；超时未变化不重新制材。需要完整检查、观察或差异时读取 detailsRef 或 details=true。连续检查按完整范围覆盖计完成，部分区间仍在完整记录保留，不能用观察条数推断已经听完。

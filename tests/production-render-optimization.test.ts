@@ -92,6 +92,22 @@ test('静帧参数限制与真实批量渲染：一次构建、一浏览器、�
  }finally{await fs.rm(root,{recursive:true,force:true});}
 });
 
+test('整轮26帧与原三批路径解码像素一致；冻结后修改工作副本不改变结果',async()=>{
+ const root=await fs.mkdtemp(join(tmpdir(),'review-round-pixels-'));let bundles=0,browsers=0;
+ try{
+  await project(root);const source=await fs.readFile(join(root,'project/renderer/index.tsx'));
+  const backend={...engine,bundle:async(...args:Parameters<typeof bundle>)=>{bundles++;return bundle(...args);},openBrowser:async(...args:Parameters<typeof openBrowser>)=>{browsers++;return openBrowser(...args);}};
+  const frames=Array.from({length:26},(_,i)=>i),oldFrames=[];const baselineStart=performance.now();
+  for(let i=0;i<frames.length;i+=12){const result=await templateFrames(run(),root,{runId,renderRequestId:`old-${i}`,frames:frames.slice(i,i+12)},options,backend);oldFrames.push(...result.readyFrames);}
+  const baselineMs=performance.now()-baselineStart;assert.equal(bundles,3);assert.equal(browsers,3);
+  const candidateStart=performance.now();const candidate=await templateFrames(run(),root,{runId,renderRequestId:'round',frames,sourceDigest:await treeDigest(join(root,'project'))},{...options,onSourceFrozen:async()=>{await fs.writeFile(join(root,'project/renderer/index.tsx'),'工作副本已修改');}},backend);
+  const candidateMs=performance.now()-candidateStart;assert.equal(bundles,4);assert.equal(browsers,4);
+  for(const expected of oldFrames){const actual=candidate.readyFrames.find(f=>f.frame===expected.frame)!;assert.deepEqual(PNG.sync.read(await fs.readFile(actual.path)).data,PNG.sync.read(await fs.readFile(expected.path)).data);}
+  assert.deepEqual(await fs.readFile(join(root,'preview-snapshots/round/project/renderer/index.tsx')),source);
+  console.log(JSON.stringify({fixture:'26帧真实像素对照',baselineMs,candidateMs,baselineFreezes:3,candidateFreezes:1,frames:26,cache:'未启用编译复用；同一进程，不能据此推断生产提速'}));
+ }finally{await fs.rm(root,{recursive:true,force:true});}
+});
+
 test('批量静帧中途失败或取消仍关闭浏览器，保留原图且不返回成功',async()=>{
  for(const mode of ['failed','cancelled','out-of-range']){
   const root=await fs.mkdtemp(join(tmpdir(),'preview-failure-')),controller=new AbortController();let closed=0;const ready:number[]=[];let buildRoot='';

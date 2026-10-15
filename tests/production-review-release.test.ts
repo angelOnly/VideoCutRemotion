@@ -26,7 +26,8 @@ test('候选发行移除文件审片入口，主任务 MCP 显式登记原生分
  const client=new Client({name:'隔离发行验证',version:'1'});
  try{
   await client.connect(transport);
-  const listed=await client.listTools();assert.ok(listed.tools.some(t=>t.name==='assign_review_work'));assert.ok(listed.tools.some(t=>t.name==='render_template'));assert.ok(!listed.tools.some(t=>t.name==='claim_review_work'));
+  const listed=await client.listTools();assert.ok(listed.tools.some(t=>t.name==='assign_review_work'));assert.ok(listed.tools.some(t=>t.name==='prepare_review_frames'));assert.ok(listed.tools.some(t=>t.name==='retry_review_preparation'));assert.ok(listed.tools.find(t=>t.name==='read_review')?.inputSchema.properties?.details);assert.ok(listed.tools.some(t=>t.name==='render_template'));assert.ok(!listed.tools.some(t=>t.name==='claim_review_work'));
+  const prepared=await client.callTool({name:'prepare_review_frames',arguments:{renderRequestId:'round',phase:'pre_export',units:[{unitId:'scene-a',sceneIds:['scene-a'],checks:[{checkId:'layout',purpose:'实际布局',frames:Array.from({length:26},(_,i)=>i)}]}]}});assert.notEqual(prepared.isError,true);
   const submission=listed.tools.find(t=>t.name==='submit_review')!;
   assert.deepEqual(new Set(submission.inputSchema.required),new Set(['reviewId','assignmentToken','observations','issues','status']));
   assert.equal((await client.callTool({name:'render_template',arguments:{}})).isError,true);
