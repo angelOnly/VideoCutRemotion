@@ -1,0 +1,13 @@
+{
+  "templateVersion": "2.0.8",
+  "archive": ".candidate/template-optimization-20261015/derived-ending/finance-template-208.zip",
+  "bytes": 34576438,
+  "sha256": "aa278ab9c031ef807c7a453bffe71ba6ad5412b9012023f64ec34461cab0fdcb",
+  "uploaded": false,
+  "validation": [
+    "模板TypeScript通过",
+    "真实固定资源引用检查通过",
+    "图解与结束语派生边界检查通过",
+    "旧contentFrames和holdFrame拒绝检查通过"
+  ]
+}

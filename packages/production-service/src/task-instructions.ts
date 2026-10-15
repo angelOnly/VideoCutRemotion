@@ -26,7 +26,7 @@ ${'baseRenderRunId' in run.request&&run.request.baseRenderRunId?'以指定基础
 
 当前能力：prepare_review_frames 一次准备整轮静帧并登记检查，freezeState=frozen 后才能改工作副本；媒体成功与 reviewPreparation 分别核查，登记异常只沿原编号 retry_review_preparation；read_review 默认摘要，完整结果按 detailsRef 或 details=true 读取。synthesize_speech_batch 保存稳定句段身份；assemble_sentence_audio 从成功批次和作者计划装配声明 sentence-timeline/1 的唯一 JSON，不覆盖视觉与混音设计。源码完成后 verify_sentence_audio 绑定当前源码摘要，复用采样事实不代表复用旧工程通过结论。自然分段、停顿、字幕阅读与动作校准仍由作者决定。unknown 沿原任务核查，不换键重新收费或重绘。
 
-审片、复用和预览策略按 references/review.md 由主 Codex 选择并通过宿主原生代理分派。Worker 只登记检查、分派和实际观察，不创建审片模型会话。主协调保存部分结果与真实未知，必要返修交原作者；不要把服务覆盖完成等同于效果通过。
+审片、复用和预览策略按 references/review.md 由主 Codex 选择并通过宿主原生代理分派。审片者各自写结果 JSON，主协调用 submit_review({reportRefs:[...]}) 一次提交文件引用，不重抄观察或手工合并报告。Worker 只登记检查、分派和实际观察，不创建审片模型会话。主协调保存部分结果与真实未知，必要返修交原作者；不要把服务覆盖完成等同于效果通过。
 
 正式 render_template 不传 ranges，服务从冻结时间线推导整片和全部确认分镜，保留完整 Composition 的全局时钟和连续音轨。动态预览指定 ranges，可传 sourceDigest 核对冻结版本。未实际看听的范围如实记录，不新增强制视听门禁或人工审批。
 

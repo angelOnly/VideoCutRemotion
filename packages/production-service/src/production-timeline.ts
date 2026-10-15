@@ -5,6 +5,7 @@ import { ProductionError, sha256, type RenderRequest } from './contracts.js';
 import { json, regular } from './files.js';
 import { validateTemplate, type TemplatePerformanceContract } from './template-package.js';
 import { sceneRangesFromTimeline } from './scene-cut-timeline.js';
+import { validateTemplateTimeline } from './template-timeline-validation.js';
 
 export const SENTENCE_TIMELINE_CONTRACT='sentence-timeline/1';
 const normalized=(value:string)=>value.replace(/\s+/gu,'');
@@ -80,6 +81,7 @@ export async function preflightTimeline(project:string,expected:RenderRequest['d
   requireField(timelineRef,'timelineRef','模板未声明时间线数据源，请提供既有 JSON 引用');
   const timeline=await json(await regular(project,timelineRef));
   const structure=validateProductionTimeline(timeline,expected,manifest.fps,manifest);
+  await validateTemplateTimeline(project,timeline,manifest);
   requireField(!options.frames?.some(f=>!Number.isInteger(f)||f<0||f>=timeline.totalFrames),'frames','静帧请求越出冻结时间线');
   // 新合同校验已知资源路径；旧冻结模板保持原接口的读取能力。
   if(declared){

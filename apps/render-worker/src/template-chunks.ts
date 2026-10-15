@@ -86,16 +86,18 @@ export async function renderSceneChunks(args:{run:Run;root:string;input:Template
     await processWork(run.runId,options,()=>validatePcm(pcm,samples,options));
   }
   // PCM 也沿完整 Composition 收集音频；图像块始终使用全局 frameRange。
-  const tasks:Array<()=>Promise<void>>=[...extents.map((extent,index)=>async()=>{
+  // 先记录失败再清理临时文件，避免清理期间继续派发下一段。
+  let failure:{error:unknown}|undefined;
+  const visualTasks:Array<()=>Promise<void>>=extents.map((extent,index)=>async()=>{
     if(chunks.has(extent.id))return;cancelled(options);await options.onOutputStart?.(extent.id);
     const path=join(chunkRoot,`${index}.mp4`),pending=join(chunkRoot,`${index}.pending.mp4`);
     try{
       await drawingWork(run.runId,options,()=>processWork(run.runId,options,()=>withMediaSpan(options.metrics,'scene_visual_render',()=>render({serveUrl,composition,outputLocation:pending,codec:'h264',muted:true,crf:18,x264Preset:'medium',pixelFormat:'yuv420p',frameRange:[extent.fromFrame,extent.toFrame-1],browserExecutable:options.browser,concurrency:options.concurrency,cancelSignal,overwrite:true,ffmpegOverride:({args})=>[...args.slice(0,-1),'-bf','0','-video_track_timescale','90000',args.at(-1)!]}),{fromFrame:extent.fromFrame,toFrame:extent.toFrame,concurrency:options.concurrency})));
       await processWork(run.runId,options,()=>validateVisualChunk(pending,extent,options));cancelled(options);await fs.rename(pending,path);
       const chunk={...extent,path,sha256:sha256(await fs.readFile(path)),sourceDigest,parametersDigest};await options.onChunkReady?.(chunk);chunks.set(extent.id,chunk);
-    }finally{await fs.rm(pending,{force:true});}
-  })];
-  if(!audio)tasks.unshift(async()=>{
+    }catch(error){failure??={error};}finally{await fs.rm(pending,{force:true});}
+  });
+  const audioTask=audio?undefined:async()=>{
     const raw=join(chunkRoot,'continuous.raw.wav'),pending=join(chunkRoot,'continuous.pending.wav');
     try{
       await drawingWork(run.runId,options,()=>processWork(run.runId,options,()=>withMediaSpan(options.metrics,'continuous_audio_render',()=>render({serveUrl,composition,outputLocation:raw,codec:'wav',sampleRate,enforceAudioTrack:true,frameRange:[0,full.toFrame-1],browserExecutable:options.browser,concurrency:options.concurrency,cancelSignal,overwrite:true}))));
@@ -104,9 +106,19 @@ export async function renderSceneChunks(args:{run:Run;root:string;input:Template
       await processWork(run.runId,options,()=>withMediaSpan(options.metrics,'continuous_audio_normalize',()=>ffmpeg(['-i',raw,'-af',`apad,atrim=end_sample=${samples},asetpts=PTS-STARTPTS`,'-ar',String(sampleRate),'-c:a','pcm_s16le',pending],options),{sourceSamples:sourceRange.sourceSamples,expectedSamples:samples,normalizationSamples:sourceRange.normalizationSamples,toleranceSamples:sourceRange.toleranceSamples}));
       await processWork(run.runId,options,()=>validatePcm(pending,samples,options));cancelled(options);await fs.rename(pending,pcm);
       audio={path:pcm,sha256:sha256(await fs.readFile(pcm)),sourceDigest,parametersDigest,sampleRate,samples,sourceSamples:sourceRange.sourceSamples,normalizationSamples:sourceRange.normalizationSamples};await options.onAudioReady?.(audio);
-    }finally{await fs.rm(raw,{force:true});await fs.rm(pending,{force:true});}
-  });
-  await mapMediaLimited(tasks,options.runConcurrency??2,task=>task());
+    }catch(error){failure??={error};}finally{await fs.rm(raw,{force:true});await fs.rm(pending,{force:true});}
+  };
+  // 连续音轨不占画面派发位，仍与画面共用绘图及进程预算。
+  // 任一分支失败后不派发新画面，已开始的声音和画面都收口后才返回。
+  const finishTask=async(task:()=>Promise<unknown>)=>{
+    if(failure)return;
+    try{await task();}catch(error){failure??={error};}
+  };
+  await Promise.all([
+    finishTask(async()=>{if(audioTask)await audioTask();}),
+    finishTask(()=>mapMediaLimited(visualTasks,options.runConcurrency??2,task=>finishTask(task)))
+  ]);
+  if(failure)throw failure.error;
   cancelled(options);
   // concat 仅复制视频码流；整片音频只编码一次，绝不拼接独立 AAC 段。
   const list=join(chunkRoot,'concat.txt');await fs.writeFile(list,extents.map((_,i)=>`file '${i}.mp4'`).join('\n')+'\n');

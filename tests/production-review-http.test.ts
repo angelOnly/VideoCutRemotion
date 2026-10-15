@@ -42,9 +42,15 @@ test('HTTP 仅主 Run 凭证可登记审片，不接受旧审片凭证或跨任�
   assert.notEqual((await call('assign_review_work',{...body,reviewId:otherPlan.reviewId})).statusCode,200);
   assert.notEqual((await call('read_review',{reviewId:plan.reviewId},{'x-run-id':otherRun.runId,'x-run-token':run.token!})).statusCode,200);
   const evidence=work.evidence[0],submission={reviewId:plan.reviewId,assignmentToken:work.assignmentToken,observations:[{checkId:'meaning',evidenceId:evidence.evidenceId,note:'隔离 HTTP 观察夹具'}],issues:[],status:'complete'};
-  await fs.writeFile(evidence.path,'tampered');assert.notEqual((await call('submit_review',submission)).statusCode,200);
+  const {reviewId,...result}=submission,reportRef='records/review-results/native-agent.json';await writeJson(join(service.reviews.runRoot(run),reportRef),{reviewId,results:[result]});
+  assert.equal((await call('submit_review',submission)).statusCode,400);
+  const originalEvidence=await fs.readFile(evidence.path);
+  await fs.writeFile(evidence.path,'tampered');assert.notEqual((await call('submit_review',{reportRefs:[reportRef]})).statusCode,200);
   assert.equal(service.repo.db.prepare('SELECT COUNT(*) AS n FROM review_submissions').get()?.n,0);
   assert.equal((await call('read_review',{reviewId:plan.reviewId})).json().observationCount,0);
+  await fs.writeFile(evidence.path,originalEvidence);
+  const accepted=await call('submit_review',{reportRefs:[reportRef]});assert.equal(accepted.statusCode,200);assert.equal(accepted.json().results[0].status,'complete');
+  assert.deepEqual((await call('submit_review',{reportRefs:[reportRef]})).json(),accepted.json());
  }finally{await service.close();await fs.rm(root,{recursive:true,force:true});}
 });
 

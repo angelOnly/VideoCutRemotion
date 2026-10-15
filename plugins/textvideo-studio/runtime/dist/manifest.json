@@ -1,9 +1,9 @@
 {
   "schemaVersion": 3,
-  "pluginVersion": "0.1.23",
-  "releaseId": "release-b8259fefe8b710ca8465ad95797a0c4099300974b8fde49701ff758e9aa107e6",
-  "skillsDigest": "3ecc8a5af7adab4febf67d34d22890aef6458d74cdc8aedf590ccdc02a9899a9",
-  "skillViewsDigest": "a1ab31dc8c11e10293fb417049039b5abd4ef3cd5e1f186ced5fd2b114f76383",
+  "pluginVersion": "0.1.24",
+  "releaseId": "release-991ef170d6b43ec54ba7f60179c934b9baac35966fc44a55573bf32e602cdc1f",
+  "skillsDigest": "844c4c6a57a3299234472ea620033498ab7026658ea301c699f59c4280265bd6",
+  "skillViewsDigest": "25240175f3a405082b7e9a09a80406a660da98901ec51586bef7c932bf1ef194",
   "skillViews": {
     "analysis": "skills-stages/analysis",
     "render": "skills-stages/render"
@@ -20,11 +20,13 @@
     "localModels": false,
     "lexical": true,
     "networkSearchDefault": false,
-    "reviewProtocol": 4,
+    "reviewProtocol": 5,
     "reviewIdentity": "coordinator_reported",
     "reviewOrchestration": "codex_native",
     "reviewFramePreparation": true,
     "reviewSummary": true,
+    "reviewReportFiles": true,
+    "templateTimelineValidation": true,
     "runtimeWait": true,
     "sentenceAssembly": true,
     "timelineContract": "sentence-timeline/1",

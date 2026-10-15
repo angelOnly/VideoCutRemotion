@@ -5,7 +5,7 @@ import { speechSchema, speechBatchSchema } from '../../../../packages/speech-ser
 import { sentenceAssemblySchema } from '../../../../packages/production-service/src/sentence-audio-assembly.js';
 import { sentenceAuditSchema } from '../../../../packages/production-service/src/sentence-audio.js';
 import { publicRenderToolSchema, publicRenderToolFields, previewFramesSchema, renderRequestIdSchema } from '../../../render-worker/src/template-renderer.js';
-import { prepareReviewSchema,assignReviewSchema,submitReviewSchema,readReviewSchema } from '../../../../packages/production-service/src/review-service.js';
+import { prepareReviewSchema,assignReviewSchema,submitReviewReportsSchema,readReviewSchema } from '../../../../packages/production-service/src/review-service.js';
 export function registerProductionTools(server:McpServer,call:(name:string,input:unknown)=>Promise<any>,stage:'analysis'|'render'='render'){
   const register=(name:string,description:string,schema:Record<string,z.ZodTypeAny>|z.ZodTypeAny)=>server.registerTool(name,{description,inputSchema:schema},async (input:any)=>{try{const result=await call(name,name==='render_template'?publicRenderToolSchema.parse(input):input);return {content:[{type:'text' as const,text:JSON.stringify(result)}],structuredContent:result&&typeof result==='object'?result:{result}};}catch(e:any){const result={code:e.code??'TOOL_FAILED',reason:e.message??String(e),...(e.fields?{fields:e.fields}:{}),nextStep:e.nextStep??'核对当前参数和原任务状态，保留已经观察的材料'};return {isError:true,content:[{type:'text' as const,text:JSON.stringify(result)}],structuredContent:result};}});
   register('read_production_task','读取绑定的真实任务、阶段和必要模板依据；完整输入沿本 Run 的 input.json 读取。',{});
@@ -14,7 +14,7 @@ export function registerProductionTools(server:McpServer,call:(name:string,input
   register('retry_review_preparation','仅恢复原成功媒体的审片登记；失败或未知登记沿原编号幂等核验，不重新冻结或绘图。',{renderRequestId:renderRequestIdSchema});
   register('prepare_review','登记主协调指定的检查单元、目的和原媒体证据；不启动模型、不自动复用判断，超时沿原参数续查。',prepareReviewSchema.shape);
   register('assign_review_work','主协调登记已真实创建的原生审片子代理及指定单元；接替需原分派令牌，不创建代理、不自动续领。',assignReviewSchema.shape);
-  register('submit_review','主协调保存审片者回传的真实观察和问题；partial 累积，完成不自动分派下一包。',submitReviewSchema.shape);
+  register('submit_review','主协调一次接收审片者的独立结果文件；reportRefs 可含同轮多个作者报告，文件内 results 可含多个真实分派单元。程序核验后保存原始观察，partial 累积，迟到只留历史，完成不自动通过或分派。',submitReviewReportsSchema.shape);
   register('read_review','默认返回计数、负责人、全部问题和异常及 detailsRef；details=true 读取完整材料。首次立即返回，之后 afterDigest/waitMs 有界等待新状态，超时不重建。',readReviewSchema.shape);
   register('synthesize_speech','当前 Render 的豆包云端配音；先持久化后异步执行。同键同输入读原任务，unknown 不得重新收费请求。',speechSchema.omit({runId:true}).shape);
   register('synthesize_speech_batch','一次登记本 run 的整批句段，服务按视频轮流派发；同批次同输入返回原任务，不重复收费。',speechBatchSchema.omit({runId:true}).shape);

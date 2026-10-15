@@ -1,0 +1,42 @@
+{
+  "templateVersion": "2.0.8",
+  "zip": ".candidate/template-optimization-20261015/derived-ending/finance-template-208.zip",
+  "sha256": "aa278ab9c031ef807c7a453bffe71ba6ad5412b9012023f64ec34461cab0fdcb",
+  "bytes": 34576438,
+  "checks": {
+    "typescript": "passed",
+    "generatedTemplateVerification": "passed",
+    "templateConversionTests": {
+      "passed": 1,
+      "failed": 0
+    },
+    "actualBrowserFrames": 16,
+    "pixelPairs": [
+      {
+        "first": "before",
+        "second": "before-none",
+        "maxChannelDifference": 0
+      },
+      {
+        "first": "after",
+        "second": "after-none",
+        "maxChannelDifference": 0
+      },
+      {
+        "first": "body-95",
+        "second": "held-95",
+        "maxChannelDifference": 0
+      },
+      {
+        "first": "body-105",
+        "second": "held-105",
+        "maxChannelDifference": 0
+      }
+    ]
+  },
+  "limitations": [
+    "静帧与边界验证不代替整片连续看听",
+    "配音加载测试使用隔离静音夹具，不宣称新增真实配音",
+    "未部署或更新网页模板16"
+  ]
+}

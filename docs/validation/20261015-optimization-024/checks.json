@@ -1,0 +1,32 @@
+{
+  "typecheck": "passed",
+  "releaseVerification": "passed",
+  "suites": [
+    {
+      "scope": "装配与时间线",
+      "passed": 19
+    },
+    {
+      "scope": "审片报告HTTP状态失效",
+      "passed": 20
+    },
+    {
+      "scope": "分块媒体与调度",
+      "passed": 6
+    },
+    {
+      "scope": "模板转换",
+      "passed": 1
+    },
+    {
+      "scope": "候选Runtime/MCP",
+      "passed": 2
+    }
+  ],
+  "totalPassed": 48,
+  "failed": 0,
+  "templateBrowserFrames": 16,
+  "wholeFilmAudiovisualReview": false,
+  "serverRedeployed": false,
+  "newWebTwoStageRun": false
+}

@@ -1,0 +1,24 @@
+{
+  "pluginVersion": "0.1.24",
+  "releaseId": "release-991ef170d6b43ec54ba7f60179c934b9baac35966fc44a55573bf32e602cdc1f",
+  "capabilities": {
+    "localModels": false,
+    "lexical": true,
+    "networkSearchDefault": false,
+    "reviewProtocol": 5,
+    "reviewIdentity": "coordinator_reported",
+    "reviewOrchestration": "codex_native",
+    "reviewFramePreparation": true,
+    "reviewSummary": true,
+    "reviewReportFiles": true,
+    "templateTimelineValidation": true,
+    "runtimeWait": true,
+    "sentenceAssembly": true,
+    "timelineContract": "sentence-timeline/1",
+    "derivedRenderRanges": true,
+    "directDelivery": true
+  },
+  "verification": "passed",
+  "runtimeMcpIsolationTests": 2,
+  "deployed": false
+}

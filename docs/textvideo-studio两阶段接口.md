@@ -84,6 +84,7 @@ Render 成功的 data.dataList 为 N+1：首项 whole-video，随后为全部确
 | read_speech_job | speechJobId，只读当前 run 的原配音任务 |
 | prepare_review_frames | renderRequestId、phase、units；各单元声明 sceneIds 和 checks（checkId、purpose、frames），可指定 sourceDigest、timelineRef、reuse；程序去重、一次冻结绘制全部选帧并登记审片 |
 | retry_review_preparation | renderRequestId；只恢复原成功媒体的材料登记，不重绘 |
+| submit_review | reportRefs；一次读取同轮各审片者的结果 JSON，沿真实分派身份登记观察，无需主协调重抄或合并报告。文件结构以工具同源 Schema 为准 |
 | read_review | reviewId、afterDigest、waitMs、details；默认短摘要与 detailsRef，details=true 读取完整记录 |
 | preview_template_frames | renderRequestId、frames、可选 sourceDigest；独立临时预览仍限 12 帧，整轮材料使用 prepare_review_frames |
 | render_template | renderRequestId、timelineRef、checks；正式导出不传 ranges，服务推导整片和确认分镜范围；动态预览按实时 Schema 提供 ranges |
@@ -117,3 +118,11 @@ Render 成功的 data.dataList 为 N+1：首项 whole-video，随后为全部确
 审片摘要保留全部 issues、pendingIssues、missing、runtimeDiagnostic、完成/剩余计数、单元负责人及 assignedAt/lastProgressAt；完整检查、观察、区间和变更事实在 detailsRef。连续观察只有覆盖整个指定范围才计完成，不能按提交条数推断。changed 只比较业务摘要；查询次数增加不构成进展。lastProgressAt 只在单元收到新增观察或问题处置时更新，不据固定静默时间自动接替。
 
 宿主原始事件新增接收时间 recordedAt。`scripts/production-flow-timing-report.ts` 读取原 Run 日志及明确的开始、结束时间，生成互不重叠的时间表与可重叠的负责人活动表。无时间戳、未配对及无日志范围保持未归因；不把媒体统计或查询次数当作端到端加速证明。
+
+## 装配、模板校验与导出调度（本地候选）
+
+模板可声明 `timelineValidator`，值为 renderer 下纯校验模块的相对路径，导出 `validateTimeline(timeline)`。装配在候选时间线写入前、媒体执行在浏览器打包前调用同一模板校验；服务不另写模板专属动作规则。校验失败返回 `TEMPLATE_TIMELINE_INVALID`，保留当前时间线与已有配音。模板资源的 `src` 统一相对 `publicAssetRoot`，不再由模板播放器暗补目录。
+
+财经模板删除独立 `contentFrames`，正文声音范围由当前分镜及独立片尾推导；删除 `ending.holdFrame`，固定结束语的保持画面从实际正文末句派生。图解省略 `endFrameExclusive` 表示跟随所属场景或章节结束；显式动作时间不按配音时长比例缩放，越界由提前校验报告。
+
+正式导出的连续音轨独立派发，`runConcurrency` 控制画面通道数量；声音与画面仍领取现有绘图和进程预算。失败停止后续派发并等待已开始任务收口，不提前发布。音轨收集、画面编码、分镜范围与最终媒体核验不变。耗时收益需用固定工程验证，不由并发数推算。

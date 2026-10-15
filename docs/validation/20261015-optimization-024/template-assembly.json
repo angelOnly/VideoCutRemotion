@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "method": "真实2.0.8模板与正式装配函数；供应商测量使用隔离夹具，未生成真实配音或生产作品",
+  "before": {
+    "sceneFrames": 270,
+    "holdFrame": 179
+  },
+  "after": {
+    "sceneFrames": 300,
+    "chapterEnd": 300,
+    "totalFrames": 367,
+    "holdFrame": 209
+  },
+  "timingChangedSceneIds": [
+    "scene_001"
+  ]
+}

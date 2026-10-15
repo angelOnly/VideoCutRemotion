@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import { join } from 'node:path';
 import { z } from 'zod';
+import { zodToJsonSchema } from 'zod-to-json-schema';
 import { canonical, sha256, ProductionError, type Run, type RenderRequest } from './contracts.js';
 import type { ProductionRepository } from './repository.js';
 import { json, regular, treeDigest } from './files.js';
@@ -25,6 +26,10 @@ export const prepareReviewSchema=z.object({renderRequestIds:z.array(requestId).m
 export const assignReviewSchema=z.object({reviewId:z.string().uuid(),unitId:text,reviewerAgentId:text,assignmentRequestId:requestId,previousAssignmentToken:z.string().uuid().nullable().default(null),reason:text.optional()}).strict();
 export const readReviewSchema=z.object({details:z.boolean().default(false),reviewId:z.string().uuid(),afterDigest:z.string().regex(/^[a-f0-9]{64}$/).optional(),waitMs:z.number().int().min(0).max(60000).default(0)}).strict();
 export const submitReviewSchema=z.object({reviewId:z.string().uuid(),assignmentToken:z.string().uuid(),observations:z.array(z.object({checkId:text,evidenceId:text,note:text,range:reviewRangeSchema.optional()}).strict()).max(1000),issues:z.array(z.object({checkId:text,evidenceId:text,severity:z.enum(['blocking','warning','suggestion']),problem:text,range:reviewRangeSchema.optional()}).strict()).max(1000),issueResolutions:z.array(z.object({issueId:text,evidenceId:text.optional(),checkId:text.optional(),resolution:z.enum(['resolved','retained']),note:text}).strict()).max(1000).optional(),status:z.enum(['partial','complete'])}).strict();
+// 报告只承载审片者的决定；主协调传文件引用，不再重抄观察与分派编号。
+export const reviewReportSchema=z.object({reviewId:submitReviewSchema.shape.reviewId,results:z.array(submitReviewSchema.omit({reviewId:true})).min(1).max(100)}).strict();
+export const reviewReportJsonSchema=zodToJsonSchema(reviewReportSchema,{$refStrategy:'none'});
+export const submitReviewReportsSchema=z.object({reportRefs:z.array(text.describe('相对当前 Run 根目录的独立审片 JSON 文件，建议 records/review-results/ 下；完整结构：'+JSON.stringify(reviewReportJsonSchema))).min(1).max(100)}).strict();
 export type ReviewRange=z.infer<typeof reviewRangeSchema>;
 type Observation=z.infer<typeof submitReviewSchema>['observations'][number];
 type Issue=z.infer<typeof submitReviewSchema>['issues'][number];
@@ -248,9 +253,23 @@ export class ReviewService{
     // 大文件摘要在提交事务外核对；事务内还会重新确认当前版本和分派。
     for(const id of new Set([...body.observations,...body.issues].map(item=>item.evidenceId).concat((body.issueResolutions??[]).flatMap(item=>{const id=item.evidenceId??work.pendingIssues?.find(issue=>issue.issueId===item.issueId)?.currentEvidenceId;return id?[id]:[];})))){const e=work.evidence.find(e=>e.evidenceId===id);if(e)ensure(sha256(await fs.readFile(await regular(root,e.path)))===e.sha256,'REVIEW_EVIDENCE_CHANGED','观察期间媒体证据发生改变，请保留观察并重新准备本版材料');}
   }
+  async submitReports(runId:string,input:unknown){
+    const request=submitReviewReportsSchema.parse(input),root=this.runRoot(this.current(runId));
+    const reports=await Promise.all(request.reportRefs.map(async reportRef=>({reportRef,report:reviewReportSchema.parse(await json(await regular(root,reportRef)))})));
+    const reviewId=reports[0].report.reviewId;
+    ensure(reports.every(item=>item.report.reviewId===reviewId),'REVIEW_REPORT_MIXED','一次提交的报告必须属于同一轮审片计划');
+    const submissions=reports.flatMap(({reportRef,report})=>report.results.map(result=>({reportRef,body:{reviewId,...result}})));
+    await Promise.all(submissions.map(({body})=>this.verifySubmissionEvidence(runId,body)));
+    // 文件和证据在事务外读取；单批登记全部成功或回滚，重试仍沿原分派内容恢复。
+    const results=this.repo.transaction(()=>submissions.map(({reportRef,body})=>({reportRef,assignmentToken:body.assignmentToken,...this.acceptSubmission(runId,body)})));
+    this.notifyRun(runId);return {reviewId,results};
+  }
   submit(runId:string,input:unknown){
-    const body=submitReviewSchema.parse(input),digest=sha256(canonical(body));
-    const result=this.repo.transaction(()=>{
+    const body=submitReviewSchema.parse(input),result=this.repo.transaction(()=>this.acceptSubmission(runId,body));
+    this.notifyRun(runId);return result;
+  }
+  private acceptSubmission(runId:string,body:z.infer<typeof submitReviewSchema>){
+      const digest=sha256(canonical(body));
       this.current(runId);const session=this.assignment(runId,body.reviewId,body.assignmentToken);
       // 先恢复原接收结果，完成后的正常重试不应被误判为过期。
       const old=this.repo.db.prepare('SELECT response FROM review_submissions WHERE session_id=? AND assignment_token=? AND body_digest=?').get(session.id,body.assignmentToken,digest) as any;
@@ -290,7 +309,6 @@ export class ReviewService{
       const response={accepted:true,status:completed?'complete':'partial',remaining,next:null};
       this.updateMetrics(session.review_id,metrics=>{metrics.lastAcceptedSubmissionAt=Date.now();});
       this.saveSubmission(session,body,digest,response,true);return response;
-    });this.notifyRun(runId);return result;
   }
   private saveSubmission(session:Session,body:z.infer<typeof submitReviewSchema>,digest:string,response:unknown,accepted:boolean){this.repo.db.prepare('INSERT INTO review_submissions(session_id,assignment_token,body_digest,body,response,accepted,created_at) VALUES(?,?,?,?,?,?,?)').run(session.id,body.assignmentToken,digest,canonical(body),canonical(response),Number(accepted),Date.now());}
   read(runId:string,reviewId:string){

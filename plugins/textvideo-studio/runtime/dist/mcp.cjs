@@ -516,6 +516,7 @@ var import_zod5 = require("zod");
 
 // packages/production-service/src/review-service.ts
 var import_zod4 = require("zod");
+var import_zod_to_json_schema = require("zod-to-json-schema");
 
 // packages/production-service/src/contracts.ts
 var import_zod2 = require("zod");
@@ -614,7 +615,10 @@ var modelTurnOutputSchema = import_zod2.z.object({ result: turnResultSchema }).s
 // packages/production-service/src/template-package.ts
 var yauzl = __toESM(require("yauzl"), 1);
 var import_zod3 = require("zod");
-var manifestSchema = import_zod3.z.object({ schemaVersion: import_zod3.z.literal(1), templateVersion: import_zod3.z.string().min(1), instructions: import_zod3.z.array(import_zod3.z.string()).min(1), analysisInstructions: import_zod3.z.array(import_zod3.z.string().min(1)).min(1).optional(), entry: import_zod3.z.string().min(1), wholeComposition: import_zod3.z.string().min(1), timelineModule: import_zod3.z.string().min(1), timelineDataRef: import_zod3.z.string().min(1).optional(), timelineContract: import_zod3.z.string().min(1).optional(), publicAssetRoot: import_zod3.z.string().min(1), width: import_zod3.z.number().int().positive(), height: import_zod3.z.number().int().positive(), fps: import_zod3.z.number().positive(), voiceRefs: import_zod3.z.array(import_zod3.z.string()).default([]), speakerBindings: import_zod3.z.record(import_zod3.z.object({ speaker: import_zod3.z.string().min(1), voiceRef: import_zod3.z.string().min(1) }).strict()).optional(), captionTimingPolicy: import_zod3.z.enum(["authored", "utterance"]).optional() }).passthrough();
+var manifestSchema = import_zod3.z.object({ schemaVersion: import_zod3.z.literal(1), templateVersion: import_zod3.z.string().min(1), instructions: import_zod3.z.array(import_zod3.z.string()).min(1), analysisInstructions: import_zod3.z.array(import_zod3.z.string().min(1)).min(1).optional(), entry: import_zod3.z.string().min(1), wholeComposition: import_zod3.z.string().min(1), timelineModule: import_zod3.z.string().min(1), timelineDataRef: import_zod3.z.string().min(1).optional(), timelineContract: import_zod3.z.string().min(1).optional(), timelineValidator: import_zod3.z.string().min(1).optional(), publicAssetRoot: import_zod3.z.string().min(1), width: import_zod3.z.number().int().positive(), height: import_zod3.z.number().int().positive(), fps: import_zod3.z.number().positive(), voiceRefs: import_zod3.z.array(import_zod3.z.string()).default([]), speakerBindings: import_zod3.z.record(import_zod3.z.object({ speaker: import_zod3.z.string().min(1), voiceRef: import_zod3.z.string().min(1) }).strict()).optional(), captionTimingPolicy: import_zod3.z.enum(["authored", "utterance"]).optional() }).passthrough();
+
+// packages/production-service/src/template-timeline-validation.ts
+var import_esbuild = require("esbuild");
 
 // packages/production-service/src/review-service.ts
 var text2 = import_zod4.z.string().trim().min(1).max(4e3);
@@ -637,6 +641,9 @@ var prepareReviewSchema = import_zod4.z.object({
 var assignReviewSchema = import_zod4.z.object({ reviewId: import_zod4.z.string().uuid(), unitId: text2, reviewerAgentId: text2, assignmentRequestId: requestId, previousAssignmentToken: import_zod4.z.string().uuid().nullable().default(null), reason: text2.optional() }).strict();
 var readReviewSchema = import_zod4.z.object({ details: import_zod4.z.boolean().default(false), reviewId: import_zod4.z.string().uuid(), afterDigest: import_zod4.z.string().regex(/^[a-f0-9]{64}$/).optional(), waitMs: import_zod4.z.number().int().min(0).max(6e4).default(0) }).strict();
 var submitReviewSchema = import_zod4.z.object({ reviewId: import_zod4.z.string().uuid(), assignmentToken: import_zod4.z.string().uuid(), observations: import_zod4.z.array(import_zod4.z.object({ checkId: text2, evidenceId: text2, note: text2, range: reviewRangeSchema.optional() }).strict()).max(1e3), issues: import_zod4.z.array(import_zod4.z.object({ checkId: text2, evidenceId: text2, severity: import_zod4.z.enum(["blocking", "warning", "suggestion"]), problem: text2, range: reviewRangeSchema.optional() }).strict()).max(1e3), issueResolutions: import_zod4.z.array(import_zod4.z.object({ issueId: text2, evidenceId: text2.optional(), checkId: text2.optional(), resolution: import_zod4.z.enum(["resolved", "retained"]), note: text2 }).strict()).max(1e3).optional(), status: import_zod4.z.enum(["partial", "complete"]) }).strict();
+var reviewReportSchema = import_zod4.z.object({ reviewId: submitReviewSchema.shape.reviewId, results: import_zod4.z.array(submitReviewSchema.omit({ reviewId: true })).min(1).max(100) }).strict();
+var reviewReportJsonSchema = (0, import_zod_to_json_schema.zodToJsonSchema)(reviewReportSchema, { $refStrategy: "none" });
+var submitReviewReportsSchema = import_zod4.z.object({ reportRefs: import_zod4.z.array(text2.describe("\u76F8\u5BF9\u5F53\u524D Run \u6839\u76EE\u5F55\u7684\u72EC\u7ACB\u5BA1\u7247 JSON \u6587\u4EF6\uFF0C\u5EFA\u8BAE records/review-results/ \u4E0B\uFF1B\u5B8C\u6574\u7ED3\u6784\uFF1A" + JSON.stringify(reviewReportJsonSchema))).min(1).max(100) }).strict();
 
 // packages/production-service/src/review-frame-plan.ts
 var text3 = import_zod5.z.string().trim().min(1).max(4e3);
@@ -664,11 +671,11 @@ var speechBatchSchema = import_zod6.z.object({ runId: import_zod6.z.string().uui
 
 // packages/production-service/src/sentence-audio-assembly.ts
 var import_zod7 = require("zod");
-var import_zod_to_json_schema = require("zod-to-json-schema");
+var import_zod_to_json_schema2 = require("zod-to-json-schema");
 var key = import_zod7.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
 var frames = import_zod7.z.number().int().nonnegative();
 var sentenceAssemblyPlanSchema = import_zod7.z.object({ scenes: import_zod7.z.array(import_zod7.z.object({ sceneId: import_zod7.z.string().min(1), utterances: import_zod7.z.array(import_zod7.z.object({ id: import_zod7.z.string().min(1), gapBeforeFrames: frames.optional(), captionText: import_zod7.z.string().min(1).optional() }).strict()).optional(), tailFrames: frames.optional(), captions: import_zod7.z.array(import_zod7.z.object({ utteranceId: import_zod7.z.string().min(1), text: import_zod7.z.string().min(1), startFrame: frames, endFrameExclusive: frames }).strict()).optional(), captionTiming: import_zod7.z.object({ src: import_zod7.z.string().min(1), sha256: import_zod7.z.string().regex(/^[a-f0-9]{64}$/) }).strict().optional() }).strict()).min(1), chapters: import_zod7.z.array(import_zod7.z.object({ chapterId: import_zod7.z.string().min(1), sceneIds: import_zod7.z.array(import_zod7.z.string().min(1)).min(1) }).strict()).optional() }).strict();
-var sentenceAssemblyPlanJsonSchema = (0, import_zod_to_json_schema.zodToJsonSchema)(sentenceAssemblyPlanSchema, { $refStrategy: "none" });
+var sentenceAssemblyPlanJsonSchema = (0, import_zod_to_json_schema2.zodToJsonSchema)(sentenceAssemblyPlanSchema, { $refStrategy: "none" });
 var sentenceAssemblySchema = import_zod7.z.object({ assemblyRequestId: key, speechBatchRequestIds: import_zod7.z.array(key), planRef: import_zod7.z.string().min(1).describe("\u76F8\u5BF9 project \u7684 JSON \u8BA1\u5212\u6587\u4EF6\u3002\u5B8C\u6574\u7ED3\u6784\uFF1A" + JSON.stringify(sentenceAssemblyPlanJsonSchema)), expectedTimelineSha256: import_zod7.z.string().regex(/^[a-f0-9]{64}$/) }).strict();
 
 // packages/production-service/src/sentence-audio.ts
@@ -722,7 +729,7 @@ function registerProductionTools(server, call, stage = "render") {
   register("retry_review_preparation", "\u4EC5\u6062\u590D\u539F\u6210\u529F\u5A92\u4F53\u7684\u5BA1\u7247\u767B\u8BB0\uFF1B\u5931\u8D25\u6216\u672A\u77E5\u767B\u8BB0\u6CBF\u539F\u7F16\u53F7\u5E42\u7B49\u6838\u9A8C\uFF0C\u4E0D\u91CD\u65B0\u51BB\u7ED3\u6216\u7ED8\u56FE\u3002", { renderRequestId: renderRequestIdSchema });
   register("prepare_review", "\u767B\u8BB0\u4E3B\u534F\u8C03\u6307\u5B9A\u7684\u68C0\u67E5\u5355\u5143\u3001\u76EE\u7684\u548C\u539F\u5A92\u4F53\u8BC1\u636E\uFF1B\u4E0D\u542F\u52A8\u6A21\u578B\u3001\u4E0D\u81EA\u52A8\u590D\u7528\u5224\u65AD\uFF0C\u8D85\u65F6\u6CBF\u539F\u53C2\u6570\u7EED\u67E5\u3002", prepareReviewSchema.shape);
   register("assign_review_work", "\u4E3B\u534F\u8C03\u767B\u8BB0\u5DF2\u771F\u5B9E\u521B\u5EFA\u7684\u539F\u751F\u5BA1\u7247\u5B50\u4EE3\u7406\u53CA\u6307\u5B9A\u5355\u5143\uFF1B\u63A5\u66FF\u9700\u539F\u5206\u6D3E\u4EE4\u724C\uFF0C\u4E0D\u521B\u5EFA\u4EE3\u7406\u3001\u4E0D\u81EA\u52A8\u7EED\u9886\u3002", assignReviewSchema.shape);
-  register("submit_review", "\u4E3B\u534F\u8C03\u4FDD\u5B58\u5BA1\u7247\u8005\u56DE\u4F20\u7684\u771F\u5B9E\u89C2\u5BDF\u548C\u95EE\u9898\uFF1Bpartial \u7D2F\u79EF\uFF0C\u5B8C\u6210\u4E0D\u81EA\u52A8\u5206\u6D3E\u4E0B\u4E00\u5305\u3002", submitReviewSchema.shape);
+  register("submit_review", "\u4E3B\u534F\u8C03\u4E00\u6B21\u63A5\u6536\u5BA1\u7247\u8005\u7684\u72EC\u7ACB\u7ED3\u679C\u6587\u4EF6\uFF1BreportRefs \u53EF\u542B\u540C\u8F6E\u591A\u4E2A\u4F5C\u8005\u62A5\u544A\uFF0C\u6587\u4EF6\u5185 results \u53EF\u542B\u591A\u4E2A\u771F\u5B9E\u5206\u6D3E\u5355\u5143\u3002\u7A0B\u5E8F\u6838\u9A8C\u540E\u4FDD\u5B58\u539F\u59CB\u89C2\u5BDF\uFF0Cpartial \u7D2F\u79EF\uFF0C\u8FDF\u5230\u53EA\u7559\u5386\u53F2\uFF0C\u5B8C\u6210\u4E0D\u81EA\u52A8\u901A\u8FC7\u6216\u5206\u6D3E\u3002", submitReviewReportsSchema.shape);
   register("read_review", "\u9ED8\u8BA4\u8FD4\u56DE\u8BA1\u6570\u3001\u8D1F\u8D23\u4EBA\u3001\u5168\u90E8\u95EE\u9898\u548C\u5F02\u5E38\u53CA detailsRef\uFF1Bdetails=true \u8BFB\u53D6\u5B8C\u6574\u6750\u6599\u3002\u9996\u6B21\u7ACB\u5373\u8FD4\u56DE\uFF0C\u4E4B\u540E afterDigest/waitMs \u6709\u754C\u7B49\u5F85\u65B0\u72B6\u6001\uFF0C\u8D85\u65F6\u4E0D\u91CD\u5EFA\u3002", readReviewSchema.shape);
   register("synthesize_speech", "\u5F53\u524D Render \u7684\u8C46\u5305\u4E91\u7AEF\u914D\u97F3\uFF1B\u5148\u6301\u4E45\u5316\u540E\u5F02\u6B65\u6267\u884C\u3002\u540C\u952E\u540C\u8F93\u5165\u8BFB\u539F\u4EFB\u52A1\uFF0Cunknown \u4E0D\u5F97\u91CD\u65B0\u6536\u8D39\u8BF7\u6C42\u3002", speechSchema.omit({ runId: true }).shape);
   register("synthesize_speech_batch", "\u4E00\u6B21\u767B\u8BB0\u672C run \u7684\u6574\u6279\u53E5\u6BB5\uFF0C\u670D\u52A1\u6309\u89C6\u9891\u8F6E\u6D41\u6D3E\u53D1\uFF1B\u540C\u6279\u6B21\u540C\u8F93\u5165\u8FD4\u56DE\u539F\u4EFB\u52A1\uFF0C\u4E0D\u91CD\u590D\u6536\u8D39\u3002", speechBatchSchema.omit({ runId: true }).shape);

@@ -50,6 +50,20 @@ test('正式范围登记在原作业回调，数据源和资源不匹配明确�
  }finally{await fs.rm(f.root,{recursive:true,force:true});}
 });
 
+test('模板自己的动作边界校验在浏览器打包前执行，修正源码后重新读取',async()=>{
+ const f=await fixture();let bundled=false;
+ try{
+  const manifestPath=join(f.renderer,'renderer-manifest.json');
+  const manifest=JSON.parse(await fs.readFile(manifestPath,'utf8'));await writeJson(manifestPath,{...manifest,timelineValidator:'validate.ts'});
+  await fs.writeFile(join(f.renderer,'validate.ts'),`export function validateTimeline(t:any){throw new Error('测试图解越界：'+t.totalFrames);}`);
+  const options={dependencyRoot:process.cwd(),concurrency:1},backend:any={bundle:async()=>{bundled=true;throw new Error('不应打包');}};
+  await assert.rejects(templateFrames(f.run,f.root,{runId:f.run.runId,renderRequestId:'template-invalid',frames:[10]},options,backend),/测试图解越界：80/);
+  assert.equal(bundled,false);
+  await fs.writeFile(join(f.renderer,'validate.ts'),`export function validateTimeline(t:any){if(t.totalFrames!==80)throw new Error('总帧数不对');t.totalFrames=1;}`);
+  const checked=await preflightTimeline(f.project,expected);assert.equal(checked.timeline.totalFrames,80);
+ }finally{await fs.rm(f.root,{recursive:true,force:true});}
+});
+
 test('真实 MCP 发现显示字段且调用执行严格正式/预览合同',async()=>{
  const {McpServer}=await import('@modelcontextprotocol/sdk/server/mcp.js'),{Client}=await import('@modelcontextprotocol/sdk/client/index.js'),{InMemoryTransport}=await import('@modelcontextprotocol/sdk/inMemory.js');
  const {registerProductionTools}=await import('../apps/server/src/production/speech-tools.js');
@@ -97,7 +111,8 @@ test('真实 HTTP 可连续登记两批静帧，合并等待只创建一份同�
   const second=await call('preview_template_frames',{renderRequestId:'second',frames:[35]});assert.equal(second.statusCode,200);assert.equal(second.json().state,'queued');
   assert.equal((await call('render_template',{renderRequestId:'forbidden',timelineRef:'renderer/timeline.json',checks:[]})).statusCode,409);
   const prepare={renderRequestIds:['first','second'],phase:'pre_export',waitMs:10,units:expected.map((scene,i)=>({unitId:scene.id,sceneIds:[scene.id],checks:[{checkId:'meaning',purpose:'实际场面关系',mode:'image',evidence:[{renderRequestId:i?'second':'first',frame:i*35}]}]}))};const waiting=(await call('prepare_review',prepare)).json();assert.equal(waiting.state,'waiting_media');assert.equal(service.repo.db.prepare('SELECT COUNT(*) AS n FROM review_sessions').get()?.n,0);assert.deepEqual(started,['first']);
-  const pending=call('prepare_review',{...prepare,waitMs:3000});release();const ready=(await pending).json();assert.ok(ready.reviewId);assert.deepEqual(started,['first','second']);
+  // 等待的是两批异步材料完成，不把宿主文件复制速度当作 3 秒性能断言。
+  const pending=call('prepare_review',{...prepare,waitMs:15000});release();const ready=(await pending).json();assert.ok(ready.reviewId,JSON.stringify(ready));assert.deepEqual(started,['first','second']);
   assert.equal(service.repo.db.prepare('SELECT COUNT(*) AS n FROM reviews').get()?.n,1);
   assert.equal((await call('prepare_review',prepare)).json().reviewId,ready.reviewId);
  }finally{release();await service.close();await fs.rm(f.root,{recursive:true,force:true});}

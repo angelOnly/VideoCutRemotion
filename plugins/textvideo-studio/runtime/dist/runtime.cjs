@@ -24,7 +24,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 
 // apps/runtime/src/index.ts
 var import_node_fs21 = require("node:fs");
-var import_node_path22 = require("node:path");
+var import_node_path23 = require("node:path");
 
 // packages/production-service/src/config.ts
 var import_node_path = require("node:path");
@@ -214,7 +214,7 @@ function readProductionConfig() {
 var import_fastify = __toESM(require("fastify"), 1);
 var import_cors = __toESM(require("@fastify/cors"), 1);
 var import_node_fs20 = require("node:fs");
-var import_node_path21 = require("node:path");
+var import_node_path22 = require("node:path");
 var import_zod10 = require("zod");
 
 // packages/production-service/src/repository.ts
@@ -657,7 +657,7 @@ async function probe(path, decode = false, signal) {
 }
 
 // packages/production-service/src/template-package.ts
-var manifestSchema = import_zod3.z.object({ schemaVersion: import_zod3.z.literal(1), templateVersion: import_zod3.z.string().min(1), instructions: import_zod3.z.array(import_zod3.z.string()).min(1), analysisInstructions: import_zod3.z.array(import_zod3.z.string().min(1)).min(1).optional(), entry: import_zod3.z.string().min(1), wholeComposition: import_zod3.z.string().min(1), timelineModule: import_zod3.z.string().min(1), timelineDataRef: import_zod3.z.string().min(1).optional(), timelineContract: import_zod3.z.string().min(1).optional(), publicAssetRoot: import_zod3.z.string().min(1), width: import_zod3.z.number().int().positive(), height: import_zod3.z.number().int().positive(), fps: import_zod3.z.number().positive(), voiceRefs: import_zod3.z.array(import_zod3.z.string()).default([]), speakerBindings: import_zod3.z.record(import_zod3.z.object({ speaker: import_zod3.z.string().min(1), voiceRef: import_zod3.z.string().min(1) }).strict()).optional(), captionTimingPolicy: import_zod3.z.enum(["authored", "utterance"]).optional() }).passthrough();
+var manifestSchema = import_zod3.z.object({ schemaVersion: import_zod3.z.literal(1), templateVersion: import_zod3.z.string().min(1), instructions: import_zod3.z.array(import_zod3.z.string()).min(1), analysisInstructions: import_zod3.z.array(import_zod3.z.string().min(1)).min(1).optional(), entry: import_zod3.z.string().min(1), wholeComposition: import_zod3.z.string().min(1), timelineModule: import_zod3.z.string().min(1), timelineDataRef: import_zod3.z.string().min(1).optional(), timelineContract: import_zod3.z.string().min(1).optional(), timelineValidator: import_zod3.z.string().min(1).optional(), publicAssetRoot: import_zod3.z.string().min(1), width: import_zod3.z.number().int().positive(), height: import_zod3.z.number().int().positive(), fps: import_zod3.z.number().positive(), voiceRefs: import_zod3.z.array(import_zod3.z.string()).default([]), speakerBindings: import_zod3.z.record(import_zod3.z.object({ speaker: import_zod3.z.string().min(1), voiceRef: import_zod3.z.string().min(1) }).strict()).optional(), captionTimingPolicy: import_zod3.z.enum(["authored", "utterance"]).optional() }).passthrough();
 async function readAnalysisContract(root, manifest) {
   if (!manifest.analysisInstructions?.length) throw new ProductionError("TEMPLATE_ANALYSIS_CONTRACT_MISSING", "\u6A21\u677F\u7F3A\u5C11 analysisInstructions \u6587\u5B57\u5408\u540C\uFF0C\u8BF7\u901A\u8FC7\u6A21\u677F\u53D1\u5E03\u6D41\u7A0B\u8865\u9F50\u540E\u518D\u63D0\u4EA4 Analysis");
   const files = [], seen = /* @__PURE__ */ new Set();
@@ -735,6 +735,7 @@ async function validateTemplate(root) {
     await regular(renderer, manifest.timelineDataRef);
   }
   for (const p of [...manifest.instructions, manifest.entry, manifest.timelineModule]) await regular(root, (0, import_node_path4.relative)(root, (0, import_node_path4.resolve)(renderer, p)));
+  if (manifest.timelineValidator) await regular(renderer, manifest.timelineValidator);
   const assets = inside(root, (0, import_node_path4.resolve)(renderer, manifest.publicAssetRoot));
   if (!(await import_node_fs4.promises.stat(assets)).isDirectory()) throw new ProductionError("TEMPLATE_ASSETS_MISSING", "\u6A21\u677F\u8D44\u6E90\u76EE\u5F55\u7F3A\u5931");
   return manifest;
@@ -1311,7 +1312,7 @@ ${"baseRenderRunId" in run.request && run.request.baseRenderRunId ? "\u4EE5\u630
 
 \u5F53\u524D\u80FD\u529B\uFF1Aprepare_review_frames \u4E00\u6B21\u51C6\u5907\u6574\u8F6E\u9759\u5E27\u5E76\u767B\u8BB0\u68C0\u67E5\uFF0CfreezeState=frozen \u540E\u624D\u80FD\u6539\u5DE5\u4F5C\u526F\u672C\uFF1B\u5A92\u4F53\u6210\u529F\u4E0E reviewPreparation \u5206\u522B\u6838\u67E5\uFF0C\u767B\u8BB0\u5F02\u5E38\u53EA\u6CBF\u539F\u7F16\u53F7 retry_review_preparation\uFF1Bread_review \u9ED8\u8BA4\u6458\u8981\uFF0C\u5B8C\u6574\u7ED3\u679C\u6309 detailsRef \u6216 details=true \u8BFB\u53D6\u3002synthesize_speech_batch \u4FDD\u5B58\u7A33\u5B9A\u53E5\u6BB5\u8EAB\u4EFD\uFF1Bassemble_sentence_audio \u4ECE\u6210\u529F\u6279\u6B21\u548C\u4F5C\u8005\u8BA1\u5212\u88C5\u914D\u58F0\u660E sentence-timeline/1 \u7684\u552F\u4E00 JSON\uFF0C\u4E0D\u8986\u76D6\u89C6\u89C9\u4E0E\u6DF7\u97F3\u8BBE\u8BA1\u3002\u6E90\u7801\u5B8C\u6210\u540E verify_sentence_audio \u7ED1\u5B9A\u5F53\u524D\u6E90\u7801\u6458\u8981\uFF0C\u590D\u7528\u91C7\u6837\u4E8B\u5B9E\u4E0D\u4EE3\u8868\u590D\u7528\u65E7\u5DE5\u7A0B\u901A\u8FC7\u7ED3\u8BBA\u3002\u81EA\u7136\u5206\u6BB5\u3001\u505C\u987F\u3001\u5B57\u5E55\u9605\u8BFB\u4E0E\u52A8\u4F5C\u6821\u51C6\u4ECD\u7531\u4F5C\u8005\u51B3\u5B9A\u3002unknown \u6CBF\u539F\u4EFB\u52A1\u6838\u67E5\uFF0C\u4E0D\u6362\u952E\u91CD\u65B0\u6536\u8D39\u6216\u91CD\u7ED8\u3002
 
-\u5BA1\u7247\u3001\u590D\u7528\u548C\u9884\u89C8\u7B56\u7565\u6309 references/review.md \u7531\u4E3B Codex \u9009\u62E9\u5E76\u901A\u8FC7\u5BBF\u4E3B\u539F\u751F\u4EE3\u7406\u5206\u6D3E\u3002Worker \u53EA\u767B\u8BB0\u68C0\u67E5\u3001\u5206\u6D3E\u548C\u5B9E\u9645\u89C2\u5BDF\uFF0C\u4E0D\u521B\u5EFA\u5BA1\u7247\u6A21\u578B\u4F1A\u8BDD\u3002\u4E3B\u534F\u8C03\u4FDD\u5B58\u90E8\u5206\u7ED3\u679C\u4E0E\u771F\u5B9E\u672A\u77E5\uFF0C\u5FC5\u8981\u8FD4\u4FEE\u4EA4\u539F\u4F5C\u8005\uFF1B\u4E0D\u8981\u628A\u670D\u52A1\u8986\u76D6\u5B8C\u6210\u7B49\u540C\u4E8E\u6548\u679C\u901A\u8FC7\u3002
+\u5BA1\u7247\u3001\u590D\u7528\u548C\u9884\u89C8\u7B56\u7565\u6309 references/review.md \u7531\u4E3B Codex \u9009\u62E9\u5E76\u901A\u8FC7\u5BBF\u4E3B\u539F\u751F\u4EE3\u7406\u5206\u6D3E\u3002\u5BA1\u7247\u8005\u5404\u81EA\u5199\u7ED3\u679C JSON\uFF0C\u4E3B\u534F\u8C03\u7528 submit_review({reportRefs:[...]}) \u4E00\u6B21\u63D0\u4EA4\u6587\u4EF6\u5F15\u7528\uFF0C\u4E0D\u91CD\u6284\u89C2\u5BDF\u6216\u624B\u5DE5\u5408\u5E76\u62A5\u544A\u3002Worker \u53EA\u767B\u8BB0\u68C0\u67E5\u3001\u5206\u6D3E\u548C\u5B9E\u9645\u89C2\u5BDF\uFF0C\u4E0D\u521B\u5EFA\u5BA1\u7247\u6A21\u578B\u4F1A\u8BDD\u3002\u4E3B\u534F\u8C03\u4FDD\u5B58\u90E8\u5206\u7ED3\u679C\u4E0E\u771F\u5B9E\u672A\u77E5\uFF0C\u5FC5\u8981\u8FD4\u4FEE\u4EA4\u539F\u4F5C\u8005\uFF1B\u4E0D\u8981\u628A\u670D\u52A1\u8986\u76D6\u5B8C\u6210\u7B49\u540C\u4E8E\u6548\u679C\u901A\u8FC7\u3002
 
 \u6B63\u5F0F render_template \u4E0D\u4F20 ranges\uFF0C\u670D\u52A1\u4ECE\u51BB\u7ED3\u65F6\u95F4\u7EBF\u63A8\u5BFC\u6574\u7247\u548C\u5168\u90E8\u786E\u8BA4\u5206\u955C\uFF0C\u4FDD\u7559\u5B8C\u6574 Composition \u7684\u5168\u5C40\u65F6\u949F\u548C\u8FDE\u7EED\u97F3\u8F68\u3002\u52A8\u6001\u9884\u89C8\u6307\u5B9A ranges\uFF0C\u53EF\u4F20 sourceDigest \u6838\u5BF9\u51BB\u7ED3\u7248\u672C\u3002\u672A\u5B9E\u9645\u770B\u542C\u7684\u8303\u56F4\u5982\u5B9E\u8BB0\u5F55\uFF0C\u4E0D\u65B0\u589E\u5F3A\u5236\u89C6\u542C\u95E8\u7981\u6216\u4EBA\u5DE5\u5BA1\u6279\u3002
 
@@ -2313,16 +2314,33 @@ function speechBindings(scene, segments, checkSpeaker = false, template = {}) {
 
 // packages/production-service/src/sentence-audio-assembly.ts
 var import_node_fs11 = require("node:fs");
-var import_node_path13 = require("node:path");
+var import_node_path14 = require("node:path");
 var import_zod4 = require("zod");
 var import_zod_to_json_schema3 = require("zod-to-json-schema");
 
+// packages/production-service/src/template-timeline-validation.ts
+var import_esbuild = require("esbuild");
+var import_node_path11 = require("node:path");
+async function validateTemplateTimeline(project, timeline, manifest) {
+  if (!manifest.timelineValidator) return;
+  const entryPoint = await regular((0, import_node_path11.join)(project, "renderer"), manifest.timelineValidator);
+  try {
+    const result = await (0, import_esbuild.build)({ entryPoints: [entryPoint], bundle: true, write: false, format: "cjs", platform: "neutral", target: "es2022", logLevel: "silent" });
+    const module2 = { exports: {} };
+    new Function("module", "exports", result.outputFiles[0].text)(module2, module2.exports);
+    if (typeof module2.exports.validateTimeline !== "function") throw new Error("\u987B\u5BFC\u51FA\u7EAF\u51FD\u6570 validateTimeline");
+    await module2.exports.validateTimeline(structuredClone(timeline));
+  } catch (error) {
+    throw new ProductionError("TEMPLATE_TIMELINE_INVALID", `\u6A21\u677F\u65F6\u95F4\u7EBF\u6821\u9A8C\u5931\u8D25\uFF08${manifest.timelineValidator}\uFF09\uFF1A${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
 // packages/production-service/src/production-timeline.ts
 var import_node_fs10 = require("node:fs");
-var import_node_path12 = require("node:path");
+var import_node_path13 = require("node:path");
 
 // packages/production-service/src/scene-cut-timeline.ts
-var import_node_path11 = require("node:path");
+var import_node_path12 = require("node:path");
 function ensure(value, message) {
   if (!value) throw new ProductionError("CUT_TIMELINE_INVALID", message);
 }
@@ -2354,7 +2372,7 @@ async function verifyCutTimeline(root, project, timelineRef, sourceDigest, rende
   const planned = sceneRangesFromTimeline(timeline, expected, total, fps);
   if (ranges) ensure(JSON.stringify(planned) === JSON.stringify(ranges.map(({ id, fromFrame, toFrame }) => ({ id, fromFrame, toFrame }))), "\u8BF7\u6C42\u5207\u70B9\u4E0E\u5DF2\u786E\u8BA4\u65F6\u95F4\u8F74\u4E0D\u4E00\u81F4");
   ensure(trustedAudits?.[sourceDigest]?.timelineSha256 === sha256(JSON.stringify(timeline)), "\u5206\u6BB5\u8F93\u51FA\u8981\u6C42\u670D\u52A1\u786E\u8BA4\u540C\u7248 verify_sentence_audio \u7ED3\u679C");
-  const reports = await Promise.all([renderRequestId, "working"].map((id) => json((0, import_node_path11.join)(root, "checks", `sentence-audio-${id}.json`)).catch((error) => {
+  const reports = await Promise.all([renderRequestId, "working"].map((id) => json((0, import_node_path12.join)(root, "checks", `sentence-audio-${id}.json`)).catch((error) => {
     if (error.code === "ENOENT") return null;
     throw error;
   })));
@@ -2435,13 +2453,14 @@ function validateProductionTimeline(timeline, expected, fps, template = {}) {
 }
 async function preflightTimeline(project, expected, options = {}) {
   const manifest = await validateTemplate(project);
-  const declared = manifest.timelineDataRef ? (0, import_node_path12.join)("renderer", manifest.timelineDataRef).replaceAll("\\", "/") : void 0;
+  const declared = manifest.timelineDataRef ? (0, import_node_path13.join)("renderer", manifest.timelineDataRef).replaceAll("\\", "/") : void 0;
   if (manifest.timelineContract && manifest.timelineContract !== SENTENCE_TIMELINE_CONTRACT) throw new ProductionError("TIMELINE_CONTRACT_UNSUPPORTED", "\u5F53\u524D\u670D\u52A1\u4E0D\u652F\u6301\u6B64\u65F6\u95F4\u7EBF\u5408\u540C");
-  requireField(!declared || !options.timelineRef || (0, import_node_path12.relative)(project, (0, import_node_path12.join)(project, options.timelineRef)) === declared, "timelineRef", "\u5FC5\u987B\u4F7F\u7528\u6A21\u677F\u58F0\u660E\u7684\u552F\u4E00 JSON \u6570\u636E\u6E90");
+  requireField(!declared || !options.timelineRef || (0, import_node_path13.relative)(project, (0, import_node_path13.join)(project, options.timelineRef)) === declared, "timelineRef", "\u5FC5\u987B\u4F7F\u7528\u6A21\u677F\u58F0\u660E\u7684\u552F\u4E00 JSON \u6570\u636E\u6E90");
   const timelineRef = declared ?? options.timelineRef;
   requireField(timelineRef, "timelineRef", "\u6A21\u677F\u672A\u58F0\u660E\u65F6\u95F4\u7EBF\u6570\u636E\u6E90\uFF0C\u8BF7\u63D0\u4F9B\u65E2\u6709 JSON \u5F15\u7528");
   const timeline = await json(await regular(project, timelineRef));
   const structure = validateProductionTimeline(timeline, expected, manifest.fps, manifest);
+  await validateTemplateTimeline(project, timeline, manifest);
   requireField(!options.frames?.some((f) => !Number.isInteger(f) || f < 0 || f >= timeline.totalFrames), "frames", "\u9759\u5E27\u8BF7\u6C42\u8D8A\u51FA\u51BB\u7ED3\u65F6\u95F4\u7EBF");
   if (declared) {
     const refs = [];
@@ -2453,11 +2472,11 @@ async function preflightTimeline(project, expected, options = {}) {
       }
     };
     visit(timeline);
-    for (const ref of new Set(refs)) await regular((0, import_node_path12.join)(project, "renderer", manifest.publicAssetRoot), ref);
+    for (const ref of new Set(refs)) await regular((0, import_node_path13.join)(project, "renderer", manifest.publicAssetRoot), ref);
   }
   for (const scene of timeline.scenes) {
     if (!scene.captionTiming) continue;
-    const publicRoot = (0, import_node_path12.join)(project, "renderer", manifest.publicAssetRoot), bytes = await import_node_fs10.promises.readFile(await regular(publicRoot, scene.captionTiming.src));
+    const publicRoot = (0, import_node_path13.join)(project, "renderer", manifest.publicAssetRoot), bytes = await import_node_fs10.promises.readFile(await regular(publicRoot, scene.captionTiming.src));
     requireField(sha256(bytes) === scene.captionTiming.sha256, `${scene.id}.captionTiming.sha256`, "\u5BF9\u9F50\u6587\u4EF6\u6458\u8981\u4E0D\u7B26");
     const aligned = JSON.parse(bytes.toString("utf8"));
     requireField(["provider_timestamps", "forced_alignment", "reviewed_timestamps"].includes(aligned.method), `${scene.id}.captionTiming.method`, "\u4E0D\u652F\u6301\u6309\u5B57\u6570\u6BD4\u4F8B\u731C\u6D4B\u5206\u9875");
@@ -2506,9 +2525,9 @@ async function assembleSentenceAudio(run, runRoot, raw, speech, signal) {
   const startedAt = (/* @__PURE__ */ new Date()).toISOString(), input = sentenceAssemblySchema.parse(raw);
   ensure2(run.stage === "render" && run.state === "running", "\u53EA\u6709\u5F53\u524D\u8FD0\u884C\u4E2D\u7684\u5236\u4F5C\u4EFB\u52A1\u53EF\u4EE5\u88C5\u914D");
   cancelled2(signal);
-  const project = (0, import_node_path13.join)(runRoot, "project");
+  const project = (0, import_node_path14.join)(runRoot, "project");
   inside(await import_node_fs11.promises.realpath(runRoot), await import_node_fs11.promises.realpath(project));
-  const recordPath = (0, import_node_path13.join)(runRoot, "audio-assemblies", `${input.assemblyRequestId}.json`), prior = await json(recordPath).catch((e) => {
+  const recordPath = (0, import_node_path14.join)(runRoot, "audio-assemblies", `${input.assemblyRequestId}.json`), prior = await json(recordPath).catch((e) => {
     if (e.code === "ENOENT") return null;
     throw e;
   });
@@ -2528,8 +2547,8 @@ async function assembleSentenceAudio(run, runRoot, raw, speech, signal) {
   if (prior?.state === "succeeded") return prior.result;
   const manifest = await validateTemplate(project);
   ensure2(manifest.timelineContract === SENTENCE_TIMELINE_CONTRACT && typeof manifest.timelineDataRef === "string", "\u6A21\u677F\u6CA1\u6709\u58F0\u660E\u652F\u6301\u7684 sentence-timeline/1 \u5408\u540C");
-  const timelineRef = (0, import_node_path13.join)("renderer", manifest.timelineDataRef).replaceAll("\\", "/"), timelinePath = await regular(project, timelineRef);
-  const publicRoot = (0, import_node_path13.join)(project, "renderer", manifest.publicAssetRoot);
+  const timelineRef = (0, import_node_path14.join)("renderer", manifest.timelineDataRef).replaceAll("\\", "/"), timelinePath = await regular(project, timelineRef);
+  const publicRoot = (0, import_node_path14.join)(project, "renderer", manifest.publicAssetRoot);
   inside(await import_node_fs11.promises.realpath(project), await import_node_fs11.promises.realpath(publicRoot));
   const currentBytes = await import_node_fs11.promises.readFile(timelinePath), currentHash = sha256(currentBytes);
   if (prior?.state === "committing") {
@@ -2581,7 +2600,7 @@ async function assembleSentenceAudio(run, runRoot, raw, speech, signal) {
     if (isVisualScene(expected[index])) {
       ensure2(!selected.length && !ordered.length && !decision.captionTiming && !decision.captions?.length && !decision.tailFrames, `${scene.id} \u65E0\u53E3\u64AD\u753B\u9762\u4E0D\u80FD\u5E26\u914D\u97F3\u3001\u5B57\u5E55\u5BF9\u9F50\u6216\u989D\u5916\u5C3E\u5E27`);
       const visualFrames = visualSceneFrames(expected[index], manifest.fps);
-      Object.assign(scene, { from: cursor, frames: visualFrames, ...scene.contentFrames !== void 0 ? { contentFrames: visualFrames } : {}, directing: expected[index].directing, utterances: [], captions: [] });
+      Object.assign(scene, { from: cursor, frames: visualFrames, directing: expected[index].directing, utterances: [], captions: [] });
       delete scene.captionTiming;
       cursor += scene.frames;
       continue;
@@ -2665,10 +2684,11 @@ async function assembleSentenceAudio(run, runRoot, raw, speech, signal) {
     ensure2(chapterCursor === timeline.scenes.length, "\u7AE0\u8282\u5206\u7EC4\u672A\u5B8C\u6574\u8986\u76D6\u573A\u666F");
   } else ensure2(!plan.chapters?.length, "\u8BA1\u5212\u4E0D\u80FD\u51ED\u7A7A\u521B\u5EFA\u7AE0\u8282\u8BBE\u8BA1\uFF0C\u8BF7\u5148\u7531\u4F5C\u8005\u5EFA\u7ACB\u7AE0\u8282");
   validateProductionTimeline(timeline, expected, manifest.fps, manifest);
+  await validateTemplateTimeline(project, timeline, manifest);
   for (const copy of copies) {
     cancelled2(signal);
-    await import_node_fs11.promises.mkdir((0, import_node_path13.dirname)(copy.target), { recursive: true });
-    inside(await import_node_fs11.promises.realpath(publicRoot), await import_node_fs11.promises.realpath((0, import_node_path13.dirname)(copy.target)));
+    await import_node_fs11.promises.mkdir((0, import_node_path14.dirname)(copy.target), { recursive: true });
+    inside(await import_node_fs11.promises.realpath(publicRoot), await import_node_fs11.promises.realpath((0, import_node_path14.dirname)(copy.target)));
     try {
       await import_node_fs11.promises.writeFile(copy.target, copy.bytes, { flag: "wx" });
       copied++;
@@ -2717,7 +2737,7 @@ async function assembleSentenceAudio(run, runRoot, raw, speech, signal) {
 
 // packages/production-service/src/sentence-audio.ts
 var import_node_fs12 = require("node:fs");
-var import_node_path14 = require("node:path");
+var import_node_path15 = require("node:path");
 var import_zod5 = require("zod");
 var sentenceAuditSchema = import_zod5.z.object({ timelineRef: import_zod5.z.string().min(1), speechBatchRequestIds: import_zod5.z.array(import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/)), renderRequestId: import_zod5.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).optional() }).strict();
 var normalized4 = (text4) => String(text4 ?? "").replace(/\s+/gu, "");
@@ -2729,7 +2749,7 @@ function integer(value, message) {
   return value;
 }
 async function taskFile(root, source) {
-  ensure3(typeof source === "string" && source.length > 0 && !(0, import_node_path14.isAbsolute)(source) && !source.startsWith("\\"), "\u97F3\u9891\u5FC5\u987B\u662F\u672C\u5DE5\u7A0B public \u5185\u76F8\u5BF9\u8DEF\u5F84");
+  ensure3(typeof source === "string" && source.length > 0 && !(0, import_node_path15.isAbsolute)(source) && !source.startsWith("\\"), "\u97F3\u9891\u5FC5\u987B\u662F\u672C\u5DE5\u7A0B public \u5185\u76F8\u5BF9\u8DEF\u5F84");
   const path = await regular(root, source);
   ensure3((await import_node_fs12.promises.stat(path)).size > 0, "\u97F3\u9891\u6587\u4EF6\u4E3A\u7A7A");
   return path;
@@ -2823,10 +2843,10 @@ async function auditSentenceAudio({ plan, tts, timeline, publicDirectory, signal
 async function verifySentenceAudio(run, runRoot, raw, speech, signal) {
   const input = sentenceAuditSchema.parse(raw);
   if (run.stage !== "render" || run.state !== "running") throw new ProductionError("SPEECH_STAGE_FORBIDDEN", "\u53EA\u6709\u5F53\u524D\u5236\u4F5C\u4EFB\u52A1\u53EF\u68C0\u67E5\u97F3\u9891");
-  const project = input.renderRequestId ? (0, import_node_path14.join)(runRoot, "render-snapshots", input.renderRequestId, "project") : (0, import_node_path14.join)(runRoot, "project");
+  const project = input.renderRequestId ? (0, import_node_path15.join)(runRoot, "render-snapshots", input.renderRequestId, "project") : (0, import_node_path15.join)(runRoot, "project");
   inside(await import_node_fs12.promises.realpath(runRoot), await import_node_fs12.promises.realpath(project));
   const sourceDigest = await treeDigest(project);
-  const manifest = await validateTemplate(project), publicDirectory = (0, import_node_path14.join)(project, "renderer", manifest.publicAssetRoot);
+  const manifest = await validateTemplate(project), publicDirectory = (0, import_node_path15.join)(project, "renderer", manifest.publicAssetRoot);
   inside(await import_node_fs12.promises.realpath(project), await import_node_fs12.promises.realpath(publicDirectory));
   const timeline = await json(await regular(project, input.timelineRef));
   validateProductionTimeline(timeline, run.request.dataList, manifest.fps, manifest);
@@ -2854,7 +2874,7 @@ async function verifySentenceAudio(run, runRoot, raw, speech, signal) {
   for (const scene of run.request.dataList) speechBindings(scene, tts.filter((t) => t.sceneId === scene.id), Boolean(scene.directing), manifest);
   const report = await auditSentenceAudio({ plan, tts, timeline, publicDirectory, signal, template: manifest });
   ensure3(await treeDigest(project) === sourceDigest, "\u68C0\u67E5\u671F\u95F4\u5DE5\u7A0B\u53D1\u751F\u53D8\u5316\uFF0C\u8BF7\u539F\u4F5C\u8005\u505C\u6B62\u5199\u5165\u540E\u91CD\u65B0\u6838\u9A8C");
-  const path = (0, import_node_path14.join)(runRoot, "checks", `sentence-audio-${input.renderRequestId ?? "working"}.json`);
+  const path = (0, import_node_path15.join)(runRoot, "checks", `sentence-audio-${input.renderRequestId ?? "working"}.json`);
   await writeJson(path, { ...report, measurementHits, measurementMisses, runId: run.runId, sourceDigest, checkedAt: (/* @__PURE__ */ new Date()).toISOString(), timelineSha256: sha256(canonicalTimeline(timeline)), scope: "\u53E5\u6BB5\u3001\u5B57\u5E55\u3001PCM \u65F6\u957F\u53CA\u97F3\u9891\u5F52\u5C5E\uFF1B\u4E0D\u4EE3\u66FF\u542C\u5BA1" });
   return { ...report, measurementHits, measurementMisses, path, sourceDigest, timelineSha256: sha256(canonicalTimeline(timeline)) };
 }
@@ -2865,7 +2885,7 @@ function canonicalTimeline(value) {
 // packages/speech-services/src/doubao.ts
 var import_node_crypto6 = require("node:crypto");
 var import_node_fs13 = require("node:fs");
-var import_node_path15 = require("node:path");
+var import_node_path16 = require("node:path");
 var import_zod6 = require("zod");
 var requestKey = import_zod6.z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
 var speechSchema = import_zod6.z.object({ runId: import_zod6.z.string().uuid(), speechRequestId: requestKey, segmentId: import_zod6.z.string().min(1), sceneId: import_zod6.z.string().min(1).optional(), text: import_zod6.z.string().min(1).max(2e3), voiceRef: import_zod6.z.string().min(1), speed: import_zod6.z.number().int().min(-50).max(100).default(0), reuseJobId: import_zod6.z.string().uuid().optional(), reuseRunId: import_zod6.z.string().uuid().optional() }).strict();
@@ -2901,10 +2921,10 @@ var DoubaoService = class {
   total;
   perRun;
   path(run, id) {
-    return (0, import_node_path15.join)(this.root, "tasks", run.taskKey, "runs", run.runId, "speech", `${id}.json`);
+    return (0, import_node_path16.join)(this.root, "tasks", run.taskKey, "runs", run.runId, "speech", `${id}.json`);
   }
   batchPath(run, id) {
-    return (0, import_node_path15.join)(this.root, "tasks", run.taskKey, "runs", run.runId, "speech-batches", `${requestKey.parse(id)}.json`);
+    return (0, import_node_path16.join)(this.root, "tasks", run.taskKey, "runs", run.runId, "speech-batches", `${requestKey.parse(id)}.json`);
   }
   serial(operation) {
     const next = this.registration.then(operation);
@@ -2942,10 +2962,10 @@ var DoubaoService = class {
     this.runnable(run);
     const old = run.checkpoint.speech?.[input.speechRequestId];
     if (old) return { record: await this.read(old.id, run.runId, run.accountId), voice, run, path: this.path(run, old.id) };
-    const id = (0, import_node_crypto6.randomUUID)(), path = this.path(run, id), audio = (0, import_node_path15.join)(path, "..", `${id}.mp3`);
+    const id = (0, import_node_crypto6.randomUUID)(), path = this.path(run, id), audio = (0, import_node_path16.join)(path, "..", `${id}.mp3`);
     const record = { id, runId: run.runId, request: input, fingerprint, providerRequestId: (0, import_node_crypto6.randomUUID)(), state: "queued", audioRef: audio };
     if (previous) {
-      await import_node_fs13.promises.mkdir((0, import_node_path15.join)(path, ".."), { recursive: true });
+      await import_node_fs13.promises.mkdir((0, import_node_path16.join)(path, ".."), { recursive: true });
       await import_node_fs13.promises.copyFile(previous.audioRef, audio);
       if (sha256(await import_node_fs13.promises.readFile(audio)) !== previous.sha256) throw new ProductionError("AUDIO_BINDING_INVALID", "\u590D\u7528\u590D\u5236\u540E\u7684\u97F3\u9891\u5B57\u8282\u4E0E\u539F\u8BB0\u5F55\u4E0D\u7B26");
       Object.assign(record, { state: "succeeded", sha256: previous.sha256, duration: previous.duration, pcmMeasurement: previous.pcmMeasurement, durationSource: "measured", alignment: "segment_exact", reusedFrom: previous.id, reusedFromRunId: baseId });
@@ -3231,7 +3251,7 @@ function parseJsonStream(raw) {
 var import_bundler = require("@remotion/bundler");
 var import_renderer = require("@remotion/renderer");
 var import_node_fs16 = require("node:fs");
-var import_node_path17 = require("node:path");
+var import_node_path18 = require("node:path");
 var import_pngjs = require("pngjs");
 var import_node_os2 = require("node:os");
 var import_zod7 = require("zod");
@@ -3332,7 +3352,7 @@ async function cutSceneFromWhole(whole, output, extent, signal, mode = "accurate
 
 // apps/render-worker/src/template-chunks.ts
 var import_node_fs15 = require("node:fs");
-var import_node_path16 = require("node:path");
+var import_node_path17 = require("node:path");
 var sampleRate = 48e3;
 var frameSample = (frame2, fps) => Math.round(frame2 * sampleRate / fps);
 function checkContinuousPcmSource(audio, expectedSamples) {
@@ -3407,10 +3427,10 @@ async function validatePcm(path, samples, options) {
 }
 async function renderSceneChunks(args) {
   const { run, root, input, sourceDigest, composition, serveUrl, options, render, cancelSignal, record, previous } = args;
-  const output = (0, import_node_path16.join)(root, "output-staging", input.renderRequestId), chunkRoot = (0, import_node_path16.join)(output, "chunks");
+  const output = (0, import_node_path17.join)(root, "output-staging", input.renderRequestId), chunkRoot = (0, import_node_path17.join)(output, "chunks");
   await import_node_fs15.promises.mkdir(chunkRoot, { recursive: true });
   const dependencies = await Promise.all(["@remotion/renderer", "remotion"].map(async (name) => {
-    const p = JSON.parse(await import_node_fs15.promises.readFile((0, import_node_path16.join)(options.dependencyRoot, "node_modules", name, "package.json"), "utf8"));
+    const p = JSON.parse(await import_node_fs15.promises.readFile((0, import_node_path17.join)(options.dependencyRoot, "node_modules", name, "package.json"), "utf8"));
     return [name, p.version];
   }));
   const parametersDigest = sha256(canonical({ version: 1, releaseId: options.releaseId ?? null, dependencies, codec: "h264", crf: 18, preset: "medium", pixelFormat: "yuv420p", bFrames: 0, timebase: 9e4, width: composition.width, height: composition.height, fps: composition.fps, sampleRate }));
@@ -3420,25 +3440,26 @@ async function renderSceneChunks(args) {
   if (new Set(oldChunks.map((c) => c.id)).size !== oldChunks.length) throw new ProductionError("CHUNK_IDENTITY_INVALID", "\u539F\u753B\u9762\u5757\u5305\u542B\u91CD\u590D\u7F16\u53F7");
   for (const chunk of oldChunks) {
     const index = extents.findIndex((e) => e.id === chunk.id), extent = extents[index];
-    if (!extent || chunk.parametersDigest !== parametersDigest || chunk.sourceDigest !== sourceDigest || (0, import_node_path16.resolve)(chunk.path) !== (0, import_node_path16.resolve)(chunkRoot, `${index}.mp4`) || Object.entries(extent).some(([k, v]) => chunk[k] !== v)) throw new ProductionError("CHUNK_IDENTITY_INVALID", "\u539F\u753B\u9762\u5757\u6765\u6E90\u3001\u8303\u56F4\u3001\u53C2\u6570\u6216\u4F4D\u7F6E\u4E0D\u7B26");
-    await regular(root, (0, import_node_path16.relative)(root, chunk.path));
+    if (!extent || chunk.parametersDigest !== parametersDigest || chunk.sourceDigest !== sourceDigest || (0, import_node_path17.resolve)(chunk.path) !== (0, import_node_path17.resolve)(chunkRoot, `${index}.mp4`) || Object.entries(extent).some(([k, v]) => chunk[k] !== v)) throw new ProductionError("CHUNK_IDENTITY_INVALID", "\u539F\u753B\u9762\u5757\u6765\u6E90\u3001\u8303\u56F4\u3001\u53C2\u6570\u6216\u4F4D\u7F6E\u4E0D\u7B26");
+    await regular(root, (0, import_node_path17.relative)(root, chunk.path));
     if (sha256(await import_node_fs15.promises.readFile(chunk.path)) !== chunk.sha256) throw new ProductionError("CHUNK_DIGEST_MISMATCH", "\u539F\u753B\u9762\u5757\u6458\u8981\u4E0D\u7B26");
     await processWork(run.runId, options, () => validateVisualChunk(chunk.path, extent, options));
     chunks.set(chunk.id, chunk);
   }
   let audio = previous?.continuousAudio;
-  const pcm = (0, import_node_path16.join)(chunkRoot, "continuous.wav"), samples = frameSample(full.toFrame, full.fps);
+  const pcm = (0, import_node_path17.join)(chunkRoot, "continuous.wav"), samples = frameSample(full.toFrame, full.fps);
   if (audio) {
     if (audio.path !== pcm || audio.sourceDigest !== sourceDigest || audio.parametersDigest !== parametersDigest || audio.samples !== samples || audio.sampleRate !== sampleRate) throw new ProductionError("PCM_IDENTITY_INVALID", "\u539F\u8FDE\u7EED\u97F3\u8F68\u8EAB\u4EFD\u4E0D\u7B26");
-    await regular(root, (0, import_node_path16.relative)(root, pcm));
+    await regular(root, (0, import_node_path17.relative)(root, pcm));
     if (sha256(await import_node_fs15.promises.readFile(pcm)) !== audio.sha256) throw new ProductionError("PCM_DIGEST_MISMATCH", "\u539F\u8FDE\u7EED\u97F3\u8F68\u6458\u8981\u4E0D\u7B26");
     await processWork(run.runId, options, () => validatePcm(pcm, samples, options));
   }
-  const tasks = [...extents.map((extent, index) => async () => {
+  let failure;
+  const visualTasks = extents.map((extent, index) => async () => {
     if (chunks.has(extent.id)) return;
     cancelled3(options);
     await options.onOutputStart?.(extent.id);
-    const path = (0, import_node_path16.join)(chunkRoot, `${index}.mp4`), pending = (0, import_node_path16.join)(chunkRoot, `${index}.pending.mp4`);
+    const path = (0, import_node_path17.join)(chunkRoot, `${index}.mp4`), pending = (0, import_node_path17.join)(chunkRoot, `${index}.pending.mp4`);
     try {
       await drawingWork(run.runId, options, () => processWork(run.runId, options, () => withMediaSpan(options.metrics, "scene_visual_render", () => render({ serveUrl, composition, outputLocation: pending, codec: "h264", muted: true, crf: 18, x264Preset: "medium", pixelFormat: "yuv420p", frameRange: [extent.fromFrame, extent.toFrame - 1], browserExecutable: options.browser, concurrency: options.concurrency, cancelSignal, overwrite: true, ffmpegOverride: ({ args: args2 }) => [...args2.slice(0, -1), "-bf", "0", "-video_track_timescale", "90000", args2.at(-1)] }), { fromFrame: extent.fromFrame, toFrame: extent.toFrame, concurrency: options.concurrency })));
       await processWork(run.runId, options, () => validateVisualChunk(pending, extent, options));
@@ -3447,12 +3468,14 @@ async function renderSceneChunks(args) {
       const chunk = { ...extent, path, sha256: sha256(await import_node_fs15.promises.readFile(path)), sourceDigest, parametersDigest };
       await options.onChunkReady?.(chunk);
       chunks.set(extent.id, chunk);
+    } catch (error) {
+      failure ??= { error };
     } finally {
       await import_node_fs15.promises.rm(pending, { force: true });
     }
-  })];
-  if (!audio) tasks.unshift(async () => {
-    const raw = (0, import_node_path16.join)(chunkRoot, "continuous.raw.wav"), pending = (0, import_node_path16.join)(chunkRoot, "continuous.pending.wav");
+  });
+  const audioTask = audio ? void 0 : async () => {
+    const raw = (0, import_node_path17.join)(chunkRoot, "continuous.raw.wav"), pending = (0, import_node_path17.join)(chunkRoot, "continuous.pending.wav");
     try {
       await drawingWork(run.runId, options, () => processWork(run.runId, options, () => withMediaSpan(options.metrics, "continuous_audio_render", () => render({ serveUrl, composition, outputLocation: raw, codec: "wav", sampleRate, enforceAudioTrack: true, frameRange: [0, full.toFrame - 1], browserExecutable: options.browser, concurrency: options.concurrency, cancelSignal, overwrite: true }))));
       const rawMedia = await processWork(run.runId, options, () => probe(raw, false, options.signal)), rawAudio = rawMedia.streams.find((stream) => stream.codec_type === "audio");
@@ -3463,20 +3486,36 @@ async function renderSceneChunks(args) {
       await import_node_fs15.promises.rename(pending, pcm);
       audio = { path: pcm, sha256: sha256(await import_node_fs15.promises.readFile(pcm)), sourceDigest, parametersDigest, sampleRate, samples, sourceSamples: sourceRange.sourceSamples, normalizationSamples: sourceRange.normalizationSamples };
       await options.onAudioReady?.(audio);
+    } catch (error) {
+      failure ??= { error };
     } finally {
       await import_node_fs15.promises.rm(raw, { force: true });
       await import_node_fs15.promises.rm(pending, { force: true });
     }
-  });
-  await mapMediaLimited(tasks, options.runConcurrency ?? 2, (task) => task());
+  };
+  const finishTask = async (task) => {
+    if (failure) return;
+    try {
+      await task();
+    } catch (error) {
+      failure ??= { error };
+    }
+  };
+  await Promise.all([
+    finishTask(async () => {
+      if (audioTask) await audioTask();
+    }),
+    finishTask(() => mapMediaLimited(visualTasks, options.runConcurrency ?? 2, (task) => finishTask(task)))
+  ]);
+  if (failure) throw failure.error;
   cancelled3(options);
-  const list = (0, import_node_path16.join)(chunkRoot, "concat.txt");
+  const list = (0, import_node_path17.join)(chunkRoot, "concat.txt");
   await import_node_fs15.promises.writeFile(list, extents.map((_, i) => `file '${i}.mp4'`).join("\n") + "\n");
   const expected = [{ id: "whole-video", ...full }, ...extents], files = /* @__PURE__ */ new Map();
   for (const file of previous?.readyFiles ?? []) {
     const index = expected.findIndex((e) => e.id === file.id), extent = expected[index];
-    if (!extent || files.has(file.id) || (0, import_node_path16.resolve)(file.file) !== (0, import_node_path16.resolve)(output, `${index}.mp4`) || Object.entries(extent).some(([k, v]) => file[k] !== v)) throw new ProductionError("FILE_IDENTITY_INVALID", "\u539F\u5C01\u88C5\u6587\u4EF6\u8303\u56F4\u3001\u89C4\u683C\u6216\u4F4D\u7F6E\u4E0D\u7B26");
-    await regular(root, (0, import_node_path16.relative)(root, file.file));
+    if (!extent || files.has(file.id) || (0, import_node_path17.resolve)(file.file) !== (0, import_node_path17.resolve)(output, `${index}.mp4`) || Object.entries(extent).some(([k, v]) => file[k] !== v)) throw new ProductionError("FILE_IDENTITY_INVALID", "\u539F\u5C01\u88C5\u6587\u4EF6\u8303\u56F4\u3001\u89C4\u683C\u6216\u4F4D\u7F6E\u4E0D\u7B26");
+    await regular(root, (0, import_node_path17.relative)(root, file.file));
     if (sha256(await import_node_fs15.promises.readFile(file.file)) !== file.sha256) throw new ProductionError("FILE_DIGEST_MISMATCH", "\u539F\u5C01\u88C5\u6587\u4EF6\u6458\u8981\u4E0D\u7B26");
     const media = await processWork(run.runId, options, () => validateVideoOutput(file.file, extent, options.signal, options.metrics));
     if ((await record(file.id, file.file, extent, media.duration)).content !== file.content) throw new ProductionError("FILE_IDENTITY_INVALID", "\u539F\u5C01\u88C5\u6587\u4EF6\u6B63\u6587\u4E0D\u7B26");
@@ -3486,7 +3525,7 @@ async function renderSceneChunks(args) {
     if (files.has(extent.id)) return;
     cancelled3(options);
     await options.onOutputStart?.(extent.id);
-    const path = (0, import_node_path16.join)(output, `${index}.mp4`), pending = (0, import_node_path16.join)(output, `${index}.pending.mp4`);
+    const path = (0, import_node_path17.join)(output, `${index}.mp4`), pending = (0, import_node_path17.join)(output, `${index}.pending.mp4`);
     try {
       await processWork(run.runId, options, () => withMediaSpan(options.metrics, index === 0 ? "whole_video_mux" : "scene_video_mux", () => ffmpeg2([
         ...index === 0 ? ["-f", "concat", "-safe", "0", "-i", list] : ["-i", chunks.get(extent.id).path],
@@ -3556,25 +3595,25 @@ function assertRun(run, options) {
   if (options.runConcurrency !== void 0 && (!Number.isInteger(options.runConcurrency) || options.runConcurrency < 1 || options.runConcurrency > 32)) throw new ProductionError("RENDER_CONCURRENCY_INVALID", "\u7247\u6BB5\u5E76\u53D1\u987B\u4E3A1\u523032");
 }
 async function freezeProject(root, destination, signal) {
-  const working = (0, import_node_path17.join)(root, "project");
+  const working = (0, import_node_path18.join)(root, "project");
   checkCancelled(signal);
   const digest = await treeDigest(working);
   if (await import_node_fs16.promises.stat(destination).catch(() => null)) throw new ProductionError("RENDER_SNAPSHOT_EXISTS", "\u5FEB\u7167\u5DF2\u5B58\u5728\uFF0C\u8BF7\u67E5\u8BE2\u539F\u4F5C\u4E1A");
-  await import_node_fs16.promises.mkdir((0, import_node_path17.dirname)(destination), { recursive: true });
+  await import_node_fs16.promises.mkdir((0, import_node_path18.dirname)(destination), { recursive: true });
   await import_node_fs16.promises.cp(working, destination, { recursive: true, filter: (p) => !p.split(/[\\/]/).some((s) => ["node_modules", ".cache"].includes(s)) });
   if (await treeDigest(working) !== digest || await treeDigest(destination) !== digest) throw new ProductionError("SOURCE_CHANGED", "\u590D\u5236\u671F\u95F4\u5DE5\u7A0B\u53D1\u751F\u53D8\u5316\uFF0C\u8BF7\u539F\u4F5C\u8005\u7ED3\u675F\u5199\u5165\u540E\u751F\u6210\u65B0\u6279\u6B21");
   checkCancelled(signal);
   return digest;
 }
 async function prepare(project, options, backend = engine) {
-  const manifest = await withMediaSpan(options.metrics, "template_validation", () => validateTemplate(project)), renderer = (0, import_node_path17.join)(project, "renderer");
+  const manifest = await withMediaSpan(options.metrics, "template_validation", () => validateTemplate(project)), renderer = (0, import_node_path18.join)(project, "renderer");
   const entryPoint = await regular(renderer, manifest.entry);
   let cache;
   if (options.releaseId && options.bundleCacheRoot) {
     const dependencyFiles = ["package-lock.json", "node_modules/@remotion/bundler/package.json", "node_modules/@remotion/renderer/package.json", "node_modules/remotion/package.json"];
-    const dependencies = await Promise.all(dependencyFiles.map(async (p) => [p, sha256(await import_node_fs16.promises.readFile((0, import_node_path17.join)(options.dependencyRoot, p)).catch(() => Buffer.from("missing")))]));
+    const dependencies = await Promise.all(dependencyFiles.map(async (p) => [p, sha256(await import_node_fs16.promises.readFile((0, import_node_path18.join)(options.dependencyRoot, p)).catch(() => Buffer.from("missing")))]));
     const key2 = sha256(canonical({ source: await treeDigest(project), releaseId: options.releaseId, dependencies, dependencyRoot: options.dependencyRoot, entry: manifest.entry, publicRoot: manifest.publicAssetRoot, version: 1 }));
-    cache = (0, import_node_path17.join)(options.bundleCacheRoot, key2);
+    cache = (0, import_node_path18.join)(options.bundleCacheRoot, key2);
     try {
       const receipt = JSON.parse(await import_node_fs16.promises.readFile(`${cache}.json`, "utf8"));
       if (receipt.key === key2 && receipt.digest === await treeDigest(cache)) return { manifest, serveUrl: cache, buildRoot: cache, keepBuild: true };
@@ -3584,12 +3623,12 @@ async function prepare(project, options, backend = engine) {
     await import_node_fs16.promises.rm(cache, { recursive: true, force: true });
     await import_node_fs16.promises.rm(`${cache}.json`, { force: true });
   }
-  const buildRoot = await import_node_fs16.promises.mkdtemp((0, import_node_path17.join)((0, import_node_os2.tmpdir)(), "textvideo-bundle-"));
+  const buildRoot = await import_node_fs16.promises.mkdtemp((0, import_node_path18.join)((0, import_node_os2.tmpdir)(), "textvideo-bundle-"));
   try {
-    const serveUrl = await withMediaSpan(options.metrics, "bundle", () => backend.bundle({ outDir: buildRoot, entryPoint, publicDir: inside(renderer, manifest.publicAssetRoot), webpackOverride: (c) => ({ ...c, resolve: { ...c.resolve, modules: [(0, import_node_path17.join)(options.dependencyRoot, "node_modules"), "node_modules"] } }) }));
+    const serveUrl = await withMediaSpan(options.metrics, "bundle", () => backend.bundle({ outDir: buildRoot, entryPoint, publicDir: inside(renderer, manifest.publicAssetRoot), webpackOverride: (c) => ({ ...c, resolve: { ...c.resolve, modules: [(0, import_node_path18.join)(options.dependencyRoot, "node_modules"), "node_modules"] } }) }));
     checkCancelled(options.signal);
     if (cache) {
-      await import_node_fs16.promises.mkdir((0, import_node_path17.dirname)(cache), { recursive: true });
+      await import_node_fs16.promises.mkdir((0, import_node_path18.dirname)(cache), { recursive: true });
       await import_node_fs16.promises.cp(buildRoot, cache, { recursive: true });
       await writeJson(`${cache}.json`, { key: cache.split(/[\\/]/).at(-1), digest: await treeDigest(cache) });
       await import_node_fs16.promises.rm(buildRoot, { recursive: true, force: true });
@@ -3617,35 +3656,35 @@ async function completeDelivery(run, project, output, input, sourceDigest, files
   checkCancelled(signal);
   if (await treeDigest(project) !== sourceDigest) throw new ProductionError("SOURCE_CHANGED", "\u6E32\u67D3\u8F93\u5165\u53D1\u751F\u53D8\u5316");
   const delivery = { taskId: run.taskId, runId: run.runId, inputDigest: run.inputDigest, templateDigest: run.checkpoint.template.digest, renderRequestId: input.renderRequestId, sourceDigest, timelineRef: input.timelineRef, checks: input.checks, files };
-  const deliveryPath = (0, import_node_path17.join)(output, "delivery.json");
+  const deliveryPath = (0, import_node_path18.join)(output, "delivery.json");
   await writeJson(deliveryPath, delivery);
   return { deliveryPath, delivery };
 }
 async function renderMissingSlices(run, root, input, digest, files, options) {
-  const output = (0, import_node_path17.join)(root, "output-staging", input.renderRequestId), whole = files.find((f) => f.id === "whole-video");
+  const output = (0, import_node_path18.join)(root, "output-staging", input.renderRequestId), whole = files.find((f) => f.id === "whole-video");
   for (const [i, r] of input.ranges.entries()) {
     if (files.some((f) => f.id === r.id)) continue;
     checkCancelled(options.signal);
     await options.onOutputStart?.(r.id);
-    const extent = { ...r, width: whole.width, height: whole.height, fps: whole.fps }, path = (0, import_node_path17.join)(output, `${i + 1}.mp4`);
+    const extent = { ...r, width: whole.width, height: whole.height, fps: whole.fps }, path = (0, import_node_path18.join)(output, `${i + 1}.mp4`);
     const media = await processWork(run.runId, options, () => withMediaSpan(options.metrics, "scene_slice", (child) => cutSceneFromWhole(whole.file, path, extent, options.signal, options.sceneCutMode ?? "accurate", child), { fromFrame: r.fromFrame, toFrame: r.toFrame }));
     const file = { ...await withMediaSpan(options.metrics, "file_record_sha", () => fileRecord(run, r.id, path, extent, media.duration)), cutMetadata: media.cutMetadata };
     checkCancelled(options.signal);
     await options.onFileReady?.(file);
     files.push(file);
   }
-  return completeDelivery(run, (0, import_node_path17.join)(root, "render-snapshots", input.renderRequestId, "project"), output, input, digest, [whole, ...input.ranges.map((r) => files.find((f) => f.id === r.id))], options.signal);
+  return completeDelivery(run, (0, import_node_path18.join)(root, "render-snapshots", input.renderRequestId, "project"), output, input, digest, [whole, ...input.ranges.map((r) => files.find((f) => f.id === r.id))], options.signal);
 }
 async function renderTemplate(run, root, request, options, backend = engine) {
   let input = request;
   assertRun(run, options);
-  const project = (0, import_node_path17.join)(root, input.previewOnly ? "preview-snapshots" : "render-snapshots", input.renderRequestId, "project");
+  const project = (0, import_node_path18.join)(root, input.previewOnly ? "preview-snapshots" : "render-snapshots", input.renderRequestId, "project");
   const digest = await withMediaSpan(options.metrics, "freeze_project", async (child) => {
     const digest2 = await freezeProject(root, project, options.signal);
     if (child) child.sourceDigest = digest2;
     return digest2;
   });
-  options = { ...options, bundleCacheRoot: (0, import_node_path17.join)(root, ".bundle-cache"), metrics: options.metrics ? { ...options.metrics, sourceDigest: digest } : void 0 };
+  options = { ...options, bundleCacheRoot: (0, import_node_path18.join)(root, ".bundle-cache"), metrics: options.metrics ? { ...options.metrics, sourceDigest: digest } : void 0 };
   if (input.previewOnly && input.sourceDigest && input.sourceDigest !== digest) throw new ProductionError("PREVIEW_SCOPE_CHANGED", "\u9884\u89C8\u51BB\u7ED3\u7248\u672C\u4E0E\u8BF7\u6C42\u6458\u8981\u4E0D\u540C\uFF0C\u8BF7\u6838\u5BF9\u5F53\u524D\u5DE5\u7A0B", 409);
   await options.onSourceFrozen?.(digest);
   await regular(project, input.timelineRef);
@@ -3666,7 +3705,7 @@ async function renderTemplate(run, root, request, options, backend = engine) {
     checkRanges(run, input, composition.durationInFrames);
     if (preflight && composition.durationInFrames !== preflight.timeline.totalFrames) throw new ProductionError("COMPOSITION_SPEC_MISMATCH", "Composition \u603B\u5E27\u6570\u4E0E\u51BB\u7ED3\u65F6\u95F4\u7EBF\u4E0D\u4E00\u81F4");
     if (!input.previewOnly && (preflight || options.sceneCutMode === "hybrid" || options.renderStrategy === "scene-chunks")) await verifyCutTimeline(root, project, input.timelineRef, digest, input.renderRequestId, run.request.dataList, composition.durationInFrames, composition.fps, preflight ? void 0 : input.ranges, options.audioAudits);
-    const output = (0, import_node_path17.join)(root, input.previewOnly ? "previews" : "output-staging", input.renderRequestId);
+    const output = (0, import_node_path18.join)(root, input.previewOnly ? "previews" : "output-staging", input.renderRequestId);
     await import_node_fs16.promises.mkdir(output, { recursive: true });
     if (!input.previewOnly && options.renderStrategy === "scene-chunks") {
       const files2 = await renderSceneChunks({ run, root, input, sourceDigest: digest, composition, serveUrl, options, render: backend.renderMedia, cancelSignal: cancellation.cancelSignal, record: (id, path, extent, dur) => fileRecord(run, id, path, extent, dur) });
@@ -3677,7 +3716,7 @@ async function renderTemplate(run, root, request, options, backend = engine) {
     await mapMediaLimited(ranges, input.previewOnly ? options.runConcurrency ?? 2 : 1, async (r, i) => {
       checkCancelled(options.signal);
       await options.onOutputStart?.(r.id);
-      const path = (0, import_node_path17.join)(output, `${i}.mp4`);
+      const path = (0, import_node_path18.join)(output, `${i}.mp4`);
       await drawingWork(run.runId, options, () => processWork(run.runId, options, () => withMediaSpan(options.metrics, "render_media", () => backend.renderMedia({ serveUrl, composition, outputLocation: path, codec: "h264", audioCodec: "aac", frameRange: [r.fromFrame, r.toFrame - 1], browserExecutable: options.browser, concurrency: options.concurrency, cancelSignal: cancellation.cancelSignal, overwrite: true }), { fromFrame: r.fromFrame, toFrame: r.toFrame, concurrency: options.concurrency })));
       const extent = { ...r, width: composition.width, height: composition.height, fps: composition.fps }, media = await processWork(run.runId, options, () => withMediaSpan(options.metrics, "video_validation", (child) => validateVideoOutput(path, extent, options.signal, child)));
       const file = await withMediaSpan(options.metrics, "file_record_sha", () => fileRecord(run, r.id, path, extent, media.duration));
@@ -3694,7 +3733,7 @@ async function renderTemplate(run, root, request, options, backend = engine) {
 }
 async function retryRenderSlices(run, root, job, options, backend = engine) {
   assertRun(run, options);
-  options = { ...options, bundleCacheRoot: (0, import_node_path17.join)(root, ".bundle-cache"), renderStrategy: import_zod7.z.enum(["scene-chunks", "whole-slices"]).default("whole-slices").parse(job.renderStrategy), concurrency: job.concurrency ?? options.concurrency, runConcurrency: job.runConcurrency ?? 1, sceneCutMode: import_zod7.z.enum(["accurate", "hybrid"]).default("accurate").parse(job.sceneCutMode), metrics: options.metrics ? { ...options.metrics, sourceDigest: job.sourceDigest } : void 0 };
+  options = { ...options, bundleCacheRoot: (0, import_node_path18.join)(root, ".bundle-cache"), renderStrategy: import_zod7.z.enum(["scene-chunks", "whole-slices"]).default("whole-slices").parse(job.renderStrategy), concurrency: job.concurrency ?? options.concurrency, runConcurrency: job.runConcurrency ?? 1, sceneCutMode: import_zod7.z.enum(["accurate", "hybrid"]).default("accurate").parse(job.sceneCutMode), metrics: options.metrics ? { ...options.metrics, sourceDigest: job.sourceDigest } : void 0 };
   assertRun(run, options);
   if (job.state !== "failed" || job.kind !== "template-render" || !job.sourceDigest) throw new ProductionError("SLICE_RETRY_FORBIDDEN", "\u4EC5\u660E\u786E\u5931\u8D25\u4E14\u5177\u5907\u56FA\u5B9A\u5DE5\u7A0B\u4F9D\u636E\u7684\u4F5C\u4E1A\u53EF\u4EE5\u7EED\u5207");
   if (job.rendererVersion && job.rendererVersion !== "scene-chunks/1") throw new ProductionError("RENDER_VERSION_UNSUPPORTED", "\u539F\u4F5C\u4E1A\u6E32\u67D3\u7248\u672C\u4E0D\u53D7\u652F\u6301");
@@ -3703,7 +3742,7 @@ async function retryRenderSlices(run, root, job, options, backend = engine) {
   if (!raw.previewOnly && !job.resolvedRanges && !("ranges" in raw)) throw new ProductionError("RENDER_RANGES_MISSING", "\u539F\u4F5C\u4E1A\u5C1A\u672A\u4FDD\u5B58\u56FA\u5B9A\u8303\u56F4\uFF0C\u4E0D\u80FD\u4ECE\u5F53\u524D\u5DE5\u4F5C\u76EE\u5F55\u91CD\u63A8");
   const input = resolvedRenderSchema.parse({ ...raw, ...job.resolvedRanges ? { ranges: job.resolvedRanges } : {} });
   if (input.runId !== run.runId || input.renderRequestId !== job.id) throw new ProductionError("SLICE_RETRY_FORBIDDEN", "\u4EC5\u539F\u6B63\u5F0F\u89C6\u9891\u4F5C\u4E1A\u53EF\u7EED\u5207");
-  const project = (0, import_node_path17.join)(root, input.previewOnly ? "preview-snapshots" : "render-snapshots", job.id, "project");
+  const project = (0, import_node_path18.join)(root, input.previewOnly ? "preview-snapshots" : "render-snapshots", job.id, "project");
   if (await treeDigest(project) !== job.sourceDigest) throw new ProductionError("SOURCE_CHANGED", "\u539F\u56FA\u5B9A\u5DE5\u7A0B\u4E0D\u4E00\u81F4\uFF0C\u4E0D\u80FD\u7EED\u5207");
   const manifest = await validateTemplate(project);
   await regular(project, input.timelineRef);
@@ -3717,8 +3756,8 @@ async function retryRenderSlices(run, root, job, options, backend = engine) {
   if (new Set(files.map((f) => f.id)).size !== files.length) throw new ProductionError("FILE_IDENTITY_INVALID", "\u5DF2\u5B8C\u6210\u6E05\u5355\u5305\u542B\u91CD\u590D\u6587\u4EF6");
   for (const file of files) {
     const index = expected.findIndex((r) => r.id === file.id), range = expected[index];
-    if (!range || file.fromFrame !== range.fromFrame || file.toFrame !== range.toFrame || file.width !== whole.width || file.height !== whole.height || file.fps !== whole.fps || (0, import_node_path17.resolve)(file.file) !== (0, import_node_path17.resolve)(root, "output-staging", job.id, `${index}.mp4`)) throw new ProductionError("FILE_IDENTITY_INVALID", "\u5DF2\u5B8C\u6210\u6587\u4EF6\u8303\u56F4\u3001\u89C4\u683C\u6216\u4F4D\u7F6E\u4E0D\u7B26");
-    const path = await regular(root, (0, import_node_path17.relative)(root, file.file));
+    if (!range || file.fromFrame !== range.fromFrame || file.toFrame !== range.toFrame || file.width !== whole.width || file.height !== whole.height || file.fps !== whole.fps || (0, import_node_path18.resolve)(file.file) !== (0, import_node_path18.resolve)(root, "output-staging", job.id, `${index}.mp4`)) throw new ProductionError("FILE_IDENTITY_INVALID", "\u5DF2\u5B8C\u6210\u6587\u4EF6\u8303\u56F4\u3001\u89C4\u683C\u6216\u4F4D\u7F6E\u4E0D\u7B26");
+    const path = await regular(root, (0, import_node_path18.relative)(root, file.file));
     const record = await withMediaSpan(options.metrics, "retry_file_sha", () => fileRecord(run, file.id, path, file, file.dur));
     if (record.sha256 !== file.sha256 || record.content !== file.content) throw new ProductionError("FILE_DIGEST_MISMATCH", "\u539F\u5DF2\u5B8C\u6210\u6587\u4EF6\u6458\u8981\u6216\u6B63\u6587\u4E0D\u7B26");
     const media = await processWork(run.runId, options, () => withMediaSpan(options.metrics, "retry_video_validation", (child) => validateRegisteredVideo(file, whole, options.signal, child)));
@@ -3735,7 +3774,7 @@ async function resumeSegmented(run, root, job, input, project, options, backend 
     const composition = await backend.selectComposition({ serveUrl, id: manifest.wholeComposition, browserExecutable: options.browser });
     checkComposition({ ...composition, fromFrame: 0, toFrame: composition.durationInFrames }, manifest);
     checkRanges(run, input, composition.durationInFrames);
-    const output = (0, import_node_path17.join)(root, input.previewOnly ? "previews" : "output-staging", input.renderRequestId);
+    const output = (0, import_node_path18.join)(root, input.previewOnly ? "previews" : "output-staging", input.renderRequestId);
     let files;
     if (!input.previewOnly) {
       await verifyCutTimeline(root, project, input.timelineRef, digest, input.renderRequestId, run.request.dataList, composition.durationInFrames, composition.fps, input.ranges, options.audioAudits);
@@ -3744,8 +3783,8 @@ async function resumeSegmented(run, root, job, input, project, options, backend 
       const ready = /* @__PURE__ */ new Map();
       for (const file of job.readyFiles) {
         const index = input.ranges.findIndex((r) => r.id === file.id), range = input.ranges[index];
-        if (!range || ready.has(file.id) || file.fromFrame !== range.fromFrame || file.toFrame !== range.toFrame || file.width !== composition.width || file.height !== composition.height || file.fps !== composition.fps || (0, import_node_path17.resolve)(file.file) !== (0, import_node_path17.resolve)(output, `${index}.mp4`)) throw new ProductionError("FILE_IDENTITY_INVALID", "\u539F\u9884\u89C8\u6587\u4EF6\u8303\u56F4\u3001\u89C4\u683C\u6216\u4F4D\u7F6E\u4E0D\u7B26");
-        await regular(root, (0, import_node_path17.relative)(root, file.file));
+        if (!range || ready.has(file.id) || file.fromFrame !== range.fromFrame || file.toFrame !== range.toFrame || file.width !== composition.width || file.height !== composition.height || file.fps !== composition.fps || (0, import_node_path18.resolve)(file.file) !== (0, import_node_path18.resolve)(output, `${index}.mp4`)) throw new ProductionError("FILE_IDENTITY_INVALID", "\u539F\u9884\u89C8\u6587\u4EF6\u8303\u56F4\u3001\u89C4\u683C\u6216\u4F4D\u7F6E\u4E0D\u7B26");
+        await regular(root, (0, import_node_path18.relative)(root, file.file));
         const record = await fileRecord(run, file.id, file.file, file, file.dur);
         if (record.sha256 !== file.sha256 || record.content !== file.content) throw new ProductionError("FILE_DIGEST_MISMATCH", "\u539F\u9884\u89C8\u6587\u4EF6\u6458\u8981\u6216\u6B63\u6587\u4E0D\u7B26");
         await processWork(run.runId, options, () => validateVideoOutput(file.file, file, options.signal, options.metrics));
@@ -3755,7 +3794,7 @@ async function resumeSegmented(run, root, job, input, project, options, backend 
         if (ready.has(range.id)) return ready.get(range.id);
         checkCancelled(options.signal);
         await options.onOutputStart?.(range.id);
-        const path = (0, import_node_path17.join)(output, `${index}.mp4`), extent = { ...range, width: composition.width, height: composition.height, fps: composition.fps };
+        const path = (0, import_node_path18.join)(output, `${index}.mp4`), extent = { ...range, width: composition.width, height: composition.height, fps: composition.fps };
         await drawingWork(run.runId, options, () => processWork(run.runId, options, () => backend.renderMedia({ serveUrl, composition, outputLocation: path, codec: "h264", audioCodec: "aac", frameRange: [range.fromFrame, range.toFrame - 1], browserExecutable: options.browser, concurrency: options.concurrency, cancelSignal: cancellation.cancelSignal, overwrite: true })));
         const media = await processWork(run.runId, options, () => validateVideoOutput(path, extent, options.signal, options.metrics)), file = await fileRecord(run, range.id, path, extent, media.duration);
         checkCancelled(options.signal);
@@ -3783,7 +3822,7 @@ async function overview(frames2, output) {
         src.data.copy(sheet.data, b, a, a + 4);
       }
     }
-    const path = (0, import_node_path17.join)(output, `overview-${offset2 / 6 + 1}.png`);
+    const path = (0, import_node_path18.join)(output, `overview-${offset2 / 6 + 1}.png`);
     await import_node_fs16.promises.writeFile(path, import_pngjs.PNG.sync.write(sheet));
     paths.push(path);
   }
@@ -3792,18 +3831,18 @@ async function overview(frames2, output) {
 async function templateFrames(run, root, input, options, backend = engine) {
   assertRun(run, options);
   input = frameBatchSchema.parse(input);
-  const project = (0, import_node_path17.join)(root, "preview-snapshots", input.renderRequestId, "project"), sourceDigest = await withMediaSpan(options.metrics, "freeze_project", async (child) => {
+  const project = (0, import_node_path18.join)(root, "preview-snapshots", input.renderRequestId, "project"), sourceDigest = await withMediaSpan(options.metrics, "freeze_project", async (child) => {
     const digest = await freezeProject(root, project, options.signal);
     if (child) child.sourceDigest = digest;
     return digest;
   });
-  options = { ...options, bundleCacheRoot: (0, import_node_path17.join)(root, ".bundle-cache"), metrics: options.metrics ? { ...options.metrics, sourceDigest } : void 0 };
+  options = { ...options, bundleCacheRoot: (0, import_node_path18.join)(root, ".bundle-cache"), metrics: options.metrics ? { ...options.metrics, sourceDigest } : void 0 };
   if (input.sourceDigest && input.sourceDigest !== sourceDigest) throw new ProductionError("SOURCE_CHANGED", "\u5B9E\u9645\u51BB\u7ED3\u7248\u672C\u4E0E\u6307\u5B9A\u6E90\u7801\u6458\u8981\u4E0D\u4E00\u81F4");
   await options.onSourceFrozen?.(sourceDigest);
   const declared = await validateTemplate(project);
   const preflight = declared.timelineDataRef ? await preflightTimeline(project, run.request.dataList, { frames: input.frames }) : void 0;
   const { manifest, serveUrl, buildRoot, keepBuild } = await withMediaSpan(options.metrics, "prepare", (child) => prepare(project, { ...options, metrics: child }, backend));
-  const output = (0, import_node_path17.join)(root, "previews", input.renderRequestId);
+  const output = (0, import_node_path18.join)(root, "previews", input.renderRequestId);
   let browser;
   const cancellation = (0, import_renderer.makeCancelSignal)(), abort = () => cancellation.cancel();
   options.signal?.addEventListener("abort", abort, { once: true });
@@ -3826,7 +3865,7 @@ async function templateFrames(run, root, input, options, backend = engine) {
         checkCancelled(options.signal);
         const png = import_pngjs.PNG.sync.read(buffer);
         if (!input.frames.includes(frame2) || png.width !== composition.width || png.height !== composition.height) throw new ProductionError("PREVIEW_FRAME_INVALID", "\u9884\u89C8\u56FE\u7247\u5E27\u53F7\u6216\u89C4\u683C\u4E0D\u7B26");
-        const path = (0, import_node_path17.join)(output, `frame-${frame2}.png`);
+        const path = (0, import_node_path18.join)(output, `frame-${frame2}.png`);
         await import_node_fs16.promises.writeFile(`${path}.tmp`, buffer);
         await import_node_fs16.promises.rename(`${path}.tmp`, path);
         const item = { frame: frame2, path, sha256: sha256(buffer) };
@@ -3865,27 +3904,28 @@ async function templateFrames(run, root, input, options, backend = engine) {
 
 // packages/production-service/src/tool-results.ts
 var import_node_fs19 = require("node:fs");
-var import_node_path20 = require("node:path");
+var import_node_path21 = require("node:path");
 var import_node_crypto8 = require("node:crypto");
 
 // packages/production-service/src/review-service.ts
 var import_node_crypto7 = require("node:crypto");
 var import_node_fs18 = require("node:fs");
-var import_node_path19 = require("node:path");
+var import_node_path20 = require("node:path");
 var import_zod8 = require("zod");
+var import_zod_to_json_schema4 = require("zod-to-json-schema");
 
 // packages/production-service/src/review-invalidation.ts
 var import_node_fs17 = require("node:fs");
-var import_node_path18 = require("node:path");
+var import_node_path19 = require("node:path");
 async function snapshotFiles(root) {
   const result = {};
   async function walk(directory) {
     for (const entry of await import_node_fs17.promises.readdir(directory, { withFileTypes: true })) {
       if (["node_modules", ".cache"].includes(entry.name)) continue;
-      const path = (0, import_node_path18.join)(directory, entry.name);
+      const path = (0, import_node_path19.join)(directory, entry.name);
       if (entry.isSymbolicLink()) throw new ProductionError("LINK_FORBIDDEN", "\u5BA1\u7247\u5FEB\u7167\u4E0D\u5F97\u5305\u542B\u94FE\u63A5");
       if (entry.isDirectory()) await walk(path);
-      else result[(0, import_node_path18.relative)(root, path).replaceAll("\\", "/")] = sha256(await import_node_fs17.promises.readFile(path));
+      else result[(0, import_node_path19.relative)(root, path).replaceAll("\\", "/")] = sha256(await import_node_fs17.promises.readFile(path));
     }
   }
   await walk(root);
@@ -3927,6 +3967,9 @@ var prepareReviewSchema = import_zod8.z.object({
 var assignReviewSchema = import_zod8.z.object({ reviewId: import_zod8.z.string().uuid(), unitId: text2, reviewerAgentId: text2, assignmentRequestId: requestId, previousAssignmentToken: import_zod8.z.string().uuid().nullable().default(null), reason: text2.optional() }).strict();
 var readReviewSchema = import_zod8.z.object({ details: import_zod8.z.boolean().default(false), reviewId: import_zod8.z.string().uuid(), afterDigest: import_zod8.z.string().regex(/^[a-f0-9]{64}$/).optional(), waitMs: import_zod8.z.number().int().min(0).max(6e4).default(0) }).strict();
 var submitReviewSchema = import_zod8.z.object({ reviewId: import_zod8.z.string().uuid(), assignmentToken: import_zod8.z.string().uuid(), observations: import_zod8.z.array(import_zod8.z.object({ checkId: text2, evidenceId: text2, note: text2, range: reviewRangeSchema.optional() }).strict()).max(1e3), issues: import_zod8.z.array(import_zod8.z.object({ checkId: text2, evidenceId: text2, severity: import_zod8.z.enum(["blocking", "warning", "suggestion"]), problem: text2, range: reviewRangeSchema.optional() }).strict()).max(1e3), issueResolutions: import_zod8.z.array(import_zod8.z.object({ issueId: text2, evidenceId: text2.optional(), checkId: text2.optional(), resolution: import_zod8.z.enum(["resolved", "retained"]), note: text2 }).strict()).max(1e3).optional(), status: import_zod8.z.enum(["partial", "complete"]) }).strict();
+var reviewReportSchema = import_zod8.z.object({ reviewId: submitReviewSchema.shape.reviewId, results: import_zod8.z.array(submitReviewSchema.omit({ reviewId: true })).min(1).max(100) }).strict();
+var reviewReportJsonSchema = (0, import_zod_to_json_schema4.zodToJsonSchema)(reviewReportSchema, { $refStrategy: "none" });
+var submitReviewReportsSchema = import_zod8.z.object({ reportRefs: import_zod8.z.array(text2.describe("\u76F8\u5BF9\u5F53\u524D Run \u6839\u76EE\u5F55\u7684\u72EC\u7ACB\u5BA1\u7247 JSON \u6587\u4EF6\uFF0C\u5EFA\u8BAE records/review-results/ \u4E0B\uFF1B\u5B8C\u6574\u7ED3\u6784\uFF1A" + JSON.stringify(reviewReportJsonSchema))).min(1).max(100) }).strict();
 function ensure4(v, code, message) {
   if (!v) throw new ProductionError(code, message, 409);
 }
@@ -4018,7 +4061,7 @@ var ReviewService = class {
         this.repo.guard(current, run.token);
         ensure4(current.state === "running", "REVIEW_RUN_STOPPED", "\u4EFB\u52A1\u5DF2\u505C\u6B62");
         jobs = await Promise.all(ids.map(async (id) => {
-          const job = await json(await regular(root, (0, import_node_path19.join)("render-jobs", `${id}.json`)));
+          const job = await json(await regular(root, (0, import_node_path20.join)("render-jobs", `${id}.json`)));
           ensure4(job.runId === run.runId && job.id === id && ["frame-preview", "template-render"].includes(job.kind), "REVIEW_JOB_INVALID", "\u5FC5\u987B\u4F7F\u7528\u5F53\u524D Run \u5DF2\u53D7\u7406\u7684\u539F\u5A92\u4F53\u4F5C\u4E1A");
           if (["running", "queued"].includes(job.state) && options.isRunning && !options.isRunning(id)) return { ...job, state: "unknown", error: "\u65E0\u6CD5\u786E\u8BA4\u539F\u9759\u5E27\u6267\u884C\u72B6\u6001\uFF0C\u8BF7\u6838\u67E5\u539F\u4F5C\u4E1A" };
           return job;
@@ -4035,7 +4078,7 @@ var ReviewService = class {
     }
     jobs = await Promise.all(jobs.map(async (job) => {
       ensure4(job.sourceDigest, "REVIEW_JOB_INVALID", "\u6210\u529F\u9759\u5E27\u5FC5\u987B\u542B\u51BB\u7ED3\u5FEB\u7167\u8EAB\u4EFD");
-      const project = (0, import_node_path19.join)(root, job.kind === "frame-preview" || job.input.previewOnly ? "preview-snapshots" : "render-snapshots", job.id, "project");
+      const project = (0, import_node_path20.join)(root, job.kind === "frame-preview" || job.input.previewOnly ? "preview-snapshots" : "render-snapshots", job.id, "project");
       ensure4(await treeDigest(project) === job.sourceDigest, "REVIEW_SOURCE_CHANGED", "\u51BB\u7ED3\u5DE5\u7A0B\u6458\u8981\u5DF2\u6539\u53D8");
       return { ...job, project };
     }));
@@ -4196,57 +4239,69 @@ var ReviewService = class {
       if (e) ensure4(sha256(await import_node_fs18.promises.readFile(await regular(root, e.path))) === e.sha256, "REVIEW_EVIDENCE_CHANGED", "\u89C2\u5BDF\u671F\u95F4\u5A92\u4F53\u8BC1\u636E\u53D1\u751F\u6539\u53D8\uFF0C\u8BF7\u4FDD\u7559\u89C2\u5BDF\u5E76\u91CD\u65B0\u51C6\u5907\u672C\u7248\u6750\u6599");
     }
   }
+  async submitReports(runId, input) {
+    const request = submitReviewReportsSchema.parse(input), root = this.runRoot(this.current(runId));
+    const reports = await Promise.all(request.reportRefs.map(async (reportRef) => ({ reportRef, report: reviewReportSchema.parse(await json(await regular(root, reportRef))) })));
+    const reviewId = reports[0].report.reviewId;
+    ensure4(reports.every((item) => item.report.reviewId === reviewId), "REVIEW_REPORT_MIXED", "\u4E00\u6B21\u63D0\u4EA4\u7684\u62A5\u544A\u5FC5\u987B\u5C5E\u4E8E\u540C\u4E00\u8F6E\u5BA1\u7247\u8BA1\u5212");
+    const submissions = reports.flatMap(({ reportRef, report }) => report.results.map((result) => ({ reportRef, body: { reviewId, ...result } })));
+    await Promise.all(submissions.map(({ body }) => this.verifySubmissionEvidence(runId, body)));
+    const results = this.repo.transaction(() => submissions.map(({ reportRef, body }) => ({ reportRef, assignmentToken: body.assignmentToken, ...this.acceptSubmission(runId, body) })));
+    this.notifyRun(runId);
+    return { reviewId, results };
+  }
   submit(runId, input) {
-    const body = submitReviewSchema.parse(input), digest = sha256(canonical(body));
-    const result = this.repo.transaction(() => {
-      this.current(runId);
-      const session = this.assignment(runId, body.reviewId, body.assignmentToken);
-      const old = this.repo.db.prepare("SELECT response FROM review_submissions WHERE session_id=? AND assignment_token=? AND body_digest=?").get(session.id, body.assignmentToken, digest);
-      if (old) return JSON.parse(old.response);
-      const row = this.repo.db.prepare("SELECT * FROM review_work WHERE assignment_token=? AND session_id=?").get(body.assignmentToken, session.id);
-      if (!row || row.state !== "assigned" || row.review_id !== session.review_id || session.state !== "active" || this.review(body.reviewId, runId).state !== "active") {
-        const response2 = { accepted: false, code: "REVIEW_ASSIGNMENT_STALE", reason: "\u5206\u6D3E\u5DF2\u7ED3\u675F\u6216\u7248\u672C\u5DF2\u6539\u53D8\uFF0C\u4EC5\u4FDD\u5B58\u8FDF\u5230\u8BB0\u5F55", nextStep: "\u4E3B\u534F\u8C03\u8BFB\u53D6\u5F53\u524D\u8BA1\u5212\uFF0C\u6838\u5BF9\u771F\u5B9E\u8D1F\u8D23\u4EBA\u540E\u8C03\u7528 assign_review_work" };
-        this.saveSubmission(session, body, digest, response2, false);
-        return response2;
-      }
-      const work = JSON.parse(row.data);
-      const validate = (item) => {
-        const check = work.checks.find((c) => c.checkId === item.checkId), e = work.evidence.find((e2) => e2.evidenceId === item.evidenceId);
-        ensure4(check && e && check.evidenceIds.includes(e.evidenceId), "REVIEW_EVIDENCE_SCOPE", "\u89C2\u5BDF\u6216\u95EE\u9898\u5FC5\u987B\u5C5E\u4E8E\u5F53\u524D\u68C0\u67E5\u548C\u8BC1\u636E");
-        if (check.mode === "image") ensure4(!item.range && e.kind === "image", "REVIEW_MODE_INVALID", "\u9759\u5E27\u4F7F\u7528\u767B\u8BB0\u5E27\u53F7\uFF0C\u4E0D\u80FD\u5192\u5145\u8FDE\u7EED\u770B\u542C");
-        else ensure4(item.range && e.kind === "video" && item.range.fromFrame >= Math.max(check.range.fromFrame, e.fromFrame) && item.range.toFrame <= Math.min(check.range.toFrame, e.toFrame), "REVIEW_RANGE_INVALID", "\u8FDE\u7EED\u5A92\u4F53\u5FC5\u987B\u63D0\u4EA4\u5B9E\u9645\u89C2\u5BDF\u7684\u5168\u5C40\u534A\u5F00\u533A\u95F4");
-      };
-      const before = canonical([work.observations, work.issues, work.pendingIssues]);
-      body.observations.forEach(validate);
-      body.issues.forEach(validate);
-      work.observations = unique([...work.observations, ...body.observations]);
-      for (const issue of body.issues) {
-        const observed = work.observations.filter((o) => o.checkId === issue.checkId && o.evidenceId === issue.evidenceId);
-        ensure4(issue.range ? !missingRanges(issue.range, observed.flatMap((o) => o.range ? [o.range] : [])).length : observed.length, "REVIEW_ISSUE_UNOBSERVED", "\u95EE\u9898\u843D\u70B9\u5FC5\u987B\u4F4D\u4E8E\u5B9E\u9645\u89C2\u5BDF\u8303\u56F4");
-      }
-      work.issues = unique([...work.issues, ...body.issues]);
-      for (const resolution of body.issueResolutions ?? []) {
-        const issue = work.pendingIssues?.find((i) => i.issueId === resolution.issueId);
-        ensure4(issue && !issue.resolution, "REVIEW_ISSUE_SCOPE", "\u5F85\u590D\u67E5\u95EE\u9898\u4E0D\u5C5E\u4E8E\u5F53\u524D\u5305\u6216\u5DF2\u7ECF\u5904\u7F6E");
-        const evidenceId = resolution.evidenceId ?? issue.currentEvidenceId, checkId = resolution.checkId ?? issue.checkId;
-        ensure4(evidenceId && work.observations.some((o) => o.checkId === checkId && o.evidenceId === evidenceId), "REVIEW_ISSUE_UNOBSERVED", "\u95EE\u9898\u5904\u7F6E\u987B\u5148\u67E5\u770B\u5F53\u524D\u5BF9\u5E94\u56FE\u7247\uFF1B\u65E7\u5E27\u5DF2\u5220\u9664\u65F6\u6307\u5B9A\u65B0\u8BC1\u636E\u7F16\u53F7");
-        issue.currentEvidenceId = evidenceId;
-        issue.resolution = resolution.resolution;
-        issue.resolutionNote = resolution.note;
-        if (resolution.resolution === "retained") work.issues = unique([...work.issues, { checkId, evidenceId: issue.currentEvidenceId, severity: issue.severity, problem: issue.problem }]);
-      }
-      if (before !== canonical([work.observations, work.issues, work.pendingIssues])) work.lastProgressAt = Date.now();
-      const remaining = remainingChecks(work), completed = body.status === "complete" && !remaining.length;
-      this.repo.db.prepare("UPDATE review_work SET data=?,state=? WHERE id=?").run(canonical(work), completed ? "completed" : "assigned", row.id);
-      const response = { accepted: true, status: completed ? "complete" : "partial", remaining, next: null };
-      this.updateMetrics(session.review_id, (metrics) => {
-        metrics.lastAcceptedSubmissionAt = Date.now();
-      });
-      this.saveSubmission(session, body, digest, response, true);
-      return response;
-    });
+    const body = submitReviewSchema.parse(input), result = this.repo.transaction(() => this.acceptSubmission(runId, body));
     this.notifyRun(runId);
     return result;
+  }
+  acceptSubmission(runId, body) {
+    const digest = sha256(canonical(body));
+    this.current(runId);
+    const session = this.assignment(runId, body.reviewId, body.assignmentToken);
+    const old = this.repo.db.prepare("SELECT response FROM review_submissions WHERE session_id=? AND assignment_token=? AND body_digest=?").get(session.id, body.assignmentToken, digest);
+    if (old) return JSON.parse(old.response);
+    const row = this.repo.db.prepare("SELECT * FROM review_work WHERE assignment_token=? AND session_id=?").get(body.assignmentToken, session.id);
+    if (!row || row.state !== "assigned" || row.review_id !== session.review_id || session.state !== "active" || this.review(body.reviewId, runId).state !== "active") {
+      const response2 = { accepted: false, code: "REVIEW_ASSIGNMENT_STALE", reason: "\u5206\u6D3E\u5DF2\u7ED3\u675F\u6216\u7248\u672C\u5DF2\u6539\u53D8\uFF0C\u4EC5\u4FDD\u5B58\u8FDF\u5230\u8BB0\u5F55", nextStep: "\u4E3B\u534F\u8C03\u8BFB\u53D6\u5F53\u524D\u8BA1\u5212\uFF0C\u6838\u5BF9\u771F\u5B9E\u8D1F\u8D23\u4EBA\u540E\u8C03\u7528 assign_review_work" };
+      this.saveSubmission(session, body, digest, response2, false);
+      return response2;
+    }
+    const work = JSON.parse(row.data);
+    const validate = (item) => {
+      const check = work.checks.find((c) => c.checkId === item.checkId), e = work.evidence.find((e2) => e2.evidenceId === item.evidenceId);
+      ensure4(check && e && check.evidenceIds.includes(e.evidenceId), "REVIEW_EVIDENCE_SCOPE", "\u89C2\u5BDF\u6216\u95EE\u9898\u5FC5\u987B\u5C5E\u4E8E\u5F53\u524D\u68C0\u67E5\u548C\u8BC1\u636E");
+      if (check.mode === "image") ensure4(!item.range && e.kind === "image", "REVIEW_MODE_INVALID", "\u9759\u5E27\u4F7F\u7528\u767B\u8BB0\u5E27\u53F7\uFF0C\u4E0D\u80FD\u5192\u5145\u8FDE\u7EED\u770B\u542C");
+      else ensure4(item.range && e.kind === "video" && item.range.fromFrame >= Math.max(check.range.fromFrame, e.fromFrame) && item.range.toFrame <= Math.min(check.range.toFrame, e.toFrame), "REVIEW_RANGE_INVALID", "\u8FDE\u7EED\u5A92\u4F53\u5FC5\u987B\u63D0\u4EA4\u5B9E\u9645\u89C2\u5BDF\u7684\u5168\u5C40\u534A\u5F00\u533A\u95F4");
+    };
+    const before = canonical([work.observations, work.issues, work.pendingIssues]);
+    body.observations.forEach(validate);
+    body.issues.forEach(validate);
+    work.observations = unique([...work.observations, ...body.observations]);
+    for (const issue of body.issues) {
+      const observed = work.observations.filter((o) => o.checkId === issue.checkId && o.evidenceId === issue.evidenceId);
+      ensure4(issue.range ? !missingRanges(issue.range, observed.flatMap((o) => o.range ? [o.range] : [])).length : observed.length, "REVIEW_ISSUE_UNOBSERVED", "\u95EE\u9898\u843D\u70B9\u5FC5\u987B\u4F4D\u4E8E\u5B9E\u9645\u89C2\u5BDF\u8303\u56F4");
+    }
+    work.issues = unique([...work.issues, ...body.issues]);
+    for (const resolution of body.issueResolutions ?? []) {
+      const issue = work.pendingIssues?.find((i) => i.issueId === resolution.issueId);
+      ensure4(issue && !issue.resolution, "REVIEW_ISSUE_SCOPE", "\u5F85\u590D\u67E5\u95EE\u9898\u4E0D\u5C5E\u4E8E\u5F53\u524D\u5305\u6216\u5DF2\u7ECF\u5904\u7F6E");
+      const evidenceId = resolution.evidenceId ?? issue.currentEvidenceId, checkId = resolution.checkId ?? issue.checkId;
+      ensure4(evidenceId && work.observations.some((o) => o.checkId === checkId && o.evidenceId === evidenceId), "REVIEW_ISSUE_UNOBSERVED", "\u95EE\u9898\u5904\u7F6E\u987B\u5148\u67E5\u770B\u5F53\u524D\u5BF9\u5E94\u56FE\u7247\uFF1B\u65E7\u5E27\u5DF2\u5220\u9664\u65F6\u6307\u5B9A\u65B0\u8BC1\u636E\u7F16\u53F7");
+      issue.currentEvidenceId = evidenceId;
+      issue.resolution = resolution.resolution;
+      issue.resolutionNote = resolution.note;
+      if (resolution.resolution === "retained") work.issues = unique([...work.issues, { checkId, evidenceId: issue.currentEvidenceId, severity: issue.severity, problem: issue.problem }]);
+    }
+    if (before !== canonical([work.observations, work.issues, work.pendingIssues])) work.lastProgressAt = Date.now();
+    const remaining = remainingChecks(work), completed = body.status === "complete" && !remaining.length;
+    this.repo.db.prepare("UPDATE review_work SET data=?,state=? WHERE id=?").run(canonical(work), completed ? "completed" : "assigned", row.id);
+    const response = { accepted: true, status: completed ? "complete" : "partial", remaining, next: null };
+    this.updateMetrics(session.review_id, (metrics) => {
+      metrics.lastAcceptedSubmissionAt = Date.now();
+    });
+    this.saveSubmission(session, body, digest, response, true);
+    return response;
   }
   saveSubmission(session, body, digest, response, accepted) {
     this.repo.db.prepare("INSERT INTO review_submissions(session_id,assignment_token,body_digest,body,response,accepted,created_at) VALUES(?,?,?,?,?,?,?)").run(session.id, body.assignmentToken, digest, canonical(body), canonical(response), Number(accepted), Date.now());
@@ -4291,9 +4346,9 @@ var ReviewService = class {
 
 // packages/production-service/src/tool-results.ts
 async function reviewResultSummary(root, result, details = false, afterDigest) {
-  const text4 = JSON.stringify(result, null, 2), directory = (0, import_node_path20.join)(root, "tool-results");
+  const text4 = JSON.stringify(result, null, 2), directory = (0, import_node_path21.join)(root, "tool-results");
   await import_node_fs19.promises.mkdir(directory, { recursive: true });
-  const detailsRef = (0, import_node_path20.join)(directory, `review-${sha256(text4)}.json`), temporary = (0, import_node_path20.join)(directory, `${(0, import_node_crypto8.randomUUID)()}.tmp`);
+  const detailsRef = (0, import_node_path21.join)(directory, `review-${sha256(text4)}.json`), temporary = (0, import_node_path21.join)(directory, `${(0, import_node_crypto8.randomUUID)()}.tmp`);
   try {
     await import_node_fs19.promises.writeFile(temporary, text4);
     await import_node_fs19.promises.rename(temporary, detailsRef);
@@ -4325,10 +4380,10 @@ async function reviewResultSummary(root, result, details = false, afterDigest) {
   };
 }
 async function speechBatchSummary(root, result, details = false) {
-  const text4 = JSON.stringify(result, null, 2), directory = (0, import_node_path20.join)(root, "tool-results");
+  const text4 = JSON.stringify(result, null, 2), directory = (0, import_node_path21.join)(root, "tool-results");
   await import_node_fs19.promises.mkdir(directory, { recursive: true });
-  const detailsRef = (0, import_node_path20.join)(directory, `speech-${sha256(text4)}.json`);
-  const temporary = (0, import_node_path20.join)(directory, `${(0, import_node_crypto8.randomUUID)()}.tmp`);
+  const detailsRef = (0, import_node_path21.join)(directory, `speech-${sha256(text4)}.json`);
+  const temporary = (0, import_node_path21.join)(directory, `${(0, import_node_crypto8.randomUUID)()}.tmp`);
   try {
     await import_node_fs19.promises.writeFile(temporary, text4);
     await import_node_fs19.promises.rename(temporary, detailsRef);
@@ -4421,7 +4476,7 @@ function reviewFramesInput(runId, body) {
 // apps/server/src/production/routes.ts
 async function createProductionServer(config, executor, overrides = {}) {
   const renderers = { renderTemplate, templateFrames, retryRenderSlices, ...overrides };
-  const repo = new ProductionRepository((0, import_node_path21.join)(config.dataRoot, "tasks.sqlite")), runner = new ProductionRunner(repo, config, executor), callbacks = new CallbackSender(repo, config.callbackBase, config.callbackSecret);
+  const repo = new ProductionRepository((0, import_node_path22.join)(config.dataRoot, "tasks.sqlite")), runner = new ProductionRunner(repo, config, executor), callbacks = new CallbackSender(repo, config.callbackBase, config.callbackSecret);
   const reviews = new ReviewService(repo, (run) => runner.runRoot(run));
   const speech = new DoubaoService(repo, config.dataRoot, config.voicesPath ?? "", process.env.DOUBAO_API_KEY ?? "", void 0, { concurrency: config.speechConcurrency ?? 20, perRunConcurrency: config.speechPerRunConcurrency ?? 5, signalFor: (id) => runner.active.get(id)?.signal });
   await speech.recover();
@@ -4443,7 +4498,7 @@ async function createProductionServer(config, executor, overrides = {}) {
     const webSubmit = request.method === "POST" && ["/narrate/ai_video_director/getAiVideoEditingAnalysisData", "/narrate/ai_video_director/getAiVideoEditingData"].includes(request.url) && config.webSubmitAddresses?.includes(request.ip.replace(/^::ffff:/, ""));
     if (!webSubmit && request.headers.authorization !== `Bearer ${config.apiToken}`) throw new ProductionError("UNAUTHORIZED", "\u9700\u8981\u6709\u6548\u670D\u52A1\u8EAB\u4EFD", 401);
   });
-  app.get("/healthz", async () => ({ status: "ready", releaseId: config.release.releaseId, pluginVersion: config.release.pluginVersion, skillsDigest: config.release.skillsDigest, configurationReady: Object.values(config.ready).every(Boolean), productionReady: Object.values(config.ready).every(Boolean) ? null : false, readinessScope: "configuration_only", dependencies: config.ready, capacity: { maxActiveRuns: config.maxActiveRuns ?? 4, renderConcurrency: config.renderConcurrency ?? 4, mediaGlobalConcurrency: config.mediaGlobalConcurrency ?? 16, mediaRunConcurrency: config.mediaRunConcurrency ?? 2, mediaProcessConcurrency: config.mediaProcessConcurrency ?? 4, speechConcurrency: config.speechConcurrency ?? 20, speechPerRunConcurrency: config.speechPerRunConcurrency ?? 5, activeRuns: runner.active.size }, optimization: { renderStrategy: config.renderStrategy ?? "scene-chunks", qaParallelReview: config.qaParallelReview ?? true, previewOnDemand: config.previewOnDemand ?? true }, capabilities: { localModels: false, networkSearch: config.searchEnabled, lexicalMechanisms: true, reviewProtocol: 4, runtimeWait: true, sentenceAssembly: true, timelineContract: "sentence-timeline/1", derivedRenderRanges: true, directDelivery: true, reviewStorage: "sqlite", reviewIdentity: "coordinator_reported", reviewOrchestration: "codex_native", reviewFramePreparation: true, reviewSummary: true } }));
+  app.get("/healthz", async () => ({ status: "ready", releaseId: config.release.releaseId, pluginVersion: config.release.pluginVersion, skillsDigest: config.release.skillsDigest, configurationReady: Object.values(config.ready).every(Boolean), productionReady: Object.values(config.ready).every(Boolean) ? null : false, readinessScope: "configuration_only", dependencies: config.ready, capacity: { maxActiveRuns: config.maxActiveRuns ?? 4, renderConcurrency: config.renderConcurrency ?? 4, mediaGlobalConcurrency: config.mediaGlobalConcurrency ?? 16, mediaRunConcurrency: config.mediaRunConcurrency ?? 2, mediaProcessConcurrency: config.mediaProcessConcurrency ?? 4, speechConcurrency: config.speechConcurrency ?? 20, speechPerRunConcurrency: config.speechPerRunConcurrency ?? 5, activeRuns: runner.active.size }, optimization: { renderStrategy: config.renderStrategy ?? "scene-chunks", qaParallelReview: config.qaParallelReview ?? true, previewOnDemand: config.previewOnDemand ?? true }, capabilities: { localModels: false, networkSearch: config.searchEnabled, lexicalMechanisms: true, reviewProtocol: 5, runtimeWait: true, sentenceAssembly: true, timelineContract: "sentence-timeline/1", derivedRenderRanges: true, directDelivery: true, reviewStorage: "sqlite", reviewIdentity: "coordinator_reported", reviewOrchestration: "codex_native", reviewFramePreparation: true, reviewSummary: true, reviewReportFiles: true, templateTimelineValidation: true } }));
   const accept = (stage) => async (request, reply) => {
     if (runner.stopping) throw new ProductionError("STOPPING", "\u670D\u52A1\u6B63\u5728\u505C\u6B62\u53D7\u7406", 503);
     const input = stage === "analysis" ? normalizeWebAnalysis(request.body) : normalizeWebRender(request.body, repo.list(config.accountId, request.body?.taskId ?? ""));
@@ -4467,7 +4522,7 @@ async function createProductionServer(config, executor, overrides = {}) {
     if (!import_zod10.z.string().uuid().safeParse(task).success || !import_zod10.z.string().uuid().safeParse(run).success || !/^\d+\.mp4$/.test(file)) throw new ProductionError("MEDIA_NOT_FOUND", "\u5A92\u4F53\u4E0D\u5B58\u5728", 404);
     const record = repo.get(run);
     if (record.taskKey !== task || record.state !== "succeeded") throw new ProductionError("MEDIA_NOT_FOUND", "\u5A92\u4F53\u5C1A\u672A\u53D1\u5E03", 404);
-    const path = (0, import_node_path21.join)(config.dataRoot, "tasks", task, "results", run, file), stat = await import_node_fs20.promises.stat(path);
+    const path = (0, import_node_path22.join)(config.dataRoot, "tasks", task, "results", run, file), stat = await import_node_fs20.promises.stat(path);
     let start = 0, end = stat.size - 1;
     reply.header("Content-Type", "video/mp4").header("Accept-Ranges", "bytes");
     if (request.headers.range) {
@@ -4489,7 +4544,7 @@ async function createProductionServer(config, executor, overrides = {}) {
   let toolQueue = Promise.resolve();
   runner.mediaRuntime = { events, read: async (run, id) => {
     renderRequestIdSchema.parse(id);
-    const job = await json(await regular(runner.runRoot(run), (0, import_node_path21.join)("render-jobs", `${id}.json`)));
+    const job = await json(await regular(runner.runRoot(run), (0, import_node_path22.join)("render-jobs", `${id}.json`)));
     if (job.id !== id || job.runId !== run.runId || job.kind !== "template-render" || job.input.previewOnly) throw new ProductionError("WAIT_JOB_INVALID", "\u53EA\u5141\u8BB8\u7B49\u5F85\u5F53\u524D Run \u5DF2\u53D7\u7406\u7684\u539F\u6B63\u5F0F\u5BFC\u51FA");
     if (job.inputDigest !== sha256(canonical({ kind: job.kind, input: job.input }))) throw new ProductionError("WAIT_JOB_CHANGED", "\u539F\u5A92\u4F53\u4F5C\u4E1A\u8EAB\u4EFD\u6458\u8981\u4E0D\u7B26");
     return { ...job, attempt: job.attempt ?? 1, ...job.state === "running" && rendering.current(run.runId) !== id ? { state: "unknown", error: "\u65E0\u6CD5\u786E\u8BA4\u539F\u5A92\u4F53\u6267\u884C\u72B6\u6001\uFF0C\u8BF7\u6838\u67E5\u539F\u4F5C\u4E1A" } : {} };
@@ -4662,10 +4717,7 @@ async function createProductionServer(config, executor, overrides = {}) {
       return result;
     }
     if (name === "assign_review_work") return reviews.assign(run.runId, body);
-    if (name === "submit_review") {
-      await reviews.verifySubmissionEvidence(run.runId, body);
-      return reviews.submit(run.runId, body);
-    }
+    if (name === "submit_review") return reviews.submitReports(run.runId, body);
     if (name === "read_review") {
       const input = readReviewSchema.parse(body), result = await waitConnected((signal) => reviews.readWait(run.runId, input, signal));
       return reviewResultSummary(runner.runRoot(run), result, input.details, input.afterDigest);
@@ -4687,7 +4739,7 @@ async function createProductionServer(config, executor, overrides = {}) {
       runnable(run.runId);
       return speech.retryValidation(body.speechJobId, run.runId, run.accountId);
     }
-    if (name === "read_production_task") return { ...productionTaskSummary(run), activeRender: rendering.current(run.runId), activeReviewId: repo.db.prepare("SELECT id FROM reviews WHERE run_id=? AND state='active'").get(run.runId)?.id ?? null, metricsPath: (0, import_node_path21.join)(runner.runRoot(run), "metrics", "media.jsonl"), optimization: { qaParallelReview: config.qaParallelReview ?? true, qaMaxReviewers: config.qaMaxReviewers ?? 3, previewOnDemand: config.previewOnDemand ?? true, sceneCutMode: config.sceneCutMode ?? "accurate", renderStrategy: config.renderStrategy ?? "scene-chunks", mediaGlobalConcurrency: config.mediaGlobalConcurrency ?? 16, mediaRunConcurrency: config.mediaRunConcurrency ?? 2, mediaProcessConcurrency: config.mediaProcessConcurrency ?? 4, mediaTiming: config.mediaTiming ?? true } };
+    if (name === "read_production_task") return { ...productionTaskSummary(run), activeRender: rendering.current(run.runId), activeReviewId: repo.db.prepare("SELECT id FROM reviews WHERE run_id=? AND state='active'").get(run.runId)?.id ?? null, metricsPath: (0, import_node_path22.join)(runner.runRoot(run), "metrics", "media.jsonl"), optimization: { qaParallelReview: config.qaParallelReview ?? true, qaMaxReviewers: config.qaMaxReviewers ?? 3, previewOnDemand: config.previewOnDemand ?? true, sceneCutMode: config.sceneCutMode ?? "accurate", renderStrategy: config.renderStrategy ?? "scene-chunks", mediaGlobalConcurrency: config.mediaGlobalConcurrency ?? 16, mediaRunConcurrency: config.mediaRunConcurrency ?? 2, mediaProcessConcurrency: config.mediaProcessConcurrency ?? 4, mediaTiming: config.mediaTiming ?? true } };
     if (name === "assemble_sentence_audio") {
       const current = runnable(run.runId);
       return rendering.start(run.runId, "sentence-audio-assembly", () => {
@@ -4709,7 +4761,7 @@ async function createProductionServer(config, executor, overrides = {}) {
       const kind = name === "render_template" ? "template-render" : "frame-preview";
       const input = name === "render_template" ? renderToolSchema.parse({ ...body, runId: run.runId }) : name === "prepare_review_frames" ? reviewFramesInput(run.runId, body) : previewFramesSchema.parse({ ...body, runId: run.runId });
       if (run.stage !== "render") throw new ProductionError("RENDER_STAGE_FORBIDDEN", "Analysis \u4E0D\u5141\u8BB8\u6E32\u67D3");
-      const path = (0, import_node_path21.join)(runner.runRoot(run), "render-jobs", `${input.renderRequestId}.json`), digest = sha256(canonical({ kind, input }));
+      const path = (0, import_node_path22.join)(runner.runRoot(run), "render-jobs", `${input.renderRequestId}.json`), digest = sha256(canonical({ kind, input }));
       const old = await json(path).catch((e) => {
         if (e.code === "ENOENT") return null;
         throw e;
@@ -4724,7 +4776,7 @@ async function createProductionServer(config, executor, overrides = {}) {
     });
     if (name === "retry_review_preparation") return serial(async () => {
       const { renderRequestId } = import_zod10.z.object({ renderRequestId: renderRequestIdSchema }).strict().parse(body);
-      const current = runnable(run.runId), path = (0, import_node_path21.join)(runner.runRoot(run), "render-jobs", `${renderRequestId}.json`), job = await json(path);
+      const current = runnable(run.runId), path = (0, import_node_path22.join)(runner.runRoot(run), "render-jobs", `${renderRequestId}.json`), job = await json(path);
       if (job.runId !== run.runId || job.kind !== "frame-preview" || !("reviewPlan" in job.input) || job.inputDigest !== sha256(canonical({ kind: job.kind, input: job.input }))) throw new ProductionError("REVIEW_JOB_INVALID", "\u539F\u6750\u6599\u4F5C\u4E1A\u8EAB\u4EFD\u4E0D\u7B26", 409);
       if (rendering.has(run.runId, job.id) || job.reviewPreparation?.state === "succeeded") return mediaJobSummary(observedJob(run.runId, job), path);
       if (job.state !== "succeeded" || job.reviewPreparation?.state === "cancelled") throw new ProductionError("REVIEW_RETRY_FORBIDDEN", "\u4EC5\u6210\u529F\u5A92\u4F53\u53EF\u6062\u590D\u539F\u6750\u6599\u767B\u8BB0\uFF1B\u4E0D\u7EED\u7ED8\u5931\u8D25\u3001\u672A\u77E5\u6216\u53D6\u6D88\u5A92\u4F53", 409);
@@ -4743,7 +4795,7 @@ async function createProductionServer(config, executor, overrides = {}) {
     });
     if (name === "retry_render_slices") return serial(async () => {
       const { renderRequestId } = import_zod10.z.object({ renderRequestId: renderRequestIdSchema }).strict().parse(body);
-      const current = runnable(run.runId), path = (0, import_node_path21.join)(runner.runRoot(run), "render-jobs", `${renderRequestId}.json`), job = await json(path);
+      const current = runnable(run.runId), path = (0, import_node_path22.join)(runner.runRoot(run), "render-jobs", `${renderRequestId}.json`), job = await json(path);
       if (job.runId !== run.runId || job.kind !== "template-render" || !job.input || !("previewOnly" in job.input) || job.input.previewOnly && job.renderStrategy !== "scene-chunks") throw new ProductionError("SLICE_RETRY_FORBIDDEN", "\u4EC5\u672CRun\u539F\u6B63\u5F0F\u5BFC\u51FA\u53EF\u4EE5\u7EED\u5207", 409);
       if (job.inputDigest !== sha256(canonical({ kind: job.kind, input: job.input }))) throw new ProductionError("RENDER_KEY_CONFLICT", "\u539F\u4F5C\u4E1A\u8F93\u5165\u6458\u8981\u4E0D\u7B26", 409);
       if (job.state === "succeeded") return mediaJobSummary(job, path);
@@ -4753,7 +4805,7 @@ async function createProductionServer(config, executor, overrides = {}) {
     });
     if (name === "read_render_job") {
       const input = import_zod10.z.object({ renderRequestId: renderRequestIdSchema, waitMs: import_zod10.z.number().int().min(0).max(6e4).default(0), afterDigest: import_zod10.z.string().optional(), details: import_zod10.z.boolean().default(false) }).strict().parse(body);
-      const path = (0, import_node_path21.join)(runner.runRoot(run), "render-jobs", `${input.renderRequestId}.json`), deadline = Date.now() + input.waitMs;
+      const path = (0, import_node_path22.join)(runner.runRoot(run), "render-jobs", `${input.renderRequestId}.json`), deadline = Date.now() + input.waitMs;
       await toolQueue;
       while (true) {
         const controller = new AbortController();
@@ -4785,7 +4837,7 @@ async function createProductionServer(config, executor, overrides = {}) {
 async function main() {
   const config = readProductionConfig();
   await import_node_fs21.promises.mkdir(config.dataRoot, { recursive: true });
-  const lock = (0, import_node_path22.join)(config.dataRoot, "runtime.lock");
+  const lock = (0, import_node_path23.join)(config.dataRoot, "runtime.lock");
   const handle = await import_node_fs21.promises.open(lock, "wx");
   await handle.writeFile(JSON.stringify({ pid: process.pid, startedAt: Date.now(), releaseId: config.release.releaseId }));
   let service, stop = false;

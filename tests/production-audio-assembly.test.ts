@@ -116,11 +116,36 @@ test('无口播插入后按明确时长推进下一镜，口播及模板片头�
  const f=await fixture();try{
   const v={id:'v',content:'',directing:{kind:'visual',speechTurns:[],visualDirections:['展示企业概况'],durationSec:2}};
   f.run.request.dataList.unshift(v);f.timeline.scenes[0].from=30;
-  f.timeline.scenes.unshift({id:'v',from:0,frames:30,contentFrames:30,utterances:[],captions:[],visualBlocks:[]});f.timeline.chapters=[];f.timeline.totalFrames=47;f.timeline.ending.narrationEndFrame=45;
+  f.timeline.scenes.unshift({id:'v',from:0,frames:30,utterances:[],captions:[],visualBlocks:[]});f.timeline.chapters=[];f.timeline.totalFrames=47;f.timeline.ending.narrationEndFrame=45;
   await writeJson(f.timelinePath,f.timeline);const plan=await json(f.planPath);plan.scenes.unshift({sceneId:'v',utterances:[]});await writeJson(f.planPath,plan);f.input.expectedTimelineSha256=sha256(await fs.readFile(f.timelinePath));
   await assembleSentenceAudio(f.run,f.root,f.input,f.speech);const out=await json(f.timelinePath);
-  assert.equal(out.scenes[0].frames,60);assert.equal(out.scenes[0].contentFrames,60);assert.equal(out.scenes[1].from,60);assert.equal(out.totalFrames,77);
+  assert.equal(out.scenes[0].frames,60);assert.equal(out.scenes[1].from,60);assert.equal(out.totalFrames,77);
   assert.equal(out.scenes[1].utterances[0].startFrame,4);assert.deepEqual(out.scenes[1].intro,f.timeline.scenes[1].intro);
+ }finally{await f.close();}
+});
+
+test('真实配音改变时长后先执行模板校验；显式动作越界不写入，修正后沿原配音继续',async()=>{
+ const f=await fixture();try{
+  const manifestPath=join(f.project,'renderer/renderer-manifest.json');
+  await writeJson(manifestPath,{...await json(manifestPath),timelineValidator:'validate.ts'});
+  await fs.writeFile(join(f.project,'renderer/validate.ts'),`export function validateTimeline(t:any){
+    const scene=t.scenes[0],end=scene.visualBlocks[0].endFrameExclusive??scene.frames;
+    if(end>scene.frames)throw new Error('图解结束时间超过实际分镜');
+    if(t.chapters[0].endFrameExclusive!==scene.frames)throw new Error('章节没有接回真实时长');
+  }`);
+  f.timeline.scenes[0].visualBlocks[0].endFrameExclusive=15;
+  await writeJson(f.timelinePath,f.timeline);f.input.expectedTimelineSha256=sha256(await fs.readFile(f.timelinePath));
+  f.speech.measurement=async(id:string)=>({measurement:measure(id==='job0'?1600:4800,f.jobs.find(j=>j.id===id).sha256),reused:true});
+  await assert.rejects(assembleSentenceAudio(f.run,f.root,f.input,f.speech),(error:any)=>error.code==='TEMPLATE_TIMELINE_INVALID'&&error.message.includes('图解结束时间'));
+  assert.equal(sha256(await fs.readFile(f.timelinePath)),f.input.expectedTimelineSha256);
+  assert.equal(await fs.stat(join(f.pub,'speech')).catch(()=>null),null);
+  assert.equal(await fs.stat(join(f.root,'audio-assemblies/a1.json')).catch(()=>null),null);
+  delete f.timeline.scenes[0].visualBlocks[0].endFrameExclusive;
+  await writeJson(f.timelinePath,f.timeline);f.input.expectedTimelineSha256=sha256(await fs.readFile(f.timelinePath));
+  const result=await assembleSentenceAudio(f.run,f.root,f.input,f.speech),out=await json(f.timelinePath);
+  assert.equal(out.scenes[0].frames,13);assert.equal(out.chapters[0].endFrameExclusive,13);assert.equal(out.totalFrames,15);
+  assert.equal(out.scenes[0].visualBlocks[0].endFrameExclusive,undefined);assert.equal(out.scenes[0].visualBlocks[0].from,6);
+  assert.deepEqual(result.timingChangedSceneIds,['s']);
  }finally{await f.close();}
 });
 

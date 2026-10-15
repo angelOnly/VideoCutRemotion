@@ -1,5 +1,5 @@
 """将已授权财经模板整理成服务合同包；不改共享原件，不生成本期作品。"""
-import argparse, json, shutil, zipfile, hashlib, subprocess, runpy
+import argparse, json, shutil, zipfile, hashlib, subprocess, runpy, re
 from pathlib import Path
 
 p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--output',required=True);a=p.parse_args()
@@ -16,6 +16,9 @@ shutil.copytree(source/'assets',public/'template-assets'/'assets')
 for name in ['动效组件与内容适配说明.md']:
     text=(source/name).read_text(encoding='utf-8')
     text=text.replace('由共享工具顺序追加','由完整 Composition 播放').replace('由 stage_media 追加','由完整 Composition 播放')
+    text=re.sub(r'(?<!template-assets/)assets/', 'template-assets/assets/', text)
+    text=text.replace('共同字段：`id/kind/startFrame/endFrameExclusive/slot/props`。', '共同字段：`id/kind/startFrame/slot/props`；`endFrameExclusive` 可省略，表示持续到所属镜头或章节的实际末尾；显式止帧及语义动作点保持原帧数，不按配音新时长等比例缩放。')
+    text=re.sub(r'^`contentFrames`.*$', '声音窗口直接取当前分镜实际范围；片尾独立播放，不保留第二份声音截止帧。音效未填写 `durationFrames` 时按素材实际时长检查；需要裁切时明确填写时长。配音、字幕和音效不得越过实际分镜或片尾起点。', text, flags=re.M)
     (output/name).write_text(text,encoding='utf-8')
 shutil.copyfile(Path(__file__).parent/'finance-template-patches'/'创作说明.md',output/'创作说明.md')
 shutil.copyfile(Path(__file__).parent/'finance-template-patches'/'文字分析合同.md',output/'文字分析合同.md')
@@ -27,7 +30,7 @@ manifest['speakerBindings']={
     '室长':{'speaker':'male-chief','voiceRef':'finance.male'},
 }
 manifest['captionTimingPolicy']='authored'
-manifest.update(templateVersion='2.0.7',timelineDataRef='timeline.json',timelineContract='sentence-timeline/1',analysisInstructions=['../文字分析合同.md'],instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
+manifest.update(templateVersion='2.0.8',timelineDataRef='timeline.json',timelineContract='sentence-timeline/1',timelineValidator='src/validateTimeline.ts',analysisInstructions=['../文字分析合同.md'],instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
 (output/'renderer/renderer-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 file=output/'renderer/src/FinancialDialogue.tsx';s=file.read_text(encoding='utf-8').replace('AbsoluteFill, Audio,','AbsoluteFill, Audio, OffthreadVideo,')
 start=s.index('export const FinanceEpisode:')

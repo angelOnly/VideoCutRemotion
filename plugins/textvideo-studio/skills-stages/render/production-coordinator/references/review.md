@@ -14,7 +14,11 @@ prepare_review 输入 renderRequestIds、phase（pre_export 或 post_export）�
 
 主协调先通过宿主真实创建或续接审片代理，再调用 assign_review_work({reviewId,unitId,reviewerAgentId,assignmentRequestId}) 登记对应单元。reviewerAgentId 必须来自真实代理返回；服务仅记录 coordinator_reported 来源，不把该字段当作经认证的代理身份。assignmentRequestId 稳定重试，不同输入换新请求；assignmentToken 是分派版本标识，不是访问凭据。
 
-主协调将返回的检查包交给该代理，说明只读范围。审片者实际查看证据后回传 checkId、evidenceId、note、实际观察范围、问题和未知。原生代理只回传给主协调，不直接修改项目或冒用主任务提交权限。主协调通过 submit_review({reviewId,assignmentToken,observations,issues,status}) 保存实际回传；status 为 partial 或 complete。静帧不填连续 range；连续观察填实际看听的全局半开 range。issues 包含 checkId、evidenceId、severity、problem，必要时加范围；没有问题用空数组。完成覆盖不代表作品通过，也不会自动分配下一包。
+主协调将返回的检查包和独立报告路径交给该代理。审片者实际查看证据后，把完整机器可读结果写入当前 Run 的 records/review-results/ 下自己的 JSON 文件；只写报告，不修改作品源码、媒体或生产对象，也不调用正式写入工具。回传报告路径及必要的问题摘要，主协调不重新抄写观察、编号或拼接多个作者的 JSON。
+
+主协调通过 submit_review({reportRefs:["records/review-results/作者A.json","records/review-results/作者B.json"]}) 一次接收同轮报告。每份文件结构为 {reviewId,results:[{assignmentToken,observations,issues,issueResolutions?,status}]}，results 可包含该作者实际承担的多个分派单元；多个报告必须属于同一个 reviewId。完整字段与工具 reportRefs 的同源 JSON Schema 一致，分派令牌及证据编号沿原检查包使用。observations 包含 checkId、evidenceId、note 和实际观察范围；静帧不填连续 range，连续观察填实际看听的全局半开 range。issues 包含 checkId、evidenceId、severity、problem，必要时加范围；没有问题用空数组。status 为 partial 或 complete，未看范围保留未知，不能为凑 complete 扩大实际观察。
+
+程序读回报告并沿原分派核验证据，在同一事务保存全部结果；任一文件格式、归属或证据范围错误时整批不提交，修正后沿原文件与分派重试。返回 results 逐项说明 accepted、status、remaining 或迟到原因，主协调接回异常并据此继续。已接收的同内容重试恢复原响应，partial 继续累积，过期分派只保存迟到历史。检查覆盖完成不代表作品通过，也不自动分配下一包。
 
 及时保存 partial，保留真实已看范围。read_review 首次立即读取，之后携带 afterDigest=statusDigest 和 waitMs 等待变化；timedOut 只表示暂无变化。等待过长时主协调核对原生代理状态与最后实际进度，再决定续接或接替，不能由 Worker 启动另一条审片线程。接替先读当前包，调用 assign_review_work 时传 previousAssignmentToken、真实 reason 和新请求编号；新负责人继续剩余范围。旧结果迟到只留历史，不覆盖新分派；相同提交重试恢复原响应。不要把打开播放器或文件存在当成实际看完。
 

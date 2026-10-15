@@ -6,6 +6,7 @@ import {zodToJsonSchema} from 'zod-to-json-schema';
 import {canonical,sha256,ProductionError,type Run,type RenderRequest} from './contracts.js';
 import {inside,regular,json,writeJson,type PcmMeasurement} from './files.js';
 import {validateTemplate} from './template-package.js';
+import {validateTemplateTimeline} from './template-timeline-validation.js';
 import {validateProductionTimeline,reviewChaptersFromTimeline,SENTENCE_TIMELINE_CONTRACT} from './production-timeline.js';
 import type {DoubaoService} from '../../speech-services/src/doubao.js';
 const key=z.string().regex(/^[A-Za-z0-9_-]{1,100}$/),frames=z.number().int().nonnegative();
@@ -74,7 +75,7 @@ export async function assembleSentenceAudio(run:Run,runRoot:string,raw:unknown,s
     if(isVisualScene(expected[index])){
       ensure(!selected.length&&!ordered.length&&!decision.captionTiming&&!decision.captions?.length&&!decision.tailFrames,`${scene.id} 无口播画面不能带配音、字幕对齐或额外尾帧`);
       const visualFrames=visualSceneFrames(expected[index],manifest.fps);
-      Object.assign(scene,{from:cursor,frames:visualFrames,...(scene.contentFrames!==undefined?{contentFrames:visualFrames}:{}),directing:expected[index].directing,utterances:[],captions:[]});delete scene.captionTiming;cursor+=scene.frames;continue;
+      Object.assign(scene,{from:cursor,frames:visualFrames,directing:expected[index].directing,utterances:[],captions:[]});delete scene.captionTiming;cursor+=scene.frames;continue;
     }
     ensure(ordered.length===selected.length&&ordered.length>0,`${scene.id} 句段数量缺失或多余`);
     const bindings=speechBindings(expected[index],ordered.map(choice=>{const j=selected.find(j=>j.request.segmentId===choice.id);ensure(j,`${scene.id} 缺少句段 ${choice.id}`);return {id:choice.id,text:j.request.text,voiceRef:j.request.voiceRef};}),false,manifest);
@@ -117,6 +118,7 @@ export async function assembleSentenceAudio(run:Run,runRoot:string,raw:unknown,s
     ensure(chapterCursor===timeline.scenes.length,'章节分组未完整覆盖场景');
   }else ensure(!plan.chapters?.length,'计划不能凭空创建章节设计，请先由作者建立章节');
   validateProductionTimeline(timeline,expected,manifest.fps,manifest);
+  await validateTemplateTimeline(project,timeline,manifest);
   for(const copy of copies){cancelled(signal);await fs.mkdir(dirname(copy.target),{recursive:true});inside(await fs.realpath(publicRoot),await fs.realpath(dirname(copy.target)));try{await fs.writeFile(copy.target,copy.bytes,{flag:'wx'});copied++;}catch(e:any){if(e.code!=='EEXIST')throw e;await regular(publicRoot,copy.target);ensure(sha256(await fs.readFile(copy.target))===copy.hash,'目标音频已有不同字节，拒绝覆盖');reused++;}}
   const refs:string[]=[];const visit=(v:any)=>{if(!v||typeof v!=='object')return;for(const [k,item]of Object.entries(v)){if(k==='src'&&typeof item==='string')refs.push(item);else visit(item);}};visit(timeline);for(const ref of new Set(refs))await regular(publicRoot,ref);
   if(signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','装配提交前已取消');
