@@ -1,0 +1,87 @@
+{
+  "reviewId": "a2eb1a8b-b155-4463-9b79-367393faaf20",
+  "results": [
+    {
+      "assignmentToken": "40b8a4c3-8a31-4dc2-80b6-b4e710625047",
+      "observations": [
+        {
+          "checkId": "data-relations",
+          "evidenceId": "ev-cd58f7dea3b37a46f108112d",
+          "note": "提问状态仍为扣非净利润同比+48%，尚无分支，问题身份独立明确。 仅为本帧实际观察，连续声画未知。"
+        },
+        {
+          "checkId": "data-relations",
+          "evidenceId": "ev-e1426218c8168ee45db71c6e",
+          "note": "中途新文字利润总额/同比增量与较暗旧扣非净利润/+48%交叉淡化重叠，新字可辨，尚未出现分叉；此帧重影见可选建议，不能凭静帧判断持续时长。 仅为本帧实际观察，连续声画未知。"
+        },
+        {
+          "checkId": "data-relations",
+          "evidenceId": "ev-186ad441f117e605787182c0",
+          "note": "主圆节点已完全切换为利润总额同比增量、来源拆解，旧48%已消失，分叉尚未建立；新文字在圆内无裁切。 仅为本帧实际观察，连续声画未知。"
+        },
+        {
+          "checkId": "data-relations",
+          "evidenceId": "ev-656b4abbf8ddb3bc9f55441f",
+          "note": "分叉从利润总额同比增量节点指向股份支付费用减少四成多，与当前稿分母一致，约七成限定可见。 仅为本帧实际观察，连续声画未知。"
+        },
+        {
+          "checkId": "data-relations",
+          "evidenceId": "ev-516e4a79cee636c96d488b27",
+          "note": "两条分叉均明确来自利润总额同比增量，四成多/三成多保留约数，非现金支出、不代表经营改善和研发费用率11.3%→10.1%均清楚；旧口径问题已解决。 仅为本帧实际观察，连续声画未知。"
+        },
+        {
+          "checkId": "data-relations",
+          "evidenceId": "ev-c0b09281626328e1cd61daf2",
+          "note": "同一正确分母与两条分叉持续可见，新增节点文字无遮挡，营业利润率提升2.5个百分点提问仍清楚。 仅为本帧实际观察，连续声画未知。"
+        },
+        {
+          "checkId": "data-relations",
+          "evidenceId": "ev-d27320e5c65cc006c76ff424",
+          "note": "现金流3728.6万元与归母净利润1667.8万元共零基线同比例，净现比2.2倍下方仅保留约字，原稿二字已去除；约字可读无遮挡。 仅为本帧实际观察，连续声画未知。"
+        },
+        {
+          "checkId": "data-relations",
+          "evidenceId": "ev-5264af053ea9aeb88696345a",
+          "note": "净现比2.2倍及约字均可读，制作措辞已消失；金额、同期同尺度、零基线保持准确。 仅为本帧实际观察，连续声画未知。"
+        },
+        {
+          "checkId": "data-relations",
+          "evidenceId": "ev-0f9d7023669d72c1c8faa778",
+          "note": "约字继续可见，1元利润→两块多现金与当前稿一致，未改变数值或比较分母。 仅为本帧实际观察，连续声画未知。"
+        }
+      ],
+      "issues": [
+        {
+          "checkId": "data-relations",
+          "evidenceId": "ev-e1426218c8168ee45db71c6e",
+          "severity": "suggestion",
+          "problem": "1243帧口径切换时新旧文字在同位置交叉淡化，能看到较暗的48%和扣非净利润残影。可选改为先退旧字再进新字，以使身份切换更干净；1260已清楚完成切换且1450才见分叉，因此此静帧未显示持续阅读障碍，不影响已解决的分母警告。"
+        }
+      ],
+      "issueResolutions": [
+        {
+          "issueId": "3b332e8c72e326c8876a350f2b995da75c43b1fb97d6ed07f483c6d56dd0342e",
+          "checkId": "data-relations",
+          "evidenceId": "ev-516e4a79cee636c96d488b27",
+          "resolution": "resolved",
+          "note": "1450/1820/2010实际分叉主节点已改为利润总额同比增量，1260在分叉出现前已无旧48%字样，分母与确认稿一致。"
+        },
+        {
+          "issueId": "1d5476565be8e571b0372ea763daded56766bbae1777e4a9049acf6ff6964edf",
+          "checkId": "data-relations",
+          "evidenceId": "ev-5264af053ea9aeb88696345a",
+          "resolution": "resolved",
+          "note": "3530/3580/3740实际画面均已去除原稿二字、保留约字，数值仍为2.2倍且布局可读。"
+        },
+        {
+          "issueId": "349d1a92cbcc37243510e86f75412bbe93dd8f3a2d2ff68ebddce49629b71be3",
+          "checkId": "data-relations",
+          "evidenceId": "ev-5264af053ea9aeb88696345a",
+          "resolution": "resolved",
+          "note": "3530/3580/3740实际画面均已去除原稿二字、保留约字，数值仍为2.2倍且布局可读。"
+        }
+      ],
+      "status": "complete"
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "reviewId": "7fb7801c-8ed7-440a-bd53-3d3010bd65a3",
+  "results": [
+    {
+      "assignmentToken": "f4f2cb5a-00d0-4b6d-8ecd-3bce7ef62bf7",
+      "observations": [
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-ec318ef80fa4bff74a6b1ac2",
+          "note": "静帧 10：两行增速与右侧比较括号已建立，字幕和主图分区清楚。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-61efab1220c933fcdcdc982b",
+          "note": "静帧 120：两行数值稳定可读，尚未出现右侧追问。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-1d08fa763112060257245918",
+          "note": "静帧 190：原数值保留，右侧问号及利润从哪来进入独立空区。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-66f81ee0b3670fa080c6df7c",
+          "note": "静帧 240：栏目双人片头占全画幅，栏目与公司名称可辨。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-ee9b2eaad2561eb6f3fbff70",
+          "note": "静帧 320：回到原增速对照及问号，包装身份保持；切口速度未知。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-2d479c4a48eccbd6bff693a5",
+          "note": "静帧 580：公司圆形主体连接两条检测分支，标签无碰撞。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-31de86bfa714d3f543910eec",
+          "note": "静帧 760：自免分支增加进口主导和规模生产限定，主对象保持，无遮挡。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-a234f1cae79b16235a4b377a",
+          "note": "静帧 890：公司结构整体缩小到左侧，右侧营收2亿及3.2%建立，两组有分隔。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-a814407b1feffadcdd274f6a",
+          "note": "静帧 908：缩小中途公司及分支仍可辨，右侧数字不被遮挡。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-69aaee44284d5dc543ff2702",
+          "note": "静帧 930：公司结构让位完成，原对象身份与连线保持。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-edd9a1c5bf423c9004584c8e",
+          "note": "静帧 1020：右侧增速下新增行业承压判断，未侵入字幕。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-4fb8b970598304d72dfe1abb",
+          "note": "静帧 1450：利润节点及股份支付支路清楚，利润总额增量口径在支路上方。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-a3f79ed65be13af86f8772e8",
+          "note": "静帧 1580：研发支路加入而股份支付参照保留，分支无碰撞。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-ac1180e7f7f11754b77d3a35",
+          "note": "静帧 1820：研发费用率支路从研发节点引出，11.3%至10.1%可读，非现金限定保留。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-17811c236d764870c1f297da",
+          "note": "静帧 2200：成本7764.8万元先建立，主图保留大量空间供后续关系展开。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-a58b3f0864ea8bfc26642a06",
+          "note": "静帧 2590：成本连到毛利率变化，下方销售费用建立，上下不争空间。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-de1f06746659a1b236dd016d",
+          "note": "静帧 2850：三项费用并排齐备，与上方毛利率分区；本帧普通字幕为空，不能据此推断缺音。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-6f82dcf9d227a6a2d2004d9b",
+          "note": "静帧 2960：三项费用由下方线路汇合至营业利润率，线路绕过数字与字幕，结果清楚。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-f335958de0da1488bf2695f9",
+          "note": "静帧 3370：现金流首条从零基线建立，同期同尺度限定可辨。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-543880fddd1c9cb9e94aaf2f",
+          "note": "静帧 3530：归母净利润第二条建立，右侧净现比接管空区；原稿约数字样属制作口径。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-89966c51d9042784f0fb4d32",
+          "note": "静帧 3580：两条同基线保持，净现比完整，数值标签无碰撞。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-1722437c2ff41de4b5487320",
+          "note": "静帧 3740：保留对照条，底部新增一元利润到两块多现金解释，没有侵入字幕。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-a2db587c96f8495143c220ff",
+          "note": "静帧 4180：两项增长同零轴建立，长度关系与标签清楚。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-c7f098b01e173d23093d9d8c",
+          "note": "静帧 4310：政策区域注释放在第二条下，虚线连接未穿文字，原两条保持。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-50056ac8246a3f5646898ee0",
+          "note": "静帧 4440：国内诊断在零轴左侧短线及红色负值加入，三项比较完整。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-b9c0d51835a3ed11dae3ac46",
+          "note": "静帧 4540：三项与政策限定保持，文字和字幕无关键遮挡。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-01d2924d7d987961e355dec1",
+          "note": "静帧 4974：三栏框架保持，应收与研发本期去年可比较；研发焦点线在中途。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-0e845ad3e01d484c60bc1d6c",
+          "note": "静帧 4990：研发焦点线落定，先前应收仍在位，第三栏待建立。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-551a6af9f17bb42e28b04909",
+          "note": "静帧 5259：商誉零值第三栏加入；三栏各有自己的限定，未遮挡。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-d2ec4ec71d6fe4871541a387",
+          "note": "静帧 5335：完整三栏保持，数值和结论可读。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-feec003054971fbea3fbed00",
+          "note": "静帧 5450：三个下期问题共用横向参照，第一项两位数建立，其他标题仍可辨。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-f8fe626b0f1353a704c4e341",
+          "note": "静帧 5600：第二项费用砝码加入，第一项保持，三栏无冲突。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-51d3fe9e0d3c74619207295c",
+          "note": "静帧 5730：第三项1650万元及待延续虚线问号齐备，三问完整。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-5e3254ee57673af97add11a8",
+          "note": "静帧 5880：三问保持，搜索财小策字幕可读；品牌搜索未在主体单独强调属可选设计。 仅观察该静态状态，连续运动与实际听感未知。"
+        },
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-c62a4a66e52a2156fa60fa16",
+          "note": "静帧 5980：全幅栏目尾标清楚，结束包装与片头品牌一致，切入及声音未知。 仅观察该静态状态，连续运动与实际听感未知。"
+        }
+      ],
+      "issues": [
+        {
+          "checkId": "motion-states",
+          "evidenceId": "ev-89966c51d9042784f0fb4d32",
+          "severity": "suggestion",
+          "problem": "净现比下方“原稿约数”是制作口径字样，面向观众可改为“约数”或将“约”并入2.2倍，不影响当前数值理解。"
+        }
+      ],
+      "status": "complete"
+    }
+  ]
+}

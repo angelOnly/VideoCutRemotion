@@ -1,0 +1,39 @@
+{
+  "analysisSeconds": 76.884,
+  "renderToPublicationCompleteSeconds": 1377.281,
+  "twoStageSeconds": 1454.165,
+  "preExportSeconds": 1014.952,
+  "exportIncludingRecoverySeconds": 358.269,
+  "publicationSeconds": 4.060086306999903,
+  "baseline": {
+    "analysisSeconds": 74.774,
+    "renderToMediaCompleteSeconds": 1745.921,
+    "renderToPublicationCompleteSeconds": 1750.02,
+    "twoStageSeconds": 1824.794,
+    "preExportSeconds": 1311.24,
+    "exportSeconds": 434.681370065,
+    "publicationSeconds": 3.921388357,
+    "basis": "analysis受理至宿主完成；render受理至发布媒体完成；不含两阶段之间页面人工确认间隔，网页轮询回显另计。",
+    "baseline": {
+      "analysisSeconds": 72.03,
+      "renderSeconds": 1568.667,
+      "twoStageSeconds": 1640.697,
+      "preExportSeconds": 1005.707,
+      "exportSeconds": 562.677
+    },
+    "limitations": [
+      "单次完整任务对比，非同源码控制实验",
+      "本次5837帧、25段配音；上次6259帧、47段配音",
+      "前置校验2次失败后复用配音恢复，首次审片冻结版本冲突后恢复，包装审片长等待后续接",
+      "网页播放检查静音，未完成整片听审"
+    ]
+  },
+  "reductionSeconds": 370.62900000000013,
+  "reductionPercent": 20.31073096470068,
+  "basis": "analysis受理至宿主完成；render受理至发布媒体完成。不含网页确认间隔、轮询回显、部署和验收操作；包含失败核验与原作业恢复。",
+  "limitations": [
+    "单次真实任务对比，不是相同源码控制实验",
+    "本轮6017帧、43句段、43字幕页、42+9审片帧；上轮5837帧、25句段、51字幕页、27审片帧",
+    "未完成全片连续听看；网页播放器抽查为静音"
+  ]
+}
