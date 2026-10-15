@@ -7,7 +7,7 @@ import { inside, regular, json, writeJson, treeDigest } from './files.js';
 import { ProductionError, sha256 } from './contracts.js';
 
 // 旧冻结工程仍可 Render；只有新的 Analysis 必须具备文字合同。
-export const manifestSchema=z.object({schemaVersion:z.literal(1),templateVersion:z.string().min(1),instructions:z.array(z.string()).min(1),analysisInstructions:z.array(z.string().min(1)).min(1).optional(),entry:z.string().min(1),wholeComposition:z.string().min(1),timelineModule:z.string().min(1),publicAssetRoot:z.string().min(1),width:z.number().int().positive(),height:z.number().int().positive(),fps:z.number().positive(),voiceRefs:z.array(z.string()).default([])}).passthrough();
+export const manifestSchema=z.object({schemaVersion:z.literal(1),templateVersion:z.string().min(1),instructions:z.array(z.string()).min(1),analysisInstructions:z.array(z.string().min(1)).min(1).optional(),entry:z.string().min(1),wholeComposition:z.string().min(1),timelineModule:z.string().min(1),timelineDataRef:z.string().min(1).optional(),timelineContract:z.string().min(1).optional(),publicAssetRoot:z.string().min(1),width:z.number().int().positive(),height:z.number().int().positive(),fps:z.number().positive(),voiceRefs:z.array(z.string()).default([])}).passthrough();
 export type AnalysisContract={digest:string;files:Array<{path:string;sha256:string;text:string}>};
 export async function readAnalysisContract(root:string,manifest:z.infer<typeof manifestSchema>):Promise<AnalysisContract>{
   if(!manifest.analysisInstructions?.length)throw new ProductionError('TEMPLATE_ANALYSIS_CONTRACT_MISSING','模板缺少 analysisInstructions 文字合同，请通过模板发布流程补齐后再提交 Analysis');
@@ -52,6 +52,11 @@ export async function validateTemplate(root:string) {
   const parsed=manifestSchema.safeParse(await json(manifestPath));
   if(!parsed.success)throw new ProductionError('TEMPLATE_MANIFEST_INVALID',`模板 manifest 字段无效：${parsed.error.issues.map(issue=>`${issue.path.join('.')}：${issue.message}`).join('；')}`);
   const manifest=parsed.data;
+  if(Boolean(manifest.timelineDataRef)!==Boolean(manifest.timelineContract))throw new ProductionError('TEMPLATE_MANIFEST_INVALID','timelineDataRef 与 timelineContract 必须同时声明');
+  if(manifest.timelineDataRef){
+    if(isAbsolute(manifest.timelineDataRef)||manifest.timelineDataRef.includes('\\')||manifest.timelineDataRef.split('/').includes('..')||extname(manifest.timelineDataRef)!=='.json')throw new ProductionError('TEMPLATE_MANIFEST_INVALID','timelineDataRef 必须是 renderer 内的 JSON 相对路径');
+    await regular(renderer,manifest.timelineDataRef);
+  }
   for(const p of [...manifest.instructions,manifest.entry,manifest.timelineModule])await regular(root,relative(root,resolve(renderer,p)));
   const assets=inside(root,resolve(renderer,manifest.publicAssetRoot));if(!(await fs.stat(assets)).isDirectory())throw new ProductionError('TEMPLATE_ASSETS_MISSING','模板资源目录缺失');
   return manifest;

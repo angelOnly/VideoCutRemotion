@@ -1,13 +1,13 @@
 import { promises as fs } from 'node:fs';
 import { join, relative } from 'node:path';
-import { analysisResultSchema, deliverySchema, ProductionError, type Run, type AnalysisRequest, type RenderRequest } from './contracts.js';
+import { analysisResultSchema, canonical, deliverySchema, sha256, ProductionError, type Run, type AnalysisRequest, type RenderRequest } from './contracts.js';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 import type { ProductionConfig } from './config.js';
 import type { ProductionRepository } from './repository.js';
 import { analysisTemplateInput, freezeTemplate } from './template-package.js';
 import { json, writeJson, treeDigest, regular } from './files.js';
 import { publishDelivery } from './delivery.js';
-import type { MediaRuntime } from './execution-controller.js';
+import { ExecutionController, type MediaRuntime } from './execution-controller.js';
 import { executeCodex } from './codex-session.js';
 import { createMediaMetricSink, withMediaSpan } from './media-metrics.js';
 export type Executor=(run:Run,root:string,repo:ProductionRepository,config:ProductionConfig,signal:AbortSignal,media?:MediaRuntime)=>Promise<any>;
@@ -49,6 +49,13 @@ export class ProductionRunner {
     const heartbeat=setInterval(()=>{try{const latest=this.repo.get(run.runId);if(latest.state==='cancelling')this.stopRun(run.runId);else this.repo.heartbeat(run.runId,run.token!);}catch{}},1000);
     try{
       if(run.state==='cancelling')throw new ProductionError('PROCESS_CANCELLED','恢复前已取消');
+      // 服务已接管的等待先恢复原作业；不要求创作子线程也能恢复。
+      const waiting=run.checkpoint.runtimeWait;
+      if(!run.checkpoint.handoff&&waiting?.state==='waiting_media'){
+        if(run.checkpoint.release?.releaseId!==this.config.release.releaseId)throw new ProductionError('CODEX_RESULT_UNKNOWN','原等待必须沿固定发行恢复',503);
+        await new ExecutionController(run,this.repo,this.mediaRuntime,controller.signal,30000,root).wait(waiting.threadId,waiting.originTurnId,{kind:'await_runtime',renderRequestId:waiting.renderRequestId});
+        run=this.repo.get(run.runId);
+      }
       // 先恢复确定的交付检查点；发布失败不重新请求 Codex 或配音。
       if(!run.checkpoint.handoff){run=await this.prepare(run);if(controller.signal.aborted)throw new ProductionError('PROCESS_CANCELLED','准备阶段已取消');const handoff=await this.executor(run,root,this.repo,this.config,controller.signal,this.mediaRuntime);
         if(handoff.kind==='await_runtime')throw new ProductionError('HANDOFF_NOT_FINAL','非最终等待不能进入发布');
@@ -57,13 +64,17 @@ export class ProductionRunner {
         const path=await regular(root,relative(root,handoff.resultPath));run=this.repo.checkpoint(run.runId,run.token!,{handoff:{...handoff,resultPath:path}});
       }
       this.finishing.add(run.runId);await this.settleTools(run.runId);
-      if(controller.signal.aborted){this.repo.finish(run.runId,run.token,'cancelled');return;}
+      if(controller.signal.aborted||this.repo.get(run.runId).state==='cancelling'){this.repo.finish(run.runId,run.token,'cancelled');return;}
+      this.repo.guard(this.repo.get(run.runId),run.token!);
+      if(run.checkpoint.runtimeWait?.state==='handed_off')await new ExecutionController(run,this.repo,this.mediaRuntime,controller.signal,30000,root).validateTransferred();
       let result;
       try{result=await json(run.checkpoint.handoff.resultPath);}catch(error){
         // 已交回的说明文档或坏 JSON 是确定性失败，重启不能把它恢复成合格交付。
+        if((error as NodeJS.ErrnoException).code==='ENOENT')throw new ProductionError('DELIVERY_RESULT_MISSING','原交付清单确定缺失，不重新制作');
         if(error instanceof SyntaxError)throw new ProductionError('RESULT_FORMAT_INVALID','交付文件不是有效 JSON；保留原文件和未完成检查，不发布媒体');
         throw error;
       }
+      if(run.checkpoint.runtimeWait?.state==='handed_off'&&sha256(canonical(result))!==run.checkpoint.runtimeWait.deliveryDigest)throw new ProductionError('DELIVERY_IDENTITY_INVALID','已转交的原清单发生变化，禁止发布');
       if(run.stage==='analysis'){
         const parsed=analysisResultSchema.parse(result);if(parsed.runId!==run.runId||parsed.taskId!==run.taskId||parsed.inputDigest!==run.inputDigest)throw new ProductionError('ANALYSIS_IDENTITY_INVALID','分析结果身份不符');
         if(new Set(parsed.dataList.map(s=>s.id)).size!==parsed.dataList.length)throw new ProductionError('ANALYSIS_IDS_INVALID','分析分镜 ID 重复');
@@ -83,7 +94,7 @@ export class ProductionRunner {
       await this.settleTools(run.runId);
       if(this.repo.get(run.runId).state==='cancelling'&&error.code!=='CODEX_RESULT_UNKNOWN')this.repo.finish(run.runId,run.token,'cancelled',null,error);
       else if(error.code==='CODEX_RESULT_UNKNOWN'||error.code==='PROCESS_CANCELLED')this.repo.mark(run.runId,run.token!,'unknown',error);
-      else if(!(e instanceof ProductionError)&&this.repo.get(run.runId).checkpoint.handoff&&run.stage==='render')this.repo.mark(run.runId,run.token!,'recovering',error);
+      else if(!(e instanceof ProductionError)&&(this.repo.get(run.runId).checkpoint.handoff||this.repo.get(run.runId).checkpoint.runtimeWait?.state==='waiting_media')&&run.stage==='render')this.repo.mark(run.runId,run.token!,'recovering',error);
       else this.repo.finish(run.runId,run.token,'failed',null,error);
     }finally{clearInterval(heartbeat);await this.settleTools(run.runId);await this.onRunSettled(run.runId);this.active.delete(run.runId);this.finishing.delete(run.runId);}
   }
@@ -106,7 +117,7 @@ export class ProductionRunner {
   async recover(){
     for(const run of this.repo.unfinished()){
       if(this.active.has(run.runId)||this.recovery.some(r=>r.runId===run.runId))continue;
-      if(run.checkpoint.handoff||run.checkpoint.codex?.threadId)this.recovery.push(run);
+      if(run.checkpoint.handoff||run.checkpoint.runtimeWait?.state==='waiting_media'||run.checkpoint.codex?.threadId)this.recovery.push(run);
       else this.repo.mark(run.runId,run.token!,'unknown',{code:'INTERRUPTED_WITHOUT_CHECKPOINT',message:'原执行中断，未证明可安全重新提交；请核查原任务'});
     }
     await this.tick();

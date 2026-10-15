@@ -1,0 +1,10 @@
+✔ 候选发行：隔离启动真实 Runtime 与 MCP，核对同版、四任务配置和新工具发现 (13496.474468ms)
+✔ 候选发行移除文件审片入口，审片 MCP 使用最小同源合同与独立连接凭证 (2764.487595ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20491.006479

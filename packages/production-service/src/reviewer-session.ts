@@ -30,7 +30,7 @@ export class ReviewerSessions{
       this.diagnostic(current,error);void this.stop(run.runId);
     });
   }
-  private diagnostic(pool:Pool,error:unknown){this.service.runtimeDiagnostic(pool.reviewId,String(error));for(const reviewer of pool.reviewers)this.service.repo.db.prepare('UPDATE review_sessions SET diagnostic=? WHERE id=?').run(String(error),reviewer.sessionId);}
+  private diagnostic(pool:Pool,error:unknown){this.service.runtimeDiagnostic(pool.reviewId,String(error));for(const reviewer of pool.reviewers)this.service.sessionDiagnostic(reviewer.sessionId,String(error));}
   private async dispatch(run:Run,reviewId:string,pool:Pool){
     if(pool.closed||this.signalFor(run.runId)?.aborted)return;
     const root=this.service.runRoot(run),summary=this.service.read(run.runId,reviewId);
@@ -71,10 +71,10 @@ export class ReviewerSessions{
   private async turn(run:Run,reviewId:string,pool:Pool,reviewer:Reviewer){
     const receiver=createTurnReceiver(reviewer.threadId);
     pool.turns.set(reviewer.threadId,{collect:receiver.observe,reject:error=>receiver.fail(error instanceof Error?error:new Error(String(error)))});
-    const result=await pool.client.call('turn/start',{threadId:reviewer.threadId,input:[{type:'text',text:`当前审片计划 ${reviewId}。先 claim_review_work({})，按包读取专业方法和真实证据，使用 submit_review 保存观察。完成响应已有 next 时直接继续，直到 next 为空。图片材料不可读或尚未查看时保存 partial 后说明剩余范围；不能反复请求媒体或伪造观察。各区间是完整 Composition 的全局半开帧区间，媒体文件本地播放时间需减去 evidence.fromFrame。`,text_elements:[]}],approvalPolicy:'never',sandboxPolicy:{type:'readOnly',networkAccess:false},effort:'low'});
+    const result=await pool.client.call('turn/start',{threadId:reviewer.threadId,input:[{type:'text',text:`当前审片计划 ${reviewId}。先 claim_review_work({})，按包读取专业方法和真实证据，使用 submit_review 保存观察。包内 context 是确认正文及章节语义；只对 remaining 指定范围补充真实观察。旧 pendingIssues 不能因本次 issues 为空自动关闭，实际复查对应证据后用 issueResolutions 明确 resolved 或 retained 并说明依据；旧帧已删除时指定新的 evidenceId。suggestion 保留可见但不强制返修。完成响应已有 next 时直接继续，直到 next 为空。图片材料不可读或尚未查看时保存 partial 后说明剩余范围；不能反复请求媒体或伪造观察。各区间是完整 Composition 的全局半开帧区间，媒体文件本地播放时间需减去 evidence.fromFrame。`,text_elements:[]}],approvalPolicy:'never',sandboxPolicy:{type:'readOnly',networkAccess:false},effort:'low'});
     receiver.bind(result.turn.id);await receiver.promise;
     const active=this.service.repo.db.prepare("SELECT id FROM review_work WHERE session_id=? AND state='assigned'").get(reviewer.sessionId);
-    this.service.repo.db.prepare('UPDATE review_sessions SET diagnostic=? WHERE id=?').run(active?'审片轮次已结束，仍有未完成范围；读取 read_review 并继续读取剩余图片':null,reviewer.sessionId);
+    this.service.sessionDiagnostic(reviewer.sessionId,active?'审片轮次已结束，仍有未完成范围；读取 read_review 并继续读取剩余图片':null);
   }
   async stop(runId?:string){
     for(const [id,pool] of this.pools){if(runId&&id!==runId)continue;

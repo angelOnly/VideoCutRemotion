@@ -7,8 +7,9 @@ import { createServer } from 'node:http';
 import { createProductionServer } from '../apps/server/src/production/routes.js';
 import type { ProductionConfig } from '../packages/production-service/src/config.js';
 import { processFile,writeJson,treeDigest,json } from '../packages/production-service/src/files.js';
-import { sha256 } from '../packages/production-service/src/contracts.js';
+import { canonical, sha256 } from '../packages/production-service/src/contracts.js';
 import { extractZip } from '../packages/production-service/src/template-package.js';
+import { ExecutionController } from '../packages/production-service/src/execution-controller.js';
 import { publishDelivery } from '../packages/production-service/src/delivery.js';
 test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定版本修改闭环',async()=>{
   const root=await fs.mkdtemp(join(tmpdir(),'vfc-http-')),template=join(root,'template');await fs.mkdir(join(template,'renderer/public'),{recursive:true});
@@ -21,7 +22,7 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
   for(const [path,duration] of [[media,1],[wholeMedia,2]] as const)await processFile('ffmpeg',['-v','error','-f','lavfi','-i',`color=c=blue:s=320x180:r=30:d=${duration}`,'-f','lavfi','-i',`sine=frequency=440:duration=${duration}`,'-c:v','mpeg4','-c:a','aac','-shortest',path]);
   let downloads=0;const callbacks:any[]=[];const platform=createServer(async(req,res)=>{if(req.url?.endsWith('/package')){downloads++;res.end(await fs.readFile(zip));}else {let body='';for await(const chunk of req)body+=chunk;callbacks.push({url:req.url,body:JSON.parse(body)});res.end('{"status":0}');}});await new Promise<void>(r=>platform.listen(0,'127.0.0.1',r));
   const base=`http://127.0.0.1:${(platform.address() as any).port}`,config={dataRoot:join(root,'data'),apiToken:'test',accountId:'a',templateBase:base,callbackBase:base,callbackSecret:'secret',mediaBase:'http://local/media',release:{releaseId:'release-test'},ready:{codex:true,tts:true,dependencies:true},searchEnabled:false} as ProductionConfig;let calls=0;
-  const service=await createProductionServer(config,async(run,runRoot)=>{calls++;const path=join(runRoot,'result.json');let result:any;
+  const service=await createProductionServer(config,async(run,runRoot)=>{calls++;const path=join(runRoot,run.stage==='analysis'?'result.json':'delivery.json');let result:any;
     if(run.stage==='analysis'){
       assert.equal((await json(join(runRoot,'result-schema.json'))).properties.context.type,'string');
       const input=await json(join(runRoot,'input.json'));
@@ -39,11 +40,14 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
       await fs.cp(join(runRoot,'project'),join(runRoot,'render-snapshots','test-render','project'),{recursive:true});
       result={taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,templateDigest:run.checkpoint.template.digest,renderRequestId:'test-render',sourceDigest:await treeDigest(join(runRoot,'project')),timelineRef:'renderer/timeline.json',checks:['未进行连续观看与听审；隔离协议测试'],files:[{id:'whole-video',content:scenes.map((s:any)=>s.content).join('')},...scenes].map((s:any,i:number)=>({...s,file:join(runRoot,i===0?'whole.mp4':'stub.mp4'),sha256:'',dur:i===0?2:1,fromFrame:i===0?0:(i-1)*30,toFrame:i===0?60:i*30,width:320,height:180,fps:30}))};
       for(const f of result.files)f.sha256=sha256(await fs.readFile(f.file));
-      await writeJson(join(runRoot,'render-jobs/test-render.json'),{id:'test-render',runId:run.runId,kind:'template-render',state:'succeeded',sourceDigest:result.sourceDigest,input:{timelineRef:result.timelineRef,previewOnly:false},readyFrames:[],readyFiles:result.files});
+      const input={timelineRef:result.timelineRef,previewOnly:false,checks:result.checks};
+      await writeJson(join(runRoot,'render-jobs/test-render.json'),{id:'test-render',runId:run.runId,kind:'template-render',state:'succeeded',attempt:1,releaseId:config.release.releaseId,sourceDigest:result.sourceDigest,input,inputDigest:sha256(canonical({kind:'template-render',input})),deliveryPath:path,readyFrames:[],readyFiles:result.files});
       // 未建立听审计划也应正常发布；技术文件仍由真实 Worker 核验。
       await fs.writeFile(join(runRoot,'project','post-render-review.md'),'导出后记录，不改变渲染快照。');
     }
-    await writeJson(path,result);return {taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,resultPath:path};});
+    await writeJson(path,result);
+    if(run.stage==='render'){const direct=await new ExecutionController(run,service.repo,service.runner.mediaRuntime,new AbortController().signal,5,runRoot).wait('main','selected-final',{kind:'await_runtime',renderRequestId:'test-render'});assert.equal(direct?.kind,'handoff');if(direct?.kind==='handoff')return direct.handoff;}
+    return {taskId:run.taskId,runId:run.runId,inputDigest:run.inputDigest,resultPath:path};});
   const post=(path:string,body:any)=>service.app.inject({method:'POST',url:path,headers:{authorization:'Bearer test'},payload:body});
   const aPath='/narrate/ai_video_director/getAiVideoEditingAnalysisData',rPath='/narrate/ai_video_director/getAiVideoEditingData',input={taskId:'t',content:'第一段。第二段。',otherRequirements:'',plugin:{customTemplateId:'3'}};
   try{
@@ -63,7 +67,7 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
     await service.callbacks.tick();
     assert.equal((service.repo.db.prepare('SELECT state FROM callback_outbox WHERE run_id=?').get(r.runId) as any).state,'delivered');
     assert.ok(callbacks.some(c=>c.url.endsWith('getAiVideoEditingDataCallback')));
-    const runRoot=service.runner.runRoot(rendered),raw=await json(join(runRoot,'result.json'));
+    const runRoot=service.runner.runRoot(rendered),raw=await json(join(runRoot,'delivery.json'));
     const publish=(value:unknown)=>publishDelivery(rendered,runRoot,join(config.dataRoot,'tasks',rendered.taskKey),config.mediaBase,value);
     await assert.rejects(publish({...raw,inputDigest:'错误输入摘要'}),/交付身份/);
     await assert.rejects(publish({...raw,files:raw.files.slice(1)}),/数量、正文或顺序/);
@@ -77,7 +81,9 @@ test('T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定�
     const blockedStaging=join(config.dataRoot,'tasks',rendered.taskKey,'results',`${publishFailure.runId}.staging`);
     await fs.writeFile(blockedStaging,'用普通文件模拟发布目录不可写');
     await service.runner.tick();await service.runner.drain();assert.equal(service.repo.get(publishFailure.runId).state,'recovering');assert.equal(calls,4);
-    await fs.unlink(blockedStaging);await service.runner.recover();await service.runner.drain();assert.equal(service.repo.get(publishFailure.runId).state,'succeeded');assert.equal(calls,4);
+    // 模拟转交前中断；即便原作者树不可恢复，原成功作业仍由服务直接接回。
+    const pending=service.repo.get(publishFailure.runId);service.repo.checkpoint(pending.runId,pending.token!,{handoff:null,runtimeWait:{state:'waiting_media'},codex:{threadId:'original-main',threadIds:['original-main','original-author']}});
+    await fs.unlink(blockedStaging);await service.runner.recover();await service.runner.drain();assert.equal(service.repo.get(publishFailure.runId).state,'succeeded');assert.equal(calls,4);assert.equal((service.repo.db.prepare('SELECT count(*) AS n FROM callback_outbox WHERE run_id=?').get(publishFailure.runId) as any).n,1);
 
     // 模拟文件发布后、结果事务前中断，恢复时核对原目录而非重新制作。
     const crash=(await post(rPath,{...request,otherRequirements:'发布后登记故障验收'})).json().data;

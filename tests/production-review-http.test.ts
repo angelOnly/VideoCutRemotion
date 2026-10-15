@@ -21,7 +21,7 @@ async function prepare(service:ReviewService,run:Run,id='preview',modified=false
  const root=service.runRoot(run),project=join(root,'preview-snapshots',id,'project'),renderer=join(project,'renderer');
  await fs.mkdir(join(renderer,'public'),{recursive:true});await fs.writeFile(join(project,'说明.md'),'隔离权限测试');await fs.writeFile(join(renderer,'index.tsx'),'// 隔离夹具');await fs.writeFile(join(renderer,'timeline.ts'),'export default {};');
  await writeJson(join(renderer,'renderer-manifest.json'),{schemaVersion:1,templateVersion:'test',instructions:['../说明.md'],entry:'index.tsx',timelineModule:'timeline.ts',wholeComposition:'Main',publicAssetRoot:'public',width:64,height:64,fps:24});
- await writeJson(join(project,'timeline.json'),{fps:24,totalFrames:12,scenes:[0,1].map(i=>({id:`s${i}`,from:i*6,frames:6,utterances:[{startFrame:0,endFrameExclusive:6}],captions:[{text:(i?'乙':'甲')+(modified?'\n':'')}]}))});
+ await writeJson(join(project,'timeline.json'),{fps:24,totalFrames:12,scenes:[0,1].map(i=>({id:`s${i}`,from:i*6,frames:6,utterances:[{id:`u${i}`,startFrame:0,endFrameExclusive:6}],captions:[{utteranceId:`u${i}`,startFrame:0,endFrameExclusive:6,text:(i?'乙':'甲')+(modified?'\n':'')}]}))});
  const readyFrames=[];for(const frame of [0,6]){const path=join(root,`${id}-${frame}.png`),png=new PNG({width:64,height:64});png.data.fill(modified?128:255);const bytes=PNG.sync.write(png);await fs.writeFile(path,bytes);readyFrames.push({frame,path,sha256:sha256(bytes)});}
  await writeJson(join(root,'render-jobs',`${id}.json`),{id,runId:run.runId,kind:'frame-preview',state:'succeeded',sourceDigest:await treeDigest(project),input:{previewOnly:true},readyFrames,readyFiles:[]});
  return service.prepare(run,{renderRequestIds:[id],phase:'pre_export',timelineRef:'timeline.json'});
@@ -35,7 +35,7 @@ test('HTTP 审片凭证只读且限当前 Run/计划，生成与准备接口真�
   const call=(name:string,payload:Record<string,unknown>={},runId=run.runId)=>service.app.inject({method:'POST',url:`/internal/tools/${name}`,headers:{'x-run-id':runId,'x-review-token':session.credential},payload});
   assert.notEqual((await call('claim_review_work')).statusCode,200);
   service.reviews.bindSession(session.id,'isolated-http-thread');assert.equal((await call('claim_review_work')).statusCode,200);
-  for(const tool of ['render_template','preview_template_frames','retry_render_slices','synthesize_speech','synthesize_speech_batch','prepare_review','verify_sentence_audio']){
+  for(const tool of ['render_template','preview_template_frames','retry_render_slices','synthesize_speech','synthesize_speech_batch','prepare_review','assemble_sentence_audio','verify_sentence_audio']){
    const denied=await call(tool);assert.equal(denied.statusCode,403,tool);assert.equal(denied.json().error.code,'REVIEW_TOOL_FORBIDDEN');
   }
   const otherRun=running(service.repo,'two'),otherPlan=await prepare(service.reviews,otherRun);

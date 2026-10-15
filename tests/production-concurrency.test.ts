@@ -19,13 +19,13 @@ test('不合格交付文件明确失败并登记回调，文件读取故障仍�
  const root=await fs.mkdtemp(join(tmpdir(),'production-invalid-result-')),repo=new ProductionRepository(join(root,'db.sqlite'));
  const runner=new ProductionRunner(repo,configFor(root),async()=>{throw new Error('不得重新调用模型');});
  try{
-  for(const [id,body,errorCode] of [['markdown','# 成片检查未完成','RESULT_FORMAT_INVALID'],['pending',JSON.stringify({status:'pending',delivered:false}),'DELIVERY_FORMAT_INVALID'],['missing',null,null]] as const){
+  for(const [id,body,errorCode] of [['markdown','# 成片检查未完成','RESULT_FORMAT_INVALID'],['pending',JSON.stringify({status:'pending',delivered:false}),'DELIVERY_FORMAT_INVALID'],['missing',null,'DELIVERY_RESULT_MISSING']] as const){
    repo.accept('a','analysis',{taskId:id,content:'正文',otherRequirements:'',plugin:{customTemplateId:'x'}});const analysis=repo.claim()!;repo.finish(analysis.runId,analysis.token,'succeeded',{});
    repo.accept('a','render',{taskId:id,basePlanVersion:1,dataList:[{id:'s',content:'正文'}],otherRequirements:''});const run=repo.claim()!,path=join(root,`${id}.json`);
    if(body!==null)await fs.writeFile(path,body);
    repo.checkpoint(run.runId,run.token!,{handoff:{resultPath:path}});await runner.recover();await runner.drain();
    const result=repo.get(run.runId);assert.equal(result.state,errorCode?'failed':'recovering');
-   if(errorCode){assert.equal(result.error.code,errorCode);assert.equal(await fs.readFile(path,'utf8'),body);assert.equal((repo.db.prepare('SELECT state FROM callback_outbox WHERE run_id=?').get(run.runId) as any).state,'pending');}
+   if(errorCode){assert.equal(result.error.code,errorCode);if(body!==null)assert.equal(await fs.readFile(path,'utf8'),body);assert.equal((repo.db.prepare('SELECT state FROM callback_outbox WHERE run_id=?').get(run.runId) as any).state,'pending');}
    else assert.equal(repo.db.prepare('SELECT id FROM callback_outbox WHERE run_id=?').get(run.runId),undefined);
   }
  }finally{runner.stop();await runner.drain();repo.close();await fs.rm(root,{recursive:true,force:true});}
@@ -58,7 +58,7 @@ test('渲染入口：四视频各五槽，同视频不同请求及静帧不能�
  const runs=[];
  for(let i=0;i<4;i++){const a=service.repo.accept('a','analysis',{taskId:`v${i}`,content:'原文',otherRequirements:'',plugin:{customTemplateId:'x'}}),claimed=service.repo.claim()!;service.repo.finish(a.runId,claimed.token,'succeeded',{});const r=service.repo.accept('a','render',{taskId:`v${i}`,basePlanVersion:1,dataList:[{id:'s',content:'原文'}],otherRequirements:''}),c=service.repo.claim()!;service.runner.active.set(r.runId,new AbortController());runs.push(c);}
  const call=(run:any,name:string,body:any)=>service.app.inject({method:'POST',url:`/internal/tools/${name}`,headers:{'x-run-id':run.runId,'x-run-token':run.token},payload:body});
- const input={renderRequestId:'first',timelineRef:'timeline.json',ranges:[{id:'s',fromFrame:0,toFrame:30}],checks:[]};
+ const input={renderRequestId:'first',timelineRef:'timeline.json',checks:[]};
  try{
    for(const run of runs)assert.equal((await call(run,'render_template',input)).statusCode,200);
    assert.equal(peak,20);assert.equal(gates.size,4);
@@ -110,7 +110,7 @@ test('批量静帧与续切共用幂等、容量和持久化：并发回调不�
  const a=service.repo.accept('a','analysis',{taskId:'media',content:'正文',otherRequirements:'',plugin:{customTemplateId:'x'}}),claimed=service.repo.claim()!;service.repo.finish(a.runId,claimed.token,'succeeded',{});
  service.repo.accept('a','render',{taskId:'media',basePlanVersion:1,dataList:[{id:'s',content:'正文'}],otherRequirements:''});const r=service.repo.claim()!;service.runner.active.set(r.runId,new AbortController());
  const call=(name:string,body:any)=>service.app.inject({method:'POST',url:`/internal/tools/${name}`,headers:{'x-run-id':r.runId,'x-run-token':r.token!},payload:body});
- const video={renderRequestId:'video',timelineRef:'timeline.json',ranges:[{id:'s',fromFrame:0,toFrame:30}],checks:[]};
+ const video={renderRequestId:'video',timelineRef:'timeline.json',checks:[]};
  try{
   assert.equal((await call('preview_template_frames',{renderRequestId:'frames',frames:[2,1,0]})).statusCode,200);
   await until(()=>previewCalls===1);

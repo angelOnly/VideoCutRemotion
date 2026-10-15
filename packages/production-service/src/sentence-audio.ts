@@ -2,7 +2,7 @@ import { promises as fs } from 'node:fs';
 import { join, isAbsolute } from 'node:path';
 import { z } from 'zod';
 import { ProductionError, sha256, type Run, type RenderRequest } from './contracts.js';
-import { decodedAudioSeconds, regular, json, writeJson, inside, treeDigest } from './files.js';
+import { regular, json, writeJson, inside, treeDigest } from './files.js';
 import { validateTemplate } from './template-package.js';
 import type { DoubaoService } from '../../speech-services/src/doubao.js';
 export const sentenceAuditSchema=z.object({timelineRef:z.string().min(1),speechBatchRequestIds:z.array(z.string().regex(/^[A-Za-z0-9_-]{1,100}$/)).min(1),renderRequestId:z.string().regex(/^[A-Za-z0-9_-]{1,100}$/).optional()}).strict();
@@ -95,7 +95,7 @@ async function auditSentenceAudio({plan, tts, timeline, publicDirectory, signal}
         ensure(evidence?.audioSha256 === hash, `${scene.id} 对齐记录不属于当前音频`);
         ensure(JSON.stringify(evidence.captions) === JSON.stringify(pages.map(({text, startFrame, endFrameExclusive}:any) => ({text, startFrame, endFrameExclusive}))), `${scene.id} 分页未使用对齐记录`);
       } else ensure(pages.length === 1 && pages[0].startFrame === start && pages[0].endFrameExclusive === end, `${scene.id} 字幕没有使用该句音频边界`);
-      const seconds = await decodedAudioSeconds(await taskFile(publicDirectory, utterance.src), signal);
+      const seconds = item.measurement.duration;
       const frameSeconds = (end - start) / timeline.fps;
       ensure(seconds <= frameSeconds + 1e-6 && frameSeconds - seconds <= 1 / timeline.fps + 0.02,
         `${scene.id} 第 ${index + 1} 条音频实际 ${seconds.toFixed(3)} 秒，与时间轴 ${frameSeconds.toFixed(3)} 秒不符`);
@@ -117,19 +117,22 @@ export async function verifySentenceAudio(run:Run,runRoot:string,raw:unknown,spe
   const manifest=await validateTemplate(project),publicDirectory=join(project,'renderer',manifest.publicAssetRoot);
   inside(await fs.realpath(project),await fs.realpath(publicDirectory));
   const timeline=await json(await regular(project,input.timelineRef));
-  const tts:any[]=[];
+  const tts:any[]=[];let measurementHits=0,measurementMisses=0;
   for(const id of input.speechBatchRequestIds){const batch=await speech.readBatch(id,run.runId,run.accountId);ensure(batch.state==='succeeded',`配音批次 ${id} 尚未全部成功`);
-    for(const job of batch.jobs){const item={id:job.request.segmentId,sceneId:job.request.sceneId,text:job.request.text};
+    for(const job of batch.jobs){const measured=await speech.measurement(job.id,run.runId,run.accountId,signal);if(measured.reused)measurementHits++;else measurementMisses++;
+      const item={id:job.request.segmentId,sceneId:job.request.sceneId,text:job.request.text,measurement:measured.measurement};
       const scene=timeline.scenes?.find((s:any)=>s.id===item.sceneId),utterance=scene?.utterances?.find((u:any)=>u.id===item.id);
       ensure(utterance,`缺少句段 ${item.id}`);const path=await taskFile(publicDirectory,utterance.src);
       ensure(sha256(await fs.readFile(path))===job.sha256,`句段 ${item.id} 没有绑定本批次的真实音频`);tts.push(item);
     }
   }
+  const order=timeline.scenes.flatMap((s:any)=>s.utterances.map((u:any)=>u.id));
+  tts.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));
   const plan={scenes:(run.request as RenderRequest).dataList.map(s=>({id:s.id,text:s.content}))};
   const report=await auditSentenceAudio({plan,tts,timeline,publicDirectory,signal});
   ensure(await treeDigest(project)===sourceDigest,'检查期间工程发生变化，请原作者停止写入后重新核验');
   const path=join(runRoot,'checks',`sentence-audio-${input.renderRequestId??'working'}.json`);
-  await writeJson(path,{...report,runId:run.runId,sourceDigest,checkedAt:new Date().toISOString(),timelineSha256:sha256(canonicalTimeline(timeline)),scope:'句段、字幕、PCM 时长及音频归属；不代替听审'});
-  return {...report,path,sourceDigest,timelineSha256:sha256(canonicalTimeline(timeline))};
+  await writeJson(path,{...report,measurementHits,measurementMisses,runId:run.runId,sourceDigest,checkedAt:new Date().toISOString(),timelineSha256:sha256(canonicalTimeline(timeline)),scope:'句段、字幕、PCM 时长及音频归属；不代替听审'});
+  return {...report,measurementHits,measurementMisses,path,sourceDigest,timelineSha256:sha256(canonicalTimeline(timeline))};
 }
 function canonicalTimeline(value:unknown){return JSON.stringify(value);}

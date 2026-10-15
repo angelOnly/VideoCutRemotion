@@ -1,9 +1,9 @@
 {
   "schemaVersion": 3,
-  "pluginVersion": "0.1.18",
-  "releaseId": "release-080ef4c9817e57fc72fcf38c53950028370da6842e245670817ddaebc96a5179",
-  "skillsDigest": "4687012d6f213c974cc481f7f2455736cb1e3d0d0fb24e66a23eaf05568ffbaa",
-  "skillViewsDigest": "651f55ba22fff2ebe52b521d1a6a3a68a7a508aa5e64fdba2824f159de2c61a6",
+  "pluginVersion": "0.1.19",
+  "releaseId": "release-2a7c4ec1f393d1a002e52d1a57a3456d6c02f61d602b083d1ba5a57dc11eb03e",
+  "skillsDigest": "dd7f7bca757038e45785bf943b58cc5c622db941a8a4302a9a4ede69fffd0204",
+  "skillViewsDigest": "5a59d58f3d52758fdc09366de2c99276de94a4764d28eaa55e70d6161834933f",
   "skillViews": {
     "analysis": "skills-stages/analysis",
     "render": "skills-stages/render"
@@ -20,8 +20,12 @@
     "localModels": false,
     "lexical": true,
     "networkSearchDefault": false,
-    "reviewProtocol": 2,
-    "runtimeWait": true
+    "reviewProtocol": 3,
+    "runtimeWait": true,
+    "sentenceAssembly": true,
+    "timelineContract": "sentence-timeline/1",
+    "derivedRenderRanges": true,
+    "directDelivery": true
   },
   "dependencies": "固定 Node 包、Chromium、FFmpeg/ffprobe、Codex CLI 和豆包凭据由部署清单准备"
 }

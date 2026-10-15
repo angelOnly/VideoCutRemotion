@@ -2,6 +2,13 @@ import {build} from 'esbuild';
 import {resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=resolve(process.argv[2]);
+const {readFile}=await import('node:fs/promises');
+const manifest=JSON.parse(await readFile(resolve(root,'renderer/renderer-manifest.json'),'utf8'));
+if(manifest.timelineContract!=='sentence-timeline/1'||manifest.timelineDataRef!=='timeline.json')throw new Error('模板缺少单一 JSON 时间线合同');
+const source=await readFile(resolve(root,'renderer',manifest.timelineModule),'utf8');
+if(!source.includes("import timelineData from '../timeline.json'")||!/export const timeline: FinanceTimeline = timelineData as FinanceTimeline;/.test(source))throw new Error('渲染入口未使用唯一时间线');
+JSON.parse(await readFile(resolve(root,'renderer',manifest.timelineDataRef),'utf8'));
+
 // 编译本地模块及新增示例，外部依赖由正式运行环境提供。
 await build({entryPoints:[resolve(root,'renderer/src/index.ts'),resolve(root,'renderer/src/safe-visuals.tsx')],bundle:true,write:false,outdir:'unused',platform:'browser',packages:'external',jsx:'automatic',nodePaths:[resolve(dirname(fileURLToPath(import.meta.url)),'../node_modules')]});
 console.log('模板源码编译通过');

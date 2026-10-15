@@ -11,7 +11,7 @@ import type { ThreadStartParams } from './protocol/v2/ThreadStartParams.js';
 import type { TurnStartParams } from './protocol/v2/TurnStartParams.js';
 import { ToolObserver } from './tool-observer.js';
 import { createTurnReceiver, threadDiscoveries } from './turn-events.js';
-import { ExecutionController, type MediaRuntime } from './execution-controller.js';
+import { ExecutionController, type MediaRuntime, type RuntimeOutcome } from './execution-controller.js';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 import { CodexUsageObserver } from './codex-usage.js';
 export const handoffSchema=zodToJsonSchema(modelTurnOutputSchema,{$refStrategy:'none'});
@@ -61,7 +61,7 @@ export function verifyStageSkills(result:any,paths:string[]){
 export function verifyStageTools(statuses:any,stage:Run['stage']){
   const servers=Array.isArray(statuses?.data)?statuses.data:[statuses];
   const names=new Set<string>(servers.flatMap((server:any)=>Object.entries(server?.tools??{}).map(([key,value])=>(value as any)?.name??key)));
-  const required=stage==='analysis'?['read_runtime_release','read_production_task']:['read_runtime_release','read_production_task','synthesize_speech_batch','verify_sentence_audio','render_template'];
+  const required=stage==='analysis'?['read_runtime_release','read_production_task']:['read_runtime_release','read_production_task','synthesize_speech_batch','assemble_sentence_audio','verify_sentence_audio','prepare_review','read_review','render_template'];
   if(required.some(name=>!names.has(name)))throw new ProductionError('PLUGIN_NOT_LOADED',`后台会话未加载 ${stage} 阶段必要工具`,503);
   if(stage==='analysis'&&[...names].some(name=>!required.includes(name)))throw new ProductionError('ANALYSIS_TOOLS_EXPOSED','Analysis 发现了制作或动效等阶段外工具',503);
 }
@@ -122,7 +122,7 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
   let threadId=run.checkpoint.codex?.threadId as string|undefined,turnId=run.checkpoint.codex?.turnId as string|undefined;
   let receiver:ReturnType<typeof createTurnReceiver>|undefined,connectionError:Error|undefined;
   const sessionAbort=new AbortController(),activeSignal=AbortSignal.any([signal,sessionAbort.signal]);
-  const controller=new ExecutionController(run,repo,media,activeSignal);
+  const controller=new ExecutionController(run,repo,media,activeSignal,30000,root);
   const saveDiagnostics=()=>{try{repo.checkpoint(run.runId,run.token!,{stalledTools:observer.stalled(),transportDiagnostics:observer.transportDiagnostics(),threadDiagnostics:observer.threadDiagnostics()});}catch{}};
   const observeTimer=setInterval(saveDiagnostics,15000);
   client.onEvent=event=>{
@@ -151,7 +151,7 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
   const abort=()=>{if(threadId&&turnId)void client.call('turn/interrupt',{threadId,turnId},5000).catch(()=>{});receiver?.fail(new ProductionError('PROCESS_CANCELLED','会话已取消'));};signal.addEventListener('abort',abort,{once:true});
   const ensureActive=()=>{if(connectionError)throw connectionError;if(signal.aborted)throw new ProductionError('PROCESS_CANCELLED','任务已取消');};
   const toolConfig={command:process.execPath,args:[join(config.pluginRoot,'scripts/production-mcp-launcher.mjs')],cwd:config.pluginRoot,env:{TEXTVIDEO_PLUGIN_ROOT:config.pluginRoot,TEXTVIDEO_DEPENDENCY_ROOT:config.dependencyRoot,TEXTVIDEO_RUNTIME_URL:env.TEXTVIDEO_RUNTIME_URL!,TEXTVIDEO_RUN_ID:run.runId,TEXTVIDEO_RUN_TOKEN:run.token!},startup_timeout_sec:60,tool_timeout_sec:180,default_tools_approval_mode:'approve'};
-  const startParams:ThreadStartParams={cwd:root,approvalPolicy:'never',sandbox:'workspace-write',...(config.model?{model:config.model}:{}),config:{web_search:'disabled',features:{apps:false,plugins:false},skills:{config:stageSkills.overrides},...(process.platform==='win32'?{windows:{sandbox:'unelevated'}}:{}),mcp_servers:{'textvideo-studio':toolConfig}},developerInstructions:'这是已授权的隔离模板视频生产。只使用本 Run 阶段入口及工具。新作者通过当前完整稿与受管材料引用交接，不默认继承完整父历史；持续作者沿原线程接收真实差异。主协调只读运行合同，专业作者按职责读取完整方法。禁止读取凭据或访问其他任务。纯媒体等待返回 await_runtime，最后以 final 交付。'};
+  const startParams:ThreadStartParams={cwd:root,approvalPolicy:'never',sandbox:'workspace-write',...(config.model?{model:config.model}:{}),config:{web_search:'disabled',features:{apps:false,plugins:false},skills:{config:stageSkills.overrides},...(process.platform==='win32'?{windows:{sandbox:'unelevated'}}:{}),mcp_servers:{'textvideo-studio':toolConfig}},developerInstructions:'这是已授权的隔离模板视频生产。只使用本 Run 阶段入口及工具。新作者通过当前完整稿与受管材料引用交接，不默认继承完整父历史；持续作者沿原线程接收真实差异。主协调只读运行合同，专业作者按职责读取完整方法。禁止读取凭据或访问其他任务。明确选定正式导出且无独立创作步骤时返回 await_runtime，成功由 Worker 直接交付原清单；分析结果以 final 交付。'};
   const runTurn=async(text:string,onStarted?:(id:string)=>void,firstTurn=false)=>{
     ensureActive();receiver=createTurnReceiver(threadId!);
     // 刚创建的线程尚未持久化首条消息，宿主不支持读取历史；恢复和续轮仍须实际核查。
@@ -172,7 +172,7 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
     await client.init();ensureActive();
     const skills=await client.call('skills/list',{cwds:[root],forceReload:true}),skillEvidence=verifyStageSkills(skills,stageSkills.paths);
     await writeJson(join(root,'stage-discovery.json'),{stage:run.stage,configuration:stageSkills,skills,evidence:skillEvidence,recovery:!!threadId});
-    let result:any;
+    let result:any,recoveredResume:Extract<RuntimeOutcome,{kind:'resume'}>|undefined;
     if(threadId){
       const turns=await readThreadTurns(client,threadId);const intent=run.checkpoint.codex?.startIntent;
       if(intent){turnId=resolveStartedTurn(turns,intent.priorIds).id;repo.checkpoint(run.runId,run.token!,{codex:{turnId,startIntent:null}});}
@@ -185,7 +185,12 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
         // 尚未持久化 startIntent 就中断，按写入顺序可证明还没有发 turn/start。
         if(intent||!repo.compareCheckpoint(run.runId,run.token!,'runtimeWait',waiting,{...waiting,state:'waiting_media'}))throw new ProductionError('CODEX_RESULT_UNKNOWN','续接意图不能安全恢复',503);
       }
-      // 宿主没有承诺恢复整棵作者运行树；有子线程时明确保留待核查。
+      // 已完成主轮次明确选中了原正式作业；先接回媒体，不因作者树不可恢复阻断交付。
+      const recovered=await controller.wait(threadId,turnId!,result);
+      if(recovered?.kind==='handoff')return recovered.handoff;
+      if(recovered?.kind==='resume')recoveredResume=recovered;
+      // 宿主没有承诺恢复整棵作者运行树；只有确需继续创作时才要求核查。
+
       if([...knownThreads.keys()].some(id=>id!==threadId))throw new ProductionError('CODEX_RESULT_UNKNOWN','主线程历史可读，但原作者子线程恢复尚未验证；保留原作业和作者句柄',503);
       await client.call('thread/resume',{...startParams,threadId,excludeTurns:true});
     }else{
@@ -204,7 +209,7 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
     while(true){
       ensureActive();const parsed=turnResultSchema.parse(result);if(parsed.kind==='final'){await discoveryChecks;ensureActive();return parsed;}
       let next;
-      try{next=await controller.wait(threadId!,turnId!,parsed);}catch(error){
+      try{next=recoveredResume??await controller.wait(threadId!,turnId!,parsed);recoveredResume=undefined;}catch(error){
         // 静帧等非正式导出不能进入媒体休眠；参数拒绝只纠正本轮，不取消仍在执行的原作业。
         if(error instanceof ProductionError&&error.code==='WAIT_JOB_INVALID'){
           result=await runTurn(`等待请求未执行：${error.message}。await_runtime 仅用于已受理的正式导出。请用 read_render_job 读取原编号 ${parsed.renderRequestId} 并继续当前阶段，不重新提交媒体，不把静帧等待当最终交付。`);continue;
@@ -212,7 +217,8 @@ export async function executeCodex(run:Run,root:string,repo:ProductionRepository
         throw error;
       }
       ensureActive();
-      result=await runTurn(next!.message,id=>controller.bind(next!.wait,id));
+      if(next!.kind==='handoff'){await discoveryChecks;ensureActive();return next!.handoff;}
+      const resume=next!;result=await runTurn(resume.message,id=>controller.bind(resume.wait,id));
     }
   }catch(error){if(connectionError)throw connectionError;throw error;}
   finally{clearInterval(observeTimer);signal.removeEventListener('abort',abort);client.onClose=()=>{};await discoveryChecks;await client.close();await eventWrites;await writeJson(join(root,'logs','codex-usage.json'),usage.summary(log));}

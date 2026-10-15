@@ -44,7 +44,7 @@ test('服务拒绝 Analysis 制作调用；媒体等待读取原身份并返回�
   const call=(run:any,name:string,payload:any={})=>service.app.inject({method:'POST',url:`/internal/tools/${name}`,headers:{'x-run-id':run.runId,'x-run-token':run.token},payload});
   try{
     service.repo.accept('test','analysis',{taskId:'a',content:'正文',otherRequirements:'',plugin:{customTemplateId:'x'}});const analysis=service.repo.claim()!;
-    for(const tool of ['synthesize_speech','read_speech_batch','verify_sentence_audio','render_template','retry_render_slices'])assert.equal((await call(analysis,tool)).statusCode,403,tool);
+    for(const tool of ['synthesize_speech','read_speech_batch','assemble_sentence_audio','verify_sentence_audio','render_template','retry_render_slices'])assert.equal((await call(analysis,tool)).statusCode,403,tool);
     service.repo.checkpoint(analysis.runId,analysis.token!,{template:{root:'/private/render',manifest:{entry:'secret.tsx',templateVersion:'1'},analysisContract:{digest:'text',files:[]}}});
     const facts=(await call(analysis,'read_production_task')).json();assert.equal(facts.stage,'analysis');assert.ok(!JSON.stringify(facts).includes('secret.tsx'));assert.ok(!JSON.stringify(facts).includes('/private/render'));
     service.repo.finish(analysis.runId,analysis.token,'succeeded',{});
@@ -54,7 +54,7 @@ test('服务拒绝 Analysis 制作调用；媒体等待读取原身份并返回�
     assert.equal((await call(run,'render_template',preview)).statusCode,400);
     const pending=(await call(run,'render_template',{...preview,previewRequests:[{sourceDigest:await treeDigest(project),question:'检查过渡',fromFrame:0,toFrame:30,consumer:'观察者',passCriteria:'无遮挡',needsVideo:true,needsAudio:false,continuousVideoAvailable:false,continuousAudioAvailable:false}]})).json();
     assert.equal(pending.state,'not_started');assert.deepEqual(pending.decisions,['professional_review_pending']);assert.equal(options,undefined);assert.equal((await fs.stat(pending.decisionRef)).isFile(),true);
-    const submitted=(await call(run,'render_template',{renderRequestId:'original',timelineRef:'timeline.json',ranges:[{id:'s',fromFrame:0,toFrame:30}],checks:[]})).json();
+    const submitted=(await call(run,'render_template',{renderRequestId:'original',timelineRef:'timeline.json',checks:[]})).json();
     assert.equal(submitted.renderStrategy,'scene-chunks');assert.equal(submitted.input,undefined);
     const startedAt=Date.now();while(!options){assert.ok(Date.now()-startedAt<5000,'异步作业未进入渲染器');await new Promise(done=>setTimeout(done,10));}
     const first=(await call(run,'read_render_job',{renderRequestId:'original'})).json();

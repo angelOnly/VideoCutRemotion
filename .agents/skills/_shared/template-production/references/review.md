@@ -1,18 +1,18 @@
 # 同版检查、返修与按需预览
 
-作者结束写入并提交关键风险点，主协调一次冻结同版静帧。preview_template_frames 使用唯一 renderRequestId 与 1～12 个唯一全局 frames；12 是上限。read_render_job 返回 sourceDigest 和 readyFrames 后才可分派观察。图形中间态、长中文、固定包装与章节切口优先，原尺寸图检查细节。
+作者结束写入并提交关键风险点，主协调一次冻结同版静帧。preview_template_frames 使用唯一 renderRequestId 与 1～12 个唯一全局 frames；12 是上限。提交本轮全部批次后直接 prepare_review 等待；sourceDigest 与 readyFrames 成立后才可分派观察。图形中间态、长中文、固定包装与章节切口优先，原尺寸图检查细节。
 
 ## 服务领活、观察与连续提交
 
-主协调调用 prepare_review({renderRequestIds,phase})，phase 固定为 pre_export，只分配静帧布局与字幕布局检查；只有服务无法从作业或同快照核验记录定位时间线时才补 timelineRef。Runtime 依据配置和宿主实际名额启动有界的只读审片会话。每个会话只绑定当前唯一计划，凭证来自服务环境，不由模型自报身份，不继承制作、生成与发布权限。
+主协调调用 prepare_review({renderRequestIds,phase,waitMs:60000})，phase 固定为 pre_export，只分配静帧布局与字幕布局检查；只有服务无法从作业或同快照核验记录定位时间线时才补 timelineRef。全部批次同快照成功才创建完整计划；超时返回 waiting_media 和 pendingJobs，沿原参数续准备，不创建空计划或新媒体。failed/cancelled/unknown 沿原身份处理，不隐式重绘。Runtime 依据配置和宿主实际名额启动有界的只读审片会话。每个会话只绑定当前唯一计划，凭证来自服务环境，不由模型自报身份，不继承制作、生成与发布权限。
 
 审片者调用 claim_review_work({}) 获取当前包；重复领取返回原活动包。实际读完对应证据后调用 submit_review({assignmentToken,observations,issues,status})。observations 每项填服务给出的 checkId、evidenceId、简短 note；静帧使用服务登记的帧号，不填连续媒体 range。issues 填 checkId、evidenceId、severity、problem，必要时提供问题 range；没问题用空数组，不填占位问题。status 仅为 partial 或 complete。
 
-不手填 runId、审片者身份、文件摘要、分派代次或 submissionId。服务核对当前分派、证据、观察目的和已查看图片；不同 checkId 的覆盖不能互相代替。partial 保存已完成范围并返回剩余要求；complete 成功后原子返回 next，审片者直接继续，不等主协调逐包登记和派单。工具重试使用原分派与相同正文，读取已保存响应，不另造身份。主协调调用 read_review({reviewId}) 查看简短汇总、剩余和阻断问题，具体异常才展开材料。
+不手填 runId、审片者身份、文件摘要、分派代次或 submissionId。服务核对当前分派、证据、观察目的和已查看图片；不同 checkId 的覆盖不能互相代替。partial 保存已完成范围并返回剩余要求；complete 成功后原子返回 next，审片者直接继续，不等主协调逐包登记和派单。工具重试使用原分派与相同正文，读取已保存响应，不另造身份。主协调调用 read_review({reviewId}) 首次立即读取简短汇总；后续传 afterDigest=statusDigest、waitMs:60000 等待观察、问题或会话变化。timedOut 只表示暂无新状态，不判失败、不重建计划；具体异常才展开材料。
 
 新 Run 不使用手填 QA JSON 或 review.cjs assign/result 作为主状态。审查断流保留已完成覆盖，撤销旧代次后只接替未完成只读范围；过期分派和跨版迟到结果留档，不能覆盖新结论。参数拒绝只纠正明确未执行字段；证据部分不可读只恢复该读取，不能把打开播放器记作已看完。
 
-返修交回实际修改文件与范围，服务从快照真实差异核对失效范围。局部字幕文字或换行复查该卡及换卡边界；全局字幕样式才扩大布局检查，不因字幕变化自动重审全片。普通场景变化检查当前完整场景，有明确源时钟、遮挡或接管依赖才扩展相邻范围；共享组件、全局时序和固定包装按真实影响展开。未知依赖保守保留复查，不能仅凭作者自报 local 复用。只复用仍有效的静帧观察结论。
+返修交回实际修改文件与范围，服务从快照真实差异核对失效范围。局部字幕文字或换行复查该卡及换卡边界；全局字幕样式才扩大布局检查，不因字幕变化自动重审全片。普通场景变化检查当前完整场景，有明确源时钟、遮挡或接管依赖才扩展相邻范围；共享组件、全局时序和固定包装按真实影响展开。未知依赖保守保留复查，不能仅凭作者自报 local 复用。复用逐 checkId + evidenceId 核对字节、尺寸、fps、帧号、规则、场景章节语义与依赖；partial 中已保存观察也可继承。同章其他图片变化不自动否决本图。未变证据的问题随观察保留；变化证据旧问题进入 pendingIssues，真实复查后按 issueResolutions 明确处置，不能以空 issues 数组关闭旧问题。图片变化不做区域差分，未知共享依赖仍保守扩大。
 
 按需预览开启时先记录 sourceDigest、具体疑点、最小全局帧范围、consumer、真实看听能力和 passCriteria。没有连续观察者则标记 professional_review_pending，不生成无人消费的大范围视频。render_template 的 previewOnly=true 请求须按每个范围附 previewRequests，字段为 sourceDigest、question、fromFrame、toFrame、consumer、passCriteria、needsVideo、needsAudio、continuousVideoAvailable、continuousAudioAvailable；范围与 ranges 一一对应。有限片段并发由服务控制，不能自行启动额外编码。已有同版核验整片直接观察该文件。
 

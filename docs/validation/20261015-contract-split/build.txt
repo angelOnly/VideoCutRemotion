@@ -1,0 +1,1 @@
+已生成文本驱动生产插件发行物：/Users/jiang/Downloads/ifeng/VideoCutRemotion/plugins/textvideo-studio/runtime/dist

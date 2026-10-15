@@ -40,11 +40,29 @@ export function processFile(command: string, args: string[], options: {cwd?:stri
     child.once('close',code=>{if(reason)kill(true);clean();if(code===0&&!reason)resolveDone(stdout);else reject(new ProductionError(reason||'PROCESS_FAILED',`${command} 退出 ${code}：${stderr}`,500));});
   });
 }
-export async function decodedAudioSeconds(path:string,signal?:AbortSignal){
-  let bytes=0;
-  await processFile(process.env.FFMPEG_PATH??'ffmpeg',['-v','error','-xerror','-i',path,'-map','0:a:0','-ac','1','-ar','48000','-f','s16le','-'],{signal,timeoutMs:120000,maxBytes:64*1024*1024,captureOutput:false,onOutput:chunk=>{bytes+=chunk.length;}});
-  const seconds=bytes/2/48000;if(!Number.isFinite(seconds)||seconds<=0)throw new ProductionError('MEDIA_INVALID','音频没有有效解码采样');return seconds;
+export const pcmMeasurementRule='mono-48000-s16le/1';
+export type PcmMeasurement={ruleVersion:string;decoderId:string;audioSha256:string;sampleFormat:'s16le';sampleRate:48000;channels:1;sampleCount:number;duration:number};
+const decoderIdentities=new Map<string,Promise<string>>();
+export async function audioDecoderId(){
+  const command=process.env.FFMPEG_PATH??'ffmpeg';
+  let pending=decoderIdentities.get(command);
+  if(!pending){pending=processFile(command,['-version'],{timeoutMs:30000}).then(version=>sha256(canonical({command,version,parameters:['-map','0:a:0','-ac','1','-ar','48000','-f','s16le']})));decoderIdentities.set(command,pending);pending.catch(()=>decoderIdentities.delete(command));}
+  return pending;
 }
+export async function measureDecodedAudio(path:string,signal?:AbortSignal):Promise<PcmMeasurement>{
+  if(signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','音频测量已取消');
+  const audioSha256=sha256(await fs.readFile(path)),decoderId=await audioDecoderId();let bytes=0;
+  await processFile(process.env.FFMPEG_PATH??'ffmpeg',['-v','error','-xerror','-i',path,'-map','0:a:0','-ac','1','-ar','48000','-f','s16le','-'],{signal,timeoutMs:120000,maxBytes:64*1024*1024,captureOutput:false,onOutput:chunk=>{bytes+=chunk.length;}});
+  const sampleCount=bytes/2,duration=sampleCount/48000;
+  if(!Number.isSafeInteger(sampleCount)||sampleCount<=0)throw new ProductionError('MEDIA_INVALID','音频没有有效解码采样');
+  if(signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','音频测量已取消');
+  if(sha256(await fs.readFile(path))!==audioSha256)throw new ProductionError('AUDIO_CHANGED','测量期间音频字节发生变化');
+  return {ruleVersion:pcmMeasurementRule,decoderId,audioSha256,sampleFormat:'s16le',sampleRate:48000,channels:1,sampleCount,duration};
+}
+export function validPcmMeasurement(value:any,hash:string,decoderId:string):value is PcmMeasurement{
+  return value?.ruleVersion===pcmMeasurementRule&&value.decoderId===decoderId&&value.audioSha256===hash&&value.sampleFormat==='s16le'&&value.sampleRate===48000&&value.channels===1&&Number.isSafeInteger(value.sampleCount)&&value.sampleCount>0&&value.duration===value.sampleCount/48000;
+}
+export async function decodedAudioSeconds(path:string,signal?:AbortSignal){return (await measureDecodedAudio(path,signal)).duration;}
 export async function probe(path: string, decode=false, signal?:AbortSignal) {
   const data=JSON.parse(await processFile(process.env.FFPROBE_PATH??'ffprobe',['-v','error','-show_format','-show_streams','-of','json',path],{signal,timeoutMs:30000}));
   const dur=Number(data.format?.duration); if(!Number.isFinite(dur)||dur<=0)throw new ProductionError('MEDIA_INVALID','媒体没有有效时长');

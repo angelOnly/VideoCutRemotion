@@ -9,6 +9,7 @@ import { ProductionRunner, type Executor } from '../../../../packages/production
 import { CallbackSender } from '../../../../packages/production-service/src/callbacks.js';
 import type { ProductionConfig } from '../../../../packages/production-service/src/config.js';
 import { RunWork, MediaBudget, MediaJobEvents } from '../../../../packages/production-service/src/run-work.js';
+import { assembleSentenceAudio } from '../../../../packages/production-service/src/sentence-audio-assembly.js';
 import { verifySentenceAudio } from '../../../../packages/production-service/src/sentence-audio.js';
 import { DoubaoService } from '../../../../packages/speech-services/src/doubao.js';
 import { renderTemplate, renderToolSchema, templateFrames, previewFramesSchema, renderRequestIdSchema, retryRenderSlices, type MediaJob, type RenderOptions } from '../../../render-worker/src/template-renderer.js';
@@ -46,7 +47,7 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
     const webSubmit=request.method==='POST'&&['/narrate/ai_video_director/getAiVideoEditingAnalysisData','/narrate/ai_video_director/getAiVideoEditingData'].includes(request.url)&&config.webSubmitAddresses?.includes(request.ip.replace(/^::ffff:/,''));
     if(!webSubmit&&request.headers.authorization!==`Bearer ${config.apiToken}`)throw new ProductionError('UNAUTHORIZED','需要有效服务身份',401);
   });
-  app.get('/healthz',async()=>({status:'ready',releaseId:config.release.releaseId,pluginVersion:config.release.pluginVersion,skillsDigest:config.release.skillsDigest,configurationReady:Object.values(config.ready).every(Boolean),productionReady:Object.values(config.ready).every(Boolean)?null:false,readinessScope:'configuration_only',dependencies:config.ready,capacity:{maxActiveRuns:config.maxActiveRuns??4,renderConcurrency:config.renderConcurrency??4,mediaGlobalConcurrency:config.mediaGlobalConcurrency??16,mediaRunConcurrency:config.mediaRunConcurrency??2,mediaProcessConcurrency:config.mediaProcessConcurrency??4,speechConcurrency:config.speechConcurrency??20,speechPerRunConcurrency:config.speechPerRunConcurrency??5,activeRuns:runner.active.size},optimization:{renderStrategy:config.renderStrategy??'scene-chunks',qaParallelReview:config.qaParallelReview??true,previewOnDemand:config.previewOnDemand??true},capabilities:{localModels:false,networkSearch:config.searchEnabled,lexicalMechanisms:true,reviewProtocol:2,runtimeWait:true,reviewStorage:'sqlite',reviewIdentity:'thread_scoped_mcp'}}));
+  app.get('/healthz',async()=>({status:'ready',releaseId:config.release.releaseId,pluginVersion:config.release.pluginVersion,skillsDigest:config.release.skillsDigest,configurationReady:Object.values(config.ready).every(Boolean),productionReady:Object.values(config.ready).every(Boolean)?null:false,readinessScope:'configuration_only',dependencies:config.ready,capacity:{maxActiveRuns:config.maxActiveRuns??4,renderConcurrency:config.renderConcurrency??4,mediaGlobalConcurrency:config.mediaGlobalConcurrency??16,mediaRunConcurrency:config.mediaRunConcurrency??2,mediaProcessConcurrency:config.mediaProcessConcurrency??4,speechConcurrency:config.speechConcurrency??20,speechPerRunConcurrency:config.speechPerRunConcurrency??5,activeRuns:runner.active.size},optimization:{renderStrategy:config.renderStrategy??'scene-chunks',qaParallelReview:config.qaParallelReview??true,previewOnDemand:config.previewOnDemand??true},capabilities:{localModels:false,networkSearch:config.searchEnabled,lexicalMechanisms:true,reviewProtocol:3,runtimeWait:true,sentenceAssembly:true,timelineContract:'sentence-timeline/1',derivedRenderRanges:true,directDelivery:true,reviewStorage:'sqlite',reviewIdentity:'thread_scoped_mcp'}}));
   const accept=(stage:'analysis'|'render')=>async(request:any,reply:any)=>{if(runner.stopping)throw new ProductionError('STOPPING','服务正在停止受理',503);const input=stage==='analysis'?normalizeWebAnalysis(request.body):normalizeWebRender(request.body,repo.list(config.accountId,request.body?.taskId??''));const run=repo.accept(config.accountId,stage,input);return reply.code(202).send({status:0,msg:'已持久化受理',data:{taskId:run.taskId,requestId:run.requestId,runId:run.runId,stage,state:run.state,planVersion:run.planVersion}});};
   app.post('/narrate/ai_video_director/getAiVideoEditingAnalysisData',accept('analysis'));app.post('/narrate/ai_video_director/getAiVideoEditingData',accept('render'));
   app.get('/ai_video_director/tasks/:taskId',async(request:any)=>{const runs=repo.list(config.accountId,request.params.taskId);return {status:0,data:{latestSubmitted:runs.at(-1)?.runId,current:runs.find(r=>['running','unknown','recovering','cancelling'].includes(r.state))?.runId,latestSuccess:[...runs].reverse().find(r=>r.stage==='render'&&r.state==='succeeded')?.runId,runs:runs.map(r=>({...r,token:undefined,checkpoint:undefined,callback:repo.db.prepare('SELECT id,state,attempts,diagnostic FROM callback_outbox WHERE run_id=?').get(r.runId)}))}};});
@@ -60,6 +61,7 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
       if(!m[1])start=Math.max(0,stat.size-Number(m[2]));else{start=Number(m[1]);if(m[2])end=Math.min(end,Number(m[2]));}if(start>end||start>=stat.size)return reply.code(416).header('Content-Range',`bytes */${stat.size}`).send();reply.code(206).header('Content-Range',`bytes ${start}-${end}/${stat.size}`);}
     reply.header('Content-Length',end-start+1);return request.method==='HEAD'?reply.send():reply.send(createReadStream(path,{start,end}));
   }});
+  const frameJobs=new Set<string>();
   const rendering=new RunWork(),budget=new MediaBudget(config.mediaGlobalConcurrency??16,config.mediaProcessConcurrency??4),events=new MediaJobEvents();let toolQueue:Promise<any>=Promise.resolve();
   runner.mediaRuntime={events,read:async(run,id)=>{
     renderRequestIdSchema.parse(id);const job=await json(await regular(runner.runRoot(run),join('render-jobs',`${id}.json`)));
@@ -74,21 +76,26 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
   const runnable=(id:string)=>{const run=repo.get(id);if(!runner.canStartWork(id)||run.state!=='running')throw new ProductionError('RUN_STOPPING','任务已停止接受新生成',409);return run;};
   // 只在入口短锁中登记；实际核验、绘图和编码始终属于本Run的工作生命周期。
   const startMedia=async(current:ReturnType<typeof repo.get>,path:string,job:MediaJob,resume:boolean)=>{
-    if(rendering.current(current.runId))throw new ProductionError('RENDER_BUSY',`本视频正在处理 ${rendering.current(current.runId)}`,409);
+    const active=rendering.current(current.runId);
+    if(active&&!(job.kind==='frame-preview'&&frameJobs.has(`${current.runId}:${active}`)))throw new ProductionError('RENDER_BUSY',`本视频正在处理 ${active}`,409);
     // 续切校验使用入口确认的失败记录；对外登记 running 不得抹去这份恢复依据。
     const retryJob=resume?structuredClone(job):undefined;
     job.attempt=resume?(job.attempt??1)+1:job.attempt??1;
-    let persisted!:()=>void,rejected!:(error:unknown)=>void;
-    const registered=new Promise<void>((yes,no)=>{persisted=yes;rejected=no;});
-    const work=rendering.start(current.runId,job.id,async()=>{
-      job.state='running';delete job.error;
-      try{await writeJson(path,job);persisted();}catch(error){rejected(error);throw error;}
+    job.state=active?'queued':'running';delete job.error;
+    const registration=writeJson(path,job);
+    let began!:()=>void,beginFailed!:(error:unknown)=>void;
+    const started=new Promise<void>((yes,no)=>{began=yes;beginFailed=no;});void started.catch(()=>{});
+    if(job.kind==='frame-preview')frameJobs.add(`${current.runId}:${job.id}`);
+    const start=job.kind==='frame-preview'?rendering.enqueue.bind(rendering):rendering.start.bind(rendering);
+    const work=start(current.runId,job.id,async()=>{
+      try{await registration;job.state='running';delete job.error;await writeJson(path,job);began();events.notify(`${current.runId}:${job.id}`);}catch(error){beginFailed(error);throw error;}
       // renderFrames并发回调，单作业清单必须串行落盘，避免固定.tmp文件互相覆盖。
       let writes:Promise<unknown>=Promise.resolve();
       const persist=(change:()=>void)=>{const next=writes.then(async()=>{change();await writeJson(path,job);events.notify(path);events.notify(`${current.runId}:${job.id}`);});writes=next.catch(()=>{});return next;};
       const root=runner.runRoot(current),signal=runner.active.get(current.runId)?.signal;
       const options:RenderOptions={dependencyRoot:config.dependencyRoot,releaseId:config.release.releaseId,browser:config.browser,concurrency:job.concurrency??config.renderConcurrency??4,runConcurrency:job.runConcurrency??config.mediaRunConcurrency??2,renderStrategy:job.renderStrategy??'whole-slices',budget,signal,sceneCutMode:job.sceneCutMode??'accurate',audioAudits:current.checkpoint.sentenceAudioAudits,
         metrics:{runId:current.runId,renderRequestId:job.id,sourceDigest:job.sourceDigest,signal,enabled:config.mediaTiming??true,activeMediaJobs:()=>rendering.size,onMetric:createMediaMetricSink(root)},
+        onRangesResolved:ranges=>persist(()=>{job.resolvedRanges=ranges;}),
         onChunkReady:chunk=>persist(()=>{job.chunks=(job.chunks??[]).filter(item=>item.id!==chunk.id).concat(chunk).sort((a,b)=>a.fromFrame-b.fromFrame);}),
         onAudioReady:audio=>persist(()=>{job.continuousAudio=audio;}),
         onSourceFrozen:digest=>persist(()=>{job.sourceDigest=digest;}),
@@ -99,6 +106,7 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
           job.readyFrames=job.readyFrames.filter(f=>f.frame!==frame.frame).concat(frame).sort((a,b)=>requested.indexOf(a.frame)-requested.indexOf(b.frame));
         })};
       try{
+        if(signal?.aborted||repo.get(current.runId).state!=='running')throw new ProductionError('PROCESS_CANCELLED','排队静帧启动前任务已取消');
         const result=await withMediaSpan(options.metrics,resume?'media_job_resume':'media_job',async metrics=>{
           const scoped={...options,metrics};
           const result=retryJob?await renderers.retryRenderSlices(current,root,retryJob,scoped):job.kind==='frame-preview'
@@ -113,28 +121,43 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
         if('frames' in job.input)job.missingFrames=job.input.frames.filter(frame=>!job.readyFrames.some(f=>f.frame===frame));
       });}
       await writes;
-    });void work.catch(()=>{});await registered;return job;
+    });void work.finally(()=>frameJobs.delete(`${current.runId}:${job.id}`)).catch(()=>{});await registration;if(!active)await started;return job;
   };
-  app.post('/internal/tools/:name',async(request:any)=>{
-    const name=request.params.name,run=repo.get(request.headers['x-run-id']),body=request.body??{};if(body.runId&&body.runId!==run.runId)throw new ProductionError('RUN_SCOPE_INVALID','工具不能访问其他执行',403);
+  app.post('/internal/tools/:name',async(request:any,reply:any)=>{
+    const name=request.params.name,run=repo.get(request.headers['x-run-id']),body=request.body??{};
+    // 等待只持有监听，断线、取消和服务关闭均释放；不进入全局提交队列。
+    const waitConnected=async<T>(work:(signal:AbortSignal)=>Promise<T>)=>{
+      const connection=new AbortController(),close=()=>{if(!reply.raw.writableEnded)connection.abort();};
+      reply.raw.once('close',close);
+      const active=runner.active.get(run.runId)?.signal;
+      try{return await work(active?AbortSignal.any([active,connection.signal]):connection.signal);}
+      finally{connection.abort();reply.raw.removeListener('close',close);}
+    };if(body.runId&&body.runId!==run.runId)throw new ProductionError('RUN_SCOPE_INVALID','工具不能访问其他执行',403);
     if(request.headers['x-review-token']){
       const credential=request.headers['x-review-token'],session=reviews.authenticate(run.runId,credential,name==='read_production_task');
       if(name==='read_production_task')return {runId:run.runId,stage:run.stage,role:'reviewer',reviewId:session.review_id};
       if(name==='claim_review_work')return reviews.claim(run.runId,credential,body);
       if(name==='submit_review'){await reviews.verifySubmissionEvidence(run.runId,credential,body);return reviews.submit(run.runId,credential,body);}
-      if(name==='read_review'){const {reviewId}=readReviewSchema.parse(body);if(reviewId!==session.review_id)throw new ProductionError('REVIEW_SCOPE_INVALID','仅允许读取会话绑定的当前计划',403);return reviews.read(run.runId,reviewId);}
+      if(name==='read_review'){const input=readReviewSchema.parse(body);if(input.reviewId!==session.review_id)throw new ProductionError('REVIEW_SCOPE_INVALID','仅允许读取会话绑定的当前计划',403);return waitConnected(signal=>reviews.readWait(run.runId,input,signal));}
     }
     if(run.stage==='analysis'&&name!=='read_production_task')throw new ProductionError('ANALYSIS_TOOL_FORBIDDEN','Analysis 仅提供文字阶段事实读取',403);
     if(name==='prepare_review'){
-      const result=await reviews.prepare(runnable(run.runId),prepareReviewSchema.parse(body));reviewers.start(run,result.reviewId);return result;
+      const result=await waitConnected(signal=>reviews.prepare(runnable(run.runId),prepareReviewSchema.parse(body),{events,signal,isRunning:id=>rendering.has(run.runId,id)}));if('reviewId' in result&&result.reviewId)reviewers.start(run,result.reviewId);return result;
     }
-    if(name==='read_review'){const {reviewId}=readReviewSchema.parse(body);return reviews.read(run.runId,reviewId);}
+    if(name==='read_review')return waitConnected(signal=>reviews.readWait(run.runId,readReviewSchema.parse(body),signal));
     if(name==='synthesize_speech'){runnable(run.runId);return speech.submit({...body,runId:run.runId},run.accountId);}
     if(name==='synthesize_speech_batch'){runnable(run.runId);return speechBatchSummary(runner.runRoot(run),await speech.submitBatch({...body,runId:run.runId},run.accountId));}
     if(name==='read_speech_job')return speech.read(body.speechJobId,run.runId,run.accountId);
     if(name==='read_speech_batch'){const input=z.object({speechBatchRequestId:renderRequestIdSchema,details:z.boolean().default(false)}).strict().parse(body);return speechBatchSummary(runner.runRoot(run),await speech.readBatch(input.speechBatchRequestId,run.runId,run.accountId),input.details);}
     if(name==='retry_speech_validation'){runnable(run.runId);return speech.retryValidation(body.speechJobId,run.runId,run.accountId);}
     if(name==='read_production_task')return {...productionTaskSummary(run),activeRender:rendering.current(run.runId),qaRoot:join(runner.runRoot(run),'qa'),metricsPath:join(runner.runRoot(run),'metrics','media.jsonl'),optimization:{qaParallelReview:config.qaParallelReview??true,qaMaxReviewers:config.qaMaxReviewers??3,previewOnDemand:config.previewOnDemand??true,sceneCutMode:config.sceneCutMode??'accurate',renderStrategy:config.renderStrategy??'scene-chunks',mediaGlobalConcurrency:config.mediaGlobalConcurrency??16,mediaRunConcurrency:config.mediaRunConcurrency??2,mediaProcessConcurrency:config.mediaProcessConcurrency??4,mediaTiming:config.mediaTiming??true}};
+    if(name==='assemble_sentence_audio'){
+      const current=runnable(run.runId);
+      return rendering.start(run.runId,'sentence-audio-assembly',()=>{
+        const signal=runner.active.get(run.runId)?.signal;
+        return budget.withProcess(run.runId,signal,()=>assembleSentenceAudio(current,runner.runRoot(current),body,speech,signal));
+      });
+    }
     if(name==='verify_sentence_audio'){
       const current=runnable(run.runId);
       return rendering.start(run.runId,'sentence-audio-check',async()=>{
@@ -153,7 +176,7 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
       const old=await json(path).catch((e:any)=>{if(e.code==='ENOENT')return null;throw e;});
       if(old){
         if(old.kind!==kind||old.inputDigest!==digest)throw new ProductionError('RENDER_KEY_CONFLICT','同一编号的作业类型或输入不同',409);
-        return mediaJobSummary(old.state==='running'&&rendering.current(run.runId)!==old.id?{...old,state:'unknown',error:'原工作状态需要核查'}:old,path);
+        return mediaJobSummary(['running','queued'].includes(old.state)&&!rendering.has(run.runId,old.id)?{...old,state:'unknown',error:'原工作状态需要核查'}:old,path);
       }
       const current=runnable(run.runId);
       if('previewOnly' in input&&input.previewOnly&&(config.previewOnDemand??true)){
@@ -200,14 +223,14 @@ export async function createProductionServer(config:ProductionConfig,executor?:E
         const wake=events.wait(path,Math.max(0,deadline-Date.now()),AbortSignal.any([controller.signal,...(runner.active.get(run.runId)?[runner.active.get(run.runId)!.signal]:[])]));
         try{
           const job=await json(path);
-          if(job.state==='running'&&rendering.current(run.runId)!==input.renderRequestId){job.state='unknown';job.error='原渲染进程状态需要核查';}
+          if(['running','queued'].includes(job.state)&&!rendering.has(run.runId,input.renderRequestId)){job.state='unknown';job.error='原渲染进程状态需要核查';}
           const statusDigest=sha256(canonical(job));
-          if(job.state!=='running'||Date.now()>=deadline||runner.active.get(run.runId)?.signal.aborted||(input.afterDigest!==undefined&&input.afterDigest!==statusDigest))return {...mediaJobSummary(job,path,input.details),statusDigest};
+          if(!['running','queued'].includes(job.state)||Date.now()>=deadline||runner.active.get(run.runId)?.signal.aborted||(input.afterDigest!==undefined&&input.afterDigest!==statusDigest))return {...mediaJobSummary(job,path,input.details),statusDigest};
           await wake;
         }finally{controller.abort();}
       }
     }
     throw new ProductionError('TOOL_NOT_FOUND','制作工具不存在',404);
   });
-  return {app,repo,runner,callbacks,speech,reviews,async close(){runner.stop();speech.stop();await reviewers.stop();await runner.drain();await runner.settleTools();await app.close();repo.close();}};
+  return {app,repo,runner,callbacks,speech,reviews,async close(){runner.stop();speech.stop();reviews.close();await reviewers.stop();await runner.drain();await runner.settleTools();await app.close();repo.close();}};
 }

@@ -14,7 +14,7 @@
 
 局部段使用 synthesize_speech/read_speech_job。相同键不同输入拒绝；成功音频的复用核对文本、音色、参数、归属与文件摘要，跨 Run 显式 reuseRunId。unknown 沿原 job/run 核查，不复用或换键重新收费。已有音频 validation_failed 时仅 retry_speech_validation，不重新请求供应商。
 
-接回实际 audioRef 后复制受管音频到工程 public，保存文本、声音身份、测量时长和句段边界。听查每段起句、重音、语速、句尾与前后连接，尤其留意分段后语气不断重置、半音节截尾、异常长停顿和重复句。短淡化只能消除爆点，不能修复错读、断义和明显语气跳变；问题段需要真实重做并更新依赖。
+配音批次成功后，由主协调调用 assemble_sentence_audio，传 assemblyRequestId、speechBatchRequestIds、planRef 和当前时间线文件的 expectedTimelineSha256。计划只写自然句段顺序、gapBeforeFrames、tailFrames、字幕换行或可靠 captionTiming 引用及章节归属；批次已明确的值不重复抄写。服务按稳定 ID 接回、验证摘要、复制到 public、复用可信 PCM 测量并计算覆盖音频的帧界。模板必须声明 timelineDataRef 与 sentence-timeline/1；不支持时报告合同范围，不解析任意 TypeScript。原键同输入只返回原记录，不覆盖作者后续改稿；冲突读回真实差异，不新发 TTS。装配期间暂停同文件写入。视觉对象、BGM、SFX 和源码保留，时长改变交视觉作者重校动作与接管，不自动缩放。听查每段起句、重音、语速、句尾与前后连接，尤其留意分段后语气不断重置、半音节截尾、异常长停顿和重复句。短淡化只能消除爆点，不能修复错读、断义和明显语气跳变；问题段需要真实重做并更新依赖。
 
 ## 音乐先做 Spotting，再决定包络
 

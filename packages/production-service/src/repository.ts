@@ -78,11 +78,20 @@ export class ProductionRepository {
       this.db.prepare('UPDATE runs SET checkpoint=?,heartbeat=? WHERE id=? AND token=?').run(JSON.stringify({...run.checkpoint,[key]:value}),Date.now(),id,token);return true;
     });
   }
+  /** 等待与交接是同一提交点；取消或令牌变化不能穿过事务继续发布。 */
+  handoffRuntime(id:string,token:string,expected:unknown,wait:unknown,handoff:unknown):boolean{
+    return this.transaction(()=>{const run=this.get(id);this.guard(run,token);
+      if(run.state==='cancelling')throw new ProductionError('PROCESS_CANCELLED','任务已取消，不保存交付');
+      if(run.checkpoint.handoff||canonical(run.checkpoint.runtimeWait??null)!==canonical(expected??null))return false;
+      this.db.prepare('UPDATE runs SET checkpoint=?,heartbeat=? WHERE id=? AND token=?').run(JSON.stringify({...run.checkpoint,runtimeWait:wait,handoff}),Date.now(),id,token);return true;
+    });
+  }
   guard(run: Run, token: string) { if (run.token !== token || terminal(run.state)) throw new ProductionError('EXECUTION_FENCED','执行令牌已失效',409); }
   finish(id: string, token: string | null, state: 'succeeded'|'failed'|'cancelled', result: any = null, error: any = null) {
     return this.transaction(() => {
       const run = this.get(id); if (terminal(run.state)) return run;
       if (run.token !== token) throw new ProductionError('EXECUTION_FENCED','执行令牌已失效',409);
+      if(state==='succeeded'&&run.state==='cancelling')throw new ProductionError('PROCESS_CANCELLED','取消先于结果事务，不登记成功或成功回调');
       let resultVersion: number | null = null;
       if (state === 'succeeded' && run.stage === 'render') {
         this.db.prepare('UPDATE tasks SET result_version=result_version+1,latest_success=? WHERE id=?').run(id,run.taskKey);

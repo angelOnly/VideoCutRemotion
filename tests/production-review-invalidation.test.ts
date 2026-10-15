@@ -9,9 +9,10 @@ function snapshot():ReviewSnapshot{return {sourceDigest:'before',timelineRef:'ti
 function change(update:(after:ReviewSnapshot)=>void){const before=snapshot(),after=structuredClone(before);after.sourceDigest='after';update(after);return compareReviewSnapshots(before,after);}
 const checks=(items:ReturnType<typeof change>,scene:string)=>new Set(items.filter(i=>i.sceneIds.includes(scene)).flatMap(i=>i.checkIds));
 
-test('局部字幕文字与换卡时间分别失效，不附带前后整章',()=>{
+test('字幕语义改变保守扩大章节，断行与换卡时间按落点失效',()=>{
  const text=change(after=>{after.timeline.scenes[0].captions[0].text='新字幕';});
- assert.deepEqual([...checks(text,'s0')].sort(),['caption-layout','caption-reading']);assert.equal(checks(text,'s1').size,0);
+ assert.ok(checks(text,'s0').has('visual-layout'));assert.ok(text[0].chapterWide);assert.equal(checks(text,'s1').size,0);
+ const newline=change(after=>{after.timeline.scenes[0].captions[0].text='原\n字幕';});assert.deepEqual([...checks(newline,'s0')].sort(),['caption-layout','caption-reading']);assert.equal(newline[0].chapterWide,false);assert.deepEqual(newline[0].frameRanges,[{fromFrame:0,toFrame:30}]);
  const timing=change(after=>{after.timeline.scenes[0].captions[0].endFrameExclusive=29;});
  assert.deepEqual([...checks(timing,'s0')].sort(),['av-sync','caption-layout','caption-reading','continuity']);assert.equal(checks(timing,'s1').size,0);
 });

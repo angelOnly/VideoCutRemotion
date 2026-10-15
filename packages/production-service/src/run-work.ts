@@ -3,16 +3,30 @@ import { ProductionError } from './contracts.js';
 /** 同一视频的渲染、批量静帧和固定媒体检查共用入口，直到真实工作结束才释放。 */
 export class RunWork {
   private active=new Map<string,{id:string;promise:Promise<unknown>}>();
+  private queued=new Map<string,Array<{id:string;launch:()=>void}>>();
   current(runId:string){return this.active.get(runId)?.id;}
   get size(){return this.active.size;}
   start<T>(runId:string,id:string,work:()=>Promise<T>):Promise<T>{
     const old=this.active.get(runId);
     if(old)throw new ProductionError('RENDER_BUSY',`本视频正在处理 ${old.id}，请先读取原任务`,409);
-    const promise=Promise.resolve().then(work).finally(()=>this.active.delete(runId));
+    const promise=Promise.resolve().then(work).finally(()=>this.next(runId));
     this.active.set(runId,{id,promise});
     void promise.catch(()=>{});
     return promise;
   }
+  private next(runId:string){
+    this.active.delete(runId);const queue=this.queued.get(runId),next=queue?.shift();
+    if(!queue?.length)this.queued.delete(runId);next?.launch();
+  }
+  /** 仅用于已受理静帧批次；仍逐项执行，同一 Run 不增加绘图并发。 */
+  enqueue<T>(runId:string,id:string,work:()=>Promise<T>):Promise<T>{
+    if(!this.active.has(runId))return this.start(runId,id,work);
+    const promise=new Promise<T>((resolve,reject)=>{
+      const launch=()=>{void this.start(runId,id,work).then(resolve,reject);};
+      const queue=this.queued.get(runId)??[];queue.push({id,launch});this.queued.set(runId,queue);
+    });void promise.catch(()=>{});return promise;
+  }
+  has(runId:string,id:string){return this.current(runId)===id||!!this.queued.get(runId)?.some(item=>item.id===id);}
   async drain(runId?:string){
     while(true){const entries=[...this.active].filter(([id])=>!runId||id===runId);if(!entries.length)return;await Promise.allSettled(entries.map(([,w])=>w.promise));}
   }

@@ -1,13 +1,33 @@
 """针对已知模板源码实施有限补丁，源结构不符时停止，禁止静默漏补。"""
 from pathlib import Path
-import shutil
+import shutil, json, re
 
 def once(text, old, new):
     if text.count(old) != 1:
         raise ValueError('模板源码结构不符，需人工核对补丁锚点：' + old[:100])
     return text.replace(old, new, 1)
 
+def adapt_timeline(output):
+    renderer = Path(output) / 'renderer'
+    source = renderer / 'src/timeline.ts'
+    text = source.read_text(encoding='utf-8')
+    # 只迁移已知的 JSON 字面量，不执行模板脚本，也不猜测 TypeScript 表达式。
+    match = re.search(r'export const timeline: FinanceTimeline = (\{.*\});\s*$', text, re.S)
+    if not match:
+        raise ValueError('模板 timeline.ts 不是支持的 JSON 字面量，请核对维护源')
+    literal = match.group(1)
+    json.loads(literal)
+    (renderer / 'timeline.json').write_text(literal + '\n', encoding='utf-8')
+    source.write_text("import type {FinanceTimeline} from './types';\nimport timelineData from '../timeline.json';\n\n// 渲染与服务读取同一份 JSON，作者只修改 timeline.json。\nexport const timeline: FinanceTimeline = timelineData as FinanceTimeline;\n", encoding='utf-8')
+    config = renderer / 'tsconfig.json'
+    if config.exists():
+        value = json.loads(config.read_text(encoding='utf-8'))
+        value.setdefault('compilerOptions', {})['resolveJsonModule'] = True
+        value['compilerOptions']['allowSyntheticDefaultImports'] = True
+        config.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
 def patch_template(output):
+    adapt_timeline(output)
     src = Path(output) / 'renderer/src'
     assets = Path(__file__).parent / 'finance-template-patches'
     for name in ['intro-timing.ts', 'safe-visuals.tsx']:

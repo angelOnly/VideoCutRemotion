@@ -3,7 +3,7 @@ import { promises as fs } from 'node:fs';
 import { join } from 'node:path';
 import { z } from 'zod';
 import { canonical, sha256, ProductionError, type Run } from '../../production-service/src/contracts.js';
-import { json, writeJson, probe, decodedAudioSeconds } from '../../production-service/src/files.js';
+import { json, writeJson, probe, measureDecodedAudio, audioDecoderId, validPcmMeasurement, type PcmMeasurement } from '../../production-service/src/files.js';
 import type { ProductionRepository } from '../../production-service/src/repository.js';
 const requestKey=z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
 export const speechSchema=z.object({runId:z.string().uuid(),speechRequestId:requestKey,segmentId:z.string().min(1),sceneId:z.string().min(1).optional(),text:z.string().min(1).max(2000),voiceRef:z.string().min(1),speed:z.number().int().min(-50).max(100).default(0),reuseJobId:z.string().uuid().optional(),reuseRunId:z.string().uuid().optional()}).strict();
@@ -13,6 +13,7 @@ type Work={record:any;path:string;voice:any;run:Run;promise:Promise<void>;done:(
 type SpeechOptions={concurrency?:number;perRunConcurrency?:number;signalFor?:(runId:string)=>AbortSignal|undefined};
 export class DoubaoService {
   private pending=new Map<string,Work>();
+  private measurements=new Map<string,Promise<{measurement:PcmMeasurement;reused:boolean}>>();
   private queues=new Map<string,Work[]>();
   private order:string[]=[];
   private active=new Map<string,number>();
@@ -56,7 +57,7 @@ export class DoubaoService {
     if(old)return {record:await this.read(old.id,run.runId,run.accountId),voice,run,path:this.path(run,old.id)};
     const id=randomUUID(),path=this.path(run,id),audio=join(path,'..',`${id}.mp3`);
     const record:any={id,runId:run.runId,request:input,fingerprint,providerRequestId:randomUUID(),state:'queued',audioRef:audio};
-    if(previous){await fs.mkdir(join(path,'..'),{recursive:true});await fs.copyFile(previous.audioRef,audio);Object.assign(record,{state:'succeeded',sha256:previous.sha256,duration:previous.duration,durationSource:'measured',alignment:'segment_exact',reusedFrom:previous.id,reusedFromRunId:baseId});}
+    if(previous){await fs.mkdir(join(path,'..'),{recursive:true});await fs.copyFile(previous.audioRef,audio);if(sha256(await fs.readFile(audio))!==previous.sha256)throw new ProductionError('AUDIO_BINDING_INVALID','复用复制后的音频字节与原记录不符');Object.assign(record,{state:'succeeded',sha256:previous.sha256,duration:previous.duration,pcmMeasurement:previous.pcmMeasurement,durationSource:'measured',alignment:'segment_exact',reusedFrom:previous.id,reusedFromRunId:baseId});}
     await writeJson(path,record);
     this.repo.checkpoint(run.runId,run.token!,{speech:{...this.repo.get(run.runId).checkpoint.speech,[input.speechRequestId]:{id,keyDigest}}});
     return {record,voice,run,path};
@@ -142,6 +143,27 @@ export class DoubaoService {
     record.state='validating';await writeJson(this.path(run,id),record);this.enqueue({record,path:this.path(run,id),voice:null,run,localOnly:true});
     return record;
   });}
+  async measurement(id:string,runId:string,accountId:string,signal?:AbortSignal){
+    this.repo.get(runId,accountId);
+    const key=`${runId}/${id}`;
+    // 同一成功 Job 的旧凭据只补测一次；字节变化属于绑定错误，不作为缓存失效处理。
+    const existing=this.measurements.get(key);if(existing)return existing;
+    const pending=(async()=>{
+      const run=this.repo.get(runId,accountId),record=await this.read(id,runId,accountId);
+      if(record.state!=='succeeded')throw new ProductionError('SPEECH_MEASUREMENT_STATE','只有成功配音可以读取测量');
+      if(signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','音频测量已取消');
+      const hash=sha256(await fs.readFile(record.audioRef));
+      if(hash!==record.sha256)throw new ProductionError('AUDIO_BINDING_INVALID','Speech Job 音频字节与登记摘要不符');
+      const decoderId=await audioDecoderId();
+      if(validPcmMeasurement(record.pcmMeasurement,hash,decoderId))return {measurement:record.pcmMeasurement,reused:true};
+      const measurement=await measureDecodedAudio(record.audioRef,signal);
+      if(measurement.audioSha256!==hash)throw new ProductionError('AUDIO_BINDING_INVALID','补测期间 Speech Job 音频发生变化');
+      if(signal?.aborted||this.stoppedRuns.has(runId))throw new ProductionError('PROCESS_CANCELLED','音频补测已取消');
+      await writeJson(this.path(run,id),{...record,pcmMeasurement:measurement,duration:measurement.duration});
+      return {measurement,reused:false};
+    })();
+    this.measurements.set(key,pending);try{return await pending;}finally{this.measurements.delete(key);}
+  }
   private async validateAudio(record:any){
     let path=record.receivedAudioRef??`${record.audioRef}.tmp.mp3`;
     // 文件已改名但状态尚未落盘时，也沿原摘要恢复，不再次请求供应商。
@@ -150,9 +172,10 @@ export class DoubaoService {
     const signal=this.options.signalFor?.(record.runId),measured=await probe(path,false,signal);
     if(!measured.streams.some((s:any)=>s.codec_type==='audio'))throw new ProductionError('MEDIA_INVALID','配音文件没有音轨');
     // 时间轴使用真实解码采样长度，避免 MP3 容器填充造成句段累计偏移。
-    const duration=await decodedAudioSeconds(path,signal);
+    const pcmMeasurement=await measureDecodedAudio(path,signal),duration=pcmMeasurement.duration;
+    if(pcmMeasurement.audioSha256!==sha256(bytes))throw new ProductionError('AUDIO_CHANGED','核验期间音频字节发生变化');
     if(path!==record.audioRef)await fs.rename(path,record.audioRef);
-    Object.assign(record,{state:'succeeded',sha256:sha256(bytes),duration,containerDuration:measured.duration,sampleRate:measured.streams.find((s:any)=>s.codec_type==='audio')?.sample_rate,bytes:bytes.length,durationSource:'measured',alignment:'segment_exact'});
+    Object.assign(record,{state:'succeeded',sha256:sha256(bytes),duration,pcmMeasurement,containerDuration:measured.duration,sampleRate:measured.streams.find((s:any)=>s.codec_type==='audio')?.sample_rate,bytes:bytes.length,durationSource:'measured',alignment:'segment_exact'});
   }
   private async execute(work:Work){
     const {record,path,voice,run}=work;

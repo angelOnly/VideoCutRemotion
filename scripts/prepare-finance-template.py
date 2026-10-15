@@ -25,13 +25,13 @@ for name in ['动效组件与内容适配说明.md']:
 
 中央图解由本期作者在 src/visualExtensions.tsx 注册并实现；可以增加独立源码文件。保留正文原文、顺序、数字及原意，分镜内部按自然句段配音、实测时长；字幕按真实句段，拼接应完全等于确认正文。本文不提供本期章节数量或固定动效菜单。
 
-全部音频及素材放 renderer/public。staticFile 的路径从 public 起，例如 template-assets/assets/images/brand/logo-dark.png。豆包工具返回音频先复制到 public/speech/ 后绑定，不引用机器个人目录。保留原 BGM，按发言压低音乐；音效依据落点适量安排。
+全部音频及素材放 renderer/public。staticFile 的路径从 public 起，例如 template-assets/assets/images/brand/logo-dark.png。通过 assemble_sentence_audio 将成功批次音频复制到 public/speech/ 并绑定，不引用机器个人目录。保留原 BGM，按发言压低音乐；音效依据落点适量安排。
 
 片头使用 assets/video/intro 中原件，在开场钩子之后或正文之前安排；intro.frames 必须按原件实测，intro.fromFrame 为镜内起点，不能与 scene.chapter 重叠。片头结束后恢复原全局时刻的正文，不能重置图解或字幕时间；不得截断或遮蔽已确认口播。片尾使用 assets/video/outro 中原件，在全部口播结束后完整播放一次。ending.narrationEndFrame 为片尾开始全局帧；ending.outro.frames 来自原件实测；totalFrames 包含片尾。源码已把片尾纳入 FinanceEpisode，不再用占位视频后替换流程；没有结束语授权不加稿。
 
 图解文字可使用 src/safe-visuals.tsx 中 DiagramText，明确取消 SVG 继承描边；动态数字可使用 RightAlignedValue，并按最长值预留空间。这些示例不能代替实际布局审查。
 
-本期 timeline.ts 和一份实际 timeline.json 必须同步保存。保持模板时序和 LayoutGuard 检查，不删除校验来通过渲染。使用本插件预览和渲染工具，整片及分镜全部使用 FinanceEpisode，全局帧 ranges 对应确认分镜，不能用 FinanceScene-* 重置全片时间。正式交付 N+1 文件，整片在前。
+本期只修改 renderer/timeline.json；src/timeline.ts 固定导入此 JSON，禁止内嵌第二份对象。保持模板时序和 LayoutGuard 检查，不删除校验来通过渲染。使用本插件预览和渲染工具，整片及分镜全部使用 FinanceEpisode，正式导出不传 ranges，服务从冻结时间线推导确认分镜的全局范围，不能用 FinanceScene-* 重置全片时间。正式交付 N+1 文件，整片在前。
 
 依赖已由部署提供，任务期间不安装包。模板 Arial 等西文字体仅用于拉丁文字；中文使用包内 Noto Sans SC。技术探测与抽帧不等于完整连续视听，检查真实范围如实记录。保护外观、正文图解、头像、Logo、字幕、片头片尾及声音均需实际核查。
 ''',encoding='utf-8')
@@ -49,7 +49,7 @@ for name in ['动效组件与内容适配说明.md']:
 ''',encoding='utf-8')
 manifest=json.loads((output/'renderer/renderer-manifest.json').read_text(encoding='utf-8'))
 manifest.pop('rules',None);manifest.pop('motionGuide',None);manifest.pop('endingPolicy',None)
-manifest.update(templateVersion='2.0.3',analysisInstructions=['../文字分析合同.md'],instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
+manifest.update(templateVersion='2.0.4',timelineDataRef='timeline.json',timelineContract='sentence-timeline/1',analysisInstructions=['../文字分析合同.md'],instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
 (output/'renderer/renderer-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 file=output/'renderer/src/FinancialDialogue.tsx';s=file.read_text(encoding='utf-8').replace('AbsoluteFill, Audio,','AbsoluteFill, Audio, OffthreadVideo,')
 start=s.index('export const FinanceEpisode:')

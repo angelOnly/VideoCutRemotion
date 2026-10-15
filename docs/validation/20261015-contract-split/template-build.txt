@@ -1,0 +1,3 @@
+模板源码编译通过
+片头首末帧、片头前后正文覆盖和转场冲突检查通过
+{"zip": "/Users/jiang/Downloads/ifeng/VideoCutRemotion/.candidate/contract-split-20261015/finance-template-204.zip", "sha256": "f6cd53260f6614bb68056f12c8a42bef60b27a59e370b1dc266df167e0d3a66c", "bytes": 34569892}

@@ -3,7 +3,7 @@ import { join, relative } from 'node:path';
 import { canonical, sha256, ProductionError } from './contracts.js';
 
 export type ReviewSnapshot={sourceDigest:string;timeline:any;timelineRef:string;files:Record<string,string>};
-export type ReviewChange={sceneIds:string[];checkIds:string[];reason:string};
+export type ReviewChange={sceneIds:string[];checkIds:string[];reason:string;chapterWide?:boolean;frameRanges?:{fromFrame:number;toFrame:number}[]};
 const visual=['visual-layout','caption-layout','caption-reading','motion','av-sync','continuity'];
 const all=[...visual,'audio'];
 export async function snapshotFiles(root:string){
@@ -19,7 +19,7 @@ const same=(a:unknown,b:unknown)=>canonical(a??null)===canonical(b??null);
 export function compareReviewSnapshots(before:ReviewSnapshot,after:ReviewSnapshot):ReviewChange[]{
   if(before.sourceDigest===after.sourceDigest)return [];
   const scenes=after.timeline.scenes as any[],ids=scenes.map(s=>s.id),changes:ReviewChange[]=[];
-  const push=(sceneIds:string[],checkIds:string[],reason:string)=>changes.push({sceneIds,checkIds,reason});
+  const push=(sceneIds:string[],checkIds:string[],reason:string,chapterWide=false,frameRanges?:{fromFrame:number;toFrame:number}[])=>changes.push({sceneIds,checkIds,reason,chapterWide,frameRanges});
   if(before.timeline.fps!==after.timeline.fps||before.timeline.totalFrames!==after.timeline.totalFrames||!same(before.timeline.scenes.map((s:any)=>s.id),ids))push(ids,all,'全局时长、帧率或分镜结构改变');
   for(const scene of scenes){
     const previous=before.timeline.scenes.find((s:any)=>s.id===scene.id);
@@ -28,10 +28,15 @@ export function compareReviewSnapshots(before:ReviewSnapshot,after:ReviewSnapsho
     if(!same(previous.utterances,scene.utterances))push([scene.id],all,'实际配音绑定或句段时间改变');
     if(!same(previous.captions,scene.captions)){
       const timing=(s:any)=>s.captions?.map((c:any)=>[c.startFrame,c.endFrameExclusive,c.utteranceId]);
-      push([scene.id],same(timing(previous),timing(scene))?['caption-layout','caption-reading']:['caption-layout','caption-reading','av-sync','continuity'],'字幕内容、断行或换卡时序改变');
+      const content=(s:any)=>(s.captions??[]).map((c:any)=>c.text).join('').replace(/\s+/gu,'');
+      const semantic=content(previous)!==content(scene),stableTiming=same(timing(previous),timing(scene));
+      const changedCaptions=[...(previous.captions??[]),...(scene.captions??[])].filter(c=>!(previous.captions??[]).some((a:any)=>same(a,c))||!(scene.captions??[]).some((a:any)=>same(a,c)));
+      const ranges=[...new Map(changedCaptions.map(c=>{const range={fromFrame:scene.from+c.startFrame,toFrame:scene.from+c.endFrameExclusive};return [canonical(range),range] as const;})).values()];
+      push([scene.id],semantic?visual:stableTiming?['caption-layout','caption-reading']:['caption-layout','caption-reading','av-sync','continuity'],'字幕内容、断行或换卡时序改变',semantic,ranges);
+
     }
     const rest=({captions,utterances,...value}:any)=>value;
-    if(!same(rest(previous),rest(scene)))push([scene.id],visual,'本场景图形、动作或其他数据改变');
+    if(!same(rest(previous),rest(scene)))push([scene.id],visual,'本场景图形、动作或其他数据改变',true);
   }
   const top=({scenes,...value}:any)=>value;
   if(!same(top(before.timeline),top(after.timeline)))push(ids,all,'共享时间线参数或跨章关系改变');

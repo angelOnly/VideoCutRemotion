@@ -31,10 +31,10 @@ export function sceneRangesFromTimeline(timeline:any,expected:RenderRequest['dat
   });
 }
 
-export async function verifyCutTimeline(root:string,project:string,timelineRef:string,sourceDigest:string,renderRequestId:string,expected:RenderRequest['dataList'],total:number,fps:number,ranges:SceneRange[],trustedAudits?:AudioAuditEvidence){
+export async function verifyCutTimeline(root:string,project:string,timelineRef:string,sourceDigest:string,renderRequestId:string,expected:RenderRequest['dataList'],total:number,fps:number,ranges:SceneRange[]|undefined,trustedAudits?:AudioAuditEvidence){
   const timeline=await json(await regular(project,timelineRef));
   const planned=sceneRangesFromTimeline(timeline,expected,total,fps);
-  ensure(JSON.stringify(planned)===JSON.stringify(ranges.map(({id,fromFrame,toFrame})=>({id,fromFrame,toFrame}))),'请求切点与已确认时间轴不一致');
+  if(ranges)ensure(JSON.stringify(planned)===JSON.stringify(ranges.map(({id,fromFrame,toFrame})=>({id,fromFrame,toFrame}))),'请求切点与已确认时间轴不一致');
   // 服务检查点保留真实核验凭据，作者可写的检查报告不能自行宣布审计成功。
   ensure(trustedAudits?.[sourceDigest]?.timelineSha256===sha256(JSON.stringify(timeline)),'分段输出要求服务确认同版 verify_sentence_audio 结果');
   const reports=await Promise.all([renderRequestId,'working'].map(id=>json(join(root,'checks',`sentence-audio-${id}.json`)).catch((error:any)=>{if(error.code==='ENOENT')return null;throw error;})));

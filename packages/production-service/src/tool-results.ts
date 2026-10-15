@@ -21,7 +21,7 @@ export function mediaJobSummary(job:any,detailsRef:string,details=false){
   const {input,delivery,continuousAudio,chunks,...summary}=job;
   return {...summary,detailsRef,readyFiles:job.readyFiles?.map(({content,...file}:any)=>file),
     completedChunks:chunks?.map(({id,fromFrame,toFrame,sha256}:any)=>({id,fromFrame,toFrame,sha256})),
-    failedChunks:job.state==='failed'&&job.renderStrategy==='scene-chunks'?input?.ranges?.filter((range:any)=>!chunks?.some((chunk:any)=>chunk.id===range.id)).map((range:any)=>range.id):undefined};
+    failedChunks:job.state==='failed'&&job.renderStrategy==='scene-chunks'?(job.resolvedRanges??input?.ranges)?.filter((range:any)=>!chunks?.some((chunk:any)=>chunk.id===range.id)).map((range:any)=>range.id):undefined};
 }
 
 export function productionTaskSummary(run:Run){
@@ -29,5 +29,5 @@ export function productionTaskSummary(run:Run){
   if(run.stage==='analysis')return {taskId:run.taskId,runId:run.runId,stage:run.stage,state:run.state,inputDigest:run.inputDigest,planVersion:run.planVersion,request:run.request,
     template:template?{templateVersion:template.manifest?.templateVersion??template.manifest?.version,archiveDigest:template.digest,analysisContractDigest:template.analysisContract?.digest,analysisContract:template.analysisContract,width:template.manifest?.width,height:template.manifest?.height,fps:template.manifest?.fps}:undefined};
   return {taskId:run.taskId,runId:run.runId,stage:run.stage,state:run.state,inputDigest:run.inputDigest,planVersion:run.planVersion,
-    template:template?{digest:template.digest,sourceDigest:template.sourceDigest,version:template.manifest?.templateVersion}:undefined};
+    template:template?{digest:template.digest,sourceDigest:template.sourceDigest,version:template.manifest?.templateVersion,timelineDataRef:template.manifest?.timelineDataRef,timelineContract:template.manifest?.timelineContract}:undefined};
 }

@@ -76,10 +76,23 @@ test('固定句段审计：真实 PCM、正文和原音频绑定；错时序、�
     await writeJson(join(project,'renderer/renderer-manifest.json'),{schemaVersion:1,templateVersion:'test',instructions:['../说明.md'],entry:'src.ts',wholeComposition:'Test',timelineModule:'timeline.json',publicAssetRoot:'public',width:320,height:180,fps:30,voiceRefs:['female']});
     const utterance={id:'u0',text:a.input.segments[0].text,src:'voice.mp3',startFrame:0,endFrameExclusive:3},caption={utteranceId:'u0',text:utterance.text,startFrame:0,endFrameExclusive:3};
     const timeline={fps:30,scenes:[{id:'s1',frames:3,utterances:[utterance],captions:[caption]}]},timelinePath=join(project,'renderer/timeline.json'),input={timelineRef:'renderer/timeline.json',speechBatchRequestIds:['batch']};await writeJson(timelinePath,timeline);
-    assert.equal((await verifySentenceAudio(a.run,root,input,f.speech)).scenes[0].sentenceCount,1);
+    const firstAudit=await verifySentenceAudio(a.run,root,input,f.speech);assert.equal(firstAudit.scenes[0].sentenceCount,1);assert.equal(firstAudit.measurementHits,1);
+    await fs.appendFile(join(project,'renderer/src.ts'),'// 仅视觉修改');const secondAudit=await verifySentenceAudio(a.run,root,input,f.speech);assert.notEqual(secondAudit.sourceDigest,firstAudit.sourceDigest);assert.equal(secondAudit.measurementHits,1);assert.equal(secondAudit.measurementMisses,0);
     timeline.scenes[0].captions[0].text='错误';await writeJson(timelinePath,timeline);await assert.rejects(verifySentenceAudio(a.run,root,input,f.speech),/字幕丢字/);caption.text=utterance.text;
     utterance.endFrameExclusive=10;caption.endFrameExclusive=10;timeline.scenes[0].frames=10;await writeJson(timelinePath,timeline);await assert.rejects(verifySentenceAudio(a.run,root,input,f.speech),/实际.*不符/);
     utterance.src=job.audioRef;await writeJson(timelinePath,timeline);await assert.rejects(verifySentenceAudio(a.run,root,input,f.speech),/相对路径/);
     utterance.src='voice.mp3';await fs.writeFile(join(pub,'voice.mp3'),audio('其他台词'));await writeJson(timelinePath,timeline);await assert.rejects(verifySentenceAudio(a.run,root,input,f.speech),/真实音频/);
   }finally{await f.close();}
+});
+
+test('PCM凭据首次写入、重复复用、旧记录并发补测与取消；字节变化不静默采用',async()=>{
+ const f=await fixture();try{
+  const a=f.run('A',1);f.release();await f.speech.submitBatch(a.input,'a');await f.speech.drain();const job=(await f.speech.readBatch('batch',a.run.runId,'a')).jobs[0];
+  assert.equal(job.pcmMeasurement.audioSha256,job.sha256);assert.equal(job.pcmMeasurement.sampleCount,4800);assert.ok(job.pcmMeasurement.decoderId.length===64);
+  const hit=await f.speech.measurement(job.id,a.run.runId,'a');assert.equal(hit.reused,true);assert.deepEqual(hit.measurement,job.pcmMeasurement);
+  const path=join(f.root,'tasks',a.run.taskKey,'runs',a.run.runId,'speech',`${job.id}.json`),old=await json(path);delete old.pcmMeasurement;await writeJson(path,old);
+  const concurrent=await Promise.all(Array.from({length:8},()=>f.speech.measurement(job.id,a.run.runId,'a')));assert.ok(concurrent.every(value=>value===concurrent[0]));assert.equal(concurrent[0].reused,false);assert.equal((await f.speech.measurement(job.id,a.run.runId,'a')).reused,true);assert.equal(f.requests.length,1);
+  await writeJson(path,old);await assert.rejects(f.speech.measurement(job.id,a.run.runId,'a',AbortSignal.abort()),/取消/);assert.equal((await json(path)).pcmMeasurement,undefined);
+  await fs.writeFile(job.audioRef,audio('另一份字节'));await assert.rejects(f.speech.measurement(job.id,a.run.runId,'a'),/字节与登记摘要不符/);assert.equal((await json(path)).pcmMeasurement,undefined);assert.equal(f.requests.length,1);
+ }finally{await f.close();}
 });
