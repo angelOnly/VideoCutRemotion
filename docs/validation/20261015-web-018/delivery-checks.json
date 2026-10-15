@@ -1,0 +1,9 @@
+[
+  "当前request的12个分镜ID、正文、顺序保持；18段托管TTS逐字核验与PCM实测通过。",
+  "最终源码sourceDigest=63d9867cfa76daf06201a4a1a49bb69023b0e4a22d797b13c8de3c81d1cce075；verify_sentence_audio见audio-audit-v3.json，speechBatchRequestIds=episode_speech_v1。",
+  "pre_export审片127d3ec9-fce6-4ac5-9a86-17139cde9b25：新版12张静帧全部观察，missing/remaining=0，无blocking或warning；字幕排版、连线穿字、五层标签挤叠和生态标签对比已修正并复查。",
+  "保留suggestion：2180帧亚洲领先说明组处于入场中间态偏暗；不声称连续阅读效果通过，保留既定渐入。",
+  "实际静帧观察由Runtime只读审片会话完成；主协调仅核对汇总。尚未真实连续观看、听审或声画同步审查；动态疑点professional_review_pending仅为检查边界，不构成人工待审状态，未生成无人消费动态预览。",
+  "实测时间轴4008帧/133.6秒，固定片头尾各67帧，包装保留；句内图形为作者编排偏移，未虚报词级同步；长字幕使用真实句段边界及语义换行。",
+  "使用scene-chunks策略，同一完整Composition全局连续区间输出整片及全部12分镜；工程、时间轴、配音依据、设计与检查记录保留本Run。"
+]

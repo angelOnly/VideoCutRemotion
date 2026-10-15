@@ -1,0 +1,24 @@
+{
+  "observedAt": "2026-10-15T02:22:55.307Z",
+  "before": {
+    "src": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/0.mp4",
+    "paused": false,
+    "currentTime": 50.496666,
+    "duration": 133.6,
+    "readyState": 4,
+    "videoWidth": 1920,
+    "videoHeight": 1080,
+    "error": null
+  },
+  "after": {
+    "src": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/0.mp4",
+    "paused": false,
+    "currentTime": 52.509397,
+    "duration": 133.6,
+    "readyState": 4,
+    "videoWidth": 1920,
+    "videoHeight": 1080,
+    "error": null
+  },
+  "timeAdvanced": true
+}

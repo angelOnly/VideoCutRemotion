@@ -1,0 +1,60 @@
+{
+  "type": "mcpToolCall",
+  "id": "exec-74f86fb1-1ee3-4e6e-8604-0c9965cfcd5c",
+  "server": "textvideo-studio",
+  "tool": "read_review",
+  "status": "completed",
+  "arguments": {
+    "reviewId": "127d3ec9-fce6-4ac5-9a86-17139cde9b25"
+  },
+  "appContext": null,
+  "pluginId": null,
+  "readOnlyHint": null,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"reviewId\":\"127d3ec9-fce6-4ac5-9a86-17139cde9b25\",\"phase\":\"pre_export\",\"sourceDigest\":\"63d9867cfa76daf06201a4a1a49bb69023b0e4a22d797b13c8de3c81d1cce075\",\"state\":\"active\",\"total\":4,\"remaining\":0,\"missing\":[],\"issues\":[{\"unitId\":\"chapter-chapter_02\",\"checkId\":\"visual-layout\",\"evidenceId\":\"ev-9d504e1b0b3209059575ddd1\",\"problem\":\"第2180帧右侧亚洲领先说明组整体偏暗，“优势需要转化为实际使用”尤难辨读。建议保证承担阅读任务时的文字对比；若此帧为入场中间态，本观察不代表其最终状态。\",\"severity\":\"suggestion\"}],\"sessions\":[{\"thread_id\":\"01a13d4b-ba36-78d3-8134-7cd0f2985021\",\"state\":\"active\",\"diagnostic\":null},{\"thread_id\":\"01a13d4b-c6ad-7482-b1e3-5f03e5b4a40a\",\"state\":\"active\",\"diagnostic\":null},{\"thread_id\":\"01a13d4b-d300-7080-a00f-bcde9ef2dd1f\",\"state\":\"active\",\"diagnostic\":null}],\"unobserved\":[]}"
+      }
+    ],
+    "structuredContent": {
+      "reviewId": "127d3ec9-fce6-4ac5-9a86-17139cde9b25",
+      "phase": "pre_export",
+      "sourceDigest": "63d9867cfa76daf06201a4a1a49bb69023b0e4a22d797b13c8de3c81d1cce075",
+      "state": "active",
+      "total": 4,
+      "remaining": 0,
+      "missing": [],
+      "issues": [
+        {
+          "unitId": "chapter-chapter_02",
+          "checkId": "visual-layout",
+          "evidenceId": "ev-9d504e1b0b3209059575ddd1",
+          "problem": "第2180帧右侧亚洲领先说明组整体偏暗，“优势需要转化为实际使用”尤难辨读。建议保证承担阅读任务时的文字对比；若此帧为入场中间态，本观察不代表其最终状态。",
+          "severity": "suggestion"
+        }
+      ],
+      "sessions": [
+        {
+          "thread_id": "01a13d4b-ba36-78d3-8134-7cd0f2985021",
+          "state": "active",
+          "diagnostic": null
+        },
+        {
+          "thread_id": "01a13d4b-c6ad-7482-b1e3-5f03e5b4a40a",
+          "state": "active",
+          "diagnostic": null
+        },
+        {
+          "thread_id": "01a13d4b-d300-7080-a00f-bcde9ef2dd1f",
+          "state": "active",
+          "diagnostic": null
+        }
+      ],
+      "unobserved": []
+    },
+    "_meta": null
+  },
+  "error": null,
+  "durationMs": 11
+}

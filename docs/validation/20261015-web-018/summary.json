@@ -1,0 +1,372 @@
+{
+  "webTaskId": "088fb1b024334ed9abaa1426672db6fe",
+  "taskKey": "01053962-1841-46da-97da-0fac3d24f27e",
+  "runs": [
+    {
+      "id": "beb9c899-fb35-4f71-a6b8-3768712ea33e",
+      "stage": "analysis",
+      "state": "succeeded",
+      "created_at": 1792029215672,
+      "release": "release-080ef4c9817e57fc72fcf38c53950028370da6842e245670817ddaebc96a5179",
+      "instructionVersion": "template-production/9",
+      "runtimeWait": null,
+      "handoff": {
+        "kind": "final",
+        "taskId": "088fb1b024334ed9abaa1426672db6fe",
+        "runId": "beb9c899-fb35-4f71-a6b8-3768712ea33e",
+        "inputDigest": "2b4c225d7097937c7aa6304068dada584d2bbe9c4ac06e9cb6e1eb1129506aff",
+        "resultPath": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/01053962-1841-46da-97da-0fac3d24f27e/runs/beb9c899-fb35-4f71-a6b8-3768712ea33e/result.json"
+      },
+      "callbacks": [
+        {
+          "state": "delivered",
+          "attempts": 1,
+          "diagnostic": "HTTP 200 {\"status\":0,\"msg\":\"\"}"
+        }
+      ],
+      "lastEventAtMs": 1792029271036,
+      "createdBeijing": "2026-10-15T09:53:35.672000+08:00",
+      "exactText": true,
+      "characters": 669,
+      "sceneCount": 12
+    },
+    {
+      "id": "66b39591-7a01-4f95-a933-bbd47c9db8a6",
+      "stage": "render",
+      "state": "succeeded",
+      "created_at": 1792029360183,
+      "release": "release-080ef4c9817e57fc72fcf38c53950028370da6842e245670817ddaebc96a5179",
+      "instructionVersion": "template-production/9",
+      "runtimeWait": {
+        "waitId": "01a13d46-0712-7b03-b9f8-a84134581e1e:01a13d46-1403-7c53-a8bc-4e02d7137797",
+        "threadId": "01a13d46-0712-7b03-b9f8-a84134581e1e",
+        "originTurnId": "01a13d46-1403-7c53-a8bc-4e02d7137797",
+        "renderRequestId": "final_export_v1",
+        "attempt": 1,
+        "inputDigest": "9e247b4bbfde890842f82045a00fbe1188ba3cf54cbc8cfb2d6604a7c00a7bea",
+        "sourceDigest": "63d9867cfa76daf06201a4a1a49bb69023b0e4a22d797b13c8de3c81d1cce075",
+        "state": "resumed",
+        "terminalState": "succeeded",
+        "resumeTurnId": "01a13d5b-ee99-74b1-b9da-e2dfd099f055"
+      },
+      "handoff": {
+        "kind": "final",
+        "taskId": "088fb1b024334ed9abaa1426672db6fe",
+        "runId": "66b39591-7a01-4f95-a933-bbd47c9db8a6",
+        "inputDigest": "3e9bb8ffc7274caf02dcf7b8da3d64574519087371518bee4cc6b6127e1972ba",
+        "resultPath": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/01053962-1841-46da-97da-0fac3d24f27e/runs/66b39591-7a01-4f95-a933-bbd47c9db8a6/result.json"
+      },
+      "callbacks": [
+        {
+          "state": "delivered",
+          "attempts": 1,
+          "diagnostic": "HTTP 200 {\"status\":0,\"msg\":\"\"}"
+        }
+      ],
+      "lastEventAtMs": 1792030813441,
+      "createdBeijing": "2026-10-15T09:56:00.183000+08:00",
+      "files": [
+        {
+          "id": "whole-video",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/0.mp4",
+          "duration": 133.6,
+          "sha256": "d7d7c6ffe2e02a21bb8d5046a2092dce35c27e8071eba95a06b0caf2673160ea",
+          "shaMatches": true,
+          "bytes": 17420947,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_001",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/1.mp4",
+          "duration": 9.033333,
+          "sha256": "b885481ab0764cffbb4553544212ac8b43fe2947fcae1dfbd98480bef5267b45",
+          "shaMatches": true,
+          "bytes": 2482024,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_002",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/2.mp4",
+          "duration": 14.6,
+          "sha256": "cfd7a485ceeaf75bff41f49425ede41f841bb9a103f2a2bc83e7946164857510",
+          "shaMatches": true,
+          "bytes": 1645912,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_003",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/3.mp4",
+          "duration": 8.533333,
+          "sha256": "effbe4a182603b06a23bc3815197181932d5a7cf6f9f2f3d8e41301885745945",
+          "shaMatches": true,
+          "bytes": 1076316,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_004",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/4.mp4",
+          "duration": 14.1,
+          "sha256": "2163ae93cd2cf792a12227aae3758691523196e8231f1884d33642f6509c7c00",
+          "shaMatches": true,
+          "bytes": 1442014,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_005",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/5.mp4",
+          "duration": 16.733333,
+          "sha256": "02e6e403924c6146009d769aea2f42baaadfe1fbfdaea960aeefd0aa152d744d",
+          "shaMatches": true,
+          "bytes": 1804707,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_006",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/6.mp4",
+          "duration": 13.733333,
+          "sha256": "b17339df3eba48166ba68214ba904424c93f8e3c1c8e40c973e2f5dba2328cff",
+          "shaMatches": true,
+          "bytes": 1995157,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_007",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/7.mp4",
+          "duration": 7.5,
+          "sha256": "9df0088514bafde2b861340fe1d2f1e9777faba634066f305664ae51a0b222ec",
+          "shaMatches": true,
+          "bytes": 810736,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_008",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/8.mp4",
+          "duration": 14.8,
+          "sha256": "ab6c092aa83600b1889dfacbca616043246f99f4992c22a9973087cd368d3f16",
+          "shaMatches": true,
+          "bytes": 1559842,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_009",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/9.mp4",
+          "duration": 6.066667,
+          "sha256": "9a1e94c4504c1aa994ed05f2a8fe8b38c45f6f3a954ddc1f14cfbf9ac23c3dc4",
+          "shaMatches": true,
+          "bytes": 819880,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_010",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/10.mp4",
+          "duration": 6.6,
+          "sha256": "fcd83a5b95b1f64fd58cb81674eb200adc32997200680a1d088ee1003ebd471e",
+          "shaMatches": true,
+          "bytes": 925767,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_011",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/11.mp4",
+          "duration": 8.9,
+          "sha256": "45de4bb968358ca4fdc9c3dd3bfe611de2737434c715842ea088df0065e75f3e",
+          "shaMatches": true,
+          "bytes": 898917,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_012",
+          "url": "http://10.20.130.251:8080/media/01053962-1841-46da-97da-0fac3d24f27e/66b39591-7a01-4f95-a933-bbd47c9db8a6/12.mp4",
+          "duration": 13,
+          "sha256": "7349b38edcc760505f5ca3cb70b2a2e616535a609e1618d7c270141513543f47",
+          "shaMatches": true,
+          "bytes": 1986297,
+          "httpStatus": 200
+        }
+      ],
+      "probe": {
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+            "profile": "High",
+            "codec_type": "video",
+            "codec_tag_string": "avc1",
+            "codec_tag": "0x31637661",
+            "width": 1920,
+            "height": 1080,
+            "coded_width": 1920,
+            "coded_height": 1080,
+            "closed_captions": 0,
+            "film_grain": 0,
+            "has_b_frames": 0,
+            "sample_aspect_ratio": "1:1",
+            "display_aspect_ratio": "16:9",
+            "pix_fmt": "yuvj420p",
+            "level": 40,
+            "color_range": "pc",
+            "color_space": "bt470bg",
+            "chroma_location": "center",
+            "field_order": "progressive",
+            "refs": 1,
+            "is_avc": "true",
+            "nal_length_size": "4",
+            "id": "0x1",
+            "r_frame_rate": "30/1",
+            "avg_frame_rate": "30/1",
+            "time_base": "1/90000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 12024000,
+            "duration": "133.600000",
+            "bit_rate": "847686",
+            "bits_per_raw_sample": "8",
+            "nb_frames": "4008",
+            "extradata_size": 52,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0
+            },
+            "tags": {
+              "language": "und",
+              "handler_name": "VideoHandler",
+              "vendor_id": "[0][0][0][0]"
+            },
+            "side_data_list": [
+              {
+                "side_data_type": "ICC Profile"
+              }
+            ]
+          },
+          {
+            "index": 1,
+            "codec_name": "aac",
+            "codec_long_name": "AAC (Advanced Audio Coding)",
+            "profile": "LC",
+            "codec_type": "audio",
+            "codec_tag_string": "mp4a",
+            "codec_tag": "0x6134706d",
+            "sample_fmt": "fltp",
+            "sample_rate": "48000",
+            "channels": 2,
+            "channel_layout": "stereo",
+            "bits_per_sample": 0,
+            "initial_padding": 0,
+            "id": "0x2",
+            "r_frame_rate": "0/0",
+            "avg_frame_rate": "0/0",
+            "time_base": "1/48000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 6412800,
+            "duration": "133.600000",
+            "bit_rate": "188433",
+            "nb_frames": "6264",
+            "extradata_size": 5,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0
+            },
+            "tags": {
+              "language": "und",
+              "handler_name": "SoundHandler",
+              "vendor_id": "[0][0][0][0]"
+            }
+          }
+        ],
+        "format": {
+          "filename": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/01053962-1841-46da-97da-0fac3d24f27e/results/66b39591-7a01-4f95-a933-bbd47c9db8a6/0.mp4",
+          "nb_streams": 2,
+          "nb_programs": 0,
+          "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+          "format_long_name": "QuickTime / MOV",
+          "start_time": "0.000000",
+          "duration": "133.600000",
+          "size": "17420947",
+          "bit_rate": "1043170",
+          "probe_score": 100,
+          "tags": {
+            "major_brand": "isom",
+            "minor_version": "512",
+            "compatible_brands": "isomiso2avc1mp41",
+            "encoder": "Lavf60.16.100"
+          }
+        }
+      },
+      "timing": [
+        {
+          "stage": "publication",
+          "startedAt": "2026-10-15T02:20:13.557Z",
+          "endedAt": "2026-10-15T02:20:16.926Z",
+          "durationMs": 3369.19285399979,
+          "result": "succeeded"
+        }
+      ],
+      "metricStages": [
+        "bundle",
+        "continuous_audio_normalize",
+        "continuous_audio_render",
+        "drawing_queue",
+        "drawing_queue_and_work",
+        "drawing_work",
+        "freeze_project",
+        "media_job",
+        "open_browser",
+        "prepare",
+        "process_queue",
+        "process_queue_and_work",
+        "process_work",
+        "publication",
+        "publication_copy",
+        "publication_media_validation",
+        "publication_source_sha",
+        "publication_staging_sha",
+        "render_frames",
+        "scene_video_mux",
+        "scene_visual_render",
+        "select_composition",
+        "template_validation",
+        "video_ffprobe",
+        "video_full_decode",
+        "video_full_decode_reused",
+        "video_validation_final_sha",
+        "video_validation_sha",
+        "whole_video_mux"
+      ],
+      "publishedAt": "2026-10-15T10:20:16.924575+08:00"
+    }
+  ]
+}

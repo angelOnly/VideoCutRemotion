@@ -1,0 +1,70 @@
+{
+  "mediaJobs": [
+    {
+      "renderRequestId": "frames_v1",
+      "stage": "media_job",
+      "startedAt": "2026-10-15T02:01:41.309Z",
+      "endedAt": "2026-10-15T02:02:10.341Z",
+      "durationMs": 29032.106663999963,
+      "result": "succeeded"
+    },
+    {
+      "renderRequestId": "frames_v2",
+      "stage": "media_job",
+      "startedAt": "2026-10-15T02:08:02.556Z",
+      "endedAt": "2026-10-15T02:08:30.106Z",
+      "durationMs": 27549.633880000096,
+      "result": "succeeded"
+    },
+    {
+      "renderRequestId": "frames_v3",
+      "stage": "media_job",
+      "startedAt": "2026-10-15T02:11:08.492Z",
+      "endedAt": "2026-10-15T02:11:27.411Z",
+      "durationMs": 18918.652293000137,
+      "result": "succeeded"
+    },
+    {
+      "renderRequestId": "frames_v3_coverage",
+      "stage": "media_job",
+      "startedAt": "2026-10-15T02:11:38.333Z",
+      "endedAt": "2026-10-15T02:11:50.597Z",
+      "durationMs": 12264.233759999974,
+      "result": "succeeded"
+    },
+    {
+      "renderRequestId": "final_export_v1",
+      "stage": "media_job",
+      "startedAt": "2026-10-15T02:13:56.875Z",
+      "endedAt": "2026-10-15T02:19:57.447Z",
+      "durationMs": 360571.07661500014,
+      "result": "succeeded"
+    },
+    {
+      "renderRequestId": "final_export_v1",
+      "stage": "publication",
+      "startedAt": "2026-10-15T02:20:13.557Z",
+      "endedAt": "2026-10-15T02:20:16.926Z",
+      "durationMs": 3369.19285399979,
+      "result": "succeeded"
+    }
+  ],
+  "technicalChecks": {
+    "video_full_decode": {
+      "total": 13,
+      "failed": 0
+    },
+    "video_full_decode_reused": {
+      "total": 13,
+      "failed": 0
+    },
+    "publication_media_validation": {
+      "total": 13,
+      "failed": 0
+    },
+    "publication_staging_sha": {
+      "total": 13,
+      "failed": 0
+    }
+  }
+}
