@@ -13,7 +13,7 @@ export function registerProductionTools(server:McpServer,call:(name:string,input
     register('submit_review','保存实际观察；partial 累积，complete 在覆盖齐全后原子续领下一包。没有实际看听能力时不得声明完成。',submitReviewSchema.shape);
     register('read_review','读取当前审片计划的简短状态和未完成范围。',readReviewSchema.shape);return;
   }
-  register('prepare_review','从本 Run 已冻结媒体和真实时间线建立审片计划，启动有界只读审片会话；同输入保留进度。',prepareReviewSchema.shape);
+  register('prepare_review','从本 Run 已冻结静帧和真实时间线建立 pre_export 图片审查计划，启动有界只读审片会话；同输入保留进度，不分配连续视听任务。',prepareReviewSchema.shape);
   register('read_review','读取计划剩余数量、阻断问题和异常，不重复搬运历史。',readReviewSchema.shape);
   register('synthesize_speech','当前 Render 的豆包云端配音；先持久化后异步执行。同键同输入读原任务，unknown 不得重新收费请求。',speechSchema.omit({runId:true}).shape);
   register('synthesize_speech_batch','一次登记本 run 的整批句段，服务按视频轮流派发；同批次同输入返回原任务，不重复收费。',speechBatchSchema.omit({runId:true}).shape);

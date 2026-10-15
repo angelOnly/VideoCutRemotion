@@ -42,7 +42,7 @@ test('技术复用要求实际字节和规则参数一致，仍核对当前规�
  }finally{await fs.rm(root,{recursive:true,force:true});}
 });
 
-test('发布质量门必须通过，技术复用后仍验证复制摘要',async()=>{
+test('未听审仍可发布，技术复用后仍验证复制摘要',async()=>{
  const root=await fs.mkdtemp(join(tmpdir(),'delivery-review-gate-'));
  try{
   const source=await fixture(root),project=join(root,'render-snapshots','formal','project');
@@ -51,13 +51,17 @@ test('发布质量门必须通过，技术复用后仍验证复制摘要',async(
   const run={runId,taskId:'review-test',taskKey:'review-test',inputDigest:'input',checkpoint:{template:{digest:'template'}},request:{dataList:[{id:'s1',content:'测试'}]}} as unknown as Run;
   const file={file:source,sha256:sha256(await fs.readFile(source)),dur:0.5,...extent};
   const delivery={taskId:run.taskId,runId,inputDigest:run.inputDigest,templateDigest:'template',renderRequestId:'formal',sourceDigest,timelineRef:'timeline.json',checks:['作者自报已通过'],files:[{...file,id:'whole-video',content:'测试'},{...file,id:'s1',content:'测试'}]};
-  const taskRoot=join(root,'task');let observed=0;
-  await assert.rejects(publishDelivery(run,root,taskRoot,'http://localhost/media',delivery,undefined,undefined,{assertReview:(id,digest,files)=>{
-   observed++;assert.equal(id,runId);assert.equal(digest,sourceDigest);assert.equal(files[0].sha256,file.sha256);throw new Error('连续看听尚未完成');
-  }}),/连续看听/);
-  assert.equal(observed,1);assert.equal(await fs.stat(join(taskRoot,'results',runId)).catch(()=>null),null);
-  // 质量回调之后源文件若被替换，复制后摘要仍阻断发布。
-  await assert.rejects(publishDelivery(run,root,taskRoot,'http://localhost/media',delivery,undefined,undefined,{assertReview:async()=>{await fs.appendFile(source,'被替换的字节');}}),/发布副本/);
-  assert.equal(await fs.stat(join(taskRoot,'results',runId)).catch(()=>null),null);
+  const taskRoot=join(root,'task');
+  delivery.checks=['未进行连续观看与听审'];
+  const result=await publishDelivery(run,root,taskRoot,'http://localhost/media',delivery);
+  assert.equal(result.dataList.length,2);assert.deepEqual(result.checks,delivery.checks);
+  // 在复制完成后模拟落盘字节被改写，仍须拒绝发布，不能靠移除审片门槛放宽技术检查。
+  const copy=fs.copyFile;
+  try{
+    fs.copyFile=async(...args:Parameters<typeof fs.copyFile>)=>{await copy(...args);await fs.appendFile(args[1],'被替换的字节');};
+    const otherRoot=join(root,'changed');
+    await assert.rejects(publishDelivery(run,root,otherRoot,'http://localhost/media',delivery),/发布副本/);
+    assert.equal(await fs.stat(join(otherRoot,'results',runId)).catch(()=>null),null);
+  }finally{fs.copyFile=copy;}
  }finally{await fs.rm(root,{recursive:true,force:true});}
 });

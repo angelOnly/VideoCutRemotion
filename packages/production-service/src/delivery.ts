@@ -1,11 +1,10 @@
 import { promises as fs } from 'node:fs';
 import { join, relative } from 'node:path';
-import { deliverySchema, sha256, ProductionError, type Run, type RenderRequest, type Delivery } from './contracts.js';
+import { deliverySchema, sha256, ProductionError, type Run, type RenderRequest } from './contracts.js';
 import { validateRegisteredVideo } from './registered-video.js';
 import { withMediaSpan, type MetricContext } from './media-metrics.js';
 import { regular, json, writeJson, treeDigest } from './files.js';
-export type DeliveryOptions={assertReview?:(runId:string,sourceDigest:string,outputs:Delivery['files'])=>void|Promise<void>};
-export async function publishDelivery(run:Run,runRoot:string,taskRoot:string,mediaBase:string,raw:unknown,signal?:AbortSignal,metrics?:MetricContext,options:DeliveryOptions={}){
+export async function publishDelivery(run:Run,runRoot:string,taskRoot:string,mediaBase:string,raw:unknown,signal?:AbortSignal,metrics?:MetricContext){
   if(signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','交付已取消');
   const delivery=deliverySchema.parse(raw),request=run.request as RenderRequest;
   if(delivery.runId!==run.runId||delivery.taskId!==run.taskId||delivery.inputDigest!==run.inputDigest||delivery.templateDigest!==run.checkpoint.template.digest)throw new ProductionError('DELIVERY_IDENTITY_INVALID','交付身份或输入摘要不符');
@@ -22,8 +21,7 @@ export async function publishDelivery(run:Run,runRoot:string,taskRoot:string,med
     if(digest!==f.sha256)throw new ProductionError('FILE_DIGEST_MISMATCH','视频摘要不符');
   }
   for(const f of delivery.files)await withMediaSpan(metrics,'publication_media_validation',child=>validateRegisteredVideo(f,whole,signal,child));
-  // 新运行由 Worker 注入服务质量门；自报 checks 不能代替与当前产物绑定的审片记录。
-  await options.assertReview?.(run.runId,delivery.sourceDigest,delivery.files);
+  // 发布以真实文件技术核验为准；未进行连续看听只记录检查边界。
   if(!(await fs.stat(snapshot).catch(()=>null)))await fs.cp(project,snapshot,{recursive:true,filter:p=>!p.split(/[\\/]/).includes('node_modules')});
   if(await treeDigest(snapshot)!==delivery.sourceDigest)throw new ProductionError('SNAPSHOT_INVALID','工程快照摘要不符');
   if(signal?.aborted)throw new ProductionError('PROCESS_CANCELLED','交付已取消');

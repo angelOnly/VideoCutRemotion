@@ -19,7 +19,7 @@ test('候选发行：隔离启动真实 Runtime 与 MCP，核对同版、四任�
  const client=new Client({name:'isolated-release-test',version:'1'}),transport=new StdioClientTransport({command:process.execPath,args:[join(plugin,'runtime/dist/mcp.cjs')],env,stderr:'pipe'});
  try{
    let health:any;for(let i=0;i<200;i++){try{const response=await fetch(`${url}/healthz`,{signal:AbortSignal.timeout(500)});if(response.ok){health=await response.json();break;}}catch{}if(child.exitCode!==null)assert.fail(diagnostic);await new Promise(r=>setTimeout(r,25));}
-   assert.ok(health,diagnostic);assert.equal(health.releaseId,manifest.releaseId);assert.deepEqual(health.capacity,{maxActiveRuns:4,renderConcurrency:5,mediaGlobalConcurrency:16,mediaRunConcurrency:2,mediaProcessConcurrency:4,speechConcurrency:20,speechPerRunConcurrency:5,activeRuns:0});
+   assert.ok(health,diagnostic);assert.equal(health.releaseId,manifest.releaseId);assert.equal(health.capabilities.reviewProtocol,2);assert.equal(manifest.capabilities.reviewProtocol,2);assert.deepEqual(health.capacity,{maxActiveRuns:4,renderConcurrency:5,mediaGlobalConcurrency:16,mediaRunConcurrency:2,mediaProcessConcurrency:4,speechConcurrency:20,speechPerRunConcurrency:5,activeRuns:0});
    await client.connect(transport);const tools=await client.listTools();assert.deepEqual(tools.tools.map(t=>t.name),['read_runtime_release'],'未绑定可信 Run 时不暴露制作工具');
    assert.ok(!tools.tools.some(t=>t.name==='preview_template_frame'));
    const release=await client.callTool({name:'read_runtime_release',arguments:{}});assert.notEqual(release.isError,true,JSON.stringify(release));const content=JSON.parse((release.content as any)[0].text);assert.equal(content.aligned,true);assert.equal(content.mcpReleaseId,manifest.releaseId);
@@ -33,7 +33,8 @@ test('候选发行：隔离启动真实 Runtime 与 MCP，核对同版、四任�
        const scoped=new Client({name:'stage-fixture',version:'1'});
        try{
          await scoped.connect(new StdioClientTransport({command:process.execPath,args:[join(plugin,'runtime/dist/mcp.cjs')],env:{...env,TEXTVIDEO_RUN_ID:run.runId,TEXTVIDEO_RUN_TOKEN:run.token!,TEXTVIDEO_RUN_STAGE:stage==='analysis'?'render':'analysis'},stderr:'pipe'}));
-         const names=(await scoped.listTools()).tools.map(tool=>tool.name);
+         const discovered=(await scoped.listTools()).tools;const names=discovered.map(tool=>tool.name);
+         if(stage==='render'){const phase=JSON.stringify(discovered.find(t=>t.name==='prepare_review')!.inputSchema.properties?.phase);assert.match(phase,/pre_export/);assert.doesNotMatch(phase,/final/);}
          if(stage==='analysis')assert.deepEqual(names.sort(),['read_production_task','read_runtime_release']);
          else for(const name of ['synthesize_speech_batch','read_render_job','retry_render_slices','search_motion_mechanisms'])assert.ok(names.includes(name),name);
        }finally{await scoped.close();}

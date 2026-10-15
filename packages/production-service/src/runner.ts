@@ -7,7 +7,6 @@ import type { ProductionRepository } from './repository.js';
 import { analysisTemplateInput, freezeTemplate } from './template-package.js';
 import { json, writeJson, treeDigest, regular } from './files.js';
 import { publishDelivery } from './delivery.js';
-import { ReviewService } from './review-service.js';
 import type { MediaRuntime } from './execution-controller.js';
 import { executeCodex } from './codex-session.js';
 import { createMediaMetricSink, withMediaSpan } from './media-metrics.js';
@@ -37,7 +36,7 @@ export class ProductionRunner {
       }
       const project=join(root,'project');if(!(await fs.stat(project).catch(()=>null)))await fs.cp(source,project,{recursive:true});
     }
-    run=this.repo.checkpoint(run.runId,run.token!,{template,release:this.config.release,...(run.stage==='render'&&!run.checkpoint.release?{reviewProtocol:1}:{})});
+    run=this.repo.checkpoint(run.runId,run.token!,{template,release:this.config.release});
     const identity={taskId:run.taskId,runId:run.runId,stage:run.stage,inputDigest:run.inputDigest,request:run.request};
     // Analysis 只展开冻结文字；源码路径和完整制作 manifest 留在服务检查点。
     await writeJson(join(root,'input.json'),run.stage==='analysis'?{...identity,template:analysisTemplateInput(template)}:{...identity,template,analysis:analysis?.result,baseRender:base?{runId:base.runId,result:base.result,request:base.request}:null,workRoot:root,projectRoot:join(root,'project'),release:this.config.release});
@@ -76,7 +75,7 @@ export class ProductionRunner {
         const parsed=deliverySchema.safeParse(result);
         if(!parsed.success)throw new ProductionError('DELIVERY_FORMAT_INVALID','交付文件不符合成功交付合同；保留原文件和未完成检查，不发布媒体');
         const metrics={runId:run.runId,renderRequestId:String(result.renderRequestId??'publication'),sourceDigest:result.sourceDigest,enabled:this.config.mediaTiming??true,signal:controller.signal,onMetric:createMediaMetricSink(root)};
-        const published=await withMediaSpan(metrics,'publication',child=>publishDelivery(run,root,join(this.config.dataRoot,'tasks',run.taskKey),this.config.mediaBase,result,controller.signal,child,run.checkpoint.reviewProtocol===1?{assertReview:(id,digest,files)=>{new ReviewService(this.repo,r=>this.runRoot(r)).assertDelivery(id,digest,files);}}:undefined));this.repo.finish(run.runId,run.token,'succeeded',published);
+        const published=await withMediaSpan(metrics,'publication',child=>publishDelivery(run,root,join(this.config.dataRoot,'tasks',run.taskKey),this.config.mediaBase,result,controller.signal,child));this.repo.finish(run.runId,run.token,'succeeded',published);
       }
     }catch(e){
       const error={code:e instanceof ProductionError?e.code:'EXECUTION_FAILED',message:e instanceof Error?e.message:String(e)};

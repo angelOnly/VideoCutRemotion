@@ -43,7 +43,7 @@ export class ReviewerSessions{
         const listed=await pool.client.call('skills/list',{cwds:[root],forceReload:true});
         const overrides=discoveredSkills(listed).flatMap(skill=>[{path:skill.path,enabled:skill.path.includes(`${root}/.agents/skills/`)&&/\/(quality-verification|captions|effect-timing|audio-finishing)\//.test(skill.path)}]);
         const toolConfig={command:process.execPath,args:[join(this.config.pluginRoot,'scripts/production-mcp-launcher.mjs')],cwd:this.config.pluginRoot,env:{TEXTVIDEO_PLUGIN_ROOT:this.config.pluginRoot,TEXTVIDEO_DEPENDENCY_ROOT:this.config.dependencyRoot,TEXTVIDEO_RUNTIME_URL:`http://${this.config.host}:${this.config.port}`,TEXTVIDEO_RUN_ID:run.runId,TEXTVIDEO_REVIEW_TOKEN:session.credential},startup_timeout_sec:60,tool_timeout_sec:180,default_tools_approval_mode:'approve'};
-        const started=await pool.client.call('thread/start',{cwd:root,approvalPolicy:'never',sandbox:'read-only',...(this.config.model?{model:this.config.model}:{}),config:{web_search:'disabled',features:{apps:false,plugins:false},skills:{config:overrides},mcp_servers:{'textvideo-studio':toolConfig}},developerInstructions:'你是本 Run 的只读专业审片者。禁止创建子代理、修改文件、请求配音渲染或发布。按当前检查包阅读相应完整专业方法并实际观察；没有连续看听能力就提交 partial，真实记录未观察范围，不能用提取静帧冒充连续观看。凭证由工具连接携带，不读取环境或其他任务。'});
+        const started=await pool.client.call('thread/start',{cwd:root,approvalPolicy:'never',sandbox:'read-only',...(this.config.model?{model:this.config.model}:{}),config:{web_search:'disabled',features:{apps:false,plugins:false},skills:{config:overrides},mcp_servers:{'textvideo-studio':toolConfig}},developerInstructions:'你是本 Run 的只读专业审片者。禁止创建子代理、修改文件、请求配音渲染或发布。按当前静帧检查包阅读专业方法并实际查看原尺寸图片；图片未读完或不可读时提交 partial，记录剩余图片。任务只检查图片，不因缺少连续看听能力停工，不声称已完成听审或连续观看。凭证由工具连接携带，不读取环境或其他任务。'});
         if(pool.closed)throw new ProductionError('PROCESS_CANCELLED','审片启动期间 Run 已停止');
         this.service.bindSession(session.id,started.thread.id);
         const reviewer={sessionId:session.id,threadId:started.thread.id,busy:false};pool.reviewers.push(reviewer);
@@ -71,10 +71,10 @@ export class ReviewerSessions{
   private async turn(run:Run,reviewId:string,pool:Pool,reviewer:Reviewer){
     const receiver=createTurnReceiver(reviewer.threadId);
     pool.turns.set(reviewer.threadId,{collect:receiver.observe,reject:error=>receiver.fail(error instanceof Error?error:new Error(String(error)))});
-    const result=await pool.client.call('turn/start',{threadId:reviewer.threadId,input:[{type:'text',text:`当前审片计划 ${reviewId}。先 claim_review_work({})，按包读取专业方法和真实证据，使用 submit_review 保存观察。完成响应已有 next 时直接继续，直到 next 为空。有材料或看听能力缺口时保存 partial 后简短说明；不能反复请求媒体或伪造观察。各区间是完整 Composition 的全局半开帧区间，媒体文件本地播放时间需减去 evidence.fromFrame。`,text_elements:[]}],approvalPolicy:'never',sandboxPolicy:{type:'readOnly',networkAccess:false},effort:'low'});
+    const result=await pool.client.call('turn/start',{threadId:reviewer.threadId,input:[{type:'text',text:`当前审片计划 ${reviewId}。先 claim_review_work({})，按包读取专业方法和真实证据，使用 submit_review 保存观察。完成响应已有 next 时直接继续，直到 next 为空。图片材料不可读或尚未查看时保存 partial 后说明剩余范围；不能反复请求媒体或伪造观察。各区间是完整 Composition 的全局半开帧区间，媒体文件本地播放时间需减去 evidence.fromFrame。`,text_elements:[]}],approvalPolicy:'never',sandboxPolicy:{type:'readOnly',networkAccess:false},effort:'low'});
     receiver.bind(result.turn.id);await receiver.promise;
     const active=this.service.repo.db.prepare("SELECT id FROM review_work WHERE session_id=? AND state='assigned'").get(reviewer.sessionId);
-    this.service.repo.db.prepare('UPDATE review_sessions SET diagnostic=? WHERE id=?').run(active?'审片轮次已结束，仍有未完成范围；读取 read_review 并补齐材料或观察能力':null,reviewer.sessionId);
+    this.service.repo.db.prepare('UPDATE review_sessions SET diagnostic=? WHERE id=?').run(active?'审片轮次已结束，仍有未完成范围；读取 read_review 并继续读取剩余图片':null,reviewer.sessionId);
   }
   async stop(runId?:string){
     for(const [id,pool] of this.pools){if(runId&&id!==runId)continue;

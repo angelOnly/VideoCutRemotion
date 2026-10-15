@@ -115,3 +115,13 @@ test('最小机制发行包支持实际词法检索和按需静态图，不开�
     await client.close(); await server.close(); await rm(directory, { recursive: true, force: true });
   }
 });
+
+
+test('模板发行明确静帧检查后直接交付，不恢复最终视听发布限制',async()=>{
+  const review=await readFile(join(plugin,'skills/production-coordinator/references/review.md'),'utf8');
+  const exported=await readFile(join(plugin,'skills/production-coordinator/references/export.md'),'utf8');
+  assert.match(review,/phase 固定为 pre_export/);
+  assert.match(exported,/未观察内容仅如实记入 checks/);
+  assert.match(exported,/deliveryPath/);
+  assert.doesNotMatch(exported,/通过 prepare_review 的 final|缺关键连续看听.*不发布/);
+});

@@ -54,6 +54,8 @@ test('App Server 启动或工具隔离失败收敛后，可以创建新的有效
    assert.ok(f.records.every(r=>r.state==='revoked'));
    await f.mode('normal');f.pool.start(f.run,'review-a');await until(async()=>(await f.calls()).some(c=>c.method==='turn/start'));
    assert.equal(f.records.filter(r=>r.state==='active').length,1);
+   const instruction=(await f.calls()).find(c=>c.method==='thread/start').params.developerInstructions;
+   assert.match(instruction,/任务只检查图片/);assert.doesNotMatch(instruction,/没有连续看听能力就提交 partial/);
   }finally{await f.close();}
  }
 });

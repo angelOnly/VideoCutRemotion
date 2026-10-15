@@ -44,7 +44,7 @@ export class ExecutionController {
       }finally{wake.dispose();}
     }
     const next:RuntimeWait={...wait,state:'resuming',terminalState:job.state,sourceDigest:job.sourceDigest};this.swap(wait,next);
-    return {wait:next,message:`原媒体作业已到终态：${JSON.stringify(job)}。这是同一 Run 的原作业结果，请读取原结果并继续必要的成片检查或针对性失败处理。不得重复生成、配音或导出；未完成真实连续看听不得交付。`};
+    return {wait:next,message:`原媒体作业已到终态：${JSON.stringify(job)}。这是同一 Run 的原作业结果，成功时读取工具返回的 deliveryPath，将完整交付清单保存为 result.json 并返回正式 final 交接；失败时按原诊断处理。不得重复生成、配音或导出。未进行连续看听只如实记录，不等待听审或返回待审说明。`};
   }
   bind(wait:RuntimeWait,turnId:string){this.swap(wait,{...wait,state:'resumed',resumeTurnId:turnId});}
 }

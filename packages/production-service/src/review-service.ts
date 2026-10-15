@@ -2,7 +2,7 @@ import { randomUUID, randomBytes } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import { join } from 'node:path';
 import { z } from 'zod';
-import { canonical, sha256, ProductionError, type Run, type RenderRequest, type Delivery } from './contracts.js';
+import { canonical, sha256, ProductionError, type Run, type RenderRequest } from './contracts.js';
 import type { ProductionRepository } from './repository.js';
 import { json, regular, treeDigest } from './files.js';
 import { createReviewPlan } from './review-policy.js';
@@ -13,18 +13,19 @@ import { compareReviewSnapshots, snapshotFiles, type ReviewSnapshot } from './re
 const text=z.string().trim().min(1).max(4000),frame=z.number().int().nonnegative();
 const requestId=z.string().regex(/^[A-Za-z0-9_-]{1,100}$/);
 export const reviewRangeSchema=z.object({fromFrame:frame,toFrame:frame}).strict().refine(v=>v.toFrame>v.fromFrame,'止帧必须大于起帧');
-export const prepareReviewSchema=z.object({renderRequestIds:z.array(requestId).min(1).max(100),phase:z.enum(['pre_export','final']),timelineRef:text.optional()}).strict();
+export const prepareReviewSchema=z.object({renderRequestIds:z.array(requestId).min(1).max(100),phase:z.literal('pre_export'),timelineRef:text.optional()}).strict();
 export const claimReviewSchema=z.object({}).strict();
 export const readReviewSchema=z.object({reviewId:z.string().uuid()}).strict();
 export const submitReviewSchema=z.object({assignmentToken:z.string().uuid(),observations:z.array(z.object({checkId:text,evidenceId:text,note:text,range:reviewRangeSchema.optional()}).strict()).max(1000),issues:z.array(z.object({checkId:text,evidenceId:text,severity:z.enum(['blocking','warning','suggestion']),problem:text,range:reviewRangeSchema.optional()}).strict()).max(1000),status:z.enum(['partial','complete'])}).strict();
 export type ReviewRange=z.infer<typeof reviewRangeSchema>;
 type Observation=z.infer<typeof submitReviewSchema>['observations'][number];
 type Issue=z.infer<typeof submitReviewSchema>['issues'][number];
+// 保留历史连续媒体记录的读取类型；新计划只创建图片检查包。
 export type ReviewEvidence={evidenceId:string;kind:'image'|'video';path:string;sha256:string;frame?:number;fromFrame?:number;toFrame?:number;fps:number;width:number;height:number};
 export type ReviewCheck={checkId:string;purpose:string;mode:'image'|'video'|'audio'|'audiovisual';evidenceIds:string[];range?:ReviewRange};
 type Reuse={reviewId:string;workId:string;checkId:string;evidenceId:string;basis:string};
 export type ReviewWork={unitId:string;sceneIds:string[];fromFrame:number;toFrame:number;fps:number;checks:ReviewCheck[];evidence:ReviewEvidence[];observations:Observation[];issues:Issue[];reused:Reuse[]};
-type ReviewData={snapshot:ReviewSnapshot;evidence:ReviewEvidence[];renderRequestIds:string[];files:Delivery['files'];missing:string[];audio?:{sha256:string;sampleRate:number;samples:number};runtimeDiagnostic?:string|null};
+type ReviewData={snapshot:ReviewSnapshot;evidence:ReviewEvidence[];renderRequestIds:string[];missing:string[];runtimeDiagnostic?:string|null};
 type Session={id:string;run_id:string;review_id:string;thread_id:string|null;state:string};
 function ensure(v:unknown,code:string,message:string):asserts v{if(!v)throw new ProductionError(code,message,409);}
 function unique<T>(items:T[]):T[]{return [...new Map(items.map(item=>[canonical(item),item])).values()];}
@@ -109,19 +110,12 @@ export class ReviewService{
       if(scene.utterances.every((u:any)=>typeof u.text==='string'))ensure(normalized(scene.utterances.map((u:any)=>u.text).join(''))===normalized(expected),'REVIEW_CONTENT_CHANGED','审片配音正文与当前确认稿不同');
     }
     const manifest=await validateTemplate(jobs[0].project);
-    const evidence:ReviewEvidence[]=[],files:Delivery['files']=[];let audio:ReviewData['audio'];
+    const evidence:ReviewEvidence[]=[];
     for(const job of jobs){
-      if(job.continuousAudio){const a=job.continuousAudio,path=await regular(root,a.path);ensure(a.sourceDigest===sourceDigest&&sha256(await fs.readFile(path))===a.sha256,'REVIEW_EVIDENCE_CHANGED','服务登记的连续音轨与本版不符');audio={sha256:a.sha256,sampleRate:a.sampleRate,samples:a.samples};}
       for(const f of job.readyFrames??[]){
         const path=await regular(root,f.path);ensure(sha256(await fs.readFile(path))===f.sha256,'REVIEW_EVIDENCE_CHANGED','登记静帧摘要不符');
         ensure(Number.isInteger(f.frame)&&f.frame>=0&&f.frame<timeline.totalFrames,'REVIEW_EVIDENCE_RANGE','登记静帧超出时间线');
         evidence.push({evidenceId:`ev-${sha256(canonical(['image',f.frame,f.sha256])).slice(0,24)}`,kind:'image',path,sha256:f.sha256,frame:f.frame,fps:timeline.fps,width:manifest.width,height:manifest.height});
-      }
-      for(const f of job.readyFiles??[]){
-        if(request.phase==='final')ensure(job.state==='succeeded'&&!job.input.previewOnly,'REVIEW_FINAL_NOT_READY','成片检查必须使用成功的正式导出');
-        const path=await regular(root,f.file);ensure(sha256(await fs.readFile(path))===f.sha256,'REVIEW_EVIDENCE_CHANGED','登记视频摘要不符');
-        ensure(f.fps===timeline.fps&&f.fromFrame>=0&&f.toFrame<=timeline.totalFrames&&f.toFrame>f.fromFrame,'REVIEW_EVIDENCE_RANGE','登记视频不属于当前全局时间线');
-        files.push(f);evidence.push({evidenceId:`ev-${sha256(canonical(['video',f.fromFrame,f.toFrame,f.sha256])).slice(0,24)}`,kind:'video',path,sha256:f.sha256,fromFrame:f.fromFrame,toFrame:f.toFrame,fps:f.fps,width:f.width,height:f.height});
       }
     }
     const actualEvidence=[...new Map(evidence.map(e=>[e.evidenceId,e])).values()],snapshot:ReviewSnapshot={sourceDigest,timeline,files:await snapshotFiles(jobs[0].project),timelineRef};
@@ -144,27 +138,13 @@ export class ReviewService{
     const plan=createReviewPlan({runId:run.runId,sourceDigest,scenes:scenes.map(s=>({sceneId:s.id,...s})),chapters,readyFrames:actualEvidence.filter(e=>e.kind==='image').map(e=>({frame:e.frame!,sourceDigest}))});
     const works:ReviewWork[]=plan.units.map(unit=>{
       const images=actualEvidence.filter(e=>e.kind==='image'&&e.frame!>=unit.fromFrame&&e.frame!<unit.toFrame);
-      const video=actualEvidence.filter(e=>e.kind==='video'&&e.toFrame!>unit.fromFrame&&e.fromFrame!<unit.toFrame).sort((a,b)=>(a.toFrame!-a.fromFrame!)-(b.toFrame!-b.fromFrame!));
-      // 优先分镜原文件，保留整片作为跨边界连续性证据，不通过静帧推导运动合格。
-      const range={fromFrame:unit.fromFrame,toFrame:unit.toFrame};
-      const checks:ReviewCheck[]=request.phase==='pre_export'?
-        [{checkId:'visual-layout',purpose:'文字、图形、空间遮挡与真实字形',mode:'image',evidenceIds:images.map(e=>e.evidenceId)},
-         {checkId:'caption-layout',purpose:'字幕分卡、断行、字号和背景叠加',mode:'image',evidenceIds:images.map(e=>e.evidenceId)}]:
-        [{checkId:'motion',purpose:'连续演出、关键中途、接管及语义落点',mode:'video',range,evidenceIds:video.map(e=>e.evidenceId)},
-         {checkId:'caption-reading',purpose:'完整阅读、换卡、画面遮挡',mode:'audiovisual',range,evidenceIds:video.map(e=>e.evidenceId)},
-         {checkId:'audio',purpose:'听审自然分段、连续性、句尾和混音',mode:'audio',range,evidenceIds:video.map(e=>e.evidenceId)},
-         {checkId:'av-sync',purpose:'同时看听字幕、关键动作与当前讲述',mode:'audiovisual',range,evidenceIds:video.map(e=>e.evidenceId)}];
-      return {unitId:unit.unitId,sceneIds:unit.sceneIds,...range,fps:timeline.fps,checks,evidence:request.phase==='pre_export'?images:video,observations:[],issues:[],reused:[]};
+      // 当前宿主只做静帧观察；完成图片检查不要求也不声称完成连续视听。
+      const checks:ReviewCheck[]=
+        [{checkId:'visual-layout',purpose:'文字、图表语义、空间遮挡与真实字形',mode:'image',evidenceIds:images.map(e=>e.evidenceId)},
+         {checkId:'caption-layout',purpose:'字幕分卡、断行、字号和背景叠加',mode:'image',evidenceIds:images.map(e=>e.evidenceId)}];
+      return {unitId:unit.unitId,sceneIds:unit.sceneIds,fromFrame:unit.fromFrame,toFrame:unit.toFrame,fps:timeline.fps,checks,evidence:images,observations:[],issues:[],reused:[]};
     });
-    if(request.phase==='final'&&scenes.length>1){
-      const whole=actualEvidence.filter(e=>e.kind==='video'&&e.fromFrame===0&&e.toFrame===timeline.totalFrames);
-      // 缺少更精确演出接点时检查相邻两个实际分镜，不扩大为前后整章或全片。
-      for(let index=1;index<scenes.length;index++){
-        const left=scenes[index-1],right=scenes[index],range={fromFrame:left.fromFrame,toFrame:right.toFrame};
-        works.push({unitId:`continuity-${left.id}-${right.id}`,sceneIds:[left.id,right.id],...range,fps:timeline.fps,evidence:whole,checks:[{checkId:'continuity',purpose:'相邻分镜声音桥、持续对象与接管；范围由实际时间线给出',mode:'audiovisual',range,evidenceIds:whole.map(e=>e.evidenceId)}],observations:[],issues:[],reused:[]});
-      }
-    }
-    const data:ReviewData={snapshot,evidence:actualEvidence,renderRequestIds:jobs.map(j=>j.id),files:unique(files),audio,missing:works.flatMap(w=>w.checks.filter(c=>!c.evidenceIds.length).map(c=>`${w.unitId}/${c.checkId} 缺少材料`))};
+    const data:ReviewData={snapshot,evidence:actualEvidence,renderRequestIds:jobs.map(j=>j.id),missing:works.flatMap(w=>w.checks.filter(c=>!c.evidenceIds.length).map(c=>`${w.unitId}/${c.checkId} 缺少材料`))};
     const inputDigest=sha256(canonical({phase:request.phase,sourceDigest,timelineRef,evidence:actualEvidence.map(({path,...e})=>e),policy:1}));
     return this.repo.transaction(()=>{
       const current=this.repo.get(run.runId);this.repo.guard(current,run.token!);ensure(current.state==='running','REVIEW_RUN_STOPPED','任务已停止');
@@ -190,22 +170,11 @@ export class ReviewService{
       const before=JSON.parse(old.data) as ReviewWork;
       for(const check of work.checks)for(const id of check.evidenceIds){
         const e=work.evidence.find(e=>e.evidenceId===id)!;
-        let matched=before.evidence.find(p=>p.sha256===e.sha256&&p.kind===e.kind&&p.width===e.width&&p.height===e.height&&p.fps===e.fps&&p.frame===e.frame&&p.fromFrame===e.fromFrame&&p.toFrame===e.toFrame);
-        let basis='相同媒体字节、显示条件、检查目的及未变相关依赖';
-        if(!matched&&e.kind==='video'){
-          const range={fromFrame:Math.max(work.fromFrame,e.fromFrame!),toFrame:Math.min(work.toFrame,e.toFrame!)};
-          const equalSlices=data.files.filter(f=>f.id!=='whole-video'&&oldData.files.some(p=>p.id===f.id&&p.sha256===f.sha256&&p.fromFrame===f.fromFrame&&p.toFrame===f.toFrame&&p.fps===f.fps&&p.width===f.width&&p.height===f.height));
-          const sameAudio=check.mode==='audio'&&data.audio&&canonical(data.audio)===canonical(oldData.audio??null);
-          // 整片容器有变化时，等价依据必须来自服务登记的实际分镜字节或连续PCM。
-          if(sameAudio||!missingRanges(range,equalSlices).length){
-            matched=before.evidence.find(p=>p.kind==='video'&&p.fps===e.fps&&p.width===e.width&&p.height===e.height&&p.fromFrame!<=range.fromFrame&&p.toFrame!>=range.toFrame);
-            basis=sameAudio?'服务连续 PCM 字节、采样规格与当前摆放一致':'范围内所有正式分镜文件字节、规格、全局摆放及相关依赖一致';
-          }
-        }
+        const matched=before.evidence.find(p=>p.sha256===e.sha256&&p.kind===e.kind&&p.width===e.width&&p.height===e.height&&p.fps===e.fps&&p.frame===e.frame&&p.fromFrame===e.fromFrame&&p.toFrame===e.toFrame);
+        const basis='相同媒体字节、显示条件、检查目的及未变相关依赖';
         if(!matched||before.issues.some(i=>i.checkId===check.checkId))continue;
         if(!before.checks.some(c=>c.checkId===check.checkId&&c.mode===check.mode))continue;
-        if(check.mode!=='image'&&changes.some(c=>c.sceneIds.some(s=>work.sceneIds.includes(s))&&c.checkIds.includes(check.checkId)))continue;
-        if(check.mode!=='image'&&missingRanges({fromFrame:Math.max(work.fromFrame,e.fromFrame!),toFrame:Math.min(work.toFrame,e.toFrame!)},before.observations.filter(o=>o.checkId===check.checkId&&o.evidenceId===matched.evidenceId&&o.range).map(o=>o.range!)).length&&!before.reused.some(r=>r.checkId===check.checkId&&r.evidenceId===matched.evidenceId))continue;
+        if(changes.some(c=>c.sceneIds.some(s=>work.sceneIds.includes(s))&&c.checkIds.includes(check.checkId)))continue;
         if(check.mode==='image'&&!before.observations.some(o=>o.checkId===check.checkId&&o.evidenceId===matched.evidenceId)&&!before.reused.some(r=>r.checkId===check.checkId&&r.evidenceId===matched.evidenceId))continue;
         work.reused.push({reviewId:previous.id,workId:old.id,checkId:check.checkId,evidenceId:id,basis:`${basis}；引用原观察，未声称重新看听`});
       }
@@ -266,13 +235,5 @@ export class ReviewService{
     const review=this.review(reviewId,runId),rows=this.repo.db.prepare('SELECT state,data FROM review_work WHERE review_id=? ORDER BY ordinal').all(reviewId) as any[],data=JSON.parse(review.data) as ReviewData;
     const work=rows.map(r=>({...JSON.parse(r.data) as ReviewWork,state:r.state})),issues=work.flatMap(w=>w.issues.map(i=>({unitId:w.unitId,...i})));
     return {reviewId,phase:review.phase,sourceDigest:review.source_digest,state:review.state,total:rows.length,remaining:rows.filter(r=>r.state!=='completed').length,missing:data.missing,issues,...(data.runtimeDiagnostic?{runtimeDiagnostic:data.runtimeDiagnostic}:{}),sessions:this.repo.db.prepare('SELECT thread_id,state,diagnostic FROM review_sessions WHERE review_id=?').all(reviewId),unobserved:work.filter(w=>w.state!=='completed').map(w=>({unitId:w.unitId,remaining:remainingChecks(w)}))};
-  }
-  assertDelivery(runId:string,sourceDigest:string,files:Delivery['files']){
-    const row=this.repo.db.prepare("SELECT * FROM reviews WHERE run_id=? AND source_digest=? AND phase='final' AND state='active' ORDER BY created_at DESC LIMIT 1").get(runId,sourceDigest) as any;
-    ensure(row,'REVIEW_REQUIRED','发布前必须完成本版成片专业审查');
-    const summary=this.read(runId,row.id),data=JSON.parse(row.data) as ReviewData;
-    ensure(!summary.remaining&&!summary.missing.length&&!summary.issues.some(i=>i.severity!=='suggestion'),'REVIEW_INCOMPLETE','仍有未看听范围或未处置问题，不能发布');
-    ensure(files.every(f=>data.files.some(e=>e.id===f.id&&e.sha256===f.sha256&&e.fromFrame===f.fromFrame&&e.toFrame===f.toFrame&&e.fps===f.fps&&e.width===f.width&&e.height===f.height)),'REVIEW_DELIVERY_CHANGED','待发布文件与专业审查证据不一致');
-    return {reviewId:row.id,sourceDigest};
   }
 }
