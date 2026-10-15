@@ -1,0 +1,254 @@
+{
+  "dataList": [
+    {
+      "id": "whole-video",
+      "content": "营收增3.2%，扣非净利润却增48%。这笔利润是从哪来的？财报揭秘室，揭开数据背后的真问题。今天拆浩欧博，一家做体外诊断试剂的企业，主攻过敏和自身免疫两个检测领域。在长期由进口品牌主导的自免检测赛道里，它是少数做到规模化生产的厂商之一。上半年营收2亿、同比增3.2%，行业整体承压，这个速度算不上快。那你先说说，这48%是怎么增出来的？一句话，七成不是卖出来的，是省出来的。利润总额同比多出的部分里，四成多来自股份支付费用减少，三成多来自研发费用压缩。股份支付是非现金支出，跟经营好坏无关；研发费用率从11.3%降到10.1%，说明研发投入在收窄。收入没怎么涨，营业利润率怎么还升2.5个百分点？看两件事。一是成本几乎没动，营业成本7764.8万元，收入增3.2%而成本基本持平，毛利率从59.2%升到60.3%。二是费用也压住了，销售费用4524万元、管理费用3192万元、研发费用1977万元。这三项合起来跟去年差不多，营业利润率从6.2%升到8.7%。营收才增3.2%，经营现金流怎么增了60.2%？现金流这块是真的。经营现金流净额3728.6万元、同比增60.2%，比同期的归母净利润1667.8万元还高，净现比2.2倍。赚一块钱利润，收回来两块多现金。那这2亿收入里，有没有真正在涨的业务？收入里有两块在涨。脱敏药欧脱克收入同比增116.8%，境外诊断收入同比增38.1%，靠的是海南自贸港和粤港澳大湾区 的政策区域。国内诊断业务是承压的那一块，收入同比微降0.5%。那账上有没有要盯的地方？有三处。应收账款占收入14.7%，跟去年的14.4%持平，回款节奏基本稳定。研发再投资率从19.1%降到16.7%，每赚一块钱毛利投回研发的钱比去年少。账面没有商誉，没有并购留下的减值风险。下期验证三件事。收入增速能不能回到两位数，股份支付费用会不会重新压上来，第二季度单季1650万元的利润能不能延续。每期3分钟，拆解财报里的关键信号。更多深度财报研判，搜索财小策。",
+      "dur": 208.633333,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/0.mp4",
+      "extraData": {
+        "kind": "wholeVideo",
+        "sha256": "e77db2d5be96506be7eddeffab3a882641016a1079443a2fb1cb89a0294d7025",
+        "fromFrame": 0,
+        "toFrame": 6259,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_001",
+      "content": "营收增3.2%，扣非净利润却增48%。这笔利润是从哪来的？",
+      "dur": 7.133333,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/1.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "82277aac43c9e53d485457355229eb0d6ab42e78419b603b3d52c019c3addf3a",
+        "fromFrame": 0,
+        "toFrame": 214,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_002",
+      "content": "财报揭秘室，揭开数据背后的真问题。",
+      "dur": 6.033333,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/2.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "391268f941a9d8d9946759f185a344b58b3732deab3caf116420dac519cfc44a",
+        "fromFrame": 214,
+        "toFrame": 395,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_003",
+      "content": "今天拆浩欧博，一家做体外诊断试剂的企业，主攻过敏和自身免疫两个检测领域。在长期由进口品牌主导的自免检测赛道里，它是少数做到规模化生产的厂商之一。上半年营收2亿、同比增3.2%，行业整体承压，这个速度算不上快。",
+      "dur": 25.933333,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/3.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "41b79e48af12b0bafdadde789c6054d0690ef1cffef6977dca55813cd23fc5f3",
+        "fromFrame": 395,
+        "toFrame": 1173,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_004",
+      "content": "那你先说说，这48%是怎么增出来的？",
+      "dur": 4.533333,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/4.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "8644821a1fee9545ece6524e99d008491dd72b84c48491a46273105e8636beac",
+        "fromFrame": 1173,
+        "toFrame": 1309,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_005",
+      "content": "一句话，七成不是卖出来的，是省出来的。利润总额同比多出的部分里，四成多来自股份支付费用减少，三成多来自研发费用压缩。股份支付是非现金支出，跟经营好坏无关；研发费用率从11.3%降到10.1%，说明研发投入在收窄。",
+      "dur": 25.433333,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/5.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "919f3d744bd37cb638eb690f8efbf99dfb97064c9f6f3e2d2026efc011c03b3a",
+        "fromFrame": 1309,
+        "toFrame": 2072,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_006",
+      "content": "收入没怎么涨，营业利润率怎么还升2.5个百分点？",
+      "dur": 4.4,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/6.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "d8f0d2501aeb591c00a9312297329dbe133ddfb16bc730992645eb0288521ec7",
+        "fromFrame": 2072,
+        "toFrame": 2204,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_007",
+      "content": "看两件事。一是成本几乎没动，营业成本7764.8万元，收入增3.2%而成本基本持平，毛利率从59.2%升到60.3%。二是费用也压住了，销售费用4524万元、管理费用3192万元、研发费用1977万元。这三项合起来跟去年差不多，营业利润率从6.2%升到8.7%。",
+      "dur": 33.733333,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/7.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "9d91395496ff393ea26d138e3bb3eaf0b95b0841e90da128be150a1a261be32f",
+        "fromFrame": 2204,
+        "toFrame": 3216,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_008",
+      "content": "营收才增3.2%，经营现金流怎么增了60.2%？",
+      "dur": 6.566667,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/8.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "beb8ba5f35f128d165b9fb878a7c360f4e30ece86d700eb8272bd251230588f6",
+        "fromFrame": 3216,
+        "toFrame": 3413,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_009",
+      "content": "现金流这块是真的。经营现金流净额3728.6万元、同比增60.2%，比同期的归母净利润1667.8万元还高，净现比2.2倍。赚一块钱利润，收回来两块多现金。",
+      "dur": 20.466667,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/9.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "09033f57448fcde1892cb8462fb7df7747359ae74d16b9f44fba7875a1f27cdc",
+        "fromFrame": 3413,
+        "toFrame": 4027,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_010",
+      "content": "那这2亿收入里，有没有真正在涨的业务？",
+      "dur": 4.566667,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/10.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "fc034f4ad408d71e2ed61ee9bda6dde5e870bbb94ec096b237755b7040e7509c",
+        "fromFrame": 4027,
+        "toFrame": 4164,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_011",
+      "content": "收入里有两块在涨。脱敏药欧脱克收入同比增116.8%，境外诊断收入同比增38.1%，靠的是海南自贸港和粤港澳大湾区 的政策区域。国内诊断业务是承压的那一块，收入同比微降0.5%。",
+      "dur": 20.866667,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/11.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "14ff8ac56cf985ee1c00430ca7729cdc1ca6d532ae7c735eefcd01bbe03526dc",
+        "fromFrame": 4164,
+        "toFrame": 4790,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_012",
+      "content": "那账上有没有要盯的地方？",
+      "dur": 3.4,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/12.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "87b9ae1094c3e8d0d511170aa7d24db990e1437433fe0f3f6251fc223f38b417",
+        "fromFrame": 4790,
+        "toFrame": 4892,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_013",
+      "content": "有三处。应收账款占收入14.7%，跟去年的14.4%持平，回款节奏基本稳定。研发再投资率从19.1%降到16.7%，每赚一块钱毛利投回研发的钱比去年少。账面没有商誉，没有并购留下的减值风险。",
+      "dur": 22.7,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/13.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "064a8c094512987909c6a2e2a53b84525228f312bf13f9322cdbe7d3f793adbc",
+        "fromFrame": 4892,
+        "toFrame": 5573,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    },
+    {
+      "id": "scene_014",
+      "content": "下期验证三件事。收入增速能不能回到两位数，股份支付费用会不会重新压上来，第二季度单季1650万元的利润能不能延续。每期3分钟，拆解财报里的关键信号。更多深度财报研判，搜索财小策。",
+      "dur": 22.866667,
+      "durationSource": "measured",
+      "url": "http://10.20.130.251:8080/media/49362baa-6e06-441e-8b6f-6a262e795a53/45888b04-449b-47bb-9e6f-70d07d443ec2/14.mp4",
+      "extraData": {
+        "kind": "scene",
+        "sha256": "9c82c8da5d6bc2cac1e5d3685acb37655e1ed3af9c8bc0b53c999b95a0ab0b9c",
+        "fromFrame": 5573,
+        "toFrame": 6259,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    }
+  ],
+  "templateDigest": "c2429a6c15a402022135f53540746ebca03e8b5dabcd0607cc0054c9e853f546",
+  "sourceDigest": "d617be59482e644bcb150da2b13bd3dd59b457a42552f2b1c0b86f0e279bf270",
+  "checks": [
+    "当前request.dataList 14镜正文、人物及顺序保留；47句真实配音已装配，8章，1920x1080/30fps，总6259帧。",
+    "模板verify-episode通过；verify_sentence_audio对当前sourceDigest d617be59482e644bcb150da2b13bd3dd59b457a42552f2b1c0b86f0e279bf270通过，47段实测身份/文本/字幕/时长核验。",
+    "同版17张静帧已由2位原生审片者实际查看；未见关键数值错误、遮挡、字幕裁切。reviewId556161be-cdd3-4fd0-8111-073ef3ec7d5f。",
+    "三个真实短预览共抽看11帧，记录partial单帧范围；费用建立、业务负值、结束语及片尾有实际帧证据。未连续观看全片或预览，未实际听审；节奏、错读、混音听感及声画同步保持inconclusive，不声称通过。",
+    "4380帧条形建立中标签为最终目标值，4652帧同尺度终态正确；原视觉作者决定保留，属可选建议，无已知阻断。",
+    "固定片头片尾各67帧；片头后完整朗读栏目语，全部口播后播放片尾。完整技术交付由原作业Worker核验与回调，预期整片加14分镜共15文件。"
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "reviewId": "556161be-cdd3-4fd0-8111-073ef3ec7d5f",
+  "assignmentToken": "49a8b20c-7d75-4b32-9b0b-b9d9641ded89",
+  "observations": [
+    {
+      "checkId": "expense-reveal",
+      "evidenceId": "ev-379aa0aaece950f68ee4b748",
+      "range": {
+        "fromFrame": 1435,
+        "toFrame": 1436
+      },
+      "note": "从实际短视频以解码帧号抽取并view_image观察全局第1435帧：约七成结论与利润总额同比增量限定完整，右侧待建立区域空置，无关键字遮挡。 仅此单帧观察；相邻未抽样帧、连续运动、阅读时长、音频和声画同步未知。"
+    },
+    {
+      "checkId": "expense-reveal",
+      "evidenceId": "ev-379aa0aaece950f68ee4b748",
+      "range": {
+        "fromFrame": 1447,
+        "toFrame": 1448
+      },
+      "note": "从实际短视频以解码帧号抽取并view_image观察全局第1447帧：右侧出现四成多、股份支付费用减少及非现金支出说明，左侧约七成结论仍在；字幕完整。 仅此单帧观察；相邻未抽样帧、连续运动、阅读时长、音频和声画同步未知。"
+    },
+    {
+      "checkId": "expense-reveal",
+      "evidenceId": "ev-379aa0aaece950f68ee4b748",
+      "range": {
+        "fromFrame": 1489,
+        "toFrame": 1490
+      },
+      "note": "从实际短视频以解码帧号抽取并view_image观察全局第1489帧：四成多与非现金支出说明完整保留，版面未见重叠；与1447帧外观基本一致。 仅此单帧观察；相邻未抽样帧、连续运动、阅读时长、音频和声画同步未知。"
+    },
+    {
+      "checkId": "business-negative",
+      "evidenceId": "ev-c8f50ff6f6033298d8f67315",
+      "range": {
+        "fromFrame": 4500,
+        "toFrame": 4501
+      },
+      "note": "从实际短视频以解码帧号抽取并view_image观察全局第4500帧：两条正增长条形与116.8%、38.1%完整呈现，政策区域说明和字幕可读；第三行业务尚未显示。 仅此单帧观察；相邻未抽样帧、连续运动、阅读时长、音频和声画同步未知。"
+    },
+    {
+      "checkId": "business-negative",
+      "evidenceId": "ev-c8f50ff6f6033298d8f67315",
+      "range": {
+        "fromFrame": 4585,
+        "toFrame": 4586
+      },
+      "note": "从实际短视频以解码帧号抽取并view_image观察全局第4585帧：正增长两条保持，政策说明完整；国内诊断第三行仍未显示。 仅此单帧观察；相邻未抽样帧、连续运动、阅读时长、音频和声画同步未知。"
+    },
+    {
+      "checkId": "business-negative",
+      "evidenceId": "ev-c8f50ff6f6033298d8f67315",
+      "range": {
+        "fromFrame": 4669,
+        "toFrame": 4670
+      },
+      "note": "从实际短视频以解码帧号抽取并view_image观察全局第4669帧：国内诊断第三行出现，红色细条处于共同基线左侧，-0.5%标签和微降0.5%字幕一致，其他业务条形仍保留。 仅此单帧观察；相邻未抽样帧、连续运动、阅读时长、音频和声画同步未知。"
+    },
+    {
+      "checkId": "closing-handoff",
+      "evidenceId": "ev-a1549b7e6cefba837c5e9707",
+      "range": {
+        "fromFrame": 5940,
+        "toFrame": 5941
+      },
+      "note": "从实际短视频以解码帧号抽取并view_image观察全局第5940帧：三项验证均已显示，字幕呈现第二季度单季1650万元利润能不能延续，数值和单位完整。 仅此单帧观察；相邻未抽样帧、连续运动、阅读时长、音频和声画同步未知。"
+    },
+    {
+      "checkId": "closing-handoff",
+      "evidenceId": "ev-a1549b7e6cefba837c5e9707",
+      "range": {
+        "fromFrame": 6050,
+        "toFrame": 6051
+      },
+      "note": "从实际短视频以解码帧号抽取并view_image观察全局第6050帧：三项验证仍保留，普通字幕更新为每期3分钟，拆解财报里的关键信号，未被其他层遮挡。 仅此单帧观察；相邻未抽样帧、连续运动、阅读时长、音频和声画同步未知。"
+    },
+    {
+      "checkId": "closing-handoff",
+      "evidenceId": "ev-a1549b7e6cefba837c5e9707",
+      "range": {
+        "fromFrame": 6150,
+        "toFrame": 6151
+      },
+      "note": "从实际短视频以解码帧号抽取并view_image观察全局第6150帧：三项验证仍保留，普通字幕更多深度财报研判，搜索财小策完整可读。 仅此单帧观察；相邻未抽样帧、连续运动、阅读时长、音频和声画同步未知。"
+    },
+    {
+      "checkId": "closing-handoff",
+      "evidenceId": "ev-a1549b7e6cefba837c5e9707",
+      "range": {
+        "fromFrame": 6200,
+        "toFrame": 6201
+      },
+      "note": "从实际短视频以解码帧号抽取并view_image观察全局第6200帧：已进入片尾，栏目标识低亮度显露，先前三项验证与字幕已退出；此单帧不证明过渡顺滑或无瞬时黑帧。 仅此单帧观察；相邻未抽样帧、连续运动、阅读时长、音频和声画同步未知。"
+    },
+    {
+      "checkId": "closing-handoff",
+      "evidenceId": "ev-a1549b7e6cefba837c5e9707",
+      "range": {
+        "fromFrame": 6258,
+        "toFrame": 6259
+      },
+      "note": "从实际短视频以解码帧号抽取并view_image观察全局第6258帧：视频最后抽样帧呈现完整明亮栏目标识，未见残留字幕和裁切。 仅此单帧观察；相邻未抽样帧、连续运动、阅读时长、音频和声画同步未知。"
+    }
+  ],
+  "issues": [],
+  "status": "partial"
+}

@@ -1,0 +1,47 @@
+{
+  "webTaskId": "12b628ebb67240879141636018bc091c",
+  "taskKey": "49362baa-6e06-441e-8b6f-6a262e795a53",
+  "stages": [
+    {
+      "runId": "91ff15da-0e4e-4c29-9fa9-676da05c2489",
+      "stage": "analysis",
+      "state": "succeeded",
+      "createdAt": 1792062101748,
+      "endEvidenceAt": 1792062173778,
+      "elapsedMs": 72030,
+      "endEvidence": "宿主turn/completed接收时间，非精确回调时间",
+      "callback": [
+        {
+          "state": "delivered",
+          "attempts": 1,
+          "diagnostic": "HTTP 200 {\"status\":0,\"msg\":\"\"}"
+        }
+      ]
+    },
+    {
+      "runId": "45888b04-449b-47bb-9e6f-70d07d443ec2",
+      "stage": "render",
+      "state": "succeeded",
+      "createdAt": 1792062251326,
+      "endEvidenceAt": 1792063819993,
+      "elapsedMs": 1568667,
+      "endEvidence": "每500毫秒只读轮询首次终态",
+      "callback": [
+        {
+          "state": "delivered",
+          "attempts": 1,
+          "diagnostic": "HTTP 200 {\"status\":0,\"msg\":\"\"}"
+        }
+      ]
+    }
+  ],
+  "formalExport": {
+    "startedAt": "2026-10-15T11:20:57.033Z",
+    "endedAt": "2026-10-15T11:30:19.710Z"
+  },
+  "speech": {
+    "count": 47,
+    "totalAudioSeconds": 187.056
+  },
+  "totalStageMs": 1640697
+}
