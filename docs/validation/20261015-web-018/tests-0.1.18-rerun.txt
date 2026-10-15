@@ -1,0 +1,840 @@
+
+> video-cut@0.1.0 test:production
+> tsx --test tests/production-*.test.ts
+
+TAP version 13
+# Subtest: Analysis 文字合同投影保留版本和摘要，不展开制作路径与组件正文
+ok 1 - Analysis 文字合同投影保留版本和摘要，不展开制作路径与组件正文
+  ---
+  duration_ms: 40.658102
+  type: 'test'
+  ...
+# Subtest: 新 Analysis 明确拒绝缺文字合同、源码引用、越界、空文及无效字段；旧工程仍能 Render 校验
+ok 2 - 新 Analysis 明确拒绝缺文字合同、源码引用、越界、空文及无效字段；旧工程仍能 Render 校验
+  ---
+  duration_ms: 27.283937
+  type: 'test'
+  ...
+# Subtest: Analysis 提示不再加载制作合同或动效工具，发现校验按可信阶段分开
+ok 3 - Analysis 提示不再加载制作合同或动效工具，发现校验按可信阶段分开
+  ---
+  duration_ms: 1.909326
+  type: 'test'
+  ...
+# Subtest: 隔离宿主按 Run 固定阶段目录，实际 skills/list 不重新发现无关技能
+ok 4 - 隔离宿主按 Run 固定阶段目录，实际 skills/list 不重新发现无关技能
+  ---
+  duration_ms: 647.154209
+  type: 'test'
+  ...
+# (node:1073880) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: 批量配音：四批各五条、全局二十、乱序回传按原句段匹配，整批防重及冲突前置
+ok 5 - 批量配音：四批各五条、全局二十、乱序回传按原句段匹配，整批防重及冲突前置
+  ---
+  duration_ms: 1053.144261
+  type: 'test'
+  ...
+# Subtest: 配音公平分配：后来小批次参与下一空位；取消仅清除所属待派发段
+ok 6 - 配音公平分配：后来小批次参与下一空位；取消仅清除所属待派发段
+  ---
+  duration_ms: 723.074401
+  type: 'test'
+  ...
+# Subtest: 供应商未知跨重启保留原编号及额度，待发请求不突破限额、不自动收费重放
+ok 7 - 供应商未知跨重启保留原编号及额度，待发请求不突破限额、不自动收费重放
+  ---
+  duration_ms: 64.240239
+  type: 'test'
+  ...
+# Subtest: 音频已收妥后本地检查失败与改名后中断：仅恢复检查，供应商调用不增加
+ok 8 - 音频已收妥后本地检查失败与改名后中断：仅恢复检查，供应商调用不增加
+  ---
+  duration_ms: 428.553562
+  type: 'test'
+  ...
+# Subtest: 固定句段审计：真实 PCM、正文和原音频绑定；错时序、错字幕和越界文件拒绝
+ok 9 - 固定句段审计：真实 PCM、正文和原音频绑定；错时序、错字幕和越界文件拒绝
+  ---
+  duration_ms: 464.202355
+  type: 'test'
+  ...
+# (node:1073881) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T13：限流、超时、非 JSON 可恢复，业务拒绝进入死信且不改变成功结果
+ok 10 - T13：限流、超时、非 JSON 可恢复，业务拒绝进入死信且不改变成功结果
+  ---
+  duration_ms: 258.73115
+  type: 'test'
+  ...
+# Subtest: T13/T14/T15：回调独立重试、原字节签名及事件身份保持
+ok 11 - T13/T14/T15：回调独立重试、原字节签名及事件身份保持
+  ---
+  duration_ms: 42.974692
+  type: 'test'
+  ...
+# Subtest: 并发 tick 只投递一次；HTTP 200 的畸形正文不是业务接受
+ok 12 - 并发 tick 只投递一次；HTTP 200 的畸形正文不是业务接受
+  ---
+  duration_ms: 182.062647
+  type: 'test'
+  ...
+# Subtest: 模型用量按 thread 累计快照去重，不把累计输入或快照次数当作单次上下文和响应数
+ok 13 - 模型用量按 thread 累计快照去重，不把累计输入或快照次数当作单次上下文和响应数
+  ---
+  duration_ms: 2.569855
+  type: 'test'
+  ...
+# Subtest: 真实响应事件按 responseId 去重，子会话单列，无累计用量时保留 null
+ok 14 - 真实响应事件按 responseId 去重，子会话单列，无累计用量时保留 null
+  ---
+  duration_ms: 0.477582
+  type: 'test'
+  ...
+# (node:1073883) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: 不合格交付文件明确失败并登记回调，文件读取故障仍保留恢复状态
+ok 15 - 不合格交付文件明确失败并登记回调，文件读取故障仍保留恢复状态
+  ---
+  duration_ms: 92.451075
+  type: 'test'
+  ...
+# Subtest: 四任务调度：第五个排队、独立收尾、清理结束后补位
+ok 16 - 四任务调度：第五个排队、独立收尾、清理结束后补位
+  ---
+  duration_ms: 94.26911
+  type: 'test'
+  ...
+# Subtest: 渲染入口：四视频各五槽，同视频不同请求及静帧不能绕过，已完成文件可查询
+ok 17 - 渲染入口：四视频各五槽，同视频不同请求及静帧不能绕过，已完成文件可查询
+  ---
+  duration_ms: 754.16995
+  type: 'test'
+  ...
+# Subtest: 受控子进程超时真正结束后返回，提前取消不启动
+ok 18 - 受控子进程超时真正结束后返回，提前取消不启动
+  ---
+  duration_ms: 67.751302
+  type: 'test'
+  ...
+# Subtest: 悬挂观察按线程及调用定位，完成事件清除，不把心跳视为工具完成
+ok 19 - 悬挂观察按线程及调用定位，完成事件清除，不把心跳视为工具完成
+  ---
+  duration_ms: 1.976663
+  type: 'test'
+  ...
+# Subtest: 恢复任务也遵守四名额，原会话未知不重放、停止后不领取剩余任务
+ok 20 - 恢复任务也遵守四名额，原会话未知不重放、停止后不领取剩余任务
+  ---
+  duration_ms: 34.599328
+  type: 'test'
+  ...
+# Subtest: 会话关闭等待自己的进程退出，重复关闭返回原等待，不影响另一会话
+ok 21 - 会话关闭等待自己的进程退出，重复关闭返回原等待，不影响另一会话
+  ---
+  duration_ms: 255.341231
+  type: 'test'
+  ...
+# Subtest: 批量静帧与续切共用幂等、容量和持久化：并发回调不丢项，未知及取消不能续做
+ok 22 - 批量静帧与续切共用幂等、容量和持久化：并发回调不丢项，未知及取消不能续做
+  ---
+  duration_ms: 508.195476
+  type: 'test'
+  ...
+# (node:1073889) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: 模型输出根节点为严格对象，等待与最终交付仅在 result 内分支
+ok 23 - 模型输出根节点为严格对象，等待与最终交付仅在 result 内分支
+  ---
+  duration_ms: 5.918097
+  type: 'test'
+  ...
+# Subtest: 媒体先完成、重复终态和心跳交错只允许一次续接
+ok 24 - 媒体先完成、重复终态和心跳交错只允许一次续接
+  ---
+  duration_ms: 68.743171
+  type: 'test'
+  ...
+# Subtest: 普通进度与漏通知仅核对原作业，终态才接回
+ok 25 - 普通进度与漏通知仅核对原作业，终态才接回
+  ---
+  duration_ms: 37.280939
+  type: 'test'
+  ...
+# Subtest: 取消与未知不唤醒模型，重试代次和快照变化不串作业
+ok 26 - 取消与未知不唤醒模型，重试代次和快照变化不串作业
+  ---
+  duration_ms: 96.225963
+  type: 'test'
+  ...
+# Subtest: 服务重启保留 waiting 原记录，媒体完成可续接；已发起未知不得再启动
+ok 27 - 服务重启保留 waiting 原记录，媒体完成可续接；已发起未知不得再启动
+  ---
+  duration_ms: 16.77827
+  type: 'test'
+  ...
+# Subtest: 新 turn 响应之前的事件缓冲，旧 final 和子线程不能冒充续接
+ok 28 - 新 turn 响应之前的事件缓冲，旧 final 和子线程不能冒充续接
+  ---
+  duration_ms: 0.977744
+  type: 'test'
+  ...
+# Subtest: 子代理 activity 和真实 thread/started 都归一化
+ok 29 - 子代理 activity 和真实 thread/started 都归一化
+  ---
+  duration_ms: 0.562461
+  type: 'test'
+  ...
+# Subtest: 恢复通过分页读取完整轮次，只接受明确完成输出
+ok 30 - 恢复通过分页读取完整轮次，只接受明确完成输出
+  ---
+  duration_ms: 0.894252
+  type: 'test'
+  ...
+# Subtest: 同 Run 执行器保留连接跨媒体等待，终态只开启一轮且只返回最终交付
+ok 31 - 同 Run 执行器保留连接跨媒体等待，终态只开启一轮且只返回最终交付
+  ---
+  duration_ms: 304.689625
+  type: 'test'
+  ...
+# Subtest: 错误等待参数反馈原线程，原媒体继续执行并在纠正后接回
+ok 32 - 错误等待参数反馈原线程，原媒体继续执行并在纠正后接回
+  ---
+  duration_ms: 288.299897
+  type: 'test'
+  ...
+# Subtest: 启动响应未知仅认领唯一新增轮次，不能重放或把旧 final 当成新结果
+ok 33 - 启动响应未知仅认领唯一新增轮次，不能重放或把旧 final 当成新结果
+  ---
+  duration_ms: 3.430983
+  type: 'test'
+  ...
+# (node:1073891) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: 生产流程门面保持五个可读阶段，并只引用现有 Application 公开命令
+ok 34 - 生产流程门面保持五个可读阶段，并只引用现有 Application 公开命令
+  ---
+  duration_ms: 3.544536
+  type: 'test'
+  ...
+# Subtest: 项目总览与生产门面使用同一组五阶段名称和顺序
+ok 35 - 项目总览与生产门面使用同一组五阶段名称和顺序
+  ---
+  duration_ms: 0.654996
+  type: 'test'
+  ...
+# Subtest: 阶段目录与对应门面类的公开方法必须完全同步
+ok 36 - 阶段目录与对应门面类的公开方法必须完全同步
+  ---
+  duration_ms: 0.611603
+  type: 'test'
+  ...
+# Subtest: 生产流程门面将各阶段命令原样委托给同一个 EditingApplication
+ok 37 - 生产流程门面将各阶段命令原样委托给同一个 EditingApplication
+  ---
+  duration_ms: 1.049964
+  type: 'test'
+  ...
+# (node:1073896) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定版本修改闭环
+ok 38 - T01/T08/T10/T11/T12/T20/T23/T25/T29：真实 API、ZIP、发布及指定版本修改闭环
+  ---
+  duration_ms: 3901.274923
+  type: 'test'
+  ...
+# Subtest: T09：ZIP 越界和损坏归档拒绝
+ok 39 - T09：ZIP 越界和损坏归档拒绝
+  ---
+  duration_ms: 81.140466
+  type: 'test'
+  ...
+# Subtest: T21：机制工具只有词法和阅读，无 Project、向量或模型调用
+ok 40 - T21：机制工具只有词法和阅读，无 Project、向量或模型调用
+  ---
+  duration_ms: 574.737209
+  type: 'test'
+  ...
+# Subtest: 豆包连续 JSON 与截断响应校验
+ok 41 - 豆包连续 JSON 与截断响应校验
+  ---
+  duration_ms: 1.247495
+  type: 'test'
+  ...
+# Subtest: 计时保持返回值、父子链及单调时长，资源明确为 Node 进程范围
+ok 42 - 计时保持返回值、父子链及单调时长，资源明确为 Node 进程范围
+  ---
+  duration_ms: 4.519631
+  type: 'test'
+  ...
+# Subtest: 并发媒体作业数在阶段结束时读取，避免保留开始时的旧值
+ok 43 - 并发媒体作业数在阶段结束时读取，避免保留开始时的旧值
+  ---
+  duration_ms: 1.481428
+  type: 'test'
+  ...
+# Subtest: 失败与取消保留原始异常，不输出错误全文或字符串元数据
+ok 44 - 失败与取消保留原始异常，不输出错误全文或字符串元数据
+  ---
+  duration_ms: 4.715737
+  type: 'test'
+  ...
+# Subtest: 关闭开关不创建日志，嵌套操作仍执行；落盘错误不改变成功或失败
+ok 45 - 关闭开关不创建日志，嵌套操作仍执行；落盘错误不改变成功或失败
+  ---
+  duration_ms: 24.915076
+  type: 'test'
+  ...
+# Subtest: 归并父子与重叠区间不重复相加，跨进程明确标记 UTC 对齐
+ok 46 - 归并父子与重叠区间不重复相加，跨进程明确标记 UTC 对齐
+  ---
+  duration_ms: 2.495426
+  type: 'test'
+  ...
+# Subtest: 报告读取真实 JSONL，拒绝截断日志与空基准，重复文件不重复计数
+ok 47 - 报告读取真实 JSONL，拒绝截断日志与空基准，重复文件不重复计数
+  ---
+  duration_ms: 1290.094944
+  type: 'test'
+  ...
+# Subtest: 实际 FFmpeg 子进程计入采样资源，明确保留并发与短进程遗漏边界
+ok 48 - 实际 FFmpeg 子进程计入采样资源，明确保留并发与短进程遗漏边界
+  ---
+  duration_ms: 1721.776274
+  type: 'test'
+  ...
+# Subtest: 新任务配置默认动画优化路径，拒绝拼错开关或无效预算
+ok 49 - 新任务配置默认动画优化路径，拒绝拼错开关或无效预算
+  ---
+  duration_ms: 4.634654
+  type: 'test'
+  ...
+# Subtest: 33句TTS仍交付11镜，保留67帧片头片尾及句间停顿
+ok 50 - 33句TTS仍交付11镜，保留67帧片头片尾及句间停顿
+  ---
+  duration_ms: 2.370726
+  type: 'test'
+  ...
+# Subtest: 同版时间轴审计、混合切片失败续做、元数据复验和发布复制完整性闭环
+ok 51 - 同版时间轴审计、混合切片失败续做、元数据复验和发布复制完整性闭环
+  ---
+  duration_ms: 11978.313875
+  type: 'test'
+  ...
+# Subtest: 按需预览：无疑点不生成，无真实能力留待审，能力齐全才提交
+ok 52 - 按需预览：无疑点不生成，无真实能力留待审，能力齐全才提交
+  ---
+  duration_ms: 2.842458
+  type: 'test'
+  ...
+# Subtest: 同版已核验整片直接复用，旧版不能充作当前检查媒体
+ok 53 - 同版已核验整片直接复用，旧版不能充作当前检查媒体
+  ---
+  duration_ms: 0.433545
+  type: 'test'
+  ...
+# Subtest: 真实运行时指令随开关变化，默认按需预览，Analysis 不启动审片
+ok 54 - 真实运行时指令随开关变化，默认按需预览，Analysis 不启动审片
+  ---
+  duration_ms: 1.465043
+  type: 'test'
+  ...
+# (node:1073956) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: 候选发行：隔离启动真实 Runtime 与 MCP，核对同版、四任务配置和新工具发现
+ok 55 - 候选发行：隔离启动真实 Runtime 与 MCP，核对同版、四任务配置和新工具发现
+  ---
+  duration_ms: 4047.369099
+  type: 'test'
+  ...
+# Subtest: 片头前后正文使用原时钟，片头末帧后恢复；拒绝默认长度、越界和转场重叠
+ok 56 - 片头前后正文使用原时钟，片头末帧后恢复；拒绝默认长度、越界和转场重叠
+  ---
+  duration_ms: 3.729799
+  type: 'test'
+  ...
+# Subtest: 真实FFmpeg：非关键帧、首末帧、短切片、重叠区间和非整数帧率准确计数
+ok 57 - 真实FFmpeg：非关键帧、首末帧、短切片、重叠区间和非整数帧率准确计数
+  ---
+  duration_ms: 8277.85398
+  type: 'test'
+  ...
+# Subtest: 正式整片只绘制一次；续做复用冻结快照并拒绝篡改，保留已完成分镜
+ok 58 - 正式整片只绘制一次；续做复用冻结快照并拒绝篡改，保留已完成分镜
+  ---
+  duration_ms: 1757.259078
+  type: 'test'
+  ...
+# Subtest: 静帧参数限制与真实批量渲染：一次构建、一浏览器、五并发、固定快照、PNG和概览
+ok 59 - 静帧参数限制与真实批量渲染：一次构建、一浏览器、五并发、固定快照、PNG和概览
+  ---
+  duration_ms: 16758.791946
+  type: 'test'
+  ...
+# Subtest: 批量静帧中途失败或取消仍关闭浏览器，保留原图且不返回成功
+ok 60 - 批量静帧中途失败或取消仍关闭浏览器，保留原图且不返回成功
+  ---
+  duration_ms: 71.462957
+  type: 'test'
+  ...
+# Subtest: 真实Remotion整片到分镜再到正式发布的隔离闭环
+ok 61 - 真实Remotion整片到分镜再到正式发布的隔离闭环
+  ---
+  duration_ms: 16700.223819
+  type: 'test'
+  ...
+# (node:1073961) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T02/T30/T31：完整请求稳定防重，重开 SQLite 后保持 ID 和版本
+ok 62 - T02/T30/T31：完整请求稳定防重，重开 SQLite 后保持 ID 和版本
+  ---
+  duration_ms: 53.893398
+  type: 'test'
+  ...
+# Subtest: T03/T22/T32：正文、要求、账号、任务改变各自受理，终态不复活
+ok 63 - T03/T22/T32：正文、要求、账号、任务改变各自受理，终态不复活
+  ---
+  duration_ms: 37.604294
+  type: 'test'
+  ...
+# Subtest: T04/T05/T24：基础必须成功 Analysis，可使用历史版本，成片引用需同来源
+ok 64 - T04/T05/T24：基础必须成功 Analysis，可使用历史版本，成片引用需同来源
+  ---
+  duration_ms: 31.820177
+  type: 'test'
+  ...
+# Subtest: T06/T16：同 task 串行、unknown 阻塞、过期令牌拒绝回写
+ok 65 - T06/T16：同 task 串行、unknown 阻塞、过期令牌拒绝回写
+  ---
+  duration_ms: 22.807269
+  type: 'test'
+  ...
+# Subtest: T07：严格单一 schema 拒绝旧字段、空文、重复及保留 ID
+ok 66 - T07：严格单一 schema 拒绝旧字段、空文、重复及保留 ID
+  ---
+  duration_ms: 11.928242
+  type: 'test'
+  ...
+# Subtest: T18/T26：取消不递增结果版本，失败修改保留旧成功成片
+ok 67 - T18/T26：取消不递增结果版本，失败修改保留旧成功成片
+  ---
+  duration_ms: 22.060959
+  type: 'test'
+  ...
+# Subtest: T31：正文空格和数组顺序参与摘要，对象键顺序不参与
+ok 68 - T31：正文空格和数组顺序参与摘要，对象键顺序不参与
+  ---
+  duration_ms: 0.498099
+  type: 'test'
+  ...
+# (node:1073969) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: HTTP 审片凭证只读且限当前 Run/计划，生成与准备接口真实拒绝越权
+ok 69 - HTTP 审片凭证只读且限当前 Run/计划，生成与准备接口真实拒绝越权
+  ---
+  duration_ms: 403.837625
+  type: 'test'
+  ...
+# Subtest: 两个独立进程及 SQLite 连接并发领活/提交，不覆盖观察或重复分派
+ok 70 - 两个独立进程及 SQLite 连接并发领活/提交，不覆盖观察或重复分派
+  ---
+  duration_ms: 631.711428
+  type: 'test'
+  ...
+# Subtest: 局部字幕文字与换卡时间分别失效，不附带前后整章
+ok 71 - 局部字幕文字与换卡时间分别失效，不附带前后整章
+  ---
+  duration_ms: 33.568149
+  type: 'test'
+  ...
+# Subtest: 局部图形只影响当前场景视觉，实际配音字节按真实引用定位
+ok 72 - 局部图形只影响当前场景视觉，实际配音字节按真实引用定位
+  ---
+  duration_ms: 1.587474
+  type: 'test'
+  ...
+# Subtest: 句段摆放和全局时序扩大对应检查，未知共享源码保守扩大视觉
+ok 73 - 句段摆放和全局时序扩大对应检查，未知共享源码保守扩大视觉
+  ---
+  duration_ms: 2.467072
+  type: 'test'
+  ...
+# Subtest: 共享字幕规则、跨章关系及无可靠归属的声音不能缩小为局部
+ok 74 - 共享字幕规则、跨章关系及无可靠归属的声音不能缩小为局部
+  ---
+  duration_ms: 1.795327
+  type: 'test'
+  ...
+# Subtest: 全局字体真实字节变化保留独立声音；前段时长改变覆盖后续全局对齐
+ok 75 - 全局字体真实字节变化保留独立声音；前段时长改变覆盖后续全局对齐
+  ---
+  duration_ms: 1.292715
+  type: 'test'
+  ...
+# Subtest: 快照摘要读取真实文件，忽略依赖缓存且拒绝符号链接
+ok 76 - 快照摘要读取真实文件，忽略依赖缓存且拒绝符号链接
+  ---
+  duration_ms: 30.767133
+  type: 'test'
+  ...
+# Subtest: 主题单元不硬编码数量，同版覆盖完整分镜，真实容量受宿主限制
+ok 77 - 主题单元不硬编码数量，同版覆盖完整分镜，真实容量受宿主限制
+  ---
+  duration_ms: 5.676907
+  type: 'test'
+  ...
+# Subtest: 静帧混版或分镜主题重复会在分派前拒绝
+ok 78 - 静帧混版或分镜主题重复会在分派前拒绝
+  ---
+  duration_ms: 0.752047
+  type: 'test'
+  ...
+# Subtest: 当前分派验证版本、负责人、真实观察范围，不将旧版完成带入新版
+ok 79 - 当前分派验证版本、负责人、真实观察范围，不将旧版完成带入新版
+  ---
+  duration_ms: 1.498117
+  type: 'test'
+  ...
+# Subtest: 通信接管仅剩余只读范围，迟到代次无法覆盖，阻断问题保留
+ok 80 - 通信接管仅剩余只读范围，迟到代次无法覆盖，阻断问题保留
+  ---
+  duration_ms: 2.884274
+  type: 'test'
+  ...
+# Subtest: 局部变更只规划影响及相邻切口，共享字幕或时间轴扩大范围
+ok 81 - 局部变更只规划影响及相邻切口，共享字幕或时间轴扩大范围
+  ---
+  duration_ms: 1.165392
+  type: 'test'
+  ...
+# Subtest: QA 原子记录位于工程之外，不改变 project 文件及其摘要输入
+ok 82 - QA 原子记录位于工程之外，不改变 project 文件及其摘要输入
+  ---
+  duration_ms: 26.176566
+  type: 'test'
+  ...
+# Subtest: 发行 QA 命令实际读写原计划、拒绝迟到结果并保留媒体原文件
+ok 83 - 发行 QA 命令实际读写原计划、拒绝迟到结果并保留媒体原文件
+  ---
+  duration_ms: 114.540096
+  type: 'test'
+  ...
+# Subtest: 有意义进度只在新观察帧或新问题出现时前进，静帧完成不宣称听审
+ok 84 - 有意义进度只在新观察帧或新问题出现时前进，静帧完成不宣称听审
+  ---
+  duration_ms: 1.029905
+  type: 'test'
+  ...
+# Subtest: 主题按真实时间排序，非连续主题和重叠分镜拒绝，局部新证据不逼迫全片重渲
+ok 85 - 主题按真实时间排序，非连续主题和重叠分镜拒绝，局部新证据不逼迫全片重渲
+  ---
+  duration_ms: 1.205546
+  type: 'test'
+  ...
+# Subtest: QA 输出安全替换已有软链接，读取计划拒绝外部链接
+ok 86 - QA 输出安全替换已有软链接，读取计划拒绝外部链接
+  ---
+  duration_ms: 17.988413
+  type: 'test'
+  ...
+# Subtest: 同版补帧保留已完成单元，空单元可领取，新增已完成范围会作废旧分派
+ok 87 - 同版补帧保留已完成单元，空单元可领取，新增已完成范围会作废旧分派
+  ---
+  duration_ms: 44.631016
+  type: 'test'
+  ...
+# Subtest: 同主题多分镜的问题帧不得误标到其他分镜
+ok 88 - 同主题多分镜的问题帧不得误标到其他分镜
+  ---
+  duration_ms: 0.571449
+  type: 'test'
+  ...
+# Subtest: 候选发行移除文件审片入口，审片 MCP 使用最小同源合同与独立连接凭证
+ok 89 - 候选发行移除文件审片入口，审片 MCP 使用最小同源合同与独立连接凭证
+  ---
+  duration_ms: 1160.081956
+  type: 'test'
+  ...
+# (node:1073985) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: 模板全局章节转换为真实分镜包，末章包含固定片尾且拒绝切断或遗漏分镜
+ok 90 - 模板全局章节转换为真实分镜包，末章包含固定片尾且拒绝切断或遗漏分镜
+  ---
+  duration_ms: 247.35413
+  type: 'test'
+  ...
+# Subtest: 真实冻结版本准备幂等，静帧时间线必须明确且证据/工程篡改被拒绝
+ok 91 - 真实冻结版本准备幂等，静帧时间线必须明确且证据/工程篡改被拒绝
+  ---
+  duration_ms: 78.355619
+  type: 'test'
+  ...
+# Subtest: 真实线程绑定前拒绝领活，多审片者互斥且重复领取返回当前包
+ok 92 - 真实线程绑定前拒绝领活，多审片者互斥且重复领取返回当前包
+  ---
+  duration_ms: 43.694758
+  type: 'test'
+  ...
+# Subtest: 逐图片累积观察，部分完成不跨目的填充，完成原子续领且重试不多领
+ok 93 - 逐图片累积观察，部分完成不跨目的填充，完成原子续领且重试不多领
+  ---
+  duration_ms: 54.429363
+  type: 'test'
+  ...
+# Subtest: 问题必须来自实际查看图片，不同问题保存供作者集中返修
+ok 94 - 问题必须来自实际查看图片，不同问题保存供作者集中返修
+  ---
+  duration_ms: 52.366263
+  type: 'test'
+  ...
+# Subtest: 版本替换撤销旧分派，迟到记录留档而不污染新计划；停止审片者只交接剩余范围
+ok 95 - 版本替换撤销旧分派，迟到记录留档而不污染新计划；停止审片者只交接剩余范围
+  ---
+  duration_ms: 80.91846
+  type: 'test'
+  ...
+# Subtest: 新审片连接撤销遗留凭证，保留部分观察并重新领取未完成范围
+ok 96 - 新审片连接撤销遗留凭证，保留部分观察并重新领取未完成范围
+  ---
+  duration_ms: 60.134722
+  type: 'test'
+  ...
+# Subtest: 相同媒体与未变依赖按检查目的复用，局部字幕修订仍须补齐字幕布局检查
+ok 97 - 相同媒体与未变依赖按检查目的复用，局部字幕修订仍须补齐字幕布局检查
+  ---
+  duration_ms: 80.310532
+  type: 'test'
+  ...
+# Subtest: 确认正文与观察期间证据被改写时拒绝提交，保留原计划状态
+ok 98 - 确认正文与观察期间证据被改写时拒绝提交，保留原计划状态
+  ---
+  duration_ms: 76.313454
+  type: 'test'
+  ...
+# Subtest: 只创建静帧包，拒绝 final 审片和用连续区间冒充图片观察
+ok 99 - 只创建静帧包，拒绝 final 审片和用连续区间冒充图片观察
+  ---
+  duration_ms: 63.036713
+  type: 'test'
+  ...
+# Subtest: 审片通信异常只是线索，不清空在途媒体，也不冒充有效审片进展
+ok 100 - 审片通信异常只是线索，不清空在途媒体，也不冒充有效审片进展
+  ---
+  duration_ms: 5.028869
+  type: 'test'
+  ...
+# Subtest: 子代理失败及迟到完成不结束主Turn，原主结果仍可交接
+ok 101 - 子代理失败及迟到完成不结束主Turn，原主结果仍可交接
+  ---
+  duration_ms: 0.702414
+  type: 'test'
+  ...
+# Subtest: App Server 启动或工具隔离失败收敛后，可以创建新的有效审片会话
+ok 102 - App Server 启动或工具隔离失败收敛后，可以创建新的有效审片会话
+  ---
+  duration_ms: 507.944009
+  type: 'test'
+  ...
+# Subtest: 启动响应未返回时取消等待原进程收敛，不遗留 starting 凭证或后台写入
+ok 103 - 启动响应未返回时取消等待原进程收敛，不遗留 starting 凭证或后台写入
+  ---
+  duration_ms: 122.294187
+  type: 'test'
+  ...
+# Subtest: 失败审片者释放名额，后续调度使用新凭证和新线程
+ok 104 - 失败审片者释放名额，后续调度使用新凭证和新线程
+  ---
+  duration_ms: 172.550896
+  type: 'test'
+  ...
+# Subtest: 新版计划在旧轮次忙碌期间到达，旧轮次结束后续接新版；同版不自动空转
+ok 105 - 新版计划在旧轮次忙碌期间到达，旧轮次结束后续接新版；同版不自动空转
+  ---
+  duration_ms: 238.383192
+  type: 'test'
+  ...
+# Subtest: 有限队列乱序完成仍保序；失败停止新增并等待活动工作结束；全局样本没有累计误差
+ok 106 - 有限队列乱序完成仍保序；失败停止新增并等待活动工作结束；全局样本没有累计误差
+  ---
+  duration_ms: 44.718962
+  type: 'test'
+  ...
+# Subtest: 真实 Remotion：不等长全局块与连续PCM，单块/合并失败续做，画面复用及缓存隔离
+ok 107 - 真实 Remotion：不等长全局块与连续PCM，单块/合并失败续做，画面复用及缓存隔离
+  ---
+  duration_ms: 43016.862586
+  type: 'test'
+  ...
+# {"globalFramePixels":[{"frame":0,"topLeft":[249,3,0],"background":[254,0,0],"marker":[242,255,249]},{"frame":1,"topLeft":[9,247,25],"background":[0,254,1],"marker":[253,255,221]},{"frame":13,"topLeft":[8,251,0],"background":[0,254,1],"marker":[237,255,229]},{"frame":14,"topLeft":[0,0,252],"background":[0,0,254],"marker":[231,255,254]},{"frame":36,"topLeft":[0,0,254],"background":[0,0,254],"marker":[232,255,241]}]}
+# Subtest: 动态预览有限并发、失败收口与原范围续做；取消不登记临时文件
+ok 108 - 动态预览有限并发、失败收口与原范围续做；取消不登记临时文件
+  ---
+  duration_ms: 2043.5725
+  type: 'test'
+  ...
+# Subtest: 连续PCM仅接受毫秒延迟量化边界，拒绝大缺口和错误采样格式
+ok 109 - 连续PCM仅接受毫秒延迟量化边界，拒绝大缺口和错误采样格式
+  ---
+  duration_ms: 3.624621
+  type: 'test'
+  ...
+# Subtest: 真实Remotion音频滤镜与FFmpeg：非整数毫秒起点产生正负16采样差，规范化不移动已有音频
+ok 110 - 真实Remotion音频滤镜与FFmpeg：非整数毫秒起点产生正负16采样差，规范化不移动已有音频
+  ---
+  duration_ms: 1541.924199
+  type: 'test'
+  ...
+# {"pcmMillisecondRounding":[{"fromFrame":1,"padStart":"adelay=33|33","expectedSamples":59200,"sourceSamples":59184,"normalizationSamples":16,"finalSamples":59200},{"fromFrame":2,"padStart":"adelay=67|67","expectedSamples":59200,"sourceSamples":59216,"normalizationSamples":-16,"finalSamples":59200}]}
+# Subtest: 模拟平台：下载摘要、故障注入和落库后丢响应的去重
+ok 111 - 模拟平台：下载摘要、故障注入和落库后丢响应的去重
+  ---
+  duration_ms: 291.447131
+  type: 'test'
+  ...
+# Subtest: 后台技能完整处置 29 项，阶段链接闭包与发行字节一致，历史源保留
+ok 112 - 后台技能完整处置 29 项，阶段链接闭包与发行字节一致，历史源保留
+  ---
+  duration_ms: 108.949958
+  type: 'test'
+  ...
+# Subtest: 恢复正文保留 0.1.8 专业原段、唯一维护源与角色读取闭包，不发行旧操作
+ok 113 - 恢复正文保留 0.1.8 专业原段、唯一维护源与角色读取闭包，不发行旧操作
+  ---
+  duration_ms: 64.817639
+  type: 'test'
+  ...
+# Subtest: 专业映射拒绝未登记来源、重复、真实路径逃逸及不完整角色引用
+ok 114 - 专业映射拒绝未登记来源、重复、真实路径逃逸及不完整角色引用
+  ---
+  duration_ms: 554.403011
+  type: 'test'
+  ...
+# Subtest: 后台机制摘要不带全 taxonomy、源码检索正文或整片浏览入口
+ok 115 - 后台机制摘要不带全 taxonomy、源码检索正文或整片浏览入口
+  ---
+  duration_ms: 2.446783
+  type: 'test'
+  ...
+# Subtest: 最小机制发行包支持实际词法检索和按需静态图，不开放全库或 overview
+ok 116 - 最小机制发行包支持实际词法检索和按需静态图，不开放全库或 overview
+  ---
+  duration_ms: 2746.185471
+  type: 'test'
+  ...
+# Subtest: 模板发行明确静帧检查后直接交付，不恢复最终视听发布限制
+ok 117 - 模板发行明确静帧检查后直接交付，不恢复最终视听发布限制
+  ---
+  duration_ms: 2.041872
+  type: 'test'
+  ...
+# (node:1074023) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T17/T27/T28/T29：配音阶段限制、同键防重、完整性复用与未知结果不重发
+ok 118 - T17/T27/T28/T29：配音阶段限制、同键防重、完整性复用与未知结果不重发
+  ---
+  duration_ms: 510.749078
+  type: 'test'
+  ...
+# (node:1074039) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: 四个 Run 共用加权绘图预算，失败、排队取消后释放并轮转
+ok 119 - 四个 Run 共用加权绘图预算，失败、排队取消后释放并轮转
+  ---
+  duration_ms: 10.565919
+  type: 'test'
+  ...
+# Subtest: Analysis MCP 实际发现仅只读事实，不能调用配音或渲染
+ok 120 - Analysis MCP 实际发现仅只读事实，不能调用配音或渲染
+  ---
+  duration_ms: 40.717709
+  type: 'test'
+  ...
+# Subtest: 服务拒绝 Analysis 制作调用；媒体等待读取原身份并返回摘要
+ok 121 - 服务拒绝 Analysis 制作调用；媒体等待读取原身份并返回摘要
+  ---
+  duration_ms: 408.035781
+  type: 'test'
+  ...
+# Subtest: 配音摘要保留完整原响应引用且不反复展开正文
+ok 122 - 配音摘要保留完整原响应引用且不反复展开正文
+  ---
+  duration_ms: 8.949163
+  type: 'test'
+  ...
+# Subtest: 预览冻结后再次绑定疑点版本，排队期间源码变化不能沿用旧检查请求
+ok 123 - 预览冻结后再次绑定疑点版本，排队期间源码变化不能沿用旧检查请求
+  ---
+  duration_ms: 18.050678
+  type: 'test'
+  ...
+# Subtest: 真实快切：B帧/AAC/长GOP非关键帧自动回退，首末与一帧边界完整
+ok 124 - 真实快切：B帧/AAC/长GOP非关键帧自动回退，首末与一帧边界完整
+  ---
+  duration_ms: 8151.812118
+  type: 'test'
+  ...
+# Subtest: 真实流拷贝成功与源包定位；时长相同的错误内容不能通过复验
+ok 125 - 真实流拷贝成功与源包定位；时长相同的错误内容不能通过复验
+  ---
+  duration_ms: 6582.592121
+  type: 'test'
+  ...
+# Subtest: 取消不落正式或pending文件；旧准确路径不受开关影响
+ok 126 - 取消不落正式或pending文件；旧准确路径不受开关影响
+  ---
+  duration_ms: 1775.885285
+  type: 'test'
+  ...
+# Subtest: 真实混合切片：非整数帧率仍按原全局帧定位
+ok 127 - 真实混合切片：非整数帧率仍按原全局帧定位
+  ---
+  duration_ms: 4303.850933
+  type: 'test'
+  ...
+# Subtest: 子代理初审完成不结束主制作，也不覆盖主线程结构化交付
+ok 128 - 子代理初审完成不结束主制作，也不覆盖主线程结构化交付
+  ---
+  duration_ms: 2.381816
+  type: 'test'
+  ...
+# Subtest: 首个主 turn 先于启动响应到达时仍收集；主 turn 中断仍正确失败
+ok 129 - 首个主 turn 先于启动响应到达时仍收集；主 turn 中断仍正确失败
+  ---
+  duration_ms: 0.819026
+  type: 'test'
+  ...
+# Subtest: 技术复用要求实际字节和规则参数一致，仍核对当前规格与取消状态
+ok 130 - 技术复用要求实际字节和规则参数一致，仍核对当前规格与取消状态
+  ---
+  duration_ms: 1333.008929
+  type: 'test'
+  ...
+# Subtest: 未听审仍可发布，技术复用后仍验证复制摘要
+ok 131 - 未听审仍可发布，技术复用后仍验证复制摘要
+  ---
+  duration_ms: 557.606823
+  type: 'test'
+  ...
+# (node:1074068) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: 网页两阶段归一化、回调及同请求去重
+ok 132 - 网页两阶段归一化、回调及同请求去重
+  ---
+  duration_ms: 67.197495
+  type: 'test'
+  ...
+# Subtest: 网页白名单只允许直连提交，不能伪造转发地址或调用管理接口
+ok 133 - 网页白名单只允许直连提交，不能伪造转发地址或调用管理接口
+  ---
+  duration_ms: 187.101796
+  type: 'test'
+  ...
+1..133
+# tests 133
+# suites 0
+# pass 133
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 48175.696483
