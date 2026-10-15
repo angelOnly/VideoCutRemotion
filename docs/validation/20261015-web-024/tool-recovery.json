@@ -1,0 +1,106 @@
+[
+  {
+    "recordedAt": "2026-10-15T12:36:53.847Z",
+    "tool": "assemble_sentence_audio",
+    "status": "failed",
+    "arguments": {
+      "assemblyRequestId": "assembly-v1",
+      "expectedTimelineSha256": "3afa50f06d23b6490ef3f5925e216297ac7cb64cdab5e0cc43a398d4e1d2a215",
+      "planRef": "audio-plan.json",
+      "speechBatchRequestIds": [
+        "speech-v1"
+      ]
+    },
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"code\":\"TEMPLATE_TIMELINE_INVALID\",\"reason\":\"模板时间线校验失败（src/validateTimeline.ts）：Build failed with 10 errors:\\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Business.tsx:2:53: ERROR: Could not resolve \\\"react/jsx-runtime\\\"\\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Cash.tsx:2:49: ERROR: Could not resolve \\\"react/jsx-runtime\\\"\\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Company.tsx:2:88: ERROR: Could not resolve \\\"react/jsx-runtime\\\"\\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Cost.tsx:2:85: ERROR: Could not resolve \\\"react/jsx-runtime\\\"\\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Hook.tsx:2:49: ERROR: Could not resolve \\\"react/jsx-runtime\\\"\\n...\",\"nextStep\":\"核对当前参数和原任务状态，保留已经观察的材料\"}"
+        }
+      ],
+      "structuredContent": {
+        "code": "TEMPLATE_TIMELINE_INVALID",
+        "reason": "模板时间线校验失败（src/validateTimeline.ts）：Build failed with 10 errors:\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Business.tsx:2:53: ERROR: Could not resolve \"react/jsx-runtime\"\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Cash.tsx:2:49: ERROR: Could not resolve \"react/jsx-runtime\"\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Company.tsx:2:88: ERROR: Could not resolve \"react/jsx-runtime\"\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Cost.tsx:2:85: ERROR: Could not resolve \"react/jsx-runtime\"\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Hook.tsx:2:49: ERROR: Could not resolve \"react/jsx-runtime\"\n...",
+        "nextStep": "核对当前参数和原任务状态，保留已经观察的材料"
+      },
+      "_meta": null
+    }
+  },
+  {
+    "recordedAt": "2026-10-15T12:37:40.487Z",
+    "tool": "assemble_sentence_audio",
+    "status": "failed",
+    "arguments": {
+      "assemblyRequestId": "assembly-v1",
+      "expectedTimelineSha256": "3afa50f06d23b6490ef3f5925e216297ac7cb64cdab5e0cc43a398d4e1d2a215",
+      "planRef": "audio-plan.json",
+      "speechBatchRequestIds": [
+        "speech-v1"
+      ]
+    },
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"code\":\"TEMPLATE_TIMELINE_INVALID\",\"reason\":\"模板时间线校验失败（src/validateTimeline.ts）：Build failed with 10 errors:\\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Business.tsx:1:18: ERROR: Could not resolve \\\"react\\\"\\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Cash.tsx:1:18: ERROR: Could not resolve \\\"react\\\"\\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Company.tsx:1:18: ERROR: Could not resolve \\\"react\\\"\\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Cost.tsx:1:18: ERROR: Could not resolve \\\"react\\\"\\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Hook.tsx:1:18: ERROR: Could not resolve \\\"react\\\"\\n...\",\"nextStep\":\"核对当前参数和原任务状态，保留已经观察的材料\"}"
+        }
+      ],
+      "structuredContent": {
+        "code": "TEMPLATE_TIMELINE_INVALID",
+        "reason": "模板时间线校验失败（src/validateTimeline.ts）：Build failed with 10 errors:\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Business.tsx:1:18: ERROR: Could not resolve \"react\"\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Cash.tsx:1:18: ERROR: Could not resolve \"react\"\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Company.tsx:1:18: ERROR: Could not resolve \"react\"\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Cost.tsx:1:18: ERROR: Could not resolve \"react\"\ndata/tasks/aa4ccd10-3095-4653-bd6e-f54c9c41de75/runs/064ed440-6c7b-4370-b8a0-650e9bd0dad6/project/renderer/src/episode/Hook.tsx:1:18: ERROR: Could not resolve \"react\"\n...",
+        "nextStep": "核对当前参数和原任务状态，保留已经观察的材料"
+      },
+      "_meta": null
+    }
+  },
+  {
+    "recordedAt": "2026-10-15T12:53:29.249Z",
+    "tool": "submit_review",
+    "status": "completed",
+    "arguments": {
+      "reportRefs": [
+        "records/review-results/packaging.json",
+        "records/review-results/financial.json",
+        "records/review-results/business.json"
+      ]
+    },
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"reviewId\":\"6a57e1ad-6d31-4b04-941b-6b478a43cbba\",\"results\":[{\"reportRef\":\"records/review-results/packaging.json\",\"assignmentToken\":\"36b005a6-d179-4325-81a7-d5cb43bd6b1d\",\"accepted\":true,\"status\":\"complete\",\"remaining\":[],\"next\":null},{\"reportRef\":\"records/review-results/financial.json\",\"assignmentToken\":\"f1cb49e7-578d-4c0b-b955-c9589b2b18a9\",\"accepted\":true,\"status\":\"complete\",\"remaining\":[],\"next\":null},{\"reportRef\":\"records/review-results/business.json\",\"assignmentToken\":\"25ad32cc-1788-4981-acc5-74459784c0d5\",\"accepted\":true,\"status\":\"complete\",\"remaining\":[],\"next\":null}]}"
+        }
+      ],
+      "structuredContent": {
+        "reviewId": "6a57e1ad-6d31-4b04-941b-6b478a43cbba",
+        "results": [
+          {
+            "reportRef": "records/review-results/packaging.json",
+            "assignmentToken": "36b005a6-d179-4325-81a7-d5cb43bd6b1d",
+            "accepted": true,
+            "status": "complete",
+            "remaining": [],
+            "next": null
+          },
+          {
+            "reportRef": "records/review-results/financial.json",
+            "assignmentToken": "f1cb49e7-578d-4c0b-b955-c9589b2b18a9",
+            "accepted": true,
+            "status": "complete",
+            "remaining": [],
+            "next": null
+          },
+          {
+            "reportRef": "records/review-results/business.json",
+            "assignmentToken": "25ad32cc-1788-4981-acc5-74459784c0d5",
+            "accepted": true,
+            "status": "complete",
+            "remaining": [],
+            "next": null
+          }
+        ]
+      },
+      "_meta": null
+    }
+  }
+]

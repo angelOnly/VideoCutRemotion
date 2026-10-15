@@ -1,0 +1,18 @@
+{
+  "before": {
+    "time": 90,
+    "ready": 4,
+    "src": "http://10.20.130.251:8080/media/aa4ccd10-3095-4653-bd6e-f54c9c41de75/064ed440-6c7b-4370-b8a0-650e9bd0dad6/0.mp4",
+    "duration": 194.566667,
+    "width": 1920,
+    "height": 1080,
+    "error": null
+  },
+  "after": {
+    "time": 92.024327,
+    "ready": 4,
+    "error": null,
+    "frames": {}
+  },
+  "scope": "网页视频解码播放检查，静音，不代表听审"
+}

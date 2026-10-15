@@ -1,0 +1,23 @@
+{
+  "analysisSeconds": 74.774,
+  "renderToMediaCompleteSeconds": 1745.921,
+  "renderToPublicationCompleteSeconds": 1750.02,
+  "twoStageSeconds": 1824.794,
+  "preExportSeconds": 1311.24,
+  "exportSeconds": 434.681370065,
+  "publicationSeconds": 3.921388357,
+  "basis": "analysis受理至宿主完成；render受理至发布媒体完成；不含两阶段之间页面人工确认间隔，网页轮询回显另计。",
+  "baseline": {
+    "analysisSeconds": 72.03,
+    "renderSeconds": 1568.667,
+    "twoStageSeconds": 1640.697,
+    "preExportSeconds": 1005.707,
+    "exportSeconds": 562.677
+  },
+  "limitations": [
+    "单次完整任务对比，非同源码控制实验",
+    "本次5837帧、25段配音；上次6259帧、47段配音",
+    "前置校验2次失败后复用配音恢复，首次审片冻结版本冲突后恢复，包装审片长等待后续接",
+    "网页播放检查静音，未完成整片听审"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "reviewId": "6a57e1ad-6d31-4b04-941b-6b478a43cbba",
+  "results": [
+    {
+      "assignmentToken": "36b005a6-d179-4325-81a7-d5cb43bd6b1d",
+      "observations": [
+        {
+          "checkId": "packaging-states",
+          "evidenceId": "ev-8402eaae5033e7bf860cd8a7",
+          "note": "实际查看：营业收入 +3.2% 与扣非净利润 +48% 分成两行，青红区分清晰；女主持右上高亮、男主持左上弱化；主字幕、摘要、免责声明与底部三格导航无重叠。"
+        },
+        {
+          "checkId": "packaging-states",
+          "evidenceId": "ev-9f4e0fa17b95a7e71d552392",
+          "note": "实际查看：两项增速清晰，新增黄色利润来源提问位于图卡下方；底部问句字幕完整，未见裁切或遮挡。"
+        },
+        {
+          "checkId": "packaging-states",
+          "evidenceId": "ev-ed98b4df53121044b9333487",
+          "note": "实际查看：片头男女半身图和中央栏目标识完整，公司名“浩欧博”白字居中，文字未被人物遮挡。"
+        },
+        {
+          "checkId": "packaging-states",
+          "evidenceId": "ev-3df26f48d46db0eb0361dc0a",
+          "note": "实际查看：已回正文包装，女主持高亮，保留两项增速及黄色提问，栏目语字幕清晰；单帧不证明返回过程连续性。"
+        },
+        {
+          "checkId": "packaging-states",
+          "evidenceId": "ev-80a6f31de80dee697cbb5699",
+          "note": "实际查看：公司概况章标题居中，上下青线与英文辅助字清楚，无字幕或导航叠压；无法由单帧判断转场时长。"
+        },
+        {
+          "checkId": "packaging-states",
+          "evidenceId": "ev-88328b2e4379e364b2a68b17",
+          "note": "实际查看：男主持左上高亮、女主持弱化；公司及两条检测领域分支清楚，字幕、免责声明、导航分层无遮挡。仅确认此帧角色主态，不证明男女切换过程或声音。"
+        },
+        {
+          "checkId": "packaging-states",
+          "evidenceId": "ev-80471025ef04de512646f214",
+          "note": "实际查看：深蓝渐变章转场背景占满画面，中央仅极淡文字残影，未出现可读正文。单帧无法判断处于正常转场边缘还是存在异常停顿，连续状态未知；未据此判定阻断。"
+        },
+        {
+          "checkId": "packaging-states",
+          "evidenceId": "ev-859996a03f9bc9bfa73d118a",
+          "note": "实际查看：结尾三项验证问题并列、共用横线及问号节点，1650 万元文字清楚；男主持高亮，字幕和导航无重叠。"
+        },
+        {
+          "checkId": "packaging-states",
+          "evidenceId": "ev-3155ce4285e6a57b9dd33438",
+          "note": "实际查看：三项验证问题保持可见，字幕为“更多深度财报研判，搜索财小策。”；图卡、字幕、导航各有独立区域，无遮挡。保持时长及声画同步未知。"
+        },
+        {
+          "checkId": "packaging-states",
+          "evidenceId": "ev-bc4a2f675aef7c5d771ce9c5",
+          "note": "实际查看：片尾栏目标识居中，画面无正文包装干扰，未见裁切；仅确认片尾静帧，末尾连续保持、淡出和音频未知。"
+        }
+      ],
+      "issues": [],
+      "status": "complete"
+    }
+  ]
+}
