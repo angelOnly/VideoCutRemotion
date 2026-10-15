@@ -1,0 +1,9 @@
+{
+  "action": "恢复停滞的独立审片连接",
+  "at": 1792042164.8292487,
+  "reviewProcess": 1232710,
+  "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+  "inactiveSeconds": 866,
+  "signal": "SIGTERM",
+  "scope": "仅审片子进程；保留原计划与已完成38项观察，由服务释放未完成分配，不改数据库或工程"
+}

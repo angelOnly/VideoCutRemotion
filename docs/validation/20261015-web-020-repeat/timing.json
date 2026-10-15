@@ -1,0 +1,62 @@
+{
+  "analysisSeconds": 53.903,
+  "renderTotalSeconds": 3210.634726,
+  "spans": [
+    {
+      "renderRequestId": "frames-81005-v1a",
+      "stage": "media_job",
+      "startedAt": "2026-10-15T04:57:17.036Z",
+      "endedAt": "2026-10-15T04:57:43.540Z",
+      "durationMs": 26503.566117999144,
+      "result": "succeeded"
+    },
+    {
+      "renderRequestId": "frames-81005-v1b",
+      "stage": "media_job",
+      "startedAt": "2026-10-15T04:57:43.549Z",
+      "endedAt": "2026-10-15T04:57:53.348Z",
+      "durationMs": 9799.886646999978,
+      "result": "succeeded"
+    },
+    {
+      "renderRequestId": "frames-81005-v2a",
+      "stage": "media_job",
+      "startedAt": "2026-10-15T05:02:59.706Z",
+      "endedAt": "2026-10-15T05:03:27.157Z",
+      "durationMs": 27451.83074100036,
+      "result": "succeeded"
+    },
+    {
+      "renderRequestId": "frames-81005-v2b",
+      "stage": "media_job",
+      "startedAt": "2026-10-15T05:03:27.167Z",
+      "endedAt": "2026-10-15T05:03:36.610Z",
+      "durationMs": 9442.261595999822,
+      "result": "succeeded"
+    },
+    {
+      "renderRequestId": "frames-81005-v2c",
+      "stage": "media_job",
+      "startedAt": "2026-10-15T05:03:36.619Z",
+      "endedAt": "2026-10-15T05:03:45.945Z",
+      "durationMs": 9326.471749000251,
+      "result": "succeeded"
+    },
+    {
+      "renderRequestId": "final-81005-v2",
+      "stage": "media_job",
+      "startedAt": "2026-10-15T05:39:24.854Z",
+      "endedAt": "2026-10-15T05:45:26.928Z",
+      "durationMs": 362073.7464429997,
+      "result": "succeeded"
+    },
+    {
+      "renderRequestId": "final-81005-v2",
+      "stage": "publication",
+      "startedAt": "2026-10-15T05:45:27.035Z",
+      "endedAt": "2026-10-15T05:45:30.049Z",
+      "durationMs": 3014.1808850001544,
+      "result": "succeeded"
+    }
+  ]
+}

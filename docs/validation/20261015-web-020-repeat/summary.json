@@ -1,0 +1,2408 @@
+{
+  "webTaskId": "5eb3239d13974836a73ee5419f04a211",
+  "taskKey": "29add791-11f4-4e50-b677-d535f7339e31",
+  "runs": [
+    {
+      "id": "2b8ff98b-3a75-462f-920d-21cd53499e69",
+      "stage": "analysis",
+      "state": "succeeded",
+      "created_at": 1792039814627,
+      "release": "release-a648c4fb03767e826950ac396c728594e496f79b0ab0c824ad28d7848adb9b45",
+      "instructionVersion": "template-production/10",
+      "runtimeWait": {},
+      "handoff": {
+        "kind": "final",
+        "taskId": "5eb3239d13974836a73ee5419f04a211",
+        "runId": "2b8ff98b-3a75-462f-920d-21cd53499e69",
+        "inputDigest": "5626be1ebcb556599da1af59eeb93cbb399d2de6b3305c74de2b230b27298591",
+        "resultPath": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/2b8ff98b-3a75-462f-920d-21cd53499e69/result.json"
+      },
+      "callbacks": [
+        {
+          "state": "delivered",
+          "attempts": 1,
+          "diagnostic": "HTTP 200 {\"status\":0,\"msg\":\"\"}"
+        }
+      ],
+      "lastEventAtMs": 1792039868530,
+      "createdBeijing": "2026-10-15T12:50:14.627000+08:00",
+      "exactText": true,
+      "characters": 669,
+      "sceneCount": 9,
+      "finalToolEvidence": []
+    },
+    {
+      "id": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+      "stage": "render",
+      "state": "succeeded",
+      "created_at": 1792039919413,
+      "release": "release-a648c4fb03767e826950ac396c728594e496f79b0ab0c824ad28d7848adb9b45",
+      "instructionVersion": "template-production/10",
+      "runtimeWait": {
+        "waitId": "01a13de7-25b7-7e53-8ee0-39e9b6877454:01a13de7-32bf-7cd3-838d-79b4c3ef0210",
+        "threadId": "01a13de7-25b7-7e53-8ee0-39e9b6877454",
+        "originTurnId": "01a13de7-32bf-7cd3-838d-79b4c3ef0210",
+        "renderRequestId": "final-81005-v2",
+        "attempt": 1,
+        "inputDigest": "e8c4fef817c484da073d5846837b138b997bef21c7d26e60c73f975ec77cb1d8",
+        "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+        "releaseId": "release-a648c4fb03767e826950ac396c728594e496f79b0ab0c824ad28d7848adb9b45",
+        "state": "handed_off",
+        "terminalState": "succeeded",
+        "deliveryDigest": "0d056582ba68128a338a1cac75aec8774a5235f7542c5143d8217bbf3fb9b4b3"
+      },
+      "handoff": {
+        "kind": "final",
+        "taskId": "5eb3239d13974836a73ee5419f04a211",
+        "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+        "inputDigest": "4470053824bca9a8bdf3cc107e4b925e3ed9d57c2608cbafaf01fc236e23e1b3",
+        "resultPath": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/delivery.json"
+      },
+      "callbacks": [
+        {
+          "state": "delivered",
+          "attempts": 1,
+          "diagnostic": "HTTP 200 {\"status\":0,\"msg\":\"\"}"
+        }
+      ],
+      "lastEventAtMs": 1792042767778,
+      "createdBeijing": "2026-10-15T12:51:59.413000+08:00",
+      "files": [
+        {
+          "id": "whole-video",
+          "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/0.mp4",
+          "duration": 135.966667,
+          "sha256": "9009c5e0e25d1e8d6b4d30fc726eb141bb74e0d2b48218d355883b3a748d6dbc",
+          "shaMatches": true,
+          "bytes": 16696996,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_001",
+          "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/1.mp4",
+          "duration": 25.033333,
+          "sha256": "6aff28b5b9301d6ee26926cdf793750eb6981cab1471bbde0870fe3612e37439",
+          "shaMatches": true,
+          "bytes": 4009274,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_002",
+          "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/2.mp4",
+          "duration": 21.466667,
+          "sha256": "d051e28204bb504c53d87f726a277f8ce7427dba85df7552becbc148c0da05f0",
+          "shaMatches": true,
+          "bytes": 2253143,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_003",
+          "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/3.mp4",
+          "duration": 16.5,
+          "sha256": "14959a90ebde045c98a5a3ca59b7c01f728a805913bd9ff8b0b2600813195448",
+          "shaMatches": true,
+          "bytes": 1707645,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_004",
+          "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/4.mp4",
+          "duration": 13.933333,
+          "sha256": "e7b60c9898664b69177155b6c093dff08bdbc76d80cbdb60625b537dc1ed2e01",
+          "shaMatches": true,
+          "bytes": 1707732,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_005",
+          "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/5.mp4",
+          "duration": 7.633333,
+          "sha256": "5b7c96ce37dac4bf5744f667be5b052474ffcf777bac5c3a2a94e8bab0fd368d",
+          "shaMatches": true,
+          "bytes": 804826,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_006",
+          "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/6.mp4",
+          "duration": 15.566667,
+          "sha256": "a187e16c73b4cd30f257881eb67d822be52ac050b408af14bba73f2b498a44ed",
+          "shaMatches": true,
+          "bytes": 1710913,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_007",
+          "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/7.mp4",
+          "duration": 13.833333,
+          "sha256": "7ce69816d6ef45a6898fd83e2ff0f7090990c6b0a33f29847903725e68d29b35",
+          "shaMatches": true,
+          "bytes": 1672325,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_008",
+          "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/8.mp4",
+          "duration": 8.733333,
+          "sha256": "2c9eee6d4264634486e907f472725443b34b7c9eb890d52055868ccba390da33",
+          "shaMatches": true,
+          "bytes": 995413,
+          "httpStatus": 200
+        },
+        {
+          "id": "scene_009",
+          "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/9.mp4",
+          "duration": 13.266667,
+          "sha256": "f80260a0e294ee678c425d30e7931843c69ac92a075a223291756d70c3ae6aa1",
+          "shaMatches": true,
+          "bytes": 1856859,
+          "httpStatus": 200
+        }
+      ],
+      "probe": {
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+            "profile": "High",
+            "codec_type": "video",
+            "codec_tag_string": "avc1",
+            "codec_tag": "0x31637661",
+            "width": 1920,
+            "height": 1080,
+            "coded_width": 1920,
+            "coded_height": 1080,
+            "closed_captions": 0,
+            "film_grain": 0,
+            "has_b_frames": 0,
+            "sample_aspect_ratio": "1:1",
+            "display_aspect_ratio": "16:9",
+            "pix_fmt": "yuvj420p",
+            "level": 40,
+            "color_range": "pc",
+            "color_space": "bt470bg",
+            "chroma_location": "center",
+            "field_order": "progressive",
+            "refs": 1,
+            "is_avc": "true",
+            "nal_length_size": "4",
+            "id": "0x1",
+            "r_frame_rate": "30/1",
+            "avg_frame_rate": "30/1",
+            "time_base": "1/90000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 12237000,
+            "duration": "135.966667",
+            "bit_rate": "783124",
+            "bits_per_raw_sample": "8",
+            "nb_frames": "4079",
+            "extradata_size": 52,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0
+            },
+            "tags": {
+              "language": "und",
+              "handler_name": "VideoHandler",
+              "vendor_id": "[0][0][0][0]"
+            },
+            "side_data_list": [
+              {
+                "side_data_type": "ICC Profile"
+              }
+            ]
+          },
+          {
+            "index": 1,
+            "codec_name": "aac",
+            "codec_long_name": "AAC (Advanced Audio Coding)",
+            "profile": "LC",
+            "codec_type": "audio",
+            "codec_tag_string": "mp4a",
+            "codec_tag": "0x6134706d",
+            "sample_fmt": "fltp",
+            "sample_rate": "48000",
+            "channels": 2,
+            "channel_layout": "stereo",
+            "bits_per_sample": 0,
+            "initial_padding": 0,
+            "id": "0x2",
+            "r_frame_rate": "0/0",
+            "avg_frame_rate": "0/0",
+            "time_base": "1/48000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 6526368,
+            "duration": "135.966000",
+            "bit_rate": "192245",
+            "nb_frames": "6375",
+            "extradata_size": 5,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0
+            },
+            "tags": {
+              "language": "und",
+              "handler_name": "SoundHandler",
+              "vendor_id": "[0][0][0][0]"
+            }
+          }
+        ],
+        "format": {
+          "filename": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/results/81005bf8-902f-4f6b-bdfc-539264f0be16/0.mp4",
+          "nb_streams": 2,
+          "nb_programs": 0,
+          "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+          "format_long_name": "QuickTime / MOV",
+          "start_time": "0.000000",
+          "duration": "135.966667",
+          "size": "16696996",
+          "bit_rate": "982417",
+          "probe_score": 100,
+          "tags": {
+            "major_brand": "isom",
+            "minor_version": "512",
+            "compatible_brands": "isomiso2avc1mp41",
+            "encoder": "Lavf60.16.100"
+          }
+        }
+      },
+      "jobs": [
+        {
+          "id": "frames-81005-v2b",
+          "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+          "kind": "frame-preview",
+          "state": "succeeded",
+          "inputDigest": "9e73785a87ba87e4d500955ac9333a2ceee10ab8156d4d180cad7fa7c61edd0a",
+          "input": {
+            "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+            "renderRequestId": "frames-81005-v2b",
+            "frames": [
+              1050,
+              1580,
+              2050,
+              3230,
+              3480,
+              3890,
+              4011
+            ]
+          },
+          "releaseId": "release-a648c4fb03767e826950ac396c728594e496f79b0ab0c824ad28d7848adb9b45",
+          "rendererVersion": "scene-chunks/1",
+          "sceneCutMode": "accurate",
+          "renderStrategy": "scene-chunks",
+          "concurrency": 4,
+          "runConcurrency": 2,
+          "readyFiles": [],
+          "readyFrames": [
+            {
+              "frame": 1050,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2b/frame-1050.png",
+              "sha256": "d8c0f557a779bdac332d5c4dcea918e8330fa1440cfd27d448d680f6210f8dd8"
+            },
+            {
+              "frame": 1580,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2b/frame-1580.png",
+              "sha256": "cc2d2a38f42c97df3358ac4ab062a6290e2be3fc2a8087fb8cd7a8b4b2d1eb1a"
+            },
+            {
+              "frame": 2050,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2b/frame-2050.png",
+              "sha256": "06917a5856c3674574581f65b0412a83da33a5fdbb7859232a51c9b89839b60d"
+            },
+            {
+              "frame": 3230,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2b/frame-3230.png",
+              "sha256": "3b1836f99c15356cd9870f39e0126bc9b1ce65fc9a939eef7001155f97f4766e"
+            },
+            {
+              "frame": 3480,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2b/frame-3480.png",
+              "sha256": "80a753b43ec4947091ccfc774cd673fd222b78676fd2d76ceba5fba2418c9a03"
+            },
+            {
+              "frame": 3890,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2b/frame-3890.png",
+              "sha256": "e3b015fd5ea0ef396dd8b4860caf70296d8ef883a428b7e0deb8bc9e30ae1635"
+            },
+            {
+              "frame": 4011,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2b/frame-4011.png",
+              "sha256": "1b539f4092fb223449a4e18e54f28291fd63e472e8206ff6d100094aeec7238f"
+            }
+          ],
+          "attempt": 1,
+          "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+          "overviewPaths": [
+            "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2b/overview-1.png",
+            "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2b/overview-2.png"
+          ],
+          "warnings": []
+        },
+        {
+          "id": "frames-81005-v2a",
+          "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+          "kind": "frame-preview",
+          "state": "succeeded",
+          "inputDigest": "085a3119ff33a63f3fcbc90c77c67b51cb6a7f46e74b416cd32ac5ccb675e899",
+          "input": {
+            "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+            "renderRequestId": "frames-81005-v2a",
+            "frames": [
+              80,
+              760,
+              1260,
+              1545,
+              1908,
+              2220,
+              2360,
+              2557,
+              2600,
+              3020,
+              3720,
+              4030
+            ]
+          },
+          "releaseId": "release-a648c4fb03767e826950ac396c728594e496f79b0ab0c824ad28d7848adb9b45",
+          "rendererVersion": "scene-chunks/1",
+          "sceneCutMode": "accurate",
+          "renderStrategy": "scene-chunks",
+          "concurrency": 4,
+          "runConcurrency": 2,
+          "readyFiles": [],
+          "readyFrames": [
+            {
+              "frame": 80,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/frame-80.png",
+              "sha256": "6191268cf6a6f0678f017cebd6e777c82baef83e51e3ca56ef83b707be4cd7f4"
+            },
+            {
+              "frame": 760,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/frame-760.png",
+              "sha256": "1ce4def549384f6bab9ebd4d1582c61eba2a901b831747b5ee10ae2b86799068"
+            },
+            {
+              "frame": 1260,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/frame-1260.png",
+              "sha256": "9d0b3579e9c40c89a68261e799f6d97676d7621b56c56aa67c1efb67e06d80fd"
+            },
+            {
+              "frame": 1545,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/frame-1545.png",
+              "sha256": "e933c421170b1db6c776be52540a831e2fff92c91a739ed03a567164783ee323"
+            },
+            {
+              "frame": 1908,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/frame-1908.png",
+              "sha256": "983d36fc50687a5194581912a969c60244c6dd13a53be852ff03e094bccf2103"
+            },
+            {
+              "frame": 2220,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/frame-2220.png",
+              "sha256": "42bc32debaa1ad4fee2de7bd8cbcbab9bf9878a2ac36c7e36068145b08c2a5ab"
+            },
+            {
+              "frame": 2360,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/frame-2360.png",
+              "sha256": "d02c57919a61b80b1e2c52d01195785faf8f2db1d03e021136ca408a806e7479"
+            },
+            {
+              "frame": 2557,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/frame-2557.png",
+              "sha256": "24b4484edf6d350ac319609e118b9b98256cd2525ed64de1ec174ffff5fbbe8a"
+            },
+            {
+              "frame": 2600,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/frame-2600.png",
+              "sha256": "63672c55f11bbf54890e5b4eadd63c40e02a49fa420b5ec44a6859f58cd4c795"
+            },
+            {
+              "frame": 3020,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/frame-3020.png",
+              "sha256": "6942a8f23187445f4e2e671eb3b72e1d36401ba5592c63edd87ec307b9e2a6d6"
+            },
+            {
+              "frame": 3720,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/frame-3720.png",
+              "sha256": "e848a3ae5022f4d376c584e57e4d0441ffcad86dda64397da66c3ef38d31faa7"
+            },
+            {
+              "frame": 4030,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/frame-4030.png",
+              "sha256": "79a9508818530355a9d1d685419e81cc17c425e7a077bbe5c7a6b37975dcb53a"
+            }
+          ],
+          "attempt": 1,
+          "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+          "overviewPaths": [
+            "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/overview-1.png",
+            "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2a/overview-2.png"
+          ],
+          "warnings": []
+        },
+        {
+          "id": "frames-81005-v1a",
+          "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+          "kind": "frame-preview",
+          "state": "succeeded",
+          "inputDigest": "3a09d1f28052c0a6a0771f1589e7f646e9a4426b4966fa72a5dd946e5ed63d0f",
+          "input": {
+            "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+            "renderRequestId": "frames-81005-v1a",
+            "frames": [
+              80,
+              760,
+              1260,
+              1545,
+              1908,
+              2220,
+              2360,
+              2557,
+              2600,
+              3020,
+              3720,
+              4030
+            ]
+          },
+          "releaseId": "release-a648c4fb03767e826950ac396c728594e496f79b0ab0c824ad28d7848adb9b45",
+          "rendererVersion": "scene-chunks/1",
+          "sceneCutMode": "accurate",
+          "renderStrategy": "scene-chunks",
+          "concurrency": 4,
+          "runConcurrency": 2,
+          "readyFiles": [],
+          "readyFrames": [
+            {
+              "frame": 80,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/frame-80.png",
+              "sha256": "6453ff26cc2d9154a85196cc02cb7de5f7dbe22d0b1b6e8da31e5f7e180d8155"
+            },
+            {
+              "frame": 760,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/frame-760.png",
+              "sha256": "609119dc0e4371731f2905ae5d5d188e7d99492899bcdcd939d7a1f84726f795"
+            },
+            {
+              "frame": 1260,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/frame-1260.png",
+              "sha256": "700d8255fed2c217a332fae9199d60c8349d44f319e2f70f2a3b53fe5dd7cbd4"
+            },
+            {
+              "frame": 1545,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/frame-1545.png",
+              "sha256": "55b9d9c0e6119f9c8ba1a50db56b555c9a78c41f3534406f203353a65940ceb2"
+            },
+            {
+              "frame": 1908,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/frame-1908.png",
+              "sha256": "4add009fc7a41f285ac95247197ea245ac8695eefa8632ca95a1c6ee691eadec"
+            },
+            {
+              "frame": 2220,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/frame-2220.png",
+              "sha256": "42bc32debaa1ad4fee2de7bd8cbcbab9bf9878a2ac36c7e36068145b08c2a5ab"
+            },
+            {
+              "frame": 2360,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/frame-2360.png",
+              "sha256": "d02c57919a61b80b1e2c52d01195785faf8f2db1d03e021136ca408a806e7479"
+            },
+            {
+              "frame": 2557,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/frame-2557.png",
+              "sha256": "2e3f4d9ca1a3ad413362cc131d941e876e8c5548829087d99f0a967e1cca1d25"
+            },
+            {
+              "frame": 2600,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/frame-2600.png",
+              "sha256": "63672c55f11bbf54890e5b4eadd63c40e02a49fa420b5ec44a6859f58cd4c795"
+            },
+            {
+              "frame": 3020,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/frame-3020.png",
+              "sha256": "c242b7fbf1b9ddca314d76703926e921e97129e5865e1d0d12e07f92f5cb27d5"
+            },
+            {
+              "frame": 3720,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/frame-3720.png",
+              "sha256": "c664abf8b5bab77665874b9b6d90d76fab68fb7452131afaa2cc30e668445e54"
+            },
+            {
+              "frame": 4030,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/frame-4030.png",
+              "sha256": "79a9508818530355a9d1d685419e81cc17c425e7a077bbe5c7a6b37975dcb53a"
+            }
+          ],
+          "attempt": 1,
+          "sourceDigest": "1957f2975b0ea6148aa561b0662087a234e5ee0f3ab996f6f95a7fb18faef584",
+          "overviewPaths": [
+            "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/overview-1.png",
+            "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1a/overview-2.png"
+          ],
+          "warnings": []
+        },
+        {
+          "id": "frames-81005-v2c",
+          "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+          "kind": "frame-preview",
+          "state": "succeeded",
+          "inputDigest": "8630f06bd2d5d29d1d2c2656b92207bb80af35c013c93953242af1484cd76575",
+          "input": {
+            "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+            "renderRequestId": "frames-81005-v2c",
+            "frames": [
+              755,
+              770,
+              1531,
+              1895,
+              1926,
+              3009,
+              3040
+            ]
+          },
+          "releaseId": "release-a648c4fb03767e826950ac396c728594e496f79b0ab0c824ad28d7848adb9b45",
+          "rendererVersion": "scene-chunks/1",
+          "sceneCutMode": "accurate",
+          "renderStrategy": "scene-chunks",
+          "concurrency": 4,
+          "runConcurrency": 2,
+          "readyFiles": [],
+          "readyFrames": [
+            {
+              "frame": 755,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2c/frame-755.png",
+              "sha256": "8b144daf6eadbc151557d147936e8c64efcc6144ed85d4df8513851e32666f87"
+            },
+            {
+              "frame": 770,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2c/frame-770.png",
+              "sha256": "437f40c7fb2afdc8f6233260dbc3f1cd8289a499b058e84cc5efbb1a62fa0aff"
+            },
+            {
+              "frame": 1531,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2c/frame-1531.png",
+              "sha256": "d4c86daaad22ccb3939e1103cea5bcb392d08c827bc2f48c3eff35dc275f325e"
+            },
+            {
+              "frame": 1895,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2c/frame-1895.png",
+              "sha256": "aa3e0b4fc820309f9df2de2bd555c5bcc8f556d983b939905b2b45c88d0abb8e"
+            },
+            {
+              "frame": 1926,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2c/frame-1926.png",
+              "sha256": "fa2c3f9db66802078dd6f4f7d67d822ddb3b4257c4b86abcfd89f30a3fa35d64"
+            },
+            {
+              "frame": 3009,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2c/frame-3009.png",
+              "sha256": "20a4fa805d26f3011327eaa8393673264983c162a97ee4e72d5f2ca6b8048249"
+            },
+            {
+              "frame": 3040,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2c/frame-3040.png",
+              "sha256": "57c61497126bba89cc6798e61477f1b9b43bd06c2e8211529526fa5ef9b53837"
+            }
+          ],
+          "attempt": 1,
+          "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+          "overviewPaths": [
+            "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2c/overview-1.png",
+            "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v2c/overview-2.png"
+          ],
+          "warnings": []
+        },
+        {
+          "id": "frames-81005-v1b",
+          "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+          "kind": "frame-preview",
+          "state": "succeeded",
+          "inputDigest": "73a10eed11a3e6622203b75c6c999cf6d7fdce9861a84ee1837c9731c7d90d91",
+          "input": {
+            "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+            "renderRequestId": "frames-81005-v1b",
+            "frames": [
+              1050,
+              1580,
+              2050,
+              3230,
+              3480,
+              3890,
+              4011
+            ]
+          },
+          "releaseId": "release-a648c4fb03767e826950ac396c728594e496f79b0ab0c824ad28d7848adb9b45",
+          "rendererVersion": "scene-chunks/1",
+          "sceneCutMode": "accurate",
+          "renderStrategy": "scene-chunks",
+          "concurrency": 4,
+          "runConcurrency": 2,
+          "readyFiles": [],
+          "readyFrames": [
+            {
+              "frame": 1050,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1b/frame-1050.png",
+              "sha256": "d8c0f557a779bdac332d5c4dcea918e8330fa1440cfd27d448d680f6210f8dd8"
+            },
+            {
+              "frame": 1580,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1b/frame-1580.png",
+              "sha256": "59d36c8475030fb7a664af2a4b59c258c72194812e38bd614611e9101b5d47ec"
+            },
+            {
+              "frame": 2050,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1b/frame-2050.png",
+              "sha256": "c663238928c72d232a22c50ce649303e7caf0cce0b203735a8624d4b10afb660"
+            },
+            {
+              "frame": 3230,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1b/frame-3230.png",
+              "sha256": "4d9ded60d4cbf0760363417a812a87441f0e02de0b55e6f32d55f2e37f54c913"
+            },
+            {
+              "frame": 3480,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1b/frame-3480.png",
+              "sha256": "80a753b43ec4947091ccfc774cd673fd222b78676fd2d76ceba5fba2418c9a03"
+            },
+            {
+              "frame": 3890,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1b/frame-3890.png",
+              "sha256": "2ca761816f856e4c007ec7f44a332496fb15dfea60460a2ee31fdf00fb74c158"
+            },
+            {
+              "frame": 4011,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1b/frame-4011.png",
+              "sha256": "cdf8846b6539b343dd3b7882e7c54ad3742aa6f1f562e8a92b8ed86e8dd541c5"
+            }
+          ],
+          "attempt": 1,
+          "sourceDigest": "1957f2975b0ea6148aa561b0662087a234e5ee0f3ab996f6f95a7fb18faef584",
+          "overviewPaths": [
+            "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1b/overview-1.png",
+            "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/previews/frames-81005-v1b/overview-2.png"
+          ],
+          "warnings": []
+        },
+        {
+          "id": "final-81005-v2",
+          "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+          "kind": "template-render",
+          "state": "succeeded",
+          "inputDigest": "e8c4fef817c484da073d5846837b138b997bef21c7d26e60c73f975ec77cb1d8",
+          "input": {
+            "renderRequestId": "final-81005-v2",
+            "timelineRef": "renderer/timeline.json",
+            "checks": [
+              "当前完整确认稿9分镜、27句段，正文及顺序逐字保留，使用finance.female/finance.male；固定片头片尾、Logo、背景、导航与字幕包装保留。",
+              "同版源码db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4完成verify_sentence_audio；27段PCM实测复用核验，音频完整覆盖、字幕帧界核对，总4079帧，正文止于4012、片尾67帧。",
+              "导演已采用三章连续图解及返修；数字表达保留稿件转述、观点及中国市场近90%至0限定；不将20%引语呈现为已核验概率。",
+              "pre_export审查ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2已完成26张静帧52项visual-layout/caption-layout观察，remaining=0，issues及pendingIssues均为空；760/1545/1908/3020旧问题经真实复查明确处置。审查连接中断后沿原计划恢复，只接替未完成范围。",
+              "未执行连续视频观看、真实听审和声画同步观察；音色听感、错读、混音遮蔽与完整动态节奏均为inconclusive。无连续观察者，未生成无人消费的动态预览。"
+            ],
+            "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+            "previewOnly": false
+          },
+          "releaseId": "release-a648c4fb03767e826950ac396c728594e496f79b0ab0c824ad28d7848adb9b45",
+          "rendererVersion": "scene-chunks/1",
+          "sceneCutMode": "accurate",
+          "renderStrategy": "scene-chunks",
+          "concurrency": 4,
+          "runConcurrency": 2,
+          "readyFiles": [
+            {
+              "id": "scene_001",
+              "fromFrame": 0,
+              "toFrame": 751,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/1.mp4",
+              "dur": 25.033333,
+              "sha256": "6aff28b5b9301d6ee26926cdf793750eb6981cab1471bbde0870fe3612e37439",
+              "content": "首个全球90%的AI芯片，站在AI技术金字塔尖的黄仁勋，这次是真的慌了。在月初的最新采访中，这位英伟达CEO全程眉头紧锁。他没有炫耀最新的芯片技术，也没有吹嘘英伟达的业绩，而是对着镜头发出了最严厉的警告：“美国正在亲手葬送自己的国运”。\n"
+            },
+            {
+              "id": "scene_002",
+              "fromFrame": 751,
+              "toFrame": 1395,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/2.mp4",
+              "dur": 21.466667,
+              "sha256": "d051e28204bb504c53d87f726a277f8ce7427dba85df7552becbc148c0da05f0",
+              "content": "“技术领先根本不算赢，谁能把AI真正用起来，谁才是最后的赢家。”黄仁勋戳破了华盛顿最大的幻觉。现在的美国，上到国会下到媒体，所有人都在吵着AI有多危险，要怎么监管，会不会毁灭人类。用“20%概率灭绝人类”这种科幻小说式的言论制造全民恐慌。\n"
+            },
+            {
+              "id": "scene_003",
+              "fromFrame": 1395,
+              "toFrame": 1890,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/3.mp4",
+              "dur": 16.5,
+              "sha256": "14959a90ebde045c98a5a3ca59b7c01f728a805913bd9ff8b0b2600813195448",
+              "content": "而另一边，亚洲国家根本没空讨论这些虚无缥缈的问题，正开足马力把AI落地到工厂、医院、零售的每一个角落，以极大的热情拥抱AI，快速推进商业化落地。这种反差让黄仁勋坐立难安。\n"
+            },
+            {
+              "id": "scene_004",
+              "fromFrame": 1890,
+              "toFrame": 2308,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/4.mp4",
+              "dur": 13.933333,
+              "sha256": "e7b60c9898664b69177155b6c093dff08bdbc76d80cbdb60625b537dc1ed2e01",
+              "content": "他用自己提出的AI五层蛋糕模型打比方：美国在能源、芯片、基础设施、模型这四层全都遥遥领先，但在最关键的应用层已经被亚洲甩在了身后。"
+            },
+            {
+              "id": "scene_005",
+              "fromFrame": 2308,
+              "toFrame": 2537,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/5.mp4",
+              "dur": 7.633333,
+              "sha256": "5b7c96ce37dac4bf5744f667be5b052474ffcf777bac5c3a2a94e8bab0fd368d",
+              "content": "最让他痛心的是，美国对华芯片管制政策的搬起石头砸自己的脚。"
+            },
+            {
+              "id": "scene_006",
+              "fromFrame": 2537,
+              "toFrame": 3004,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/6.mp4",
+              "dur": 15.566667,
+              "sha256": "a187e16c73b4cd30f257881eb67d822be52ac050b408af14bba73f2b498a44ed",
+              "content": "黄仁勋在采访中亲口承认，英伟达在中国AI芯片市场的份额已经从巅峰时的近90%，直接跌到了0。“把中国这么大的市场白白让出去，从战略上讲蠢透了。”\n"
+            },
+            {
+              "id": "scene_007",
+              "fromFrame": 3004,
+              "toFrame": 3419,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/7.mp4",
+              "dur": 13.833333,
+              "sha256": "7ce69816d6ef45a6898fd83e2ff0f7090990c6b0a33f29847903725e68d29b35",
+              "content": "这项政策早就适得其反了。中国无论如何都会搞出自己的芯片，谁也拦不住。而美国企业失去的不只是真金白银的收入，更是能决定未来的市场份额和生态主导权。"
+            },
+            {
+              "id": "whole-video",
+              "fromFrame": 0,
+              "toFrame": 4079,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/0.mp4",
+              "dur": 135.966667,
+              "sha256": "9009c5e0e25d1e8d6b4d30fc726eb141bb74e0d2b48218d355883b3a748d6dbc",
+              "content": "首个全球90%的AI芯片，站在AI技术金字塔尖的黄仁勋，这次是真的慌了。在月初的最新采访中，这位英伟达CEO全程眉头紧锁。他没有炫耀最新的芯片技术，也没有吹嘘英伟达的业绩，而是对着镜头发出了最严厉的警告：“美国正在亲手葬送自己的国运”。\n“技术领先根本不算赢，谁能把AI真正用起来，谁才是最后的赢家。”黄仁勋戳破了华盛顿最大的幻觉。现在的美国，上到国会下到媒体，所有人都在吵着AI有多危险，要怎么监管，会不会毁灭人类。用“20%概率灭绝人类”这种科幻小说式的言论制造全民恐慌。\n而另一边，亚洲国家根本没空讨论这些虚无缥缈的问题，正开足马力把AI落地到工厂、医院、零售的每一个角落，以极大的热情拥抱AI，快速推进商业化落地。这种反差让黄仁勋坐立难安。\n他用自己提出的AI五层蛋糕模型打比方：美国在能源、芯片、基础设施、模型这四层全都遥遥领先，但在最关键的应用层已经被亚洲甩在了身后。最让他痛心的是，美国对华芯片管制政策的搬起石头砸自己的脚。黄仁勋在采访中亲口承认，英伟达在中国AI芯片市场的份额已经从巅峰时的近90%，直接跌到了0。“把中国这么大的市场白白让出去，从战略上讲蠢透了。”\n这项政策早就适得其反了。中国无论如何都会搞出自己的芯片，谁也拦不住。而美国企业失去的不只是真金白银的收入，更是能决定未来的市场份额和生态主导权。“AI是全球性的产业，我们应该把技术卖到全世界去，市场份额本身就是‘最硬的战略武器’。”\n黄仁勋呼吁，如果继续被恐慌情绪绑架，阻碍AI落地，就算美国有全世界最好的芯片和模型，最终也会输掉这场决定国运的工业革命。"
+            },
+            {
+              "id": "scene_008",
+              "fromFrame": 3419,
+              "toFrame": 3681,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/8.mp4",
+              "dur": 8.733333,
+              "sha256": "2c9eee6d4264634486e907f472725443b34b7c9eb890d52055868ccba390da33",
+              "content": "“AI是全球性的产业，我们应该把技术卖到全世界去，市场份额本身就是‘最硬的战略武器’。”\n"
+            },
+            {
+              "id": "scene_009",
+              "fromFrame": 3681,
+              "toFrame": 4079,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/9.mp4",
+              "dur": 13.266667,
+              "sha256": "f80260a0e294ee678c425d30e7931843c69ac92a075a223291756d70c3ae6aa1",
+              "content": "黄仁勋呼吁，如果继续被恐慌情绪绑架，阻碍AI落地，就算美国有全世界最好的芯片和模型，最终也会输掉这场决定国运的工业革命。"
+            }
+          ],
+          "readyFrames": [],
+          "attempt": 1,
+          "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+          "resolvedRanges": [
+            {
+              "id": "scene_001",
+              "fromFrame": 0,
+              "toFrame": 751
+            },
+            {
+              "id": "scene_002",
+              "fromFrame": 751,
+              "toFrame": 1395
+            },
+            {
+              "id": "scene_003",
+              "fromFrame": 1395,
+              "toFrame": 1890
+            },
+            {
+              "id": "scene_004",
+              "fromFrame": 1890,
+              "toFrame": 2308
+            },
+            {
+              "id": "scene_005",
+              "fromFrame": 2308,
+              "toFrame": 2537
+            },
+            {
+              "id": "scene_006",
+              "fromFrame": 2537,
+              "toFrame": 3004
+            },
+            {
+              "id": "scene_007",
+              "fromFrame": 3004,
+              "toFrame": 3419
+            },
+            {
+              "id": "scene_008",
+              "fromFrame": 3419,
+              "toFrame": 3681
+            },
+            {
+              "id": "scene_009",
+              "fromFrame": 3681,
+              "toFrame": 4079
+            }
+          ],
+          "currentOutput": "scene_009",
+          "chunks": [
+            {
+              "id": "scene_001",
+              "fromFrame": 0,
+              "toFrame": 751,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/chunks/0.mp4",
+              "sha256": "008d1c23aca6e89f61293f7a8423cade26deaaae61edfbb5ec2408c9413da275",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "parametersDigest": "0b451a99fb9c4349ba466559869af3809370dd067c6201bccdc7a4d8a7cabcdb"
+            },
+            {
+              "id": "scene_002",
+              "fromFrame": 751,
+              "toFrame": 1395,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/chunks/1.mp4",
+              "sha256": "9c48577e30b9e906ca8b5e198cb08e8109e622b9adb65c5d78cb95659be9cef4",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "parametersDigest": "0b451a99fb9c4349ba466559869af3809370dd067c6201bccdc7a4d8a7cabcdb"
+            },
+            {
+              "id": "scene_003",
+              "fromFrame": 1395,
+              "toFrame": 1890,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/chunks/2.mp4",
+              "sha256": "6b5d3fd3c755d4c04fb9b93b6e05bc2af1ec92e44752e535ebc64a7855575204",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "parametersDigest": "0b451a99fb9c4349ba466559869af3809370dd067c6201bccdc7a4d8a7cabcdb"
+            },
+            {
+              "id": "scene_004",
+              "fromFrame": 1890,
+              "toFrame": 2308,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/chunks/3.mp4",
+              "sha256": "99b6f77263e7e43b32970e4b1d06bc7f5d80bf724ba9b5ac0ecfd0d1ef12edf1",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "parametersDigest": "0b451a99fb9c4349ba466559869af3809370dd067c6201bccdc7a4d8a7cabcdb"
+            },
+            {
+              "id": "scene_005",
+              "fromFrame": 2308,
+              "toFrame": 2537,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/chunks/4.mp4",
+              "sha256": "321e7793472d9a0bb90950c1b825f7ea673be1a932b7551f0a2584f83650e6c4",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "parametersDigest": "0b451a99fb9c4349ba466559869af3809370dd067c6201bccdc7a4d8a7cabcdb"
+            },
+            {
+              "id": "scene_006",
+              "fromFrame": 2537,
+              "toFrame": 3004,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/chunks/5.mp4",
+              "sha256": "7096e9107b944c1439bd938ef677722532c0023be7fa38723a31eac1f416b113",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "parametersDigest": "0b451a99fb9c4349ba466559869af3809370dd067c6201bccdc7a4d8a7cabcdb"
+            },
+            {
+              "id": "scene_007",
+              "fromFrame": 3004,
+              "toFrame": 3419,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/chunks/6.mp4",
+              "sha256": "df46fe934ce055c11078c98540acbc5c6f147c89bfbdb67b5c87edb4558a12dc",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "parametersDigest": "0b451a99fb9c4349ba466559869af3809370dd067c6201bccdc7a4d8a7cabcdb"
+            },
+            {
+              "id": "scene_008",
+              "fromFrame": 3419,
+              "toFrame": 3681,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/chunks/7.mp4",
+              "sha256": "a13dfbff18f3fa052604db5209d02a80eadd41bb7a808615c513f59164bcdd6a",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "parametersDigest": "0b451a99fb9c4349ba466559869af3809370dd067c6201bccdc7a4d8a7cabcdb"
+            },
+            {
+              "id": "scene_009",
+              "fromFrame": 3681,
+              "toFrame": 4079,
+              "width": 1920,
+              "height": 1080,
+              "fps": 30,
+              "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/chunks/8.mp4",
+              "sha256": "2c3538833449909971eced61e717d365dd8c36be42bbe33266d0891d2faca0d8",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "parametersDigest": "0b451a99fb9c4349ba466559869af3809370dd067c6201bccdc7a4d8a7cabcdb"
+            }
+          ],
+          "continuousAudio": {
+            "path": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/chunks/continuous.wav",
+            "sha256": "162271dc249333c8dae58eef70f3c0fe27d7daa311aaee64d765810807094e0b",
+            "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+            "parametersDigest": "0b451a99fb9c4349ba466559869af3809370dd067c6201bccdc7a4d8a7cabcdb",
+            "sampleRate": 48000,
+            "samples": 6526400,
+            "sourceSamples": 6526416,
+            "normalizationSamples": -16
+          },
+          "deliveryPath": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/delivery.json",
+          "delivery": {
+            "taskId": "5eb3239d13974836a73ee5419f04a211",
+            "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+            "inputDigest": "4470053824bca9a8bdf3cc107e4b925e3ed9d57c2608cbafaf01fc236e23e1b3",
+            "templateDigest": "f6cd53260f6614bb68056f12c8a42bef60b27a59e370b1dc266df167e0d3a66c",
+            "renderRequestId": "final-81005-v2",
+            "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+            "timelineRef": "renderer/timeline.json",
+            "checks": [
+              "当前完整确认稿9分镜、27句段，正文及顺序逐字保留，使用finance.female/finance.male；固定片头片尾、Logo、背景、导航与字幕包装保留。",
+              "同版源码db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4完成verify_sentence_audio；27段PCM实测复用核验，音频完整覆盖、字幕帧界核对，总4079帧，正文止于4012、片尾67帧。",
+              "导演已采用三章连续图解及返修；数字表达保留稿件转述、观点及中国市场近90%至0限定；不将20%引语呈现为已核验概率。",
+              "pre_export审查ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2已完成26张静帧52项visual-layout/caption-layout观察，remaining=0，issues及pendingIssues均为空；760/1545/1908/3020旧问题经真实复查明确处置。审查连接中断后沿原计划恢复，只接替未完成范围。",
+              "未执行连续视频观看、真实听审和声画同步观察；音色听感、错读、混音遮蔽与完整动态节奏均为inconclusive。无连续观察者，未生成无人消费的动态预览。"
+            ],
+            "files": [
+              {
+                "id": "whole-video",
+                "fromFrame": 0,
+                "toFrame": 4079,
+                "width": 1920,
+                "height": 1080,
+                "fps": 30,
+                "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/0.mp4",
+                "dur": 135.966667,
+                "sha256": "9009c5e0e25d1e8d6b4d30fc726eb141bb74e0d2b48218d355883b3a748d6dbc",
+                "content": "首个全球90%的AI芯片，站在AI技术金字塔尖的黄仁勋，这次是真的慌了。在月初的最新采访中，这位英伟达CEO全程眉头紧锁。他没有炫耀最新的芯片技术，也没有吹嘘英伟达的业绩，而是对着镜头发出了最严厉的警告：“美国正在亲手葬送自己的国运”。\n“技术领先根本不算赢，谁能把AI真正用起来，谁才是最后的赢家。”黄仁勋戳破了华盛顿最大的幻觉。现在的美国，上到国会下到媒体，所有人都在吵着AI有多危险，要怎么监管，会不会毁灭人类。用“20%概率灭绝人类”这种科幻小说式的言论制造全民恐慌。\n而另一边，亚洲国家根本没空讨论这些虚无缥缈的问题，正开足马力把AI落地到工厂、医院、零售的每一个角落，以极大的热情拥抱AI，快速推进商业化落地。这种反差让黄仁勋坐立难安。\n他用自己提出的AI五层蛋糕模型打比方：美国在能源、芯片、基础设施、模型这四层全都遥遥领先，但在最关键的应用层已经被亚洲甩在了身后。最让他痛心的是，美国对华芯片管制政策的搬起石头砸自己的脚。黄仁勋在采访中亲口承认，英伟达在中国AI芯片市场的份额已经从巅峰时的近90%，直接跌到了0。“把中国这么大的市场白白让出去，从战略上讲蠢透了。”\n这项政策早就适得其反了。中国无论如何都会搞出自己的芯片，谁也拦不住。而美国企业失去的不只是真金白银的收入，更是能决定未来的市场份额和生态主导权。“AI是全球性的产业，我们应该把技术卖到全世界去，市场份额本身就是‘最硬的战略武器’。”\n黄仁勋呼吁，如果继续被恐慌情绪绑架，阻碍AI落地，就算美国有全世界最好的芯片和模型，最终也会输掉这场决定国运的工业革命。"
+              },
+              {
+                "id": "scene_001",
+                "fromFrame": 0,
+                "toFrame": 751,
+                "width": 1920,
+                "height": 1080,
+                "fps": 30,
+                "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/1.mp4",
+                "dur": 25.033333,
+                "sha256": "6aff28b5b9301d6ee26926cdf793750eb6981cab1471bbde0870fe3612e37439",
+                "content": "首个全球90%的AI芯片，站在AI技术金字塔尖的黄仁勋，这次是真的慌了。在月初的最新采访中，这位英伟达CEO全程眉头紧锁。他没有炫耀最新的芯片技术，也没有吹嘘英伟达的业绩，而是对着镜头发出了最严厉的警告：“美国正在亲手葬送自己的国运”。\n"
+              },
+              {
+                "id": "scene_002",
+                "fromFrame": 751,
+                "toFrame": 1395,
+                "width": 1920,
+                "height": 1080,
+                "fps": 30,
+                "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/2.mp4",
+                "dur": 21.466667,
+                "sha256": "d051e28204bb504c53d87f726a277f8ce7427dba85df7552becbc148c0da05f0",
+                "content": "“技术领先根本不算赢，谁能把AI真正用起来，谁才是最后的赢家。”黄仁勋戳破了华盛顿最大的幻觉。现在的美国，上到国会下到媒体，所有人都在吵着AI有多危险，要怎么监管，会不会毁灭人类。用“20%概率灭绝人类”这种科幻小说式的言论制造全民恐慌。\n"
+              },
+              {
+                "id": "scene_003",
+                "fromFrame": 1395,
+                "toFrame": 1890,
+                "width": 1920,
+                "height": 1080,
+                "fps": 30,
+                "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/3.mp4",
+                "dur": 16.5,
+                "sha256": "14959a90ebde045c98a5a3ca59b7c01f728a805913bd9ff8b0b2600813195448",
+                "content": "而另一边，亚洲国家根本没空讨论这些虚无缥缈的问题，正开足马力把AI落地到工厂、医院、零售的每一个角落，以极大的热情拥抱AI，快速推进商业化落地。这种反差让黄仁勋坐立难安。\n"
+              },
+              {
+                "id": "scene_004",
+                "fromFrame": 1890,
+                "toFrame": 2308,
+                "width": 1920,
+                "height": 1080,
+                "fps": 30,
+                "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/4.mp4",
+                "dur": 13.933333,
+                "sha256": "e7b60c9898664b69177155b6c093dff08bdbc76d80cbdb60625b537dc1ed2e01",
+                "content": "他用自己提出的AI五层蛋糕模型打比方：美国在能源、芯片、基础设施、模型这四层全都遥遥领先，但在最关键的应用层已经被亚洲甩在了身后。"
+              },
+              {
+                "id": "scene_005",
+                "fromFrame": 2308,
+                "toFrame": 2537,
+                "width": 1920,
+                "height": 1080,
+                "fps": 30,
+                "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/5.mp4",
+                "dur": 7.633333,
+                "sha256": "5b7c96ce37dac4bf5744f667be5b052474ffcf777bac5c3a2a94e8bab0fd368d",
+                "content": "最让他痛心的是，美国对华芯片管制政策的搬起石头砸自己的脚。"
+              },
+              {
+                "id": "scene_006",
+                "fromFrame": 2537,
+                "toFrame": 3004,
+                "width": 1920,
+                "height": 1080,
+                "fps": 30,
+                "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/6.mp4",
+                "dur": 15.566667,
+                "sha256": "a187e16c73b4cd30f257881eb67d822be52ac050b408af14bba73f2b498a44ed",
+                "content": "黄仁勋在采访中亲口承认，英伟达在中国AI芯片市场的份额已经从巅峰时的近90%，直接跌到了0。“把中国这么大的市场白白让出去，从战略上讲蠢透了。”\n"
+              },
+              {
+                "id": "scene_007",
+                "fromFrame": 3004,
+                "toFrame": 3419,
+                "width": 1920,
+                "height": 1080,
+                "fps": 30,
+                "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/7.mp4",
+                "dur": 13.833333,
+                "sha256": "7ce69816d6ef45a6898fd83e2ff0f7090990c6b0a33f29847903725e68d29b35",
+                "content": "这项政策早就适得其反了。中国无论如何都会搞出自己的芯片，谁也拦不住。而美国企业失去的不只是真金白银的收入，更是能决定未来的市场份额和生态主导权。"
+              },
+              {
+                "id": "scene_008",
+                "fromFrame": 3419,
+                "toFrame": 3681,
+                "width": 1920,
+                "height": 1080,
+                "fps": 30,
+                "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/8.mp4",
+                "dur": 8.733333,
+                "sha256": "2c9eee6d4264634486e907f472725443b34b7c9eb890d52055868ccba390da33",
+                "content": "“AI是全球性的产业，我们应该把技术卖到全世界去，市场份额本身就是‘最硬的战略武器’。”\n"
+              },
+              {
+                "id": "scene_009",
+                "fromFrame": 3681,
+                "toFrame": 4079,
+                "width": 1920,
+                "height": 1080,
+                "fps": 30,
+                "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/9.mp4",
+                "dur": 13.266667,
+                "sha256": "f80260a0e294ee678c425d30e7931843c69ac92a075a223291756d70c3ae6aa1",
+                "content": "黄仁勋呼吁，如果继续被恐慌情绪绑架，阻碍AI落地，就算美国有全世界最好的芯片和模型，最终也会输掉这场决定国运的工业革命。"
+              }
+            ]
+          }
+        }
+      ],
+      "publishedAt": "2026-10-15T13:45:30.047726+08:00",
+      "finalToolEvidence": [
+        {
+          "at": 1792042242350,
+          "tool": "read_review",
+          "arguments": {
+            "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+            "afterDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+            "waitMs": 60000
+          },
+          "result": {
+            "structuredContent": {
+              "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+              "runState": "running",
+              "phase": "pre_export",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "state": "active",
+              "total": 3,
+              "remaining": 1,
+              "missing": [],
+              "changes": [
+                {
+                  "chapterWide": false,
+                  "checkIds": [
+                    "visual-layout",
+                    "caption-layout",
+                    "caption-reading",
+                    "motion",
+                    "av-sync",
+                    "continuity"
+                  ],
+                  "reason": "未能可靠归属的共享文件改变：renderer/src/episodeVisuals.tsx",
+                  "sceneIds": [
+                    "scene_001",
+                    "scene_002",
+                    "scene_003",
+                    "scene_004",
+                    "scene_005",
+                    "scene_006",
+                    "scene_007",
+                    "scene_008",
+                    "scene_009"
+                  ]
+                }
+              ],
+              "requiredObservationCount": 52,
+              "issues": [],
+              "pendingIssues": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "checkId": "visual-layout",
+                  "currentEvidenceId": "ev-5c62a6feceab3f3eeeecc055",
+                  "evidenceId": "ev-93d14854c9885d6fd7509e67",
+                  "issueId": "67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                  "problem": "帧3020新图“稿件观点｜收入、份额与生态的连接”与旧图“英伟达 / 中国 AI 芯片市场份额”在左上同一区域叠字，旧条形图、百分比及引文同时残留在市场关系图后，造成中间态阅读干扰。应错开旧标题退出和新标题显露；仅确认此帧，不推断持续时间。",
+                  "severity": "warning",
+                  "sourceReviewId": "a9075914-440d-492c-ac7b-260df8d42377",
+                  "sourceWorkId": "983805a7-677e-4e0a-b28b-5e46294d1e5a"
+                }
+              ],
+              "observationCount": 38,
+              "reusedCount": 0,
+              "sessions": [
+                {
+                  "thread_id": "01a13dec-913a-7070-a151-7ae937fb23c6",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                },
+                {
+                  "thread_id": "01a13e09-8807-7953-8771-ffc791806ef5",
+                  "state": "active",
+                  "diagnostic": null
+                },
+                {
+                  "thread_id": "01a13dec-aa09-7cd1-9de7-5ca21ac91b59",
+                  "state": "revoked",
+                  "diagnostic": "Error: App Server 连接结束"
+                },
+                {
+                  "thread_id": "01a13dec-9dce-7d90-9148-cbeef0f0da00",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                }
+              ],
+              "unobserved": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "remaining": [
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "caption-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "旧问题尚待复查及明确处置：67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                      "evidenceIds": [
+                        "ev-5c62a6feceab3f3eeeecc055"
+                      ],
+                      "ranges": []
+                    }
+                  ]
+                }
+              ],
+              "metrics": {
+                "firstClaimedAt": 1792040630972,
+                "lastAcceptedSubmissionAt": 1792041091535,
+                "preparedAt": 1792040626908,
+                "readQueryCount": 28,
+                "readTimeoutCount": 23
+              },
+              "statusDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+              "timedOut": true
+            },
+            "_meta": null
+          }
+        },
+        {
+          "at": 1792042307057,
+          "tool": "read_review",
+          "arguments": {
+            "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+            "afterDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+            "waitMs": 60000
+          },
+          "result": {
+            "structuredContent": {
+              "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+              "runState": "running",
+              "phase": "pre_export",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "state": "active",
+              "total": 3,
+              "remaining": 1,
+              "missing": [],
+              "changes": [
+                {
+                  "chapterWide": false,
+                  "checkIds": [
+                    "visual-layout",
+                    "caption-layout",
+                    "caption-reading",
+                    "motion",
+                    "av-sync",
+                    "continuity"
+                  ],
+                  "reason": "未能可靠归属的共享文件改变：renderer/src/episodeVisuals.tsx",
+                  "sceneIds": [
+                    "scene_001",
+                    "scene_002",
+                    "scene_003",
+                    "scene_004",
+                    "scene_005",
+                    "scene_006",
+                    "scene_007",
+                    "scene_008",
+                    "scene_009"
+                  ]
+                }
+              ],
+              "requiredObservationCount": 52,
+              "issues": [],
+              "pendingIssues": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "checkId": "visual-layout",
+                  "currentEvidenceId": "ev-5c62a6feceab3f3eeeecc055",
+                  "evidenceId": "ev-93d14854c9885d6fd7509e67",
+                  "issueId": "67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                  "problem": "帧3020新图“稿件观点｜收入、份额与生态的连接”与旧图“英伟达 / 中国 AI 芯片市场份额”在左上同一区域叠字，旧条形图、百分比及引文同时残留在市场关系图后，造成中间态阅读干扰。应错开旧标题退出和新标题显露；仅确认此帧，不推断持续时间。",
+                  "severity": "warning",
+                  "sourceReviewId": "a9075914-440d-492c-ac7b-260df8d42377",
+                  "sourceWorkId": "983805a7-677e-4e0a-b28b-5e46294d1e5a"
+                }
+              ],
+              "observationCount": 38,
+              "reusedCount": 0,
+              "sessions": [
+                {
+                  "thread_id": "01a13dec-913a-7070-a151-7ae937fb23c6",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                },
+                {
+                  "thread_id": "01a13e09-8807-7953-8771-ffc791806ef5",
+                  "state": "active",
+                  "diagnostic": null
+                },
+                {
+                  "thread_id": "01a13dec-aa09-7cd1-9de7-5ca21ac91b59",
+                  "state": "revoked",
+                  "diagnostic": "Error: App Server 连接结束"
+                },
+                {
+                  "thread_id": "01a13dec-9dce-7d90-9148-cbeef0f0da00",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                }
+              ],
+              "unobserved": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "remaining": [
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "caption-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "旧问题尚待复查及明确处置：67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                      "evidenceIds": [
+                        "ev-5c62a6feceab3f3eeeecc055"
+                      ],
+                      "ranges": []
+                    }
+                  ]
+                }
+              ],
+              "metrics": {
+                "firstClaimedAt": 1792040630972,
+                "lastAcceptedSubmissionAt": 1792041091535,
+                "preparedAt": 1792040626908,
+                "readQueryCount": 29,
+                "readTimeoutCount": 24
+              },
+              "statusDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+              "timedOut": true
+            },
+            "_meta": null
+          }
+        },
+        {
+          "at": 1792042373447,
+          "tool": "read_review",
+          "arguments": {
+            "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+            "afterDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+            "waitMs": 60000
+          },
+          "result": {
+            "structuredContent": {
+              "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+              "runState": "running",
+              "phase": "pre_export",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "state": "active",
+              "total": 3,
+              "remaining": 1,
+              "missing": [],
+              "changes": [
+                {
+                  "chapterWide": false,
+                  "checkIds": [
+                    "visual-layout",
+                    "caption-layout",
+                    "caption-reading",
+                    "motion",
+                    "av-sync",
+                    "continuity"
+                  ],
+                  "reason": "未能可靠归属的共享文件改变：renderer/src/episodeVisuals.tsx",
+                  "sceneIds": [
+                    "scene_001",
+                    "scene_002",
+                    "scene_003",
+                    "scene_004",
+                    "scene_005",
+                    "scene_006",
+                    "scene_007",
+                    "scene_008",
+                    "scene_009"
+                  ]
+                }
+              ],
+              "requiredObservationCount": 52,
+              "issues": [],
+              "pendingIssues": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "checkId": "visual-layout",
+                  "currentEvidenceId": "ev-5c62a6feceab3f3eeeecc055",
+                  "evidenceId": "ev-93d14854c9885d6fd7509e67",
+                  "issueId": "67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                  "problem": "帧3020新图“稿件观点｜收入、份额与生态的连接”与旧图“英伟达 / 中国 AI 芯片市场份额”在左上同一区域叠字，旧条形图、百分比及引文同时残留在市场关系图后，造成中间态阅读干扰。应错开旧标题退出和新标题显露；仅确认此帧，不推断持续时间。",
+                  "severity": "warning",
+                  "sourceReviewId": "a9075914-440d-492c-ac7b-260df8d42377",
+                  "sourceWorkId": "983805a7-677e-4e0a-b28b-5e46294d1e5a"
+                }
+              ],
+              "observationCount": 38,
+              "reusedCount": 0,
+              "sessions": [
+                {
+                  "thread_id": "01a13dec-913a-7070-a151-7ae937fb23c6",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                },
+                {
+                  "thread_id": "01a13e09-8807-7953-8771-ffc791806ef5",
+                  "state": "active",
+                  "diagnostic": null
+                },
+                {
+                  "thread_id": "01a13dec-aa09-7cd1-9de7-5ca21ac91b59",
+                  "state": "revoked",
+                  "diagnostic": "Error: App Server 连接结束"
+                },
+                {
+                  "thread_id": "01a13dec-9dce-7d90-9148-cbeef0f0da00",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                }
+              ],
+              "unobserved": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "remaining": [
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "caption-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "旧问题尚待复查及明确处置：67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                      "evidenceIds": [
+                        "ev-5c62a6feceab3f3eeeecc055"
+                      ],
+                      "ranges": []
+                    }
+                  ]
+                }
+              ],
+              "metrics": {
+                "firstClaimedAt": 1792040630972,
+                "lastAcceptedSubmissionAt": 1792041091535,
+                "preparedAt": 1792040626908,
+                "readQueryCount": 30,
+                "readTimeoutCount": 25
+              },
+              "statusDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+              "timedOut": true
+            },
+            "_meta": null
+          }
+        },
+        {
+          "at": 1792042450199,
+          "tool": "read_review",
+          "arguments": {
+            "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+            "afterDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+            "waitMs": 60000
+          },
+          "result": {
+            "structuredContent": {
+              "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+              "runState": "running",
+              "phase": "pre_export",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "state": "active",
+              "total": 3,
+              "remaining": 1,
+              "missing": [],
+              "changes": [
+                {
+                  "chapterWide": false,
+                  "checkIds": [
+                    "visual-layout",
+                    "caption-layout",
+                    "caption-reading",
+                    "motion",
+                    "av-sync",
+                    "continuity"
+                  ],
+                  "reason": "未能可靠归属的共享文件改变：renderer/src/episodeVisuals.tsx",
+                  "sceneIds": [
+                    "scene_001",
+                    "scene_002",
+                    "scene_003",
+                    "scene_004",
+                    "scene_005",
+                    "scene_006",
+                    "scene_007",
+                    "scene_008",
+                    "scene_009"
+                  ]
+                }
+              ],
+              "requiredObservationCount": 52,
+              "issues": [],
+              "pendingIssues": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "checkId": "visual-layout",
+                  "currentEvidenceId": "ev-5c62a6feceab3f3eeeecc055",
+                  "evidenceId": "ev-93d14854c9885d6fd7509e67",
+                  "issueId": "67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                  "problem": "帧3020新图“稿件观点｜收入、份额与生态的连接”与旧图“英伟达 / 中国 AI 芯片市场份额”在左上同一区域叠字，旧条形图、百分比及引文同时残留在市场关系图后，造成中间态阅读干扰。应错开旧标题退出和新标题显露；仅确认此帧，不推断持续时间。",
+                  "severity": "warning",
+                  "sourceReviewId": "a9075914-440d-492c-ac7b-260df8d42377",
+                  "sourceWorkId": "983805a7-677e-4e0a-b28b-5e46294d1e5a"
+                }
+              ],
+              "observationCount": 38,
+              "reusedCount": 0,
+              "sessions": [
+                {
+                  "thread_id": "01a13dec-913a-7070-a151-7ae937fb23c6",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                },
+                {
+                  "thread_id": "01a13e09-8807-7953-8771-ffc791806ef5",
+                  "state": "active",
+                  "diagnostic": null
+                },
+                {
+                  "thread_id": "01a13dec-aa09-7cd1-9de7-5ca21ac91b59",
+                  "state": "revoked",
+                  "diagnostic": "Error: App Server 连接结束"
+                },
+                {
+                  "thread_id": "01a13dec-9dce-7d90-9148-cbeef0f0da00",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                }
+              ],
+              "unobserved": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "remaining": [
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "caption-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "旧问题尚待复查及明确处置：67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                      "evidenceIds": [
+                        "ev-5c62a6feceab3f3eeeecc055"
+                      ],
+                      "ranges": []
+                    }
+                  ]
+                }
+              ],
+              "metrics": {
+                "firstClaimedAt": 1792040630972,
+                "lastAcceptedSubmissionAt": 1792041091535,
+                "preparedAt": 1792040626908,
+                "readQueryCount": 31,
+                "readTimeoutCount": 26
+              },
+              "statusDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+              "timedOut": true
+            },
+            "_meta": null
+          }
+        },
+        {
+          "at": 1792042515306,
+          "tool": "read_review",
+          "arguments": {
+            "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+            "afterDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+            "waitMs": 60000
+          },
+          "result": {
+            "structuredContent": {
+              "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+              "runState": "running",
+              "phase": "pre_export",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "state": "active",
+              "total": 3,
+              "remaining": 1,
+              "missing": [],
+              "changes": [
+                {
+                  "chapterWide": false,
+                  "checkIds": [
+                    "visual-layout",
+                    "caption-layout",
+                    "caption-reading",
+                    "motion",
+                    "av-sync",
+                    "continuity"
+                  ],
+                  "reason": "未能可靠归属的共享文件改变：renderer/src/episodeVisuals.tsx",
+                  "sceneIds": [
+                    "scene_001",
+                    "scene_002",
+                    "scene_003",
+                    "scene_004",
+                    "scene_005",
+                    "scene_006",
+                    "scene_007",
+                    "scene_008",
+                    "scene_009"
+                  ]
+                }
+              ],
+              "requiredObservationCount": 52,
+              "issues": [],
+              "pendingIssues": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "checkId": "visual-layout",
+                  "currentEvidenceId": "ev-5c62a6feceab3f3eeeecc055",
+                  "evidenceId": "ev-93d14854c9885d6fd7509e67",
+                  "issueId": "67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                  "problem": "帧3020新图“稿件观点｜收入、份额与生态的连接”与旧图“英伟达 / 中国 AI 芯片市场份额”在左上同一区域叠字，旧条形图、百分比及引文同时残留在市场关系图后，造成中间态阅读干扰。应错开旧标题退出和新标题显露；仅确认此帧，不推断持续时间。",
+                  "severity": "warning",
+                  "sourceReviewId": "a9075914-440d-492c-ac7b-260df8d42377",
+                  "sourceWorkId": "983805a7-677e-4e0a-b28b-5e46294d1e5a"
+                }
+              ],
+              "observationCount": 38,
+              "reusedCount": 0,
+              "sessions": [
+                {
+                  "thread_id": "01a13dec-913a-7070-a151-7ae937fb23c6",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                },
+                {
+                  "thread_id": "01a13e09-8807-7953-8771-ffc791806ef5",
+                  "state": "active",
+                  "diagnostic": null
+                },
+                {
+                  "thread_id": "01a13dec-aa09-7cd1-9de7-5ca21ac91b59",
+                  "state": "revoked",
+                  "diagnostic": "Error: App Server 连接结束"
+                },
+                {
+                  "thread_id": "01a13dec-9dce-7d90-9148-cbeef0f0da00",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                }
+              ],
+              "unobserved": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "remaining": [
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "caption-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "旧问题尚待复查及明确处置：67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                      "evidenceIds": [
+                        "ev-5c62a6feceab3f3eeeecc055"
+                      ],
+                      "ranges": []
+                    }
+                  ]
+                }
+              ],
+              "metrics": {
+                "firstClaimedAt": 1792040630972,
+                "lastAcceptedSubmissionAt": 1792041091535,
+                "preparedAt": 1792040626908,
+                "readQueryCount": 32,
+                "readTimeoutCount": 27
+              },
+              "statusDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+              "timedOut": true
+            },
+            "_meta": null
+          }
+        },
+        {
+          "at": 1792042587876,
+          "tool": "read_review",
+          "arguments": {
+            "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+            "afterDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+            "waitMs": 60000
+          },
+          "result": {
+            "structuredContent": {
+              "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+              "runState": "running",
+              "phase": "pre_export",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "state": "active",
+              "total": 3,
+              "remaining": 1,
+              "missing": [],
+              "changes": [
+                {
+                  "chapterWide": false,
+                  "checkIds": [
+                    "visual-layout",
+                    "caption-layout",
+                    "caption-reading",
+                    "motion",
+                    "av-sync",
+                    "continuity"
+                  ],
+                  "reason": "未能可靠归属的共享文件改变：renderer/src/episodeVisuals.tsx",
+                  "sceneIds": [
+                    "scene_001",
+                    "scene_002",
+                    "scene_003",
+                    "scene_004",
+                    "scene_005",
+                    "scene_006",
+                    "scene_007",
+                    "scene_008",
+                    "scene_009"
+                  ]
+                }
+              ],
+              "requiredObservationCount": 52,
+              "issues": [],
+              "pendingIssues": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "checkId": "visual-layout",
+                  "currentEvidenceId": "ev-5c62a6feceab3f3eeeecc055",
+                  "evidenceId": "ev-93d14854c9885d6fd7509e67",
+                  "issueId": "67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                  "problem": "帧3020新图“稿件观点｜收入、份额与生态的连接”与旧图“英伟达 / 中国 AI 芯片市场份额”在左上同一区域叠字，旧条形图、百分比及引文同时残留在市场关系图后，造成中间态阅读干扰。应错开旧标题退出和新标题显露；仅确认此帧，不推断持续时间。",
+                  "severity": "warning",
+                  "sourceReviewId": "a9075914-440d-492c-ac7b-260df8d42377",
+                  "sourceWorkId": "983805a7-677e-4e0a-b28b-5e46294d1e5a"
+                }
+              ],
+              "observationCount": 38,
+              "reusedCount": 0,
+              "sessions": [
+                {
+                  "thread_id": "01a13dec-913a-7070-a151-7ae937fb23c6",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                },
+                {
+                  "thread_id": "01a13e09-8807-7953-8771-ffc791806ef5",
+                  "state": "active",
+                  "diagnostic": null
+                },
+                {
+                  "thread_id": "01a13dec-aa09-7cd1-9de7-5ca21ac91b59",
+                  "state": "revoked",
+                  "diagnostic": "Error: App Server 连接结束"
+                },
+                {
+                  "thread_id": "01a13dec-9dce-7d90-9148-cbeef0f0da00",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                }
+              ],
+              "unobserved": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "remaining": [
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "caption-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "旧问题尚待复查及明确处置：67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                      "evidenceIds": [
+                        "ev-5c62a6feceab3f3eeeecc055"
+                      ],
+                      "ranges": []
+                    }
+                  ]
+                }
+              ],
+              "metrics": {
+                "firstClaimedAt": 1792040630972,
+                "lastAcceptedSubmissionAt": 1792041091535,
+                "preparedAt": 1792040626908,
+                "readQueryCount": 33,
+                "readTimeoutCount": 28
+              },
+              "statusDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+              "timedOut": true
+            },
+            "_meta": null
+          }
+        },
+        {
+          "at": 1792042673428,
+          "tool": "read_review",
+          "arguments": {
+            "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+            "afterDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+            "waitMs": 60000
+          },
+          "result": {
+            "structuredContent": {
+              "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+              "runState": "running",
+              "phase": "pre_export",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "state": "active",
+              "total": 3,
+              "remaining": 1,
+              "missing": [],
+              "changes": [
+                {
+                  "chapterWide": false,
+                  "checkIds": [
+                    "visual-layout",
+                    "caption-layout",
+                    "caption-reading",
+                    "motion",
+                    "av-sync",
+                    "continuity"
+                  ],
+                  "reason": "未能可靠归属的共享文件改变：renderer/src/episodeVisuals.tsx",
+                  "sceneIds": [
+                    "scene_001",
+                    "scene_002",
+                    "scene_003",
+                    "scene_004",
+                    "scene_005",
+                    "scene_006",
+                    "scene_007",
+                    "scene_008",
+                    "scene_009"
+                  ]
+                }
+              ],
+              "requiredObservationCount": 52,
+              "issues": [],
+              "pendingIssues": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "checkId": "visual-layout",
+                  "currentEvidenceId": "ev-5c62a6feceab3f3eeeecc055",
+                  "evidenceId": "ev-93d14854c9885d6fd7509e67",
+                  "issueId": "67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                  "problem": "帧3020新图“稿件观点｜收入、份额与生态的连接”与旧图“英伟达 / 中国 AI 芯片市场份额”在左上同一区域叠字，旧条形图、百分比及引文同时残留在市场关系图后，造成中间态阅读干扰。应错开旧标题退出和新标题显露；仅确认此帧，不推断持续时间。",
+                  "severity": "warning",
+                  "sourceReviewId": "a9075914-440d-492c-ac7b-260df8d42377",
+                  "sourceWorkId": "983805a7-677e-4e0a-b28b-5e46294d1e5a"
+                }
+              ],
+              "observationCount": 38,
+              "reusedCount": 0,
+              "sessions": [
+                {
+                  "thread_id": "01a13dec-913a-7070-a151-7ae937fb23c6",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                },
+                {
+                  "thread_id": "01a13e09-8807-7953-8771-ffc791806ef5",
+                  "state": "active",
+                  "diagnostic": null
+                },
+                {
+                  "thread_id": "01a13dec-aa09-7cd1-9de7-5ca21ac91b59",
+                  "state": "revoked",
+                  "diagnostic": "Error: App Server 连接结束"
+                },
+                {
+                  "thread_id": "01a13dec-9dce-7d90-9148-cbeef0f0da00",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                }
+              ],
+              "unobserved": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "remaining": [
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "caption-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "旧问题尚待复查及明确处置：67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                      "evidenceIds": [
+                        "ev-5c62a6feceab3f3eeeecc055"
+                      ],
+                      "ranges": []
+                    }
+                  ]
+                }
+              ],
+              "metrics": {
+                "firstClaimedAt": 1792040630972,
+                "lastAcceptedSubmissionAt": 1792041091535,
+                "preparedAt": 1792040626908,
+                "readQueryCount": 34,
+                "readTimeoutCount": 29
+              },
+              "statusDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+              "timedOut": true
+            },
+            "_meta": null
+          }
+        },
+        {
+          "at": 1792042740085,
+          "tool": "read_review",
+          "arguments": {
+            "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+            "afterDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+            "waitMs": 60000
+          },
+          "result": {
+            "structuredContent": {
+              "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+              "runState": "running",
+              "phase": "pre_export",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "state": "active",
+              "total": 3,
+              "remaining": 1,
+              "missing": [],
+              "changes": [
+                {
+                  "chapterWide": false,
+                  "checkIds": [
+                    "visual-layout",
+                    "caption-layout",
+                    "caption-reading",
+                    "motion",
+                    "av-sync",
+                    "continuity"
+                  ],
+                  "reason": "未能可靠归属的共享文件改变：renderer/src/episodeVisuals.tsx",
+                  "sceneIds": [
+                    "scene_001",
+                    "scene_002",
+                    "scene_003",
+                    "scene_004",
+                    "scene_005",
+                    "scene_006",
+                    "scene_007",
+                    "scene_008",
+                    "scene_009"
+                  ]
+                }
+              ],
+              "requiredObservationCount": 52,
+              "issues": [],
+              "pendingIssues": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "checkId": "visual-layout",
+                  "currentEvidenceId": "ev-5c62a6feceab3f3eeeecc055",
+                  "evidenceId": "ev-93d14854c9885d6fd7509e67",
+                  "issueId": "67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                  "problem": "帧3020新图“稿件观点｜收入、份额与生态的连接”与旧图“英伟达 / 中国 AI 芯片市场份额”在左上同一区域叠字，旧条形图、百分比及引文同时残留在市场关系图后，造成中间态阅读干扰。应错开旧标题退出和新标题显露；仅确认此帧，不推断持续时间。",
+                  "severity": "warning",
+                  "sourceReviewId": "a9075914-440d-492c-ac7b-260df8d42377",
+                  "sourceWorkId": "983805a7-677e-4e0a-b28b-5e46294d1e5a"
+                }
+              ],
+              "observationCount": 38,
+              "reusedCount": 0,
+              "sessions": [
+                {
+                  "thread_id": "01a13dec-913a-7070-a151-7ae937fb23c6",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                },
+                {
+                  "thread_id": "01a13e09-8807-7953-8771-ffc791806ef5",
+                  "state": "active",
+                  "diagnostic": null
+                },
+                {
+                  "thread_id": "01a13dec-aa09-7cd1-9de7-5ca21ac91b59",
+                  "state": "revoked",
+                  "diagnostic": "Error: App Server 连接结束"
+                },
+                {
+                  "thread_id": "01a13dec-9dce-7d90-9148-cbeef0f0da00",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                }
+              ],
+              "unobserved": [
+                {
+                  "unitId": "chapter-chapter_02",
+                  "remaining": [
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "caption-layout",
+                      "reason": "尚未观察全部静帧",
+                      "evidenceIds": [
+                        "ev-2826a1f49a899ab653dc5cea",
+                        "ev-ea20ce498ffc8963415a13ed",
+                        "ev-50b4b99acc9b8cd844ff3c0c",
+                        "ev-5c62a6feceab3f3eeeecc055",
+                        "ev-9f295665218d03cf1bfdabe9",
+                        "ev-f38a3fa987ff56bd86661b5b",
+                        "ev-8f0e295dbcbbe67c59a31a7a"
+                      ],
+                      "ranges": []
+                    },
+                    {
+                      "checkId": "visual-layout",
+                      "reason": "旧问题尚待复查及明确处置：67678c6f856b94a27b1d9caaf545312ed73e71a336ab6e1953510c0bd508a4ef",
+                      "evidenceIds": [
+                        "ev-5c62a6feceab3f3eeeecc055"
+                      ],
+                      "ranges": []
+                    }
+                  ]
+                }
+              ],
+              "metrics": {
+                "firstClaimedAt": 1792040630972,
+                "lastAcceptedSubmissionAt": 1792041091535,
+                "preparedAt": 1792040626908,
+                "readQueryCount": 35,
+                "readTimeoutCount": 30
+              },
+              "statusDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+              "timedOut": true
+            },
+            "_meta": null
+          }
+        },
+        {
+          "at": 1792042748932,
+          "tool": "read_review",
+          "arguments": {
+            "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+            "afterDigest": "8a121c3b36d54599686429d78c3f5fb2927a912a8bc44604297480d68bf15351",
+            "waitMs": 60000
+          },
+          "result": {
+            "structuredContent": {
+              "reviewId": "ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2",
+              "runState": "running",
+              "phase": "pre_export",
+              "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+              "state": "active",
+              "total": 3,
+              "remaining": 0,
+              "missing": [],
+              "changes": [
+                {
+                  "chapterWide": false,
+                  "checkIds": [
+                    "visual-layout",
+                    "caption-layout",
+                    "caption-reading",
+                    "motion",
+                    "av-sync",
+                    "continuity"
+                  ],
+                  "reason": "未能可靠归属的共享文件改变：renderer/src/episodeVisuals.tsx",
+                  "sceneIds": [
+                    "scene_001",
+                    "scene_002",
+                    "scene_003",
+                    "scene_004",
+                    "scene_005",
+                    "scene_006",
+                    "scene_007",
+                    "scene_008",
+                    "scene_009"
+                  ]
+                }
+              ],
+              "requiredObservationCount": 52,
+              "issues": [],
+              "pendingIssues": [],
+              "observationCount": 52,
+              "reusedCount": 0,
+              "sessions": [
+                {
+                  "thread_id": "01a13dec-913a-7070-a151-7ae937fb23c6",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                },
+                {
+                  "thread_id": "01a13e09-8807-7953-8771-ffc791806ef5",
+                  "state": "active",
+                  "diagnostic": null
+                },
+                {
+                  "thread_id": "01a13dec-aa09-7cd1-9de7-5ca21ac91b59",
+                  "state": "revoked",
+                  "diagnostic": "Error: App Server 连接结束"
+                },
+                {
+                  "thread_id": "01a13dec-9dce-7d90-9148-cbeef0f0da00",
+                  "state": "revoked",
+                  "diagnostic": "Run 收尾或取消，撤销审片凭证"
+                }
+              ],
+              "unobserved": [],
+              "metrics": {
+                "firstClaimedAt": 1792040630972,
+                "lastAcceptedSubmissionAt": 1792042743272,
+                "preparedAt": 1792040626908,
+                "readQueryCount": 36,
+                "readTimeoutCount": 30
+              },
+              "statusDigest": "bf01afd54aa5aaa0a80c4954a6b45b8d56e4f669e53179b92207a9eecc6f333f",
+              "timedOut": false
+            },
+            "_meta": null
+          }
+        },
+        {
+          "at": 1792042764897,
+          "tool": "render_template",
+          "arguments": {
+            "renderRequestId": "final-81005-v2",
+            "timelineRef": "renderer/timeline.json",
+            "previewOnly": false,
+            "checks": [
+              "当前完整确认稿9分镜、27句段，正文及顺序逐字保留，使用finance.female/finance.male；固定片头片尾、Logo、背景、导航与字幕包装保留。",
+              "同版源码db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4完成verify_sentence_audio；27段PCM实测复用核验，音频完整覆盖、字幕帧界核对，总4079帧，正文止于4012、片尾67帧。",
+              "导演已采用三章连续图解及返修；数字表达保留稿件转述、观点及中国市场近90%至0限定；不将20%引语呈现为已核验概率。",
+              "pre_export审查ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2已完成26张静帧52项visual-layout/caption-layout观察，remaining=0，issues及pendingIssues均为空；760/1545/1908/3020旧问题经真实复查明确处置。审查连接中断后沿原计划恢复，只接替未完成范围。",
+              "未执行连续视频观看、真实听审和声画同步观察；音色听感、错读、混音遮蔽与完整动态节奏均为inconclusive。无连续观察者，未生成无人消费的动态预览。"
+            ]
+          },
+          "result": {
+            "structuredContent": {
+              "id": "final-81005-v2",
+              "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+              "kind": "template-render",
+              "state": "running",
+              "inputDigest": "e8c4fef817c484da073d5846837b138b997bef21c7d26e60c73f975ec77cb1d8",
+              "releaseId": "release-a648c4fb03767e826950ac396c728594e496f79b0ab0c824ad28d7848adb9b45",
+              "rendererVersion": "scene-chunks/1",
+              "sceneCutMode": "accurate",
+              "renderStrategy": "scene-chunks",
+              "concurrency": 4,
+              "runConcurrency": 2,
+              "readyFiles": [],
+              "readyFrames": [],
+              "attempt": 1,
+              "detailsRef": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/render-jobs/final-81005-v2.json"
+            },
+            "_meta": null
+          }
+        }
+      ]
+    }
+  ]
+}

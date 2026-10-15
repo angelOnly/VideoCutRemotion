@@ -1,0 +1,6 @@
+{
+  "at": "2026-10-15T04:51:59.383Z",
+  "url": "http://10.20.130.250:8000/ai_video_director/getAiVideoEditingData",
+  "status": 200,
+  "body": "{\"code\":0,\"message\":\"success\",\"data\":{\"taskId\":\"5eb3239d13974836a73ee5419f04a211\",\"status\":\"editing\"}}"
+}

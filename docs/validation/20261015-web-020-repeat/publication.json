@@ -1,0 +1,315 @@
+{
+  "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+  "inputDigest": "4470053824bca9a8bdf3cc107e4b925e3ed9d57c2608cbafaf01fc236e23e1b3",
+  "delivery": {
+    "taskId": "5eb3239d13974836a73ee5419f04a211",
+    "runId": "81005bf8-902f-4f6b-bdfc-539264f0be16",
+    "inputDigest": "4470053824bca9a8bdf3cc107e4b925e3ed9d57c2608cbafaf01fc236e23e1b3",
+    "templateDigest": "f6cd53260f6614bb68056f12c8a42bef60b27a59e370b1dc266df167e0d3a66c",
+    "renderRequestId": "final-81005-v2",
+    "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+    "timelineRef": "renderer/timeline.json",
+    "checks": [
+      "当前完整确认稿9分镜、27句段，正文及顺序逐字保留，使用finance.female/finance.male；固定片头片尾、Logo、背景、导航与字幕包装保留。",
+      "同版源码db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4完成verify_sentence_audio；27段PCM实测复用核验，音频完整覆盖、字幕帧界核对，总4079帧，正文止于4012、片尾67帧。",
+      "导演已采用三章连续图解及返修；数字表达保留稿件转述、观点及中国市场近90%至0限定；不将20%引语呈现为已核验概率。",
+      "pre_export审查ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2已完成26张静帧52项visual-layout/caption-layout观察，remaining=0，issues及pendingIssues均为空；760/1545/1908/3020旧问题经真实复查明确处置。审查连接中断后沿原计划恢复，只接替未完成范围。",
+      "未执行连续视频观看、真实听审和声画同步观察；音色听感、错读、混音遮蔽与完整动态节奏均为inconclusive。无连续观察者，未生成无人消费的动态预览。"
+    ],
+    "files": [
+      {
+        "id": "whole-video",
+        "content": "首个全球90%的AI芯片，站在AI技术金字塔尖的黄仁勋，这次是真的慌了。在月初的最新采访中，这位英伟达CEO全程眉头紧锁。他没有炫耀最新的芯片技术，也没有吹嘘英伟达的业绩，而是对着镜头发出了最严厉的警告：“美国正在亲手葬送自己的国运”。\n“技术领先根本不算赢，谁能把AI真正用起来，谁才是最后的赢家。”黄仁勋戳破了华盛顿最大的幻觉。现在的美国，上到国会下到媒体，所有人都在吵着AI有多危险，要怎么监管，会不会毁灭人类。用“20%概率灭绝人类”这种科幻小说式的言论制造全民恐慌。\n而另一边，亚洲国家根本没空讨论这些虚无缥缈的问题，正开足马力把AI落地到工厂、医院、零售的每一个角落，以极大的热情拥抱AI，快速推进商业化落地。这种反差让黄仁勋坐立难安。\n他用自己提出的AI五层蛋糕模型打比方：美国在能源、芯片、基础设施、模型这四层全都遥遥领先，但在最关键的应用层已经被亚洲甩在了身后。最让他痛心的是，美国对华芯片管制政策的搬起石头砸自己的脚。黄仁勋在采访中亲口承认，英伟达在中国AI芯片市场的份额已经从巅峰时的近90%，直接跌到了0。“把中国这么大的市场白白让出去，从战略上讲蠢透了。”\n这项政策早就适得其反了。中国无论如何都会搞出自己的芯片，谁也拦不住。而美国企业失去的不只是真金白银的收入，更是能决定未来的市场份额和生态主导权。“AI是全球性的产业，我们应该把技术卖到全世界去，市场份额本身就是‘最硬的战略武器’。”\n黄仁勋呼吁，如果继续被恐慌情绪绑架，阻碍AI落地，就算美国有全世界最好的芯片和模型，最终也会输掉这场决定国运的工业革命。",
+        "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/0.mp4",
+        "sha256": "9009c5e0e25d1e8d6b4d30fc726eb141bb74e0d2b48218d355883b3a748d6dbc",
+        "dur": 135.966667,
+        "fromFrame": 0,
+        "toFrame": 4079,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      },
+      {
+        "id": "scene_001",
+        "content": "首个全球90%的AI芯片，站在AI技术金字塔尖的黄仁勋，这次是真的慌了。在月初的最新采访中，这位英伟达CEO全程眉头紧锁。他没有炫耀最新的芯片技术，也没有吹嘘英伟达的业绩，而是对着镜头发出了最严厉的警告：“美国正在亲手葬送自己的国运”。\n",
+        "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/1.mp4",
+        "sha256": "6aff28b5b9301d6ee26926cdf793750eb6981cab1471bbde0870fe3612e37439",
+        "dur": 25.033333,
+        "fromFrame": 0,
+        "toFrame": 751,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      },
+      {
+        "id": "scene_002",
+        "content": "“技术领先根本不算赢，谁能把AI真正用起来，谁才是最后的赢家。”黄仁勋戳破了华盛顿最大的幻觉。现在的美国，上到国会下到媒体，所有人都在吵着AI有多危险，要怎么监管，会不会毁灭人类。用“20%概率灭绝人类”这种科幻小说式的言论制造全民恐慌。\n",
+        "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/2.mp4",
+        "sha256": "d051e28204bb504c53d87f726a277f8ce7427dba85df7552becbc148c0da05f0",
+        "dur": 21.466667,
+        "fromFrame": 751,
+        "toFrame": 1395,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      },
+      {
+        "id": "scene_003",
+        "content": "而另一边，亚洲国家根本没空讨论这些虚无缥缈的问题，正开足马力把AI落地到工厂、医院、零售的每一个角落，以极大的热情拥抱AI，快速推进商业化落地。这种反差让黄仁勋坐立难安。\n",
+        "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/3.mp4",
+        "sha256": "14959a90ebde045c98a5a3ca59b7c01f728a805913bd9ff8b0b2600813195448",
+        "dur": 16.5,
+        "fromFrame": 1395,
+        "toFrame": 1890,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      },
+      {
+        "id": "scene_004",
+        "content": "他用自己提出的AI五层蛋糕模型打比方：美国在能源、芯片、基础设施、模型这四层全都遥遥领先，但在最关键的应用层已经被亚洲甩在了身后。",
+        "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/4.mp4",
+        "sha256": "e7b60c9898664b69177155b6c093dff08bdbc76d80cbdb60625b537dc1ed2e01",
+        "dur": 13.933333,
+        "fromFrame": 1890,
+        "toFrame": 2308,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      },
+      {
+        "id": "scene_005",
+        "content": "最让他痛心的是，美国对华芯片管制政策的搬起石头砸自己的脚。",
+        "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/5.mp4",
+        "sha256": "5b7c96ce37dac4bf5744f667be5b052474ffcf777bac5c3a2a94e8bab0fd368d",
+        "dur": 7.633333,
+        "fromFrame": 2308,
+        "toFrame": 2537,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      },
+      {
+        "id": "scene_006",
+        "content": "黄仁勋在采访中亲口承认，英伟达在中国AI芯片市场的份额已经从巅峰时的近90%，直接跌到了0。“把中国这么大的市场白白让出去，从战略上讲蠢透了。”\n",
+        "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/6.mp4",
+        "sha256": "a187e16c73b4cd30f257881eb67d822be52ac050b408af14bba73f2b498a44ed",
+        "dur": 15.566667,
+        "fromFrame": 2537,
+        "toFrame": 3004,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      },
+      {
+        "id": "scene_007",
+        "content": "这项政策早就适得其反了。中国无论如何都会搞出自己的芯片，谁也拦不住。而美国企业失去的不只是真金白银的收入，更是能决定未来的市场份额和生态主导权。",
+        "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/7.mp4",
+        "sha256": "7ce69816d6ef45a6898fd83e2ff0f7090990c6b0a33f29847903725e68d29b35",
+        "dur": 13.833333,
+        "fromFrame": 3004,
+        "toFrame": 3419,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      },
+      {
+        "id": "scene_008",
+        "content": "“AI是全球性的产业，我们应该把技术卖到全世界去，市场份额本身就是‘最硬的战略武器’。”\n",
+        "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/8.mp4",
+        "sha256": "2c9eee6d4264634486e907f472725443b34b7c9eb890d52055868ccba390da33",
+        "dur": 8.733333,
+        "fromFrame": 3419,
+        "toFrame": 3681,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      },
+      {
+        "id": "scene_009",
+        "content": "黄仁勋呼吁，如果继续被恐慌情绪绑架，阻碍AI落地，就算美国有全世界最好的芯片和模型，最终也会输掉这场决定国运的工业革命。",
+        "file": "/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/29add791-11f4-4e50-b677-d535f7339e31/runs/81005bf8-902f-4f6b-bdfc-539264f0be16/output-staging/final-81005-v2/9.mp4",
+        "sha256": "f80260a0e294ee678c425d30e7931843c69ac92a075a223291756d70c3ae6aa1",
+        "dur": 13.266667,
+        "fromFrame": 3681,
+        "toFrame": 4079,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30
+      }
+    ]
+  },
+  "result": {
+    "dataList": [
+      {
+        "id": "whole-video",
+        "content": "首个全球90%的AI芯片，站在AI技术金字塔尖的黄仁勋，这次是真的慌了。在月初的最新采访中，这位英伟达CEO全程眉头紧锁。他没有炫耀最新的芯片技术，也没有吹嘘英伟达的业绩，而是对着镜头发出了最严厉的警告：“美国正在亲手葬送自己的国运”。\n“技术领先根本不算赢，谁能把AI真正用起来，谁才是最后的赢家。”黄仁勋戳破了华盛顿最大的幻觉。现在的美国，上到国会下到媒体，所有人都在吵着AI有多危险，要怎么监管，会不会毁灭人类。用“20%概率灭绝人类”这种科幻小说式的言论制造全民恐慌。\n而另一边，亚洲国家根本没空讨论这些虚无缥缈的问题，正开足马力把AI落地到工厂、医院、零售的每一个角落，以极大的热情拥抱AI，快速推进商业化落地。这种反差让黄仁勋坐立难安。\n他用自己提出的AI五层蛋糕模型打比方：美国在能源、芯片、基础设施、模型这四层全都遥遥领先，但在最关键的应用层已经被亚洲甩在了身后。最让他痛心的是，美国对华芯片管制政策的搬起石头砸自己的脚。黄仁勋在采访中亲口承认，英伟达在中国AI芯片市场的份额已经从巅峰时的近90%，直接跌到了0。“把中国这么大的市场白白让出去，从战略上讲蠢透了。”\n这项政策早就适得其反了。中国无论如何都会搞出自己的芯片，谁也拦不住。而美国企业失去的不只是真金白银的收入，更是能决定未来的市场份额和生态主导权。“AI是全球性的产业，我们应该把技术卖到全世界去，市场份额本身就是‘最硬的战略武器’。”\n黄仁勋呼吁，如果继续被恐慌情绪绑架，阻碍AI落地，就算美国有全世界最好的芯片和模型，最终也会输掉这场决定国运的工业革命。",
+        "dur": 135.966667,
+        "durationSource": "measured",
+        "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/0.mp4",
+        "extraData": {
+          "kind": "wholeVideo",
+          "sha256": "9009c5e0e25d1e8d6b4d30fc726eb141bb74e0d2b48218d355883b3a748d6dbc",
+          "fromFrame": 0,
+          "toFrame": 4079,
+          "width": 1920,
+          "height": 1080,
+          "fps": 30
+        }
+      },
+      {
+        "id": "scene_001",
+        "content": "首个全球90%的AI芯片，站在AI技术金字塔尖的黄仁勋，这次是真的慌了。在月初的最新采访中，这位英伟达CEO全程眉头紧锁。他没有炫耀最新的芯片技术，也没有吹嘘英伟达的业绩，而是对着镜头发出了最严厉的警告：“美国正在亲手葬送自己的国运”。\n",
+        "dur": 25.033333,
+        "durationSource": "measured",
+        "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/1.mp4",
+        "extraData": {
+          "kind": "scene",
+          "sha256": "6aff28b5b9301d6ee26926cdf793750eb6981cab1471bbde0870fe3612e37439",
+          "fromFrame": 0,
+          "toFrame": 751,
+          "width": 1920,
+          "height": 1080,
+          "fps": 30
+        }
+      },
+      {
+        "id": "scene_002",
+        "content": "“技术领先根本不算赢，谁能把AI真正用起来，谁才是最后的赢家。”黄仁勋戳破了华盛顿最大的幻觉。现在的美国，上到国会下到媒体，所有人都在吵着AI有多危险，要怎么监管，会不会毁灭人类。用“20%概率灭绝人类”这种科幻小说式的言论制造全民恐慌。\n",
+        "dur": 21.466667,
+        "durationSource": "measured",
+        "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/2.mp4",
+        "extraData": {
+          "kind": "scene",
+          "sha256": "d051e28204bb504c53d87f726a277f8ce7427dba85df7552becbc148c0da05f0",
+          "fromFrame": 751,
+          "toFrame": 1395,
+          "width": 1920,
+          "height": 1080,
+          "fps": 30
+        }
+      },
+      {
+        "id": "scene_003",
+        "content": "而另一边，亚洲国家根本没空讨论这些虚无缥缈的问题，正开足马力把AI落地到工厂、医院、零售的每一个角落，以极大的热情拥抱AI，快速推进商业化落地。这种反差让黄仁勋坐立难安。\n",
+        "dur": 16.5,
+        "durationSource": "measured",
+        "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/3.mp4",
+        "extraData": {
+          "kind": "scene",
+          "sha256": "14959a90ebde045c98a5a3ca59b7c01f728a805913bd9ff8b0b2600813195448",
+          "fromFrame": 1395,
+          "toFrame": 1890,
+          "width": 1920,
+          "height": 1080,
+          "fps": 30
+        }
+      },
+      {
+        "id": "scene_004",
+        "content": "他用自己提出的AI五层蛋糕模型打比方：美国在能源、芯片、基础设施、模型这四层全都遥遥领先，但在最关键的应用层已经被亚洲甩在了身后。",
+        "dur": 13.933333,
+        "durationSource": "measured",
+        "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/4.mp4",
+        "extraData": {
+          "kind": "scene",
+          "sha256": "e7b60c9898664b69177155b6c093dff08bdbc76d80cbdb60625b537dc1ed2e01",
+          "fromFrame": 1890,
+          "toFrame": 2308,
+          "width": 1920,
+          "height": 1080,
+          "fps": 30
+        }
+      },
+      {
+        "id": "scene_005",
+        "content": "最让他痛心的是，美国对华芯片管制政策的搬起石头砸自己的脚。",
+        "dur": 7.633333,
+        "durationSource": "measured",
+        "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/5.mp4",
+        "extraData": {
+          "kind": "scene",
+          "sha256": "5b7c96ce37dac4bf5744f667be5b052474ffcf777bac5c3a2a94e8bab0fd368d",
+          "fromFrame": 2308,
+          "toFrame": 2537,
+          "width": 1920,
+          "height": 1080,
+          "fps": 30
+        }
+      },
+      {
+        "id": "scene_006",
+        "content": "黄仁勋在采访中亲口承认，英伟达在中国AI芯片市场的份额已经从巅峰时的近90%，直接跌到了0。“把中国这么大的市场白白让出去，从战略上讲蠢透了。”\n",
+        "dur": 15.566667,
+        "durationSource": "measured",
+        "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/6.mp4",
+        "extraData": {
+          "kind": "scene",
+          "sha256": "a187e16c73b4cd30f257881eb67d822be52ac050b408af14bba73f2b498a44ed",
+          "fromFrame": 2537,
+          "toFrame": 3004,
+          "width": 1920,
+          "height": 1080,
+          "fps": 30
+        }
+      },
+      {
+        "id": "scene_007",
+        "content": "这项政策早就适得其反了。中国无论如何都会搞出自己的芯片，谁也拦不住。而美国企业失去的不只是真金白银的收入，更是能决定未来的市场份额和生态主导权。",
+        "dur": 13.833333,
+        "durationSource": "measured",
+        "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/7.mp4",
+        "extraData": {
+          "kind": "scene",
+          "sha256": "7ce69816d6ef45a6898fd83e2ff0f7090990c6b0a33f29847903725e68d29b35",
+          "fromFrame": 3004,
+          "toFrame": 3419,
+          "width": 1920,
+          "height": 1080,
+          "fps": 30
+        }
+      },
+      {
+        "id": "scene_008",
+        "content": "“AI是全球性的产业，我们应该把技术卖到全世界去，市场份额本身就是‘最硬的战略武器’。”\n",
+        "dur": 8.733333,
+        "durationSource": "measured",
+        "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/8.mp4",
+        "extraData": {
+          "kind": "scene",
+          "sha256": "2c9eee6d4264634486e907f472725443b34b7c9eb890d52055868ccba390da33",
+          "fromFrame": 3419,
+          "toFrame": 3681,
+          "width": 1920,
+          "height": 1080,
+          "fps": 30
+        }
+      },
+      {
+        "id": "scene_009",
+        "content": "黄仁勋呼吁，如果继续被恐慌情绪绑架，阻碍AI落地，就算美国有全世界最好的芯片和模型，最终也会输掉这场决定国运的工业革命。",
+        "dur": 13.266667,
+        "durationSource": "measured",
+        "url": "http://10.20.130.251:8080/media/29add791-11f4-4e50-b677-d535f7339e31/81005bf8-902f-4f6b-bdfc-539264f0be16/9.mp4",
+        "extraData": {
+          "kind": "scene",
+          "sha256": "f80260a0e294ee678c425d30e7931843c69ac92a075a223291756d70c3ae6aa1",
+          "fromFrame": 3681,
+          "toFrame": 4079,
+          "width": 1920,
+          "height": 1080,
+          "fps": 30
+        }
+      }
+    ],
+    "templateDigest": "f6cd53260f6614bb68056f12c8a42bef60b27a59e370b1dc266df167e0d3a66c",
+    "sourceDigest": "db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4",
+    "checks": [
+      "当前完整确认稿9分镜、27句段，正文及顺序逐字保留，使用finance.female/finance.male；固定片头片尾、Logo、背景、导航与字幕包装保留。",
+      "同版源码db1f28a89b8732c4fc696b1f14f6a0f96f7b735cbc14de53312008b12f2c5fc4完成verify_sentence_audio；27段PCM实测复用核验，音频完整覆盖、字幕帧界核对，总4079帧，正文止于4012、片尾67帧。",
+      "导演已采用三章连续图解及返修；数字表达保留稿件转述、观点及中国市场近90%至0限定；不将20%引语呈现为已核验概率。",
+      "pre_export审查ff309bd7-8a9a-4d9e-9a5c-fc46655ccfa2已完成26张静帧52项visual-layout/caption-layout观察，remaining=0，issues及pendingIssues均为空；760/1545/1908/3020旧问题经真实复查明确处置。审查连接中断后沿原计划恢复，只接替未完成范围。",
+      "未执行连续视频观看、真实听审和声画同步观察；音色听感、错读、混音遮蔽与完整动态节奏均为inconclusive。无连续观察者，未生成无人消费的动态预览。"
+    ]
+  }
+}
