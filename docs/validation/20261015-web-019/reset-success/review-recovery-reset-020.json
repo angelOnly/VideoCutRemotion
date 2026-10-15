@@ -1,0 +1,9 @@
+{
+  "action": "恢复停滞的独立审片连接",
+  "at": 1792037888.7193768,
+  "reviewProcess": 1186974,
+  "runId": "fab3db25-3079-444a-bf0e-21394dd05d9d",
+  "inactiveSeconds": 862,
+  "signal": "SIGTERM",
+  "scope": "仅审片子进程，服务负责释放未完成分配；未改数据库或作品文件"
+}
