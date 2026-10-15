@@ -29,7 +29,7 @@ test('真实运行时指令随开关变化，默认按需预览，Analysis 不�
   assert.match(optimized, /professional_review_pending/);
   assert.match(optimized, /Runtime 启动有界只读审片线程并绑定独立身份/);
   assert.ok(!optimized.includes('再用 render_template 的 previewOnly/ranges 检查真实运动和声音'));
-  assert.match(INSTRUCTION_VERSION, /\/8$/);
+  assert.match(INSTRUCTION_VERSION, /\/9$/);
   const analysis = taskInstruction({ stage: 'analysis', request: {} } as Run, '/run', '/plugin', { qaParallelReview: true, qaMaxReviewers: 3, previewOnDemand: true });
   assert.match(analysis, /不调用配音、预览、媒体生成/);
   assert.ok(!analysis.includes('只读主题审查单元'));
