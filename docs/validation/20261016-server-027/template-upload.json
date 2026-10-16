@@ -1,0 +1,24 @@
+{
+  "status": 201,
+  "data": {
+    "code": 0,
+    "message": "success",
+    "data": {
+      "id": 21,
+      "group_id": 1,
+      "group_name": "管理员组",
+      "owner_id": 21,
+      "owner_name": "志碧管理员",
+      "name": "财报揭秘室｜八章并行2.0.11｜0.1.27",
+      "description": "最多8位章节作者、1位统一声音作者；画面导出保持6路。配套 textvideo-studio 0.1.27。",
+      "cover_name": "held-105.png",
+      "package_name": "finance-template-2011.zip",
+      "cover_url": "http://10.20.130.250:8000/api/custom-templates/21/cover",
+      "package_url": "http://10.20.130.250:8000/api/custom-templates/21/package",
+      "cover_local_path": "/home/ops/vea/uploads/custom_templates/1/9c08ce233f0941ccb34dcba543ae24ac.png",
+      "package_local_path": "/home/ops/vea/uploads/custom_templates/1/a0bc0bd7b4d34cc196adf8ec4e8b9022.zip",
+      "created_at": "2026-10-16T09:46:04.185479+08:00",
+      "updated_at": "2026-10-16T09:46:04.185479+08:00"
+    }
+  }
+}
