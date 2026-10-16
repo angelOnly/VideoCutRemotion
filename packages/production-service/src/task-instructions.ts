@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 import type { Run } from './contracts.js';
 import { DEFAULT_REVIEW_POLICY, type ReviewPolicyConfig } from './review-policy.js';
-export const INSTRUCTION_VERSION='template-production/17';
+export const INSTRUCTION_VERSION='template-production/18';
 export function taskInstruction(run:Run,runRoot:string,pluginRoot:string,policy:ReviewPolicyConfig=DEFAULT_REVIEW_POLICY){
   if(run.stage==='analysis')return `你正在执行 Analysis（文字分析）阶段，只处理文字。
 任务输入：${join(runRoot,'input.json')}
@@ -17,7 +17,7 @@ context 必须是非空 Markdown 字符串，只记录有效文字约束、拆�
 任务输入：${join(runRoot,'input.json')}
 本项目生产入口：${join(runRoot,'.agents/skills/production-coordinator/SKILL.md')}
 阶段结果协议：${join(runRoot,'result-schema.json')}
-章节制作按 input.chapterWork 分组，最多六位章节作者滚动领取章节，另设一位统一声音作者；章节作者仅写分配目录，主协调独占总时间线和共享注册表。先统一风格，再并行制作，真实配音完成后统一校时，作者停止写入后才合并、冻结和审片。
+章节制作按 input.chapterWork 分组，最多八位章节作者滚动领取章节，另设一位统一声音作者；章节作者仅写分配目录，主协调独占总时间线和共享注册表。先统一风格，再并行制作，真实配音完成后统一校时，作者停止写入后才合并、冻结和审片。
 本次协调偏好：并行主题审片=${policy.qaParallelReview?'开启':'关闭'}；审片代理上限=${policy.qaMaxReviewers}（不创造宿主名额）；按需动态预览=${policy.previewOnDemand?'开启':'关闭'}。这些值不创造宿主名额，也不是 Worker 的效果判定或预览许可。主协调结合实际任务决定。
 
 读取当前完整输入、生产入口和冻结模板 renderer/renderer-manifest.json，并沿 manifest.instructions 读取本模板制作说明。人物、栏目包装、专属字段及制作与检查步骤由模板声明；通用技能提供执行方法，不预设栏目业务。主协调负责真实分派、采用、原作者返修、正式提交及结果接回；完整确认稿具备时可兼导演，视觉作者连续负责美术、动作与实现，声音作者连续负责声音与字幕，按真实依赖分派；作者按职责读取模板说明和技能专业方法，不默认重复加载全部源码。当前 request.dataList 来自用户最新提交：submittedContent（存在时）保留可见标签原串，content 是解析后的配音正文，directing 由服务重新计算。镜头集合、顺序、人物和画面都以它为准，禁止从旧分析补回已删标签。没有标签的普通稿按模板安排人物。网页不传分析版本或当前要求，服务已在受理时沿任务记录确定，不能要求用户修改网页。otherRequirements 只补充未指定部分。analysisInput 保存对应 Analysis 原始两栏，analysis.context 说明采用关系；旧替换指令已采用的不重做，旧稿只作出处，不恢复删镜和旧句。结构化字段与当前文字要求矛盾时报告具体分镜和冲突，需改正文或指定人物先回编辑区，不悄悄覆盖请求。模板专属标题、片头片尾及验证按本模板说明执行。

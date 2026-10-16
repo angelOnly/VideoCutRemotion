@@ -13,5 +13,5 @@ export function chapterWorkPlan(scenes:RenderRequest['dataList']) {
     }
     unit.sceneIds.push(scene.id);
   }
-  return {maxConcurrentAuthors:6,units};
+  return {maxConcurrentAuthors:8,units};
 }
