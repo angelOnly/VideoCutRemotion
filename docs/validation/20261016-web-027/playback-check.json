@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-10-16T02:10:13.003Z",
+  "scope": "网页整片播放器静音抽查90至92秒，不等于全片连续听审",
+  "src": "http://10.20.130.251:8080/media/144ab040-e89f-47e3-8bbc-e1d90dda02ce/3c4e3c1d-dd78-4e09-ad4f-453e608eefcd/0.mp4",
+  "currentTime": 92.009616,
+  "duration": 203.9,
+  "width": 1920,
+  "height": 1080,
+  "readyState": 4,
+  "error": null
+}

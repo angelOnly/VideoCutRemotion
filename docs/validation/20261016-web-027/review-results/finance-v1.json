@@ -1,0 +1,90 @@
+{
+  "reviewId": "42e9d7c8-e91e-4e1c-8eb7-fe12a8ad7d4d",
+  "results": [
+    {
+      "assignmentToken": "67ae8933-5020-4cb3-a3b3-56e024bbca54",
+      "observations": [
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-2a647f91e0afdf5bb3243a80",
+          "note": "营业成本7764.8万元清晰，横向平台与收入增长文字可区分；字幕、栏目和图卡无关键遮挡。本报告仅实际查看所分派静帧，连续运动、阅读时长和声音未知。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-54ec74b9b824cc60144fa4af",
+          "note": "毛利率59.2%至60.3%、上移1.1个百分点与确认文字一致；成本与收入同比3.2%并置清楚。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-8922a60cb25be6721da9a454",
+          "note": "三费标题接管中，原毛利率右侧文字低透明残留，成本信息仍清楚；仅此中间态无法判断淡出时长。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-e54a4cb086550f8d15ced515",
+          "note": "三费4524、3192、1977万元清晰且条长顺序及比例合理；成本左侧保持共同参照，字幕可读。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-493fcab02612162238f0096b",
+          "note": "营业利润率6.2%至8.7%、2.5个百分点清楚；三费与成本双区无遮挡。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-058af5ca2890a56e46fc517d",
+          "note": "营业收入3.2%与经营现金流净额60.2%标为同比增速，未呈现为金额比较；字幕完整。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-db838c606221a2eb92539c8d",
+          "note": "金额坐标从0至4000万元建立，旧增速文字低透明残留；本帧柱体尚未呈现，不据此判定完整比较效果。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-28b753d0d2c0c99ab521bc5d",
+          "note": "同一零基线及万元刻度清楚，现金3728.6可读；净利1667.8白色数字右端越出尚在生长的青色条，与浅底对比不足。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-2dbe5869ee7aecc6a0689b41",
+          "note": "完成态两条同尺度，3728.6与1667.8均完整可读；约2.2倍及1元利润对应2元多现金净流入清晰。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-60c543fd3a2dee153ce5eb95",
+          "note": "2亿收入作为单独来源节点，问题和字幕清楚；尚无业务分支数值，不造成份额暗示。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-daad46af245f89e475bdd04e",
+          "note": "欧脱克116.8%明确标为收入同比增长；境外诊断在进入中，未用面积或长度编码份额。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-7944c581ff3c098ce3a45515",
+          "note": "欧脱克116.8%与境外诊断38.1%均清楚，国内诊断分支建立中；政策区域文字可读，但位于整组三分支底部。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-85efd0e57a81b81ddc86154a",
+          "note": "三分支116.8%、38.1%、-0.5%均与确认稿一致，均明确为同比；没有份额混淆。政策区域与境外诊断之间的专属关联仅靠上下文理解，静帧没有明确连线。"
+        }
+      ],
+      "issues": [
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-28b753d0d2c0c99ab521bc5d",
+          "severity": "warning",
+          "problem": "第3597帧归母净利润白色标签1667.8的右半部分越出尚未展开完成的青色条，落在米白底上难辨，影响金额比较中途的数值读取；3834完成态正常。仅观察到此静帧，不推断持续时长。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-85efd0e57a81b81ddc86154a",
+          "severity": "suggestion",
+          "problem": "政策区域说明横跨三业务分支底部，没有清晰指向境外诊断，静帧中可能被理解为三项业务共有背景；可考虑明确其与境外诊断的关联。"
+        }
+      ],
+      "status": "complete"
+    }
+  ]
+}

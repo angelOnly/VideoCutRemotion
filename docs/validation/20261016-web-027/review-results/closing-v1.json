@@ -1,0 +1,67 @@
+{
+  "reviewId": "42e9d7c8-e91e-4e1c-8eb7-fe12a8ad7d4d",
+  "results": [
+    {
+      "assignmentToken": "9de82e6a-dc4f-4c64-a3ea-1baab9d595ee",
+      "observations": [
+        {
+          "checkId": "closing-claims",
+          "evidenceId": "ev-df2f1f7bac19b6ed075b4692",
+          "note": "实际查看4700静帧：提问人物及字幕可读，三栏名称已建立，未提前展示财务数字；主要文字无重叠或越界。首次看图前已接触检查包中的确认台词，不作为完全盲看结果。"
+        },
+        {
+          "checkId": "closing-claims",
+          "evidenceId": "ev-b25a669d3e1961a8e2860c9e",
+          "note": "实际查看4780静帧：应收账款/收入去年14.4%、本期14.7%清楚，共同左基线和接近的条长支持基本稳定；其余两栏待建立，无遮挡。数据与input确认正文一致。"
+        },
+        {
+          "checkId": "closing-claims",
+          "evidenceId": "ev-c6c5f656304bf0c5f1dd6071",
+          "note": "实际查看5060静帧：研发去年19.1%、本期16.7%显示正确，下降以红色条及说明表达，应收比较持续保留；中途各栏与字幕无碰撞。本帧不能单独证明收缩运动完整。"
+        },
+        {
+          "checkId": "closing-claims",
+          "evidenceId": "ev-3b3606585e24abbc206a3b9b",
+          "note": "实际查看5323静帧：三栏共存，商誉框显示无，明确写无商誉减值风险及限定于账面商誉，未扩大为公司整体无风险；文字安全区正常。"
+        },
+        {
+          "checkId": "closing-claims",
+          "evidenceId": "ev-934e1bddf6611e1a723dd380",
+          "note": "实际查看5370静帧：应收与研发同比参照保留，账面商誉限定完整可读，三种判断区分明确，字幕与图形没有覆盖。"
+        },
+        {
+          "checkId": "closing-claims",
+          "evidenceId": "ev-b4d04840f7d6dfbc2180be44",
+          "note": "实际查看5497静帧：下期验证根节点与三个问题标识已建立，右侧留空等待分支；画面标题和字幕维持未决属性，无结论性图标。"
+        },
+        {
+          "checkId": "closing-claims",
+          "evidenceId": "ev-5e525249aa32813d0a1b914c",
+          "note": "实际查看5613静帧：收入增速第一问完整，股份支付第二问处于半透明进入态，两条连接从同一根节点派生；没有线穿字或文字相撞。仅证实此中间状态。"
+        },
+        {
+          "checkId": "closing-claims",
+          "evidenceId": "ev-bea1c666a518aa477c74556a",
+          "note": "实际查看5737静帧：三分支全部可读，收入增速、股份支付费用、第二季度单季利润各有问号；1650万元及能否延续与确认稿一致，未画预测结果。"
+        },
+        {
+          "checkId": "closing-claims",
+          "evidenceId": "ev-bd9a42cbe98d701642d6e9e4",
+          "note": "实际查看5821静帧：三项问题完整保留，长文本1650万元能否延续安全落在图形内部，字幕不遮挡；本帧为正文结尾状态。"
+        },
+        {
+          "checkId": "closing-claims",
+          "evidenceId": "ev-86151c12caaf6269da72c76a",
+          "note": "实际查看6000静帧：更多深度财报研判、搜索财小策结束语字幕出现时，三项验证图解仍完整保留，没有被宣传卡覆盖。"
+        },
+        {
+          "checkId": "closing-claims",
+          "evidenceId": "ev-600f536a1a093b3ec46610cc",
+          "note": "实际查看6080静帧：完整栏目片尾标识居中显示，无裁切或残留正文。该帧不能证明片尾全程连续性或音频收束；本单元仅完成11张指定图片检查，未实际连续看视频或听音，未看范围保持未知。"
+        }
+      ],
+      "issues": [],
+      "status": "complete"
+    }
+  ]
+}

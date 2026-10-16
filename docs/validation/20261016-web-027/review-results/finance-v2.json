@@ -1,0 +1,48 @@
+{
+  "reviewId": "e9ca604c-7f31-4ad9-b625-a12441a97fcd",
+  "results": [
+    {
+      "assignmentToken": "47facbe8-db2d-4085-9f57-457c9219270d",
+      "observations": [
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-826a3dba4f229f394399dbcb",
+          "note": "3397现金柱进入中，3728.6深墨外置于浅底，完整清楚且不依赖柱体覆盖。仅观察静帧，连续运动和声音未知。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-b477be90bc20d05b1b1c1c30",
+          "note": "3597两数值3728.6、1667.8均改为深墨外置，归母净利标签不再部分消失于浅底，原警告在对应帧已解决；基线、单位及字幕可读。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-394d79f3022bd4bd866fe1b4",
+          "note": "3834完成态两条同一零基线、万元刻度不变；两标签完整，2.2倍说明和虚线未遮挡标签。"
+        },
+        {
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-85efd0e57a81b81ddc86154a",
+          "note": "4531政策区域仍为三业务下方跨行注释，三项同比明确且文字可读。主协调决定保留原表达，因原文关联范围有歧义，不新增专属因果连线；旧建议保留而非声称已修复。"
+        }
+      ],
+      "issues": [],
+      "issueResolutions": [
+        {
+          "issueId": "897d42f310498b8ee3244f66086daefa4d2e8cfac71e14b9f131b1febb8c810c",
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-b477be90bc20d05b1b1c1c30",
+          "resolution": "resolved",
+          "note": "实际复查3597，1667.8已深墨外置，在浅底上完整可辨；3397与3834亦无数值遮挡。"
+        },
+        {
+          "issueId": "ed01643f95f3c90d1fcd996ac7332e1f11c5b5f11ce3ff1994b675c8768d9d2a",
+          "checkId": "finance-diagrams",
+          "evidenceId": "ev-85efd0e57a81b81ddc86154a",
+          "resolution": "retained",
+          "note": "实际复查4531，政策注释仍跨行保留。按主协调处置，原文关联范围有歧义，新增明确因果连接可能扩大原文含义，故保留此可选建议。"
+        }
+      ],
+      "status": "complete"
+    }
+  ]
+}

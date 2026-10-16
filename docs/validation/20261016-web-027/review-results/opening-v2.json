@@ -1,0 +1,61 @@
+{
+  "reviewId": "e9ca604c-7f31-4ad9-b625-a12441a97fcd",
+  "results": [
+    {
+      "assignmentToken": "f73d171b-9bc0-4c63-a5ec-c581eaf5c54e",
+      "observations": [
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-98a1b8469c03e4a9b38b7284",
+          "note": "1298帧仅旧提问图降低透明度，未与费用来源图叠显；主字幕可读。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-e7278d2e442a57b057071a51",
+          "note": "1310帧旧提问图已消失，费用来源七成及限定进入，未见叠字。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-5335f2f95a5e7424f3562624",
+          "note": "1823帧仅旧费用来源图降低透明度，股份支付非现金支出限定仍可辨，未与新图叠显。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-61174b38fcdb6d757c59ead8",
+          "note": "1833帧旧费用来源图已完全消失，仅研发费用率图低透明度建立。原来的标题与数字叠压不再出现；低透明度是本帧的可读性代价，持续时长未以连续画面核验。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-07717b1c456ec74f7ee5b9ea",
+          "note": "1848帧研发费用率图完整清晰，11.3%及10.1%共同起点、标题与说明完整，无旧图残留。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-3c474f6b1b78ccd2f64651e7",
+          "note": "1900帧研发费用率最终状态保持清晰，共同比较基线及数值与确认稿一致。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-ac6dbecaf7789b2b9a928a2d",
+          "note": "2035帧仅营业利润率提问图进入，未与研发费用率图叠显，字幕完整。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-3ebd6e85d6a9b4fe859ddeb9",
+          "note": "2070帧+2.5个百分点提问图完整清晰，单位与确认稿一致，无遮挡。此次全部为实际查看静帧，声音、连续运动及空隙感未判断。"
+        }
+      ],
+      "issues": [],
+      "issueResolutions": [
+        {
+          "issueId": "71e3809b103655829acf4f589b69f45df6ea914a7027da8164b4a5387ceba1d5",
+          "evidenceId": "ev-61174b38fcdb6d757c59ead8",
+          "checkId": "opening-layout",
+          "resolution": "resolved",
+          "note": "对照原1833帧，新1833帧只有研发费用率图建立，旧费用来源图已退出，标题及数字叠压已消除；1823及1848帧分别显示单一旧图和完整新图，未发现同类重叠。结论限所查静帧。"
+        }
+      ],
+      "status": "complete"
+    }
+  ]
+}

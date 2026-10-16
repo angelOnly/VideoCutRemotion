@@ -1,0 +1,10 @@
+{
+  "scope": "主机整体CPU按5秒采样，Worker内存包括子进程及缓存记账；非独占硬件控制实验",
+  "sampleCount": 62,
+  "sampleIntervalSeconds": 5,
+  "cpuBusyAveragePercent": 55.22129032258064,
+  "cpuBusyPeakPercent": 95.89,
+  "cpuIoWaitAveragePercent": 0.3235483870967742,
+  "workerMemoryPeakGiB": 15.172454833984375,
+  "hostMemoryAvailableMinimumGiB": 107.26387786865234
+}

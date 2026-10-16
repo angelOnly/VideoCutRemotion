@@ -1,0 +1,155 @@
+{
+  "toolCounts": {
+    "read_runtime_release": 1,
+    "read_production_task": 1,
+    "search_motion_mechanisms": 3,
+    "read_motion_mechanism": 3,
+    "synthesize_speech_batch": 1,
+    "read_speech_batch": 1,
+    "assemble_sentence_audio": 2,
+    "verify_sentence_audio": 3,
+    "prepare_review_frames": 2,
+    "read_render_job": 6,
+    "assign_review_work": 8,
+    "submit_review": 6,
+    "read_review": 2,
+    "render_template": 2
+  },
+  "rejectedCalls": [
+    {
+      "time": "2026-10-16T01:55:57.025Z",
+      "tool": "assemble_sentence_audio",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool assemble_sentence_audio: Invalid at expectedTimelineSha256"
+          }
+        ],
+        "structuredContent": null,
+        "_meta": null
+      }
+    },
+    {
+      "time": "2026-10-16T02:03:23.627Z",
+      "tool": "submit_review",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"code\":\"INVALID_FIELDS\",\"reason\":\"[\\n  {\\n    \\\"expected\\\": \\\"'resolved' | 'retained'\\\",\\n    \\\"received\\\": \\\"undefined\\\",\\n    \\\"code\\\": \\\"invalid_type\\\",\\n    \\\"path\\\": [\\n      \\\"results\\\",\\n      0,\\n      \\\"issueResolutions\\\",\\n      0,\\n      \\\"resolution\\\"\\n    ],\\n    \\\"message\\\": \\\"Required\\\"\\n  },\\n  {\\n    \\\"code\\\": \\\"invalid_type\\\",\\n    \\\"expected\\\": \\\"string\\\",\\n    \\\"received\\\": \\\"undefined\\\",\\n    \\\"path\\\": [\\n      \\\"results\\\",\\n      0,\\n      \\\"issueResolutions\\\",\\n      0,\\n      \\\"note\\\"\\n    ],\\n    \\\"message\\\": \\\"Required\\\"\\n  },\\n  {\\n    \\\"code\\\": \\\"unrecognized_keys\\\",\\n    \\\"keys\\\": [\\n      \\\"status\\\",\\n      \\\"reason\\\"\\n    ],\\n    \\\"path\\\": [\\n      \\\"results\\\",\\n      0,\\n      \\\"issueResolutions\\\",\\n      0\\n    ],\\n    \\\"message\\\": \\\"Unrecognized key(s) in object: 'status', 'reason'\\\"\\n  },\\n  {\\n    \\\"expected\\\": \\\"'resolved' | 'retained'\\\",\\n    \\\"received\\\": \\\"undefined\\\",\\n    \\\"code\\\": \\\"invalid_type\\\",\\n    \\\"path\\\": [\\n      \\\"results\\\",\\n      0,\\n      \\\"issueResolutions\\\",\\n      1,\\n      \\\"resolution\\\"\\n    ],\\n    \\\"message\\\": \\\"Required\\\"\\n  },\\n  {\\n    \\\"code\\\": \\\"invalid_type\\\",\\n    \\\"expected\\\": \\\"string\\\",\\n    \\\"received\\\": \\\"undefined\\\",\\n    \\\"path\\\": [\\n      \\\"results\\\",\\n      0,\\n      \\\"issueResolutions\\\",\\n      1,\\n      \\\"note\\\"\\n    ],\\n    \\\"message\\\": \\\"Required\\\"\\n  },\\n  {\\n    \\\"code\\\": \\\"unrecognized_keys\\\",\\n    \\\"keys\\\": [\\n      \\\"status\\\",\\n      \\\"reason\\\"\\n    ],\\n    \\\"path\\\": [\\n      \\\"results\\\",\\n      0,\\n      \\\"issueResolutions\\\",\\n      1\\n    ],\\n    \\\"message\\\": \\\"Unrecognized key(s) in object: 'status', 'reason'\\\"\\n  }\\n]\",\"fields\":[{\"expected\":\"'resolved' | 'retained'\",\"received\":\"undefined\",\"code\":\"invalid_type\",\"path\":[\"results\",0,\"issueResolutions\",0,\"resolution\"],\"message\":\"Required\"},{\"code\":\"invalid_type\",\"expected\":\"string\",\"received\":\"undefined\",\"path\":[\"results\",0,\"issueResolutions\",0,\"note\"],\"message\":\"Required\"},{\"code\":\"unrecognized_keys\",\"keys\":[\"status\",\"reason\"],\"path\":[\"results\",0,\"issueResolutions\",0],\"message\":\"Unrecognized key(s) in object: 'status', 'reason'\"},{\"expected\":\"'resolved' | 'retained'\",\"received\":\"undefined\",\"code\":\"invalid_type\",\"path\":[\"results\",0,\"issueResolutions\",1,\"resolution\"],\"message\":\"Required\"},{\"code\":\"invalid_type\",\"expected\":\"string\",\"received\":\"undefined\",\"path\":[\"results\",0,\"issueResolutions\",1,\"note\"],\"message\":\"Required\"},{\"code\":\"unrecognized_keys\",\"keys\":[\"status\",\"reason\"],\"path\":[\"results\",0,\"issueResolutions\",1],\"message\":\"Unrecognized key(s) in object: 'status', 'reason'\"}],\"nextStep\":\"核对当前参数和原任务状态，保留已经观察的材料\"}"
+          }
+        ],
+        "structuredContent": {
+          "code": "INVALID_FIELDS",
+          "reason": "[\n  {\n    \"expected\": \"'resolved' | 'retained'\",\n    \"received\": \"undefined\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"results\",\n      0,\n      \"issueResolutions\",\n      0,\n      \"resolution\"\n    ],\n    \"message\": \"Required\"\n  },\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"results\",\n      0,\n      \"issueResolutions\",\n      0,\n      \"note\"\n    ],\n    \"message\": \"Required\"\n  },\n  {\n    \"code\": \"unrecognized_keys\",\n    \"keys\": [\n      \"status\",\n      \"reason\"\n    ],\n    \"path\": [\n      \"results\",\n      0,\n      \"issueResolutions\",\n      0\n    ],\n    \"message\": \"Unrecognized key(s) in object: 'status', 'reason'\"\n  },\n  {\n    \"expected\": \"'resolved' | 'retained'\",\n    \"received\": \"undefined\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"results\",\n      0,\n      \"issueResolutions\",\n      1,\n      \"resolution\"\n    ],\n    \"message\": \"Required\"\n  },\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"results\",\n      0,\n      \"issueResolutions\",\n      1,\n      \"note\"\n    ],\n    \"message\": \"Required\"\n  },\n  {\n    \"code\": \"unrecognized_keys\",\n    \"keys\": [\n      \"status\",\n      \"reason\"\n    ],\n    \"path\": [\n      \"results\",\n      0,\n      \"issueResolutions\",\n      1\n    ],\n    \"message\": \"Unrecognized key(s) in object: 'status', 'reason'\"\n  }\n]",
+          "fields": [
+            {
+              "expected": "'resolved' | 'retained'",
+              "received": "undefined",
+              "code": "invalid_type",
+              "path": [
+                "results",
+                0,
+                "issueResolutions",
+                0,
+                "resolution"
+              ],
+              "message": "Required"
+            },
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "received": "undefined",
+              "path": [
+                "results",
+                0,
+                "issueResolutions",
+                0,
+                "note"
+              ],
+              "message": "Required"
+            },
+            {
+              "code": "unrecognized_keys",
+              "keys": [
+                "status",
+                "reason"
+              ],
+              "path": [
+                "results",
+                0,
+                "issueResolutions",
+                0
+              ],
+              "message": "Unrecognized key(s) in object: 'status', 'reason'"
+            },
+            {
+              "expected": "'resolved' | 'retained'",
+              "received": "undefined",
+              "code": "invalid_type",
+              "path": [
+                "results",
+                0,
+                "issueResolutions",
+                1,
+                "resolution"
+              ],
+              "message": "Required"
+            },
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "received": "undefined",
+              "path": [
+                "results",
+                0,
+                "issueResolutions",
+                1,
+                "note"
+              ],
+              "message": "Required"
+            },
+            {
+              "code": "unrecognized_keys",
+              "keys": [
+                "status",
+                "reason"
+              ],
+              "path": [
+                "results",
+                0,
+                "issueResolutions",
+                1
+              ],
+              "message": "Unrecognized key(s) in object: 'status', 'reason'"
+            }
+          ],
+          "nextStep": "核对当前参数和原任务状态，保留已经观察的材料"
+        },
+        "_meta": null
+      }
+    },
+    {
+      "time": "2026-10-16T02:04:10.018Z",
+      "tool": "render_template",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"code\":\"TOOL_FAILED\",\"reason\":\"[\\n  {\\n    \\\"code\\\": \\\"unrecognized_keys\\\",\\n    \\\"keys\\\": [\\n      \\\"sourceDigest\\\"\\n    ],\\n    \\\"path\\\": [],\\n    \\\"message\\\": \\\"Unrecognized key(s) in object: 'sourceDigest'\\\"\\n  }\\n]\",\"nextStep\":\"核对当前参数和原任务状态，保留已经观察的材料\"}"
+          }
+        ],
+        "structuredContent": {
+          "code": "TOOL_FAILED",
+          "reason": "[\n  {\n    \"code\": \"unrecognized_keys\",\n    \"keys\": [\n      \"sourceDigest\"\n    ],\n    \"path\": [],\n    \"message\": \"Unrecognized key(s) in object: 'sourceDigest'\"\n  }\n]",
+          "nextStep": "核对当前参数和原任务状态，保留已经观察的材料"
+        },
+        "_meta": null
+      }
+    }
+  ],
+  "mediaAttempts": 1,
+  "finalJobId": "haobo-final-v1",
+  "failedMediaSpans": []
+}

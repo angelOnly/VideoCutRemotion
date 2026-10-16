@@ -1,0 +1,293 @@
+{
+  "authors": {
+    "/root/audio": [
+      {
+        "time": "2026-10-16T01:54:02.084Z",
+        "kind": "started",
+        "threadId": "01a1426a-8e8a-7172-9856-c0d9a6cdfa07"
+      },
+      {
+        "time": "2026-10-16T01:55:07.284Z",
+        "kind": "interacted",
+        "threadId": "01a1426a-8e8a-7172-9856-c0d9a6cdfa07"
+      },
+      {
+        "time": "2026-10-16T01:55:49.760Z",
+        "kind": "completed",
+        "threadId": "01a1426a-8e8a-7172-9856-c0d9a6cdfa07"
+      },
+      {
+        "time": "2026-10-16T01:55:52.650Z",
+        "kind": "interacted",
+        "threadId": "01a1426a-8e8a-7172-9856-c0d9a6cdfa07"
+      },
+      {
+        "time": "2026-10-16T01:56:51.485Z",
+        "kind": "interacted",
+        "threadId": "01a1426a-8e8a-7172-9856-c0d9a6cdfa07"
+      },
+      {
+        "time": "2026-10-16T01:57:41.329Z",
+        "kind": "completed",
+        "threadId": "01a1426a-8e8a-7172-9856-c0d9a6cdfa07"
+      }
+    ],
+    "/root/chapter_001": [
+      {
+        "time": "2026-10-16T01:54:11.750Z",
+        "kind": "started",
+        "threadId": "01a1426a-b44c-7323-bf59-f6666217049d"
+      },
+      {
+        "time": "2026-10-16T01:55:34.313Z",
+        "kind": "completed",
+        "threadId": "01a1426a-b44c-7323-bf59-f6666217049d"
+      },
+      {
+        "time": "2026-10-16T01:56:10.462Z",
+        "kind": "interacted",
+        "threadId": "01a1426a-b44c-7323-bf59-f6666217049d"
+      },
+      {
+        "time": "2026-10-16T01:56:45.772Z",
+        "kind": "completed",
+        "threadId": "01a1426a-b44c-7323-bf59-f6666217049d"
+      }
+    ],
+    "/root/chapter_002": [
+      {
+        "time": "2026-10-16T01:54:17.573Z",
+        "kind": "started",
+        "threadId": "01a1426a-cb05-7782-b455-06178d630ce9"
+      },
+      {
+        "time": "2026-10-16T01:56:03.130Z",
+        "kind": "completed",
+        "threadId": "01a1426a-cb05-7782-b455-06178d630ce9"
+      },
+      {
+        "time": "2026-10-16T01:56:19.743Z",
+        "kind": "interacted",
+        "threadId": "01a1426a-cb05-7782-b455-06178d630ce9"
+      },
+      {
+        "time": "2026-10-16T01:56:46.583Z",
+        "kind": "completed",
+        "threadId": "01a1426a-cb05-7782-b455-06178d630ce9"
+      }
+    ],
+    "/root/chapter_003": [
+      {
+        "time": "2026-10-16T01:54:25.898Z",
+        "kind": "started",
+        "threadId": "01a1426a-eb93-7fc3-9fe8-a75bd61f6911"
+      },
+      {
+        "time": "2026-10-16T01:55:54.075Z",
+        "kind": "completed",
+        "threadId": "01a1426a-eb93-7fc3-9fe8-a75bd61f6911"
+      },
+      {
+        "time": "2026-10-16T01:56:23.047Z",
+        "kind": "interacted",
+        "threadId": "01a1426a-eb93-7fc3-9fe8-a75bd61f6911"
+      },
+      {
+        "time": "2026-10-16T01:56:46.927Z",
+        "kind": "completed",
+        "threadId": "01a1426a-eb93-7fc3-9fe8-a75bd61f6911"
+      },
+      {
+        "time": "2026-10-16T02:01:04.962Z",
+        "kind": "interacted",
+        "threadId": "01a1426a-eb93-7fc3-9fe8-a75bd61f6911"
+      },
+      {
+        "time": "2026-10-16T02:01:35.769Z",
+        "kind": "completed",
+        "threadId": "01a1426a-eb93-7fc3-9fe8-a75bd61f6911"
+      }
+    ],
+    "/root/chapter_004": [
+      {
+        "time": "2026-10-16T01:54:31.586Z",
+        "kind": "started",
+        "threadId": "01a1426b-01c3-7552-b76d-07eef6cd2a3d"
+      },
+      {
+        "time": "2026-10-16T01:56:28.911Z",
+        "kind": "interacted",
+        "threadId": "01a1426b-01c3-7552-b76d-07eef6cd2a3d"
+      },
+      {
+        "time": "2026-10-16T01:57:15.692Z",
+        "kind": "completed",
+        "threadId": "01a1426b-01c3-7552-b76d-07eef6cd2a3d"
+      }
+    ],
+    "/root/chapter_005": [
+      {
+        "time": "2026-10-16T01:54:36.416Z",
+        "kind": "started",
+        "threadId": "01a1426b-14a6-7cb2-ba48-5e91ebaf0719"
+      },
+      {
+        "time": "2026-10-16T01:56:17.889Z",
+        "kind": "completed",
+        "threadId": "01a1426b-14a6-7cb2-ba48-5e91ebaf0719"
+      },
+      {
+        "time": "2026-10-16T01:56:31.958Z",
+        "kind": "interacted",
+        "threadId": "01a1426b-14a6-7cb2-ba48-5e91ebaf0719"
+      },
+      {
+        "time": "2026-10-16T01:56:56.660Z",
+        "kind": "completed",
+        "threadId": "01a1426b-14a6-7cb2-ba48-5e91ebaf0719"
+      },
+      {
+        "time": "2026-10-16T02:00:27.521Z",
+        "kind": "interacted",
+        "threadId": "01a1426b-14a6-7cb2-ba48-5e91ebaf0719"
+      },
+      {
+        "time": "2026-10-16T02:00:43.024Z",
+        "kind": "completed",
+        "threadId": "01a1426b-14a6-7cb2-ba48-5e91ebaf0719"
+      }
+    ],
+    "/root/chapter_006": [
+      {
+        "time": "2026-10-16T01:54:43.442Z",
+        "kind": "started",
+        "threadId": "01a1426b-3011-7a52-bc33-f19becb93029"
+      },
+      {
+        "time": "2026-10-16T01:56:18.010Z",
+        "kind": "completed",
+        "threadId": "01a1426b-3011-7a52-bc33-f19becb93029"
+      },
+      {
+        "time": "2026-10-16T01:56:35.243Z",
+        "kind": "interacted",
+        "threadId": "01a1426b-3011-7a52-bc33-f19becb93029"
+      },
+      {
+        "time": "2026-10-16T01:57:11.133Z",
+        "kind": "completed",
+        "threadId": "01a1426b-3011-7a52-bc33-f19becb93029"
+      }
+    ],
+    "/root/chapter_007": [
+      {
+        "time": "2026-10-16T01:54:50.233Z",
+        "kind": "started",
+        "threadId": "01a1426b-4a9d-7e51-b7ba-04788c414553"
+      },
+      {
+        "time": "2026-10-16T01:56:24.126Z",
+        "kind": "completed",
+        "threadId": "01a1426b-4a9d-7e51-b7ba-04788c414553"
+      },
+      {
+        "time": "2026-10-16T01:56:40.079Z",
+        "kind": "interacted",
+        "threadId": "01a1426b-4a9d-7e51-b7ba-04788c414553"
+      },
+      {
+        "time": "2026-10-16T01:57:11.951Z",
+        "kind": "completed",
+        "threadId": "01a1426b-4a9d-7e51-b7ba-04788c414553"
+      }
+    ],
+    "/root/chapter_008": [
+      {
+        "time": "2026-10-16T01:54:55.692Z",
+        "kind": "started",
+        "threadId": "01a1426b-5fec-7e61-a26f-80bcdc048f8e"
+      },
+      {
+        "time": "2026-10-16T01:56:37.585Z",
+        "kind": "completed",
+        "threadId": "01a1426b-5fec-7e61-a26f-80bcdc048f8e"
+      },
+      {
+        "time": "2026-10-16T01:56:44.910Z",
+        "kind": "interacted",
+        "threadId": "01a1426b-5fec-7e61-a26f-80bcdc048f8e"
+      },
+      {
+        "time": "2026-10-16T01:57:11.122Z",
+        "kind": "completed",
+        "threadId": "01a1426b-5fec-7e61-a26f-80bcdc048f8e"
+      }
+    ]
+  },
+  "mediaPeakJobs": 7,
+  "firstSixVisuals": [
+    {
+      "startedAt": "2026-10-16T02:04:24.549Z",
+      "endedAt": "2026-10-16T02:05:03.028Z",
+      "metadata": {
+        "fromFrame": 0,
+        "toFrame": 209,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T02:04:24.673Z",
+      "endedAt": "2026-10-16T02:05:01.932Z",
+      "metadata": {
+        "fromFrame": 209,
+        "toFrame": 406,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T02:04:24.821Z",
+      "endedAt": "2026-10-16T02:06:28.051Z",
+      "metadata": {
+        "fromFrame": 406,
+        "toFrame": 1138,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T02:04:24.949Z",
+      "endedAt": "2026-10-16T02:04:54.325Z",
+      "metadata": {
+        "fromFrame": 1138,
+        "toFrame": 1293,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T02:04:25.079Z",
+      "endedAt": "2026-10-16T02:06:30.241Z",
+      "metadata": {
+        "fromFrame": 1293,
+        "toFrame": 2020,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T02:04:25.198Z",
+      "endedAt": "2026-10-16T02:04:48.316Z",
+      "metadata": {
+        "fromFrame": 2020,
+        "toFrame": 2138,
+        "concurrency": 3
+      }
+    }
+  ],
+  "continuousAudio": {
+    "startedAt": "2026-10-16T02:04:24.481Z",
+    "endedAt": "2026-10-16T02:08:34.670Z",
+    "durationMs": 250189.49368700013
+  },
+  "mediaJobId": "haobo-final-v1",
+  "attempts": 1,
+  "chunks": 14,
+  "files": 15
+}

@@ -1,0 +1,94 @@
+{
+  "reviewId": "42e9d7c8-e91e-4e1c-8eb7-fe12a8ad7d4d",
+  "results": [
+    {
+      "assignmentToken": "5bdafcaf-48f3-4f8e-bc73-33b5f3c4bb03",
+      "observations": [
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-55b91e79a58a9026cd2ea471",
+          "note": "第20帧：营业收入+3.2%单行建立，文字与起点清晰，第二比较对象尚未出现；静帧不能判断建立时长。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-f2c69144e583b87d686a77c4",
+          "note": "第55帧：扣非净利润+48%已进入，双行数字、色彩区分清楚；红条处于中间态，不能据该帧评价最终比例。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-2c0350bfac226d5f7bda07ae",
+          "note": "第158帧：双条共同起点清楚，48%与3.2%长度约15倍关系成立，提问在图下方完整显示，无遮挡。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-ffff674c52ea02cc02b450b3",
+          "note": "第240帧：固定人物片头及浩欧博公司名可辨认，无裁断文字；仅看静帧，未判断片头声画衔接。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-23c502c707311d3d35c996ee",
+          "note": "第276帧：栏目语与保留的两项数字分区清楚，主字幕此帧未显示；是否属于合理静音空隙未知。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-f6fbd103e73322fe631294c2",
+          "note": "第330帧：栏目语主字幕完整且与输入一致，正文、提要及免责声明各自分行，无相互遮挡。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-9a2d4fba305f19fe17710947",
+          "note": "第466帧：浩欧博体外诊断试剂主节点清楚，两行业务字幕完整，图表尚未建立分支。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-d3c88839f235bf23f98ae722",
+          "note": "第800帧：过敏与自身免疫两条分支及进口主导、少数规模生产厂商之一的限定可读，长字幕两行未裁断。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-8d54f451e4fe389323535a91",
+          "note": "第904帧：业务树较前一证据缩小让出右侧空间，现有节点与限定文字未重叠；运动连续性未观察。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-eba8c22458fd2ece96986c24",
+          "note": "第1076帧：业务树与上半年营收2亿、同比+3.2%分区成立，图内限定仍能辨认；两行字幕完整。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-428f79603356563a4f027cac",
+          "note": "第1200帧：扣非净利润同比+48%连向从哪来提问，术语与确认稿一致，提问字幕无截断。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-12ecdc6813c1c423d92fdf6a",
+          "note": "第1600帧：利润总额同比增加部分限定明确，七成及四成多/三成多来源关系清楚，没有误画成扣非净利润全部构成。长字幕完整。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-b68621101b3713904036dd66",
+          "note": "第1833帧：来源拆解与研发费用率图同时半透明显示，标题、四成多/三成多与11.3%/10.1%存在明显叠压，已记警告；字幕本身可读。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-3c474f6b1b78ccd2f64651e7",
+          "note": "第1900帧：研发费用率11.3%与10.1%共起点比较，长度接近真实比例，标题及结论可读，数值与确认稿一致。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-3ebd6e85d6a9b4fe859ddeb9",
+          "note": "第2070帧：营业利润率+2.5个百分点的单位清楚，长问句主字幕完整；未将百分点写成百分比。全部证据仅静帧，声音、阅读时长及连续运动保持未知。"
+        }
+      ],
+      "issues": [
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-b68621101b3713904036dd66",
+          "severity": "warning",
+          "problem": "第1833帧费用来源拆解与研发费用率图在同一区域同时显现，左上两标题重叠，右侧四成多/三成多与11.3%/10.1%数字互相叠压；中途状态难以分辨当前比较对象。只确认本帧问题，持续范围未知。"
+        }
+      ],
+      "status": "complete"
+    }
+  ]
+}
