@@ -1,0 +1,203 @@
+{
+  "toolCounts": {
+    "read_production_task": 1,
+    "read_runtime_release": 1,
+    "search_motion_mechanisms": 21,
+    "read_motion_mechanism": 17,
+    "synthesize_speech_batch": 1,
+    "read_speech_batch": 7,
+    "read_speech_job": 1,
+    "assemble_sentence_audio": 3,
+    "verify_sentence_audio": 3,
+    "read_render_job": 14,
+    "prepare_review_frames": 2,
+    "assign_review_work": 6,
+    "read_review": 8,
+    "submit_review": 4,
+    "render_template": 3,
+    "prepare_review": 1
+  },
+  "rejectedCalls": [
+    {
+      "time": "2026-10-16T03:00:34.567Z",
+      "tool": "assemble_sentence_audio",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"code\":\"SENTENCE_ASSEMBLY_INVALID\",\"reason\":\"contrast_visual 无口播画面不能带配音、字幕对齐或额外尾帧\",\"nextStep\":\"核对当前参数和原任务状态，保留已经观察的材料\"}"
+          }
+        ],
+        "structuredContent": {
+          "code": "SENTENCE_ASSEMBLY_INVALID",
+          "reason": "contrast_visual 无口播画面不能带配音、字幕对齐或额外尾帧",
+          "nextStep": "核对当前参数和原任务状态，保留已经观察的材料"
+        },
+        "_meta": null
+      }
+    },
+    {
+      "time": "2026-10-16T03:01:03.767Z",
+      "tool": "assemble_sentence_audio",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"code\":\"TEMPLATE_TIMELINE_INVALID\",\"reason\":\"模板时间线校验失败（src/validateTimeline.ts）：模板视觉校验失败：company_intro_visual 正文图解覆盖不完整\",\"nextStep\":\"核对当前参数和原任务状态，保留已经观察的材料\"}"
+          }
+        ],
+        "structuredContent": {
+          "code": "TEMPLATE_TIMELINE_INVALID",
+          "reason": "模板时间线校验失败（src/validateTimeline.ts）：模板视觉校验失败：company_intro_visual 正文图解覆盖不完整",
+          "nextStep": "核对当前参数和原任务状态，保留已经观察的材料"
+        },
+        "_meta": null
+      }
+    },
+    {
+      "time": "2026-10-16T03:02:30.113Z",
+      "tool": "verify_sentence_audio",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"code\":\"ENOENT\",\"reason\":\"ENOENT: no such file or directory, realpath '/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/8c1920d4-5467-43ba-abab-b2a2855b635e/runs/034519db-60cf-4d90-94a2-263b04b1d9e6/render-snapshots/verify_sentence_audio_034519db_v1/project'\",\"nextStep\":\"核对当前参数和原任务状态，保留已经观察的材料\"}"
+          }
+        ],
+        "structuredContent": {
+          "code": "ENOENT",
+          "reason": "ENOENT: no such file or directory, realpath '/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/8c1920d4-5467-43ba-abab-b2a2855b635e/runs/034519db-60cf-4d90-94a2-263b04b1d9e6/render-snapshots/verify_sentence_audio_034519db_v1/project'",
+          "nextStep": "核对当前参数和原任务状态，保留已经观察的材料"
+        },
+        "_meta": null
+      }
+    },
+    {
+      "time": "2026-10-16T03:02:30.136Z",
+      "tool": "read_render_job",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"code\":\"ENOENT\",\"reason\":\"ENOENT: no such file or directory, open '/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/8c1920d4-5467-43ba-abab-b2a2855b635e/runs/034519db-60cf-4d90-94a2-263b04b1d9e6/render-jobs/assembly_034519db_first_v3.json'\",\"nextStep\":\"核对当前参数和原任务状态，保留已经观察的材料\"}"
+          }
+        ],
+        "structuredContent": {
+          "code": "ENOENT",
+          "reason": "ENOENT: no such file or directory, open '/home/ops/jiangzb/textvideo-studio-deploy/data/tasks/8c1920d4-5467-43ba-abab-b2a2855b635e/runs/034519db-60cf-4d90-94a2-263b04b1d9e6/render-jobs/assembly_034519db_first_v3.json'",
+          "nextStep": "核对当前参数和原任务状态，保留已经观察的材料"
+        },
+        "_meta": null
+      }
+    },
+    {
+      "time": "2026-10-16T03:20:35.470Z",
+      "tool": "submit_review",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"code\":\"INVALID_FIELDS\",\"reason\":\"[\\n  {\\n    \\\"code\\\": \\\"invalid_type\\\",\\n    \\\"expected\\\": \\\"string\\\",\\n    \\\"received\\\": \\\"undefined\\\",\\n    \\\"path\\\": [\\n      \\\"results\\\",\\n      0,\\n      \\\"issueResolutions\\\",\\n      0,\\n      \\\"note\\\"\\n    ],\\n    \\\"message\\\": \\\"Required\\\"\\n  },\\n  {\\n    \\\"code\\\": \\\"unrecognized_keys\\\",\\n    \\\"keys\\\": [\\n      \\\"reason\\\"\\n    ],\\n    \\\"path\\\": [\\n      \\\"results\\\",\\n      0,\\n      \\\"issueResolutions\\\",\\n      0\\n    ],\\n    \\\"message\\\": \\\"Unrecognized key(s) in object: 'reason'\\\"\\n  },\\n  {\\n    \\\"code\\\": \\\"invalid_type\\\",\\n    \\\"expected\\\": \\\"string\\\",\\n    \\\"received\\\": \\\"undefined\\\",\\n    \\\"path\\\": [\\n      \\\"results\\\",\\n      0,\\n      \\\"issueResolutions\\\",\\n      1,\\n      \\\"note\\\"\\n    ],\\n    \\\"message\\\": \\\"Required\\\"\\n  },\\n  {\\n    \\\"code\\\": \\\"unrecognized_keys\\\",\\n    \\\"keys\\\": [\\n      \\\"reason\\\"\\n    ],\\n    \\\"path\\\": [\\n      \\\"results\\\",\\n      0,\\n      \\\"issueResolutions\\\",\\n      1\\n    ],\\n    \\\"message\\\": \\\"Unrecognized key(s) in object: 'reason'\\\"\\n  },\\n  {\\n    \\\"code\\\": \\\"invalid_type\\\",\\n    \\\"expected\\\": \\\"string\\\",\\n    \\\"received\\\": \\\"undefined\\\",\\n    \\\"path\\\": [\\n      \\\"results\\\",\\n      0,\\n      \\\"issueResolutions\\\",\\n      2,\\n      \\\"note\\\"\\n    ],\\n    \\\"message\\\": \\\"Required\\\"\\n  },\\n  {\\n    \\\"code\\\": \\\"unrecognized_keys\\\",\\n    \\\"keys\\\": [\\n      \\\"reason\\\"\\n    ],\\n    \\\"path\\\": [\\n      \\\"results\\\",\\n      0,\\n      \\\"issueResolutions\\\",\\n      2\\n    ],\\n    \\\"message\\\": \\\"Unrecognized key(s) in object: 'reason'\\\"\\n  }\\n]\",\"fields\":[{\"code\":\"invalid_type\",\"expected\":\"string\",\"received\":\"undefined\",\"path\":[\"results\",0,\"issueResolutions\",0,\"note\"],\"message\":\"Required\"},{\"code\":\"unrecognized_keys\",\"keys\":[\"reason\"],\"path\":[\"results\",0,\"issueResolutions\",0],\"message\":\"Unrecognized key(s) in object: 'reason'\"},{\"code\":\"invalid_type\",\"expected\":\"string\",\"received\":\"undefined\",\"path\":[\"results\",0,\"issueResolutions\",1,\"note\"],\"message\":\"Required\"},{\"code\":\"unrecognized_keys\",\"keys\":[\"reason\"],\"path\":[\"results\",0,\"issueResolutions\",1],\"message\":\"Unrecognized key(s) in object: 'reason'\"},{\"code\":\"invalid_type\",\"expected\":\"string\",\"received\":\"undefined\",\"path\":[\"results\",0,\"issueResolutions\",2,\"note\"],\"message\":\"Required\"},{\"code\":\"unrecognized_keys\",\"keys\":[\"reason\"],\"path\":[\"results\",0,\"issueResolutions\",2],\"message\":\"Unrecognized key(s) in object: 'reason'\"}],\"nextStep\":\"核对当前参数和原任务状态，保留已经观察的材料\"}"
+          }
+        ],
+        "structuredContent": {
+          "code": "INVALID_FIELDS",
+          "reason": "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"results\",\n      0,\n      \"issueResolutions\",\n      0,\n      \"note\"\n    ],\n    \"message\": \"Required\"\n  },\n  {\n    \"code\": \"unrecognized_keys\",\n    \"keys\": [\n      \"reason\"\n    ],\n    \"path\": [\n      \"results\",\n      0,\n      \"issueResolutions\",\n      0\n    ],\n    \"message\": \"Unrecognized key(s) in object: 'reason'\"\n  },\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"results\",\n      0,\n      \"issueResolutions\",\n      1,\n      \"note\"\n    ],\n    \"message\": \"Required\"\n  },\n  {\n    \"code\": \"unrecognized_keys\",\n    \"keys\": [\n      \"reason\"\n    ],\n    \"path\": [\n      \"results\",\n      0,\n      \"issueResolutions\",\n      1\n    ],\n    \"message\": \"Unrecognized key(s) in object: 'reason'\"\n  },\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"results\",\n      0,\n      \"issueResolutions\",\n      2,\n      \"note\"\n    ],\n    \"message\": \"Required\"\n  },\n  {\n    \"code\": \"unrecognized_keys\",\n    \"keys\": [\n      \"reason\"\n    ],\n    \"path\": [\n      \"results\",\n      0,\n      \"issueResolutions\",\n      2\n    ],\n    \"message\": \"Unrecognized key(s) in object: 'reason'\"\n  }\n]",
+          "fields": [
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "received": "undefined",
+              "path": [
+                "results",
+                0,
+                "issueResolutions",
+                0,
+                "note"
+              ],
+              "message": "Required"
+            },
+            {
+              "code": "unrecognized_keys",
+              "keys": [
+                "reason"
+              ],
+              "path": [
+                "results",
+                0,
+                "issueResolutions",
+                0
+              ],
+              "message": "Unrecognized key(s) in object: 'reason'"
+            },
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "received": "undefined",
+              "path": [
+                "results",
+                0,
+                "issueResolutions",
+                1,
+                "note"
+              ],
+              "message": "Required"
+            },
+            {
+              "code": "unrecognized_keys",
+              "keys": [
+                "reason"
+              ],
+              "path": [
+                "results",
+                0,
+                "issueResolutions",
+                1
+              ],
+              "message": "Unrecognized key(s) in object: 'reason'"
+            },
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "received": "undefined",
+              "path": [
+                "results",
+                0,
+                "issueResolutions",
+                2,
+                "note"
+              ],
+              "message": "Required"
+            },
+            {
+              "code": "unrecognized_keys",
+              "keys": [
+                "reason"
+              ],
+              "path": [
+                "results",
+                0,
+                "issueResolutions",
+                2
+              ],
+              "message": "Unrecognized key(s) in object: 'reason'"
+            }
+          ],
+          "nextStep": "核对当前参数和原任务状态，保留已经观察的材料"
+        },
+        "_meta": null
+      }
+    }
+  ],
+  "mediaAttempts": 1,
+  "finalJobId": "render_034519db_final_v1",
+  "failedMediaSpans": [
+    {
+      "renderRequestId": "reviewframes_034519db_pre_v1",
+      "startedAt": "2026-10-16T03:03:27.808Z",
+      "endedAt": "2026-10-16T03:03:47.027Z",
+      "durationMs": 19218.02289599995,
+      "result": "failed"
+    }
+  ]
+}

@@ -1,0 +1,279 @@
+{
+  "checkedAt": "2026-10-16T03:24:09.053677+00:00",
+  "model": "gpt-6-luna",
+  "reasoningEffort": "xhigh",
+  "serviceTierRequested": "priority",
+  "serviceTierObserved": null,
+  "serviceTierEvidence": "线程和轮次请求均传入priority，开启fast_mode；宿主turn_context不返回实际服务档，不能据此断言固定1.5倍性能",
+  "codexVersion": "0.163.0",
+  "threads": [
+    {
+      "stage": "analysis",
+      "runId": "588ae75f-4f67-45c1-8bde-d029d90cebd7",
+      "threadId": "01a14290-f6bc-77d1-be59-b37fa10c580f",
+      "contexts": [
+        {
+          "turn_id": "01a14291-03a2-7d60-98dd-ca886a0c531e",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a14292-7a62-72a0-842b-6171b5c217af",
+      "contexts": [
+        {
+          "turn_id": "01a14292-8732-7890-8979-b80d8b8822b1",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a14292-8732-7890-8979-b80d8b8822b1",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a14292-8732-7890-8979-b80d8b8822b1",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a14292-8732-7890-8979-b80d8b8822b1",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a14294-a078-79e0-ad33-0ea488b6b360",
+      "contexts": [
+        {
+          "turn_id": "01a14294-a0aa-7b73-a26b-e15a0340ef39",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a1429f-5363-7101-8ed9-2b105e6e8993",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a142aa-d980-7110-a1bf-8359184ec3fd",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a14294-b66e-7540-9dc7-df9ddf08fc16",
+      "contexts": [
+        {
+          "turn_id": "01a14294-b69f-7b00-8812-5ef8f6c3645f",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a1429f-6789-7791-bddb-730958e5af74",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a14294-cb52-7631-96e7-9772ecaa1236",
+      "contexts": [
+        {
+          "turn_id": "01a14294-cb83-75a1-bec2-b394d2ef9dae",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a1429f-7624-77a2-8016-199429cb059c",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a14294-deb6-7a41-9ebb-4d71084c42d3",
+      "contexts": [
+        {
+          "turn_id": "01a14294-dee7-7b50-9376-338995ced70a",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a1429f-83de-7f21-b596-18d2cdeef01a",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a14294-f32c-73c3-afd8-6f7f42b446cb",
+      "contexts": [
+        {
+          "turn_id": "01a14294-f35e-7e42-8668-c08b4f371bca",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a1429f-9136-76e0-a889-4d50c8141a7d",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a14295-082f-7082-bde1-fef173ee40f4",
+      "contexts": [
+        {
+          "turn_id": "01a14295-0861-7062-a8cf-4817956058c9",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a1429f-a0e7-7602-b729-d5dff5157ba3",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a14295-1f10-7a01-9e0a-947da9846c3e",
+      "contexts": [
+        {
+          "turn_id": "01a14295-1f46-7f93-a500-11516b6ab8b5",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a1429f-b7b6-77b2-a3d8-21cd2b701b5a",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a14295-318b-79c0-876e-63b76d926aaf",
+      "contexts": [
+        {
+          "turn_id": "01a14295-31bc-7493-8985-78af7c74a879",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a1429f-ce53-7461-877c-5c0dbec47977",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a14295-5a96-7922-95ab-3a670628aa3b",
+      "contexts": [
+        {
+          "turn_id": "01a14295-5ac0-7091-9743-d655867ceda2",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a1429e-7743-7e00-a539-be833631db56",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a1429e-7743-7e00-a539-be833631db56",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a142a7-a8fe-7b00-a265-fd69e931600b",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a142ac-ce1e-7de1-8c56-32ec19cf6be0",
+      "contexts": [
+        {
+          "turn_id": "01a142ac-ce54-7850-8fbe-72a72512023c",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a142b4-a777-7f81-9a82-0291850727c0",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a142b8-b04a-73c3-9ac3-b95619f636f7",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a142ac-d78d-7a11-8ceb-3a56fdad5270",
+      "contexts": [
+        {
+          "turn_id": "01a142ac-d7d5-7d11-a87b-c4afa013de11",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a142b4-ce2a-7fa1-8c33-d45567b9204b",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    },
+    {
+      "stage": "render",
+      "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+      "threadId": "01a142ac-e162-7022-9123-dd26bc98f680",
+      "contexts": [
+        {
+          "turn_id": "01a142ac-e19e-7380-8dc6-08ee131cd31d",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a142b4-bccc-71e1-86b9-45ab9cf992c2",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        },
+        {
+          "turn_id": "01a142b9-da70-71f3-adcd-a2712c9150e6",
+          "model": "gpt-6-luna",
+          "effort": "xhigh"
+        }
+      ]
+    }
+  ]
+}

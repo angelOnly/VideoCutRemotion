@@ -1,0 +1,348 @@
+{
+  "authors": {
+    "/root/chapter_001": [
+      {
+        "time": "2026-10-16T02:39:59.153Z",
+        "kind": "started",
+        "threadId": "01a14294-a078-79e0-ad33-0ea488b6b360"
+      },
+      {
+        "time": "2026-10-16T02:43:10.535Z",
+        "kind": "interacted",
+        "threadId": "01a14294-a078-79e0-ad33-0ea488b6b360"
+      },
+      {
+        "time": "2026-10-16T02:45:00.030Z",
+        "kind": "completed",
+        "threadId": "01a14294-a078-79e0-ad33-0ea488b6b360"
+      },
+      {
+        "time": "2026-10-16T02:51:40.263Z",
+        "kind": "interacted",
+        "threadId": "01a14294-a078-79e0-ad33-0ea488b6b360"
+      },
+      {
+        "time": "2026-10-16T02:52:13.198Z",
+        "kind": "completed",
+        "threadId": "01a14294-a078-79e0-ad33-0ea488b6b360"
+      },
+      {
+        "time": "2026-10-16T03:04:15.492Z",
+        "kind": "interacted",
+        "threadId": "01a14294-a078-79e0-ad33-0ea488b6b360"
+      },
+      {
+        "time": "2026-10-16T03:05:12.742Z",
+        "kind": "completed",
+        "threadId": "01a14294-a078-79e0-ad33-0ea488b6b360"
+      }
+    ],
+    "/root/chapter_002": [
+      {
+        "time": "2026-10-16T02:40:04.775Z",
+        "kind": "started",
+        "threadId": "01a14294-b66e-7540-9dc7-df9ddf08fc16"
+      },
+      {
+        "time": "2026-10-16T02:43:12.161Z",
+        "kind": "interacted",
+        "threadId": "01a14294-b66e-7540-9dc7-df9ddf08fc16"
+      },
+      {
+        "time": "2026-10-16T02:45:39.927Z",
+        "kind": "completed",
+        "threadId": "01a14294-b66e-7540-9dc7-df9ddf08fc16"
+      },
+      {
+        "time": "2026-10-16T02:51:45.421Z",
+        "kind": "interacted",
+        "threadId": "01a14294-b66e-7540-9dc7-df9ddf08fc16"
+      },
+      {
+        "time": "2026-10-16T02:53:35.288Z",
+        "kind": "completed",
+        "threadId": "01a14294-b66e-7540-9dc7-df9ddf08fc16"
+      }
+    ],
+    "/root/chapter_003": [
+      {
+        "time": "2026-10-16T02:40:10.120Z",
+        "kind": "started",
+        "threadId": "01a14294-cb52-7631-96e7-9772ecaa1236"
+      },
+      {
+        "time": "2026-10-16T02:43:13.895Z",
+        "kind": "interacted",
+        "threadId": "01a14294-cb52-7631-96e7-9772ecaa1236"
+      },
+      {
+        "time": "2026-10-16T02:47:56.933Z",
+        "kind": "completed",
+        "threadId": "01a14294-cb52-7631-96e7-9772ecaa1236"
+      },
+      {
+        "time": "2026-10-16T02:51:49.160Z",
+        "kind": "interacted",
+        "threadId": "01a14294-cb52-7631-96e7-9772ecaa1236"
+      },
+      {
+        "time": "2026-10-16T02:53:12.221Z",
+        "kind": "completed",
+        "threadId": "01a14294-cb52-7631-96e7-9772ecaa1236"
+      }
+    ],
+    "/root/chapter_004": [
+      {
+        "time": "2026-10-16T02:40:15.087Z",
+        "kind": "started",
+        "threadId": "01a14294-deb6-7a41-9ebb-4d71084c42d3"
+      },
+      {
+        "time": "2026-10-16T02:43:15.904Z",
+        "kind": "interacted",
+        "threadId": "01a14294-deb6-7a41-9ebb-4d71084c42d3"
+      },
+      {
+        "time": "2026-10-16T02:46:45.839Z",
+        "kind": "completed",
+        "threadId": "01a14294-deb6-7a41-9ebb-4d71084c42d3"
+      },
+      {
+        "time": "2026-10-16T02:51:52.674Z",
+        "kind": "interacted",
+        "threadId": "01a14294-deb6-7a41-9ebb-4d71084c42d3"
+      },
+      {
+        "time": "2026-10-16T02:54:37.414Z",
+        "kind": "completed",
+        "threadId": "01a14294-deb6-7a41-9ebb-4d71084c42d3"
+      }
+    ],
+    "/root/chapter_005": [
+      {
+        "time": "2026-10-16T02:40:20.324Z",
+        "kind": "started",
+        "threadId": "01a14294-f32c-73c3-afd8-6f7f42b446cb"
+      },
+      {
+        "time": "2026-10-16T02:43:17.787Z",
+        "kind": "interacted",
+        "threadId": "01a14294-f32c-73c3-afd8-6f7f42b446cb"
+      },
+      {
+        "time": "2026-10-16T02:46:35.814Z",
+        "kind": "completed",
+        "threadId": "01a14294-f32c-73c3-afd8-6f7f42b446cb"
+      },
+      {
+        "time": "2026-10-16T02:51:56.091Z",
+        "kind": "interacted",
+        "threadId": "01a14294-f32c-73c3-afd8-6f7f42b446cb"
+      },
+      {
+        "time": "2026-10-16T02:53:29.890Z",
+        "kind": "completed",
+        "threadId": "01a14294-f32c-73c3-afd8-6f7f42b446cb"
+      }
+    ],
+    "/root/chapter_006": [
+      {
+        "time": "2026-10-16T02:40:25.702Z",
+        "kind": "started",
+        "threadId": "01a14295-082f-7082-bde1-fef173ee40f4"
+      },
+      {
+        "time": "2026-10-16T02:43:19.639Z",
+        "kind": "interacted",
+        "threadId": "01a14295-082f-7082-bde1-fef173ee40f4"
+      },
+      {
+        "time": "2026-10-16T02:45:16.359Z",
+        "kind": "completed",
+        "threadId": "01a14295-082f-7082-bde1-fef173ee40f4"
+      },
+      {
+        "time": "2026-10-16T02:52:00.107Z",
+        "kind": "interacted",
+        "threadId": "01a14295-082f-7082-bde1-fef173ee40f4"
+      },
+      {
+        "time": "2026-10-16T02:53:56.823Z",
+        "kind": "completed",
+        "threadId": "01a14295-082f-7082-bde1-fef173ee40f4"
+      }
+    ],
+    "/root/chapter_007": [
+      {
+        "time": "2026-10-16T02:40:31.563Z",
+        "kind": "started",
+        "threadId": "01a14295-1f10-7a01-9e0a-947da9846c3e"
+      },
+      {
+        "time": "2026-10-16T02:43:21.698Z",
+        "kind": "interacted",
+        "threadId": "01a14295-1f10-7a01-9e0a-947da9846c3e"
+      },
+      {
+        "time": "2026-10-16T02:46:22.884Z",
+        "kind": "completed",
+        "threadId": "01a14295-1f10-7a01-9e0a-947da9846c3e"
+      },
+      {
+        "time": "2026-10-16T02:52:05.946Z",
+        "kind": "interacted",
+        "threadId": "01a14295-1f10-7a01-9e0a-947da9846c3e"
+      },
+      {
+        "time": "2026-10-16T02:53:11.442Z",
+        "kind": "completed",
+        "threadId": "01a14295-1f10-7a01-9e0a-947da9846c3e"
+      }
+    ],
+    "/root/chapter_008": [
+      {
+        "time": "2026-10-16T02:40:36.290Z",
+        "kind": "started",
+        "threadId": "01a14295-318b-79c0-876e-63b76d926aaf"
+      },
+      {
+        "time": "2026-10-16T02:43:24.224Z",
+        "kind": "interacted",
+        "threadId": "01a14295-318b-79c0-876e-63b76d926aaf"
+      },
+      {
+        "time": "2026-10-16T02:46:01.602Z",
+        "kind": "completed",
+        "threadId": "01a14295-318b-79c0-876e-63b76d926aaf"
+      },
+      {
+        "time": "2026-10-16T02:52:11.735Z",
+        "kind": "interacted",
+        "threadId": "01a14295-318b-79c0-876e-63b76d926aaf"
+      },
+      {
+        "time": "2026-10-16T02:52:34.353Z",
+        "kind": "completed",
+        "threadId": "01a14295-318b-79c0-876e-63b76d926aaf"
+      }
+    ],
+    "/root/sound_author": [
+      {
+        "time": "2026-10-16T02:40:46.790Z",
+        "kind": "started",
+        "threadId": "01a14295-5a96-7922-95ab-3a670628aa3b"
+      },
+      {
+        "time": "2026-10-16T02:41:54.934Z",
+        "kind": "interacted",
+        "threadId": "01a14295-5a96-7922-95ab-3a670628aa3b"
+      },
+      {
+        "time": "2026-10-16T02:43:04.996Z",
+        "kind": "interacted",
+        "threadId": "01a14295-5a96-7922-95ab-3a670628aa3b"
+      },
+      {
+        "time": "2026-10-16T02:45:22.388Z",
+        "kind": "interacted",
+        "threadId": "01a14295-5a96-7922-95ab-3a670628aa3b"
+      },
+      {
+        "time": "2026-10-16T02:47:57.314Z",
+        "kind": "completed",
+        "threadId": "01a14295-5a96-7922-95ab-3a670628aa3b"
+      },
+      {
+        "time": "2026-10-16T02:50:43.911Z",
+        "kind": "interacted",
+        "threadId": "01a14295-5a96-7922-95ab-3a670628aa3b"
+      },
+      {
+        "time": "2026-10-16T02:54:59.507Z",
+        "kind": "interacted",
+        "threadId": "01a14295-5a96-7922-95ab-3a670628aa3b"
+      },
+      {
+        "time": "2026-10-16T02:56:30.650Z",
+        "kind": "completed",
+        "threadId": "01a14295-5a96-7922-95ab-3a670628aa3b"
+      },
+      {
+        "time": "2026-10-16T03:00:46.465Z",
+        "kind": "interacted",
+        "threadId": "01a14295-5a96-7922-95ab-3a670628aa3b"
+      },
+      {
+        "time": "2026-10-16T03:00:57.743Z",
+        "kind": "completed",
+        "threadId": "01a14295-5a96-7922-95ab-3a670628aa3b"
+      }
+    ]
+  },
+  "mediaPeakJobs": 7,
+  "firstSixVisuals": [
+    {
+      "startedAt": "2026-10-16T03:21:28.251Z",
+      "endedAt": "2026-10-16T03:21:45.892Z",
+      "metadata": {
+        "fromFrame": 0,
+        "toFrame": 90,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T03:21:28.380Z",
+      "endedAt": "2026-10-16T03:22:05.572Z",
+      "metadata": {
+        "fromFrame": 90,
+        "toFrame": 321,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T03:21:28.554Z",
+      "endedAt": "2026-10-16T03:21:57.156Z",
+      "metadata": {
+        "fromFrame": 321,
+        "toFrame": 497,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T03:21:28.694Z",
+      "endedAt": "2026-10-16T03:21:45.067Z",
+      "metadata": {
+        "fromFrame": 497,
+        "toFrame": 587,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T03:21:28.838Z",
+      "endedAt": "2026-10-16T03:23:20.818Z",
+      "metadata": {
+        "fromFrame": 587,
+        "toFrame": 1275,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T03:21:28.958Z",
+      "endedAt": "2026-10-16T03:21:53.023Z",
+      "metadata": {
+        "fromFrame": 1275,
+        "toFrame": 1415,
+        "concurrency": 3
+      }
+    }
+  ],
+  "continuousAudio": {
+    "startedAt": "2026-10-16T03:21:28.186Z",
+    "endedAt": "2026-10-16T03:25:34.549Z",
+    "durationMs": 246363.17283400008
+  },
+  "mediaJobId": "render_034519db_final_v1",
+  "attempts": 1,
+  "chunks": 16,
+  "files": 17
+}

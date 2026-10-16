@@ -1,0 +1,87 @@
+{
+  "analysisSeconds": 53.458,
+  "renderToPublicationCompleteSeconds": 2934.233,
+  "twoStageSeconds": 2987.6910000000003,
+  "preExportSeconds": 2628.898,
+  "exportIncludingRecoverySeconds": 301.089,
+  "publicationSeconds": 4.246276057999581,
+  "baseline": {
+    "analysisSeconds": 65.193,
+    "renderToPublicationCompleteSeconds": 996.878,
+    "twoStageSeconds": 1062.0710000000001,
+    "preExportSeconds": 686.521,
+    "exportIncludingRecoverySeconds": 306.313,
+    "publicationSeconds": 4.043913184999954,
+    "baseline": {
+      "analysisSeconds": 62.142,
+      "renderToPublicationCompleteSeconds": 820.284,
+      "twoStageSeconds": 882.426,
+      "preExportSeconds": 503.405,
+      "exportIncludingRecoverySeconds": 312.817,
+      "publicationSeconds": 4.062592130000005,
+      "baseline": {
+        "analysisSeconds": 76.884,
+        "renderToPublicationCompleteSeconds": 1377.281,
+        "twoStageSeconds": 1454.165,
+        "preExportSeconds": 1014.952,
+        "exportIncludingRecoverySeconds": 358.269,
+        "publicationSeconds": 4.060086306999903,
+        "baseline": {
+          "analysisSeconds": 74.774,
+          "renderToMediaCompleteSeconds": 1745.921,
+          "renderToPublicationCompleteSeconds": 1750.02,
+          "twoStageSeconds": 1824.794,
+          "preExportSeconds": 1311.24,
+          "exportSeconds": 434.681370065,
+          "publicationSeconds": 3.921388357,
+          "basis": "analysis受理至宿主完成；render受理至发布媒体完成；不含两阶段之间页面人工确认间隔，网页轮询回显另计。",
+          "baseline": {
+            "analysisSeconds": 72.03,
+            "renderSeconds": 1568.667,
+            "twoStageSeconds": 1640.697,
+            "preExportSeconds": 1005.707,
+            "exportSeconds": 562.677
+          },
+          "limitations": [
+            "单次完整任务对比，非同源码控制实验",
+            "本次5837帧、25段配音；上次6259帧、47段配音",
+            "前置校验2次失败后复用配音恢复，首次审片冻结版本冲突后恢复，包装审片长等待后续接",
+            "网页播放检查静音，未完成整片听审"
+          ]
+        },
+        "reductionSeconds": 370.62900000000013,
+        "reductionPercent": 20.31073096470068,
+        "basis": "analysis受理至宿主完成；render受理至发布媒体完成。不含网页确认间隔、轮询回显、部署和验收操作；包含失败核验与原作业恢复。",
+        "limitations": [
+          "单次真实任务对比，不是相同源码控制实验",
+          "本轮6017帧、43句段、43字幕页、42+9审片帧；上轮5837帧、25句段、51字幕页、27审片帧",
+          "未完成全片连续听看；网页播放器抽查为静音"
+        ]
+      },
+      "reductionSeconds": 571.7389999999999,
+      "reductionPercent": 39.31734019179391,
+      "basis": "Analysis受理至宿主完成；Render受理至发布完成。不含网页确认间隔、轮询回显、部署及验收操作。包含本轮报告字段纠正；正式导出一次成功，无媒体重试。",
+      "limitations": [
+        "单次真实任务对比，不是相同源码控制实验",
+        "两轮配音分段、片长、图解源码和审片工作量不同，最终以media-summary及上一轮记录核对",
+        "未完成全片连续听看；网页播放器抽查为静音"
+      ]
+    },
+    "reductionSeconds": -179.6450000000001,
+    "reductionPercent": -20.358081017558423,
+    "basis": "analysis受理至宿主完成；render受理至媒体发布完成。不含网页确认间隔、轮询回显、部署和验收操作；阶段内的失败恢复计入。",
+    "limitations": [
+      "八位作者与六位作者的单次真实任务对比，不是相同源码控制实验",
+      "两轮配音分段、片长、图解源码和审片工作量不同，最终以media-summary及上一轮记录核对",
+      "未完成全片连续听看；网页播放器抽查为静音"
+    ]
+  },
+  "reductionSeconds": -1925.6200000000001,
+  "reductionPercent": -181.30802931254124,
+  "basis": "analysis受理至宿主完成；render受理至媒体发布完成。不含网页确认间隔、轮询回显、部署和验收操作；阶段内的失败恢复计入。",
+  "limitations": [
+    "GPT-6 Luna极高Fast与GPT-6 Astra low的单次真实任务对比，不是相同源码控制实验",
+    "两轮配音分段、片长、图解源码和审片工作量不同，最终以media-summary及上一轮记录核对",
+    "未完成全片连续听看；网页播放器抽查为静音"
+  ]
+}

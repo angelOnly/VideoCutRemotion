@@ -1,0 +1,324 @@
+[
+  {
+    "id": "reviewframes_034519db_pre_v2",
+    "kind": "frame-preview",
+    "state": "succeeded",
+    "attempt": 1,
+    "error": null,
+    "previewOnly": false,
+    "ranges": null,
+    "readyFrames": 31,
+    "readyFiles": 0,
+    "spans": [
+      {
+        "schemaVersion": 1,
+        "event": "media_span_finished",
+        "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+        "renderRequestId": "reviewframes_034519db_pre_v2",
+        "sourceDigest": "062bf6e3f9cc5431262a48a70553e243b906523878caac66bb7feef7637e2499",
+        "stage": "media_job",
+        "spanId": "7a883463-bf5d-4c70-a366-833bba0afc02",
+        "parentSpanId": null,
+        "startedAt": "2026-10-16T03:05:32.878Z",
+        "endedAt": "2026-10-16T03:06:13.227Z",
+        "durationMs": 40349.41447099997,
+        "result": "succeeded",
+        "clock": {
+          "processInstanceId": "0d6fcb98-7ea8-4671-8e4e-a6785f8b1d01",
+          "startedMonotonicMs": 1805960.418856,
+          "endedMonotonicMs": 1846309.833327
+        },
+        "resources": {
+          "scope": "node_process_including_concurrent_work_excluding_children",
+          "cpuUserMs": 47773.406,
+          "cpuSystemMs": 4814.455,
+          "childProcesses": {
+            "scope": "sampled_chrome_ffmpeg_descendants_including_concurrent_work",
+            "available": true,
+            "intervalMs": 1000,
+            "samples": 33,
+            "observedProcessCount": 13,
+            "observedCpuMs": 101000,
+            "peakCombinedRssBytes": 2296938496,
+            "accounting": "sampled_lower_bound_short_lived_processes_may_be_missed"
+          },
+          "cpuPercentOfOneCore": 130.3311626437506,
+          "rssStartBytes": 680792064,
+          "rssEndBytes": 714452992,
+          "processLifetimePeakRssBytes": 885784576,
+          "fileSystemReadOperations": 0,
+          "fileSystemWriteOperations": 701680,
+          "ioAccounting": "resourceUsage_platform_dependent_zero_may_be_unavailable",
+          "ioWaitMs": null,
+          "hostFreeMemoryStartBytes": 125045489664,
+          "hostFreeMemoryEndBytes": 124699475968,
+          "processAvailableMemoryEndBytes": 124699475968,
+          "activeMediaJobs": 1
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "id": "render_034519db_final_v1",
+    "kind": "template-render",
+    "state": "succeeded",
+    "attempt": 1,
+    "error": null,
+    "previewOnly": false,
+    "ranges": null,
+    "readyFrames": 0,
+    "readyFiles": 17,
+    "spans": [
+      {
+        "schemaVersion": 1,
+        "event": "media_span_finished",
+        "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+        "renderRequestId": "render_034519db_final_v1",
+        "sourceDigest": "062bf6e3f9cc5431262a48a70553e243b906523878caac66bb7feef7637e2499",
+        "stage": "media_job",
+        "spanId": "2f69240e-c087-4ba7-a525-fb9cc2577870",
+        "parentSpanId": null,
+        "startedAt": "2026-10-16T03:21:25.703Z",
+        "endedAt": "2026-10-16T03:26:26.466Z",
+        "durationMs": 300763.3839350003,
+        "result": "succeeded",
+        "clock": {
+          "processInstanceId": "0d6fcb98-7ea8-4671-8e4e-a6785f8b1d01",
+          "startedMonotonicMs": 2758785.771653,
+          "endedMonotonicMs": 3059549.155588
+        },
+        "resources": {
+          "scope": "node_process_including_concurrent_work_excluding_children",
+          "cpuUserMs": 95605.344,
+          "cpuSystemMs": 29761.83,
+          "childProcesses": {
+            "scope": "sampled_chrome_ffmpeg_descendants_including_concurrent_work",
+            "available": true,
+            "intervalMs": 1000,
+            "samples": 301,
+            "observedProcessCount": 201,
+            "observedCpuMs": 9243000,
+            "peakCombinedRssBytes": 18054148096,
+            "accounting": "sampled_lower_bound_short_lived_processes_may_be_missed"
+          },
+          "cpuPercentOfOneCore": 41.68299091457683,
+          "rssStartBytes": 399994880,
+          "rssEndBytes": 394121216,
+          "processLifetimePeakRssBytes": 885784576,
+          "fileSystemReadOperations": 0,
+          "fileSystemWriteOperations": 412640,
+          "ioAccounting": "resourceUsage_platform_dependent_zero_may_be_unavailable",
+          "ioWaitMs": null,
+          "hostFreeMemoryStartBytes": 125268013056,
+          "hostFreeMemoryEndBytes": 125257318400,
+          "processAvailableMemoryEndBytes": 125257318400,
+          "activeMediaJobs": 1
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "id": "reviewframes_034519db_pre_v1",
+    "kind": "frame-preview",
+    "state": "failed",
+    "attempt": 1,
+    "error": "Error: TASK_LAYOUT_INVALID：文字溢出：contrast-+3.2%：+3.2% (240×82/240×100)；文字溢出：contrast-+48%：+48% (216×82/216×100)",
+    "previewOnly": false,
+    "ranges": null,
+    "readyFrames": 0,
+    "readyFiles": 0,
+    "spans": [
+      {
+        "schemaVersion": 1,
+        "event": "media_span_finished",
+        "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+        "renderRequestId": "reviewframes_034519db_pre_v1",
+        "sourceDigest": null,
+        "stage": "media_job",
+        "spanId": "bc98c7d2-cb0d-4295-90d4-4964d748aacf",
+        "parentSpanId": null,
+        "startedAt": "2026-10-16T03:03:27.808Z",
+        "endedAt": "2026-10-16T03:03:47.027Z",
+        "durationMs": 19218.02289599995,
+        "result": "failed",
+        "clock": {
+          "processInstanceId": "0d6fcb98-7ea8-4671-8e4e-a6785f8b1d01",
+          "startedMonotonicMs": 1680891.154239,
+          "endedMonotonicMs": 1700109.177135
+        },
+        "resources": {
+          "scope": "node_process_including_concurrent_work_excluding_children",
+          "cpuUserMs": 33709.663,
+          "cpuSystemMs": 2512.243,
+          "childProcesses": {
+            "scope": "sampled_chrome_ffmpeg_descendants_including_concurrent_work",
+            "available": true,
+            "intervalMs": 1000,
+            "samples": 12,
+            "observedProcessCount": 7,
+            "observedCpuMs": 0,
+            "peakCombinedRssBytes": 690962432,
+            "accounting": "sampled_lower_bound_short_lived_processes_may_be_missed"
+          },
+          "cpuPercentOfOneCore": 188.4788367462048,
+          "rssStartBytes": 201850880,
+          "rssEndBytes": 683393024,
+          "processLifetimePeakRssBytes": 812699648,
+          "fileSystemReadOperations": 0,
+          "fileSystemWriteOperations": 610016,
+          "ioAccounting": "resourceUsage_platform_dependent_zero_may_be_unavailable",
+          "ioWaitMs": null,
+          "hostFreeMemoryStartBytes": 125604302848,
+          "hostFreeMemoryEndBytes": 124699615232,
+          "processAvailableMemoryEndBytes": 124699615232,
+          "activeMediaJobs": 1
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "id": "preview_034519db_pre_v1",
+    "kind": "template-render",
+    "state": "succeeded",
+    "attempt": 1,
+    "error": null,
+    "previewOnly": true,
+    "ranges": [
+      {
+        "id": "opening_story",
+        "fromFrame": 0,
+        "toFrame": 497
+      },
+      {
+        "id": "business_mix_motion",
+        "fromFrame": 3920,
+        "toFrame": 4653
+      },
+      {
+        "id": "watchpoints_motion",
+        "fromFrame": 4653,
+        "toFrame": 5400
+      }
+    ],
+    "readyFrames": 0,
+    "readyFiles": 3,
+    "spans": [
+      {
+        "schemaVersion": 1,
+        "event": "media_span_finished",
+        "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+        "renderRequestId": "preview_034519db_pre_v1",
+        "sourceDigest": "062bf6e3f9cc5431262a48a70553e243b906523878caac66bb7feef7637e2499",
+        "stage": "media_job",
+        "spanId": "9f67cfe9-fa64-4210-a9c3-a53b564c361d",
+        "parentSpanId": null,
+        "startedAt": "2026-10-16T03:09:48.901Z",
+        "endedAt": "2026-10-16T03:11:46.492Z",
+        "durationMs": 117590.74707300006,
+        "result": "succeeded",
+        "clock": {
+          "processInstanceId": "0d6fcb98-7ea8-4671-8e4e-a6785f8b1d01",
+          "startedMonotonicMs": 2061983.719657,
+          "endedMonotonicMs": 2179574.46673
+        },
+        "resources": {
+          "scope": "node_process_including_concurrent_work_excluding_children",
+          "cpuUserMs": 22693.682,
+          "cpuSystemMs": 8772.321,
+          "childProcesses": {
+            "scope": "sampled_chrome_ffmpeg_descendants_including_concurrent_work",
+            "available": true,
+            "intervalMs": 1000,
+            "samples": 119,
+            "observedProcessCount": 42,
+            "observedCpuMs": 2276000,
+            "peakCombinedRssBytes": 9410256896,
+            "accounting": "sampled_lower_bound_short_lived_processes_may_be_missed"
+          },
+          "cpuPercentOfOneCore": 26.758910699381794,
+          "rssStartBytes": 358645760,
+          "rssEndBytes": 377311232,
+          "processLifetimePeakRssBytes": 885784576,
+          "fileSystemReadOperations": 0,
+          "fileSystemWriteOperations": 114200,
+          "ioAccounting": "resourceUsage_platform_dependent_zero_may_be_unavailable",
+          "ioWaitMs": null,
+          "hostFreeMemoryStartBytes": 125297881088,
+          "hostFreeMemoryEndBytes": 125088190464,
+          "processAvailableMemoryEndBytes": 125088190464,
+          "activeMediaJobs": 1
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "id": "preview_034519db_profit_v1",
+    "kind": "template-render",
+    "state": "succeeded",
+    "attempt": 1,
+    "error": null,
+    "previewOnly": true,
+    "ranges": [
+      {
+        "id": "profitability_terminal_value",
+        "fromFrame": 2450,
+        "toFrame": 3181
+      }
+    ],
+    "readyFrames": 0,
+    "readyFiles": 1,
+    "spans": [
+      {
+        "schemaVersion": 1,
+        "event": "media_span_finished",
+        "runId": "034519db-60cf-4d90-94a2-263b04b1d9e6",
+        "renderRequestId": "preview_034519db_profit_v1",
+        "sourceDigest": "062bf6e3f9cc5431262a48a70553e243b906523878caac66bb7feef7637e2499",
+        "stage": "media_job",
+        "spanId": "a7b48e98-06fc-48b0-8e7e-2eda506c42e0",
+        "parentSpanId": null,
+        "startedAt": "2026-10-16T03:12:25.143Z",
+        "endedAt": "2026-10-16T03:14:20.644Z",
+        "durationMs": 115501.05042700004,
+        "result": "succeeded",
+        "clock": {
+          "processInstanceId": "0d6fcb98-7ea8-4671-8e4e-a6785f8b1d01",
+          "startedMonotonicMs": 2218225.853925,
+          "endedMonotonicMs": 2333726.904352
+        },
+        "resources": {
+          "scope": "node_process_including_concurrent_work_excluding_children",
+          "cpuUserMs": 20985.92,
+          "cpuSystemMs": 5043.619,
+          "childProcesses": {
+            "scope": "sampled_chrome_ffmpeg_descendants_including_concurrent_work",
+            "available": true,
+            "intervalMs": 1000,
+            "samples": 117,
+            "observedProcessCount": 21,
+            "observedCpuMs": 913000,
+            "peakCombinedRssBytes": 3237834752,
+            "accounting": "sampled_lower_bound_short_lived_processes_may_be_missed"
+          },
+          "cpuPercentOfOneCore": 22.536192444805,
+          "rssStartBytes": 359477248,
+          "rssEndBytes": 399994880,
+          "processLifetimePeakRssBytes": 885784576,
+          "fileSystemReadOperations": 0,
+          "fileSystemWriteOperations": 91272,
+          "ioAccounting": "resourceUsage_platform_dependent_zero_may_be_unavailable",
+          "ioWaitMs": null,
+          "hostFreeMemoryStartBytes": 125376708608,
+          "hostFreeMemoryEndBytes": 125222006784,
+          "processAvailableMemoryEndBytes": 125222006784,
+          "activeMediaJobs": 1
+        },
+        "metadata": {}
+      }
+    ]
+  }
+]

@@ -1,0 +1,84 @@
+{
+  "reviewId": "c47cbe22-9cbe-4196-8646-5af072942200",
+  "results": [
+    {
+      "assignmentToken": "deeca3f6-2bac-4c2d-98b4-ece1d62d34e2",
+      "observations": [
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-f2c179798bc914e8baa0c70f",
+          "note": "首眼落在大块空面板；可读到‘营收与扣非净利润增速反差’，但此静帧尚无数字内容，无法由静帧判断空面板持续多久。"
+        },
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-504fa3b29a9ff0f1aa590a1a",
+          "note": "两组醒目的 +3.2% 与 +48% 很快建立反差，分别标为营业收入和扣非净利润；本帧没有标出统计期间或比较口径。"
+        },
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-46ef16791421b55ce8121669",
+          "note": "底部句子把两项增长数字连成一句比较，易读；画面仍未标明两项数字各自对应的期间。"
+        },
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-6ef6cf6dc65c604fc2f7cab3",
+          "note": "视线从数值反差转到‘这笔利润是从哪来的？’，问题与右上‘扣非净利润增速明显高于收入增速’相呼应，提出了继续追问的方向。"
+        },
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-fbb9df1e4cb0533160831749",
+          "note": "问句留在数据卡中央，同时出现‘财报揭秘室，揭开数据背后的真问题’；底部导航显示将从数据反差转入公司概况，作为内容转场可辨。"
+        },
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-4b87f035045ff3268c8bccf4",
+          "note": "新段落落到‘浩欧博的业务与营收’，先以‘本期企业 浩欧博’点明对象，字幕说明接下来介绍业务及上半年经营状态。"
+        },
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-5e5dc7825d5245d775ac08fc",
+          "note": "公司名连接到‘体外诊断试剂’企业类型，字幕补充其主要做过敏和自身免疫两个检测领域；对象关系容易读出。"
+        },
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-0a051a23d1c68dde1e764517",
+          "note": "自免检测赛道连到‘长期由进口品牌主导’，公司节点连到‘少数做到规模化生产的厂商之一’；字幕逐项说明行业背景与公司位置。"
+        },
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-b1523c44808ae0045ecb2565",
+          "note": "出现上半年营收 2 亿元、同比 +3.2%，并将其放在‘行业整体承压’框内；此处明确了 +3.2% 的上半年同比口径，也让开头的收入增速得到回看线索。"
+        },
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-48c0e1b76d322c62bc945e79",
+          "note": "全屏章节卡写明‘下期需要验证的三个问题’，清楚标出这是面向后续的验证段落。"
+        },
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-f3d9b428d3e7a8fde9da82df",
+          "note": "第一条已讲证据‘上半年营收同比 +3.2%’连接到待验证问题；右侧问题较暗，02、03行尚空。由于下一张静帧中它们已完整显现，单张图不能判断该中间状态停留多久。"
+        },
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-4e60b7c0f850eaec593cbba3",
+          "note": "三条证据分别连接到收入增速、股份支付费用和单季利润的后续问题，字幕点出第三项；作为结尾前的待跟进清单，三项关系可读。"
+        },
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-fce7510ceaf95abd8fd497a3",
+          "note": "最后回到‘财报揭秘室’品牌标识及‘原创财经解读栏目’，结束识别明确；静帧不能判断片尾停留和声音收尾。"
+        }
+      ],
+      "issues": [
+        {
+          "checkId": "first_view_sequence",
+          "evidenceId": "ev-504fa3b29a9ff0f1aa590a1a",
+          "severity": "warning",
+          "problem": "开篇用 +3.2% 与 +48% 直接构成关键反差，但这张统计卡没有注明期间或比较口径。首次阅读能看出扣非净利润增速更高，却无法判断两数对应的时间范围；后续静帧只明确了收入 +3.2% 为上半年同比，未在本检查静帧中看到 +48% 的期间口径。"
+        }
+      ],
+      "status": "complete"
+    }
+  ]
+}

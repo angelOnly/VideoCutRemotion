@@ -1,0 +1,80 @@
+{
+  "reviewId": "c47cbe22-9cbe-4196-8646-5af072942200",
+  "results": [
+    {
+      "assignmentToken": "c85d4636-66fd-42a3-b428-aaa0aae576ba",
+      "observations": [
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-32909602dd705b8c4abd572d",
+          "note": "费用端标题为“利润增量来自费用节省”，主画区只显示“来源？”，未见图表数值；底部字幕问“这48%是怎么增出来的？”，辅助说明为“股份支付与研发费用贡献约七成增量”。"
+        },
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-c79aa3729913187d803ba31c",
+          "note": "主画区显示“是省出来的”；底部字幕说明利润总额同比多出的部分里，四成多来自股份支付费用减少、三成多来自研发费用压缩；画面数值分解尚未出现。"
+        },
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-6f0d5c658e537871fd45c628",
+          "note": "分解图将“费用节省贡献约七成”连到“股份支付费用减少 四成多”和“研发费用压缩 三成多”；标签层级清楚，字形可读。"
+        },
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-6ae78f8d814b1b946443233f",
+          "note": "“研发费用率”图示标出11.3%到10.1%，下降箭头清楚；旁注写“非现金支出 / 跟经营好坏无关”。"
+        },
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-2471c31176f02e15bfd8d3f1",
+          "note": "中央数字显示收入+3.2%、营业利润率+2.5个百分点；底部字幕显示毛利率从59.2%升到60.3%。左侧“收入与营业成本”“营业成本 7764.8万元 / 基本持平”等图表文字在该帧对比度很低。"
+        },
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-bde3716be1b33cc26c635a24",
+          "note": "收入+3.2%、营业成本7764.8万元并标注基本持平；毛利率行显示59.2%和指向右侧的箭头，底部字幕给出60.3%。"
+        },
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-cd399bfb566f03f87762faf1",
+          "note": "毛利率完整显示59.2%到60.3%；三项费用图注明“同一刻度·万元”，刻度为0、2,500、5,000，销售费用数值为4524。"
+        },
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-ac852ffb22f5754798bf4c75",
+          "note": "费用图显示销售费用4524、管理费用3192、研发费用1977（万元），共享0至5000刻度；毛利率显示59.2%到60.3%。营业利润率行显示6.2%及“从—到”箭头，右侧目标数值未显示；底部字幕写从6.2%升到8.7%。"
+        },
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-d4fd6a5854a3b83847447037",
+          "note": "现金流图注明单位为万元、两项共用0基线；经营现金流净额为3728.6且标同比+60.2%，同期归母净利润行此帧尚未显示数值。"
+        },
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-3d217de2ee4494242656698b",
+          "note": "共用0基线的两项金额显示经营现金流净额3728.6、同期归母净利润1667.8（万元）；底部字幕显示同比增长60.2%。"
+        },
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-d9fe47c4a40ea9e93f9a67e1",
+          "note": "图中经营现金流净额3728.6与同期归母净利润1667.8（万元）并排，标注净现比2.2倍；数值、单位和说明清楚可读。"
+        }
+      ],
+      "issues": [
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-2471c31176f02e15bfd8d3f1",
+          "severity": "warning",
+          "problem": "该帧中左侧“收入与营业成本”及营业成本7764.8万元等关键图表文字与深色底板对比度很低，难以辨读；收入增幅和利润率增幅仍清楚。"
+        },
+        {
+          "checkId": "quantitative_evidence_readability",
+          "evidenceId": "ev-ac852ffb22f5754798bf4c75",
+          "severity": "warning",
+          "problem": "营业利润率比较行只显示起点6.2%，箭头终点一侧仅见“到”而无目标数值；同帧字幕给出8.7%，但图表本身未呈现该终值。"
+        }
+      ],
+      "status": "complete"
+    }
+  ]
+}

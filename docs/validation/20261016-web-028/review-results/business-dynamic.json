@@ -1,0 +1,107 @@
+{
+  "reviewId": "f10d3cfb-c9f5-4d5a-9f75-dd0ea5bd7e63",
+  "results": [
+    {
+      "assignmentToken": "67b53442-d072-4fa8-96a4-a8a71a6ee2e7",
+      "observations": [
+        {
+          "checkId": "business_phrase_graph_sync",
+          "evidenceId": "ev-dea5cbb1f0d04a228eb6149a",
+          "range": { "fromFrame": 4070, "toFrame": 4071 },
+          "note": "抽样帧字幕已说明脱敏药收入同比增长116.8%，图表仍为空。只检查了指定 MP4 的离散画面帧，未能连续查看或接收音频；旁白时点未知。"
+        },
+        {
+          "checkId": "business_phrase_graph_sync",
+          "evidenceId": "ev-dea5cbb1f0d04a228eb6149a",
+          "range": { "fromFrame": 4130, "toFrame": 4131 },
+          "note": "抽样帧中脱敏药·欧脱克+116.8%横条和字幕数值同时可见。"
+        },
+        {
+          "checkId": "business_phrase_graph_sync",
+          "evidenceId": "ev-dea5cbb1f0d04a228eb6149a",
+          "range": { "fromFrame": 4280, "toFrame": 4281 },
+          "note": "抽样帧字幕已说明境外诊断收入增长38.1%，图表仍只显示脱敏药·欧脱克+116.8%一行。"
+        },
+        {
+          "checkId": "business_phrase_graph_sync",
+          "evidenceId": "ev-dea5cbb1f0d04a228eb6149a",
+          "range": { "fromFrame": 4325, "toFrame": 4326 },
+          "note": "抽样帧中境外诊断+38.1%第二行已显示，字幕仍对应境外诊断收入增长38.1%。"
+        },
+        {
+          "checkId": "business_phrase_graph_sync",
+          "evidenceId": "ev-dea5cbb1f0d04a228eb6149a",
+          "range": { "fromFrame": 4500, "toFrame": 4501 },
+          "note": "抽样帧字幕已说明国内诊断收入微降0.5%，图表可见脱敏药+116.8%及境外诊断+38.1%，国内诊断行尚未显示。"
+        },
+        {
+          "checkId": "business_phrase_graph_sync",
+          "evidenceId": "ev-dea5cbb1f0d04a228eb6149a",
+          "range": { "fromFrame": 4530, "toFrame": 4531 },
+          "note": "抽样帧中国内诊断-0.5%及前两行数值均显示，字幕与可见图表一致。"
+        },
+        {
+          "checkId": "watchpoint_build_sync",
+          "evidenceId": "ev-c8d3592ad0ac68443e3b943d",
+          "range": { "fromFrame": 4893, "toFrame": 4894 },
+          "note": "抽样帧显示应收账款占收入去年14.4%、本期14.7%，下方说明回款节奏基本稳定。"
+        },
+        {
+          "checkId": "watchpoint_build_sync",
+          "evidenceId": "ev-c8d3592ad0ac68443e3b943d",
+          "range": { "fromFrame": 5013, "toFrame": 5014 },
+          "note": "抽样帧中应收账款14.4%至14.7%及回款说明仍可见，研发和账面状态栏尚无数值。"
+        },
+        {
+          "checkId": "watchpoint_build_sync",
+          "evidenceId": "ev-c8d3592ad0ac68443e3b943d",
+          "range": { "fromFrame": 5133, "toFrame": 5134 },
+          "note": "抽样帧显示应收账款14.4%至14.7%和研发再投资率19.1%至16.7%；字幕说明研发再投资率下降，与第二栏对应。"
+        },
+        {
+          "checkId": "watchpoint_build_sync",
+          "evidenceId": "ev-c8d3592ad0ac68443e3b943d",
+          "range": { "fromFrame": 5253, "toFrame": 5254 },
+          "note": "抽样帧中应收账款与研发两栏数值和各自简短说明均可见，第三栏仍未显示商誉状态。"
+        },
+        {
+          "checkId": "watchpoint_build_sync",
+          "evidenceId": "ev-c8d3592ad0ac68443e3b943d",
+          "range": { "fromFrame": 5313, "toFrame": 5314 },
+          "note": "抽样帧中三栏均已显示，包括账面状态“商誉 无”；字幕说明没有并购留下的减值风险。"
+        },
+        {
+          "checkId": "watchpoint_build_sync",
+          "evidenceId": "ev-c8d3592ad0ac68443e3b943d",
+          "range": { "fromFrame": 5373, "toFrame": 5374 },
+          "note": "抽样帧仍显示三栏全部指标及账面状态“商誉 无”，字幕仍对应商誉与减值风险说明。只检查了离散帧，无法判断实际阅读时长或旁白同步。"
+        }
+      ],
+      "issues": [],
+      "issueResolutions": [
+        {
+          "issueId": "55fc0739b1110a9de8df64c7d20803f968843bf481342fa650f737c72e92da32",
+          "resolution": "retained",
+          "note": "抽样帧4070仍见脱敏药+116.8%字幕而图表为空；后续抽样帧4130才见对应横条。仅能确认字幕和图表画面的先后错位，音频同步未知。",
+          "evidenceId": "ev-dea5cbb1f0d04a228eb6149a",
+          "checkId": "business_phrase_graph_sync"
+        },
+        {
+          "issueId": "c7f0e7c624f2b2d743f396abf1c3b8b0994fb6691000e5c895614d944ba44bde",
+          "resolution": "retained",
+          "note": "抽样帧4280见境外诊断+38.1%字幕但图表只有脱敏药一行；后续抽样帧4325才见境外诊断横条。音频同步未知。",
+          "evidenceId": "ev-dea5cbb1f0d04a228eb6149a",
+          "checkId": "business_phrase_graph_sync"
+        },
+        {
+          "issueId": "26e6f12d841f15f602cba6dfbf0f5a3fdab34cb50fca14664912edf403236152",
+          "resolution": "retained",
+          "note": "抽样帧4500见国内诊断-0.5%字幕时图表仍只有前两行；后续抽样帧4530才见国内诊断行。音频同步未知。",
+          "evidenceId": "ev-dea5cbb1f0d04a228eb6149a",
+          "checkId": "business_phrase_graph_sync"
+        }
+      ],
+      "status": "partial"
+    }
+  ]
+}

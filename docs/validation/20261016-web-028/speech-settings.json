@@ -1,0 +1,10 @@
+{
+  "speedCounts": {
+    "1": 33
+  },
+  "voiceRefs": [
+    "finance.female",
+    "finance.male"
+  ],
+  "说明": "未进行1.5倍配音或后期变速；1.5x设置作用于Codex Fast档"
+}

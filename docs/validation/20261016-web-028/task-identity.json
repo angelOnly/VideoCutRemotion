@@ -1,0 +1,15 @@
+{
+  "webTaskId": "38fac33ffc2845a3beadcf048b5ff974",
+  "title": "浩欧博2026中报｜GPT6Luna极高Fast两阶段测试｜20261016",
+  "taskKey": "8c1920d4-5467-43ba-abab-b2a2855b635e",
+  "analysisRunId": "588ae75f-4f67-45c1-8bde-d029d90cebd7",
+  "templateId": 21,
+  "templateVersion": "2.0.11",
+  "pluginVersion": "0.1.28",
+  "model": "gpt-6-luna",
+  "reasoningEffort": "xhigh",
+  "serviceTier": "priority",
+  "codexVersion": "0.163.0",
+  "speechSpeed": "保持原速",
+  "renderRunId": "034519db-60cf-4d90-94a2-263b04b1d9e6"
+}

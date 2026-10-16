@@ -1,0 +1,66 @@
+{
+  "reviewId": "c47cbe22-9cbe-4196-8646-5af072942200",
+  "results": [
+    {
+      "assignmentToken": "bd11e294-2411-483c-a435-dd1f0d2f43aa",
+      "observations": [
+        {
+          "checkId": "business_and_risk_evidence",
+          "evidenceId": "ev-078001c79366daba70018fa4",
+          "note": "图表仅显示“收入同比变化率”及0%、+50%、+100%刻度，没有业务行或数值；下方字幕已写脱敏药同比增116.8%、境外增长、国内诊断微降。免责声明在画面底部，中文字形清晰。"
+        },
+        {
+          "checkId": "business_and_risk_evidence",
+          "evidenceId": "ev-bb538df6d88254cea7bcfbe2",
+          "note": "图表只显示脱敏药·欧脱克+116.8%一行；字幕已说明境外诊断增长38.1%及政策区域，该项数值尚未在图表中显示。文字清晰，免责声明可见。"
+        },
+        {
+          "checkId": "business_and_risk_evidence",
+          "evidenceId": "ev-31e1648d9b8e3def11faa36a",
+          "note": "图表显示脱敏药·欧脱克+116.8%、境外诊断+38.1%及政策区域；字幕已说明国内诊断收入微降0.5%，对应数值行尚未显示。文字清晰，免责声明可见。"
+        },
+        {
+          "checkId": "business_and_risk_evidence",
+          "evidenceId": "ev-618856f3badb63c9e2b36abf",
+          "note": "三项观察栏中仅应收账款占收入一栏显示去年14.4%到本期14.7%；字幕说明14.7%与去年14.4%持平，回款节奏基本稳定，对应可见。其余两栏此帧为空。数字和中文字形清楚。"
+        },
+        {
+          "checkId": "business_and_risk_evidence",
+          "evidenceId": "ev-3faaa1981430b7f6b87cc38e",
+          "note": "应收账款占收入栏显示14.4%到14.7%，字幕仍对应回款节奏基本稳定；研发和账面状态栏此帧为空。字幕未遮住可见数值，字形清楚。"
+        },
+        {
+          "checkId": "business_and_risk_evidence",
+          "evidenceId": "ev-25f239f38fef2ad1ba408146",
+          "note": "应收账款栏显示14.4%到14.7%，研发再投资率栏显示19.1%下降至16.7%，向下箭头和字幕所说的研发投入下降一致；账面状态栏此帧为空。数字、箭头和中文字形清楚。"
+        },
+        {
+          "checkId": "business_and_risk_evidence",
+          "evidenceId": "ev-f2377659687ef9143dd48dd5",
+          "note": "三栏分别显示应收账款占收入14.4%到14.7%、研发再投资率19.1%到16.7%、账面状态商誉“无”。字幕提到没有并购留下的减值风险。三栏分隔清楚，文字与数字均可辨；底部免责声明可见。"
+        }
+      ],
+      "issues": [
+        {
+          "checkId": "business_and_risk_evidence",
+          "evidenceId": "ev-078001c79366daba70018fa4",
+          "severity": "warning",
+          "problem": "字幕列举脱敏药+116.8%、境外增长和国内诊断微降时，图表仍没有业务行或数值，观者无法从主图核对这些增长差异。"
+        },
+        {
+          "checkId": "business_and_risk_evidence",
+          "evidenceId": "ev-bb538df6d88254cea7bcfbe2",
+          "severity": "warning",
+          "problem": "字幕已说境外诊断同比增长38.1%，但图表此帧仅显示脱敏药·欧脱克+116.8%，境外诊断数据行尚不可见；字幕与当前图表主信息错位。"
+        },
+        {
+          "checkId": "business_and_risk_evidence",
+          "evidenceId": "ev-31e1648d9b8e3def11faa36a",
+          "severity": "warning",
+          "problem": "字幕已说国内诊断收入同比微降0.5%，但图表此帧只显示脱敏药+116.8%与境外诊断+38.1%，国内诊断行尚不可见，无法在当前主图核对。"
+        }
+      ],
+      "status": "complete"
+    }
+  ]
+}

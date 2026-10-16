@@ -1,0 +1,129 @@
+[
+  {
+    "file": "business-dynamic.json",
+    "results": [
+      {
+        "status": "partial",
+        "issues": [],
+        "issueResolutions": [
+          {
+            "issueId": "55fc0739b1110a9de8df64c7d20803f968843bf481342fa650f737c72e92da32",
+            "resolution": "retained",
+            "note": "抽样帧4070仍见脱敏药+116.8%字幕而图表为空；后续抽样帧4130才见对应横条。仅能确认字幕和图表画面的先后错位，音频同步未知。",
+            "evidenceId": "ev-dea5cbb1f0d04a228eb6149a",
+            "checkId": "business_phrase_graph_sync"
+          },
+          {
+            "issueId": "c7f0e7c624f2b2d743f396abf1c3b8b0994fb6691000e5c895614d944ba44bde",
+            "resolution": "retained",
+            "note": "抽样帧4280见境外诊断+38.1%字幕但图表只有脱敏药一行；后续抽样帧4325才见境外诊断横条。音频同步未知。",
+            "evidenceId": "ev-dea5cbb1f0d04a228eb6149a",
+            "checkId": "business_phrase_graph_sync"
+          },
+          {
+            "issueId": "26e6f12d841f15f602cba6dfbf0f5a3fdab34cb50fca14664912edf403236152",
+            "resolution": "retained",
+            "note": "抽样帧4500见国内诊断-0.5%字幕时图表仍只有前两行；后续抽样帧4530才见国内诊断行。音频同步未知。",
+            "evidenceId": "ev-dea5cbb1f0d04a228eb6149a",
+            "checkId": "business_phrase_graph_sync"
+          }
+        ],
+        "observationCount": 12
+      }
+    ]
+  },
+  {
+    "file": "business.json",
+    "results": [
+      {
+        "status": "complete",
+        "issues": [
+          {
+            "checkId": "business_and_risk_evidence",
+            "evidenceId": "ev-078001c79366daba70018fa4",
+            "severity": "warning",
+            "problem": "字幕列举脱敏药+116.8%、境外增长和国内诊断微降时，图表仍没有业务行或数值，观者无法从主图核对这些增长差异。"
+          },
+          {
+            "checkId": "business_and_risk_evidence",
+            "evidenceId": "ev-bb538df6d88254cea7bcfbe2",
+            "severity": "warning",
+            "problem": "字幕已说境外诊断同比增长38.1%，但图表此帧仅显示脱敏药·欧脱克+116.8%，境外诊断数据行尚不可见；字幕与当前图表主信息错位。"
+          },
+          {
+            "checkId": "business_and_risk_evidence",
+            "evidenceId": "ev-31e1648d9b8e3def11faa36a",
+            "severity": "warning",
+            "problem": "字幕已说国内诊断收入同比微降0.5%，但图表此帧只显示脱敏药+116.8%与境外诊断+38.1%，国内诊断行尚不可见，无法在当前主图核对。"
+          }
+        ],
+        "issueResolutions": [],
+        "observationCount": 7
+      }
+    ]
+  },
+  {
+    "file": "first-view-dynamic.json",
+    "results": [
+      {
+        "status": "partial",
+        "issues": [],
+        "issueResolutions": [],
+        "observationCount": 0
+      }
+    ]
+  },
+  {
+    "file": "first-view.json",
+    "results": [
+      {
+        "status": "complete",
+        "issues": [
+          {
+            "checkId": "first_view_sequence",
+            "evidenceId": "ev-504fa3b29a9ff0f1aa590a1a",
+            "severity": "warning",
+            "problem": "开篇用 +3.2% 与 +48% 直接构成关键反差，但这张统计卡没有注明期间或比较口径。首次阅读能看出扣非净利润增速更高，却无法判断两数对应的时间范围；后续静帧只明确了收入 +3.2% 为上半年同比，未在本检查静帧中看到 +48% 的期间口径。"
+          }
+        ],
+        "issueResolutions": [],
+        "observationCount": 13
+      }
+    ]
+  },
+  {
+    "file": "numeric.json",
+    "results": [
+      {
+        "status": "complete",
+        "issues": [
+          {
+            "checkId": "quantitative_evidence_readability",
+            "evidenceId": "ev-2471c31176f02e15bfd8d3f1",
+            "severity": "warning",
+            "problem": "该帧中左侧“收入与营业成本”及营业成本7764.8万元等关键图表文字与深色底板对比度很低，难以辨读；收入增幅和利润率增幅仍清楚。"
+          },
+          {
+            "checkId": "quantitative_evidence_readability",
+            "evidenceId": "ev-ac852ffb22f5754798bf4c75",
+            "severity": "warning",
+            "problem": "营业利润率比较行只显示起点6.2%，箭头终点一侧仅见“到”而无目标数值；同帧字幕给出8.7%，但图表本身未呈现该终值。"
+          }
+        ],
+        "issueResolutions": [],
+        "observationCount": 11
+      }
+    ]
+  },
+  {
+    "file": "profitability-dynamic.json",
+    "results": [
+      {
+        "status": "partial",
+        "issues": [],
+        "issueResolutions": [],
+        "observationCount": 13
+      }
+    ]
+  }
+]

@@ -1,0 +1,90 @@
+{
+  "reviewId": "f10d3cfb-c9f5-4d5a-9f75-dd0ea5bd7e63",
+  "results": [
+    {
+      "assignmentToken": "878f868a-b470-4386-8f62-72c4e4256b2a",
+      "observations": [
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 2450, "toFrame": 2451},
+          "note": "单帧抽样：左侧收入与营业成本栏及中间收入/营业利润率数字呈低对比度；底部字幕清晰显示毛利率59.2%升到60.3%。仅据此帧不能判断低对比度状态持续多久。"
+        },
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 2465, "toFrame": 2466},
+          "note": "单帧抽样：左侧收入+3.2%、营业成本7764.8万元及“基本持平”可读；中央此前出现的两项大数字已不显示。抽样间隔不能确定两种画面间的精确时长。"
+        },
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 2600, "toFrame": 2601},
+          "note": "单帧抽样：毛利率行显示59.2%和指向右侧的箭头，终值未显示；字幕写“毛利率从59.2%升到60.3%”。未连续观看该箭头的绘制过程。"
+        },
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 2615, "toFrame": 2616},
+          "note": "单帧抽样：毛利率59.2%右侧箭头更长，右端仍无数值；字幕仍显示终值60.3%。"
+        },
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 2630, "toFrame": 2631},
+          "note": "单帧抽样：毛利率行仍显示59.2%及未标数值的右侧箭头；字幕给出60.3%。"
+        },
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 3050, "toFrame": 3051},
+          "note": "单帧抽样：毛利率比较为59.2%到60.3%，三项费用图表已显示；营业利润率行尚未出现。底部字幕已写营业利润率从6.2%升到8.7%。"
+        },
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 3080, "toFrame": 3081},
+          "note": "单帧抽样：营业利润率图表行出现，显示6.2%起点、向右箭头和空白终点；字幕同时写从6.2%升到8.7%。"
+        },
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 3095, "toFrame": 3096},
+          "note": "单帧抽样：营业利润率图仍显示6.2%起点，终点空白；字幕显示终值8.7%。"
+        },
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 3110, "toFrame": 3111},
+          "note": "单帧抽样：营业利润率图仍为6.2%及空白终点，箭头延伸至右侧；字幕仍显示8.7%。"
+        },
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 3125, "toFrame": 3126},
+          "note": "单帧抽样：营业利润率图表右侧终点仍未显示数字；字幕仍写从6.2%升到8.7%。"
+        },
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 3140, "toFrame": 3141},
+          "note": "单帧抽样：营业利润率图表右侧已显示8.7%，与字幕中的8.7%一致；未实际听取音轨，无法判断数值出现是否跟随口播。"
+        },
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 3155, "toFrame": 3156},
+          "note": "单帧抽样：营业利润率6.2%到8.7%完整显示，字幕仍标示同一变化；口播同步未知。"
+        },
+        {
+          "checkId": "profitability_terminal_sync",
+          "evidenceId": "ev-d9188d55d6c8e825b133f019",
+          "range": {"fromFrame": 3170, "toFrame": 3171},
+          "note": "单帧抽样：营业利润率6.2%到8.7%保持可见，字幕仍显示终值8.7%；口播同步未知。"
+        }
+      ],
+      "issues": [],
+      "status": "partial"
+    }
+  ]
+}
