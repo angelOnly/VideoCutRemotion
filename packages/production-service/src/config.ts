@@ -34,6 +34,7 @@ export function readProductionConfig(){
     templateBase:required('CUSTOM_TEMPLATE_API_BASE_URL'),callbackBase:required('CALLBACK_BASE_URL'),callbackSecret:required('CALLBACK_SECRET'),
     mediaBase:required('MEDIA_PUBLIC_BASE_URL').replace(/\/$/,''),dependencyRoot:resolve(required('TEXTVIDEO_DEPENDENCY_ROOT')),
     codexExecutable:required('CODEX_EXECUTABLE'),codexHome:resolve(required('TEXTVIDEO_CODEX_HOME')),model:process.env.TEXTVIDEO_MODEL??'gpt-6-astra',
+    reasoningEffort:process.env.TEXTVIDEO_REASONING_EFFORT??'low',serviceTier:process.env.TEXTVIDEO_SERVICE_TIER,
     browser:process.env.REMOTION_BROWSER_EXECUTABLE,voicesPath:process.env.DOUBAO_VOICES_FILE,
     searchEnabled:process.env.TEXTVIDEO_NETWORK_SEARCH==='true',maxActiveRuns,renderConcurrency,speechConcurrency,speechPerRunConcurrency,
     ready:{codex:existsSync(required('CODEX_EXECUTABLE')),tts:Boolean(process.env.DOUBAO_API_KEY&&process.env.DOUBAO_VOICES_FILE),dependencies:existsSync(join(required('TEXTVIDEO_DEPENDENCY_ROOT'),'node_modules/remotion/package.json'))}
