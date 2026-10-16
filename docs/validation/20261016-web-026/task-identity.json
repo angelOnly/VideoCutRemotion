@@ -1,0 +1,11 @@
+{
+  "commit": "567840d",
+  "pluginVersion": "0.1.26",
+  "templateVersion": "2.0.10",
+  "customTemplateId": 20,
+  "webTaskId": "3fd8867c5abd42fa845f98db30e6ac6b",
+  "workerTaskKey": "e6f39779-e0ef-4f3d-9fc2-e42edd5ca43d",
+  "analysisRunId": "6eb601d1-1e69-4c21-a5a4-9a9049349259",
+  "renderRunId": "526d3528-cd0a-4a7a-9de6-debc2f413c0d",
+  "analysisMs": 62142
+}

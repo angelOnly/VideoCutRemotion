@@ -1,0 +1,69 @@
+{
+  "reviewId": "598f46ee-f096-4b25-b630-cfb0876104c0",
+  "results": [
+    {
+      "assignmentToken": "31633516-0343-472e-8eb2-e8ae4b5d4003",
+      "observations": [
+        {
+          "checkId": "ending-layout",
+          "evidenceId": "ev-53ffe45e3a3113e3de66603d",
+          "note": "帧4400：两条正增长共用0%、50%、100%轴，长度与116.8%、38.1%一致，明确收入同比增速及增长率不等于份额。国内行未揭示属建立中状态；字幕及包装无关键遮挡。116.8%加号贴近端点线。 已观察后对照shared-design及chapter_006/007/008设计；仅为该静帧结论，连续运动、阅读时长与实际声音未观察。"
+        },
+        {
+          "checkId": "ending-layout",
+          "evidenceId": "ev-2c101eeef117f57f1d8240b3",
+          "note": "帧4500：独立政策区域列显示海南自贸港、粤港澳大湾区及限定，不以箭头强加具体因果。两增长比较保持、主字幕完整；116.8%加号与端点线较紧。 已观察后对照shared-design及chapter_006/007/008设计；仅为该静帧结论，连续运动、阅读时长与实际声音未观察。"
+        },
+        {
+          "checkId": "ending-layout",
+          "evidenceId": "ev-431ca1a70c0855a55751698a",
+          "note": "帧4660：国内诊断-0.5%红色极短负条位于零线左侧，未夸张负值；三项比例、政策注记及字幕均可辨。 已观察后对照shared-design及chapter_006/007/008设计；仅为该静帧结论，连续运动、阅读时长与实际声音未观察。"
+        },
+        {
+          "checkId": "ending-layout",
+          "evidenceId": "ev-ed3013f1ac331a31ceb897f3",
+          "note": "帧5020：应收/收入去年14.4%、本期14.7%在0–20%轴接近端点呈现，数值清晰；研发另设一行待建立，不混分母。双行字幕完整未遮数据。 已观察后对照shared-design及chapter_006/007/008设计；仅为该静帧结论，连续运动、阅读时长与实际声音未观察。"
+        },
+        {
+          "checkId": "ending-layout",
+          "evidenceId": "ev-fcf7c1ed1a96040fcb3ece68",
+          "note": "帧5230：研发再投资率19.1%到16.7%在独立同尺度轴上向左变化，旧空心/新实心区分；应收比较保持。标题、数字、字幕无重叠。 已观察后对照shared-design及chapter_006/007/008设计；仅为该静帧结论，连续运动、阅读时长与实际声音未观察。"
+        },
+        {
+          "checkId": "ending-layout",
+          "evidenceId": "ev-3a0bc812833acbf004a1b888",
+          "note": "帧5480：两组比较完整，毛利投入研发比例下降注释与研发率对应；商誉0独立显示，限定为无并购留下的商誉减值风险。字幕沿确认原文；主图未扩大为无经营风险。 已观察后对照shared-design及chapter_006/007/008设计；仅为该静帧结论，连续运动、阅读时长与实际声音未观察。"
+        },
+        {
+          "checkId": "ending-layout",
+          "evidenceId": "ev-dc4434cd736a6607b31cf2a2",
+          "note": "帧5775：第一待验证问题完整，第二正在显现，第三仅编号；金色路线传递检查顺序，问号清楚，无已完成勾选。中途未见碰撞。 已观察后对照shared-design及chapter_006/007/008设计；仅为该静帧结论，连续运动、阅读时长与实际声音未观察。"
+        },
+        {
+          "checkId": "ending-layout",
+          "evidenceId": "ev-6994d031f7da31d545589304",
+          "note": "帧5880：三项待验证完整，1650万元明确第二季度单季利润且有能不能延续问句，不构成未来收益承诺。三列及字幕完整。 已观察后对照shared-design及chapter_006/007/008设计；仅为该静帧结论，连续运动、阅读时长与实际声音未观察。"
+        },
+        {
+          "checkId": "ending-layout",
+          "evidenceId": "ev-18af7b4c8191b363d31f4e86",
+          "note": "帧6050：每期3分钟结束语字幕出现时三问题完整保持，与设计保持要求一致；无新增数字或清空。 已观察后对照shared-design及chapter_006/007/008设计；仅为该静帧结论，连续运动、阅读时长与实际声音未观察。"
+        },
+        {
+          "checkId": "ending-layout",
+          "evidenceId": "ev-587c08564a38b29e0afef1e8",
+          "note": "帧6250：独立原片尾栏目标志居中完整，未见普通包装或字幕残留。只能证明此帧，不能证明片尾切口或听觉衔接。 已观察后对照shared-design及chapter_006/007/008设计；仅为该静帧结论，连续运动、阅读时长与实际声音未观察。"
+        }
+      ],
+      "issues": [
+        {
+          "checkId": "ending-layout",
+          "evidenceId": "ev-53ffe45e3a3113e3de66603d",
+          "severity": "suggestion",
+          "problem": "116.8%的加号紧贴条形终点竖线，视觉上接近相交；数值仍可读，可增加数值与端点间留白。4500及4660同样存在。"
+        }
+      ],
+      "status": "complete"
+    }
+  ]
+}

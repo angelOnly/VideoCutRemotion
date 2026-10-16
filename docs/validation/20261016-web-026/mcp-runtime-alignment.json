@@ -1,0 +1,49 @@
+{
+  "status": "ready",
+  "releaseId": "release-879a60b99f4003f22fc0239feec33cb2702ac539b8030c0f9b6da37665abbddc",
+  "pluginVersion": "0.1.26",
+  "skillsDigest": "fa3a7c47434b32de63c8b6c6a5fedb8d5ead63c9af3b05c7a075d0bdc171e960",
+  "configurationReady": true,
+  "productionReady": null,
+  "readinessScope": "configuration_only",
+  "dependencies": {
+    "codex": true,
+    "tts": true,
+    "dependencies": true
+  },
+  "capacity": {
+    "maxActiveRuns": 4,
+    "renderConcurrency": 3,
+    "mediaGlobalConcurrency": 24,
+    "mediaRunConcurrency": 6,
+    "mediaProcessConcurrency": 7,
+    "speechConcurrency": 20,
+    "speechPerRunConcurrency": 5,
+    "activeRuns": 1
+  },
+  "optimization": {
+    "renderStrategy": "scene-chunks",
+    "qaParallelReview": true,
+    "previewOnDemand": true
+  },
+  "capabilities": {
+    "localModels": false,
+    "networkSearch": false,
+    "lexicalMechanisms": true,
+    "reviewProtocol": 5,
+    "runtimeWait": true,
+    "sentenceAssembly": true,
+    "timelineContract": "sentence-timeline/1",
+    "derivedRenderRanges": true,
+    "directDelivery": true,
+    "reviewStorage": "sqlite",
+    "reviewIdentity": "coordinator_reported",
+    "reviewOrchestration": "codex_native",
+    "reviewFramePreparation": true,
+    "reviewSummary": true,
+    "reviewReportFiles": true,
+    "templateTimelineValidation": true
+  },
+  "mcpReleaseId": "release-879a60b99f4003f22fc0239feec33cb2702ac539b8030c0f9b6da37665abbddc",
+  "aligned": true
+}

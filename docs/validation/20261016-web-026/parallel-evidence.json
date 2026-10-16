@@ -1,0 +1,249 @@
+{
+  "authors": {
+    "/root/audio": [
+      {
+        "time": "2026-10-16T01:14:05.890Z",
+        "kind": "started",
+        "threadId": "01a14245-fe64-72a2-abb0-87a95b62ab00"
+      },
+      {
+        "time": "2026-10-16T01:15:14.746Z",
+        "kind": "interacted",
+        "threadId": "01a14245-fe64-72a2-abb0-87a95b62ab00"
+      },
+      {
+        "time": "2026-10-16T01:15:36.250Z",
+        "kind": "interacted",
+        "threadId": "01a14245-fe64-72a2-abb0-87a95b62ab00"
+      },
+      {
+        "time": "2026-10-16T01:15:48.292Z",
+        "kind": "completed",
+        "threadId": "01a14245-fe64-72a2-abb0-87a95b62ab00"
+      },
+      {
+        "time": "2026-10-16T01:16:18.320Z",
+        "kind": "interacted",
+        "threadId": "01a14245-fe64-72a2-abb0-87a95b62ab00"
+      },
+      {
+        "time": "2026-10-16T01:16:49.998Z",
+        "kind": "completed",
+        "threadId": "01a14245-fe64-72a2-abb0-87a95b62ab00"
+      }
+    ],
+    "/root/chapter1": [
+      {
+        "time": "2026-10-16T01:14:12.945Z",
+        "kind": "started",
+        "threadId": "01a14246-19f6-7c61-8191-c8046b683e3a"
+      },
+      {
+        "time": "2026-10-16T01:15:15.739Z",
+        "kind": "completed",
+        "threadId": "01a14246-19f6-7c61-8191-c8046b683e3a"
+      },
+      {
+        "time": "2026-10-16T01:15:21.252Z",
+        "kind": "interacted",
+        "threadId": "01a14246-19f6-7c61-8191-c8046b683e3a"
+      },
+      {
+        "time": "2026-10-16T01:15:57.598Z",
+        "kind": "interacted",
+        "threadId": "01a14246-19f6-7c61-8191-c8046b683e3a"
+      },
+      {
+        "time": "2026-10-16T01:16:28.312Z",
+        "kind": "completed",
+        "threadId": "01a14246-19f6-7c61-8191-c8046b683e3a"
+      }
+    ],
+    "/root/chapter2": [
+      {
+        "time": "2026-10-16T01:14:18.354Z",
+        "kind": "started",
+        "threadId": "01a14246-2f0e-7ba2-90a6-ab1bb488638a"
+      },
+      {
+        "time": "2026-10-16T01:15:30.969Z",
+        "kind": "completed",
+        "threadId": "01a14246-2f0e-7ba2-90a6-ab1bb488638a"
+      },
+      {
+        "time": "2026-10-16T01:15:31.809Z",
+        "kind": "interacted",
+        "threadId": "01a14246-2f0e-7ba2-90a6-ab1bb488638a"
+      },
+      {
+        "time": "2026-10-16T01:16:01.461Z",
+        "kind": "interacted",
+        "threadId": "01a14246-2f0e-7ba2-90a6-ab1bb488638a"
+      },
+      {
+        "time": "2026-10-16T01:16:33.958Z",
+        "kind": "completed",
+        "threadId": "01a14246-2f0e-7ba2-90a6-ab1bb488638a"
+      },
+      {
+        "time": "2026-10-16T01:18:54.312Z",
+        "kind": "interacted",
+        "threadId": "01a14246-2f0e-7ba2-90a6-ab1bb488638a"
+      },
+      {
+        "time": "2026-10-16T01:19:26.560Z",
+        "kind": "completed",
+        "threadId": "01a14246-2f0e-7ba2-90a6-ab1bb488638a"
+      }
+    ],
+    "/root/chapter3": [
+      {
+        "time": "2026-10-16T01:14:25.194Z",
+        "kind": "started",
+        "threadId": "01a14246-49ce-7480-b3e8-bcf19792276b"
+      },
+      {
+        "time": "2026-10-16T01:16:04.765Z",
+        "kind": "interacted",
+        "threadId": "01a14246-49ce-7480-b3e8-bcf19792276b"
+      },
+      {
+        "time": "2026-10-16T01:16:26.425Z",
+        "kind": "completed",
+        "threadId": "01a14246-49ce-7480-b3e8-bcf19792276b"
+      }
+    ],
+    "/root/chapter4": [
+      {
+        "time": "2026-10-16T01:14:31.814Z",
+        "kind": "started",
+        "threadId": "01a14246-639b-79c3-9952-2e72ad5d242d"
+      },
+      {
+        "time": "2026-10-16T01:15:57.914Z",
+        "kind": "completed",
+        "threadId": "01a14246-639b-79c3-9952-2e72ad5d242d"
+      },
+      {
+        "time": "2026-10-16T01:16:07.974Z",
+        "kind": "interacted",
+        "threadId": "01a14246-639b-79c3-9952-2e72ad5d242d"
+      },
+      {
+        "time": "2026-10-16T01:16:26.192Z",
+        "kind": "completed",
+        "threadId": "01a14246-639b-79c3-9952-2e72ad5d242d"
+      }
+    ],
+    "/root/chapter5": [
+      {
+        "time": "2026-10-16T01:14:36.774Z",
+        "kind": "started",
+        "threadId": "01a14246-770b-72d1-84ce-ebbf033dc67d"
+      },
+      {
+        "time": "2026-10-16T01:15:56.213Z",
+        "kind": "completed",
+        "threadId": "01a14246-770b-72d1-84ce-ebbf033dc67d"
+      },
+      {
+        "time": "2026-10-16T01:16:10.262Z",
+        "kind": "interacted",
+        "threadId": "01a14246-770b-72d1-84ce-ebbf033dc67d"
+      },
+      {
+        "time": "2026-10-16T01:16:27.716Z",
+        "kind": "completed",
+        "threadId": "01a14246-770b-72d1-84ce-ebbf033dc67d"
+      }
+    ],
+    "/root/chapter6": [
+      {
+        "time": "2026-10-16T01:14:41.235Z",
+        "kind": "started",
+        "threadId": "01a14246-8866-7432-b282-cf6a57371f2f"
+      },
+      {
+        "time": "2026-10-16T01:15:58.053Z",
+        "kind": "completed",
+        "threadId": "01a14246-8866-7432-b282-cf6a57371f2f"
+      },
+      {
+        "time": "2026-10-16T01:16:13.066Z",
+        "kind": "interacted",
+        "threadId": "01a14246-8866-7432-b282-cf6a57371f2f"
+      },
+      {
+        "time": "2026-10-16T01:16:28.166Z",
+        "kind": "completed",
+        "threadId": "01a14246-8866-7432-b282-cf6a57371f2f"
+      }
+    ]
+  },
+  "mediaPeakJobs": 7,
+  "firstSixVisuals": [
+    {
+      "startedAt": "2026-10-16T01:21:37.352Z",
+      "endedAt": "2026-10-16T01:22:16.024Z",
+      "metadata": {
+        "fromFrame": 0,
+        "toFrame": 212,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T01:21:37.487Z",
+      "endedAt": "2026-10-16T01:22:12.097Z",
+      "metadata": {
+        "fromFrame": 212,
+        "toFrame": 396,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T01:21:37.737Z",
+      "endedAt": "2026-10-16T01:23:41.352Z",
+      "metadata": {
+        "fromFrame": 396,
+        "toFrame": 1134,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T01:21:37.880Z",
+      "endedAt": "2026-10-16T01:22:05.898Z",
+      "metadata": {
+        "fromFrame": 1134,
+        "toFrame": 1281,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T01:21:38.026Z",
+      "endedAt": "2026-10-16T01:23:43.929Z",
+      "metadata": {
+        "fromFrame": 1281,
+        "toFrame": 2032,
+        "concurrency": 3
+      }
+    },
+    {
+      "startedAt": "2026-10-16T01:21:38.165Z",
+      "endedAt": "2026-10-16T01:22:04.723Z",
+      "metadata": {
+        "fromFrame": 2032,
+        "toFrame": 2167,
+        "concurrency": 3
+      }
+    }
+  ],
+  "continuousAudio": {
+    "startedAt": "2026-10-16T01:21:37.284Z",
+    "endedAt": "2026-10-16T01:25:52.169Z",
+    "durationMs": 254884.42157200002
+  },
+  "mediaJobId": "hao-final-v1",
+  "attempts": 1,
+  "chunks": 14,
+  "files": 15
+}

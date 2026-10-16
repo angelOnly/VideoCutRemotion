@@ -1,0 +1,51 @@
+{
+  "reviewId": "6e9f3528-2348-4d1b-a33f-c2139b0a3808",
+  "results": [
+    {
+      "assignmentToken": "8b54d2bc-ea0c-4a7e-a9fc-b508f80fb26b",
+      "observations": [
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-77b4ea860936ec28a49dde55",
+          "note": "第916帧：公司卡仍清晰可辨，旧领域分支及自免限定正在退淡，新营收数字尚未出现；不存在旧字与新字叠压。仅本静帧，连续观看和听审未知。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-cadd4e72d892737c7da95d02",
+          "note": "第924帧：旧自免限定与分支已经退出，公司卡独立居于中左，新营收内容尚未出现；与上一版同帧比较，公司卡/2亿元及两组标题重叠均已消除。代价为此刻营收数字尚未建立，底部字幕仍完整传达该句。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-9250dff63d1eb2c0a50040bb",
+          "note": "第936帧：公司卡到达左侧，营收区域仍空，卡片文字和包装清楚；持续身份对象保留，无图层叠压。此状态符合新设计先移动再建立数字。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-d45d6e0abb4dcb5fb75b1e6d",
+          "note": "第944帧：营收2亿元、同比+3.2%与各自标签以较低亮度显露，和左侧公司卡完全分离，连接线止于卡片与数字之间，不穿字。渐显阶段可辨，未见旧限定残留。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-28b7265560f93f1a84b1a23f",
+          "note": "第952帧：营收2亿元及同比+3.2%完全显露，金额与增速标签清晰，左侧身份卡保持，字幕无遮挡；符合新设计的完成态。"
+        },
+        {
+          "checkId": "opening-layout",
+          "evidenceId": "ev-26ace95d893fc8642728c6c5",
+          "note": "第1080帧：营收、同比增速、行业承压说明及两领域短参照完整可读，布局与上一版该完成态一致，未因中途修复牺牲后续信息。仅覆盖所列静帧，帧间流畅度、阅读实际时长和声画匹配未知。"
+        }
+      ],
+      "issues": [],
+      "issueResolutions": [
+        {
+          "issueId": "0de5f519e935f61fcc38fe885dd71a96bb420d40985c608e0e4eba069eaac577",
+          "evidenceId": "ev-cadd4e72d892737c7da95d02",
+          "checkId": "opening-layout",
+          "resolution": "resolved",
+          "note": "实际比较新旧924帧并查看916/936/944/952/1080：旧限定先退出，公司卡移出新数字区域后营收内容显露，原两处叠压已消除；代价是924与936帧新数值尚未建立，但字幕仍提供信息，952帧完整。此处解决结论只针对已证实的静帧布局问题，连续运动及声音未审。"
+        }
+      ],
+      "status": "complete"
+    }
+  ]
+}
