@@ -161,7 +161,7 @@ function readOptimizationConfig(env = process.env) {
     if (!Number.isInteger(value) || value < 1 || value > max) throw new ProductionError("CONFIG_INVALID", `${name} \u5FC5\u987B\u662F 1 \u5230 ${max} \u7684\u6574\u6570`, 503);
     return value;
   };
-  return { qaParallelReview: boolean("TEXTVIDEO_QA_PARALLEL_REVIEW", true), qaMaxReviewers, previewOnDemand: boolean("TEXTVIDEO_PREVIEW_ON_DEMAND", true), sceneCutMode, mediaTiming: boolean("TEXTVIDEO_MEDIA_TIMING", true), renderStrategy, mediaGlobalConcurrency: integer2("TEXTVIDEO_MEDIA_GLOBAL_CONCURRENCY", 16, 128), mediaRunConcurrency: integer2("TEXTVIDEO_MEDIA_RUN_CONCURRENCY", 4, 8), mediaProcessConcurrency: integer2("TEXTVIDEO_MEDIA_PROCESS_CONCURRENCY", 5, 32) };
+  return { qaParallelReview: boolean("TEXTVIDEO_QA_PARALLEL_REVIEW", true), qaMaxReviewers, previewOnDemand: boolean("TEXTVIDEO_PREVIEW_ON_DEMAND", true), sceneCutMode, mediaTiming: boolean("TEXTVIDEO_MEDIA_TIMING", true), renderStrategy, mediaGlobalConcurrency: integer2("TEXTVIDEO_MEDIA_GLOBAL_CONCURRENCY", 24, 128), mediaRunConcurrency: integer2("TEXTVIDEO_MEDIA_RUN_CONCURRENCY", 6, 8), mediaProcessConcurrency: integer2("TEXTVIDEO_MEDIA_PROCESS_CONCURRENCY", 7, 32) };
 }
 function readProductionConfig() {
   const required = (name) => {
@@ -521,7 +521,7 @@ function chapterWorkPlan(scenes2) {
     }
     unit.sceneIds.push(scene.id);
   }
-  return { maxConcurrentAuthors: 4, units };
+  return { maxConcurrentAuthors: 6, units };
 }
 
 // packages/production-service/src/runner.ts
@@ -1303,7 +1303,7 @@ var DEFAULT_REVIEW_POLICY = {
 };
 
 // packages/production-service/src/task-instructions.ts
-var INSTRUCTION_VERSION = "template-production/16";
+var INSTRUCTION_VERSION = "template-production/17";
 function taskInstruction(run, runRoot, pluginRoot, policy = DEFAULT_REVIEW_POLICY) {
   if (run.stage === "analysis") return `\u4F60\u6B63\u5728\u6267\u884C Analysis\uFF08\u6587\u5B57\u5206\u6790\uFF09\u9636\u6BB5\uFF0C\u53EA\u5904\u7406\u6587\u5B57\u3002
 \u4EFB\u52A1\u8F93\u5165\uFF1A${(0, import_node_path8.join)(runRoot, "input.json")}
@@ -1319,7 +1319,7 @@ context \u5FC5\u987B\u662F\u975E\u7A7A Markdown \u5B57\u7B26\u4E32\uFF0C\u53EA\u
 \u4EFB\u52A1\u8F93\u5165\uFF1A${(0, import_node_path8.join)(runRoot, "input.json")}
 \u672C\u9879\u76EE\u751F\u4EA7\u5165\u53E3\uFF1A${(0, import_node_path8.join)(runRoot, ".agents/skills/production-coordinator/SKILL.md")}
 \u9636\u6BB5\u7ED3\u679C\u534F\u8BAE\uFF1A${(0, import_node_path8.join)(runRoot, "result-schema.json")}
-\u7AE0\u8282\u5236\u4F5C\u6309 input.chapterWork \u5206\u7EC4\uFF0C\u6700\u591A\u56DB\u4F4D\u7AE0\u8282\u4F5C\u8005\u6EDA\u52A8\u9886\u53D6\u7AE0\u8282\uFF0C\u53E6\u8BBE\u4E00\u4F4D\u7EDF\u4E00\u58F0\u97F3\u4F5C\u8005\uFF1B\u7AE0\u8282\u4F5C\u8005\u4EC5\u5199\u5206\u914D\u76EE\u5F55\uFF0C\u4E3B\u534F\u8C03\u72EC\u5360\u603B\u65F6\u95F4\u7EBF\u548C\u5171\u4EAB\u6CE8\u518C\u8868\u3002\u5148\u7EDF\u4E00\u98CE\u683C\uFF0C\u518D\u5E76\u884C\u5236\u4F5C\uFF0C\u771F\u5B9E\u914D\u97F3\u5B8C\u6210\u540E\u7EDF\u4E00\u6821\u65F6\uFF0C\u4F5C\u8005\u505C\u6B62\u5199\u5165\u540E\u624D\u5408\u5E76\u3001\u51BB\u7ED3\u548C\u5BA1\u7247\u3002
+\u7AE0\u8282\u5236\u4F5C\u6309 input.chapterWork \u5206\u7EC4\uFF0C\u6700\u591A\u516D\u4F4D\u7AE0\u8282\u4F5C\u8005\u6EDA\u52A8\u9886\u53D6\u7AE0\u8282\uFF0C\u53E6\u8BBE\u4E00\u4F4D\u7EDF\u4E00\u58F0\u97F3\u4F5C\u8005\uFF1B\u7AE0\u8282\u4F5C\u8005\u4EC5\u5199\u5206\u914D\u76EE\u5F55\uFF0C\u4E3B\u534F\u8C03\u72EC\u5360\u603B\u65F6\u95F4\u7EBF\u548C\u5171\u4EAB\u6CE8\u518C\u8868\u3002\u5148\u7EDF\u4E00\u98CE\u683C\uFF0C\u518D\u5E76\u884C\u5236\u4F5C\uFF0C\u771F\u5B9E\u914D\u97F3\u5B8C\u6210\u540E\u7EDF\u4E00\u6821\u65F6\uFF0C\u4F5C\u8005\u505C\u6B62\u5199\u5165\u540E\u624D\u5408\u5E76\u3001\u51BB\u7ED3\u548C\u5BA1\u7247\u3002
 \u672C\u6B21\u534F\u8C03\u504F\u597D\uFF1A\u5E76\u884C\u4E3B\u9898\u5BA1\u7247=${policy.qaParallelReview ? "\u5F00\u542F" : "\u5173\u95ED"}\uFF1B\u5BA1\u7247\u4EE3\u7406\u4E0A\u9650=${policy.qaMaxReviewers}\uFF08\u4E0D\u521B\u9020\u5BBF\u4E3B\u540D\u989D\uFF09\uFF1B\u6309\u9700\u52A8\u6001\u9884\u89C8=${policy.previewOnDemand ? "\u5F00\u542F" : "\u5173\u95ED"}\u3002\u8FD9\u4E9B\u503C\u4E0D\u521B\u9020\u5BBF\u4E3B\u540D\u989D\uFF0C\u4E5F\u4E0D\u662F Worker \u7684\u6548\u679C\u5224\u5B9A\u6216\u9884\u89C8\u8BB8\u53EF\u3002\u4E3B\u534F\u8C03\u7ED3\u5408\u5B9E\u9645\u4EFB\u52A1\u51B3\u5B9A\u3002
 
 \u8BFB\u53D6\u5F53\u524D\u5B8C\u6574\u8F93\u5165\u3001\u751F\u4EA7\u5165\u53E3\u548C\u51BB\u7ED3\u6A21\u677F renderer/renderer-manifest.json\uFF0C\u5E76\u6CBF manifest.instructions \u8BFB\u53D6\u672C\u6A21\u677F\u5236\u4F5C\u8BF4\u660E\u3002\u4EBA\u7269\u3001\u680F\u76EE\u5305\u88C5\u3001\u4E13\u5C5E\u5B57\u6BB5\u53CA\u5236\u4F5C\u4E0E\u68C0\u67E5\u6B65\u9AA4\u7531\u6A21\u677F\u58F0\u660E\uFF1B\u901A\u7528\u6280\u80FD\u63D0\u4F9B\u6267\u884C\u65B9\u6CD5\uFF0C\u4E0D\u9884\u8BBE\u680F\u76EE\u4E1A\u52A1\u3002\u4E3B\u534F\u8C03\u8D1F\u8D23\u771F\u5B9E\u5206\u6D3E\u3001\u91C7\u7528\u3001\u539F\u4F5C\u8005\u8FD4\u4FEE\u3001\u6B63\u5F0F\u63D0\u4EA4\u53CA\u7ED3\u679C\u63A5\u56DE\uFF1B\u5B8C\u6574\u786E\u8BA4\u7A3F\u5177\u5907\u65F6\u53EF\u517C\u5BFC\u6F14\uFF0C\u89C6\u89C9\u4F5C\u8005\u8FDE\u7EED\u8D1F\u8D23\u7F8E\u672F\u3001\u52A8\u4F5C\u4E0E\u5B9E\u73B0\uFF0C\u58F0\u97F3\u4F5C\u8005\u8FDE\u7EED\u8D1F\u8D23\u58F0\u97F3\u4E0E\u5B57\u5E55\uFF0C\u6309\u771F\u5B9E\u4F9D\u8D56\u5206\u6D3E\uFF1B\u4F5C\u8005\u6309\u804C\u8D23\u8BFB\u53D6\u6A21\u677F\u8BF4\u660E\u548C\u6280\u80FD\u4E13\u4E1A\u65B9\u6CD5\uFF0C\u4E0D\u9ED8\u8BA4\u91CD\u590D\u52A0\u8F7D\u5168\u90E8\u6E90\u7801\u3002\u5F53\u524D request.dataList \u6765\u81EA\u7528\u6237\u6700\u65B0\u63D0\u4EA4\uFF1AsubmittedContent\uFF08\u5B58\u5728\u65F6\uFF09\u4FDD\u7559\u53EF\u89C1\u6807\u7B7E\u539F\u4E32\uFF0Ccontent \u662F\u89E3\u6790\u540E\u7684\u914D\u97F3\u6B63\u6587\uFF0Cdirecting \u7531\u670D\u52A1\u91CD\u65B0\u8BA1\u7B97\u3002\u955C\u5934\u96C6\u5408\u3001\u987A\u5E8F\u3001\u4EBA\u7269\u548C\u753B\u9762\u90FD\u4EE5\u5B83\u4E3A\u51C6\uFF0C\u7981\u6B62\u4ECE\u65E7\u5206\u6790\u8865\u56DE\u5DF2\u5220\u6807\u7B7E\u3002\u6CA1\u6709\u6807\u7B7E\u7684\u666E\u901A\u7A3F\u6309\u6A21\u677F\u5B89\u6392\u4EBA\u7269\u3002\u7F51\u9875\u4E0D\u4F20\u5206\u6790\u7248\u672C\u6216\u5F53\u524D\u8981\u6C42\uFF0C\u670D\u52A1\u5DF2\u5728\u53D7\u7406\u65F6\u6CBF\u4EFB\u52A1\u8BB0\u5F55\u786E\u5B9A\uFF0C\u4E0D\u80FD\u8981\u6C42\u7528\u6237\u4FEE\u6539\u7F51\u9875\u3002otherRequirements \u53EA\u8865\u5145\u672A\u6307\u5B9A\u90E8\u5206\u3002analysisInput \u4FDD\u5B58\u5BF9\u5E94 Analysis \u539F\u59CB\u4E24\u680F\uFF0Canalysis.context \u8BF4\u660E\u91C7\u7528\u5173\u7CFB\uFF1B\u65E7\u66FF\u6362\u6307\u4EE4\u5DF2\u91C7\u7528\u7684\u4E0D\u91CD\u505A\uFF0C\u65E7\u7A3F\u53EA\u4F5C\u51FA\u5904\uFF0C\u4E0D\u6062\u590D\u5220\u955C\u548C\u65E7\u53E5\u3002\u7ED3\u6784\u5316\u5B57\u6BB5\u4E0E\u5F53\u524D\u6587\u5B57\u8981\u6C42\u77DB\u76FE\u65F6\u62A5\u544A\u5177\u4F53\u5206\u955C\u548C\u51B2\u7A81\uFF0C\u9700\u6539\u6B63\u6587\u6216\u6307\u5B9A\u4EBA\u7269\u5148\u56DE\u7F16\u8F91\u533A\uFF0C\u4E0D\u6084\u6084\u8986\u76D6\u8BF7\u6C42\u3002\u6A21\u677F\u4E13\u5C5E\u6807\u9898\u3001\u7247\u5934\u7247\u5C3E\u53CA\u9A8C\u8BC1\u6309\u672C\u6A21\u677F\u8BF4\u660E\u6267\u884C\u3002
@@ -1752,7 +1752,7 @@ async function executeCodex(run, root, repo, config, signal, media) {
     if (signal.aborted) throw new ProductionError("PROCESS_CANCELLED", "\u4EFB\u52A1\u5DF2\u53D6\u6D88");
   };
   const toolConfig = { command: process.execPath, args: [(0, import_node_path9.join)(config.pluginRoot, "scripts/production-mcp-launcher.mjs")], cwd: config.pluginRoot, env: { TEXTVIDEO_PLUGIN_ROOT: config.pluginRoot, TEXTVIDEO_DEPENDENCY_ROOT: config.dependencyRoot, TEXTVIDEO_RUNTIME_URL: env.TEXTVIDEO_RUNTIME_URL, TEXTVIDEO_RUN_ID: run.runId, TEXTVIDEO_RUN_TOKEN: run.token }, startup_timeout_sec: 60, tool_timeout_sec: 180, default_tools_approval_mode: "approve" };
-  const startParams = { cwd: root, approvalPolicy: "never", sandbox: "workspace-write", ...config.model ? { model: config.model } : {}, config: { ...run.stage === "render" ? { agents: { max_concurrent_threads_per_session: 5 } } : {}, web_search: "disabled", features: { apps: false, plugins: false }, skills: { config: stageSkills.overrides }, ...process.platform === "win32" ? { windows: { sandbox: "unelevated" } } : {}, mcp_servers: { "textvideo-studio": toolConfig } }, developerInstructions: "\u8FD9\u662F\u5DF2\u6388\u6743\u7684\u9694\u79BB\u6A21\u677F\u89C6\u9891\u751F\u4EA7\u3002\u53EA\u4F7F\u7528\u672C Run \u9636\u6BB5\u5165\u53E3\u53CA\u5DE5\u5177\u3002\u65B0\u4F5C\u8005\u901A\u8FC7\u5F53\u524D\u5B8C\u6574\u7A3F\u4E0E\u53D7\u7BA1\u6750\u6599\u5F15\u7528\u4EA4\u63A5\uFF0C\u4E0D\u9ED8\u8BA4\u7EE7\u627F\u5B8C\u6574\u7236\u5386\u53F2\uFF1B\u6301\u7EED\u4F5C\u8005\u6CBF\u539F\u7EBF\u7A0B\u63A5\u6536\u771F\u5B9E\u5DEE\u5F02\u3002\u4E3B\u534F\u8C03\u53EA\u8BFB\u8FD0\u884C\u5408\u540C\uFF0C\u4E13\u4E1A\u4F5C\u8005\u6309\u804C\u8D23\u8BFB\u53D6\u5B8C\u6574\u65B9\u6CD5\u3002\u7981\u6B62\u8BFB\u53D6\u51ED\u636E\u6216\u8BBF\u95EE\u5176\u4ED6\u4EFB\u52A1\u3002\u660E\u786E\u9009\u5B9A\u6B63\u5F0F\u5BFC\u51FA\u4E14\u65E0\u72EC\u7ACB\u521B\u4F5C\u6B65\u9AA4\u65F6\u8FD4\u56DE await_runtime\uFF0C\u6210\u529F\u7531 Worker \u76F4\u63A5\u4EA4\u4ED8\u539F\u6E05\u5355\uFF1B\u5206\u6790\u7ED3\u679C\u4EE5 final \u4EA4\u4ED8\u3002" };
+  const startParams = { cwd: root, approvalPolicy: "never", sandbox: "workspace-write", ...config.model ? { model: config.model } : {}, config: { ...run.stage === "render" ? { agents: { max_concurrent_threads_per_session: 7 } } : {}, web_search: "disabled", features: { apps: false, plugins: false }, skills: { config: stageSkills.overrides }, ...process.platform === "win32" ? { windows: { sandbox: "unelevated" } } : {}, mcp_servers: { "textvideo-studio": toolConfig } }, developerInstructions: "\u8FD9\u662F\u5DF2\u6388\u6743\u7684\u9694\u79BB\u6A21\u677F\u89C6\u9891\u751F\u4EA7\u3002\u53EA\u4F7F\u7528\u672C Run \u9636\u6BB5\u5165\u53E3\u53CA\u5DE5\u5177\u3002\u65B0\u4F5C\u8005\u901A\u8FC7\u5F53\u524D\u5B8C\u6574\u7A3F\u4E0E\u53D7\u7BA1\u6750\u6599\u5F15\u7528\u4EA4\u63A5\uFF0C\u4E0D\u9ED8\u8BA4\u7EE7\u627F\u5B8C\u6574\u7236\u5386\u53F2\uFF1B\u6301\u7EED\u4F5C\u8005\u6CBF\u539F\u7EBF\u7A0B\u63A5\u6536\u771F\u5B9E\u5DEE\u5F02\u3002\u4E3B\u534F\u8C03\u53EA\u8BFB\u8FD0\u884C\u5408\u540C\uFF0C\u4E13\u4E1A\u4F5C\u8005\u6309\u804C\u8D23\u8BFB\u53D6\u5B8C\u6574\u65B9\u6CD5\u3002\u7981\u6B62\u8BFB\u53D6\u51ED\u636E\u6216\u8BBF\u95EE\u5176\u4ED6\u4EFB\u52A1\u3002\u660E\u786E\u9009\u5B9A\u6B63\u5F0F\u5BFC\u51FA\u4E14\u65E0\u72EC\u7ACB\u521B\u4F5C\u6B65\u9AA4\u65F6\u8FD4\u56DE await_runtime\uFF0C\u6210\u529F\u7531 Worker \u76F4\u63A5\u4EA4\u4ED8\u539F\u6E05\u5355\uFF1B\u5206\u6790\u7ED3\u679C\u4EE5 final \u4EA4\u4ED8\u3002" };
   const runTurn = async (text4, onStarted, firstTurn = false) => {
     ensureActive();
     receiver = createTurnReceiver(threadId);
@@ -3522,7 +3522,7 @@ async function renderSceneChunks(args) {
     finishTask(async () => {
       if (audioTask) await audioTask();
     }),
-    finishTask(() => mapMediaLimited(visualTasks, options.runConcurrency ?? 4, (task) => finishTask(task)))
+    finishTask(() => mapMediaLimited(visualTasks, options.runConcurrency ?? 6, (task) => finishTask(task)))
   ]);
   if (failure) throw failure.error;
   cancelled3(options);
@@ -3538,7 +3538,7 @@ async function renderSceneChunks(args) {
     if ((await record(file.id, file.file, extent, media.duration)).content !== file.content) throw new ProductionError("FILE_IDENTITY_INVALID", "\u539F\u5C01\u88C5\u6587\u4EF6\u6B63\u6587\u4E0D\u7B26");
     files.set(file.id, file);
   }
-  await mapMediaLimited(expected, options.runConcurrency ?? 4, async (extent, index) => {
+  await mapMediaLimited(expected, options.runConcurrency ?? 6, async (extent, index) => {
     if (files.has(extent.id)) return;
     cancelled3(options);
     await options.onOutputStart?.(extent.id);
@@ -4515,7 +4515,7 @@ async function createProductionServer(config, executor, overrides = {}) {
     const webSubmit = request.method === "POST" && ["/narrate/ai_video_director/getAiVideoEditingAnalysisData", "/narrate/ai_video_director/getAiVideoEditingData"].includes(request.url) && config.webSubmitAddresses?.includes(request.ip.replace(/^::ffff:/, ""));
     if (!webSubmit && request.headers.authorization !== `Bearer ${config.apiToken}`) throw new ProductionError("UNAUTHORIZED", "\u9700\u8981\u6709\u6548\u670D\u52A1\u8EAB\u4EFD", 401);
   });
-  app.get("/healthz", async () => ({ status: "ready", releaseId: config.release.releaseId, pluginVersion: config.release.pluginVersion, skillsDigest: config.release.skillsDigest, configurationReady: Object.values(config.ready).every(Boolean), productionReady: Object.values(config.ready).every(Boolean) ? null : false, readinessScope: "configuration_only", dependencies: config.ready, capacity: { maxActiveRuns: config.maxActiveRuns ?? 4, renderConcurrency: config.renderConcurrency ?? 3, mediaGlobalConcurrency: config.mediaGlobalConcurrency ?? 16, mediaRunConcurrency: config.mediaRunConcurrency ?? 4, mediaProcessConcurrency: config.mediaProcessConcurrency ?? 5, speechConcurrency: config.speechConcurrency ?? 20, speechPerRunConcurrency: config.speechPerRunConcurrency ?? 5, activeRuns: runner.active.size }, optimization: { renderStrategy: config.renderStrategy ?? "scene-chunks", qaParallelReview: config.qaParallelReview ?? true, previewOnDemand: config.previewOnDemand ?? true }, capabilities: { localModels: false, networkSearch: config.searchEnabled, lexicalMechanisms: true, reviewProtocol: 5, runtimeWait: true, sentenceAssembly: true, timelineContract: "sentence-timeline/1", derivedRenderRanges: true, directDelivery: true, reviewStorage: "sqlite", reviewIdentity: "coordinator_reported", reviewOrchestration: "codex_native", reviewFramePreparation: true, reviewSummary: true, reviewReportFiles: true, templateTimelineValidation: true } }));
+  app.get("/healthz", async () => ({ status: "ready", releaseId: config.release.releaseId, pluginVersion: config.release.pluginVersion, skillsDigest: config.release.skillsDigest, configurationReady: Object.values(config.ready).every(Boolean), productionReady: Object.values(config.ready).every(Boolean) ? null : false, readinessScope: "configuration_only", dependencies: config.ready, capacity: { maxActiveRuns: config.maxActiveRuns ?? 4, renderConcurrency: config.renderConcurrency ?? 3, mediaGlobalConcurrency: config.mediaGlobalConcurrency ?? 24, mediaRunConcurrency: config.mediaRunConcurrency ?? 6, mediaProcessConcurrency: config.mediaProcessConcurrency ?? 7, speechConcurrency: config.speechConcurrency ?? 20, speechPerRunConcurrency: config.speechPerRunConcurrency ?? 5, activeRuns: runner.active.size }, optimization: { renderStrategy: config.renderStrategy ?? "scene-chunks", qaParallelReview: config.qaParallelReview ?? true, previewOnDemand: config.previewOnDemand ?? true }, capabilities: { localModels: false, networkSearch: config.searchEnabled, lexicalMechanisms: true, reviewProtocol: 5, runtimeWait: true, sentenceAssembly: true, timelineContract: "sentence-timeline/1", derivedRenderRanges: true, directDelivery: true, reviewStorage: "sqlite", reviewIdentity: "coordinator_reported", reviewOrchestration: "codex_native", reviewFramePreparation: true, reviewSummary: true, reviewReportFiles: true, templateTimelineValidation: true } }));
   const accept = (stage) => async (request, reply) => {
     if (runner.stopping) throw new ProductionError("STOPPING", "\u670D\u52A1\u6B63\u5728\u505C\u6B62\u53D7\u7406", 503);
     const input = stage === "analysis" ? normalizeWebAnalysis(request.body) : normalizeWebRender(request.body, repo.list(config.accountId, request.body?.taskId ?? ""));
@@ -4557,7 +4557,7 @@ async function createProductionServer(config, executor, overrides = {}) {
     return request.method === "HEAD" ? reply.send() : reply.send((0, import_node_fs20.createReadStream)(path, { start, end }));
   } });
   const frameJobs = /* @__PURE__ */ new Set();
-  const rendering = new RunWork(), budget = new MediaBudget(config.mediaGlobalConcurrency ?? 16, config.mediaProcessConcurrency ?? 5), events = new MediaJobEvents();
+  const rendering = new RunWork(), budget = new MediaBudget(config.mediaGlobalConcurrency ?? 24, config.mediaProcessConcurrency ?? 7), events = new MediaJobEvents();
   let toolQueue = Promise.resolve();
   runner.mediaRuntime = { events, read: async (run, id) => {
     renderRequestIdSchema.parse(id);
@@ -4656,7 +4656,7 @@ async function createProductionServer(config, executor, overrides = {}) {
         releaseId: config.release.releaseId,
         browser: config.browser,
         concurrency: job.concurrency ?? config.renderConcurrency ?? 3,
-        runConcurrency: job.runConcurrency ?? config.mediaRunConcurrency ?? 4,
+        runConcurrency: job.runConcurrency ?? config.mediaRunConcurrency ?? 6,
         renderStrategy: job.renderStrategy ?? "whole-slices",
         budget,
         signal,
@@ -4756,7 +4756,7 @@ async function createProductionServer(config, executor, overrides = {}) {
       runnable(run.runId);
       return speech.retryValidation(body.speechJobId, run.runId, run.accountId);
     }
-    if (name === "read_production_task") return { ...productionTaskSummary(run), activeRender: rendering.current(run.runId), activeReviewId: repo.db.prepare("SELECT id FROM reviews WHERE run_id=? AND state='active'").get(run.runId)?.id ?? null, metricsPath: (0, import_node_path22.join)(runner.runRoot(run), "metrics", "media.jsonl"), optimization: { qaParallelReview: config.qaParallelReview ?? true, qaMaxReviewers: config.qaMaxReviewers ?? 3, previewOnDemand: config.previewOnDemand ?? true, sceneCutMode: config.sceneCutMode ?? "accurate", renderStrategy: config.renderStrategy ?? "scene-chunks", mediaGlobalConcurrency: config.mediaGlobalConcurrency ?? 16, mediaRunConcurrency: config.mediaRunConcurrency ?? 4, mediaProcessConcurrency: config.mediaProcessConcurrency ?? 5, mediaTiming: config.mediaTiming ?? true } };
+    if (name === "read_production_task") return { ...productionTaskSummary(run), activeRender: rendering.current(run.runId), activeReviewId: repo.db.prepare("SELECT id FROM reviews WHERE run_id=? AND state='active'").get(run.runId)?.id ?? null, metricsPath: (0, import_node_path22.join)(runner.runRoot(run), "metrics", "media.jsonl"), optimization: { qaParallelReview: config.qaParallelReview ?? true, qaMaxReviewers: config.qaMaxReviewers ?? 3, previewOnDemand: config.previewOnDemand ?? true, sceneCutMode: config.sceneCutMode ?? "accurate", renderStrategy: config.renderStrategy ?? "scene-chunks", mediaGlobalConcurrency: config.mediaGlobalConcurrency ?? 24, mediaRunConcurrency: config.mediaRunConcurrency ?? 6, mediaProcessConcurrency: config.mediaProcessConcurrency ?? 7, mediaTiming: config.mediaTiming ?? true } };
     if (name === "assemble_sentence_audio") {
       const current = runnable(run.runId);
       return rendering.start(run.runId, "sentence-audio-assembly", () => {
@@ -4788,7 +4788,7 @@ async function createProductionServer(config, executor, overrides = {}) {
         return mediaJobSummary(observedJob(run.runId, old), path);
       }
       const current = runnable(run.runId);
-      const job = { id: input.renderRequestId, runId: run.runId, kind, state: "running", inputDigest: digest, input, ..."reviewPlan" in input ? { reviewPreparation: { state: "pending" } } : {}, releaseId: config.release.releaseId, rendererVersion: "scene-chunks/1", sceneCutMode: config.sceneCutMode ?? "accurate", renderStrategy: config.renderStrategy ?? "scene-chunks", concurrency: config.renderConcurrency ?? 3, runConcurrency: config.mediaRunConcurrency ?? 4, readyFiles: [], readyFrames: [] };
+      const job = { id: input.renderRequestId, runId: run.runId, kind, state: "running", inputDigest: digest, input, ..."reviewPlan" in input ? { reviewPreparation: { state: "pending" } } : {}, releaseId: config.release.releaseId, rendererVersion: "scene-chunks/1", sceneCutMode: config.sceneCutMode ?? "accurate", renderStrategy: config.renderStrategy ?? "scene-chunks", concurrency: config.renderConcurrency ?? 3, runConcurrency: config.mediaRunConcurrency ?? 6, readyFiles: [], readyFrames: [] };
       return mediaJobSummary(await startMedia(current, path, job, false), path);
     });
     if (name === "retry_review_preparation") return serial(async () => {

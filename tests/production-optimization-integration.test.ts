@@ -13,7 +13,7 @@ import {renderTemplate,retryRenderSlices,type MediaJob} from '../apps/render-wor
 import {type MediaSpanRecord} from '../packages/production-service/src/media-metrics.js';
 
 test('新任务配置默认动画优化路径，拒绝拼错开关或无效预算',()=>{
- assert.deepEqual(readOptimizationConfig({}),{qaParallelReview:true,qaMaxReviewers:3,previewOnDemand:true,sceneCutMode:'accurate',mediaTiming:true,renderStrategy:'scene-chunks',mediaGlobalConcurrency:16,mediaRunConcurrency:4,mediaProcessConcurrency:5});
+ assert.deepEqual(readOptimizationConfig({}),{qaParallelReview:true,qaMaxReviewers:3,previewOnDemand:true,sceneCutMode:'accurate',mediaTiming:true,renderStrategy:'scene-chunks',mediaGlobalConcurrency:24,mediaRunConcurrency:6,mediaProcessConcurrency:7});
  assert.equal(readOptimizationConfig({TEXTVIDEO_SCENE_CUT_MODE:'hybrid',TEXTVIDEO_MEDIA_TIMING:'false'}).mediaTiming,false);
  for(const env of [{TEXTVIDEO_SCENE_CUT_MODE:'copy'},{TEXTVIDEO_QA_PARALLEL_REVIEW:'yes'},{TEXTVIDEO_QA_MAX_REVIEWERS:'4'},{TEXTVIDEO_QA_MAX_REVIEWERS:'0'},{TEXTVIDEO_PREVIEW_ON_DEMAND:''},{TEXTVIDEO_RENDER_STRATEGY:'invalid'},{TEXTVIDEO_MEDIA_GLOBAL_CONCURRENCY:'0'},{TEXTVIDEO_MEDIA_RUN_CONCURRENCY:'9'},{TEXTVIDEO_MEDIA_PROCESS_CONCURRENCY:'bad'}])assert.throws(()=>readOptimizationConfig(env));
 });

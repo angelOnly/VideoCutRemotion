@@ -30,7 +30,7 @@ manifest['speakerBindings']={
     '室长':{'speaker':'male-chief','voiceRef':'finance.male'},
 }
 manifest['captionTimingPolicy']='authored'
-manifest.update(templateVersion='2.0.9',timelineDataRef='timeline.json',timelineContract='sentence-timeline/1',timelineValidator='src/validateTimeline.ts',analysisInstructions=['../文字分析合同.md'],instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
+manifest.update(templateVersion='2.0.10',timelineDataRef='timeline.json',timelineContract='sentence-timeline/1',timelineValidator='src/validateTimeline.ts',analysisInstructions=['../文字分析合同.md'],instructions=['../创作说明.md','../动效组件与内容适配说明.md'],publicAssetRoot='public',width=1920,height=1080,fps=30,voiceRefs=['finance.female','finance.male'])
 (output/'renderer/renderer-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 file=output/'renderer/src/FinancialDialogue.tsx';s=file.read_text(encoding='utf-8').replace('AbsoluteFill, Audio,','AbsoluteFill, Audio, OffthreadVideo,')
 start=s.index('export const FinanceEpisode:')
