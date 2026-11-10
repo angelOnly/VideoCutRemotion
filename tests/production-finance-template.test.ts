@@ -22,7 +22,7 @@ test('财经模板转换统一素材路径，只将原末端覆盖改为跟随�
     assert.equal(actual.scenes[0].intro.src,'template-assets/assets/video/intro/source.mov');
     assert.equal(actual.scenes[0].utterances[0].src,'speech/本期短句.wav');
     assert.equal(actual.bgm.src,'template-assets/assets/audio/bgm/source.mp3');
-    assert.equal(actual.bgm.volume,0.11);
+    assert.equal(actual.bgm.volume,0.5);
     assert.equal('holdFrame' in actual.ending,false);
     assert.equal('endFrameExclusive' in actual.chapters[0].visualBlocks[0],false);
     assert.deepEqual(actual.chapters[0].visualBlocks[1],fixture.chapters[0].visualBlocks[1]);

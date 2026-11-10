@@ -32,7 +32,7 @@ def normalize_timeline(output):
     timeline = json.loads((renderer / 'timeline.json').read_text(encoding='utf-8'))
     # 新版模板提高配乐初始音量，实际混音仍需结合对白试听。
     bgm = timeline.setdefault('bgm', {'src': 'template-assets/assets/audio/bgm/immersed.mp3'})
-    bgm['volume'] = 0.11
+    bgm['volume'] = 0.5
     # 只转换已知旧模板约定；正式任务的数据不经过此发行转换。
     for owner in [*timeline.get('scenes', []), *timeline.get('chapters', [])]:
         owner.pop('contentFrames', None)

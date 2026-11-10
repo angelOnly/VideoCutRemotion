@@ -18,7 +18,7 @@ with zipfile.ZipFile(source) as original:
     manifest = json.loads(original.read(manifest_name))
     if manifest.get('templateVersion') != '2.0.11' or manifest.get('timelineContract') != 'sentence-timeline/1':
         raise SystemExit('来源不是已整理的财经模板 2.0.11')
-    manifest['templateVersion'] = '2.0.12'
+    manifest['templateVersion'] = '2.0.13'
     manifest['speakerBindings']['财小策']['voiceRef'] = 'finance.female.01'
     manifest['voiceRefs'] = ['finance.female.01', 'finance.male']
     replacements = {manifest_name: (json.dumps(manifest, ensure_ascii=False, indent=2) + '\n').encode()}
@@ -26,12 +26,12 @@ with zipfile.ZipFile(source) as original:
         timeline = json.loads(original.read(name))
         # 让实际时间线携带配乐音量，避免被原有显式值覆盖。
         bgm = timeline.setdefault('bgm', {'src': 'template-assets/assets/audio/bgm/immersed.mp3'})
-        bgm['volume'] = 0.11
+        bgm['volume'] = 0.5
         replacements[name] = (json.dumps(timeline, ensure_ascii=False, indent=2) + '\n').encode()
     for name in ('创作说明.md', '文字分析合同.md'):
         content = original.read(name).decode('utf-8').replace('finance.female', 'finance.female.01')
         if name == '创作说明.md':
-            content += '\n新版模板使用女声01，配乐初始音量为 0.11，制作时结合对白试听调整。\n'
+            content += '\n新版模板使用女声01，配乐音量设为 0.5，常规播放直接使用该值，不额外乘缩小系数；片头避让和淡入淡出仍可按需要安排。\n'
         replacements[name] = content.encode('utf-8')
     output.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(output, 'w') as result:
