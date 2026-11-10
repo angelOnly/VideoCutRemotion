@@ -1,6 +1,6 @@
 import {isVisualScene,visualSceneFrames,speechBindings} from './scene-speech.js';
 import {promises as fs} from 'node:fs';
-import {join,dirname} from 'node:path';
+import {join,dirname,extname} from 'node:path';
 import {z} from 'zod';
 import {zodToJsonSchema} from 'zod-to-json-schema';
 import {canonical,sha256,ProductionError,type Run,type RenderRequest} from './contracts.js';
@@ -92,7 +92,7 @@ export async function assembleSentenceAudio(run:Run,runRoot:string,raw:unknown,s
       const oldGap=oldU?oldU.startFrame-(oldIndex?original.utterances[oldIndex-1].endFrameExclusive:0):0;
       const gap=choice.gapBeforeFrames??oldGap;ensure(Number.isInteger(gap)&&gap>=0,`${choice.id} 原停顿无效，请在计划指定 gapBeforeFrames`);
       const start=end+gap;end=start+audioFrames(measured.measurement,manifest.fps);
-      const src=`speech/${job.id}-${job.sha256}.mp3`;copies.push({target:inside(publicRoot,src),bytes,hash:job.sha256});
+      const src=`speech/${job.id}-${job.sha256}${extname(job.audioRef)}`;copies.push({target:inside(publicRoot,src),bytes,hash:job.sha256});
       utterances.push({...oldU,...bindings[i],id:choice.id,text:job.request.text,voiceRef:job.request.voiceRef,src,startFrame:start,endFrameExclusive:end});
       if(aligned){const evidence=aligned.utterances?.[choice.id];ensure(evidence?.audioSha256===job.sha256&&Array.isArray(evidence.captions),`${choice.id} 分页对齐没有绑定当前音频`);ensure(!choice.captionText,`${choice.id} 使用可靠分页时请在对齐记录中修改字幕`);captions.push(...evidence.captions.map((c:any)=>({...c,utteranceId:choice.id})));}
       else {const oldCaption=original.captions?.filter((c:any)=>c.utteranceId===choice.id);const text=choice.captionText??(oldCaption?.length===1?oldCaption[0].text:job.request.text);ensure(normalized(text)===normalized(job.request.text),`${choice.id} 字幕只能调整换行，不能改正文`);captions.push({...oldCaption?.[0],utteranceId:choice.id,text,startFrame:start,endFrameExclusive:end});}

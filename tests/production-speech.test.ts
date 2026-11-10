@@ -29,3 +29,26 @@ test('T17/T27/T28/T29：配音阶段限制、同键防重、完整性复用与�
     await assert.rejects(speech.submit({...baseInput,runId:retry.runId,speechRequestId:'wrong-stage',reuseRunId:a.runId,reuseJobId:first.id},'a'),/同任务的 Render/);
   }finally{await speech.drain();await new Promise<void>(r=>provider.close(()=>r()));repo.close();}
 });
+
+test('克隆音色按句请求并保存真实 WAV，拒绝不支持的语速和损坏音频',async()=>{
+  const root=await fs.mkdtemp(join(tmpdir(),'vfc-clone-')),repo=new ProductionRepository(join(root,'tasks.sqlite'));
+  const voiceFile=join(root,'voices.json'),audio=join(root,'voice.wav');
+  await processFile('ffmpeg',['-v','error','-f','lavfi','-i','sine=frequency=440:duration=2.4','-ar','24000','-c:a','pcm_s16le',audio]);
+  const bytes=await fs.readFile(audio),requests:any[]=[];let invalid=false;
+  const provider=createServer(async(req,res)=>{let body='';for await(const chunk of req)body+=chunk;requests.push(JSON.parse(body));res.setHeader('Content-Type','audio/wav');res.end(invalid?Buffer.from('invalid'):bytes);});
+  await new Promise<void>(r=>provider.listen(0,'127.0.0.1',r));
+  await writeJson(voiceFile,{'finance.female.01':{provider:'omnivoice',tag:'女声01',url:`http://127.0.0.1:${(provider.address() as any).port}/v1/voice-clone`}});
+  const speech=new DoubaoService(repo,root,voiceFile,'test-key');
+  const analysis=repo.accept('a','analysis',{taskId:'clone',content:'测试。',otherRequirements:'',plugin:{customTemplateId:'3'}}),analysisClaim=repo.claim()!;
+  repo.finish(analysis.runId,analysisClaim.token,'succeeded',{});
+  const run=repo.accept('a','render',{taskId:'clone',basePlanVersion:1,otherRequirements:'',dataList:[{id:'s1',content:'测试。'}]}),claim=repo.claim()!;
+  repo.checkpoint(claim.runId,claim.token!,{template:{manifest:{voiceRefs:['finance.female.01']}}});
+  const input={runId:run.runId,speechRequestId:'clone-1',segmentId:'u1',sceneId:'s1',text:'测试。',voiceRef:'finance.female.01',speed:0};
+  try{
+    const job=await speech.submit(input,'a');await speech.drain();const result=await speech.read(job.id,run.runId,'a');
+    assert.equal(result.state,'succeeded');assert.ok(result.audioRef.endsWith('.wav'));assert.equal(result.pcmMeasurement.sampleCount,115200);
+    assert.deepEqual(requests,[{tag:'女声01',text:'测试。'}]);
+    await assert.rejects(speech.submit({...input,speechRequestId:'speed',speed:10},'a'),/默认语速/);
+    invalid=true;const bad=await speech.submit({...input,speechRequestId:'bad'},'a');await speech.drain();assert.notEqual((await speech.read(bad.id,run.runId,'a')).state,'succeeded');
+  }finally{await speech.drain();await new Promise<void>(r=>provider.close(()=>r()));await fs.rm(root,{recursive:true,force:true});}
+});

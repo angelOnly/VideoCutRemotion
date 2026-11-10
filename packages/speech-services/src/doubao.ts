@@ -37,7 +37,11 @@ export class DoubaoService {
     if(input.reuseRunId&&!input.reuseJobId)throw new ProductionError('REUSE_JOB_REQUIRED','复用执行引用必须同时指定配音任务');
     if(input.sceneId&&!(run.request as any).dataList.some((s:any)=>s.id===input.sceneId))throw new ProductionError('SPEECH_SCENE_INVALID','句段所属分镜不在当前确认稿中');
     if(!run.checkpoint.template?.manifest.voiceRefs.includes(input.voiceRef))throw new ProductionError('VOICE_NOT_DECLARED','模板未声明此音色引用');
-    const voices=await json(this.voiceFile),voice=voices[input.voiceRef];if(!voice?.speaker)throw new ProductionError('VOICE_UNRESOLVED','部署未配置模板音色',503);
+    const voices=await json(this.voiceFile),voice=voices[input.voiceRef];
+    if(voice?.provider==='omnivoice'){
+      if(!voice.tag||!voice.url)throw new ProductionError('VOICE_UNRESOLVED','部署未配置克隆音色地址或编号',503);
+      if(input.speed!==0)throw new ProductionError('VOICE_SPEED_UNSUPPORTED','克隆音色只支持默认语速');
+    }else if(!voice?.speaker)throw new ProductionError('VOICE_UNRESOLVED','部署未配置模板音色',503);
     const fingerprint=sha256(canonical({text:input.text,voice,speed:input.speed})),keyDigest=sha256(canonical(input));
     const old=run.checkpoint.speech?.[input.speechRequestId];
     if(old&&old.keyDigest!==keyDigest)throw new ProductionError('SPEECH_KEY_CONFLICT','同一配音键不可更改输入',409);
@@ -55,7 +59,7 @@ export class DoubaoService {
     const {input,voice,fingerprint,keyDigest,previous,baseId}=prepared,run=this.repo.get(input.runId);this.runnable(run);
     const old=run.checkpoint.speech?.[input.speechRequestId];
     if(old)return {record:await this.read(old.id,run.runId,run.accountId),voice,run,path:this.path(run,old.id)};
-    const id=randomUUID(),path=this.path(run,id),audio=join(path,'..',`${id}.mp3`);
+    const id=randomUUID(),path=this.path(run,id),audio=join(path,'..',`${id}.${voice.provider==='omnivoice'?'wav':'mp3'}`);
     const record:any={id,runId:run.runId,request:input,fingerprint,providerRequestId:randomUUID(),state:'queued',audioRef:audio};
     if(previous){await fs.mkdir(join(path,'..'),{recursive:true});await fs.copyFile(previous.audioRef,audio);if(sha256(await fs.readFile(audio))!==previous.sha256)throw new ProductionError('AUDIO_BINDING_INVALID','复用复制后的音频字节与原记录不符');Object.assign(record,{state:'succeeded',sha256:previous.sha256,duration:previous.duration,pcmMeasurement:previous.pcmMeasurement,durationSource:'measured',alignment:'segment_exact',reusedFrom:previous.id,reusedFromRunId:baseId});}
     await writeJson(path,record);
@@ -165,12 +169,13 @@ export class DoubaoService {
     this.measurements.set(key,pending);try{return await pending;}finally{this.measurements.delete(key);}
   }
   private async validateAudio(record:any){
-    let path=record.receivedAudioRef??`${record.audioRef}.tmp.mp3`;
+    let path=record.receivedAudioRef??`${record.audioRef}.tmp`;
     // 文件已改名但状态尚未落盘时，也沿原摘要恢复，不再次请求供应商。
     if(!(await fs.stat(path).catch(()=>null)))path=record.audioRef;
     const bytes=await fs.readFile(path);if(record.receivedSha256&&sha256(bytes)!==record.receivedSha256)throw new ProductionError('AUDIO_CHANGED','已收到音频摘要发生变化');
     const signal=this.options.signalFor?.(record.runId),measured=await probe(path,false,signal);
     if(!measured.streams.some((s:any)=>s.codec_type==='audio'))throw new ProductionError('MEDIA_INVALID','配音文件没有音轨');
+    if(record.audioRef.endsWith('.wav')&&!String(measured.format?.format_name??'').split(',').includes('wav'))throw new ProductionError('MEDIA_INVALID','克隆音色返回的文件不是 WAV');
     // 时间轴使用真实解码采样长度，避免 MP3 容器填充造成句段累计偏移。
     const pcmMeasurement=await measureDecodedAudio(path,signal),duration=pcmMeasurement.duration;
     if(pcmMeasurement.audioSha256!==sha256(bytes))throw new ProductionError('AUDIO_CHANGED','核验期间音频字节发生变化');
@@ -184,13 +189,19 @@ export class DoubaoService {
       if(!work.localOnly){
         record.state='running';record.submittedAt=Date.now();await writeJson(path,record);
         // 请求前持久化原编号；连接中断不重发，取消也不能撤销云端收费。
-        const response=await fetch(this.endpoint,{method:'POST',headers:{'Content-Type':'application/json','X-Api-Key':this.apiKey,'X-Api-Resource-Id':voice.resourceId??'seed-tts-2.0','X-Api-Request-Id':record.providerRequestId},body:JSON.stringify({user:{uid:'textvideo-studio'},req_params:{text:record.request.text,speaker:voice.speaker,audio_params:{format:'mp3',sample_rate:24000,speech_rate:record.request.speed}}}),signal:AbortSignal.timeout(120000)});
+        const isClone=voice.provider==='omnivoice';
+        const response=await fetch(isClone?voice.url:this.endpoint,{method:'POST',headers:isClone?{'Content-Type':'application/json'}:{'Content-Type':'application/json','X-Api-Key':this.apiKey,'X-Api-Resource-Id':voice.resourceId??'seed-tts-2.0','X-Api-Request-Id':record.providerRequestId},body:JSON.stringify(isClone?{tag:voice.tag,text:record.request.text}:{user:{uid:'textvideo-studio'},req_params:{text:record.request.text,speaker:voice.speaker,audio_params:{format:'mp3',sample_rate:24000,speech_rate:record.request.speed}}}),signal:AbortSignal.timeout(120000)});
         record.httpStatus=response.status;record.providerLogId=response.headers.get('x-tt-logid');
         if(!response.ok){record.state=response.status>=500?'unknown':'failed';record.diagnostic=`供应商 HTTP ${response.status}`;return;}
-        const raw=await response.text();record.responseDigest=sha256(raw);const events=parseJsonStream(raw);const audio:Buffer[]=[];let complete=false;
-        for(const event of events){if(String(event.code)==='0'){if(event.data)audio.push(Buffer.from(event.data,'base64'));}else if(String(event.code)==='20000000')complete=true;else {record.state='failed';record.diagnostic=`供应商拒绝 ${event.code}：${event.message}`;return;}}
-        if(!complete||!audio.length)throw new Error('供应商响应不完整');
-        const bytes=Buffer.concat(audio);record.providerComplete=true;record.receivedAudioRef=`${record.audioRef}.tmp.mp3`;record.receivedSha256=sha256(bytes);
+        let bytes:Buffer;
+        if(isClone){bytes=Buffer.from(await response.arrayBuffer());if(!bytes.length)throw new Error('克隆音色响应为空');}
+        else {
+          const raw=await response.text();record.responseDigest=sha256(raw);const events=parseJsonStream(raw);const audio:Buffer[]=[];let complete=false;
+          for(const event of events){if(String(event.code)==='0'){if(event.data)audio.push(Buffer.from(event.data,'base64'));}else if(String(event.code)==='20000000')complete=true;else {record.state='failed';record.diagnostic=`供应商拒绝 ${event.code}：${event.message}`;return;}}
+          if(!complete||!audio.length)throw new Error('供应商响应不完整');
+          bytes=Buffer.concat(audio);
+        }
+        record.providerComplete=true;record.receivedAudioRef=`${record.audioRef}.tmp`;record.receivedSha256=sha256(bytes);
         await fs.writeFile(record.receivedAudioRef,bytes);record.state='validating';await writeJson(path,record);
       }
       await this.validateAudio(record);

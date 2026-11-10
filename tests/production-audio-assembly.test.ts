@@ -161,3 +161,16 @@ test('作者可提交语义分页与阅读时长，不冒充强制对齐；实�
   out.scenes[0].captions[2].endFrameExclusive=99;assert.throws(()=>validateProductionTimeline(out,f.run.request.dataList,30));
  }finally{await f.close();}
 });
+
+test('WAV 句段按实际时长更新字幕和下一句起点',async()=>{
+ const f=await fixture();try{
+  delete f.timeline.scenes[0].intro;f.timeline.chapters[0].from=0;await writeJson(f.timelinePath,f.timeline);f.input.expectedTimelineSha256=sha256(await fs.readFile(f.timelinePath));
+  const original=f.jobs[0].audioRef;const wav=original.replace(/\.mp3$/,'.wav');await fs.rename(original,wav);f.jobs[0].audioRef=wav;
+  f.speech.measurement=async(id:string)=>({measurement:measure(id==='job0'?115200:4800,f.jobs.find(j=>j.id===id).sha256),reused:true});
+  await writeJson(f.planPath,{scenes:[{sceneId:'s',utterances:[{id:'u1',gapBeforeFrames:0},{id:'u2',gapBeforeFrames:3}]}]});
+  await assembleSentenceAudio(f.run,f.root,f.input,f.speech);const out=await json(f.timelinePath);
+  assert.deepEqual(out.scenes[0].utterances.map((u:any)=>[u.startFrame,u.endFrameExclusive]),[[0,72],[75,78]]);
+  assert.deepEqual(out.scenes[0].captions.map((u:any)=>[u.startFrame,u.endFrameExclusive]),[[0,72],[75,78]]);
+  assert.ok(out.scenes[0].utterances[0].src.endsWith('.wav'));
+ }finally{await f.close();}
+});

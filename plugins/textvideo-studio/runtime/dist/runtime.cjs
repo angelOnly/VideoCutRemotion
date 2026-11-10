@@ -2656,7 +2656,7 @@ async function assembleSentenceAudio(run, runRoot, raw, speech, signal) {
       ensure2(Number.isInteger(gap) && gap >= 0, `${choice.id} \u539F\u505C\u987F\u65E0\u6548\uFF0C\u8BF7\u5728\u8BA1\u5212\u6307\u5B9A gapBeforeFrames`);
       const start = end + gap;
       end = start + audioFrames(measured.measurement, manifest.fps);
-      const src = `speech/${job.id}-${job.sha256}.mp3`;
+      const src = `speech/${job.id}-${job.sha256}${(0, import_node_path14.extname)(job.audioRef)}`;
       copies.push({ target: inside(publicRoot, src), bytes, hash: job.sha256 });
       utterances.push({ ...oldU, ...bindings[i], id: choice.id, text: job.request.text, voiceRef: job.request.voiceRef, src, startFrame: start, endFrameExclusive: end });
       if (aligned) {
@@ -2961,7 +2961,10 @@ var DoubaoService = class {
     if (input.sceneId && !run.request.dataList.some((s) => s.id === input.sceneId)) throw new ProductionError("SPEECH_SCENE_INVALID", "\u53E5\u6BB5\u6240\u5C5E\u5206\u955C\u4E0D\u5728\u5F53\u524D\u786E\u8BA4\u7A3F\u4E2D");
     if (!run.checkpoint.template?.manifest.voiceRefs.includes(input.voiceRef)) throw new ProductionError("VOICE_NOT_DECLARED", "\u6A21\u677F\u672A\u58F0\u660E\u6B64\u97F3\u8272\u5F15\u7528");
     const voices = await json(this.voiceFile), voice = voices[input.voiceRef];
-    if (!voice?.speaker) throw new ProductionError("VOICE_UNRESOLVED", "\u90E8\u7F72\u672A\u914D\u7F6E\u6A21\u677F\u97F3\u8272", 503);
+    if (voice?.provider === "omnivoice") {
+      if (!voice.tag || !voice.url) throw new ProductionError("VOICE_UNRESOLVED", "\u90E8\u7F72\u672A\u914D\u7F6E\u514B\u9686\u97F3\u8272\u5730\u5740\u6216\u7F16\u53F7", 503);
+      if (input.speed !== 0) throw new ProductionError("VOICE_SPEED_UNSUPPORTED", "\u514B\u9686\u97F3\u8272\u53EA\u652F\u6301\u9ED8\u8BA4\u8BED\u901F");
+    } else if (!voice?.speaker) throw new ProductionError("VOICE_UNRESOLVED", "\u90E8\u7F72\u672A\u914D\u7F6E\u6A21\u677F\u97F3\u8272", 503);
     const fingerprint = sha256(canonical({ text: input.text, voice, speed: input.speed })), keyDigest = sha256(canonical(input));
     const old = run.checkpoint.speech?.[input.speechRequestId];
     if (old && old.keyDigest !== keyDigest) throw new ProductionError("SPEECH_KEY_CONFLICT", "\u540C\u4E00\u914D\u97F3\u952E\u4E0D\u53EF\u66F4\u6539\u8F93\u5165", 409);
@@ -2981,7 +2984,7 @@ var DoubaoService = class {
     this.runnable(run);
     const old = run.checkpoint.speech?.[input.speechRequestId];
     if (old) return { record: await this.read(old.id, run.runId, run.accountId), voice, run, path: this.path(run, old.id) };
-    const id = (0, import_node_crypto6.randomUUID)(), path = this.path(run, id), audio = (0, import_node_path16.join)(path, "..", `${id}.mp3`);
+    const id = (0, import_node_crypto6.randomUUID)(), path = this.path(run, id), audio = (0, import_node_path16.join)(path, "..", `${id}.${voice.provider === "omnivoice" ? "wav" : "mp3"}`);
     const record = { id, runId: run.runId, request: input, fingerprint, providerRequestId: (0, import_node_crypto6.randomUUID)(), state: "queued", audioRef: audio };
     if (previous) {
       await import_node_fs13.promises.mkdir((0, import_node_path16.join)(path, ".."), { recursive: true });
@@ -3177,12 +3180,13 @@ var DoubaoService = class {
     }
   }
   async validateAudio(record) {
-    let path = record.receivedAudioRef ?? `${record.audioRef}.tmp.mp3`;
+    let path = record.receivedAudioRef ?? `${record.audioRef}.tmp`;
     if (!await import_node_fs13.promises.stat(path).catch(() => null)) path = record.audioRef;
     const bytes = await import_node_fs13.promises.readFile(path);
     if (record.receivedSha256 && sha256(bytes) !== record.receivedSha256) throw new ProductionError("AUDIO_CHANGED", "\u5DF2\u6536\u5230\u97F3\u9891\u6458\u8981\u53D1\u751F\u53D8\u5316");
     const signal = this.options.signalFor?.(record.runId), measured = await probe(path, false, signal);
     if (!measured.streams.some((s) => s.codec_type === "audio")) throw new ProductionError("MEDIA_INVALID", "\u914D\u97F3\u6587\u4EF6\u6CA1\u6709\u97F3\u8F68");
+    if (record.audioRef.endsWith(".wav") && !String(measured.format?.format_name ?? "").split(",").includes("wav")) throw new ProductionError("MEDIA_INVALID", "\u514B\u9686\u97F3\u8272\u8FD4\u56DE\u7684\u6587\u4EF6\u4E0D\u662F WAV");
     const pcmMeasurement = await measureDecodedAudio(path, signal), duration = pcmMeasurement.duration;
     if (pcmMeasurement.audioSha256 !== sha256(bytes)) throw new ProductionError("AUDIO_CHANGED", "\u6838\u9A8C\u671F\u95F4\u97F3\u9891\u5B57\u8282\u53D1\u751F\u53D8\u5316");
     if (path !== record.audioRef) await import_node_fs13.promises.rename(path, record.audioRef);
@@ -3199,7 +3203,8 @@ var DoubaoService = class {
         record.state = "running";
         record.submittedAt = Date.now();
         await writeJson(path, record);
-        const response = await fetch(this.endpoint, { method: "POST", headers: { "Content-Type": "application/json", "X-Api-Key": this.apiKey, "X-Api-Resource-Id": voice.resourceId ?? "seed-tts-2.0", "X-Api-Request-Id": record.providerRequestId }, body: JSON.stringify({ user: { uid: "textvideo-studio" }, req_params: { text: record.request.text, speaker: voice.speaker, audio_params: { format: "mp3", sample_rate: 24e3, speech_rate: record.request.speed } } }), signal: AbortSignal.timeout(12e4) });
+        const isClone = voice.provider === "omnivoice";
+        const response = await fetch(isClone ? voice.url : this.endpoint, { method: "POST", headers: isClone ? { "Content-Type": "application/json" } : { "Content-Type": "application/json", "X-Api-Key": this.apiKey, "X-Api-Resource-Id": voice.resourceId ?? "seed-tts-2.0", "X-Api-Request-Id": record.providerRequestId }, body: JSON.stringify(isClone ? { tag: voice.tag, text: record.request.text } : { user: { uid: "textvideo-studio" }, req_params: { text: record.request.text, speaker: voice.speaker, audio_params: { format: "mp3", sample_rate: 24e3, speech_rate: record.request.speed } } }), signal: AbortSignal.timeout(12e4) });
         record.httpStatus = response.status;
         record.providerLogId = response.headers.get("x-tt-logid");
         if (!response.ok) {
@@ -3207,25 +3212,31 @@ var DoubaoService = class {
           record.diagnostic = `\u4F9B\u5E94\u5546 HTTP ${response.status}`;
           return;
         }
-        const raw = await response.text();
-        record.responseDigest = sha256(raw);
-        const events = parseJsonStream(raw);
-        const audio = [];
-        let complete = false;
-        for (const event of events) {
-          if (String(event.code) === "0") {
-            if (event.data) audio.push(Buffer.from(event.data, "base64"));
-          } else if (String(event.code) === "20000000") complete = true;
-          else {
-            record.state = "failed";
-            record.diagnostic = `\u4F9B\u5E94\u5546\u62D2\u7EDD ${event.code}\uFF1A${event.message}`;
-            return;
+        let bytes;
+        if (isClone) {
+          bytes = Buffer.from(await response.arrayBuffer());
+          if (!bytes.length) throw new Error("\u514B\u9686\u97F3\u8272\u54CD\u5E94\u4E3A\u7A7A");
+        } else {
+          const raw = await response.text();
+          record.responseDigest = sha256(raw);
+          const events = parseJsonStream(raw);
+          const audio = [];
+          let complete = false;
+          for (const event of events) {
+            if (String(event.code) === "0") {
+              if (event.data) audio.push(Buffer.from(event.data, "base64"));
+            } else if (String(event.code) === "20000000") complete = true;
+            else {
+              record.state = "failed";
+              record.diagnostic = `\u4F9B\u5E94\u5546\u62D2\u7EDD ${event.code}\uFF1A${event.message}`;
+              return;
+            }
           }
+          if (!complete || !audio.length) throw new Error("\u4F9B\u5E94\u5546\u54CD\u5E94\u4E0D\u5B8C\u6574");
+          bytes = Buffer.concat(audio);
         }
-        if (!complete || !audio.length) throw new Error("\u4F9B\u5E94\u5546\u54CD\u5E94\u4E0D\u5B8C\u6574");
-        const bytes = Buffer.concat(audio);
         record.providerComplete = true;
-        record.receivedAudioRef = `${record.audioRef}.tmp.mp3`;
+        record.receivedAudioRef = `${record.audioRef}.tmp`;
         record.receivedSha256 = sha256(bytes);
         await import_node_fs13.promises.writeFile(record.receivedAudioRef, bytes);
         record.state = "validating";
